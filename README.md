@@ -74,6 +74,41 @@ dependencies: [
 
 ---
 
+## 🎪 Interactive Showcase
+
+Want to see all the menu variations in action? We've included an **interactive showcase**!
+
+```swift
+import SwiftUI
+import ARCUIComponents
+
+@main
+struct ShowcaseApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ARCMenuShowcase()
+        }
+    }
+}
+```
+
+The showcase includes:
+- **Live Preview**: See the menu in real-time with different configurations
+- **Style Selector**: Switch between Default, Fitness, Premium, Dark, and Minimal styles
+- **Variant Options**: Toggle between Full, Compact, Minimal, and Custom variants
+- **Customization Controls**: Adjust badges, user header, and more
+- **Code Generator**: Automatic code snippets for your selected configuration
+- **Complete Gallery**: Browse all styles side-by-side
+
+Perfect for:
+- 🎨 Exploring design options
+- 👨‍💻 Generating implementation code
+- 🎯 Client demonstrations
+- 📚 Learning the API
+- ✅ Visual QA testing
+
+---
+
 ## 🚀 Quick Start
 
 ### Basic Implementation
