@@ -1,0 +1,103 @@
+# SwiftLint Configuration for ARCUIComponents
+
+# Paths to include/exclude
+included:
+  - Sources
+excluded:
+  - Tests
+  - .build
+  - .swiftpm
+
+# Rules
+opt_in_rules:
+  - explicit_init
+  - explicit_type_interface
+  - explicit_top_level_acl
+  - explicit_self
+  - closure_spacing
+  - empty_count
+  - empty_string
+  - fatal_error_message
+  - first_where
+  - force_unwrapping
+  - joined_default_parameter
+  - multiline_arguments
+  - multiline_function_chains
+  - multiline_literal_brackets
+  - multiline_parameters
+  - operator_usage_whitespace
+  - prefer_self_type_over_type_of_self
+  - redundant_type_annotation
+  - sorted_first_last
+  - toggle_bool
+  - unneeded_parentheses_in_closure_argument
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
+
+disabled_rules:
+  - todo # Allow TODO comments
+  - line_length # Allow longer lines for documentation
+
+# Rule Configuration
+type_name:
+  min_length: 3
+  max_length:
+    warning: 40
+    error: 50
+
+identifier_name:
+  min_length: 2
+  max_length:
+    warning: 40
+    error: 50
+  excluded:
+    - id
+    - vm
+    - x
+    - y
+
+file_length:
+  warning: 500
+  error: 800
+  ignore_comment_only_lines: true
+
+function_body_length:
+  warning: 50
+  error: 100
+
+type_body_length:
+  warning: 300
+  error: 500
+
+cyclomatic_complexity:
+  warning: 10
+  error: 15
+
+nesting:
+  type_level:
+    warning: 2
+    error: 3
+
+# Custom Rules
+custom_rules:
+  no_print:
+    name: "Print Usage"
+    regex: "\\bprint\\("
+    message: "Use proper logging instead of print"
+    severity: warning
+
+  force_unwrap:
+    name: "Force Unwrap"
+    regex: "\\!(?!\\=)"
+    message: "Avoid force unwrapping - use optional binding instead"
+    severity: error
+    excluded:
+      - ".*Test.*"
+
+  mark_format:
+    name: "MARK Format"
+    regex: "(?<!// MARK: - )// MARK:(?! -)"
+    message: "MARK should follow format: // MARK: - Description"
+    severity: warning
+
+reporter: "xcode"
