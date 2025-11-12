@@ -18,7 +18,7 @@ struct ARCMenuExample: View {
         // Create a view model with user and standard menu items
         _viewModel = State(initialValue: ARCMenuViewModel.standard(
             user: ARCMenuUser(
-                name: "Carlos Ramirez",
+                name: "Carlos Rodriguez",
                 email: "carlos@arclabs.studio",
                 subtitle: "Premium Member",
                 avatarImage: .initials("CR")

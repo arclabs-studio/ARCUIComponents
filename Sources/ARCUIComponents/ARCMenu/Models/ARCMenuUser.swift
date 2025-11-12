@@ -51,7 +51,6 @@ public enum ARCMenuUserImage: Sendable {
     case imageName(String)
     case url(URL)
     case initials(String)
-    case custom(AnyHashable)
 
     // MARK: - Computed Properties
 
@@ -112,13 +111,6 @@ public enum ARCMenuUserImage: Sendable {
                     .foregroundStyle(.white)
             }
             .frame(width: size, height: size)
-
-        case .custom:
-            Image(systemName: "person.circle.fill")
-                .resizable()
-                .scaledToFit()
-                .frame(width: size, height: size)
-                .foregroundStyle(.secondary)
         }
     }
 }
