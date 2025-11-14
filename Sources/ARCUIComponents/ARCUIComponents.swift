@@ -1,3 +1,10 @@
+//
+//  ARCUIComponents.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
@@ -57,6 +64,7 @@
 /// - **ViewModels**: Business logic (ARCMenuViewModel)
 /// - **Views**: UI components (ARCMenu, ARCMenuButton, etc.)
 /// - **Utilities**: Helper code and modifiers
+/// - **Design System**: Powered by ``ARCDesignSystem`` tokens for fonts, colors, spacing, and animations
 ///
 /// ## Design Philosophy
 /// - **Apple First**: Follows Apple's HIG meticulously
@@ -96,3 +104,4 @@ public struct ARCUIComponents {
 @_exported import struct Foundation.URL
 @_exported import class Foundation.Bundle
 @_exported import SwiftUI
+@_exported import ARCDesignSystem

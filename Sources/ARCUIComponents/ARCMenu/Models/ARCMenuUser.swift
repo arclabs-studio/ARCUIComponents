@@ -1,3 +1,11 @@
+//
+//  ARCMenuUser.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
+import ARCDesignSystem
 import Foundation
 import SwiftUI
 
@@ -200,14 +208,6 @@ public enum ARCMenuUserImage: Sendable {
     /// - Parameter text: The initials to display (typically 1-2 characters)
     case initials(String)
 
-    /// Custom avatar implementation.
-    ///
-    /// For advanced use cases requiring custom avatar rendering.
-    /// Falls back to a system person symbol.
-    ///
-    /// - Parameter value: A hashable value identifying the custom avatar
-    case custom(AnyHashable)
-
     // MARK: - Computed Properties
 
     /// Returns the appropriate SwiftUI view for the avatar.
@@ -232,7 +232,7 @@ public enum ARCMenuUserImage: Sendable {
                 .resizable()
                 .scaledToFit()
                 .frame(width: size, height: size)
-                .foregroundStyle(.primary)
+                .foregroundStyle(Color.arcTextPrimary)
 
         case .imageName(let name):
             Image(name)
@@ -258,7 +258,7 @@ public enum ARCMenuUserImage: Sendable {
                         .resizable()
                         .scaledToFit()
                         .frame(width: size, height: size)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.arcTextSecondary)
                 @unknown default:
                     EmptyView()
                 }
@@ -269,7 +269,7 @@ public enum ARCMenuUserImage: Sendable {
                 Circle()
                     .fill(
                         LinearGradient(
-                            colors: [.blue, .purple],
+                            colors: [.arcHighlight, .arcHighlight.opacity(0.7)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -280,13 +280,6 @@ public enum ARCMenuUserImage: Sendable {
                     .foregroundStyle(.white)
             }
             .frame(width: size, height: size)
-
-        case .custom:
-            Image(systemName: "person.circle.fill")
-                .resizable()
-                .scaledToFit()
-                .frame(width: size, height: size)
-                .foregroundStyle(.secondary)
         }
     }
 }

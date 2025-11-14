@@ -1,3 +1,11 @@
+//
+//  ARCMenuButton.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
+import ARCDesignSystem
 import SwiftUI
 
 /// Button to trigger ARCMenu
@@ -47,14 +55,14 @@ public struct ARCMenuButton: View {
                     .frame(width: 40, height: 40)
                     .background {
                         Circle()
-                            .fill(.ultraThinMaterial)
+                            .fill(Color.arcBackgroundSecondary.opacity(0.7))
                             .overlay {
                                 Circle()
                                     .strokeBorder(
                                         LinearGradient(
                                             colors: [
-                                                Color.white.opacity(0.3),
-                                                Color.white.opacity(0.1)
+                                                Color.arcBackgroundTertiary.opacity(0.6),
+                                                Color.arcBackgroundTertiary.opacity(0.2)
                                             ],
                                             startPoint: .topLeading,
                                             endPoint: .bottomTrailing
@@ -64,7 +72,7 @@ public struct ARCMenuButton: View {
                             }
                     }
                     .shadow(
-                        color: .black.opacity(0.1),
+                        color: Color.arcShadowMedium,
                         radius: 8,
                         x: 0,
                         y: 4
@@ -72,11 +80,11 @@ public struct ARCMenuButton: View {
                     .scaleEffect(isPressed ? 0.92 : 1.0)
                     .rotationEffect(.degrees(viewModel.isPresented ? 90 : 0))
                     .animation(
-                        .spring(response: 0.4, dampingFraction: 0.7),
+                        .arcAnimationSmooth,
                         value: viewModel.isPresented
                     )
                     .animation(
-                        .spring(response: 0.3, dampingFraction: 0.6),
+                        .arcAnimationQuick,
                         value: isPressed
                     )
 
@@ -111,8 +119,7 @@ public struct ARCMenuButton: View {
         } else {
             // Show menu icon
             Image(systemName: "line.3.horizontal")
-                .font(.title3)
-                .fontWeight(.medium)
+                .font(.arcFontTitleSmall)
                 .foregroundStyle(viewModel.configuration.accentColor)
         }
     }
@@ -125,7 +132,7 @@ public struct ARCMenuButton: View {
             Circle()
                 .fill(
                     LinearGradient(
-                        colors: [.red, .red.opacity(0.8)],
+                        colors: [.arcHighlight, .arcHighlight.opacity(0.8)],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -133,23 +140,24 @@ public struct ARCMenuButton: View {
                 .frame(width: 20, height: 20)
                 .overlay {
                     Circle()
-                        .strokeBorder(Color.white, lineWidth: 2)
+                        .strokeBorder(Color.arcBackgroundPrimary, lineWidth: 2)
                 }
 
             if badgeCount <= 99 {
                 Text("\(badgeCount)")
-                    .font(.caption2)
+                    .font(.arcFontLabelSmall)
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
             } else {
                 Text("99+")
-                    .font(.system(size: 8))
+                    .font(.arcFontLabelSmall)
                     .fontWeight(.bold)
+                    .minimumScaleFactor(0.5)
                     .foregroundStyle(.white)
             }
         }
         .offset(x: 4, y: -4)
-        .shadow(color: .red.opacity(0.5), radius: 4, x: 0, y: 2)
+        .shadow(color: Color.arcHighlight.opacity(0.5), radius: 4, x: 0, y: 2)
     }
 }
 

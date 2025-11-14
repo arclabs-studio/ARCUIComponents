@@ -1,3 +1,11 @@
+//
+//  ARCMenuItem.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
+import ARCDesignSystem
 import Foundation
 import SwiftUI
 
@@ -70,14 +78,14 @@ public enum ARCMenuIcon: Sendable {
             Image(systemName: name)
                 .symbolRenderingMode(renderingMode)
                 .font(.title3)
-                .foregroundStyle(isDestructive ? Color.red : Color.primary)
+                .foregroundStyle(isDestructive ? Color.red : .arcTextPrimary)
 
         case .image(let name):
             Image(name)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 22, height: 22)
-                .foregroundStyle(isDestructive ? Color.red : Color.primary)
+                .foregroundStyle(isDestructive ? Color.red : .arcTextPrimary)
         }
     }
 }

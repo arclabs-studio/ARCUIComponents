@@ -17,9 +17,15 @@ let package = Package(
             targets: ["ARCUIComponents"]
         ),
     ],
+    dependencies: [
+        .package(path: "../ARCDesignSystem")
+    ],
     targets: [
         .target(
             name: "ARCUIComponents",
+            dependencies: [
+                "ARCDesignSystem"
+            ],
             path: "Sources",
             swiftSettings: [
                 .enableUpcomingFeature("BareSlashRegexLiterals"),

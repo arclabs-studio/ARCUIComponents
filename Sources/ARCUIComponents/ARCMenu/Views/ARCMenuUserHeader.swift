@@ -1,3 +1,11 @@
+//
+//  ARCMenuUserHeader.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
+import ARCDesignSystem
 import SwiftUI
 
 /// User profile header for ARCMenu
@@ -39,39 +47,38 @@ struct ARCMenuUserHeader: View {
             onTap?()
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
         } label: {
-            HStack(spacing: 16) {
+            HStack(spacing: .arcSpacingLarge) {
                 // Avatar
                 avatarView
                     .shadow(
-                        color: .black.opacity(0.1),
+                        color: Color.arcShadowLight,
                         radius: 8,
                         x: 0,
                         y: 4
                     )
 
                 // User info
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: .arcSpacingSmall) {
                     Text(user.name)
-                        .font(.title3)
+                        .font(.arcFontTitleSmall)
                         .fontWeight(.semibold)
-                        .fontDesign(.rounded)
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(Color.arcTextPrimary)
                         .lineLimit(1)
 
                     if let email = user.email {
                         Text(email)
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .font(.arcFontBodySmall)
+                            .foregroundStyle(Color.arcTextSecondary)
                             .lineLimit(1)
                     } else if let subtitle = user.subtitle {
-                        HStack(spacing: 4) {
+                        HStack(spacing: .arcSpacingXSmall) {
                             Text(subtitle)
-                                .font(.subheadline)
+                                .font(.arcFontBodySmall)
                                 .fontWeight(.medium)
                                 .foregroundStyle(configuration.accentColor)
 
                             Image(systemName: "chevron.right")
-                                .font(.caption)
+                                .font(.arcFontLabelSmall)
                                 .foregroundStyle(configuration.accentColor.opacity(0.6))
                         }
                     }
@@ -79,18 +86,18 @@ struct ARCMenuUserHeader: View {
 
                 Spacer(minLength: 0)
             }
-            .padding(16)
+            .padding(.arcSpacingLarge)
             .background {
                 // Subtle background for the header section
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(.ultraThinMaterial)
+                RoundedRectangle(cornerRadius: .arcCornerRadiusLarge, style: .continuous)
+                    .fill(Color.arcBackgroundSecondary.opacity(0.95))
                     .overlay {
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        RoundedRectangle(cornerRadius: .arcCornerRadiusLarge, style: .continuous)
                             .strokeBorder(
                                 LinearGradient(
                                     colors: [
-                                        Color.white.opacity(0.15),
-                                        Color.white.opacity(0.05)
+                                        Color.arcBackgroundTertiary.opacity(0.4),
+                                        Color.arcBackgroundTertiary.opacity(0.1)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -100,7 +107,7 @@ struct ARCMenuUserHeader: View {
                     }
             }
             .scaleEffect(isPressed ? 0.97 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
+            .animation(.arcAnimationQuick, value: isPressed)
         }
         .buttonStyle(.plain)
         .simultaneousGesture(
@@ -128,8 +135,8 @@ struct ARCMenuUserHeader: View {
                     .strokeBorder(
                         LinearGradient(
                             colors: [
-                                Color.white.opacity(0.3),
-                                Color.white.opacity(0.1)
+                                Color.arcBackgroundTertiary.opacity(0.5),
+                                Color.arcBackgroundTertiary.opacity(0.2)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing

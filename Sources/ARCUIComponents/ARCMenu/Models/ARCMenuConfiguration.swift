@@ -1,3 +1,11 @@
+//
+//  ARCMenuConfiguration.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
+import ARCDesignSystem
 import SwiftUI
 
 /// Configuration for ARCMenu appearance and behavior
@@ -61,20 +69,20 @@ public struct ARCMenuConfiguration: Sendable {
 
     /// Creates a new menu configuration
     public init(
-        accentColor: Color = .blue,
+        accentColor: Color = .arcHighlight,
         backgroundStyle: ARCMenuBackgroundStyle = .liquidGlass,
-        cornerRadius: CGFloat = 30,
+        cornerRadius: CGFloat = .arcCornerRadiusLarge,
         shadow: ARCMenuShadow = .default,
         menuWidth: CGFloat = 320,
         topPadding: CGFloat = 0,
-        contentInsets: EdgeInsets = EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
-        sectionSpacing: CGFloat = 24,
-        presentationAnimation: Animation = .spring(response: 0.5, dampingFraction: 0.8),
-        dismissalAnimation: Animation = .spring(response: 0.4, dampingFraction: 0.85),
-        hapticFeedback: ARCMenuHapticStyle = .medium,
+        contentInsets: EdgeInsets = .arcPaddingCard,
+        sectionSpacing: CGFloat = .arcSpacingLarge,
+        presentationAnimation: Animation = .arcAnimationSmooth,
+        dismissalAnimation: Animation = .arcAnimationBase,
+        hapticFeedback: ARCMenuHapticStyle = .soft,
         allowsDragToDismiss: Bool = true,
         dismissOnOutsideTap: Bool = true,
-        dragDismissalThreshold: CGFloat = 100
+        dragDismissalThreshold: CGFloat = .arcSpacingXXLarge * 3
     ) {
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
@@ -160,7 +168,7 @@ public struct ARCMenuShadow: Sendable {
 
     /// Default shadow (subtle, matching Apple's style)
     public static let `default` = ARCMenuShadow(
-        color: .black.opacity(0.1),
+        color: Color.arcShadowMedium,
         radius: 20,
         x: 0,
         y: 10
@@ -168,7 +176,7 @@ public struct ARCMenuShadow: Sendable {
 
     /// Subtle shadow
     public static let subtle = ARCMenuShadow(
-        color: .black.opacity(0.05),
+        color: Color.arcShadowLight,
         radius: 10,
         x: 0,
         y: 5
@@ -176,7 +184,7 @@ public struct ARCMenuShadow: Sendable {
 
     /// Prominent shadow
     public static let prominent = ARCMenuShadow(
-        color: .black.opacity(0.15),
+        color: Color.arcShadowStrong,
         radius: 30,
         x: 0,
         y: 15

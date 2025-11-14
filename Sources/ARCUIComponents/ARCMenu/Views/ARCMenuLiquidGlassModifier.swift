@@ -1,3 +1,11 @@
+//
+//  ARCMenuLiquidGlassModifier.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
+import ARCDesignSystem
 import SwiftUI
 
 /// Liquid Glass effect modifier
@@ -46,8 +54,8 @@ struct ARCMenuLiquidGlassModifier: ViewModifier {
             // Subtle gradient overlay for depth
             LinearGradient(
                 colors: [
-                    Color.white.opacity(0.1),
-                    Color.white.opacity(0.05),
+                    Color.arcBackgroundPrimary.opacity(0.2),
+                    Color.arcBackgroundPrimary.opacity(0.08),
                     Color.clear
                 ],
                 startPoint: .topLeading,
@@ -70,8 +78,8 @@ struct ARCMenuLiquidGlassModifier: ViewModifier {
                 .strokeBorder(
                     LinearGradient(
                         colors: [
-                            Color.white.opacity(0.2),
-                            Color.white.opacity(0.05)
+                            Color.arcBackgroundTertiary.opacity(0.5),
+                            Color.arcBackgroundTertiary.opacity(0.2)
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -93,6 +101,7 @@ struct ARCMenuLiquidGlassModifier: ViewModifier {
         ZStack {
             Rectangle()
                 .fill(.thinMaterial)
+                .background(Color.arcBackgroundSecondary.opacity(0.3))
 
             configuration.accentColor
                 .opacity(0.05)
@@ -152,7 +161,7 @@ struct ARCMenuBackdropModifier: ViewModifier {
         content
             .overlay {
                 if opacity > 0 {
-                    Color.black
+                    Color.arcShadowStrong
                         .opacity(opacity * 0.3)
                         .ignoresSafeArea()
                         .onTapGesture {

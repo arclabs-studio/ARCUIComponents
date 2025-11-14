@@ -1,5 +1,12 @@
+//
+//  ARCMenuViewModel.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
+import ARCDesignSystem
 import SwiftUI
-import Observation
 
 /// View model for ARCMenu
 ///
@@ -109,7 +116,7 @@ public final class ARCMenuViewModel {
             dismiss()
         } else {
             // Snap back with spring animation
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+            withAnimation(.arcAnimationQuick) {
                 dragOffset = 0
                 backdropOpacity = 1.0
             }

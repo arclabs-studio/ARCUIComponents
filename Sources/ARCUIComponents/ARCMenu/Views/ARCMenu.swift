@@ -1,3 +1,11 @@
+//
+//  ARCMenu.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
+import ARCDesignSystem
 import SwiftUI
 
 /// ARCMenu - Premium menu component following Apple's design language
@@ -50,7 +58,7 @@ public struct ARCMenu: View {
             ZStack(alignment: .topTrailing) {
                 // Backdrop
                 if viewModel.isPresented {
-                    Color.black
+                    Color.arcShadowStrong
                         .opacity(viewModel.backdropOpacity * 0.4)
                         .ignoresSafeArea()
                         .onTapGesture {
@@ -80,7 +88,7 @@ public struct ARCMenu: View {
                     : viewModel.configuration.dismissalAnimation,
                 value: viewModel.isPresented
             )
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: viewModel.dragOffset)
+            .animation(.arcAnimationQuick, value: viewModel.dragOffset)
         }
     }
 
@@ -100,7 +108,7 @@ public struct ARCMenu: View {
                 }
 
                 // Menu items
-                VStack(spacing: 4) {
+                VStack(spacing: .arcSpacingXSmall) {
                     ForEach(viewModel.menuItems) { item in
                         ARCMenuItemRow(
                             item: item,
@@ -113,28 +121,29 @@ public struct ARCMenu: View {
                         // Divider between items (except last)
                         if item.id != viewModel.menuItems.last?.id {
                             Divider()
-                                .padding(.leading, 64)
+                                .padding(.leading, CGFloat.arcSpacingXXLarge * 2)
                         }
                     }
                 }
                 .background {
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .fill(.ultraThinMaterial)
+                    RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
+                        .fill(Color.arcBackgroundSecondary.opacity(0.92))
                         .overlay {
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
                                 .strokeBorder(
-                                    Color.white.opacity(0.1),
+                                    Color.arcBackgroundTertiary.opacity(0.5),
                                     lineWidth: 0.5
                                 )
                         }
+                        .shadow(color: Color.arcShadowLight, radius: 6, x: 0, y: 2)
                 }
 
                 // App version (optional)
                 if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
                     Text("Version \(version)")
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
-                        .padding(.top, 8)
+                        .font(.arcFontLabelSmall)
+                        .foregroundStyle(Color.arcTextSecondary)
+                        .padding(.top, .arcSpacingSmall)
                 }
             }
             .padding(viewModel.configuration.contentInsets)
