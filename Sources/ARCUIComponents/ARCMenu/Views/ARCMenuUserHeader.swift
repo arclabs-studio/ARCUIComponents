@@ -1,0 +1,209 @@
+//
+//  ARCMenuUserHeader.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
+import ARCDesignSystem
+import SwiftUI
+
+/// User profile header for ARCMenu
+///
+/// Displays user information at the top of the menu, following Apple's
+/// design patterns for user profile sections (similar to App Store, Music, etc.)
+///
+/// Features:
+/// - Large avatar with subtle shadow
+/// - Name with emphasis (semibold)
+/// - Optional email or subtitle
+/// - Tap gesture for profile navigation
+/// - Smooth hover/press animations
+struct ARCMenuUserHeader: View {
+    // MARK: - Properties
+
+    let user: ARCMenuUser
+    let configuration: ARCMenuConfiguration
+    let onTap: (() -> Void)?
+
+    @State private var isPressed = false
+
+    // MARK: - Initialization
+
+    init(
+        user: ARCMenuUser,
+        configuration: ARCMenuConfiguration,
+        onTap: (() -> Void)? = nil
+    ) {
+        self.user = user
+        self.configuration = configuration
+        self.onTap = onTap
+    }
+
+    // MARK: - Body
+
+    var body: some View {
+        Button {
+            onTap?()
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        } label: {
+            HStack(spacing: .arcSpacingLarge) {
+                // Avatar
+                avatarView
+                    .shadow(
+                        color: Color.arcShadowLight,
+                        radius: 8,
+                        x: 0,
+                        y: 4
+                    )
+
+                // User info
+                VStack(alignment: .leading, spacing: .arcSpacingSmall) {
+                    Text(user.name)
+                        .font(.arcFontTitleSmall)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color.arcTextPrimary)
+                        .lineLimit(1)
+
+                    if let email = user.email {
+                        Text(email)
+                            .font(.arcFontBodySmall)
+                            .foregroundStyle(Color.arcTextSecondary)
+                            .lineLimit(1)
+                    } else if let subtitle = user.subtitle {
+                        HStack(spacing: .arcSpacingXSmall) {
+                            Text(subtitle)
+                                .font(.arcFontBodySmall)
+                                .fontWeight(.medium)
+                                .foregroundStyle(configuration.accentColor)
+
+                            Image(systemName: "chevron.right")
+                                .font(.arcFontLabelSmall)
+                                .foregroundStyle(configuration.accentColor.opacity(0.6))
+                        }
+                    }
+                }
+
+                Spacer(minLength: 0)
+            }
+            .padding(.arcSpacingLarge)
+            .background {
+                // Subtle background for the header section
+                RoundedRectangle(cornerRadius: .arcCornerRadiusLarge, style: .continuous)
+                    .fill(Color.arcBackgroundSecondary.opacity(0.95))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: .arcCornerRadiusLarge, style: .continuous)
+                            .strokeBorder(
+                                LinearGradient(
+                                    colors: [
+                                        Color.arcBackgroundTertiary.opacity(0.4),
+                                        Color.arcBackgroundTertiary.opacity(0.1)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 0.5
+                            )
+                    }
+            }
+            .scaleEffect(isPressed ? 0.97 : 1.0)
+            .animation(.arcAnimationQuick, value: isPressed)
+        }
+        .buttonStyle(.plain)
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    if !isPressed {
+                        isPressed = true
+                    }
+                }
+                .onEnded { _ in
+                    isPressed = false
+                }
+        )
+        .disabled(onTap == nil)
+    }
+
+    // MARK: - Avatar View
+
+    @ViewBuilder
+    private var avatarView: some View {
+        user.avatarImage.avatarView(size: 60)
+            .overlay {
+                // Subtle ring around avatar
+                Circle()
+                    .strokeBorder(
+                        LinearGradient(
+                            colors: [
+                                Color.arcBackgroundTertiary.opacity(0.5),
+                                Color.arcBackgroundTertiary.opacity(0.2)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 1
+                    )
+            }
+    }
+}
+
+// MARK: - Preview Provider
+
+#Preview("User Header - Full Info") {
+    ZStack {
+        Color.black.ignoresSafeArea()
+
+        ARCMenuUserHeader(
+            user: ARCMenuUser(
+                name: "Carlos Ramirez",
+                email: "carlos@arclabs.studio",
+                avatarImage: .initials("CR")
+            ),
+            configuration: .default,
+            onTap: {
+                print("Profile tapped")
+            }
+        )
+        .padding()
+    }
+}
+
+#Preview("User Header - With Subtitle") {
+    ZStack {
+        Color.gray.opacity(0.2).ignoresSafeArea()
+
+        ARCMenuUserHeader(
+            user: ARCMenuUser(
+                name: "Jane Cooper",
+                subtitle: "Premium Member",
+                avatarImage: .initials("JC")
+            ),
+            configuration: .premium,
+            onTap: {
+                print("Profile tapped")
+            }
+        )
+        .padding()
+    }
+}
+
+#Preview("User Header - SF Symbol") {
+    ZStack {
+        LinearGradient(
+            colors: [.blue, .purple],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .ignoresSafeArea()
+
+        ARCMenuUserHeader(
+            user: ARCMenuUser(
+                name: "Guest User",
+                email: "guest@example.com",
+                avatarImage: .systemImage("person.circle.fill")
+            ),
+            configuration: .default
+        )
+        .padding()
+    }
+}
