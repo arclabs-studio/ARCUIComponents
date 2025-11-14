@@ -6,20 +6,21 @@ import SwiftUI
 /// Apple's design principles and Human Interface Guidelines.
 ///
 /// - Note: Conforms to `Sendable` for Swift 6 concurrency safety
-public struct ARCMenuConfiguration: Sendable {
+/// - Note: Conforms to `LiquidGlassConfigurable` to leverage unified liquid glass effect
+public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Visual Customization
 
     /// Primary accent color for the menu
     public let accentColor: Color
 
     /// Background style for the liquid glass effect
-    public let backgroundStyle: ARCMenuBackgroundStyle
+    public let backgroundStyle: ARCBackgroundStyle
 
     /// Corner radius for the menu container
     public let cornerRadius: CGFloat
 
     /// Shadow configuration
-    public let shadow: ARCMenuShadow
+    public let shadow: ARCShadow
 
     // MARK: - Layout Configuration
 
@@ -62,9 +63,9 @@ public struct ARCMenuConfiguration: Sendable {
     /// Creates a new menu configuration
     public init(
         accentColor: Color = .blue,
-        backgroundStyle: ARCMenuBackgroundStyle = .liquidGlass,
+        backgroundStyle: ARCBackgroundStyle = .liquidGlass,
         cornerRadius: CGFloat = 30,
-        shadow: ARCMenuShadow = .default,
+        shadow: ARCShadow = .default,
         menuWidth: CGFloat = 320,
         topPadding: CGFloat = 0,
         contentInsets: EdgeInsets = EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
@@ -122,72 +123,6 @@ public struct ARCMenuConfiguration: Sendable {
         backgroundStyle: .translucent,
         cornerRadius: 24,
         shadow: .subtle
-    )
-}
-
-// MARK: - ARCMenuBackgroundStyle
-
-/// Background style options for the menu
-public enum ARCMenuBackgroundStyle: Sendable {
-    /// Apple's liquid glass effect (ultra thin material with vibrancy)
-    case liquidGlass
-
-    /// Translucent background with blur
-    case translucent
-
-    /// Solid background with opacity
-    case solid(Color, opacity: Double)
-
-    /// Custom material effect
-    case material(Material)
-}
-
-// MARK: - ARCMenuShadow
-
-/// Shadow configuration for the menu
-public struct ARCMenuShadow: Sendable {
-    public let color: Color
-    public let radius: CGFloat
-    public let x: CGFloat
-    public let y: CGFloat
-
-    public init(color: Color, radius: CGFloat, x: CGFloat, y: CGFloat) {
-        self.color = color
-        self.radius = radius
-        self.x = x
-        self.y = y
-    }
-
-    /// Default shadow (subtle, matching Apple's style)
-    public static let `default` = ARCMenuShadow(
-        color: .black.opacity(0.1),
-        radius: 20,
-        x: 0,
-        y: 10
-    )
-
-    /// Subtle shadow
-    public static let subtle = ARCMenuShadow(
-        color: .black.opacity(0.05),
-        radius: 10,
-        x: 0,
-        y: 5
-    )
-
-    /// Prominent shadow
-    public static let prominent = ARCMenuShadow(
-        color: .black.opacity(0.15),
-        radius: 30,
-        x: 0,
-        y: 15
-    )
-
-    /// No shadow
-    public static let none = ARCMenuShadow(
-        color: .clear,
-        radius: 0,
-        x: 0,
-        y: 0
     )
 }
 

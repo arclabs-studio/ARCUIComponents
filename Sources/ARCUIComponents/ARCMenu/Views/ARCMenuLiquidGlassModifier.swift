@@ -1,151 +1,61 @@
+//
+//  ARCMenuLiquidGlassModifier.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
 import SwiftUI
 
-/// Liquid Glass effect modifier
+// MARK: - Legacy Compatibility
+
+/// Legacy extension for ARCMenu-specific liquid glass effect
 ///
-/// Implements Apple's modern glassmorphism effect seen in apps like Music,
-/// Podcasts, and Fitness. Combines ultra-thin materials, vibrancy, and
-/// subtle blur for a premium, depth-rich appearance.
+/// This extension maintains backward compatibility while leveraging
+/// the new unified ``LiquidGlassModifier`` under the hood.
 ///
-/// This effect creates a sense of layering and hierarchy while maintaining
-/// readability and following Apple's design language.
-struct ARCMenuLiquidGlassModifier: ViewModifier {
-    let configuration: ARCMenuConfiguration
-
-    func body(content: Content) -> some View {
-        content
-            .background {
-                backgroundView
-            }
-    }
-
-    @ViewBuilder
-    private var backgroundView: some View {
-        switch configuration.backgroundStyle {
-        case .liquidGlass:
-            liquidGlassBackground
-
-        case .translucent:
-            translucentBackground
-
-        case .solid(let color, let opacity):
-            solidBackground(color: color, opacity: opacity)
-
-        case .material(let material):
-            materialBackground(material: material)
-        }
-    }
-
-    // MARK: - Liquid Glass Background
-
-    private var liquidGlassBackground: some View {
-        ZStack {
-            // Base ultra-thin material for system-aware blur
-            Rectangle()
-                .fill(.ultraThinMaterial)
-
-            // Subtle gradient overlay for depth
-            LinearGradient(
-                colors: [
-                    Color.white.opacity(0.1),
-                    Color.white.opacity(0.05),
-                    Color.clear
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-
-            // Vibrancy layer for content that sits on top
-            Rectangle()
-                .fill(.ultraThinMaterial.shadow(.inner(radius: 1, y: 1)))
-
-            // Accent color tint (very subtle)
-            configuration.accentColor
-                .opacity(0.03)
-                .blendMode(.overlay)
-        }
-        .clipShape(RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous))
-        .overlay {
-            // Stroke border for definition
-            RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                .strokeBorder(
-                    LinearGradient(
-                        colors: [
-                            Color.white.opacity(0.2),
-                            Color.white.opacity(0.05)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    ),
-                    lineWidth: 0.5
-                )
-        }
-        .shadow(
-            color: configuration.shadow.color,
-            radius: configuration.shadow.radius,
-            x: configuration.shadow.x,
-            y: configuration.shadow.y
-        )
-    }
-
-    // MARK: - Alternative Backgrounds
-
-    private var translucentBackground: some View {
-        ZStack {
-            Rectangle()
-                .fill(.thinMaterial)
-
-            configuration.accentColor
-                .opacity(0.05)
-                .blendMode(.overlay)
-        }
-        .clipShape(RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous))
-        .shadow(
-            color: configuration.shadow.color,
-            radius: configuration.shadow.radius,
-            x: configuration.shadow.x,
-            y: configuration.shadow.y
-        )
-    }
-
-    private func solidBackground(color: Color, opacity: Double) -> some View {
-        RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-            .fill(color.opacity(opacity))
-            .shadow(
-                color: configuration.shadow.color,
-                radius: configuration.shadow.radius,
-                x: configuration.shadow.x,
-                y: configuration.shadow.y
-            )
-    }
-
-    private func materialBackground(material: Material) -> some View {
-        RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-            .fill(material)
-            .shadow(
-                color: configuration.shadow.color,
-                radius: configuration.shadow.radius,
-                x: configuration.shadow.x,
-                y: configuration.shadow.y
-            )
-    }
-}
-
-// MARK: - View Extension
-
+/// - Note: New code should use the generic `.liquidGlass(configuration:)` modifier directly.
+@available(iOS 17.0, *)
 extension View {
-    /// Applies the liquid glass effect to a view
+    /// Applies the liquid glass effect to a view using ARCMenu configuration
+    ///
+    /// This is a convenience wrapper around the unified liquid glass modifier,
+    /// maintained for backward compatibility with existing ARCMenu code.
+    ///
     /// - Parameter configuration: Menu configuration containing style settings
     /// - Returns: View with liquid glass effect applied
-    func liquidGlass(configuration: ARCMenuConfiguration) -> some View {
-        modifier(ARCMenuLiquidGlassModifier(configuration: configuration))
+    ///
+    /// ## Example
+    ///
+    /// ```swift
+    /// MenuContentView()
+    ///     .liquidGlass(configuration: menuConfig)
+    /// ```
+    func arcMenuLiquidGlass(configuration: ARCMenuConfiguration) -> some View {
+        liquidGlass(configuration: configuration)
     }
 }
 
 // MARK: - Backdrop Blur Modifier
 
 /// Backdrop blur effect for the overlay behind the menu
+///
+/// Creates a darkened overlay with tap-to-dismiss functionality,
+/// commonly used for modal presentations.
+///
+/// ## Overview
+///
+/// This modifier adds a semi-transparent black overlay that dims the
+/// background content when a menu or modal is presented. It includes
+/// tap gesture recognition for dismissing the overlay.
+///
+/// The opacity value controls both the visibility and the dimming effect,
+/// making it easy to coordinate with presentation animations.
 struct ARCMenuBackdropModifier: ViewModifier {
+    /// Opacity of the backdrop (0-1)
     let opacity: Double
+
+    /// Action to perform when backdrop is tapped
     let onTap: () -> Void
 
     func body(content: Content) -> some View {
@@ -158,17 +68,34 @@ struct ARCMenuBackdropModifier: ViewModifier {
                         .onTapGesture {
                             onTap()
                         }
+                        .accessibilityHidden(true)
                 }
             }
     }
 }
 
+// MARK: - View Extension
+
+@available(iOS 17.0, *)
 extension View {
     /// Applies a backdrop blur overlay
+    ///
+    /// Adds a semi-transparent black overlay that responds to taps,
+    /// typically used to dismiss modals or menus when tapping outside.
+    ///
     /// - Parameters:
-    ///   - opacity: Opacity of the backdrop (0-1)
+    ///   - opacity: Opacity of the backdrop (0-1). At 0, the backdrop is hidden.
     ///   - onTap: Action to perform when backdrop is tapped
     /// - Returns: View with backdrop overlay
+    ///
+    /// ## Example
+    ///
+    /// ```swift
+    /// ContentView()
+    ///     .backdrop(opacity: isPresented ? 1.0 : 0.0) {
+    ///         isPresented = false
+    ///     }
+    /// ```
     func backdrop(opacity: Double, onTap: @escaping () -> Void) -> some View {
         modifier(ARCMenuBackdropModifier(opacity: opacity, onTap: onTap))
     }
