@@ -20,7 +20,7 @@ import SwiftUI
 /// - Design reference
 /// - Integration examples
 /// - Feature exploration
-@available(iOS 17.0, macOS 14.0, *)
+@available(iOS 17.0, *)
 public struct ARCMenuShowcase: View {
     // MARK: - State
 

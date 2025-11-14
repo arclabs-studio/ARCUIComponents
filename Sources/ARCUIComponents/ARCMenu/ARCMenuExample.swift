@@ -14,7 +14,7 @@ import SwiftUI
 /// with various configuration options and use cases.
 ///
 /// Copy and adapt these examples to your needs.
-@available(iOS 17.0, macOS 14.0, *)
+@available(iOS 17.0, *)
 struct ARCMenuExample: View {
     // MARK: - View Model
 

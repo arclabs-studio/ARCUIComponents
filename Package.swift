@@ -6,10 +6,10 @@ import PackageDescription
 let package = Package(
     name: "ARCUIComponents",
     platforms: [
-        .iOS(.v17),
-        .macOS(.v14),
-        .tvOS(.v17),
-        .watchOS(.v10)
+        .iOS(.v17)
+        // Note: ARCMenu is designed specifically for iOS/iPadOS.
+        // For macOS, tvOS, or watchOS, use native platform patterns.
+        // See docs/Platform-Alternatives.md for guidance.
     ],
     products: [
         .library(

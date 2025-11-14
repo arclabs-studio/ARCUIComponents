@@ -3,7 +3,7 @@
 > Premium UI components for iOS, following Apple's Human Interface Guidelines
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://swift.org)
-[![Platform](https://img.shields.io/badge/platforms-iOS%2017%2B%20%7C%20macOS%2014%2B-blue.svg)](https://developer.apple.com)
+[![Platform](https://img.shields.io/badge/platform-iOS%2017%2B%20%7C%20iPadOS%2017%2B-blue.svg)](https://developer.apple.com)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 [![SwiftUI](https://img.shields.io/badge/SwiftUI-✓-green.svg)](https://developer.apple.com/xcode/swiftui/)
 
@@ -395,10 +395,14 @@ ARCMenu/
 
 ## ⚙️ Requirements
 
-- **iOS** 17.0+ / **macOS** 14.0+ / **tvOS** 17.0+ / **watchOS** 10.0+
+- **iOS** 17.0+
+- **iPadOS** 17.0+
 - **Swift** 6.0+
 - **Xcode** 16.0+
 - **SwiftUI**
+
+> **Note**: ARCMenu is designed specifically for iOS and iPadOS, following mobile-first design patterns.
+> For other platforms (macOS, tvOS, watchOS), use native system patterns. See [Platform Alternatives](docs/Platform-Alternatives.md) for guidance.
 
 ---
 
@@ -468,7 +472,7 @@ ARCUIComponents is available under the MIT license. See the [LICENSE](LICENSE) f
 
 ## 🗺️ Roadmap
 
-### Version 1.x
+### Version 1.x (iOS/iPadOS Focus)
 - [x] ARCMenu with liquid glass effect
 - [ ] ARCCard component
 - [ ] ARCButton component
@@ -476,10 +480,15 @@ ARCUIComponents is available under the MIT license. See the [LICENSE](LICENSE) f
 - [ ] ARCAlert component
 
 ### Version 2.x
-- [ ] macOS & iPadOS optimizations
-- [ ] watchOS components
-- [ ] Accessibility improvements
-- [ ] More customization options
+- [ ] iPadOS-specific optimizations (split view, larger displays)
+- [ ] Advanced search functionality in ARCMenu
+- [ ] Section support for menu organization
+- [ ] Enhanced accessibility features
+- [ ] Additional customization options
+- [ ] Localization support
+
+> **Platform Strategy**: ARCUIComponents focuses exclusively on iOS/iPadOS to deliver the best possible mobile experience.
+> We follow Apple's design philosophy: "Design once, adapt everywhere" rather than "write once, run everywhere".
 
 ---
 

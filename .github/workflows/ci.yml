@@ -84,30 +84,30 @@ jobs:
         name: documentation
         path: docs/
 
-  compatibility:
-    name: Platform Compatibility
+  ios-compatibility:
+    name: iOS/iPadOS Compatibility
     runs-on: macos-14
     strategy:
       matrix:
-        platform: ['iOS', 'macOS', 'tvOS', 'watchOS']
+        include:
+          - device: 'iPhone 15 Pro'
+            os: 'iOS'
+          - device: 'iPhone SE (3rd generation)'
+            os: 'iOS'
+          - device: 'iPad Pro (12.9-inch) (6th generation)'
+            os: 'iPadOS'
+          - device: 'iPad Air (5th generation)'
+            os: 'iPadOS'
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Build for ${{ matrix.platform }}
+    - name: Select Xcode
+      run: sudo xcode-select -switch /Applications/Xcode_16.0.app/Contents/Developer
+
+    - name: Build for ${{ matrix.os }} (${{ matrix.device }})
       run: |
-        case ${{ matrix.platform }} in
-          iOS)
-            xcodebuild -scheme ARCUIComponents -destination 'platform=iOS Simulator,name=iPhone 15 Pro' build
-            ;;
-          macOS)
-            swift build
-            ;;
-          tvOS)
-            xcodebuild -scheme ARCUIComponents -destination 'platform=tvOS Simulator,name=Apple TV' build
-            ;;
-          watchOS)
-            xcodebuild -scheme ARCUIComponents -destination 'platform=watchOS Simulator,name=Apple Watch Series 9 (45mm)' build
-            ;;
-        esac
+        xcodebuild -scheme ARCUIComponents \
+          -destination 'platform=iOS Simulator,name=${{ matrix.device }}' \
+          build

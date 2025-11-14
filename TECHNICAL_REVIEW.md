@@ -4,12 +4,37 @@
 **Date**: 2025-11-12
 **Package Version**: 0.1.0
 **Review Scope**: Complete codebase analysis with DocC documentation audit
+**Platform Decision**: iOS/iPadOS Exclusive (Updated 2025-11-14)
+
+---
+
+## Platform Strategy Decision
+
+### iOS/iPadOS Exclusive ✅
+
+After thorough analysis and design review, **ARCMenu is now officially iOS/iPadOS only**.
+
+**Rationale**:
+- ARCMenu embodies mobile-first design patterns (slide-in menus, drag gestures, full-height overlays)
+- Each Apple platform has distinct interaction models and user expectations
+- Following Apple's "Design once, adapt everywhere" philosophy
+- Maintaining design integrity over cross-platform compromise
+- Avoiding HIG violations on other platforms (especially macOS)
+
+**Impact**:
+- ✅ Better UX through platform-specific focus
+- ✅ Cleaner codebase without platform conditionals
+- ✅ Easier maintenance and testing
+- ✅ 100% iOS/iPadOS HIG compliance
+- ✅ No compromises in gesture support or animations
+
+For other platforms, developers should use native patterns. See `docs/Platform-Alternatives.md` for guidance.
 
 ---
 
 ## Executive Summary
 
-ARCUIComponents demonstrates **excellent architectural design** and **professional implementation**. The package follows Clean Architecture principles, leverages Swift 6 features appropriately, and adheres to Apple's HIG meticulously.
+ARCUIComponents demonstrates **excellent architectural design** and **professional implementation**. The package follows Clean Architecture principles, leverages Swift 6 features appropriately, and adheres to Apple's HIG meticulously for iOS/iPadOS.
 
 ### Overall Assessment
 

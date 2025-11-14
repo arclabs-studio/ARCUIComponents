@@ -81,9 +81,14 @@ struct ContentView: View {
 
 ## Requirements
 
-- iOS 17.0+ / macOS 14.0+ / tvOS 17.0+ / watchOS 10.0+
+- iOS 17.0+
+- iPadOS 17.0+
 - Swift 6.0+
 - Xcode 16.0+
+
+> **Platform Focus**: ARCUIComponents is designed exclusively for iOS and iPadOS,
+> following mobile-first design patterns and Apple's Human Interface Guidelines
+> for touch-based interfaces.
 
 ## Design Philosophy
 
