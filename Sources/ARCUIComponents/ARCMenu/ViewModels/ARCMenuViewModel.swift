@@ -39,7 +39,8 @@ public final class ARCMenuViewModel {
 
     // MARK: - Private State
 
-    private var feedbackGenerator: UIImpactFeedbackGenerator?
+    /// Trigger for haptic feedback
+    public private(set) var hapticTrigger: Int = 0
 
     // MARK: - Initialization
 
@@ -56,14 +57,13 @@ public final class ARCMenuViewModel {
         self.user = user
         self.menuItems = menuItems
         self.configuration = configuration
-        self.prepareFeedbackGenerator()
     }
 
     // MARK: - Public Methods
 
     /// Presents the menu with animation
     public func present() {
-        configuration.hapticFeedback.perform()
+        triggerHaptic()
 
         withAnimation(configuration.presentationAnimation) {
             isPresented = true
@@ -73,7 +73,7 @@ public final class ARCMenuViewModel {
 
     /// Dismisses the menu with animation
     public func dismiss() {
-        configuration.hapticFeedback.perform()
+        triggerHaptic()
 
         withAnimation(configuration.dismissalAnimation) {
             isPresented = false
@@ -126,8 +126,8 @@ public final class ARCMenuViewModel {
     /// Executes a menu item action and dismisses the menu
     /// - Parameter item: The menu item to execute
     public func executeAction(for item: ARCMenuItem) {
-        // Perform light haptic for item selection
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        // Trigger light haptic for item selection
+        triggerSelectionHaptic()
 
         // Dismiss menu first for better UX
         dismiss()
@@ -141,16 +141,22 @@ public final class ARCMenuViewModel {
 
     // MARK: - Private Methods
 
-    private func prepareFeedbackGenerator() {
-        feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
-        feedbackGenerator?.prepare()
+    /// Triggers the main haptic feedback
+    private func triggerHaptic() {
+        if configuration.hapticFeedback != .none {
+            hapticTrigger += 1
+        }
+    }
+
+    /// Triggers a light selection haptic
+    private func triggerSelectionHaptic() {
+        hapticTrigger += 1
     }
 
     private func triggerDismissalHaptic() {
         // Only trigger once at threshold
         if dragOffset == configuration.dragDismissalThreshold {
-            feedbackGenerator?.impactOccurred()
-            feedbackGenerator?.prepare()
+            hapticTrigger += 1
         }
     }
 }

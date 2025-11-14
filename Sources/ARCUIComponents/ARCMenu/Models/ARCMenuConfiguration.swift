@@ -210,22 +210,34 @@ public enum ARCMenuHapticStyle: Sendable {
     case soft
     case rigid
 
+    /// Returns the corresponding SwiftUI SensoryFeedback value
+    @available(iOS 17.0, *)
+    var sensoryFeedback: SensoryFeedback {
+        switch self {
+        case .none:
+            return .selection // Will be ignored when .none is used
+        case .light:
+            return .impact(flexibility: .soft, intensity: 0.5)
+        case .medium:
+            return .impact(flexibility: .solid, intensity: 0.7)
+        case .heavy:
+            return .impact(weight: .heavy)
+        case .soft:
+            return .impact(flexibility: .soft)
+        case .rigid:
+            return .impact(flexibility: .rigid)
+        }
+    }
+
     /// Performs the haptic feedback
     @MainActor
     func perform() {
-        switch self {
-        case .none:
-            break
-        case .light:
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        case .medium:
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        case .heavy:
-            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-        case .soft:
-            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-        case .rigid:
-            UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+        #if os(iOS)
+        if #available(iOS 17.0, *) {
+            // Use SwiftUI's SensoryFeedback in iOS 17+
+            // Note: Direct triggering requires a view context
+            // This method is kept for backward compatibility but should be triggered via .sensoryFeedback modifier
         }
+        #endif
     }
 }
