@@ -1,3 +1,4 @@
+import ARCDesignSystem
 import SwiftUI
 
 /// Configuration for ARCMenu appearance and behavior
@@ -64,12 +65,12 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
     public init(
         accentColor: Color = .blue,
         backgroundStyle: ARCBackgroundStyle = .liquidGlass,
-        cornerRadius: CGFloat = 30,
+        cornerRadius: CGFloat = .arcCornerRadiusXLarge,
         shadow: ARCShadow = .default,
         menuWidth: CGFloat = 320,
         topPadding: CGFloat = 0,
-        contentInsets: EdgeInsets = EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20),
-        sectionSpacing: CGFloat = 24,
+        contentInsets: EdgeInsets = .arcPaddingSection,
+        sectionSpacing: CGFloat = .arcSpacingXLarge,
         presentationAnimation: Animation = .spring(response: 0.5, dampingFraction: 0.8),
         dismissalAnimation: Animation = .spring(response: 0.4, dampingFraction: 0.85),
         hapticFeedback: ARCMenuHapticStyle = .medium,
@@ -115,13 +116,13 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
     public static let premium = ARCMenuConfiguration(
         accentColor: .orange,
         backgroundStyle: .liquidGlass,
-        cornerRadius: 32
+        cornerRadius: .arcCornerRadiusXLarge
     )
 
     /// Minimal configuration with subtle effects
     public static let minimal = ARCMenuConfiguration(
         backgroundStyle: .translucent,
-        cornerRadius: 24,
+        cornerRadius: .arcCornerRadiusLarge,
         shadow: .subtle
     )
 }

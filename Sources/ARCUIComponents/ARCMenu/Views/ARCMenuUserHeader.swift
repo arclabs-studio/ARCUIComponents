@@ -1,3 +1,4 @@
+import ARCDesignSystem
 import SwiftUI
 
 /// User profile header for ARCMenu
@@ -39,18 +40,18 @@ struct ARCMenuUserHeader: View {
             onTap?()
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
         } label: {
-            HStack(spacing: 16) {
+            HStack(spacing: .arcSpacingLarge) {
                 // Avatar
                 avatarView
                     .shadow(
-                        color: .black.opacity(0.1),
-                        radius: 8,
+                        color: .arcShadowLight,
+                        radius: .arcSpacingSmall,
                         x: 0,
-                        y: 4
+                        y: .arcSpacingXSmall
                     )
 
                 // User info
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
                     Text(user.name)
                         .font(.title3)
                         .fontWeight(.semibold)
@@ -64,7 +65,7 @@ struct ARCMenuUserHeader: View {
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
                     } else if let subtitle = user.subtitle {
-                        HStack(spacing: 4) {
+                        HStack(spacing: .arcSpacingXSmall) {
                             Text(subtitle)
                                 .font(.subheadline)
                                 .fontWeight(.medium)
@@ -79,13 +80,13 @@ struct ARCMenuUserHeader: View {
 
                 Spacer(minLength: 0)
             }
-            .padding(16)
+            .padding(.arcPaddingCard)
             .background {
                 // Subtle background for the header section
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                RoundedRectangle(cornerRadius: .arcCornerRadiusLarge, style: .continuous)
                     .fill(.ultraThinMaterial)
                     .overlay {
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        RoundedRectangle(cornerRadius: .arcCornerRadiusLarge, style: .continuous)
                             .strokeBorder(
                                 LinearGradient(
                                     colors: [

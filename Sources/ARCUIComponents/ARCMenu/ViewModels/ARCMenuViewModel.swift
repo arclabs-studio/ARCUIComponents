@@ -1,5 +1,6 @@
-import SwiftUI
+import ARCDesignSystem
 import Observation
+import SwiftUI
 
 /// View model for ARCMenu
 ///

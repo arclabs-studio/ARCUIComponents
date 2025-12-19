@@ -1,3 +1,4 @@
+import ARCDesignSystem
 import SwiftUI
 
 /// Button to trigger ARCMenu
@@ -64,10 +65,10 @@ public struct ARCMenuButton: View {
                             }
                     }
                     .shadow(
-                        color: .black.opacity(0.1),
-                        radius: 8,
+                        color: .arcShadowLight,
+                        radius: .arcSpacingSmall,
                         x: 0,
-                        y: 4
+                        y: .arcSpacingXSmall
                     )
                     .scaleEffect(isPressed ? 0.92 : 1.0)
                     .rotationEffect(.degrees(viewModel.isPresented ? 90 : 0))
