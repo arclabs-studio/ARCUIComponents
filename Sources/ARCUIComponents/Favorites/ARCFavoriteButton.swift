@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// Favorite button component following Apple's Human Interface Guidelines
@@ -162,7 +163,7 @@ private struct FavoriteButtonStyle: ButtonStyle {
 #Preview("Not Favorited") {
     @Previewable @State var isFavorite = false
 
-    VStack(spacing: 40) {
+    VStack(spacing: 40) { // Intentionally larger for showcase
         ARCFavoriteButton(
             isFavorite: $isFavorite,
             size: .small
@@ -196,7 +197,7 @@ private struct FavoriteButtonStyle: ButtonStyle {
     @Previewable @State var isBlue = false
     @Previewable @State var isGreen = false
 
-    VStack(spacing: 40) {
+    VStack(spacing: 40) { // Intentionally larger for showcase
         ARCFavoriteButton(
             isFavorite: $isPink,
             favoriteColor: .pink
@@ -229,14 +230,14 @@ private struct FavoriteButtonStyle: ButtonStyle {
     @Previewable @State var isFavorite = false
     @Previewable @State var toggleCount = 0
 
-    VStack(spacing: 30) {
+    VStack(spacing: .arcSpacingXXLarge) {
         ARCFavoriteButton(
             isFavorite: $isFavorite
         ) { newValue in
             toggleCount += 1
         }
 
-        VStack(spacing: 8) {
+        VStack(spacing: .arcSpacingSmall) {
             Text("Status: \(isFavorite ? "❤️ Favorited" : "🤍 Not Favorited")")
                 .font(.headline)
 
