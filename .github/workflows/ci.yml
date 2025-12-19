@@ -12,14 +12,14 @@ env:
 jobs:
   build-and-test:
     name: Build and Test
-    runs-on: macos-15
+    runs-on: macos-14
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_16.2.app/Contents/Developer
+      run: sudo xcode-select -switch /Applications/Xcode_15.4.app/Contents/Developer
 
     - name: Show Xcode version
       run: xcodebuild -version
@@ -27,22 +27,29 @@ jobs:
     - name: Show Swift version
       run: swift --version
 
-    - name: Build
-      run: swift build -v
+    - name: Build for iOS Simulator
+      run: |
+        xcodebuild -scheme ARCUIComponents \
+          -destination 'generic/platform=iOS Simulator' \
+          -enableCodeCoverage YES \
+          build
 
-    - name: Run tests
-      run: swift test -v --enable-code-coverage
+    - name: Run tests on iOS Simulator
+      run: |
+        xcodebuild -scheme ARCUIComponents \
+          -destination 'platform=iOS Simulator,OS=latest,name=iPhone 15' \
+          -enableCodeCoverage YES \
+          -resultBundlePath TestResults.xcresult \
+          test
 
     - name: Generate code coverage
       run: |
-        xcrun llvm-cov export -format="lcov" \
-          .build/debug/ARCUIComponentsPackageTests.xctest/Contents/MacOS/ARCUIComponentsPackageTests \
-          -instr-profile .build/debug/codecov/default.profdata > coverage.lcov
+        xcrun xccov view --report --json TestResults.xcresult > coverage.json || true
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
-        file: ./coverage.lcov
+        file: ./coverage.json
         fail_ci_if_error: false
 
   swiftlint:
@@ -61,22 +68,31 @@ jobs:
 
   documentation:
     name: Build Documentation
-    runs-on: macos-15
+    runs-on: macos-14
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_16.2.app/Contents/Developer
+      run: sudo xcode-select -switch /Applications/Xcode_15.4.app/Contents/Developer
 
-    - name: Build Documentation
+    - name: Build Documentation with xcodebuild
       run: |
-        swift package --allow-writing-to-directory ./docs \
-          generate-documentation --target ARCUIComponents \
-          --output-path ./docs \
-          --transform-for-static-hosting \
-          --hosting-base-path ARCUIComponents
+        xcodebuild docbuild \
+          -scheme ARCUIComponents \
+          -destination 'generic/platform=iOS Simulator' \
+          -derivedDataPath ./DerivedData
+
+    - name: Export Documentation
+      run: |
+        mkdir -p docs
+        DOCC_ARCHIVE=$(find ./DerivedData -name "*.doccarchive" -print -quit)
+        if [ -n "$DOCC_ARCHIVE" ]; then
+          xcrun docc process-archive transform-for-static-hosting "$DOCC_ARCHIVE" \
+            --output-path ./docs \
+            --hosting-base-path ARCUIComponents
+        fi
 
     - name: Upload documentation
       uses: actions/upload-artifact@v4
@@ -86,17 +102,17 @@ jobs:
 
   ios-compatibility:
     name: iOS/iPadOS Compatibility
-    runs-on: macos-15
+    runs-on: macos-14
     strategy:
       matrix:
         include:
-          - device: 'iPhone 16 Pro'
+          - device: 'iPhone 15 Pro'
             os: 'iOS'
           - device: 'iPhone SE (3rd generation)'
             os: 'iOS'
-          - device: 'iPad Pro 13-inch (M4)'
+          - device: 'iPad Pro (12.9-inch) (6th generation)'
             os: 'iPadOS'
-          - device: 'iPad Air 11-inch (M2)'
+          - device: 'iPad Air (5th generation)'
             os: 'iPadOS'
 
     steps:
@@ -104,7 +120,10 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_16.2.app/Contents/Developer
+      run: sudo xcode-select -switch /Applications/Xcode_15.4.app/Contents/Developer
+
+    - name: List available simulators
+      run: xcrun simctl list devices available
 
     - name: Build for ${{ matrix.os }} (${{ matrix.device }})
       run: |
