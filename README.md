@@ -395,14 +395,32 @@ ARCMenu/
 
 ## ⚙️ Requirements
 
-- **iOS** 17.0+
-- **iPadOS** 17.0+
-- **Swift** 6.0+
-- **Xcode** 16.0+
-- **SwiftUI**
+| Platform | Minimum Version | Status |
+|----------|-----------------|--------|
+| **iOS** | 17.0+ | ✅ Full Support |
+| **iPadOS** | 17.0+ | ✅ Full Support |
+| **macOS** | 14.0+ | ⚠️ Compiles (components designed for iOS) |
+| **Swift** | 6.0+ | ✅ Required |
+| **Xcode** | 16.0+ | ✅ Required |
 
-> **Note**: ARCMenu is designed specifically for iOS and iPadOS, following mobile-first design patterns.
-> For other platforms (macOS, tvOS, watchOS), use native system patterns. See [Platform Alternatives](docs/Platform-Alternatives.md) for guidance.
+### Platform Strategy
+
+Current components are **designed for iOS/iPadOS**, following mobile-first interaction patterns:
+- Touch-optimized targets (44x44pt)
+- Haptic feedback integration
+- Slide-in menu presentations
+- Liquid glass effects optimized for mobile
+
+> **macOS Compatibility**: The package compiles on macOS 14+ to satisfy Swift Package Manager dependency resolution.
+> However, current components use iOS-centric design patterns. **Native macOS components are planned for future releases.**
+
+### Future Platform Support
+
+We're working on platform-native components:
+- 🔜 **macOS** - Native AppKit-style components (popovers, sidebars, menu bar integration)
+- 🔜 **visionOS** - Spatial UI components
+- 🔜 **tvOS** - Focus-based navigation components
+- 🔜 **watchOS** - Compact UI components
 
 ---
 
@@ -474,21 +492,33 @@ ARCUIComponents is available under the MIT license. See the [LICENSE](LICENSE) f
 
 ### Version 1.x (iOS/iPadOS Focus)
 - [x] ARCMenu with liquid glass effect
+- [x] ARCFavoriteButton
+- [x] ARCListCard
+- [x] ARCSearchButton
+- [x] ARCEmptyState
+- [x] LiquidGlass effect modifier
 - [ ] ARCCard component
 - [ ] ARCButton component
 - [ ] ARCTextField component
 - [ ] ARCAlert component
 
-### Version 2.x
+### Version 2.x (Platform Expansion)
+- [ ] **macOS Components**
+  - [ ] ARCPopoverMenu (macOS-native menu)
+  - [ ] ARCSidebar (NSOutlineView-style)
+  - [ ] ARCToolbarButton (native toolbar integration)
 - [ ] iPadOS-specific optimizations (split view, larger displays)
-- [ ] Advanced search functionality in ARCMenu
+- [ ] Advanced search functionality
 - [ ] Section support for menu organization
 - [ ] Enhanced accessibility features
-- [ ] Additional customization options
-- [ ] Localization support
 
-> **Platform Strategy**: ARCUIComponents focuses exclusively on iOS/iPadOS to deliver the best possible mobile experience.
-> We follow Apple's design philosophy: "Design once, adapt everywhere" rather than "write once, run everywhere".
+### Version 3.x (Extended Platforms)
+- [ ] visionOS spatial components
+- [ ] tvOS focus-based components
+- [ ] watchOS compact components
+
+> **Design Philosophy**: Each platform gets components designed for its unique interaction patterns.
+> iOS components use touch gestures; macOS components will use pointer interactions and native patterns.
 
 ---
 
