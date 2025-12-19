@@ -1,103 +1,141 @@
-# SwiftLint Configuration for ARCUIComponents
+# ARCDevTools SwiftLint Configuration
+# Version: 1.0.0
 
-# Paths to include/exclude
+# Included directories
 included:
   - Sources
-excluded:
   - Tests
-  - .build
-  - .swiftpm
 
-# Rules
+# Excluded directories
+excluded:
+  - .build
+  - DerivedData
+  - Pods
+  - Carthage
+  - ARCDevTools
+  - "*/Generated/*"
+  - "*.generated.swift"
+
+# Disabled rules
+disabled_rules:
+  - trailing_whitespace  # SwiftFormat handles this
+  - todo                 # We allow TODOs
+  - sorted_imports       # Conflicts with @testable imports preference (should be last)
+  - attributes           # SwiftFormat handles this (always same line in ARC Labs)
+
+# Opt-in rules (explicitly enabled per ARCKnowledge)
 opt_in_rules:
-  - explicit_init
-  - explicit_type_interface
-  - explicit_top_level_acl
-  - explicit_self
-  - closure_spacing
+  # Already enabled (keep these)
   - empty_count
+  - closure_spacing
+  - explicit_init
+  - redundant_type_annotation
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+
+  # New rules from ARCKnowledge code-style.md
+  - array_init
+  - closure_end_indentation
+  - contains_over_filter_count
+  - contains_over_filter_is_empty
+  - contains_over_first_not_nil
+  - discouraged_object_literal
   - empty_string
   - fatal_error_message
   - first_where
+  - flatmap_over_map_reduce
   - force_unwrapping
+  - implicit_return
   - joined_default_parameter
+  - last_where
+  - literal_expression_end_indentation
   - multiline_arguments
   - multiline_function_chains
   - multiline_literal_brackets
   - multiline_parameters
   - operator_usage_whitespace
+  - overridden_super_call
   - prefer_self_type_over_type_of_self
-  - redundant_type_annotation
+  - redundant_nil_coalescing
   - sorted_first_last
   - toggle_bool
   - unneeded_parentheses_in_closure_argument
-  - vertical_parameter_alignment_on_call
   - yoda_condition
 
-disabled_rules:
-  - todo # Allow TODO comments
-  - line_length # Allow longer lines for documentation
+# Analyzer rules (require 'swiftlint analyze')
+analyzer_rules:
+  - unused_import
+  - unused_declaration
 
-# Rule Configuration
-type_name:
-  min_length: 3
-  max_length:
-    warning: 40
-    error: 50
+# Rule-specific configuration
 
 identifier_name:
   min_length: 2
-  max_length:
-    warning: 40
-    error: 50
+  max_length: 60
   excluded:
     - id
-    - vm
+    - ok
     - x
     - y
+    - db
+    - vm  # ViewModel común
 
-file_length:
-  warning: 500
-  error: 800
-  ignore_comment_only_lines: true
+type_name:
+  min_length: 3
+  max_length: 50
+  excluded:
+    - ID
+    - URL
 
-function_body_length:
-  warning: 50
-  error: 100
+line_length:
+  warning: 120
+  error: 150
+  ignores_comments: true
+  ignores_urls: true
+  ignores_function_declarations: true
 
 type_body_length:
   warning: 300
   error: 500
 
-cyclomatic_complexity:
-  warning: 10
-  error: 15
+function_body_length:
+  warning: 50
+  error: 100
 
-nesting:
-  type_level:
-    warning: 2
-    error: 3
+file_length:
+  warning: 500
+  error: 1000
 
-# Custom Rules
+# Custom rules for ARC Labs
 custom_rules:
-  no_print:
-    name: "Print Usage"
-    regex: "\\bprint\\("
-    message: "Use proper logging instead of print"
+
+  # ViewModels should use @Observable
+  observable_viewmodel:
+    name: "ViewModels should use @Observable"
+    regex: "final\\s+class\\s+\\w+ViewModel(?!.*@Observable)"
+    message: "ViewModels must use @Observable in Swift 6"
     severity: warning
 
-  force_unwrap:
-    name: "Force Unwrap"
-    regex: "\\!(?!\\=)"
-    message: "Avoid force unwrapping - use optional binding instead"
+  # No empty line after guard (from ARCKnowledge)
+  no_empty_line_after_guard:
+    name: "No Empty Line After Guard"
+    regex: 'guard\s+.+\{\s*\n\s*\n'
+    message: "Remove empty line after guard statement"
+    severity: warning
+
+  # No force cast (from ARCKnowledge)
+  no_force_cast:
+    name: "No Force Cast"
+    regex: 'as!'
+    message: "Avoid force casting. Use conditional cast (as?) instead"
     severity: error
-    excluded:
-      - ".*Test.*"
 
-  mark_format:
-    name: "MARK Format"
-    regex: "(?<!// MARK: - )// MARK:(?! -)"
-    message: "MARK should follow format: // MARK: - Description"
-    severity: warning
+  # No force try (from ARCKnowledge)
+  no_force_try:
+    name: "No Force Try"
+    regex: 'try!'
+    message: "Avoid force try. Use proper error handling"
+    severity: error
 
+# Reporter (output format)
 reporter: "xcode"

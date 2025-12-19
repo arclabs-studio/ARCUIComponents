@@ -91,8 +91,9 @@ public struct ARCUIComponents {
 
 // MARK: - Public API Exports
 
+@_exported import class Foundation.Bundle
+@_exported import struct Foundation.URL
+
 // Re-export all public types for convenient importing
 @_exported import struct Foundation.UUID
-@_exported import struct Foundation.URL
-@_exported import class Foundation.Bundle
 @_exported import SwiftUI

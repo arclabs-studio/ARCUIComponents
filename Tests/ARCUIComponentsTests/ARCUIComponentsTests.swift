@@ -3,7 +3,7 @@ import Testing
 
 struct ARCUIComponentsTests {
     @Test
-    func testHelloFunction() {
+    func helloFunction() {
         #expect(ARCUIComponents.hello() == "Hello from ARCUIComponents!")
     }
 }

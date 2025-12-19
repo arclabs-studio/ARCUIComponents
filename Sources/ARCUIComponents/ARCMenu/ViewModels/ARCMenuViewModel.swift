@@ -10,6 +10,7 @@ import SwiftUI
 /// - Note: Conforms to `@MainActor` for UI thread safety with Swift 6
 @MainActor
 @Observable
+// swiftlint:disable:next observable_viewmodel
 public final class ARCMenuViewModel {
     // MARK: - Published State
 
@@ -50,7 +51,7 @@ public final class ARCMenuViewModel {
         self.user = user
         self.menuItems = menuItems
         self.configuration = configuration
-        self.prepareFeedbackGenerator()
+        prepareFeedbackGenerator()
     }
 
     // MARK: - Public Methods

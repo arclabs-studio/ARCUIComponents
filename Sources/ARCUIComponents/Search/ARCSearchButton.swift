@@ -103,7 +103,7 @@ public struct ARCSearchButton: View {
         accentColor: Color = .secondary,
         action: @escaping () -> Void
     ) {
-        self.configuration = ARCSearchButtonConfiguration(
+        configuration = ARCSearchButtonConfiguration(
             accentColor: accentColor,
             size: size,
             style: style
@@ -136,14 +136,13 @@ public struct ARCSearchButton: View {
     private var iconColor: Color {
         switch configuration.style {
         case .filled:
-            return configuration.accentColor
+            configuration.accentColor
         case .bordered, .plain:
-            return isPressed ? configuration.accentColor.opacity(0.6) : configuration.accentColor
+            isPressed ? configuration.accentColor.opacity(0.6) : configuration.accentColor
         }
     }
 
-    @ViewBuilder
-    private var backgroundView: some View {
+    @ViewBuilder private var backgroundView: some View {
         switch configuration.style {
         case .plain:
             if configuration.showsBackgroundWhenIdle || isPressed {
@@ -266,7 +265,7 @@ private struct SearchButtonPressStyle: ButtonStyle {
 
 #Preview("In Toolbar") {
     NavigationStack {
-        List(1...20, id: \.self) { item in
+        List(1 ... 20, id: \.self) { item in
             Text("Item \(item)")
         }
         .navigationTitle("Search Demo")

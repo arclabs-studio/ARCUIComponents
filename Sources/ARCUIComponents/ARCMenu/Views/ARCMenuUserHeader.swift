@@ -120,8 +120,7 @@ struct ARCMenuUserHeader: View {
 
     // MARK: - Avatar View
 
-    @ViewBuilder
-    private var avatarView: some View {
+    @ViewBuilder private var avatarView: some View {
         user.avatarImage.avatarView(size: 60)
             .overlay {
                 // Subtle ring around avatar

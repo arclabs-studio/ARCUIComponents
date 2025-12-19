@@ -12,7 +12,7 @@ let package = Package(
         .library(
             name: "ARCUIComponents",
             targets: ["ARCUIComponents"]
-        ),
+        )
     ],
     dependencies: [
         .package(url: "https://github.com/arclabs-studio/ARCDesignSystem", from: "2.0.0")

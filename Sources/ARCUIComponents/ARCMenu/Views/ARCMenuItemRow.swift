@@ -95,8 +95,7 @@ struct ARCMenuItemRow: View {
 
     // MARK: - Icon View
 
-    @ViewBuilder
-    private var iconView: some View {
+    @ViewBuilder private var iconView: some View {
         item.icon.iconView(isDestructive: item.isDestructive)
             .frame(width: 22, height: 22)
     }

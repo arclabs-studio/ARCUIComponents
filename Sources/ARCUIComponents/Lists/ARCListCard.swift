@@ -156,13 +156,13 @@ public struct ARCListCard<Accessories: View>: View {
     @ViewBuilder
     private func imageView(for image: CardImage) -> some View {
         switch image {
-        case .url(let url, let size):
+        case let .url(url, size):
             AsyncImage(url: url) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
                         .frame(width: size, height: size)
-                case .success(let image):
+                case let .success(image):
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -180,7 +180,7 @@ public struct ARCListCard<Accessories: View>: View {
                 }
             }
 
-        case .system(let name, let color, let size):
+        case let .system(name, color, size):
             Image(systemName: name)
                 .font(.system(size: size * 0.5))
                 .foregroundStyle(color.gradient)
@@ -188,7 +188,7 @@ public struct ARCListCard<Accessories: View>: View {
                 .background(color.opacity(0.15))
                 .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous))
 
-        case .custom(let image, let size):
+        case let .custom(image, size):
             image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -234,7 +234,7 @@ extension ARCListCard where Accessories == EmptyView {
         self.image = image
         self.title = title
         self.subtitle = subtitle
-        self.accessories = nil
+        accessories = nil
         self.action = action
     }
 }
@@ -345,10 +345,11 @@ private struct CardPressStyle: ButtonStyle {
                             ),
                             size: .medium
                         )
+                    },
+                    action: {
+                        print("Tapped \(song)")
                     }
-                ) {
-                    print("Tapped \(song)")
-                }
+                )
             }
         }
         .padding()

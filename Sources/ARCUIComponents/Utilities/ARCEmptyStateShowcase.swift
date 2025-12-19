@@ -60,7 +60,7 @@ public struct ARCEmptyStateShowcase: View {
             .navigationTitle("Empty States")
             .navigationBarTitleDisplayMode(.large)
             .alert("Action Triggered", isPresented: $showAlert) {
-                Button("OK", role: .cancel) { }
+                Button("OK", role: .cancel) {}
             } message: {
                 Text(alertMessage)
             }

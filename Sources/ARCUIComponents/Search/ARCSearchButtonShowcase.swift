@@ -5,6 +5,8 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+// swiftlint:disable file_length
+
 import SwiftUI
 
 /// Showcase demonstrating ARCSearchButton in various configurations
@@ -276,7 +278,7 @@ private struct NavigationBarExample: View {
             // Content
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    ForEach(1...5, id: \.self) { index in
+                    ForEach(1 ... 5, id: \.self) { index in
                         HStack {
                             Circle()
                                 .fill(.blue.gradient)
@@ -436,7 +438,7 @@ private struct SearchSheetView: View {
                         .foregroundStyle(.secondary)
                     Spacer()
                 } else {
-                    List(1...10, id: \.self) { item in
+                    List(1 ... 10, id: \.self) { item in
                         Text("Result \(item) for \"\(searchQuery)\"")
                     }
                 }

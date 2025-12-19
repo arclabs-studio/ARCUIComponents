@@ -228,10 +228,11 @@ public struct ARCListCardShowcase: View {
                                     isFavorite: binding(for: item.id),
                                     size: .medium
                                 )
+                            },
+                            action: {
+                                selectedItem = item.id
                             }
-                        ) {
-                            selectedItem = item.id
-                        }
+                        )
                     }
                 }
             }
@@ -249,10 +250,11 @@ public struct ARCListCardShowcase: View {
                                 Image(systemName: "chevron.right")
                                     .font(.caption.weight(.semibold))
                                     .foregroundStyle(.tertiary)
+                            },
+                            action: {
+                                selectedItem = item.id
                             }
-                        ) {
-                            selectedItem = item.id
-                        }
+                        )
                     }
                 }
             }

@@ -107,7 +107,7 @@ public struct ARCEmptyState: View {
         accentColor: Color = .blue,
         action: (() -> Void)? = nil
     ) {
-        self.configuration = ARCEmptyStateConfiguration(
+        configuration = ARCEmptyStateConfiguration(
             icon: icon,
             iconColor: iconColor,
             title: title,
@@ -174,13 +174,13 @@ public struct ARCEmptyState: View {
     private var iconSize: CGFloat {
         switch dynamicTypeSize {
         case .xSmall, .small, .medium:
-            return 64
+            64
         case .large, .xLarge, .xxLarge:
-            return 72
+            72
         case .xxxLarge:
-            return 80
+            80
         default: // Accessibility sizes
-            return 88
+            88
         }
     }
 
@@ -188,11 +188,11 @@ public struct ARCEmptyState: View {
     private var maxWidth: CGFloat {
         switch dynamicTypeSize {
         case .xSmall, .small, .medium, .large:
-            return 320
+            320
         case .xLarge, .xxLarge, .xxxLarge:
-            return 360
+            360
         default: // Accessibility sizes
-            return 400
+            400
         }
     }
 }

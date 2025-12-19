@@ -150,20 +150,20 @@ public struct ARCSearchButtonConfiguration: Sendable {
         /// Icon size in points
         public var iconSize: CGFloat {
             switch self {
-            case .small: return 18
-            case .medium: return 20
-            case .large: return 24
-            case .custom(let size): return size
+            case .small: 18
+            case .medium: 20
+            case .large: 24
+            case let .custom(size): size
             }
         }
 
         /// Button frame size
         public var frameSize: CGFloat {
             switch self {
-            case .small: return 36
-            case .medium: return 44
-            case .large: return 52
-            case .custom(let size): return size + 20
+            case .small: 36
+            case .medium: 44
+            case .large: 52
+            case let .custom(size): size + 20
             }
         }
     }

@@ -77,7 +77,7 @@ public struct ARCFavoriteButton: View {
         configuration: ARCFavoriteButtonConfiguration = .default,
         onToggle: ((Bool) -> Void)? = nil
     ) {
-        self._isFavorite = isFavorite
+        _isFavorite = isFavorite
         self.configuration = configuration
         self.onToggle = onToggle
     }
@@ -95,8 +95,8 @@ public struct ARCFavoriteButton: View {
         size: ARCFavoriteButtonConfiguration.ButtonSize = .medium,
         onToggle: ((Bool) -> Void)? = nil
     ) {
-        self._isFavorite = isFavorite
-        self.configuration = ARCFavoriteButtonConfiguration(
+        _isFavorite = isFavorite
+        configuration = ARCFavoriteButtonConfiguration(
             favoriteColor: favoriteColor,
             size: size
         )
@@ -111,9 +111,11 @@ public struct ARCFavoriteButton: View {
         } label: {
             Image(systemName: isFavorite ? configuration.favoriteIcon : configuration.unfavoriteIcon)
                 .font(.system(size: configuration.size.iconSize))
-                .foregroundStyle(isFavorite ? configuration.favoriteColor.gradient : configuration.unfavoriteColor.gradient)
-                .symbolEffect(.bounce, value: isFavorite)
-                .contentTransition(.symbolEffect(.replace))
+                .foregroundStyle(isFavorite
+                    ? configuration.favoriteColor.gradient
+                    : configuration.unfavoriteColor.gradient)
+                    .symbolEffect(.bounce, value: isFavorite)
+                    .contentTransition(.symbolEffect(.replace))
         }
         .buttonStyle(FavoriteButtonStyle(configuration: configuration))
         .accessibilityLabel(isFavorite ? "Favorited" : "Not favorited")
@@ -233,7 +235,7 @@ private struct FavoriteButtonStyle: ButtonStyle {
     VStack(spacing: .arcSpacingXXLarge) {
         ARCFavoriteButton(
             isFavorite: $isFavorite
-        ) { newValue in
+        ) { _ in
             toggleCount += 1
         }
 

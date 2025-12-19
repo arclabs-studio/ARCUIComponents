@@ -82,7 +82,7 @@ public struct ARCMenuButton: View {
                     )
 
                 // Badge
-                if showsBadge && badgeCount > 0 {
+                if showsBadge, badgeCount > 0 {
                     badgeView
                 }
             }
@@ -103,8 +103,7 @@ public struct ARCMenuButton: View {
 
     // MARK: - Button Content
 
-    @ViewBuilder
-    private var buttonContent: some View {
+    @ViewBuilder private var buttonContent: some View {
         if let user = viewModel.user {
             // Show user avatar
             user.avatarImage.avatarView(size: 32)
@@ -120,8 +119,7 @@ public struct ARCMenuButton: View {
 
     // MARK: - Badge View
 
-    @ViewBuilder
-    private var badgeView: some View {
+    @ViewBuilder private var badgeView: some View {
         ZStack {
             Circle()
                 .fill(

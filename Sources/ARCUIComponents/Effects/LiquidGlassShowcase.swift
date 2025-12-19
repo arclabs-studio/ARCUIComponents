@@ -211,9 +211,14 @@ private struct ExampleCard: View {
                 Spacer()
             }
 
-            Text("This demonstrates how the liquid glass effect appears with real content. The background adapts to the system appearance and provides excellent readability.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+            Text(
+                """
+                This demonstrates how the liquid glass effect appears with real content. \
+                The background adapts to the system appearance and provides excellent readability.
+                """
+            )
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
         }
         .padding(.arcSpacingXLarge)
         .liquidGlass(configuration: configuration)
@@ -303,23 +308,23 @@ private enum ColorVariation: CaseIterable {
 
     var name: String {
         switch self {
-        case .blue: return "Blue"
-        case .purple: return "Purple"
-        case .green: return "Green"
-        case .orange: return "Orange"
-        case .pink: return "Pink"
-        case .indigo: return "Indigo"
+        case .blue: "Blue"
+        case .purple: "Purple"
+        case .green: "Green"
+        case .orange: "Orange"
+        case .pink: "Pink"
+        case .indigo: "Indigo"
         }
     }
 
     var color: Color {
         switch self {
-        case .blue: return .blue
-        case .purple: return .purple
-        case .green: return .green
-        case .orange: return .orange
-        case .pink: return .pink
-        case .indigo: return .indigo
+        case .blue: .blue
+        case .purple: .purple
+        case .green: .green
+        case .orange: .orange
+        case .pink: .pink
+        case .indigo: .indigo
         }
     }
 }
@@ -332,28 +337,28 @@ private enum ShadowVariation: CaseIterable {
 
     var name: String {
         switch self {
-        case .none: return "None"
-        case .subtle: return "Subtle"
-        case .default: return "Default"
-        case .prominent: return "Prominent"
+        case .none: "None"
+        case .subtle: "Subtle"
+        case .default: "Default"
+        case .prominent: "Prominent"
         }
     }
 
     var description: String {
         switch self {
-        case .none: return "No shadow"
-        case .subtle: return "Light shadow, 5pt offset"
-        case .default: return "Standard shadow, 10pt offset"
-        case .prominent: return "Strong shadow, 15pt offset"
+        case .none: "No shadow"
+        case .subtle: "Light shadow, 5pt offset"
+        case .default: "Standard shadow, 10pt offset"
+        case .prominent: "Strong shadow, 15pt offset"
         }
     }
 
     var shadow: ARCShadow {
         switch self {
-        case .none: return .none
-        case .subtle: return .subtle
-        case .default: return .default
-        case .prominent: return .prominent
+        case .none: .none
+        case .subtle: .subtle
+        case .default: .default
+        case .prominent: .prominent
         }
     }
 }
