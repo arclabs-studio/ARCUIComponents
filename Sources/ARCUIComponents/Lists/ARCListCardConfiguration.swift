@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// Configuration for ARCListCard appearance and behavior
@@ -88,9 +89,9 @@ public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
     public init(
         accentColor: Color = .blue,
         backgroundStyle: ARCBackgroundStyle = .translucent,
-        cornerRadius: CGFloat = 16,
+        cornerRadius: CGFloat = .arcCornerRadiusMedium,
         shadow: ARCShadow = .subtle,
-        spacing: CGFloat = 12,
+        spacing: CGFloat = .arcSpacingMedium,
         showsSeparator: Bool = false
     ) {
         self.accentColor = accentColor
@@ -109,14 +110,14 @@ public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
     /// Prominent configuration with liquid glass effect
     public static let prominent = ARCListCardConfiguration(
         backgroundStyle: .liquidGlass,
-        cornerRadius: 20,
+        cornerRadius: .arcCornerRadiusLarge,
         shadow: .default
     )
 
     /// Subtle configuration with minimal styling
     public static let subtle = ARCListCardConfiguration(
         backgroundStyle: .solid(Color(uiColor: .secondarySystemGroupedBackground), opacity: 1.0),
-        cornerRadius: 12,
+        cornerRadius: .arcCornerRadiusSmall,
         shadow: .none,
         showsSeparator: true
     )
@@ -125,7 +126,7 @@ public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
     public static let glassmorphic = ARCListCardConfiguration(
         accentColor: .pink,
         backgroundStyle: .liquidGlass,
-        cornerRadius: 18,
+        cornerRadius: .arcCornerRadiusMedium,
         shadow: .default
     )
 }

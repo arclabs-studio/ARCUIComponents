@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// List card component following Apple's Human Interface Guidelines
@@ -122,7 +123,7 @@ public struct ARCListCard<Accessories: View>: View {
                 }
 
                 // Text content
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
                     Text(title)
                         .font(.body.weight(.medium))
                         .foregroundStyle(.primary)
@@ -166,14 +167,14 @@ public struct ARCListCard<Accessories: View>: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: size, height: size)
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous))
                 case .failure:
                     Image(systemName: "photo")
                         .font(.title2)
                         .foregroundStyle(.secondary)
                         .frame(width: size, height: size)
                         .background(Color(.tertiarySystemFill))
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous))
                 @unknown default:
                     EmptyView()
                 }
@@ -185,14 +186,14 @@ public struct ARCListCard<Accessories: View>: View {
                 .foregroundStyle(color.gradient)
                 .frame(width: size, height: size)
                 .background(color.opacity(0.15))
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous))
 
         case .custom(let image, let size):
             image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: size, height: size)
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous))
         }
     }
 
@@ -276,7 +277,7 @@ private struct CardPressStyle: ButtonStyle {
 
 #Preview("Simple Cards") {
     ScrollView {
-        VStack(spacing: 16) {
+        VStack(spacing: .arcSpacingLarge) {
             ARCListCard(
                 title: "Simple Card",
                 subtitle: "Just title and subtitle"
@@ -296,7 +297,7 @@ private struct CardPressStyle: ButtonStyle {
 
 #Preview("With Images") {
     ScrollView {
-        VStack(spacing: 16) {
+        VStack(spacing: .arcSpacingLarge) {
             ARCListCard(
                 image: .system("music.note", color: .pink),
                 title: "Music Track",
@@ -324,7 +325,7 @@ private struct CardPressStyle: ButtonStyle {
     @Previewable @State var favorites: Set<String> = []
 
     ScrollView {
-        VStack(spacing: 16) {
+        VStack(spacing: .arcSpacingLarge) {
             ForEach(["Song 1", "Song 2", "Song 3"], id: \.self) { song in
                 ARCListCard(
                     image: .system("music.note", color: .pink),
@@ -357,8 +358,8 @@ private struct CardPressStyle: ButtonStyle {
 
 #Preview("Configurations") {
     ScrollView {
-        VStack(spacing: 24) {
-            VStack(alignment: .leading, spacing: 12) {
+        VStack(spacing: .arcSpacingXLarge) {
+            VStack(alignment: .leading, spacing: .arcSpacingMedium) {
                 Text("Default")
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
@@ -371,7 +372,7 @@ private struct CardPressStyle: ButtonStyle {
                 )
             }
 
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: .arcSpacingMedium) {
                 Text("Prominent")
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
@@ -384,7 +385,7 @@ private struct CardPressStyle: ButtonStyle {
                 )
             }
 
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: .arcSpacingMedium) {
                 Text("Glassmorphic")
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
@@ -410,7 +411,7 @@ private struct CardPressStyle: ButtonStyle {
 
 #Preview("Dark Mode") {
     ScrollView {
-        VStack(spacing: 16) {
+        VStack(spacing: .arcSpacingLarge) {
             ARCListCard(
                 configuration: .prominent,
                 image: .system("moon.stars.fill", color: .indigo),
