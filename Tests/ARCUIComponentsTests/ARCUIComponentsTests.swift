@@ -3,7 +3,20 @@ import Testing
 
 struct ARCUIComponentsTests {
     @Test
-    func helloFunction() {
-        #expect(ARCUIComponents.hello() == "Hello from ARCUIComponents!")
+    func versionIsNotEmpty() {
+        #expect(!ARCUIComponents.version.isEmpty)
+    }
+
+    @Test
+    func infoContainsVersion() {
+        #expect(ARCUIComponents.info.contains(ARCUIComponents.version))
+    }
+
+    @Test
+    func infoContainsComponentsList() {
+        let info = ARCUIComponents.info
+        #expect(info.contains("ARCMenu"))
+        #expect(info.contains("ARCFavoriteButton"))
+        #expect(info.contains("ARCListCard"))
     }
 }
