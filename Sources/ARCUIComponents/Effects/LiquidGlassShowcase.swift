@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// Showcase demonstrating the liquid glass effect with various configurations
@@ -25,9 +26,9 @@ public struct LiquidGlassShowcase: View {
 
     public var body: some View {
         ScrollView {
-            VStack(spacing: 32) {
+            VStack(spacing: .arcSpacingXXLarge) {
                 // Header
-                VStack(spacing: 8) {
+                VStack(spacing: .arcSpacingSmall) {
                     Text("Liquid Glass Effect")
                         .font(.largeTitle.bold())
 
@@ -38,7 +39,7 @@ public struct LiquidGlassShowcase: View {
                 .padding(.top)
 
                 // Examples
-                VStack(spacing: 40) {
+                VStack(spacing: 40) { // Intentionally larger than arcSpacingXXLarge for showcase
                     liquidGlassExample
                     translucentExample
                     solidExample
@@ -67,7 +68,7 @@ public struct LiquidGlassShowcase: View {
     // MARK: - Examples
 
     private var liquidGlassExample: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             SectionHeader(
                 title: "Liquid Glass",
                 subtitle: "Premium Apple-style effect"
@@ -76,14 +77,14 @@ public struct LiquidGlassShowcase: View {
             ExampleCard(configuration: LiquidGlassConfiguration(
                 accentColor: .blue,
                 backgroundStyle: .liquidGlass,
-                cornerRadius: 24,
+                cornerRadius: .arcCornerRadiusLarge,
                 shadow: .default
             ))
         }
     }
 
     private var translucentExample: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             SectionHeader(
                 title: "Translucent",
                 subtitle: "Standard blur with minimal accent"
@@ -92,14 +93,14 @@ public struct LiquidGlassShowcase: View {
             ExampleCard(configuration: LiquidGlassConfiguration(
                 accentColor: .green,
                 backgroundStyle: .translucent,
-                cornerRadius: 20,
+                cornerRadius: .arcCornerRadiusLarge,
                 shadow: .subtle
             ))
         }
     }
 
     private var solidExample: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             SectionHeader(
                 title: "Solid",
                 subtitle: "Custom color with opacity"
@@ -108,14 +109,14 @@ public struct LiquidGlassShowcase: View {
             ExampleCard(configuration: LiquidGlassConfiguration(
                 accentColor: .orange,
                 backgroundStyle: .solid(.orange, opacity: 0.3),
-                cornerRadius: 20,
+                cornerRadius: .arcCornerRadiusLarge,
                 shadow: .default
             ))
         }
     }
 
     private var materialExample: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             SectionHeader(
                 title: "Material",
                 subtitle: "Custom SwiftUI material"
@@ -124,14 +125,14 @@ public struct LiquidGlassShowcase: View {
             ExampleCard(configuration: LiquidGlassConfiguration(
                 accentColor: .purple,
                 backgroundStyle: .material(.thick),
-                cornerRadius: 20,
+                cornerRadius: .arcCornerRadiusLarge,
                 shadow: .default
             ))
         }
     }
 
     private var colorVariationsExample: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             SectionHeader(
                 title: "Color Variations",
                 subtitle: "Different accent colors"
@@ -140,13 +141,13 @@ public struct LiquidGlassShowcase: View {
             LazyVGrid(columns: [
                 GridItem(.flexible()),
                 GridItem(.flexible())
-            ], spacing: 16) {
+            ], spacing: .arcSpacingLarge) {
                 ForEach(ColorVariation.allCases, id: \.self) { variation in
                     SmallExampleCard(
                         configuration: LiquidGlassConfiguration(
                             accentColor: variation.color,
                             backgroundStyle: .liquidGlass,
-                            cornerRadius: 16,
+                            cornerRadius: .arcCornerRadiusMedium,
                             shadow: .subtle
                         ),
                         title: variation.name
@@ -157,19 +158,19 @@ public struct LiquidGlassShowcase: View {
     }
 
     private var shadowVariationsExample: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             SectionHeader(
                 title: "Shadow Variations",
                 subtitle: "Different shadow depths"
             )
 
-            VStack(spacing: 16) {
+            VStack(spacing: .arcSpacingLarge) {
                 ForEach(ShadowVariation.allCases, id: \.self) { variation in
                     MediumExampleCard(
                         configuration: LiquidGlassConfiguration(
                             accentColor: .blue,
                             backgroundStyle: .liquidGlass,
-                            cornerRadius: 20,
+                            cornerRadius: .arcCornerRadiusLarge,
                             shadow: variation.shadow
                         ),
                         title: variation.name,
@@ -198,7 +199,7 @@ private struct ExampleCard: View {
     let configuration: LiquidGlassConfiguration
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: .arcSpacingMedium) {
             HStack {
                 Image(systemName: "sparkles")
                     .font(.title2)
@@ -214,7 +215,7 @@ private struct ExampleCard: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
-        .padding(20)
+        .padding(.arcSpacingXLarge)
         .liquidGlass(configuration: configuration)
         .accessibilityElement(children: .combine)
     }
@@ -226,7 +227,7 @@ private struct SmallExampleCard: View {
     let title: String
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: .arcSpacingSmall) {
             Image(systemName: "circle.fill")
                 .font(.title)
                 .foregroundStyle(configuration.accentColor.gradient)
@@ -235,7 +236,7 @@ private struct SmallExampleCard: View {
                 .font(.caption.bold())
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 20)
+        .padding(.vertical, .arcSpacingXLarge)
         .liquidGlass(configuration: configuration)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title) liquid glass example")
@@ -249,12 +250,12 @@ private struct MediumExampleCard: View {
     let subtitle: String
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: .arcSpacingMedium) {
             Image(systemName: "shadow")
                 .font(.title2)
                 .foregroundStyle(.blue.gradient)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
                 Text(title)
                     .font(.headline)
 
@@ -265,7 +266,7 @@ private struct MediumExampleCard: View {
 
             Spacer()
         }
-        .padding(16)
+        .padding(.arcPaddingCard)
         .liquidGlass(configuration: configuration)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title): \(subtitle)")
@@ -280,7 +281,7 @@ private struct SectionHeader: View {
     let subtitle: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
             Text(title)
                 .font(.title2.bold())
 
