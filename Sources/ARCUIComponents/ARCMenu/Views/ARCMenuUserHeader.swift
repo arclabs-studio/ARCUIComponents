@@ -1,6 +1,10 @@
 import ARCDesignSystem
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 /// User profile header for ARCMenu
 ///
 /// Displays user information at the top of the menu, following Apple's
@@ -38,7 +42,9 @@ struct ARCMenuUserHeader: View {
     var body: some View {
         Button {
             onTap?()
+            #if os(iOS)
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            #endif
         } label: {
             HStack(spacing: .arcSpacingLarge) {
                 // Avatar

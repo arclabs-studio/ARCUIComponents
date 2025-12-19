@@ -58,12 +58,14 @@ public struct ARCEmptyStateShowcase: View {
                 .padding(.bottom, 40)
             }
             .navigationTitle("Empty States")
-            .navigationBarTitleDisplayMode(.large)
-            .alert("Action Triggered", isPresented: $showAlert) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text(alertMessage)
-            }
+            #if os(iOS)
+                .navigationBarTitleDisplayMode(.large)
+            #endif
+                .alert("Action Triggered", isPresented: $showAlert) {
+                    Button("OK", role: .cancel) {}
+                } message: {
+                    Text(alertMessage)
+                }
         }
     }
 
@@ -262,8 +264,12 @@ public struct ARCEmptyStateShowcase: View {
                     Spacer()
                 }
                 .frame(height: 400)
-                .background(Color(.systemGroupedBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+                #if os(iOS)
+                    .background(Color(.systemGroupedBackground))
+                #else
+                    .background(Color(nsColor: .controlBackgroundColor))
+                #endif
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
             }
 
             // Search Context
@@ -291,8 +297,12 @@ public struct ARCEmptyStateShowcase: View {
                     Spacer()
                 }
                 .frame(height: 400)
-                .background(Color(.systemBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+                #if os(iOS)
+                    .background(Color(.systemBackground))
+                #else
+                    .background(Color(nsColor: .windowBackgroundColor))
+                #endif
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
             }
         }
     }

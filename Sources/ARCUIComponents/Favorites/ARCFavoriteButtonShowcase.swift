@@ -58,7 +58,9 @@ public struct ARCFavoriteButtonShowcase: View {
                 .padding(.bottom, 40)
             }
             .navigationTitle("Favorite Button")
-            .navigationBarTitleDisplayMode(.large)
+            #if os(iOS)
+                .navigationBarTitleDisplayMode(.large)
+            #endif
         }
     }
 
@@ -156,7 +158,11 @@ public struct ARCFavoriteButtonShowcase: View {
                         }
                     }
                 }
+                #if os(iOS)
                 .background(Color(.systemBackground))
+                #else
+                .background(Color(nsColor: .windowBackgroundColor))
+                #endif
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
 
@@ -205,7 +211,11 @@ public struct ARCFavoriteButtonShowcase: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 250)
                 }
+                #if os(iOS)
                 .background(Color(.systemGroupedBackground))
+                #else
+                .background(Color(nsColor: .controlBackgroundColor))
+                #endif
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
         }
@@ -294,8 +304,12 @@ private struct ColorExample: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 20)
-        .background(Color(.secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        #if os(iOS)
+            .background(Color(.secondarySystemGroupedBackground))
+        #else
+            .background(Color(nsColor: .underPageBackgroundColor))
+        #endif
+            .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
@@ -337,7 +351,11 @@ private struct ContentCard: View {
             }
             .padding()
         }
+        #if os(iOS)
         .background(Color(.systemBackground))
+        #else
+        .background(Color(nsColor: .windowBackgroundColor))
+        #endif
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.1), radius: 10, y: 4)
     }

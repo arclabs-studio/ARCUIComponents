@@ -8,6 +8,14 @@
 import ARCDesignSystem
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
+#if canImport(AppKit)
+import AppKit
+#endif
+
 /// Configuration for ARCListCard appearance and behavior
 ///
 /// Provides customization options for list card appearance while maintaining
@@ -115,12 +123,21 @@ public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
     )
 
     /// Subtle configuration with minimal styling
+    #if os(iOS)
     public static let subtle = ARCListCardConfiguration(
         backgroundStyle: .solid(Color(uiColor: .secondarySystemGroupedBackground), opacity: 1.0),
         cornerRadius: .arcCornerRadiusSmall,
         shadow: .none,
         showsSeparator: true
     )
+    #else
+    public static let subtle = ARCListCardConfiguration(
+        backgroundStyle: .solid(Color(nsColor: .underPageBackgroundColor), opacity: 1.0),
+        cornerRadius: .arcCornerRadiusSmall,
+        shadow: .none,
+        showsSeparator: true
+    )
+    #endif
 
     /// Glassmorphic configuration matching Apple Music style
     public static let glassmorphic = ARCListCardConfiguration(

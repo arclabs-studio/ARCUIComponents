@@ -8,6 +8,10 @@
 import ARCDesignSystem
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 /// Search button component following Apple's Human Interface Guidelines
 ///
 /// A button for triggering search functionality, matching the design patterns
@@ -176,8 +180,10 @@ public struct ARCSearchButton: View {
 
     private func handleTap() {
         // Provide haptic feedback
+        #if os(iOS)
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
+        #endif
 
         // Perform action
         action()
@@ -270,11 +276,19 @@ private struct SearchButtonPressStyle: ButtonStyle {
         }
         .navigationTitle("Search Demo")
         .toolbar {
+            #if os(iOS)
             ToolbarItem(placement: .topBarTrailing) {
                 ARCSearchButton {
                     print("Search tapped")
                 }
             }
+            #else
+            ToolbarItem(placement: .automatic) {
+                ARCSearchButton {
+                    print("Search tapped")
+                }
+            }
+            #endif
         }
     }
 }

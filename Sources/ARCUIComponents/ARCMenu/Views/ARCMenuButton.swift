@@ -167,6 +167,7 @@ extension View {
         badgeCount: Int = 0
     ) -> some View {
         toolbar {
+            #if os(iOS)
             ToolbarItem(placement: .topBarTrailing) {
                 ARCMenuButton(
                     viewModel: viewModel,
@@ -174,6 +175,15 @@ extension View {
                     badgeCount: badgeCount
                 )
             }
+            #else
+            ToolbarItem(placement: .automatic) {
+                ARCMenuButton(
+                    viewModel: viewModel,
+                    showsBadge: showsBadge,
+                    badgeCount: badgeCount
+                )
+            }
+            #endif
         }
     }
 }
@@ -207,8 +217,10 @@ extension View {
             }
         }
         .navigationTitle("ARCMenu Demo")
-        .navigationBarTitleDisplayMode(.inline)
-        .arcMenuButton(viewModel: viewModel)
+        #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+        #endif
+            .arcMenuButton(viewModel: viewModel)
     }
 }
 

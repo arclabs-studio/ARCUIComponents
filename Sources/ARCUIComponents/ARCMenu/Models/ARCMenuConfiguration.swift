@@ -1,6 +1,10 @@
 import ARCDesignSystem
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 /// Configuration for ARCMenu appearance and behavior
 ///
 /// Provides extensive customization options while maintaining
@@ -141,6 +145,7 @@ public enum ARCMenuHapticStyle: Sendable {
     /// Performs the haptic feedback
     @MainActor
     func perform() {
+        #if os(iOS)
         switch self {
         case .none:
             break
@@ -155,5 +160,6 @@ public enum ARCMenuHapticStyle: Sendable {
         case .rigid:
             UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
         }
+        #endif
     }
 }

@@ -8,6 +8,10 @@
 import ARCDesignSystem
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 /// List card component following Apple's Human Interface Guidelines
 ///
 /// A versatile card for displaying content in lists, matching patterns found in
@@ -173,7 +177,11 @@ public struct ARCListCard<Accessories: View>: View {
                         .font(.title2)
                         .foregroundStyle(.secondary)
                         .frame(width: size, height: size)
+                    #if os(iOS)
                         .background(Color(.tertiarySystemFill))
+                    #else
+                        .background(Color(nsColor: .tertiaryLabelColor).opacity(0.1))
+                    #endif
                         .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous))
                 @unknown default:
                     EmptyView()
@@ -203,8 +211,10 @@ public struct ARCListCard<Accessories: View>: View {
         guard let action else { return }
 
         // Provide haptic feedback
+        #if os(iOS)
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
+        #endif
 
         // Perform action
         action()
@@ -292,7 +302,11 @@ private struct CardPressStyle: ButtonStyle {
         }
         .padding()
     }
+    #if os(iOS)
     .background(Color(.systemGroupedBackground))
+    #else
+    .background(Color(nsColor: .controlBackgroundColor))
+    #endif
 }
 
 #Preview("With Images") {
@@ -318,7 +332,11 @@ private struct CardPressStyle: ButtonStyle {
         }
         .padding()
     }
+    #if os(iOS)
     .background(Color(.systemGroupedBackground))
+    #else
+    .background(Color(nsColor: .controlBackgroundColor))
+    #endif
 }
 
 #Preview("With Accessories") {
@@ -354,7 +372,11 @@ private struct CardPressStyle: ButtonStyle {
         }
         .padding()
     }
+    #if os(iOS)
     .background(Color(.systemGroupedBackground))
+    #else
+    .background(Color(nsColor: .controlBackgroundColor))
+    #endif
 }
 
 #Preview("Configurations") {
@@ -422,6 +444,10 @@ private struct CardPressStyle: ButtonStyle {
         }
         .padding()
     }
+    #if os(iOS)
     .background(Color(.systemGroupedBackground))
+    #else
+    .background(Color(nsColor: .controlBackgroundColor))
+    #endif
     .preferredColorScheme(.dark)
 }

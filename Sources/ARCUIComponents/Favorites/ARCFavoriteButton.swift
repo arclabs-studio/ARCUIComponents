@@ -8,6 +8,10 @@
 import ARCDesignSystem
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 /// Favorite button component following Apple's Human Interface Guidelines
 ///
 /// An animated toggle button for marking content as favorite, matching the
@@ -127,10 +131,12 @@ public struct ARCFavoriteButton: View {
 
     private func toggleFavorite() {
         // Provide haptic feedback
+        #if os(iOS)
         if configuration.hapticFeedback {
             let generator = UIImpactFeedbackGenerator(style: .medium)
             generator.impactOccurred()
         }
+        #endif
 
         // Animate state change
         withAnimation(.spring(response: configuration.animationDuration, dampingFraction: 0.6)) {

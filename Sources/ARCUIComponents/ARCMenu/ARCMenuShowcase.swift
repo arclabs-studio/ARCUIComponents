@@ -2,6 +2,14 @@
 
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
+#if canImport(AppKit)
+import AppKit
+#endif
+
 /// ARCMenu Showcase - Interactive Demo
 ///
 /// A comprehensive showcase demonstrating all ARCMenu variants,
@@ -53,9 +61,15 @@ public struct ARCMenuShowcase: View {
                 }
                 .padding(.bottom, 40)
             }
+            #if os(iOS)
             .background(Color(uiColor: .systemGroupedBackground))
+            #else
+            .background(Color(nsColor: .controlBackgroundColor))
+            #endif
             .navigationTitle("ARCMenu Showcase")
-            .navigationBarTitleDisplayMode(.large)
+            #if os(iOS)
+                .navigationBarTitleDisplayMode(.large)
+            #endif
         }
     }
 
@@ -118,7 +132,11 @@ public struct ARCMenuShowcase: View {
         .padding(20)
         .background {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
         }
         .padding(.horizontal, 20)
     }
@@ -229,7 +247,12 @@ public struct ARCMenuShowcase: View {
                 Button {
                     // Copy to clipboard
                     let code = generateCodeExample()
+                    #if os(iOS)
                     UIPasteboard.general.string = code
+                    #else
+                    NSPasteboard.general.clearContents()
+                    NSPasteboard.general.setString(code, forType: .string)
+                    #endif
                 } label: {
                     Label("Copy", systemImage: "doc.on.doc.fill")
                         .font(.subheadline)
@@ -446,7 +469,11 @@ private struct StyleCard: View {
             .padding(.vertical, 16)
             .background {
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
+                #if os(iOS)
                     .fill(Color(uiColor: .secondarySystemGroupedBackground))
+                #else
+                    .fill(Color(nsColor: .underPageBackgroundColor))
+                #endif
                     .overlay {
                         if isSelected {
                             RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -494,7 +521,11 @@ private struct VariantCard: View {
             .padding(12)
             .background {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
+                #if os(iOS)
                     .fill(Color(uiColor: .secondarySystemGroupedBackground))
+                #else
+                    .fill(Color(nsColor: .underPageBackgroundColor))
+                #endif
                     .overlay {
                         if isSelected {
                             RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -533,7 +564,11 @@ private struct OptionToggle: View {
         .padding(16)
         .background {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
         }
     }
 }
@@ -588,7 +623,11 @@ private struct OptionStepper: View {
         .padding(16)
         .background {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
         }
     }
 }
@@ -607,7 +646,11 @@ private struct CodeBlock: View {
         }
         .background {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
                 .overlay {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .strokeBorder(accentColor.opacity(0.3), lineWidth: 1)
@@ -768,7 +811,11 @@ private struct GalleryCard: View {
         .padding(16)
         .background {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
         }
         .arcMenu(viewModel: viewModel)
     }

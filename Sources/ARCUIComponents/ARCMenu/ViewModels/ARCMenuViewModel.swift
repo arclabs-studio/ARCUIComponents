@@ -2,6 +2,10 @@ import ARCDesignSystem
 import Observation
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 /// View model for ARCMenu
 ///
 /// Manages menu state, animations, and user interactions.
@@ -34,7 +38,9 @@ public final class ARCMenuViewModel {
 
     // MARK: - Private State
 
+    #if os(iOS)
     private var feedbackGenerator: UIImpactFeedbackGenerator?
+    #endif
 
     // MARK: - Initialization
 
@@ -122,7 +128,9 @@ public final class ARCMenuViewModel {
     /// - Parameter item: The menu item to execute
     public func executeAction(for item: ARCMenuItem) {
         // Perform light haptic for item selection
+        #if os(iOS)
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        #endif
 
         // Dismiss menu first for better UX
         dismiss()
@@ -137,16 +145,20 @@ public final class ARCMenuViewModel {
     // MARK: - Private Methods
 
     private func prepareFeedbackGenerator() {
+        #if os(iOS)
         feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
         feedbackGenerator?.prepare()
+        #endif
     }
 
     private func triggerDismissalHaptic() {
+        #if os(iOS)
         // Only trigger once at threshold
         if dragOffset == configuration.dragDismissalThreshold {
             feedbackGenerator?.impactOccurred()
             feedbackGenerator?.prepare()
         }
+        #endif
     }
 }
 
