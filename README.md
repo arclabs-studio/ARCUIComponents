@@ -7,51 +7,38 @@
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 [![SwiftUI](https://img.shields.io/badge/SwiftUI-✓-green.svg)](https://developer.apple.com/xcode/swiftui/)
 
+---
+
+## 🎯 Overview
+
 A modern Swift package providing beautifully designed, reusable UI components that feel native to Apple's ecosystem. Built with **Clean Architecture**, **Swift 6**, and the latest **SwiftUI** features.
 
----
+### Components
 
-## ✨ Components
-
-### ARCMenu
-
-A sophisticated menu component featuring Apple's **Liquid Glass** effect, as seen in apps like Music, Podcasts, and Fitness.
-
-<details>
-<summary><strong>🎯 Features</strong></summary>
-
-- **Liquid Glass Effect**: Beautiful glassmorphism with ultra-thin materials
-- **Smooth Animations**: Spring-based animations following Apple's curves
-- **Gesture Support**: Drag-to-dismiss with haptic feedback
-- **User Profile Section**: Customizable header with avatar
-- **Flexible Menu Items**: Pre-built and custom item support
-- **Badge Support**: For notifications and counts
-- **Destructive Actions**: Specially styled (e.g., Logout)
-- **Full Customization**: Colors, sizing, behavior
-- **Swift 6 Ready**: Complete concurrency support
-- **Clean Architecture**: Separation of concerns
-- **Type-Safe**: Leverages Swift's type system
-- **Dark Mode**: Automatic adaptation
-- **Accessibility**: VoiceOver and Dynamic Type support
-
-</details>
-
-<details>
-<summary><strong>📸 Screenshots</strong></summary>
-
-The menu includes:
-- **Top-right button** with avatar or icon
-- **User header** with photo, name, and subtitle
-- **Customizable menu items** (Settings, Profile, Plan, etc.)
-- **Liquid glass background** with blur and vibrancy
-- **Smooth slide-in/out** animations
-- **Drag gesture** to dismiss
-
-</details>
+| Component | Description |
+|-----------|-------------|
+| **ARCMenu** | Slide-in menu with Liquid Glass effect, user profile, and customizable items |
+| **ARCFavoriteButton** | Animated toggle button with haptic feedback and spring animations |
+| **ARCListCard** | Versatile card for lists with images, accessories, and multiple styles |
+| **ARCSearchButton** | Search button with multiple styles (default, prominent, minimal) |
+| **ARCEmptyState** | Empty state views for various scenarios (no data, errors, offline) |
+| **LiquidGlass** | Glassmorphism effect modifier for any view |
 
 ---
 
-## 📦 Installation
+## 📋 Requirements
+
+| Requirement | Version |
+|-------------|---------|
+| **iOS** | 17.0+ |
+| **iPadOS** | 17.0+ |
+| **macOS** | 14.0+ (compiles, iOS-optimized) |
+| **Swift** | 6.0+ |
+| **Xcode** | 16.0+ |
+
+---
+
+## 🚀 Installation
 
 ### Swift Package Manager
 
@@ -74,7 +61,9 @@ dependencies: [
 
 ---
 
-## 🎪 Interactive Showcase
+## 📖 Usage
+
+### Interactive Showcase
 
 Want to see all the menu variations in action? We've included an **interactive showcase**!
 
@@ -107,11 +96,7 @@ Perfect for:
 - 📚 Learning the API
 - ✅ Visual QA testing
 
----
-
-## 🚀 Quick Start
-
-### Basic Implementation
+### Quick Start
 
 ```swift
 import SwiftUI
@@ -148,11 +133,9 @@ struct ContentView: View {
 
 That's it! You now have a fully functional, beautiful menu. 🎉
 
----
+### API Reference
 
-## 📖 Documentation
-
-### Creating a Menu
+#### Creating a Menu
 
 #### 1. Define Your User
 
@@ -393,37 +376,6 @@ ARCMenu/
 
 ---
 
-## ⚙️ Requirements
-
-| Platform | Minimum Version | Status |
-|----------|-----------------|--------|
-| **iOS** | 17.0+ | ✅ Full Support |
-| **iPadOS** | 17.0+ | ✅ Full Support |
-| **macOS** | 14.0+ | ⚠️ Compiles (components designed for iOS) |
-| **Swift** | 6.0+ | ✅ Required |
-| **Xcode** | 16.0+ | ✅ Required |
-
-### Platform Strategy
-
-Current components are **designed for iOS/iPadOS**, following mobile-first interaction patterns:
-- Touch-optimized targets (44x44pt)
-- Haptic feedback integration
-- Slide-in menu presentations
-- Liquid glass effects optimized for mobile
-
-> **macOS Compatibility**: The package compiles on macOS 14+ to satisfy Swift Package Manager dependency resolution.
-> However, current components use iOS-centric design patterns. **Native macOS components are planned for future releases.**
-
-### Future Platform Support
-
-We're working on platform-native components:
-- 🔜 **macOS** - Native AppKit-style components (popovers, sidebars, menu bar integration)
-- 🔜 **visionOS** - Spatial UI components
-- 🔜 **tvOS** - Focus-based navigation components
-- 🔜 **watchOS** - Compact UI components
-
----
-
 ## 🎯 Design Philosophy
 
 ### Apple First
@@ -447,6 +399,31 @@ Leverages Swift's type system for compile-time safety. No stringly-typed APIs or
 - Testable architecture
 - Comprehensive documentation
 - Meaningful naming
+
+---
+
+## 🧪 Testing
+
+### Running Tests
+
+```bash
+# Run all tests
+swift test
+
+# Run with verbose output
+swift test --verbose
+```
+
+### Demo App
+
+A standalone demo app is available in `Examples/ARCUIComponentsDemo/`:
+
+```bash
+cd Examples/ARCUIComponentsDemo
+open ARCUIComponentsDemo.xcodeproj
+```
+
+The demo showcases all components with interactive examples.
 
 ---
 
