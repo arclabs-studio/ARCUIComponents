@@ -21,15 +21,7 @@ let package = Package(
         .target(
             name: "ARCUIComponents",
             dependencies: ["ARCDesignSystem"],
-            path: "Sources",
-            swiftSettings: [
-                .enableUpcomingFeature("BareSlashRegexLiterals"),
-                .enableUpcomingFeature("ConciseMagicFile"),
-                .enableUpcomingFeature("ExistentialAny"),
-                .enableUpcomingFeature("StrictConcurrency"),
-                .enableUpcomingFeature("ImplicitOpenExistentials"),
-                .enableUpcomingFeature("DeprecateApplicationMain")
-            ]
+            path: "Sources"
         ),
         .testTarget(
             name: "ARCUIComponentsTests",
