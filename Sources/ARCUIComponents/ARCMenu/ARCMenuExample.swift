@@ -1,11 +1,3 @@
-//
-//  ARCMenuExample.swift
-//  ARCUIComponents
-//
-//  Created by ARC Labs Studio on 11/14/25.
-//
-
-import ARCDesignSystem
 import SwiftUI
 
 /// Example implementation of ARCMenu
@@ -14,7 +6,7 @@ import SwiftUI
 /// with various configuration options and use cases.
 ///
 /// Copy and adapt these examples to your needs.
-@available(iOS 17.0, *)
+@available(iOS 17.0, macOS 14.0, *)
 struct ARCMenuExample: View {
     // MARK: - View Model
 
@@ -26,7 +18,7 @@ struct ARCMenuExample: View {
         // Create a view model with user and standard menu items
         _viewModel = State(initialValue: ARCMenuViewModel.standard(
             user: ARCMenuUser(
-                name: "Carlos Ramirez",
+                name: "Carlos Rodriguez",
                 email: "carlos@arclabs.studio",
                 subtitle: "Premium Member",
                 avatarImage: .initials("CR")
@@ -78,32 +70,32 @@ struct ARCMenuExample: View {
 
     private var contentView: some View {
         ScrollView {
-            VStack(spacing: .arcSpacingXXLarge) {
+            VStack(spacing: 30) {
                 // Hero Section
-                VStack(spacing: .arcSpacingLarge) {
+                VStack(spacing: 16) {
                     Image(systemName: "menucard.fill")
                         .font(.system(size: 80))
                         .foregroundStyle(
                             LinearGradient(
-                                colors: [.arcHighlight, .arcHighlight.opacity(0.6)],
+                                colors: [.blue, .purple],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
                         )
 
                     Text("ARCMenu")
-                        .font(.arcFontTitleLarge)
+                        .font(.system(size: 40, weight: .bold, design: .rounded))
 
                     Text("Premium menu component following Apple's HIG")
-                        .font(.arcFontBodyLarge)
-                        .foregroundStyle(Color.arcTextSecondary)
+                        .font(.body)
+                        .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, CGFloat.arcSpacingXXLarge + CGFloat.arcSpacingSmall)
+                        .padding(.horizontal, 40)
                 }
-                .padding(.top, CGFloat.arcSpacingXXLarge + CGFloat.arcSpacingLarge)
+                .padding(.top, 40)
 
                 // Features
-                VStack(spacing: .arcSpacingLarge) {
+                VStack(spacing: 20) {
                     FeatureCard(
                         icon: "sparkles",
                         title: "Liquid Glass Effect",
@@ -128,22 +120,22 @@ struct ARCMenuExample: View {
                         description: "Modern, safe, and performant code"
                     )
                 }
-                .padding(.horizontal, .arcSpacingXLarge)
+                .padding(.horizontal, 20)
 
                 // Call to Action
-                VStack(spacing: .arcSpacingMedium) {
+                VStack(spacing: 12) {
                     Text("Try it out!")
-                        .font(.arcFontTitleSmall)
+                        .font(.headline)
 
                     Text("Tap the button in the top-right corner")
-                        .font(.arcFontBodyMedium)
-                        .foregroundStyle(Color.arcTextSecondary)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
-                .padding(.top, .arcSpacingLarge)
+                .padding(.top, 20)
             }
-            .padding(.bottom, .arcSpacingXXLarge)
+            .padding(.bottom, 40)
         }
-        .background(Color.arcBackgroundPrimary)
+        .background(Color(uiColor: .systemGroupedBackground))
     }
 }
 
@@ -155,32 +147,31 @@ private struct FeatureCard: View {
     let description: String
 
     var body: some View {
-        HStack(spacing: .arcSpacingLarge) {
+        HStack(spacing: 16) {
             Image(systemName: icon)
-                .font(.arcFontTitleSmall)
-                .foregroundStyle(.arcHighlight)
+                .font(.title2)
+                .foregroundStyle(.blue)
                 .frame(width: 44, height: 44)
                 .background {
-                    RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous)
-                        .fill(Color.arcHighlight.opacity(0.1))
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .fill(.blue.opacity(0.1))
                 }
 
-            VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(title)
-                    .font(.arcFontBodyLarge)
-                    .fontWeight(.semibold)
+                    .font(.headline)
 
                 Text(description)
-                    .font(.arcFontBodyMedium)
-                    .foregroundStyle(Color.arcTextSecondary)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
             }
 
             Spacer()
         }
-        .padding(.arcSpacingLarge)
+        .padding(16)
         .background {
-            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                .fill(Color.arcBackgroundSecondary.opacity(0.9))
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color(uiColor: .secondarySystemGroupedBackground))
         }
     }
 }

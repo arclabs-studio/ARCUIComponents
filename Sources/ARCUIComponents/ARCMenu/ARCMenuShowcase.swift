@@ -1,11 +1,3 @@
-//
-//  ARCMenuShowcase.swift
-//  ARCUIComponents
-//
-//  Created by ARC Labs Studio on 11/14/25.
-//
-
-import ARCDesignSystem
 import SwiftUI
 
 /// ARCMenu Showcase - Interactive Demo
@@ -20,7 +12,7 @@ import SwiftUI
 /// - Design reference
 /// - Integration examples
 /// - Feature exploration
-@available(iOS 17.0, *)
+@available(iOS 17.0, macOS 14.0, *)
 public struct ARCMenuShowcase: View {
     // MARK: - State
 
@@ -57,9 +49,9 @@ public struct ARCMenuShowcase: View {
                     // All Styles Gallery
                     allStylesGallery
                 }
-                .padding(.bottom, .arcSpacingXXLarge)
+                .padding(.bottom, 40)
             }
-            .background(Color.arcBackgroundPrimary)
+            .background(Color(uiColor: .systemGroupedBackground))
             .navigationTitle("ARCMenu Showcase")
             .navigationBarTitleDisplayMode(.large)
         }
@@ -68,7 +60,7 @@ public struct ARCMenuShowcase: View {
     // MARK: - Hero Section
 
     private var heroSection: some View {
-        VStack(spacing: .arcSpacingLarge) {
+        VStack(spacing: 16) {
             Image(systemName: "menucard.fill")
                 .font(.system(size: 70))
                 .foregroundStyle(
@@ -81,30 +73,28 @@ public struct ARCMenuShowcase: View {
                 .symbolEffect(.bounce, value: selectedStyle)
 
             Text("ARCMenu Showcase")
-                .font(.arcFontTitleLarge)
-                .fontWeight(.bold)
+                .font(.system(size: 34, weight: .bold, design: .rounded))
 
             Text("Explore all menu configurations and styles")
-                .font(.arcFontBodyMedium)
-                .foregroundStyle(Color.arcTextSecondary)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
-        .padding(.top, .arcSpacingXLarge)
-        .padding(.horizontal, .arcSpacingXLarge)
+        .padding(.top, 20)
+        .padding(.horizontal, 30)
     }
 
     // MARK: - Live Preview Card
 
     private var livePreviewCard: some View {
-        VStack(spacing: .arcSpacingLarge) {
+        VStack(spacing: 20) {
             HStack {
-                VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text("Live Preview")
-                        .font(.arcFontTitleSmall)
-                        .fontWeight(.semibold)
+                        .font(.headline)
 
                     Text(selectedStyle.name)
-                        .font(.arcFontBodyMedium)
+                        .font(.subheadline)
                         .foregroundStyle(selectedStyle.accentColor)
                 }
 
@@ -123,37 +113,37 @@ public struct ARCMenuShowcase: View {
                 showUserHeader: showUserHeader
             )
         }
-        .padding(.arcSpacingXLarge)
+        .padding(20)
         .background {
-            RoundedRectangle(cornerRadius: .arcCornerRadiusLarge, style: .continuous)
-                .fill(Color.arcBackgroundSecondary.opacity(0.95))
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(Color(uiColor: .secondarySystemGroupedBackground))
         }
-        .padding(.horizontal, .arcSpacingXLarge)
+        .padding(.horizontal, 20)
     }
 
     // MARK: - Style Selector Section
 
     private var styleSelectorSection: some View {
-        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Style Presets")
-                .font(.arcFontTitleMedium)
+                .font(.title2)
                 .fontWeight(.bold)
-                .padding(.horizontal, .arcSpacingXLarge)
+                .padding(.horizontal, 20)
 
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: .arcSpacingMedium) {
+                HStack(spacing: 12) {
                     ForEach(ShowcaseStyle.allCases) { style in
                         StyleCard(
                             style: style,
                             isSelected: selectedStyle == style
                         ) {
-                            withAnimation(.arcAnimationSmooth) {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                 selectedStyle = style
                             }
                         }
                     }
                 }
-                .padding(.horizontal, .arcSpacingXLarge)
+                .padding(.horizontal, 20)
             }
         }
     }
@@ -161,26 +151,26 @@ public struct ARCMenuShowcase: View {
     // MARK: - Variant Selector Section
 
     private var variantSelectorSection: some View {
-        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Menu Variants")
-                .font(.arcFontTitleMedium)
+                .font(.title2)
                 .fontWeight(.bold)
-                .padding(.horizontal, .arcSpacingXLarge)
+                .padding(.horizontal, 20)
 
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: .arcSpacingMedium) {
+                HStack(spacing: 12) {
                     ForEach(ShowcaseVariant.allCases) { variant in
                         VariantCard(
                             variant: variant,
                             isSelected: selectedVariant == variant
                         ) {
-                            withAnimation(.arcAnimationSmooth) {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                                 selectedVariant = variant
                             }
                         }
                     }
                 }
-                .padding(.horizontal, .arcSpacingXLarge)
+                .padding(.horizontal, 20)
             }
         }
     }
@@ -188,13 +178,13 @@ public struct ARCMenuShowcase: View {
     // MARK: - Options Section
 
     private var optionsSection: some View {
-        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Customization Options")
-                .font(.arcFontTitleMedium)
+                .font(.title2)
                 .fontWeight(.bold)
-                .padding(.horizontal, .arcSpacingXLarge)
+                .padding(.horizontal, 20)
 
-            VStack(spacing: .arcSpacingMedium) {
+            VStack(spacing: 12) {
                 OptionToggle(
                     title: "Show Badge",
                     icon: "circle.badge.fill",
@@ -219,17 +209,17 @@ public struct ARCMenuShowcase: View {
                     accentColor: selectedStyle.accentColor
                 )
             }
-            .padding(.horizontal, .arcSpacingXLarge)
+            .padding(.horizontal, 20)
         }
     }
 
     // MARK: - Code Example Section
 
     private var codeExampleSection: some View {
-        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+        VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text("Code Example")
-                    .font(.arcFontTitleMedium)
+                    .font(.title2)
                     .fontWeight(.bold)
 
                 Spacer()
@@ -240,35 +230,35 @@ public struct ARCMenuShowcase: View {
                     UIPasteboard.general.string = code
                 } label: {
                     Label("Copy", systemImage: "doc.on.doc.fill")
-                        .font(.arcFontBodyMedium)
+                        .font(.subheadline)
                         .foregroundStyle(selectedStyle.accentColor)
                 }
             }
-            .padding(.horizontal, .arcSpacingXLarge)
+            .padding(.horizontal, 20)
 
             CodeBlock(
                 code: generateCodeExample(),
                 accentColor: selectedStyle.accentColor
             )
-            .padding(.horizontal, .arcSpacingXLarge)
+            .padding(.horizontal, 20)
         }
     }
 
     // MARK: - All Styles Gallery
 
     private var allStylesGallery: some View {
-        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Complete Gallery")
-                .font(.arcFontTitleMedium)
+                .font(.title2)
                 .fontWeight(.bold)
-                .padding(.horizontal, .arcSpacingXLarge)
+                .padding(.horizontal, 20)
 
-            VStack(spacing: .arcSpacingLarge) {
+            VStack(spacing: 20) {
                 ForEach(ShowcaseStyle.allCases) { style in
                     GalleryCard(style: style)
                 }
             }
-            .padding(.horizontal, .arcSpacingXLarge)
+            .padding(.horizontal, 20)
         }
     }
 
@@ -425,9 +415,9 @@ private struct StyleCard: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: .arcSpacingMedium) {
+            VStack(spacing: 12) {
                 Image(systemName: style.icon)
-                    .font(.arcFontTitleSmall)
+                    .font(.title)
                     .foregroundStyle(
                         isSelected ? style.accentColor : Color.secondary
                     )
@@ -437,24 +427,24 @@ private struct StyleCard: View {
                             .fill(style.accentColor.opacity(isSelected ? 0.2 : 0.05))
                     }
 
-                VStack(spacing: .arcSpacingXSmall) {
+                VStack(spacing: 4) {
                     Text(style.name)
-                        .font(.arcFontBodyMedium)
+                        .font(.subheadline)
                         .fontWeight(isSelected ? .semibold : .regular)
 
                     Text(style.description)
-                        .font(.arcFontLabelSmall)
-                        .foregroundStyle(Color.arcTextSecondary)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
                 }
             }
             .frame(width: 120)
-            .padding(.vertical, .arcSpacingLarge)
+            .padding(.vertical, 16)
             .background {
-                RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                    .fill(Color.arcBackgroundSecondary.opacity(0.95))
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(Color(uiColor: .secondarySystemGroupedBackground))
                     .overlay {
                         if isSelected {
-                            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
                                 .strokeBorder(style.accentColor, lineWidth: 2)
                         }
                     }
@@ -473,37 +463,37 @@ private struct VariantCard: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: .arcSpacingMedium) {
+            HStack(spacing: 12) {
                 Image(systemName: variant.icon)
-                    .font(.arcFontTitleSmall)
-                    .foregroundStyle(isSelected ? Color.arcHighlight : Color.secondary)
+                    .font(.title3)
+                    .foregroundStyle(isSelected ? Color.blue : Color.secondary)
                     .frame(width: 30, height: 30)
 
-                VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(variant.name)
-                        .font(.arcFontBodyMedium)
+                        .font(.subheadline)
                         .fontWeight(isSelected ? .semibold : .regular)
 
                     Text(variant.description)
-                        .font(.arcFontBodySmall)
-                        .foregroundStyle(Color.arcTextSecondary)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
 
                 Spacer()
 
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(.arcHighlight)
+                        .foregroundStyle(.blue)
                 }
             }
-            .padding(.arcSpacingMedium)
+            .padding(12)
             .background {
-                RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                    .fill(Color.arcBackgroundSecondary.opacity(0.95))
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(Color(uiColor: .secondarySystemGroupedBackground))
                     .overlay {
                         if isSelected {
-                            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                                .strokeBorder(Color.arcHighlight, lineWidth: 2)
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .strokeBorder(Color.blue, lineWidth: 2)
                         }
                     }
             }
@@ -521,13 +511,13 @@ private struct OptionToggle: View {
     let accentColor: Color
 
     var body: some View {
-        HStack(spacing: .arcSpacingSmall) {
+        HStack {
             Image(systemName: icon)
                 .foregroundStyle(accentColor)
                 .frame(width: 30)
 
             Text(title)
-                .font(.arcFontBodyLarge)
+                .font(.body)
 
             Spacer()
 
@@ -535,10 +525,10 @@ private struct OptionToggle: View {
                 .labelsHidden()
                 .tint(accentColor)
         }
-        .padding(.arcSpacingLarge)
+        .padding(16)
         .background {
-            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                .fill(Color.arcBackgroundSecondary.opacity(0.95))
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(Color(uiColor: .secondarySystemGroupedBackground))
         }
     }
 }
@@ -553,29 +543,29 @@ private struct OptionStepper: View {
     let accentColor: Color
 
     var body: some View {
-        HStack(spacing: .arcSpacingSmall) {
+        HStack {
             Image(systemName: icon)
                 .foregroundStyle(accentColor)
                 .frame(width: 30)
 
             Text(title)
-                .font(.arcFontBodyLarge)
+                .font(.body)
 
             Spacer()
 
-            HStack(spacing: .arcSpacingMedium) {
+            HStack(spacing: 12) {
                 Button {
                     if value > range.lowerBound {
                         value -= 1
                     }
                 } label: {
                     Image(systemName: "minus.circle.fill")
-                        .font(.arcFontTitleSmall)
+                        .font(.title3)
                         .foregroundStyle(accentColor)
                 }
 
                 Text("\(value)")
-                    .font(.arcFontBodyLarge)
+                    .font(.body)
                     .fontWeight(.semibold)
                     .frame(minWidth: 30)
 
@@ -585,15 +575,15 @@ private struct OptionStepper: View {
                     }
                 } label: {
                     Image(systemName: "plus.circle.fill")
-                        .font(.arcFontTitleSmall)
+                        .font(.title3)
                         .foregroundStyle(accentColor)
                 }
             }
         }
-        .padding(.arcSpacingLarge)
+        .padding(16)
         .background {
-            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                .fill(Color.arcBackgroundSecondary.opacity(0.95))
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(Color(uiColor: .secondarySystemGroupedBackground))
         }
     }
 }
@@ -608,14 +598,13 @@ private struct CodeBlock: View {
         ScrollView(.horizontal, showsIndicators: false) {
             Text(code)
                 .font(.system(size: 13, design: .monospaced))
-                .foregroundStyle(Color.arcTextPrimary)
-                .padding(.arcSpacingLarge)
+                .padding(16)
         }
         .background {
-            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                .fill(Color.arcBackgroundSecondary.opacity(0.95))
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(Color(uiColor: .secondarySystemGroupedBackground))
                 .overlay {
-                    RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .strokeBorder(accentColor.opacity(0.3), lineWidth: 1)
                 }
         }
@@ -668,7 +657,7 @@ private struct LivePreviewMiniature: View {
                 endPoint: .bottomTrailing
             )
             .frame(height: 250)
-            .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusLarge, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 
             // Menu button mock
             VStack {
@@ -680,15 +669,15 @@ private struct LivePreviewMiniature: View {
                         showsBadge: showBadge,
                         badgeCount: badgeCount
                     )
-                    .padding(.arcSpacingLarge)
+                    .padding(16)
                 }
 
                 Spacer()
 
                 Text("Tap button to preview →")
-                    .font(.arcFontBodySmall)
-                    .foregroundStyle(Color.arcTextSecondary)
-                    .padding(.bottom, .arcSpacingXLarge)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.bottom, 20)
             }
         }
         .arcMenu(viewModel: viewModel)
@@ -719,18 +708,18 @@ private struct GalleryCard: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: .arcSpacingMedium) {
+        VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Image(systemName: style.icon)
                     .foregroundStyle(style.accentColor)
 
-                VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(style.name)
-                        .font(.arcFontTitleSmall)
+                        .font(.headline)
 
                     Text(style.description)
-                        .font(.arcFontBodySmall)
-                        .foregroundStyle(Color.arcTextSecondary)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
 
                 Spacer()
@@ -739,11 +728,11 @@ private struct GalleryCard: View {
                     viewModel.present()
                 } label: {
                     Text("Preview")
-                        .font(.arcFontBodyMedium)
+                        .font(.subheadline)
                         .fontWeight(.medium)
                         .foregroundStyle(.white)
-                        .padding(.horizontal, .arcSpacingLarge)
-                        .padding(.vertical, .arcSpacingSmall)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
                         .background {
                             Capsule()
                                 .fill(style.accentColor)
@@ -762,17 +751,17 @@ private struct GalleryCard: View {
                     endPoint: .bottomTrailing
                 )
                 .frame(height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
 
                 Text("Style: \(style.name)")
-                    .font(.arcFontBodySmall)
-                    .foregroundStyle(Color.arcTextSecondary)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
         }
-        .padding(.arcSpacingLarge)
+        .padding(16)
         .background {
-            RoundedRectangle(cornerRadius: .arcCornerRadiusLarge, style: .continuous)
-                .fill(Color.arcBackgroundSecondary.opacity(0.95))
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color(uiColor: .secondarySystemGroupedBackground))
         }
         .arcMenu(viewModel: viewModel)
     }
