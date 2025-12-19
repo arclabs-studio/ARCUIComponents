@@ -1,11 +1,3 @@
-//
-//  ARCMenuItemRow.swift
-//  ARCUIComponents
-//
-//  Created by ARC Labs Studio on 11/14/25.
-//
-
-import ARCDesignSystem
 import SwiftUI
 
 /// Menu item row for ARCMenu
@@ -33,7 +25,7 @@ struct ARCMenuItemRow: View {
         Button {
             action()
         } label: {
-            HStack(spacing: .arcSpacingLarge) {
+            HStack(spacing: 16) {
                 // Icon
                 iconView
                     .frame(width: 32, height: 32)
@@ -45,12 +37,12 @@ struct ARCMenuItemRow: View {
                     }
 
                 // Content
-                VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
-                    HStack(spacing: .arcSpacingSmall) {
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 8) {
                         Text(item.title)
-                            .font(.arcFontBodyLarge)
+                            .font(.body)
                             .fontWeight(.medium)
-                            .foregroundStyle(item.isDestructive ? Color.red : Color.arcTextPrimary)
+                            .foregroundStyle(item.isDestructive ? .red : .primary)
 
                         if let badge = item.badge {
                             badgeView(text: badge)
@@ -59,8 +51,8 @@ struct ARCMenuItemRow: View {
 
                     if let subtitle = item.subtitle {
                         Text(subtitle)
-                            .font(.arcFontBodySmall)
-                            .foregroundStyle(Color.arcTextSecondary)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
                             .lineLimit(1)
                     }
                 }
@@ -70,21 +62,21 @@ struct ARCMenuItemRow: View {
                 // Disclosure indicator
                 if item.showsDisclosure {
                     Image(systemName: "chevron.right")
-                        .font(.arcFontLabelSmall)
+                        .font(.caption)
                         .fontWeight(.semibold)
-                        .foregroundStyle(Color.arcTextSecondary)
+                        .foregroundStyle(.tertiary)
                 }
             }
-            .padding(.vertical, .arcSpacingMedium)
-            .padding(.horizontal, .arcSpacingLarge)
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
             .background {
                 if isPressed {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
-                        .fill(configuration.accentColor.opacity(0.08))
+                        .fill(Color.primary.opacity(0.05))
                 }
             }
             .scaleEffect(isPressed ? 0.98 : 1.0)
-            .animation(.arcAnimationQuick, value: isPressed)
+            .animation(.spring(response: 0.25, dampingFraction: 0.7), value: isPressed)
         }
         .buttonStyle(.plain)
         .simultaneousGesture(
@@ -113,11 +105,11 @@ struct ARCMenuItemRow: View {
     @ViewBuilder
     private func badgeView(text: String) -> some View {
         Text(text)
-            .font(.arcFontLabelSmall)
+            .font(.caption2)
             .fontWeight(.semibold)
             .foregroundStyle(.white)
-            .padding(.horizontal, .arcSpacingSmall)
-            .padding(.vertical, .arcSpacingXSmall)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 3)
             .background {
                 Capsule()
                     .fill(

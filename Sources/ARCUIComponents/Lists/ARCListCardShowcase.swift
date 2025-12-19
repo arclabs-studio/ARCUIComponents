@@ -60,8 +60,13 @@ public struct ARCListCardShowcase: View {
             }
             .navigationTitle("List Cards")
             .navigationBarTitleDisplayMode(.large)
-            .sheet(item: $selectedItem) { item in
-                DetailSheet(item: item)
+            .sheet(isPresented: Binding(
+                get: { selectedItem != nil },
+                set: { if !$0 { selectedItem = nil } }
+            )) {
+                if let item = selectedItem {
+                    DetailSheet(item: item)
+                }
             }
         }
     }

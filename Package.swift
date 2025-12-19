@@ -7,9 +7,6 @@ let package = Package(
     name: "ARCUIComponents",
     platforms: [
         .iOS(.v17)
-        // Note: ARCMenu is designed specifically for iOS/iPadOS.
-        // For macOS, tvOS, or watchOS, use native platform patterns.
-        // See docs/Platform-Alternatives.md for guidance.
     ],
     products: [
         .library(
@@ -17,15 +14,9 @@ let package = Package(
             targets: ["ARCUIComponents"]
         ),
     ],
-    dependencies: [
-        .package(path: "../ARCDesignSystem")
-    ],
     targets: [
         .target(
             name: "ARCUIComponents",
-            dependencies: [
-                "ARCDesignSystem"
-            ],
             path: "Sources",
             swiftSettings: [
                 .enableUpcomingFeature("BareSlashRegexLiterals"),

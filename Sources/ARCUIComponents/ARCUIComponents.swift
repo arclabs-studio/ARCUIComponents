@@ -1,10 +1,3 @@
-//
-//  ARCUIComponents.swift
-//  ARCUIComponents
-//
-//  Created by ARC Labs Studio on 11/14/25.
-//
-
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
@@ -54,15 +47,9 @@
 /// ```
 ///
 /// ## Requirements
-/// - iOS 17.0+
-/// - iPadOS 17.0+
+/// - iOS 17.0+ / macOS 14.0+ / tvOS 17.0+ / watchOS 10.0+
 /// - Swift 6.0+
 /// - Xcode 16.0+
-///
-/// ## Platform Strategy
-/// ARCUIComponents is designed exclusively for iOS and iPadOS, following mobile-first
-/// design patterns and touch-based interaction paradigms. For other platforms (macOS,
-/// tvOS, watchOS), use native system patterns. See `docs/Platform-Alternatives.md`.
 ///
 /// ## Architecture
 /// Built with Clean Architecture principles:
@@ -70,17 +57,15 @@
 /// - **ViewModels**: Business logic (ARCMenuViewModel)
 /// - **Views**: UI components (ARCMenu, ARCMenuButton, etc.)
 /// - **Utilities**: Helper code and modifiers
-/// - **Design System**: Powered by ``ARCDesignSystem`` tokens for fonts, colors, spacing, and animations
 ///
 /// ## Design Philosophy
-/// - **Apple First**: Follows iOS/iPadOS HIG meticulously
+/// - **Apple First**: Follows Apple's HIG meticulously
 /// - **Performance**: Optimized for smooth 120Hz animations
 /// - **Accessibility**: Full VoiceOver and Dynamic Type support
 /// - **Customization**: Highly configurable while maintaining consistency
 /// - **Type Safety**: Leverages Swift's type system for compile-time safety
-/// - **Mobile Focus**: Designed for touch-first interaction
 ///
-@available(iOS 17.0, *)
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
 public struct ARCUIComponents {
     /// Returns the current version of ARCUIComponents
     public static var version: String {
@@ -111,4 +96,3 @@ public struct ARCUIComponents {
 @_exported import struct Foundation.URL
 @_exported import class Foundation.Bundle
 @_exported import SwiftUI
-@_exported import ARCDesignSystem

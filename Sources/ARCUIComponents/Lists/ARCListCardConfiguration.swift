@@ -115,7 +115,7 @@ public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
 
     /// Subtle configuration with minimal styling
     public static let subtle = ARCListCardConfiguration(
-        backgroundStyle: .solid(.secondarySystemGroupedBackground, opacity: 1.0),
+        backgroundStyle: .solid(Color(uiColor: .secondarySystemGroupedBackground), opacity: 1.0),
         cornerRadius: 12,
         shadow: .none,
         showsSeparator: true

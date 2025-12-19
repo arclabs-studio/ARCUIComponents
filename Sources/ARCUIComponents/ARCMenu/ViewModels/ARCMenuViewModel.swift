@@ -1,12 +1,5 @@
-//
-//  ARCMenuViewModel.swift
-//  ARCUIComponents
-//
-//  Created by ARC Labs Studio on 11/14/25.
-//
-
-import ARCDesignSystem
 import SwiftUI
+import Observation
 
 /// View model for ARCMenu
 ///
@@ -39,8 +32,7 @@ public final class ARCMenuViewModel {
 
     // MARK: - Private State
 
-    /// Trigger for haptic feedback
-    public private(set) var hapticTrigger: Int = 0
+    private var feedbackGenerator: UIImpactFeedbackGenerator?
 
     // MARK: - Initialization
 
@@ -57,13 +49,14 @@ public final class ARCMenuViewModel {
         self.user = user
         self.menuItems = menuItems
         self.configuration = configuration
+        self.prepareFeedbackGenerator()
     }
 
     // MARK: - Public Methods
 
     /// Presents the menu with animation
     public func present() {
-        triggerHaptic()
+        configuration.hapticFeedback.perform()
 
         withAnimation(configuration.presentationAnimation) {
             isPresented = true
@@ -73,7 +66,7 @@ public final class ARCMenuViewModel {
 
     /// Dismisses the menu with animation
     public func dismiss() {
-        triggerHaptic()
+        configuration.hapticFeedback.perform()
 
         withAnimation(configuration.dismissalAnimation) {
             isPresented = false
@@ -116,7 +109,7 @@ public final class ARCMenuViewModel {
             dismiss()
         } else {
             // Snap back with spring animation
-            withAnimation(.arcAnimationQuick) {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                 dragOffset = 0
                 backdropOpacity = 1.0
             }
@@ -126,8 +119,8 @@ public final class ARCMenuViewModel {
     /// Executes a menu item action and dismisses the menu
     /// - Parameter item: The menu item to execute
     public func executeAction(for item: ARCMenuItem) {
-        // Trigger light haptic for item selection
-        triggerSelectionHaptic()
+        // Perform light haptic for item selection
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
 
         // Dismiss menu first for better UX
         dismiss()
@@ -141,22 +134,16 @@ public final class ARCMenuViewModel {
 
     // MARK: - Private Methods
 
-    /// Triggers the main haptic feedback
-    private func triggerHaptic() {
-        if configuration.hapticFeedback != .none {
-            hapticTrigger += 1
-        }
-    }
-
-    /// Triggers a light selection haptic
-    private func triggerSelectionHaptic() {
-        hapticTrigger += 1
+    private func prepareFeedbackGenerator() {
+        feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+        feedbackGenerator?.prepare()
     }
 
     private func triggerDismissalHaptic() {
         // Only trigger once at threshold
         if dragOffset == configuration.dragDismissalThreshold {
-            hapticTrigger += 1
+            feedbackGenerator?.impactOccurred()
+            feedbackGenerator?.prepare()
         }
     }
 }
