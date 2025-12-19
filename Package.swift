@@ -14,9 +14,13 @@ let package = Package(
             targets: ["ARCUIComponents"]
         ),
     ],
+    dependencies: [
+        .package(url: "https://github.com/arclabs-studio/ARCDesignSystem", from: "2.0.0")
+    ],
     targets: [
         .target(
             name: "ARCUIComponents",
+            dependencies: ["ARCDesignSystem"],
             path: "Sources",
             swiftSettings: [
                 .enableUpcomingFeature("BareSlashRegexLiterals"),
