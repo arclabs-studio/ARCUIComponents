@@ -23,17 +23,19 @@ jobs:
     - name: Show Swift version
       run: swift --version
 
+    - name: List available simulators
+      run: xcrun simctl list devices available
+
     - name: Build for iOS Simulator
       run: |
         xcodebuild -scheme ARCUIComponents \
-          -destination 'generic/platform=iOS Simulator' \
-          -enableCodeCoverage YES \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
           build
 
     - name: Run tests on iOS Simulator
       run: |
         xcodebuild -scheme ARCUIComponents \
-          -destination 'platform=iOS Simulator,OS=latest,name=iPhone 16 Pro' \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
           -enableCodeCoverage YES \
           -resultBundlePath TestResults.xcresult \
           test
@@ -72,11 +74,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: List available simulators
+      run: xcrun simctl list devices available
+
     - name: Build Documentation with xcodebuild
       run: |
         xcodebuild docbuild \
           -scheme ARCUIComponents \
-          -destination 'generic/platform=iOS Simulator' \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
           -derivedDataPath ./DerivedData
 
     - name: Export Documentation
