@@ -9,9 +9,9 @@ on:
 jobs:
   build-and-test:
     name: Build and Test
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
 
     steps:
     - name: Checkout
@@ -33,7 +33,7 @@ jobs:
     - name: Run tests on iOS Simulator
       run: |
         xcodebuild -scheme ARCUIComponents \
-          -destination 'platform=iOS Simulator,OS=latest,name=iPhone 15' \
+          -destination 'platform=iOS Simulator,OS=latest,name=iPhone 16 Pro' \
           -enableCodeCoverage YES \
           -resultBundlePath TestResults.xcresult \
           test
@@ -64,9 +64,9 @@ jobs:
 
   documentation:
     name: Build Documentation
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
 
     steps:
     - name: Checkout
@@ -97,19 +97,19 @@ jobs:
 
   ios-compatibility:
     name: iOS/iPadOS Compatibility
-    runs-on: macos-14
+    runs-on: macos-15
     env:
-      DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
     strategy:
       matrix:
         include:
-          - device: 'iPhone 15 Pro'
+          - device: 'iPhone 16 Pro'
             os: 'iOS'
           - device: 'iPhone SE (3rd generation)'
             os: 'iOS'
-          - device: 'iPad Pro (12.9-inch) (6th generation)'
+          - device: 'iPad Pro 13-inch (M4)'
             os: 'iPadOS'
-          - device: 'iPad Air (5th generation)'
+          - device: 'iPad Air 11-inch (M2)'
             os: 'iPadOS'
 
     steps:
