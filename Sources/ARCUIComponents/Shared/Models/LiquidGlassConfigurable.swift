@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// Protocol for types that can provide liquid glass effect configuration

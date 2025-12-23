@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// Empty state component following Apple's Human Interface Guidelines
@@ -106,7 +107,7 @@ public struct ARCEmptyState: View {
         accentColor: Color = .blue,
         action: (() -> Void)? = nil
     ) {
-        self.configuration = ARCEmptyStateConfiguration(
+        configuration = ARCEmptyStateConfiguration(
             icon: icon,
             iconColor: iconColor,
             title: title,
@@ -130,7 +131,7 @@ public struct ARCEmptyState: View {
                 .accessibilityHidden(true)
 
             // Text content
-            VStack(spacing: 8) {
+            VStack(spacing: .arcSpacingSmall) {
                 Text(configuration.title)
                     .font(.title2.bold())
                     .foregroundStyle(.primary)
@@ -150,15 +151,15 @@ public struct ARCEmptyState: View {
                     Text(configuration.actionTitle)
                         .font(.headline)
                         .foregroundStyle(.white)
-                        .padding(.horizontal, 24)
-                        .padding(.vertical, 12)
+                        .padding(.horizontal, .arcSpacingXLarge)
+                        .padding(.vertical, .arcSpacingMedium)
                         .background(
                             Capsule()
                                 .fill(configuration.accentColor.gradient)
                         )
                 }
                 .buttonStyle(.plain)
-                .padding(.top, 8)
+                .padding(.top, .arcSpacingSmall)
                 .accessibilityLabel(configuration.actionTitle)
                 .accessibilityHint("Tap to \(configuration.actionTitle.lowercased())")
             }
@@ -173,13 +174,13 @@ public struct ARCEmptyState: View {
     private var iconSize: CGFloat {
         switch dynamicTypeSize {
         case .xSmall, .small, .medium:
-            return 64
+            64
         case .large, .xLarge, .xxLarge:
-            return 72
+            72
         case .xxxLarge:
-            return 80
+            80
         default: // Accessibility sizes
-            return 88
+            88
         }
     }
 
@@ -187,11 +188,11 @@ public struct ARCEmptyState: View {
     private var maxWidth: CGFloat {
         switch dynamicTypeSize {
         case .xSmall, .small, .medium, .large:
-            return 320
+            320
         case .xLarge, .xxLarge, .xxxLarge:
-            return 360
+            360
         default: // Accessibility sizes
-            return 400
+            400
         }
     }
 }

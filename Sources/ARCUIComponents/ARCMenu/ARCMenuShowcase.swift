@@ -1,4 +1,14 @@
+// swiftlint:disable file_length
+
 import SwiftUI
+
+#if canImport(UIKit)
+import UIKit
+#endif
+
+#if canImport(AppKit)
+import AppKit
+#endif
 
 /// ARCMenu Showcase - Interactive Demo
 ///
@@ -51,9 +61,15 @@ public struct ARCMenuShowcase: View {
                 }
                 .padding(.bottom, 40)
             }
+            #if os(iOS)
             .background(Color(uiColor: .systemGroupedBackground))
+            #else
+            .background(Color(nsColor: .controlBackgroundColor))
+            #endif
             .navigationTitle("ARCMenu Showcase")
-            .navigationBarTitleDisplayMode(.large)
+            #if os(iOS)
+                .navigationBarTitleDisplayMode(.large)
+            #endif
         }
     }
 
@@ -116,7 +132,11 @@ public struct ARCMenuShowcase: View {
         .padding(20)
         .background {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
         }
         .padding(.horizontal, 20)
     }
@@ -197,7 +217,7 @@ public struct ARCMenuShowcase: View {
                         title: "Badge Count",
                         icon: "number.circle.fill",
                         value: $badgeCount,
-                        range: 0...99,
+                        range: 0 ... 99,
                         accentColor: selectedStyle.accentColor
                     )
                 }
@@ -227,7 +247,12 @@ public struct ARCMenuShowcase: View {
                 Button {
                     // Copy to clipboard
                     let code = generateCodeExample()
+                    #if os(iOS)
                     UIPasteboard.general.string = code
+                    #else
+                    NSPasteboard.general.clearContents()
+                    NSPasteboard.general.setString(code, forType: .string)
+                    #endif
                 } label: {
                     Label("Copy", systemImage: "doc.on.doc.fill")
                         .font(.subheadline)
@@ -265,13 +290,15 @@ public struct ARCMenuShowcase: View {
     // MARK: - Helper Methods
 
     private func generateCodeExample() -> String {
-        let userCode = showUserHeader ? """
-        user: ARCMenuUser(
-            name: "\(selectedStyle.sampleUser.name)",
-            email: "\(selectedStyle.sampleUser.email ?? "")",
-            avatarImage: .initials("\(selectedStyle.sampleUser.initials)")
-        ),
-        """ : "user: nil,"
+        let userCode = showUserHeader
+            ? """
+            user: ARCMenuUser(
+                name: "\(selectedStyle.sampleUser.name)",
+                email: "\(selectedStyle.sampleUser.email ?? "")",
+                avatarImage: .initials("\(selectedStyle.sampleUser.initials)")
+            ),
+            """
+            : "user: nil,"
 
         let badgeCode = showBadge ? """
         showsBadge: true,
@@ -316,61 +343,62 @@ enum ShowcaseStyle: String, CaseIterable, Identifiable {
 
     var configName: String {
         switch self {
-        case .default: return "default"
-        case .fitness: return "fitness"
-        case .premium: return "premium"
-        case .dark: return "dark"
-        case .minimal: return "minimal"
+        case .default: "default"
+        case .fitness: "fitness"
+        case .premium: "premium"
+        case .dark: "dark"
+        case .minimal: "minimal"
         }
     }
 
     var accentColor: Color {
         switch self {
-        case .default: return .blue
-        case .fitness: return .green
-        case .premium: return .orange
-        case .dark: return .purple
-        case .minimal: return .gray
+        case .default: .blue
+        case .fitness: .green
+        case .premium: .orange
+        case .dark: .purple
+        case .minimal: .gray
         }
     }
 
     var configuration: ARCMenuConfiguration {
         switch self {
-        case .default: return .default
-        case .fitness: return .fitness
-        case .premium: return .premium
-        case .dark: return .dark
-        case .minimal: return .minimal
+        case .default: .default
+        case .fitness: .fitness
+        case .premium: .premium
+        case .dark: .dark
+        case .minimal: .minimal
         }
     }
 
     var description: String {
         switch self {
-        case .default: return "Apple Music style"
-        case .fitness: return "Health & Fitness apps"
-        case .premium: return "Subscription services"
-        case .dark: return "Dark theme apps"
-        case .minimal: return "Subtle & clean"
+        case .default: "Apple Music style"
+        case .fitness: "Health & Fitness apps"
+        case .premium: "Subscription services"
+        case .dark: "Dark theme apps"
+        case .minimal: "Subtle & clean"
         }
     }
 
     var icon: String {
         switch self {
-        case .default: return "music.note"
-        case .fitness: return "figure.run"
-        case .premium: return "crown.fill"
-        case .dark: return "moon.stars.fill"
-        case .minimal: return "circle"
+        case .default: "music.note"
+        case .fitness: "figure.run"
+        case .premium: "crown.fill"
+        case .dark: "moon.stars.fill"
+        case .minimal: "circle"
         }
     }
 
+    // swiftlint:disable:next large_tuple
     var sampleUser: (name: String, email: String?, initials: String) {
         switch self {
-        case .default: return ("Music Lover", "user@music.app", "ML")
-        case .fitness: return ("Athlete Pro", "athlete@fit.app", "AP")
-        case .premium: return ("Gold Member", "gold@premium.app", "GM")
-        case .dark: return ("Night User", "night@dark.app", "NU")
-        case .minimal: return ("Clean User", "user@minimal.app", "CU")
+        case .default: ("Music Lover", "user@music.app", "ML")
+        case .fitness: ("Athlete Pro", "athlete@fit.app", "AP")
+        case .premium: ("Gold Member", "gold@premium.app", "GM")
+        case .dark: ("Night User", "night@dark.app", "NU")
+        case .minimal: ("Clean User", "user@minimal.app", "CU")
         }
     }
 }
@@ -389,19 +417,19 @@ enum ShowcaseVariant: String, CaseIterable, Identifiable {
 
     var description: String {
         switch self {
-        case .full: return "All menu items"
-        case .compact: return "Essential items only"
-        case .minimal: return "Just logout"
-        case .custom: return "Custom actions"
+        case .full: "All menu items"
+        case .compact: "Essential items only"
+        case .minimal: "Just logout"
+        case .custom: "Custom actions"
         }
     }
 
     var icon: String {
         switch self {
-        case .full: return "list.bullet"
-        case .compact: return "list.dash"
-        case .minimal: return "minus.circle"
-        case .custom: return "slider.horizontal.3"
+        case .full: "list.bullet"
+        case .compact: "list.dash"
+        case .minimal: "minus.circle"
+        case .custom: "slider.horizontal.3"
         }
     }
 }
@@ -441,7 +469,11 @@ private struct StyleCard: View {
             .padding(.vertical, 16)
             .background {
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
+                #if os(iOS)
                     .fill(Color(uiColor: .secondarySystemGroupedBackground))
+                #else
+                    .fill(Color(nsColor: .underPageBackgroundColor))
+                #endif
                     .overlay {
                         if isSelected {
                             RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -489,7 +521,11 @@ private struct VariantCard: View {
             .padding(12)
             .background {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
+                #if os(iOS)
                     .fill(Color(uiColor: .secondarySystemGroupedBackground))
+                #else
+                    .fill(Color(nsColor: .underPageBackgroundColor))
+                #endif
                     .overlay {
                         if isSelected {
                             RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -528,7 +564,11 @@ private struct OptionToggle: View {
         .padding(16)
         .background {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
         }
     }
 }
@@ -583,7 +623,11 @@ private struct OptionStepper: View {
         .padding(16)
         .background {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
         }
     }
 }
@@ -602,7 +646,11 @@ private struct CodeBlock: View {
         }
         .background {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
                 .overlay {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .strokeBorder(accentColor.opacity(0.3), lineWidth: 1)
@@ -630,11 +678,13 @@ private struct LivePreviewMiniature: View {
         self.showUserHeader = showUserHeader
 
         _viewModel = State(initialValue: ARCMenuViewModel.standard(
-            user: showUserHeader ? ARCMenuUser(
-                name: style.sampleUser.name,
-                email: style.sampleUser.email,
-                avatarImage: .initials(style.sampleUser.initials)
-            ) : nil,
+            user: showUserHeader
+                ? ARCMenuUser(
+                    name: style.sampleUser.name,
+                    email: style.sampleUser.email,
+                    avatarImage: .initials(style.sampleUser.initials)
+                )
+                : nil,
             configuration: style.configuration,
             onSettings: {},
             onProfile: {},
@@ -761,7 +811,11 @@ private struct GalleryCard: View {
         .padding(16)
         .background {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
         }
         .arcMenu(viewModel: viewModel)
     }

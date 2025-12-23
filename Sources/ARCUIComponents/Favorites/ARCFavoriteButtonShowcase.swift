@@ -58,7 +58,9 @@ public struct ARCFavoriteButtonShowcase: View {
                 .padding(.bottom, 40)
             }
             .navigationTitle("Favorite Button")
-            .navigationBarTitleDisplayMode(.large)
+            #if os(iOS)
+                .navigationBarTitleDisplayMode(.large)
+            #endif
         }
     }
 
@@ -144,7 +146,7 @@ public struct ARCFavoriteButtonShowcase: View {
                 description: "Favorite button in list row"
             ) {
                 VStack(spacing: 0) {
-                    ForEach(1...3, id: \.self) { index in
+                    ForEach(1 ... 3, id: \.self) { index in
                         ListRow(
                             title: "Item \(index)",
                             subtitle: "List item with favorite button",
@@ -156,7 +158,11 @@ public struct ARCFavoriteButtonShowcase: View {
                         }
                     }
                 }
+                #if os(iOS)
                 .background(Color(.systemBackground))
+                #else
+                .background(Color(nsColor: .windowBackgroundColor))
+                #endif
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
 
@@ -205,7 +211,11 @@ public struct ARCFavoriteButtonShowcase: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 250)
                 }
+                #if os(iOS)
                 .background(Color(.systemGroupedBackground))
+                #else
+                .background(Color(nsColor: .controlBackgroundColor))
+                #endif
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
         }
@@ -294,8 +304,12 @@ private struct ColorExample: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 20)
-        .background(Color(.secondarySystemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        #if os(iOS)
+            .background(Color(.secondarySystemGroupedBackground))
+        #else
+            .background(Color(nsColor: .underPageBackgroundColor))
+        #endif
+            .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
@@ -337,7 +351,11 @@ private struct ContentCard: View {
             }
             .padding()
         }
+        #if os(iOS)
         .background(Color(.systemBackground))
+        #else
+        .background(Color(nsColor: .windowBackgroundColor))
+        #endif
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.1), radius: 10, y: 4)
     }
@@ -438,23 +456,23 @@ private enum ColorVariation: CaseIterable {
 
     var name: String {
         switch self {
-        case .pink: return "Pink"
-        case .red: return "Red"
-        case .orange: return "Orange"
-        case .yellow: return "Yellow"
-        case .green: return "Green"
-        case .blue: return "Blue"
+        case .pink: "Pink"
+        case .red: "Red"
+        case .orange: "Orange"
+        case .yellow: "Yellow"
+        case .green: "Green"
+        case .blue: "Blue"
         }
     }
 
     var color: Color {
         switch self {
-        case .pink: return .pink
-        case .red: return .red
-        case .orange: return .orange
-        case .yellow: return .yellow
-        case .green: return .green
-        case .blue: return .blue
+        case .pink: .pink
+        case .red: .red
+        case .orange: .orange
+        case .yellow: .yellow
+        case .green: .green
+        case .blue: .blue
         }
     }
 }

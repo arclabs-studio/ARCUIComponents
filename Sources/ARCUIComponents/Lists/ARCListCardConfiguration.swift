@@ -5,7 +5,16 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
+
+#if canImport(UIKit)
+import UIKit
+#endif
+
+#if canImport(AppKit)
+import AppKit
+#endif
 
 /// Configuration for ARCListCard appearance and behavior
 ///
@@ -88,9 +97,9 @@ public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
     public init(
         accentColor: Color = .blue,
         backgroundStyle: ARCBackgroundStyle = .translucent,
-        cornerRadius: CGFloat = 16,
+        cornerRadius: CGFloat = .arcCornerRadiusMedium,
         shadow: ARCShadow = .subtle,
-        spacing: CGFloat = 12,
+        spacing: CGFloat = .arcSpacingMedium,
         showsSeparator: Bool = false
     ) {
         self.accentColor = accentColor
@@ -109,23 +118,32 @@ public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
     /// Prominent configuration with liquid glass effect
     public static let prominent = ARCListCardConfiguration(
         backgroundStyle: .liquidGlass,
-        cornerRadius: 20,
+        cornerRadius: .arcCornerRadiusLarge,
         shadow: .default
     )
 
     /// Subtle configuration with minimal styling
+    #if os(iOS)
     public static let subtle = ARCListCardConfiguration(
         backgroundStyle: .solid(Color(uiColor: .secondarySystemGroupedBackground), opacity: 1.0),
-        cornerRadius: 12,
+        cornerRadius: .arcCornerRadiusSmall,
         shadow: .none,
         showsSeparator: true
     )
+    #else
+    public static let subtle = ARCListCardConfiguration(
+        backgroundStyle: .solid(Color(nsColor: .underPageBackgroundColor), opacity: 1.0),
+        cornerRadius: .arcCornerRadiusSmall,
+        shadow: .none,
+        showsSeparator: true
+    )
+    #endif
 
     /// Glassmorphic configuration matching Apple Music style
     public static let glassmorphic = ARCListCardConfiguration(
         accentColor: .pink,
         backgroundStyle: .liquidGlass,
-        cornerRadius: 18,
+        cornerRadius: .arcCornerRadiusMedium,
         shadow: .default
     )
 }

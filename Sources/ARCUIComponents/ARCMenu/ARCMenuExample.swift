@@ -1,5 +1,13 @@
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
+#if canImport(AppKit)
+import AppKit
+#endif
+
 /// Example implementation of ARCMenu
 ///
 /// This file demonstrates how to integrate ARCMenu into your app
@@ -56,13 +64,15 @@ struct ARCMenuExample: View {
                 // Add menu overlay
             }
             .navigationTitle("ARCMenu Demo")
-            .navigationBarTitleDisplayMode(.inline)
-            .arcMenuButton(
-                viewModel: viewModel,
-                showsBadge: true,
-                badgeCount: 3
-            )
-            .arcMenu(viewModel: viewModel)
+            #if os(iOS)
+                .navigationBarTitleDisplayMode(.inline)
+            #endif
+                .arcMenuButton(
+                    viewModel: viewModel,
+                    showsBadge: true,
+                    badgeCount: 3
+                )
+                .arcMenu(viewModel: viewModel)
         }
     }
 
@@ -135,7 +145,11 @@ struct ARCMenuExample: View {
             }
             .padding(.bottom, 40)
         }
+        #if os(iOS)
         .background(Color(uiColor: .systemGroupedBackground))
+        #else
+        .background(Color(nsColor: .controlBackgroundColor))
+        #endif
     }
 }
 
@@ -171,7 +185,11 @@ private struct FeatureCard: View {
         .padding(16)
         .background {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
+            #if os(iOS)
                 .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
         }
     }
 }

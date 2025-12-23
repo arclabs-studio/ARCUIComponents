@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// Configuration for ARCEmptyState appearance and behavior
@@ -107,7 +108,7 @@ public struct ARCEmptyStateConfiguration: Sendable {
         actionTitle: String = "Get Started",
         showsAction: Bool = false,
         accentColor: Color = .blue,
-        spacing: CGFloat = 16
+        spacing: CGFloat = .arcSpacingLarge
     ) {
         self.icon = icon
         self.iconColor = iconColor

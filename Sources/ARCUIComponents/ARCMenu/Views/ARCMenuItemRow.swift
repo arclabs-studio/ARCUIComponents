@@ -1,3 +1,4 @@
+import ARCDesignSystem
 import SwiftUI
 
 /// Menu item row for ARCMenu
@@ -25,20 +26,20 @@ struct ARCMenuItemRow: View {
         Button {
             action()
         } label: {
-            HStack(spacing: 16) {
+            HStack(spacing: .arcSpacingLarge) {
                 // Icon
                 iconView
                     .frame(width: 32, height: 32)
                     .background {
                         if !item.isDestructive {
-                            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous)
                                 .fill(configuration.accentColor.opacity(0.15))
                         }
                     }
 
                 // Content
                 VStack(alignment: .leading, spacing: 2) {
-                    HStack(spacing: 8) {
+                    HStack(spacing: .arcSpacingSmall) {
                         Text(item.title)
                             .font(.body)
                             .fontWeight(.medium)
@@ -67,11 +68,11 @@ struct ARCMenuItemRow: View {
                         .foregroundStyle(.tertiary)
                 }
             }
-            .padding(.vertical, 12)
-            .padding(.horizontal, 16)
+            .padding(.vertical, .arcSpacingMedium)
+            .padding(.horizontal, .arcSpacingLarge)
             .background {
                 if isPressed {
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous)
                         .fill(Color.primary.opacity(0.05))
                 }
             }
@@ -94,8 +95,7 @@ struct ARCMenuItemRow: View {
 
     // MARK: - Icon View
 
-    @ViewBuilder
-    private var iconView: some View {
+    @ViewBuilder private var iconView: some View {
         item.icon.iconView(isDestructive: item.isDestructive)
             .frame(width: 22, height: 22)
     }
@@ -108,8 +108,8 @@ struct ARCMenuItemRow: View {
             .font(.caption2)
             .fontWeight(.semibold)
             .foregroundStyle(.white)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
+            .padding(.horizontal, .arcSpacingSmall)
+            .padding(.vertical, 3) // Intentionally small for badge
             .background {
                 Capsule()
                     .fill(

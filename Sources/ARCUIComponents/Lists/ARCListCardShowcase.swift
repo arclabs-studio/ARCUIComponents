@@ -59,15 +59,17 @@ public struct ARCListCardShowcase: View {
                 .padding(.bottom, 40)
             }
             .navigationTitle("List Cards")
-            .navigationBarTitleDisplayMode(.large)
-            .sheet(isPresented: Binding(
-                get: { selectedItem != nil },
-                set: { if !$0 { selectedItem = nil } }
-            )) {
-                if let item = selectedItem {
-                    DetailSheet(item: item)
+            #if os(iOS)
+                .navigationBarTitleDisplayMode(.large)
+            #endif
+                .sheet(isPresented: Binding(
+                    get: { selectedItem != nil },
+                    set: { if !$0 { selectedItem = nil } }
+                )) {
+                    if let item = selectedItem {
+                        DetailSheet(item: item)
+                    }
                 }
-            }
         }
     }
 
@@ -228,10 +230,11 @@ public struct ARCListCardShowcase: View {
                                     isFavorite: binding(for: item.id),
                                     size: .medium
                                 )
+                            },
+                            action: {
+                                selectedItem = item.id
                             }
-                        ) {
-                            selectedItem = item.id
-                        }
+                        )
                     }
                 }
             }
@@ -249,10 +252,11 @@ public struct ARCListCardShowcase: View {
                                 Image(systemName: "chevron.right")
                                     .font(.caption.weight(.semibold))
                                     .foregroundStyle(.tertiary)
+                            },
+                            action: {
+                                selectedItem = item.id
                             }
-                        ) {
-                            selectedItem = item.id
-                        }
+                        )
                     }
                 }
             }
@@ -407,14 +411,24 @@ private struct DetailSheet: View {
                     .foregroundStyle(.secondary)
             }
             .navigationTitle("Details")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
-                        dismiss()
+            #if os(iOS)
+                .navigationBarTitleDisplayMode(.inline)
+            #endif
+                .toolbar {
+                    #if os(iOS)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Done") {
+                            dismiss()
+                        }
                     }
+                    #else
+                    ToolbarItem(placement: .automatic) {
+                        Button("Done") {
+                            dismiss()
+                        }
+                    }
+                    #endif
                 }
-            }
         }
     }
 }

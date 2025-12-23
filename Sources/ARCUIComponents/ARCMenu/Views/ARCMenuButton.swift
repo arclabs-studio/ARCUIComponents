@@ -1,3 +1,4 @@
+import ARCDesignSystem
 import SwiftUI
 
 /// Button to trigger ARCMenu
@@ -64,10 +65,10 @@ public struct ARCMenuButton: View {
                             }
                     }
                     .shadow(
-                        color: .black.opacity(0.1),
-                        radius: 8,
+                        color: .arcShadowLight,
+                        radius: .arcSpacingSmall,
                         x: 0,
-                        y: 4
+                        y: .arcSpacingXSmall
                     )
                     .scaleEffect(isPressed ? 0.92 : 1.0)
                     .rotationEffect(.degrees(viewModel.isPresented ? 90 : 0))
@@ -81,7 +82,7 @@ public struct ARCMenuButton: View {
                     )
 
                 // Badge
-                if showsBadge && badgeCount > 0 {
+                if showsBadge, badgeCount > 0 {
                     badgeView
                 }
             }
@@ -102,8 +103,7 @@ public struct ARCMenuButton: View {
 
     // MARK: - Button Content
 
-    @ViewBuilder
-    private var buttonContent: some View {
+    @ViewBuilder private var buttonContent: some View {
         if let user = viewModel.user {
             // Show user avatar
             user.avatarImage.avatarView(size: 32)
@@ -119,8 +119,7 @@ public struct ARCMenuButton: View {
 
     // MARK: - Badge View
 
-    @ViewBuilder
-    private var badgeView: some View {
+    @ViewBuilder private var badgeView: some View {
         ZStack {
             Circle()
                 .fill(
@@ -168,6 +167,7 @@ extension View {
         badgeCount: Int = 0
     ) -> some View {
         toolbar {
+            #if os(iOS)
             ToolbarItem(placement: .topBarTrailing) {
                 ARCMenuButton(
                     viewModel: viewModel,
@@ -175,6 +175,15 @@ extension View {
                     badgeCount: badgeCount
                 )
             }
+            #else
+            ToolbarItem(placement: .automatic) {
+                ARCMenuButton(
+                    viewModel: viewModel,
+                    showsBadge: showsBadge,
+                    badgeCount: badgeCount
+                )
+            }
+            #endif
         }
     }
 }
@@ -208,8 +217,10 @@ extension View {
             }
         }
         .navigationTitle("ARCMenu Demo")
-        .navigationBarTitleDisplayMode(.inline)
-        .arcMenuButton(viewModel: viewModel)
+        #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+        #endif
+            .arcMenuButton(viewModel: viewModel)
     }
 }
 

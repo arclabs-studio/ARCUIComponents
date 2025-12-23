@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// Shadow configuration for ARC components
@@ -126,7 +127,7 @@ public struct ARCShadow: Sendable {
     /// Stronger shadow with 15% opacity, 30pt radius, and 15pt vertical offset.
     /// Use sparingly for modals, popovers, or critical floating elements.
     public static let prominent = ARCShadow(
-        color: .black.opacity(0.15),
+        color: .arcShadowMedium,
         radius: 30,
         x: 0,
         y: 15

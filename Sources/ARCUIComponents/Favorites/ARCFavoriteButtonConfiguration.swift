@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// Configuration for ARCFavoriteButton appearance and behavior
@@ -143,10 +144,10 @@ public struct ARCFavoriteButtonConfiguration: Sendable {
         /// Icon size in points
         public var iconSize: CGFloat {
             switch self {
-            case .small: return 20
-            case .medium: return 24
-            case .large: return 28
-            case .custom(let size): return size
+            case .small: 20
+            case .medium: 24
+            case .large: 28
+            case let .custom(size): size
             }
         }
 

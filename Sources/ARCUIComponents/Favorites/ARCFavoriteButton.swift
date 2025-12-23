@@ -5,7 +5,12 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
+
+#if canImport(UIKit)
+import UIKit
+#endif
 
 /// Favorite button component following Apple's Human Interface Guidelines
 ///
@@ -76,7 +81,7 @@ public struct ARCFavoriteButton: View {
         configuration: ARCFavoriteButtonConfiguration = .default,
         onToggle: ((Bool) -> Void)? = nil
     ) {
-        self._isFavorite = isFavorite
+        _isFavorite = isFavorite
         self.configuration = configuration
         self.onToggle = onToggle
     }
@@ -94,8 +99,8 @@ public struct ARCFavoriteButton: View {
         size: ARCFavoriteButtonConfiguration.ButtonSize = .medium,
         onToggle: ((Bool) -> Void)? = nil
     ) {
-        self._isFavorite = isFavorite
-        self.configuration = ARCFavoriteButtonConfiguration(
+        _isFavorite = isFavorite
+        configuration = ARCFavoriteButtonConfiguration(
             favoriteColor: favoriteColor,
             size: size
         )
@@ -110,9 +115,11 @@ public struct ARCFavoriteButton: View {
         } label: {
             Image(systemName: isFavorite ? configuration.favoriteIcon : configuration.unfavoriteIcon)
                 .font(.system(size: configuration.size.iconSize))
-                .foregroundStyle(isFavorite ? configuration.favoriteColor.gradient : configuration.unfavoriteColor.gradient)
-                .symbolEffect(.bounce, value: isFavorite)
-                .contentTransition(.symbolEffect(.replace))
+                .foregroundStyle(isFavorite
+                    ? configuration.favoriteColor.gradient
+                    : configuration.unfavoriteColor.gradient)
+                    .symbolEffect(.bounce, value: isFavorite)
+                    .contentTransition(.symbolEffect(.replace))
         }
         .buttonStyle(FavoriteButtonStyle(configuration: configuration))
         .accessibilityLabel(isFavorite ? "Favorited" : "Not favorited")
@@ -124,10 +131,12 @@ public struct ARCFavoriteButton: View {
 
     private func toggleFavorite() {
         // Provide haptic feedback
+        #if os(iOS)
         if configuration.hapticFeedback {
             let generator = UIImpactFeedbackGenerator(style: .medium)
             generator.impactOccurred()
         }
+        #endif
 
         // Animate state change
         withAnimation(.spring(response: configuration.animationDuration, dampingFraction: 0.6)) {
@@ -162,7 +171,7 @@ private struct FavoriteButtonStyle: ButtonStyle {
 #Preview("Not Favorited") {
     @Previewable @State var isFavorite = false
 
-    VStack(spacing: 40) {
+    VStack(spacing: 40) { // Intentionally larger for showcase
         ARCFavoriteButton(
             isFavorite: $isFavorite,
             size: .small
@@ -196,7 +205,7 @@ private struct FavoriteButtonStyle: ButtonStyle {
     @Previewable @State var isBlue = false
     @Previewable @State var isGreen = false
 
-    VStack(spacing: 40) {
+    VStack(spacing: 40) { // Intentionally larger for showcase
         ARCFavoriteButton(
             isFavorite: $isPink,
             favoriteColor: .pink
@@ -229,14 +238,14 @@ private struct FavoriteButtonStyle: ButtonStyle {
     @Previewable @State var isFavorite = false
     @Previewable @State var toggleCount = 0
 
-    VStack(spacing: 30) {
+    VStack(spacing: .arcSpacingXXLarge) {
         ARCFavoriteButton(
             isFavorite: $isFavorite
-        ) { newValue in
+        ) { _ in
             toggleCount += 1
         }
 
-        VStack(spacing: 8) {
+        VStack(spacing: .arcSpacingSmall) {
             Text("Status: \(isFavorite ? "❤️ Favorited" : "🤍 Not Favorited")")
                 .font(.headline)
 

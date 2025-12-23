@@ -6,20 +6,16 @@ on:
   pull_request:
     branches: [ main, develop ]
 
-env:
-  DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
-
 jobs:
   build-and-test:
     name: Build and Test
     runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_16.2.app/Contents/Developer
 
     - name: Show Xcode version
       run: xcodebuild -version
@@ -27,22 +23,31 @@ jobs:
     - name: Show Swift version
       run: swift --version
 
-    - name: Build
-      run: swift build -v
+    - name: List available simulators
+      run: xcrun simctl list devices available
 
-    - name: Run tests
-      run: swift test -v --enable-code-coverage
+    - name: Build for iOS Simulator
+      run: |
+        xcodebuild -scheme ARCUIComponents \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          build
+
+    - name: Run tests on iOS Simulator
+      run: |
+        xcodebuild -scheme ARCUIComponents \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          -enableCodeCoverage YES \
+          -resultBundlePath TestResults.xcresult \
+          test
 
     - name: Generate code coverage
       run: |
-        xcrun llvm-cov export -format="lcov" \
-          .build/debug/ARCUIComponentsPackageTests.xctest/Contents/MacOS/ARCUIComponentsPackageTests \
-          -instr-profile .build/debug/codecov/default.profdata > coverage.lcov
+        xcrun xccov view --report --json TestResults.xcresult > coverage.json || true
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
-        file: ./coverage.lcov
+        file: ./coverage.json
         fail_ci_if_error: false
 
   swiftlint:
@@ -62,24 +67,36 @@ jobs:
   documentation:
     name: Build Documentation
     runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_16.2.app/Contents/Developer
+    - name: List available simulators
+      run: xcrun simctl list devices available
 
-    - name: Build Documentation
+    - name: Build Documentation with xcodebuild
       run: |
-        swift package --allow-writing-to-directory ./docs \
-          generate-documentation --target ARCUIComponents \
-          --output-path ./docs \
-          --transform-for-static-hosting \
-          --hosting-base-path ARCUIComponents
+        xcodebuild docbuild \
+          -scheme ARCUIComponents \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          -derivedDataPath ./DerivedData
+
+    - name: Export Documentation
+      run: |
+        mkdir -p docs
+        DOCC_ARCHIVE=$(find ./DerivedData -name "*.doccarchive" -print -quit)
+        if [ -n "$DOCC_ARCHIVE" ]; then
+          xcrun docc process-archive transform-for-static-hosting "$DOCC_ARCHIVE" \
+            --output-path ./docs \
+            --hosting-base-path ARCUIComponents
+        fi
 
     - name: Upload documentation
       uses: actions/upload-artifact@v4
+      continue-on-error: true  # Swift docs may contain invalid chars for artifact upload (e.g., operators like !=)
       with:
         name: documentation
         path: docs/
@@ -87,6 +104,8 @@ jobs:
   ios-compatibility:
     name: iOS/iPadOS Compatibility
     runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
     strategy:
       matrix:
         include:
@@ -103,8 +122,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Select Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_16.2.app/Contents/Developer
+    - name: List available simulators
+      run: xcrun simctl list devices available
 
     - name: Build for ${{ matrix.os }} (${{ matrix.device }})
       run: |

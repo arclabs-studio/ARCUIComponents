@@ -5,7 +5,12 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
+
+#if canImport(UIKit)
+import UIKit
+#endif
 
 /// List card component following Apple's Human Interface Guidelines
 ///
@@ -122,7 +127,7 @@ public struct ARCListCard<Accessories: View>: View {
                 }
 
                 // Text content
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
                     Text(title)
                         .font(.body.weight(.medium))
                         .foregroundStyle(.primary)
@@ -155,44 +160,48 @@ public struct ARCListCard<Accessories: View>: View {
     @ViewBuilder
     private func imageView(for image: CardImage) -> some View {
         switch image {
-        case .url(let url, let size):
+        case let .url(url, size):
             AsyncImage(url: url) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
                         .frame(width: size, height: size)
-                case .success(let image):
+                case let .success(image):
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: size, height: size)
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous))
                 case .failure:
                     Image(systemName: "photo")
                         .font(.title2)
                         .foregroundStyle(.secondary)
                         .frame(width: size, height: size)
+                    #if os(iOS)
                         .background(Color(.tertiarySystemFill))
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    #else
+                        .background(Color(nsColor: .tertiaryLabelColor).opacity(0.1))
+                    #endif
+                        .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous))
                 @unknown default:
                     EmptyView()
                 }
             }
 
-        case .system(let name, let color, let size):
+        case let .system(name, color, size):
             Image(systemName: name)
                 .font(.system(size: size * 0.5))
                 .foregroundStyle(color.gradient)
                 .frame(width: size, height: size)
                 .background(color.opacity(0.15))
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous))
 
-        case .custom(let image, let size):
+        case let .custom(image, size):
             image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(width: size, height: size)
-                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous))
         }
     }
 
@@ -202,8 +211,10 @@ public struct ARCListCard<Accessories: View>: View {
         guard let action else { return }
 
         // Provide haptic feedback
+        #if os(iOS)
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
+        #endif
 
         // Perform action
         action()
@@ -233,7 +244,7 @@ extension ARCListCard where Accessories == EmptyView {
         self.image = image
         self.title = title
         self.subtitle = subtitle
-        self.accessories = nil
+        accessories = nil
         self.action = action
     }
 }
@@ -276,7 +287,7 @@ private struct CardPressStyle: ButtonStyle {
 
 #Preview("Simple Cards") {
     ScrollView {
-        VStack(spacing: 16) {
+        VStack(spacing: .arcSpacingLarge) {
             ARCListCard(
                 title: "Simple Card",
                 subtitle: "Just title and subtitle"
@@ -291,12 +302,16 @@ private struct CardPressStyle: ButtonStyle {
         }
         .padding()
     }
+    #if os(iOS)
     .background(Color(.systemGroupedBackground))
+    #else
+    .background(Color(nsColor: .controlBackgroundColor))
+    #endif
 }
 
 #Preview("With Images") {
     ScrollView {
-        VStack(spacing: 16) {
+        VStack(spacing: .arcSpacingLarge) {
             ARCListCard(
                 image: .system("music.note", color: .pink),
                 title: "Music Track",
@@ -317,14 +332,18 @@ private struct CardPressStyle: ButtonStyle {
         }
         .padding()
     }
+    #if os(iOS)
     .background(Color(.systemGroupedBackground))
+    #else
+    .background(Color(nsColor: .controlBackgroundColor))
+    #endif
 }
 
 #Preview("With Accessories") {
     @Previewable @State var favorites: Set<String> = []
 
     ScrollView {
-        VStack(spacing: 16) {
+        VStack(spacing: .arcSpacingLarge) {
             ForEach(["Song 1", "Song 2", "Song 3"], id: \.self) { song in
                 ARCListCard(
                     image: .system("music.note", color: .pink),
@@ -344,21 +363,26 @@ private struct CardPressStyle: ButtonStyle {
                             ),
                             size: .medium
                         )
+                    },
+                    action: {
+                        print("Tapped \(song)")
                     }
-                ) {
-                    print("Tapped \(song)")
-                }
+                )
             }
         }
         .padding()
     }
+    #if os(iOS)
     .background(Color(.systemGroupedBackground))
+    #else
+    .background(Color(nsColor: .controlBackgroundColor))
+    #endif
 }
 
 #Preview("Configurations") {
     ScrollView {
-        VStack(spacing: 24) {
-            VStack(alignment: .leading, spacing: 12) {
+        VStack(spacing: .arcSpacingXLarge) {
+            VStack(alignment: .leading, spacing: .arcSpacingMedium) {
                 Text("Default")
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
@@ -371,7 +395,7 @@ private struct CardPressStyle: ButtonStyle {
                 )
             }
 
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: .arcSpacingMedium) {
                 Text("Prominent")
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
@@ -384,7 +408,7 @@ private struct CardPressStyle: ButtonStyle {
                 )
             }
 
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: .arcSpacingMedium) {
                 Text("Glassmorphic")
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
@@ -410,7 +434,7 @@ private struct CardPressStyle: ButtonStyle {
 
 #Preview("Dark Mode") {
     ScrollView {
-        VStack(spacing: 16) {
+        VStack(spacing: .arcSpacingLarge) {
             ARCListCard(
                 configuration: .prominent,
                 image: .system("moon.stars.fill", color: .indigo),
@@ -420,6 +444,10 @@ private struct CardPressStyle: ButtonStyle {
         }
         .padding()
     }
+    #if os(iOS)
     .background(Color(.systemGroupedBackground))
+    #else
+    .background(Color(nsColor: .controlBackgroundColor))
+    #endif
     .preferredColorScheme(.dark)
 }

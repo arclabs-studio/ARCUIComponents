@@ -1,3 +1,4 @@
+import ARCDesignSystem
 import Foundation
 import SwiftUI
 
@@ -54,31 +55,32 @@ public enum ARCMenuUserImage: Sendable {
 
     // MARK: - Computed Properties
 
+    // swiftlint:disable function_body_length
     /// Returns the appropriate SwiftUI view for the avatar
     @ViewBuilder
     public func avatarView(size: CGFloat = 60) -> some View {
         switch self {
-        case .systemImage(let name):
+        case let .systemImage(name):
             Image(systemName: name)
                 .resizable()
                 .scaledToFit()
                 .frame(width: size, height: size)
                 .foregroundStyle(.primary)
 
-        case .imageName(let name):
+        case let .imageName(name):
             Image(name)
                 .resizable()
                 .scaledToFill()
                 .frame(width: size, height: size)
                 .clipShape(Circle())
 
-        case .url(let url):
+        case let .url(url):
             AsyncImage(url: url) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
                         .frame(width: size, height: size)
-                case .success(let image):
+                case let .success(image):
                     image
                         .resizable()
                         .scaledToFill()
@@ -95,7 +97,7 @@ public enum ARCMenuUserImage: Sendable {
                 }
             }
 
-        case .initials(let text):
+        case let .initials(text):
             ZStack {
                 Circle()
                     .fill(
@@ -113,4 +115,6 @@ public enum ARCMenuUserImage: Sendable {
             .frame(width: size, height: size)
         }
     }
+
+    // swiftlint:enable function_body_length
 }

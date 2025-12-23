@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// Liquid glass effect modifier for ARC components
@@ -74,8 +75,7 @@ struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier
 
     // MARK: - Background View
 
-    @ViewBuilder
-    private var backgroundView: some View {
+    @ViewBuilder private var backgroundView: some View {
         switch configuration.backgroundStyle {
         case .liquidGlass:
             liquidGlassBackground
@@ -83,10 +83,10 @@ struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier
         case .translucent:
             translucentBackground
 
-        case .solid(let color, let opacity):
+        case let .solid(color, opacity):
             solidBackground(color: color, opacity: opacity)
 
-        case .material(let material):
+        case let .material(material):
             materialBackground(material: material)
         }
     }
@@ -234,8 +234,8 @@ extension View {
     ///     }
     /// }
     /// ```
-    public func liquidGlass<Configuration: LiquidGlassConfigurable>(
-        configuration: Configuration
+    public func liquidGlass(
+        configuration: some LiquidGlassConfigurable
     ) -> some View {
         modifier(LiquidGlassModifier(configuration: configuration))
     }

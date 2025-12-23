@@ -5,6 +5,8 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+// swiftlint:disable file_length
+
 import SwiftUI
 
 /// Showcase demonstrating ARCSearchButton in various configurations
@@ -59,10 +61,12 @@ public struct ARCSearchButtonShowcase: View {
                 .padding(.bottom, 40)
             }
             .navigationTitle("Search Button")
-            .navigationBarTitleDisplayMode(.large)
-            .sheet(isPresented: $showSearchSheet) {
-                SearchSheetView(searchQuery: $searchQuery)
-            }
+            #if os(iOS)
+                .navigationBarTitleDisplayMode(.large)
+            #endif
+                .sheet(isPresented: $showSearchSheet) {
+                    SearchSheetView(searchQuery: $searchQuery)
+                }
         }
     }
 
@@ -276,7 +280,7 @@ private struct NavigationBarExample: View {
             // Content
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    ForEach(1...5, id: \.self) { index in
+                    ForEach(1 ... 5, id: \.self) { index in
                         HStack {
                             Circle()
                                 .fill(.blue.gradient)
@@ -300,7 +304,11 @@ private struct NavigationBarExample: View {
             }
             .frame(height: 300)
         }
+        #if os(iOS)
         .background(Color(.systemGroupedBackground))
+        #else
+        .background(Color(nsColor: .controlBackgroundColor))
+        #endif
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
@@ -321,7 +329,11 @@ private struct ToolbarExample: View {
             }
             .frame(maxWidth: .infinity)
             .frame(height: 200)
-            .background(Color(.systemBackground))
+            #if os(iOS)
+                .background(Color(.systemBackground))
+            #else
+                .background(Color(nsColor: .windowBackgroundColor))
+            #endif
 
             // Toolbar
             HStack {
@@ -375,8 +387,12 @@ private struct ContentAreaExample: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 40)
-        .background(Color(.systemGroupedBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        #if os(iOS)
+            .background(Color(.systemGroupedBackground))
+        #else
+            .background(Color(nsColor: .controlBackgroundColor))
+        #endif
+            .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
@@ -400,8 +416,12 @@ private struct SearchBarAlternativeExample: View {
                     Spacer()
                 }
                 .padding()
-                .background(Color(.tertiarySystemFill))
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+                #if os(iOS)
+                    .background(Color(.tertiarySystemFill))
+                #else
+                    .background(Color(nsColor: .tertiaryLabelColor).opacity(0.1))
+                #endif
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
             }
             .padding()
 
@@ -411,7 +431,11 @@ private struct SearchBarAlternativeExample: View {
                 .foregroundStyle(.secondary)
                 .padding()
         }
+        #if os(iOS)
         .background(Color(.systemBackground))
+        #else
+        .background(Color(nsColor: .windowBackgroundColor))
+        #endif
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
@@ -436,20 +460,30 @@ private struct SearchSheetView: View {
                         .foregroundStyle(.secondary)
                     Spacer()
                 } else {
-                    List(1...10, id: \.self) { item in
+                    List(1 ... 10, id: \.self) { item in
                         Text("Result \(item) for \"\(searchQuery)\"")
                     }
                 }
             }
             .navigationTitle("Search")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
-                        dismiss()
+            #if os(iOS)
+                .navigationBarTitleDisplayMode(.inline)
+            #endif
+                .toolbar {
+                    #if os(iOS)
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Done") {
+                            dismiss()
+                        }
                     }
+                    #else
+                    ToolbarItem(placement: .automatic) {
+                        Button("Done") {
+                            dismiss()
+                        }
+                    }
+                    #endif
                 }
-            }
         }
     }
 }

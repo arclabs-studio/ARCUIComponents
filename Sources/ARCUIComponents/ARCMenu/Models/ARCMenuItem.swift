@@ -1,3 +1,4 @@
+import ARCDesignSystem
 import Foundation
 import SwiftUI
 
@@ -66,13 +67,13 @@ public enum ARCMenuIcon: Sendable {
     @ViewBuilder
     public func iconView(isDestructive: Bool = false) -> some View {
         switch self {
-        case .system(let name, let renderingMode):
+        case let .system(name, renderingMode):
             Image(systemName: name)
                 .symbolRenderingMode(renderingMode)
                 .font(.title3)
                 .foregroundStyle(isDestructive ? Color.red : Color.primary)
 
-        case .image(let name):
+        case let .image(name):
             Image(name)
                 .resizable()
                 .scaledToFit()

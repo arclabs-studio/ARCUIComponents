@@ -1,3 +1,4 @@
+import ARCDesignSystem
 import SwiftUI
 
 /// ARCMenu - Premium menu component following Apple's design language
@@ -86,6 +87,7 @@ public struct ARCMenu: View {
 
     // MARK: - Menu Content
 
+    // swiftlint:disable function_body_length
     @ViewBuilder
     private func menuContent(geometry: GeometryProxy) -> some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -100,7 +102,7 @@ public struct ARCMenu: View {
                 }
 
                 // Menu items
-                VStack(spacing: 4) {
+                VStack(spacing: .arcSpacingXSmall) {
                     ForEach(viewModel.menuItems) { item in
                         ARCMenuItemRow(
                             item: item,
@@ -113,15 +115,15 @@ public struct ARCMenu: View {
                         // Divider between items (except last)
                         if item.id != viewModel.menuItems.last?.id {
                             Divider()
-                                .padding(.leading, 64)
+                                .padding(.leading, 64) // Aligned with icon
                         }
                     }
                 }
                 .background {
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
                         .fill(.ultraThinMaterial)
                         .overlay {
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
                                 .strokeBorder(
                                     Color.white.opacity(0.1),
                                     lineWidth: 0.5
@@ -134,7 +136,7 @@ public struct ARCMenu: View {
                     Text("Version \(version)")
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
-                        .padding(.top, 8)
+                        .padding(.top, .arcSpacingSmall)
                 }
             }
             .padding(viewModel.configuration.contentInsets)
@@ -152,6 +154,8 @@ public struct ARCMenu: View {
                 : nil
         )
     }
+
+    // swiftlint:enable function_body_length
 
     // MARK: - Gestures
 
