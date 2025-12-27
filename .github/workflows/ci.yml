@@ -1,0 +1,132 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Show Xcode version
+      run: xcodebuild -version
+
+    - name: Show Swift version
+      run: swift --version
+
+    - name: List available simulators
+      run: xcrun simctl list devices available
+
+    - name: Build for iOS Simulator
+      run: |
+        xcodebuild -scheme ARCUIComponents \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          build
+
+    - name: Run tests on iOS Simulator
+      run: |
+        xcodebuild -scheme ARCUIComponents \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          -enableCodeCoverage YES \
+          -resultBundlePath TestResults.xcresult \
+          test
+
+    - name: Generate code coverage
+      run: |
+        xcrun xccov view --report --json TestResults.xcresult > coverage.json || true
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        file: ./coverage.json
+        fail_ci_if_error: false
+
+  swiftlint:
+    name: SwiftLint
+    runs-on: macos-15
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install SwiftLint
+      run: brew install swiftlint
+
+    - name: Run SwiftLint
+      run: swiftlint --strict
+
+  documentation:
+    name: Build Documentation
+    runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: List available simulators
+      run: xcrun simctl list devices available
+
+    - name: Build Documentation with xcodebuild
+      run: |
+        xcodebuild docbuild \
+          -scheme ARCUIComponents \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          -derivedDataPath ./DerivedData
+
+    - name: Export Documentation
+      run: |
+        mkdir -p docs
+        DOCC_ARCHIVE=$(find ./DerivedData -name "*.doccarchive" -print -quit)
+        if [ -n "$DOCC_ARCHIVE" ]; then
+          xcrun docc process-archive transform-for-static-hosting "$DOCC_ARCHIVE" \
+            --output-path ./docs \
+            --hosting-base-path ARCUIComponents
+        fi
+
+    - name: Upload documentation
+      uses: actions/upload-artifact@v4
+      continue-on-error: true  # Swift docs may contain invalid chars for artifact upload (e.g., operators like !=)
+      with:
+        name: documentation
+        path: docs/
+
+  ios-compatibility:
+    name: iOS/iPadOS Compatibility
+    runs-on: macos-15
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    strategy:
+      matrix:
+        include:
+          - device: 'iPhone 16 Pro'
+            os: 'iOS'
+          - device: 'iPhone SE (3rd generation)'
+            os: 'iOS'
+          - device: 'iPad Pro 13-inch (M4)'
+            os: 'iPadOS'
+          - device: 'iPad Air 11-inch (M2)'
+            os: 'iPadOS'
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: List available simulators
+      run: xcrun simctl list devices available
+
+    - name: Build for ${{ matrix.os }} (${{ matrix.device }})
+      run: |
+        xcodebuild -scheme ARCUIComponents \
+          -destination 'platform=iOS Simulator,name=${{ matrix.device }}' \
+          build
