@@ -1,3 +1,10 @@
+//
+//  ARCMenu.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
 import ARCDesignSystem
 import SwiftUI
 

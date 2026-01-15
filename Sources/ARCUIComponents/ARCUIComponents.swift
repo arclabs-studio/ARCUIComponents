@@ -1,5 +1,9 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+//
+//  ARCUIComponents.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
 
 /// ARCUIComponents - Premium UI Components for Apple Platforms
 ///
