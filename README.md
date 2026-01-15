@@ -355,23 +355,42 @@ let viewModel = ARCMenuViewModel(
 
 ## 🏗️ Architecture
 
-ARCMenu follows **Clean Architecture** principles:
+ARCUIComponents follows **Clean Architecture** principles:
 
 ```
-ARCMenu/
-├── Models/                   # Data layer
-│   ├── ARCMenuUser.swift           # User representation
-│   ├── ARCMenuItem.swift           # Menu item model
-│   └── ARCMenuConfiguration.swift  # Configuration
-├── ViewModels/               # Business logic layer
-│   └── ARCMenuViewModel.swift      # Menu state & logic
-├── Views/                    # Presentation layer
-│   ├── ARCMenu.swift               # Main menu view
-│   ├── ARCMenuButton.swift         # Trigger button
-│   ├── ARCMenuUserHeader.swift     # User profile section
-│   ├── ARCMenuItemRow.swift        # Menu item row
-│   └── ARCMenuLiquidGlassModifier.swift  # Visual effects
-└── ARCMenuExample.swift      # Usage examples
+Sources/ARCUIComponents/
+├── ARCMenu/                  # Menu component
+│   ├── Models/
+│   │   ├── ARCMenuUser.swift
+│   │   ├── ARCMenuItem.swift
+│   │   └── ARCMenuConfiguration.swift
+│   ├── ViewModels/
+│   │   └── ARCMenuViewModel.swift
+│   └── Views/
+│       ├── ARCMenu.swift
+│       ├── ARCMenuButton.swift
+│       ├── ARCMenuUserHeader.swift
+│       └── ARCMenuItemRow.swift
+├── ARCFavorites/             # Favorite button component
+│   ├── ARCFavoriteButton.swift
+│   └── ARCFavoriteButtonConfiguration.swift
+├── ARCLists/                 # List card component
+│   ├── ARCListCard.swift
+│   └── ARCListCardConfiguration.swift
+├── ARCSearch/                # Search button component
+│   ├── ARCSearchButton.swift
+│   └── ARCSearchButtonConfiguration.swift
+├── ARCEmptyState/            # Empty state component
+│   ├── ARCEmptyState.swift
+│   └── ARCEmptyStateConfiguration.swift
+├── ARCEffects/               # Visual effects
+│   └── LiquidGlassModifier.swift
+├── Core/                     # Shared models
+│   └── Models/
+│       ├── ARCBackgroundStyle.swift
+│       ├── ARCShadow.swift
+│       └── LiquidGlassConfigurable.swift
+└── ARCUIComponents.docc/     # Documentation catalog
 ```
 
 ---
@@ -404,6 +423,23 @@ Leverages Swift's type system for compile-time safety. No stringly-typed APIs or
 
 ## 🧪 Testing
 
+ARCUIComponents includes a comprehensive unit test suite with **190 tests** across **14 test suites**.
+
+### Test Coverage
+
+| Component | Tests |
+|-----------|-------|
+| ARCMenuViewModel | 31 |
+| ARCMenuConfiguration | 17 |
+| ARCMenuItem | 25 |
+| ARCMenuUser | 13 |
+| ARCFavoriteButtonConfiguration | 17 |
+| ARCListCardConfiguration | 14 |
+| ARCSearchButtonConfiguration | 16 |
+| ARCEmptyStateConfiguration | 27 |
+| ARCShadow & ARCBackgroundStyle | 18 |
+| **Total** | **190** |
+
 ### Running Tests
 
 ```bash
@@ -412,6 +448,9 @@ swift test
 
 # Run with verbose output
 swift test --verbose
+
+# Run specific test suite
+swift test --filter ARCMenuViewModelTests
 ```
 
 ### Demo App

@@ -10,39 +10,75 @@ Each component is crafted to match Apple's design language as seen in their flag
 
 ## Topics
 
+### Getting Started
+
+- <doc:GettingStarted>
+
 ### Components
+
+- <doc:ARCMenu>
+- <doc:ARCFavoriteButton>
+- <doc:ARCListCard>
+- <doc:ARCSearchButton>
+- <doc:ARCEmptyState>
+
+### ARCMenu
 
 - ``ARCMenu``
 - ``ARCMenuButton``
-
-### Models
-
+- ``ARCMenuViewModel``
 - ``ARCMenuUser``
 - ``ARCMenuItem``
 - ``ARCMenuConfiguration``
 - ``ARCMenuUserImage``
 - ``ARCMenuIcon``
-- ``ARCMenuBackgroundStyle``
-- ``ARCMenuShadow``
 - ``ARCMenuHapticStyle``
 
-### View Models
+### ARCFavoriteButton
 
-- ``ARCMenuViewModel``
+- ``ARCFavoriteButton``
+- ``ARCFavoriteButtonConfiguration``
+
+### ARCListCard
+
+- ``ARCListCard``
+- ``ARCListCardConfiguration``
+
+### ARCSearchButton
+
+- ``ARCSearchButton``
+- ``ARCSearchButtonConfiguration``
+
+### ARCEmptyState
+
+- ``ARCEmptyState``
+- ``ARCEmptyStateConfiguration``
+
+### Core Models
+
+- ``ARCBackgroundStyle``
+- ``ARCShadow``
+- ``LiquidGlassConfigurable``
+
+### Effects
+
+- ``LiquidGlassModifier``
 
 ### Views
 
 - ``ARCMenuUserHeader``
 - ``ARCMenuItemRow``
 
-### Examples
+### Showcases
 
-- ``ARCMenuExample``
 - ``ARCMenuShowcase``
+- ``ARCFavoriteButtonShowcase``
+- ``ARCListCardShowcase``
+- ``ARCSearchButtonShowcase``
+- ``ARCEmptyStateShowcase``
+- ``LiquidGlassShowcase``
 
-## Getting Started
-
-### Installation
+## Installation
 
 Add ARCUIComponents to your project using Swift Package Manager:
 
@@ -52,7 +88,7 @@ dependencies: [
 ]
 ```
 
-### Quick Start
+## Quick Start
 
 ```swift
 import ARCUIComponents
@@ -86,7 +122,7 @@ struct ContentView: View {
 - Swift 6.0+
 - Xcode 16.0+
 
-> **Platform Focus**: ARCUIComponents is designed exclusively for iOS and iPadOS,
+> **Platform Focus**: ARCUIComponents is designed for iOS and iPadOS,
 > following mobile-first design patterns and Apple's Human Interface Guidelines
 > for touch-based interfaces.
 
@@ -107,7 +143,15 @@ Leverages Swift's type system for compile-time safety. No stringly-typed APIs or
 ## Architecture
 
 Built with Clean Architecture principles:
-- **Models**: Data structures and configuration
-- **ViewModels**: Business logic and state management
-- **Views**: SwiftUI presentation layer
-- **Utilities**: Helper code and modifiers
+
+```
+Sources/ARCUIComponents/
+├── ARCMenu/           # Menu component (MVVM)
+├── ARCFavorites/      # Favorite button component
+├── ARCLists/          # List card component
+├── ARCSearch/         # Search button component
+├── ARCEmptyState/     # Empty state component
+├── ARCEffects/        # Visual effects (Liquid Glass)
+├── Core/              # Shared models and protocols
+└── ARCUIComponents.docc/  # Documentation
+```

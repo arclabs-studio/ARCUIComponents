@@ -8,11 +8,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Comprehensive DocC documentation catalog
+- Comprehensive unit test suite (190 tests across 14 suites)
+  - ARCMenuViewModel tests (state, presentation, gestures, factory methods)
+  - ARCMenuConfiguration tests (presets, custom init, LiquidGlassConfigurable)
+  - ARCMenuItem tests (initialization, factory methods, icon types)
+  - ARCMenuUser tests (initialization, Identifiable, Sendable)
+  - ARCFavoriteButtonConfiguration tests (sizes, colors, presets)
+  - ARCListCardConfiguration tests (background styles, conformances)
+  - ARCSearchButtonConfiguration tests (sizes, styles, presets)
+  - ARCEmptyStateConfiguration tests (all presets, custom init)
+  - ARCShadow and ARCBackgroundStyle tests
+- Comprehensive DocC documentation for all components
+  - ARCFavoriteButton documentation
+  - ARCListCard documentation
+  - ARCSearchButton documentation
+  - ARCEmptyState documentation
+- Standard file headers to all source files
 - Technical review document with improvement roadmap
 - CHANGELOG file for version tracking
 
 ### Changed
+- **Folder structure renamed for consistency**:
+  - `Lists/` → `ARCLists/`
+  - `Favorites/` → `ARCFavorites/`
+  - `Search/` → `ARCSearch/`
+  - `Effects/` → `ARCEffects/`
+  - `Utilities/` → `ARCEmptyState/`
+  - `Shared/` → `Core/`
 - Enhanced inline documentation with DocC markup
 - Improved code examples in documentation
 
