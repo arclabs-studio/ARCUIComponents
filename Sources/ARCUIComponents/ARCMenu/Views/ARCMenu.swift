@@ -106,7 +106,7 @@ public struct ARCMenu: View {
         }
         .frame(width: viewModel.configuration.menuWidth)
         .frame(maxHeight: geometry.size.height)
-        .liquidGlass(configuration: viewModel.configuration)
+        .liquidGlass(configuration: viewModel.configuration, isInteractive: false)
         .offset(x: viewModel.dragOffset, y: viewModel.configuration.topPadding)
         .gesture(viewModel.configuration.allowsDragToDismiss ? dragGesture : nil)
     }

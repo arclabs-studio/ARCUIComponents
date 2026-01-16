@@ -122,6 +122,13 @@ public struct ARCEmptyState: View {
     // MARK: - Body
 
     public var body: some View {
+        contentView
+            .modifier(GlassBackgroundModifier(configuration: configuration))
+            .accessibilityElement(children: .contain)
+    }
+
+    @ViewBuilder
+    private var contentView: some View {
         VStack(spacing: configuration.spacing) {
             // Icon
             Image(systemName: configuration.icon)
@@ -165,7 +172,6 @@ public struct ARCEmptyState: View {
             }
         }
         .frame(maxWidth: maxWidth)
-        .accessibilityElement(children: .contain)
     }
 
     // MARK: - Computed Properties
@@ -193,6 +199,24 @@ public struct ARCEmptyState: View {
             360
         default: // Accessibility sizes
             400
+        }
+    }
+}
+
+// MARK: - Glass Background Modifier
+
+/// Conditionally applies liquid glass based on background style
+@available(iOS 17.0, macOS 14.0, *)
+private struct GlassBackgroundModifier: ViewModifier {
+    let configuration: ARCEmptyStateConfiguration
+
+    func body(content: Content) -> some View {
+        if case .liquidGlass = configuration.backgroundStyle {
+            content
+                .padding(.arcPaddingSection)
+                .liquidGlass(configuration: configuration, isInteractive: false)
+        } else {
+            content
         }
     }
 }
