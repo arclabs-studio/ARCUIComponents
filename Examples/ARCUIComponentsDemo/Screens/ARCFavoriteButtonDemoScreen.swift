@@ -122,19 +122,17 @@ private extension ARCFavoriteButtonDemoScreen {
                 .font(.headline)
 
             HStack(spacing: 16) {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.arcBrandBurgundy.opacity(0.3))
+                Image("ARC_Icon")
+                    .resizable()
+                    .scaledToFit()
                     .frame(width: 60, height: 60)
-                    .overlay {
-                        Image(systemName: "photo")
-                            .foregroundStyle(Color.arcBrandBurgundy)
-                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Sample Item")
+                    Text("ARC Labs Studio")
                         .font(.headline)
 
-                    Text("Description text here")
+                    Text("Premium UI Components")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }

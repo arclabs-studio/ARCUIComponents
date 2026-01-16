@@ -126,7 +126,29 @@ private extension DemoHomeView {
 
     var aboutSection: some View {
         Section {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(spacing: 12) {
+                    Image("ARC_Icon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("ARCUIComponents")
+                            .font(.headline)
+                            .foregroundStyle(Color.arcBrandBurgundy)
+
+                        Text("Version \(ARCUIComponents.version)")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                Text("Premium UI components for iOS following Apple's Human Interface Guidelines.")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+
                 HStack(spacing: 8) {
                     Circle()
                         .fill(Color.arcBrandBurgundy)
@@ -137,19 +159,11 @@ private extension DemoHomeView {
                     Circle()
                         .fill(Color.arcBrandBlack)
                         .frame(width: 8, height: 8)
+                    Spacer()
+                    Text("ARC Labs Studio")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
                 }
-
-                Text("ARCUIComponents")
-                    .font(.headline)
-                    .foregroundStyle(Color.arcBrandBurgundy)
-
-                Text("Version \(ARCUIComponents.version)")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-
-                Text("Premium UI components for iOS following Apple's Human Interface Guidelines.")
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
             }
             .padding(.vertical, 4)
         } header: {

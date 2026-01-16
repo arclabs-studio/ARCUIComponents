@@ -104,8 +104,15 @@ private extension LiquidGlassDemoScreen {
 
     var glassCardDemo: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Liquid Glass Effect")
-                .font(.title2.bold())
+            HStack(spacing: 12) {
+                Image("ARC_Symbol")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
+
+                Text("Liquid Glass Effect")
+                    .font(.title2.bold())
+            }
 
             Text(
                 "This card uses the liquid glass modifier to create a premium glassmorphism effect. Notice how it blurs and tints the background while maintaining readability."

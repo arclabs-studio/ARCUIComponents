@@ -71,6 +71,12 @@ private extension ARCListCardDemoScreen {
                 .foregroundStyle(Color.arcBrandBurgundy)
 
             ARCListCard(
+                image: .system("a.square.fill", color: .arcBrandBurgundy, size: 50),
+                title: "ARC Labs Studio",
+                subtitle: "Premium UI Components"
+            )
+
+            ARCListCard(
                 image: .system("star.fill", color: .arcBrandGold, size: 44),
                 title: "System Image",
                 subtitle: "Using SF Symbols"

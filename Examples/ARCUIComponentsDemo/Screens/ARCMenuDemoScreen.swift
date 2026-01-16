@@ -17,10 +17,10 @@ struct ARCMenuDemoScreen: View {
 
     @State private var menuViewModel = ARCMenuViewModel.standard(
         user: ARCMenuUser(
-            name: "Demo User",
-            email: "demo@arclabs.studio",
+            name: "ARC Labs",
+            email: "hello@arclabs.studio",
             subtitle: "Premium Member",
-            avatarImage: .initials("DU")
+            avatarImage: .imageName("ARC_Icon")
         ),
         configuration: ARCMenuConfiguration(sheetTitle: "Cuenta"),
         onSettings: {},
@@ -113,7 +113,12 @@ private extension ARCMenuDemoScreen {
     }
 
     var headerSection: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
+            Image("ARC_Symbol")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 60)
+
             Text("ARCMenu Demo")
                 .font(.largeTitle.bold())
                 .foregroundStyle(.white)
