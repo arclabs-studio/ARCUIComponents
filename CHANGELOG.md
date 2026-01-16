@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **ARCMenu Presentation Styles** (Apple HIG compliant):
+  - New `ARCMenuPresentationStyle` enum with two options:
+    - `bottomSheet`: Slides up from bottom (Apple standard, default)
+    - `trailingPanel`: Slides in from trailing edge (drawer style)
+  - New configuration properties for bottomSheet style:
+    - `showsGrabber`: Display grabber handle at top (default: true)
+    - `showsCloseButton`: Display close button in header (default: true)
+    - `sheetTitle`: Optional centered title in header
+  - New `.trailingPanel` preset configuration for drawer-style presentation
+  - Comprehensive unit tests for `ARCMenuPresentationStyle`
+
 - **Demo App Improvements**:
   - ARC brand colors integration (Burgundy #541311, Gold #FFB42E, Black #000000)
   - Dark mode support with dedicated SwiftUI Previews for all screens
@@ -35,6 +46,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CHANGELOG file for version tracking
 
 ### Changed
+- **ARCMenu Component Enhancements**:
+  - `ARCMenuConfiguration`: Added `presentationStyle`, `showsGrabber`, `showsCloseButton`, and `sheetTitle` properties
+  - `ARCMenu`: Refactored to support both `bottomSheet` and `trailingPanel` presentations with appropriate transitions
+  - `ARCMenuViewModel`: Updated drag gesture handling to support both vertical (bottomSheet) and horizontal (trailingPanel) directions
+  - Default presentation style changed from trailing panel to bottom sheet (Apple standard)
+
+- **Demo App ARCMenu Screen**:
+  - Added presentation style picker (Bottom Sheet / Trailing Panel)
+  - Added theme picker (ARC / Fitness / Premium / Dark)
+  - Dynamic features card showing style-specific characteristics
+  - Real-time configuration updates when switching styles
+
 - **Folder structure renamed for consistency**:
   - `Lists/` → `ARCLists/`
   - `Favorites/` → `ARCFavorites/`

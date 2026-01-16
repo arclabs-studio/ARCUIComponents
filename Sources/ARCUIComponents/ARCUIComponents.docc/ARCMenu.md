@@ -10,6 +10,9 @@ ARCMenu is a premium, reusable menu component that implements Apple's modern des
 
 ## Features
 
+- **Presentation Styles**: Two presentation modes following Apple HIG
+  - `bottomSheet`: Slides up from bottom (Apple standard, default)
+  - `trailingPanel`: Slides in from trailing edge (drawer style)
 - **Liquid Glass Effect**: Beautiful glassmorphism with ultra-thin materials and vibrancy
 - **Smooth Animations**: Spring-based animations following Apple's timing curves
 - **Gesture Support**: Drag-to-dismiss with haptic feedback and progress visualization
@@ -20,6 +23,49 @@ ARCMenu is a premium, reusable menu component that implements Apple's modern des
 - **Full Customization**: Colors, sizing, animations, and behavior
 - **Swift 6 Ready**: Complete concurrency support with `@MainActor` and `Sendable`
 - **Clean Architecture**: Clear separation of concerns
+
+## Presentation Styles
+
+ARCMenu supports two presentation styles, matching the patterns used by Apple apps like Music, Apple TV, and Slack.
+
+### Bottom Sheet (Default)
+
+The bottom sheet style slides up from the bottom of the screen, following Apple's Human Interface Guidelines. This is the recommended style for iOS apps.
+
+```swift
+let config = ARCMenuConfiguration(
+    presentationStyle: .bottomSheet,
+    showsGrabber: true,
+    showsCloseButton: true,
+    sheetTitle: "Account"
+)
+```
+
+**Features:**
+- Slides up from bottom
+- Includes grabber handle
+- Close button in header
+- Optional centered title
+- Swipe down to dismiss
+
+### Trailing Panel
+
+The trailing panel style slides in from the right edge, similar to a drawer or panel. Useful for iPad apps or desktop layouts.
+
+```swift
+let config = ARCMenuConfiguration.trailingPanel
+// or
+let config = ARCMenuConfiguration(
+    presentationStyle: .trailingPanel,
+    showsGrabber: false,
+    showsCloseButton: false
+)
+```
+
+**Features:**
+- Slides in from right
+- No grabber or close button
+- Swipe right to dismiss
 
 ## Basic Usage
 
@@ -66,15 +112,23 @@ struct ContentView: View {
 
 ### Configuration Presets
 
-ARCMenu includes five built-in configuration presets:
+ARCMenu includes six built-in configuration presets:
 
-- **Default**: Apple Music style with blue accent
+- **Default**: Bottom sheet style with blue accent (Apple standard)
+- **Trailing Panel**: Drawer-style presentation from trailing edge
 - **Fitness**: Health & Fitness apps with green accent
 - **Premium**: Subscription services with orange/gold accent
 - **Dark**: Dark theme apps with purple accent
 - **Minimal**: Subtle and clean with gray accent
 
 ```swift
+// Bottom sheet (default)
+let config = ARCMenuConfiguration.default
+
+// Trailing panel (drawer)
+let config = ARCMenuConfiguration.trailingPanel
+
+// Theme presets
 let config = ARCMenuConfiguration.fitness
 let viewModel = ARCMenuViewModel(
     user: user,
@@ -87,11 +141,24 @@ let viewModel = ARCMenuViewModel(
 
 ```swift
 let customConfig = ARCMenuConfiguration(
+    // Presentation style
+    presentationStyle: .bottomSheet,
+
+    // Visual customization
     accentColor: .purple,
     backgroundStyle: .liquidGlass,
     cornerRadius: 30,
     shadow: .prominent,
+
+    // Layout (for trailingPanel)
     menuWidth: 340,
+
+    // Bottom sheet options
+    showsGrabber: true,
+    showsCloseButton: true,
+    sheetTitle: "My Account",
+
+    // Behavior
     hapticFeedback: .medium,
     allowsDragToDismiss: true
 )
@@ -146,17 +213,18 @@ ARCMenu follows Clean Architecture principles with clear separation:
 ```
 ARCMenu/
 ├── Models/
-│   ├── ARCMenuUser          # User representation
-│   ├── ARCMenuItem          # Menu item model
-│   └── ARCMenuConfiguration # Configuration & theming
+│   ├── ARCMenuUser              # User representation
+│   ├── ARCMenuItem              # Menu item model
+│   ├── ARCMenuConfiguration     # Configuration & theming
+│   └── ARCMenuPresentationStyle # Presentation style enum
 ├── ViewModels/
-│   └── ARCMenuViewModel     # Business logic & state
+│   └── ARCMenuViewModel         # Business logic & state
 └── Views/
-    ├── ARCMenu              # Main container
-    ├── ARCMenuButton        # Trigger button
-    ├── ARCMenuUserHeader    # User profile section
-    ├── ARCMenuItemRow       # Individual item
-    └── Modifiers            # Visual effects
+    ├── ARCMenu                  # Main container
+    ├── ARCMenuButton            # Trigger button
+    ├── ARCMenuUserHeader        # User profile section
+    ├── ARCMenuItemRow           # Individual item
+    └── Modifiers                # Visual effects
 ```
 
 ## Topics
@@ -172,6 +240,7 @@ ARCMenu/
 - ``ARCMenuUser``
 - ``ARCMenuItem``
 - ``ARCMenuConfiguration``
+- ``ARCMenuPresentationStyle``
 
 ### Customization
 
