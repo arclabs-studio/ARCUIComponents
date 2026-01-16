@@ -22,7 +22,7 @@ struct ARCMenuDemoScreen: View {
             subtitle: "Premium Member",
             avatarImage: .initials("DU")
         ),
-        configuration: .default,
+        configuration: ARCMenuConfiguration(sheetTitle: "Cuenta"),
         onSettings: {},
         onProfile: {},
         onPlan: {},
@@ -31,7 +31,8 @@ struct ARCMenuDemoScreen: View {
         onLogout: {}
     )
 
-    @State private var selectedStyle: MenuStyleOption = .arcBrand
+    @State private var selectedPresentationStyle: PresentationStyleOption = .bottomSheet
+    @State private var selectedTheme: MenuThemeOption = .arcBrand
 
     // MARK: Body
 
@@ -64,9 +65,24 @@ struct ARCMenuDemoScreen: View {
                 #endif
             }
             .arcMenu(viewModel: menuViewModel)
-            .onChange(of: selectedStyle) { _, newStyle in
-                menuViewModel.configuration = newStyle.configuration
+            .onChange(of: selectedPresentationStyle) { _, _ in
+                updateConfiguration()
             }
+            .onChange(of: selectedTheme) { _, _ in
+                updateConfiguration()
+            }
+    }
+
+    // MARK: Private Methods
+
+    private func updateConfiguration() {
+        menuViewModel.configuration = ARCMenuConfiguration(
+            presentationStyle: selectedPresentationStyle.style,
+            accentColor: selectedTheme.accentColor,
+            showsGrabber: selectedPresentationStyle == .bottomSheet,
+            showsCloseButton: selectedPresentationStyle == .bottomSheet,
+            sheetTitle: selectedPresentationStyle == .bottomSheet ? "Cuenta" : nil
+        )
     }
 }
 
@@ -76,7 +92,7 @@ private extension ARCMenuDemoScreen {
 
     var backgroundGradient: some View {
         LinearGradient(
-            colors: selectedStyle.gradientColors,
+            colors: selectedTheme.gradientColors,
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -84,7 +100,20 @@ private extension ARCMenuDemoScreen {
     }
 
     var contentView: some View {
-        VStack(spacing: 24) {
+        ScrollView {
+            VStack(spacing: 24) {
+                headerSection
+                presentationStylePicker
+                themePicker
+                featuresCard
+            }
+            .padding(.top, 20)
+            .padding(.bottom, 40)
+        }
+    }
+
+    var headerSection: some View {
+        VStack(spacing: 8) {
             Text("ARCMenu Demo")
                 .font(.largeTitle.bold())
                 .foregroundStyle(.white)
@@ -92,43 +121,67 @@ private extension ARCMenuDemoScreen {
             Text("Tap the menu button in the toolbar")
                 .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.8))
-
-            stylePicker
-
-            Spacer()
-
-            featuresCard
-
-            Spacer()
         }
-        .padding(.top, 60)
     }
 
-    var stylePicker: some View {
-        Picker("Style", selection: $selectedStyle) {
-            ForEach(MenuStyleOption.allCases) { style in
-                Text(style.name).tag(style)
+    var presentationStylePicker: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Presentation Style")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white.opacity(0.7))
+                .padding(.horizontal, 4)
+
+            Picker("Presentation", selection: $selectedPresentationStyle) {
+                ForEach(PresentationStyleOption.allCases) { style in
+                    Text(style.name).tag(style)
+                }
             }
+            .pickerStyle(.segmented)
         }
-        .pickerStyle(.segmented)
+        .padding(.horizontal, 32)
+    }
+
+    var themePicker: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Theme")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white.opacity(0.7))
+                .padding(.horizontal, 4)
+
+            Picker("Theme", selection: $selectedTheme) {
+                ForEach(MenuThemeOption.allCases) { theme in
+                    Text(theme.name).tag(theme)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
         .padding(.horizontal, 32)
     }
 
     var featuresCard: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "hand.tap.fill")
+        VStack(spacing: 16) {
+            Image(systemName: selectedPresentationStyle.icon)
                 .font(.system(size: 40))
                 .foregroundStyle(Color.arcBrandGold)
 
-            Text("Features")
+            Text(selectedPresentationStyle.title)
                 .font(.headline)
                 .foregroundStyle(.primary)
 
+            Text(selectedPresentationStyle.description)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+
+            Divider()
+                .padding(.vertical, 4)
+
             VStack(alignment: .leading, spacing: 8) {
-                FeatureRowView(icon: "rectangle.portrait.and.arrow.right", text: "Slide-in animation")
-                FeatureRowView(icon: "hand.draw", text: "Drag to dismiss")
-                FeatureRowView(icon: "person.crop.circle", text: "User profile header")
-                FeatureRowView(icon: "paintbrush", text: "Liquid glass effect")
+                ForEach(selectedPresentationStyle.features, id: \.text) { feature in
+                    FeatureRowView(icon: feature.icon, text: feature.text)
+                }
             }
         }
         .padding()
@@ -140,7 +193,71 @@ private extension ARCMenuDemoScreen {
 
 // MARK: - Supporting Types
 
-private enum MenuStyleOption: String, CaseIterable, Identifiable {
+private enum PresentationStyleOption: String, CaseIterable, Identifiable {
+    case bottomSheet
+    case trailingPanel
+
+    var id: String { rawValue }
+
+    var name: String {
+        switch self {
+        case .bottomSheet: "Bottom Sheet"
+        case .trailingPanel: "Trailing Panel"
+        }
+    }
+
+    var style: ARCMenuPresentationStyle {
+        switch self {
+        case .bottomSheet: .bottomSheet
+        case .trailingPanel: .trailingPanel
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .bottomSheet: "rectangle.bottomhalf.inset.filled"
+        case .trailingPanel: "rectangle.righthalf.inset.filled"
+        }
+    }
+
+    var title: String {
+        switch self {
+        case .bottomSheet: "Bottom Sheet (Apple Standard)"
+        case .trailingPanel: "Trailing Panel (Drawer)"
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .bottomSheet:
+            "Slides up from the bottom like Apple Music, Apple TV, and Slack. Includes grabber and close button."
+        case .trailingPanel:
+            "Slides in from the right edge like a drawer. Great for iPad or desktop layouts."
+        }
+    }
+
+    var features: [(icon: String, text: String)] {
+        switch self {
+        case .bottomSheet:
+            [
+                ("arrow.up.doc", "Slides up from bottom"),
+                ("hand.draw", "Swipe down to dismiss"),
+                ("minus.rectangle", "Grabber handle"),
+                ("xmark.circle", "Close button"),
+                ("text.justify.leading", "Centered title")
+            ]
+        case .trailingPanel:
+            [
+                ("arrow.right.doc", "Slides in from right"),
+                ("hand.draw", "Swipe right to dismiss"),
+                ("person.crop.circle", "User profile header"),
+                ("paintbrush", "Liquid glass effect")
+            ]
+        }
+    }
+}
+
+private enum MenuThemeOption: String, CaseIterable, Identifiable {
     case arcBrand
     case fitness
     case premium
@@ -150,19 +267,19 @@ private enum MenuStyleOption: String, CaseIterable, Identifiable {
 
     var name: String {
         switch self {
-        case .arcBrand: "ARC Brand"
+        case .arcBrand: "ARC"
         case .fitness: "Fitness"
         case .premium: "Premium"
         case .dark: "Dark"
         }
     }
 
-    var configuration: ARCMenuConfiguration {
+    var accentColor: Color {
         switch self {
-        case .arcBrand: .default
-        case .fitness: .fitness
-        case .premium: .premium
-        case .dark: .dark
+        case .arcBrand: .arcBrandGold
+        case .fitness: .green
+        case .premium: .orange
+        case .dark: .purple
         }
     }
 

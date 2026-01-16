@@ -73,6 +73,34 @@ struct ARCMenuConfigurationTests {
         #expect(config.dragDismissalThreshold == 100)
     }
 
+    @Test("default_hasBottomSheetPresentationStyle")
+    func default_hasBottomSheetPresentationStyle() {
+        let config = ARCMenuConfiguration.default
+
+        #expect(config.presentationStyle == .bottomSheet)
+    }
+
+    @Test("default_showsGrabber")
+    func default_showsGrabber() {
+        let config = ARCMenuConfiguration.default
+
+        #expect(config.showsGrabber == true)
+    }
+
+    @Test("default_showsCloseButton")
+    func default_showsCloseButton() {
+        let config = ARCMenuConfiguration.default
+
+        #expect(config.showsCloseButton == true)
+    }
+
+    @Test("default_hasNilSheetTitle")
+    func default_hasNilSheetTitle() {
+        let config = ARCMenuConfiguration.default
+
+        #expect(config.sheetTitle == nil)
+    }
+
     // MARK: - Preset Configuration Tests
 
     @Test("dark_hasLiquidGlassBackgroundStyle")
@@ -126,6 +154,27 @@ struct ARCMenuConfigurationTests {
         #expect(config.shadow.radius == ARCShadow.subtle.radius)
     }
 
+    @Test("trailingPanel_hasTrailingPanelPresentationStyle")
+    func trailingPanel_hasTrailingPanelPresentationStyle() {
+        let config = ARCMenuConfiguration.trailingPanel
+
+        #expect(config.presentationStyle == .trailingPanel)
+    }
+
+    @Test("trailingPanel_hidesGrabber")
+    func trailingPanel_hidesGrabber() {
+        let config = ARCMenuConfiguration.trailingPanel
+
+        #expect(config.showsGrabber == false)
+    }
+
+    @Test("trailingPanel_hidesCloseButton")
+    func trailingPanel_hidesCloseButton() {
+        let config = ARCMenuConfiguration.trailingPanel
+
+        #expect(config.showsCloseButton == false)
+    }
+
     // MARK: - Custom Initialization Tests
 
     @Test("init_withCustomMenuWidth_setsCorrectWidth")
@@ -175,6 +224,34 @@ struct ARCMenuConfigurationTests {
         let config = ARCMenuConfiguration(sectionSpacing: 30)
 
         #expect(config.sectionSpacing == 30)
+    }
+
+    @Test("init_withTrailingPanelStyle_setsCorrectStyle")
+    func init_withTrailingPanelStyle_setsCorrectStyle() {
+        let config = ARCMenuConfiguration(presentationStyle: .trailingPanel)
+
+        #expect(config.presentationStyle == .trailingPanel)
+    }
+
+    @Test("init_withSheetTitle_setsCorrectTitle")
+    func init_withSheetTitle_setsCorrectTitle() {
+        let config = ARCMenuConfiguration(sheetTitle: "Cuenta")
+
+        #expect(config.sheetTitle == "Cuenta")
+    }
+
+    @Test("init_withDisabledGrabber_hidesGrabber")
+    func init_withDisabledGrabber_hidesGrabber() {
+        let config = ARCMenuConfiguration(showsGrabber: false)
+
+        #expect(config.showsGrabber == false)
+    }
+
+    @Test("init_withDisabledCloseButton_hidesCloseButton")
+    func init_withDisabledCloseButton_hidesCloseButton() {
+        let config = ARCMenuConfiguration(showsCloseButton: false)
+
+        #expect(config.showsCloseButton == false)
     }
 
     // MARK: - LiquidGlassConfigurable Conformance Tests

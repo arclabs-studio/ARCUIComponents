@@ -20,6 +20,14 @@ import UIKit
 /// - Note: Conforms to `Sendable` for Swift 6 concurrency safety
 /// - Note: Conforms to `LiquidGlassConfigurable` to leverage unified liquid glass effect
 public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
+    // MARK: - Presentation Style
+
+    /// How the menu is presented on screen
+    ///
+    /// - `bottomSheet`: Slides up from the bottom (Apple standard, default)
+    /// - `trailingPanel`: Slides in from the trailing edge (drawer style)
+    public let presentationStyle: ARCMenuPresentationStyle
+
     // MARK: - Visual Customization
 
     /// Primary accent color for the menu
@@ -36,10 +44,10 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
 
     // MARK: - Layout Configuration
 
-    /// Width of the menu (default: 320)
+    /// Width of the menu (used for trailingPanel style, default: 320)
     public let menuWidth: CGFloat
 
-    /// Top padding from safe area (default: 0)
+    /// Top padding from safe area (used for trailingPanel style, default: 0)
     public let topPadding: CGFloat
 
     /// Edge insets for menu content
@@ -47,6 +55,17 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
 
     /// Spacing between menu sections
     public let sectionSpacing: CGFloat
+
+    // MARK: - Bottom Sheet Configuration
+
+    /// Whether to show the grabber handle for bottomSheet style
+    public let showsGrabber: Bool
+
+    /// Whether to show a close button in the header for bottomSheet style
+    public let showsCloseButton: Bool
+
+    /// Title displayed in the sheet header (optional)
+    public let sheetTitle: String?
 
     // MARK: - Animation Configuration
 
@@ -73,7 +92,27 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Initialization
 
     /// Creates a new menu configuration
+    /// - Parameters:
+    ///   - presentationStyle: How the menu is presented (default: `.bottomSheet`)
+    ///   - accentColor: Primary accent color for the menu
+    ///   - backgroundStyle: Background style for the liquid glass effect
+    ///   - cornerRadius: Corner radius for the menu container
+    ///   - shadow: Shadow configuration
+    ///   - menuWidth: Width of the menu (for trailingPanel style)
+    ///   - topPadding: Top padding from safe area (for trailingPanel style)
+    ///   - contentInsets: Edge insets for menu content
+    ///   - sectionSpacing: Spacing between menu sections
+    ///   - showsGrabber: Whether to show the grabber handle (for bottomSheet style)
+    ///   - showsCloseButton: Whether to show a close button in the header
+    ///   - sheetTitle: Title displayed in the sheet header
+    ///   - presentationAnimation: Animation used for menu presentation
+    ///   - dismissalAnimation: Animation used for menu dismissal
+    ///   - hapticFeedback: Haptic feedback style
+    ///   - allowsDragToDismiss: Whether the menu can be dismissed by dragging
+    ///   - dismissOnOutsideTap: Whether tapping outside dismisses the menu
+    ///   - dragDismissalThreshold: Minimum drag distance to trigger dismissal
     public init(
+        presentationStyle: ARCMenuPresentationStyle = .bottomSheet,
         accentColor: Color = .blue,
         backgroundStyle: ARCBackgroundStyle = .liquidGlass,
         cornerRadius: CGFloat = .arcCornerRadiusXLarge,
@@ -82,6 +121,9 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
         topPadding: CGFloat = 0,
         contentInsets: EdgeInsets = .arcPaddingSection,
         sectionSpacing: CGFloat = .arcSpacingXLarge,
+        showsGrabber: Bool = true,
+        showsCloseButton: Bool = true,
+        sheetTitle: String? = nil,
         presentationAnimation: Animation = .spring(response: 0.5, dampingFraction: 0.8),
         dismissalAnimation: Animation = .spring(response: 0.4, dampingFraction: 0.85),
         hapticFeedback: ARCMenuHapticStyle = .medium,
@@ -89,6 +131,7 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
         dismissOnOutsideTap: Bool = true,
         dragDismissalThreshold: CGFloat = 100
     ) {
+        self.presentationStyle = presentationStyle
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
         self.cornerRadius = cornerRadius
@@ -97,6 +140,9 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
         self.topPadding = topPadding
         self.contentInsets = contentInsets
         self.sectionSpacing = sectionSpacing
+        self.showsGrabber = showsGrabber
+        self.showsCloseButton = showsCloseButton
+        self.sheetTitle = sheetTitle
         self.presentationAnimation = presentationAnimation
         self.dismissalAnimation = dismissalAnimation
         self.hapticFeedback = hapticFeedback
@@ -107,8 +153,15 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
 
     // MARK: - Presets
 
-    /// Default configuration matching Apple Music style
+    /// Default configuration with bottomSheet presentation (Apple standard)
     public static let `default` = ARCMenuConfiguration()
+
+    /// Configuration with trailing panel presentation (drawer style)
+    public static let trailingPanel = ARCMenuConfiguration(
+        presentationStyle: .trailingPanel,
+        showsGrabber: false,
+        showsCloseButton: false
+    )
 
     /// Configuration for dark-themed apps (e.g., Podcasts)
     public static let dark = ARCMenuConfiguration(
