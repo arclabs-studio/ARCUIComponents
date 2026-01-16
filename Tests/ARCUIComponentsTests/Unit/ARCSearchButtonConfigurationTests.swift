@@ -160,4 +160,80 @@ struct ARCSearchButtonConfigurationTests {
 
         #expect(config.showsBackgroundWhenIdle == true)
     }
+
+    // MARK: - LiquidGlassConfigurable Conformance Tests
+
+    @Test("conformsToLiquidGlassConfigurable_hasBackgroundStyle")
+    func conformsToLiquidGlassConfigurable_hasBackgroundStyle() {
+        let config: any LiquidGlassConfigurable = ARCSearchButtonConfiguration.default
+
+        if case .translucent = config.backgroundStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected translucent background style")
+        }
+    }
+
+    @Test("conformsToLiquidGlassConfigurable_hasCornerRadius")
+    func conformsToLiquidGlassConfigurable_hasCornerRadius() {
+        let config: any LiquidGlassConfigurable = ARCSearchButtonConfiguration.default
+
+        #expect(config.cornerRadius > 0)
+    }
+
+    @Test("conformsToLiquidGlassConfigurable_hasShadow")
+    func conformsToLiquidGlassConfigurable_hasShadow() {
+        let config: any LiquidGlassConfigurable = ARCSearchButtonConfiguration.default
+
+        #expect(config.shadow.radius >= 0)
+    }
+
+    @Test("conformsToLiquidGlassConfigurable_hasAccentColor")
+    func conformsToLiquidGlassConfigurable_hasAccentColor() {
+        let config = ARCSearchButtonConfiguration(accentColor: .purple)
+
+        #expect(config.accentColor == .purple)
+    }
+
+    @Test("glassmorphic_hasLiquidGlassBackgroundStyle")
+    func glassmorphic_hasLiquidGlassBackgroundStyle() {
+        let config = ARCSearchButtonConfiguration.glassmorphic
+
+        if case .liquidGlass = config.backgroundStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected liquidGlass background style")
+        }
+    }
+
+    @Test("glassmorphic_hasLargeSize")
+    func glassmorphic_hasLargeSize() {
+        let config = ARCSearchButtonConfiguration.glassmorphic
+
+        #expect(config.size.iconSize == 24)
+    }
+
+    @Test("glassmorphic_showsBackgroundWhenIdle")
+    func glassmorphic_showsBackgroundWhenIdle() {
+        let config = ARCSearchButtonConfiguration.glassmorphic
+
+        #expect(config.showsBackgroundWhenIdle == true)
+    }
+
+    @Test("init_withLiquidGlassStyle_setsStyleCorrectly")
+    func init_withLiquidGlassStyle_setsStyleCorrectly() {
+        let config = ARCSearchButtonConfiguration(
+            backgroundStyle: .liquidGlass,
+            cornerRadius: 20,
+            shadow: .prominent
+        )
+
+        if case .liquidGlass = config.backgroundStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false))
+        }
+        #expect(config.cornerRadius == 20)
+        #expect(config.shadow.radius == ARCShadow.prominent.radius)
+    }
 }

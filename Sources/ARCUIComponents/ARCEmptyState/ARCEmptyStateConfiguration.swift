@@ -35,6 +35,9 @@ import SwiftUI
 /// - ``showsAction``
 /// - ``accentColor``
 /// - ``spacing``
+/// - ``backgroundStyle``
+/// - ``cornerRadius``
+/// - ``shadow``
 ///
 /// ### Presets
 ///
@@ -43,6 +46,7 @@ import SwiftUI
 /// - ``noData``
 /// - ``error``
 /// - ``offline``
+/// - ``premium``
 ///
 /// ## Usage
 ///
@@ -60,7 +64,7 @@ import SwiftUI
 /// )
 /// ```
 @available(iOS 17.0, *)
-public struct ARCEmptyStateConfiguration: Sendable {
+public struct ARCEmptyStateConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Properties
 
     /// SF Symbol name for the icon
@@ -81,11 +85,22 @@ public struct ARCEmptyStateConfiguration: Sendable {
     /// Whether to show the action button
     public let showsAction: Bool
 
-    /// Accent color for the action button
+    /// Accent color for the action button and liquid glass tinting
     public let accentColor: Color
 
     /// Spacing between elements
     public let spacing: CGFloat
+
+    // MARK: - LiquidGlassConfigurable Properties
+
+    /// Background style for the empty state container
+    public let backgroundStyle: ARCBackgroundStyle
+
+    /// Corner radius for the empty state container
+    public let cornerRadius: CGFloat
+
+    /// Shadow configuration for the empty state container
+    public let shadow: ARCShadow
 
     // MARK: - Initialization
 
@@ -100,6 +115,9 @@ public struct ARCEmptyStateConfiguration: Sendable {
     ///   - showsAction: Whether to show the action button
     ///   - accentColor: Accent color for the action button
     ///   - spacing: Spacing between elements in points
+    ///   - backgroundStyle: Background style for liquid glass effect
+    ///   - cornerRadius: Corner radius for the container
+    ///   - shadow: Shadow configuration
     public init(
         icon: String,
         iconColor: Color = .secondary,
@@ -108,7 +126,10 @@ public struct ARCEmptyStateConfiguration: Sendable {
         actionTitle: String = "Get Started",
         showsAction: Bool = false,
         accentColor: Color = .blue,
-        spacing: CGFloat = .arcSpacingLarge
+        spacing: CGFloat = .arcSpacingLarge,
+        backgroundStyle: ARCBackgroundStyle = .translucent,
+        cornerRadius: CGFloat = .arcCornerRadiusLarge,
+        shadow: ARCShadow = .subtle
     ) {
         self.icon = icon
         self.iconColor = iconColor
@@ -118,6 +139,9 @@ public struct ARCEmptyStateConfiguration: Sendable {
         self.showsAction = showsAction
         self.accentColor = accentColor
         self.spacing = spacing
+        self.backgroundStyle = backgroundStyle
+        self.cornerRadius = cornerRadius
+        self.shadow = shadow
     }
 
     // MARK: - Presets
@@ -173,5 +197,22 @@ public struct ARCEmptyStateConfiguration: Sendable {
         actionTitle: "Settings",
         showsAction: true,
         accentColor: .blue
+    )
+
+    /// Premium configuration with liquid glass effect
+    ///
+    /// Features the full liquid glass background for a premium,
+    /// depth-rich appearance matching Apple's flagship app style.
+    public static let premium = ARCEmptyStateConfiguration(
+        icon: "sparkles",
+        iconColor: .purple,
+        title: "No Content",
+        message: "Start exploring to see content here.",
+        actionTitle: "Explore",
+        showsAction: true,
+        accentColor: .purple,
+        backgroundStyle: .liquidGlass,
+        cornerRadius: .arcCornerRadiusXLarge,
+        shadow: .default
     )
 }

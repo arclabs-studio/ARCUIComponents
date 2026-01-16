@@ -35,12 +35,16 @@ import SwiftUI
 /// - ``size``
 /// - ``animationDuration``
 /// - ``hapticFeedback``
+/// - ``backgroundStyle``
+/// - ``cornerRadius``
+/// - ``shadow``
 ///
 /// ### Presets
 ///
 /// - ``default``
 /// - ``large``
 /// - ``subtle``
+/// - ``glassmorphic``
 ///
 /// ## Usage
 ///
@@ -55,7 +59,7 @@ import SwiftUI
 /// )
 /// ```
 @available(iOS 17.0, *)
-public struct ARCFavoriteButtonConfiguration: Sendable {
+public struct ARCFavoriteButtonConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Properties
 
     /// SF Symbol name for favorited state
@@ -79,6 +83,20 @@ public struct ARCFavoriteButtonConfiguration: Sendable {
     /// Whether to provide haptic feedback
     public let hapticFeedback: Bool
 
+    // MARK: - LiquidGlassConfigurable Properties
+
+    /// Accent color for liquid glass tinting (uses favoriteColor)
+    public var accentColor: Color { favoriteColor }
+
+    /// Background style for the button container
+    public let backgroundStyle: ARCBackgroundStyle
+
+    /// Corner radius for the button container
+    public let cornerRadius: CGFloat
+
+    /// Shadow configuration for the button container
+    public let shadow: ARCShadow
+
     // MARK: - Initialization
 
     /// Creates a new favorite button configuration
@@ -91,6 +109,9 @@ public struct ARCFavoriteButtonConfiguration: Sendable {
     ///   - size: Button size
     ///   - animationDuration: Animation duration in seconds
     ///   - hapticFeedback: Whether to provide haptic feedback
+    ///   - backgroundStyle: Background style for liquid glass effect
+    ///   - cornerRadius: Corner radius for the container
+    ///   - shadow: Shadow configuration
     public init(
         favoriteIcon: String = "heart.fill",
         unfavoriteIcon: String = "heart",
@@ -98,7 +119,10 @@ public struct ARCFavoriteButtonConfiguration: Sendable {
         unfavoriteColor: Color = .secondary,
         size: ButtonSize = .medium,
         animationDuration: Double = 0.3,
-        hapticFeedback: Bool = true
+        hapticFeedback: Bool = true,
+        backgroundStyle: ARCBackgroundStyle = .translucent,
+        cornerRadius: CGFloat = .arcCornerRadiusMedium,
+        shadow: ARCShadow = .none
     ) {
         self.favoriteIcon = favoriteIcon
         self.unfavoriteIcon = unfavoriteIcon
@@ -107,6 +131,9 @@ public struct ARCFavoriteButtonConfiguration: Sendable {
         self.size = size
         self.animationDuration = animationDuration
         self.hapticFeedback = hapticFeedback
+        self.backgroundStyle = backgroundStyle
+        self.cornerRadius = cornerRadius
+        self.shadow = shadow
     }
 
     // MARK: - Presets
@@ -123,6 +150,17 @@ public struct ARCFavoriteButtonConfiguration: Sendable {
     public static let subtle = ARCFavoriteButtonConfiguration(
         unfavoriteColor: .secondary.opacity(0.6),
         size: .small
+    )
+
+    /// Glassmorphic configuration with liquid glass background
+    ///
+    /// Features a prominent liquid glass container for elevated
+    /// visual presence, ideal for hero sections or featured content.
+    public static let glassmorphic = ARCFavoriteButtonConfiguration(
+        size: .large,
+        backgroundStyle: .liquidGlass,
+        cornerRadius: .arcCornerRadiusLarge,
+        shadow: .subtle
     )
 
     // MARK: - Button Size

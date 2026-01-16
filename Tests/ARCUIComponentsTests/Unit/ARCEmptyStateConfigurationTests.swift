@@ -267,4 +267,69 @@ struct ARCEmptyStateConfigurationTests {
         #expect(config.showsAction == false)
         #expect(config.accentColor == .blue)
     }
+
+    // MARK: - LiquidGlassConfigurable Conformance Tests
+
+    @Test("conformsToLiquidGlassConfigurable_hasBackgroundStyle")
+    func conformsToLiquidGlassConfigurable_hasBackgroundStyle() {
+        let config: any LiquidGlassConfigurable = ARCEmptyStateConfiguration.noFavorites
+
+        if case .translucent = config.backgroundStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected translucent background style")
+        }
+    }
+
+    @Test("conformsToLiquidGlassConfigurable_hasCornerRadius")
+    func conformsToLiquidGlassConfigurable_hasCornerRadius() {
+        let config: any LiquidGlassConfigurable = ARCEmptyStateConfiguration.noFavorites
+
+        #expect(config.cornerRadius > 0)
+    }
+
+    @Test("conformsToLiquidGlassConfigurable_hasShadow")
+    func conformsToLiquidGlassConfigurable_hasShadow() {
+        let config: any LiquidGlassConfigurable = ARCEmptyStateConfiguration.noFavorites
+
+        #expect(config.shadow.radius >= 0)
+    }
+
+    @Test("premium_hasLiquidGlassBackgroundStyle")
+    func premium_hasLiquidGlassBackgroundStyle() {
+        let config = ARCEmptyStateConfiguration.premium
+
+        if case .liquidGlass = config.backgroundStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected liquidGlass background style")
+        }
+    }
+
+    @Test("premium_hasPurpleAccentColor")
+    func premium_hasPurpleAccentColor() {
+        let config = ARCEmptyStateConfiguration.premium
+
+        #expect(config.accentColor == .purple)
+    }
+
+    @Test("init_withLiquidGlassStyle_setsStyleCorrectly")
+    func init_withLiquidGlassStyle_setsStyleCorrectly() {
+        let config = ARCEmptyStateConfiguration(
+            icon: "star",
+            title: "Test",
+            message: "Test message",
+            backgroundStyle: .liquidGlass,
+            cornerRadius: 20,
+            shadow: .prominent
+        )
+
+        if case .liquidGlass = config.backgroundStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false))
+        }
+        #expect(config.cornerRadius == 20)
+        #expect(config.shadow.radius == ARCShadow.prominent.radius)
+    }
 }

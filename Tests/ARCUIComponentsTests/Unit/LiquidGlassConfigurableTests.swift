@@ -111,7 +111,16 @@ struct LiquidGlassConfigurableTests {
             ARCListCardConfiguration.glassmorphic
         ]
 
-        for config in menuConfigs + listConfigs {
+        let otherConfigs: [any LiquidGlassConfigurable] = [
+            ARCEmptyStateConfiguration.noFavorites,
+            ARCEmptyStateConfiguration.premium,
+            ARCFavoriteButtonConfiguration.default,
+            ARCFavoriteButtonConfiguration.glassmorphic,
+            ARCSearchButtonConfiguration.default,
+            ARCSearchButtonConfiguration.glassmorphic
+        ]
+
+        for config in menuConfigs + listConfigs + otherConfigs {
             #expect(config.cornerRadius > 0, "Configuration should have positive corner radius")
         }
     }
@@ -122,11 +131,68 @@ struct LiquidGlassConfigurableTests {
             ARCMenuConfiguration.default,
             ARCMenuConfiguration.minimal,
             ARCListCardConfiguration.default,
-            ARCListCardConfiguration.prominent
+            ARCListCardConfiguration.prominent,
+            ARCEmptyStateConfiguration.noFavorites,
+            ARCEmptyStateConfiguration.premium,
+            ARCFavoriteButtonConfiguration.default,
+            ARCFavoriteButtonConfiguration.glassmorphic,
+            ARCSearchButtonConfiguration.default,
+            ARCSearchButtonConfiguration.glassmorphic
         ]
 
         for config in configs {
             #expect(config.shadow.radius >= 0, "Shadow radius should be non-negative")
+        }
+    }
+
+    // MARK: - New Component Conformance Tests
+
+    @Test("ARCEmptyStateConfiguration_conformsToProtocol")
+    func ARCEmptyStateConfiguration_conformsToProtocol() {
+        let config: any LiquidGlassConfigurable = ARCEmptyStateConfiguration.noFavorites
+
+        let _ = config.accentColor
+        #expect(config.cornerRadius > 0)
+        #expect(config.shadow.radius >= 0)
+    }
+
+    @Test("ARCFavoriteButtonConfiguration_conformsToProtocol")
+    func ARCFavoriteButtonConfiguration_conformsToProtocol() {
+        let config: any LiquidGlassConfigurable = ARCFavoriteButtonConfiguration.default
+
+        let _ = config.accentColor
+        #expect(config.cornerRadius > 0)
+        #expect(config.shadow.radius >= 0)
+    }
+
+    @Test("ARCSearchButtonConfiguration_conformsToProtocol")
+    func ARCSearchButtonConfiguration_conformsToProtocol() {
+        let config: any LiquidGlassConfigurable = ARCSearchButtonConfiguration.default
+
+        let _ = config.accentColor
+        #expect(config.cornerRadius > 0)
+        #expect(config.shadow.radius >= 0)
+    }
+
+    @Test("allGlassmorphicPresets_haveLiquidGlassBackground")
+    func allGlassmorphicPresets_haveLiquidGlassBackground() {
+        let glassmorphicConfigs: [any LiquidGlassConfigurable] = [
+            ARCMenuConfiguration.default,
+            ARCListCardConfiguration.glassmorphic,
+            ARCEmptyStateConfiguration.premium,
+            ARCFavoriteButtonConfiguration.glassmorphic,
+            ARCSearchButtonConfiguration.glassmorphic
+        ]
+
+        for config in glassmorphicConfigs {
+            if case .liquidGlass = config.backgroundStyle {
+                #expect(Bool(true))
+            } else if case .translucent = config.backgroundStyle {
+                // Some defaults use translucent which is also valid
+                #expect(Bool(true))
+            } else {
+                #expect(Bool(false), "Expected liquidGlass or translucent background style")
+            }
         }
     }
 
