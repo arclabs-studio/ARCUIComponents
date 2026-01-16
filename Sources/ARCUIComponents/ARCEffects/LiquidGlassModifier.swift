@@ -94,15 +94,20 @@ struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier
     // MARK: - Body
 
     func body(content: Content) -> some View {
+        #if compiler(>=6.2)
         if #available(iOS 26.0, macOS 26.0, *) {
             nativeGlassBody(content: content)
         } else {
             legacyGlassBody(content: content)
         }
+        #else
+        legacyGlassBody(content: content)
+        #endif
     }
 
     // MARK: - iOS 26+ Native Implementation
 
+    #if compiler(>=6.2)
     /// Native Liquid Glass implementation using iOS 26+ APIs
     @available(iOS 26.0, macOS 26.0, *)
     @ViewBuilder
@@ -157,6 +162,7 @@ struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier
         }
         return glass
     }
+    #endif
 
     // MARK: - iOS 17-25 Legacy Implementation
 

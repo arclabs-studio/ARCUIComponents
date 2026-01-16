@@ -88,6 +88,7 @@ public struct ARCGlassContainer<Content: View>: View {
     // MARK: - Body
 
     public var body: some View {
+        #if compiler(>=6.2)
         if #available(iOS 26.0, macOS 26.0, *) {
             GlassEffectContainer(spacing: spacing) {
                 content
@@ -96,6 +97,10 @@ public struct ARCGlassContainer<Content: View>: View {
             // On iOS 17-25, just render content without container
             content
         }
+        #else
+        // On older compilers without iOS 26 SDK, just render content
+        content
+        #endif
     }
 }
 

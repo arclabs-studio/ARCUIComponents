@@ -56,11 +56,15 @@ public extension View {
         _ id: ID,
         in namespace: Namespace.ID
     ) -> some View {
+        #if compiler(>=6.2)
         if #available(iOS 26.0, macOS 26.0, *) {
             self.glassEffectID(id, in: namespace)
         } else {
             self
         }
+        #else
+        self
+        #endif
     }
 
     /// Combines multiple glass effects into a single unified shape
@@ -96,10 +100,14 @@ public extension View {
         id: ID,
         in namespace: Namespace.ID
     ) -> some View {
+        #if compiler(>=6.2)
         if #available(iOS 26.0, macOS 26.0, *) {
             self.glassEffectUnion(id: id, namespace: namespace)
         } else {
             self
         }
+        #else
+        self
+        #endif
     }
 }
