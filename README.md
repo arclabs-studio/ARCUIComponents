@@ -462,7 +462,13 @@ cd Examples/ARCUIComponentsDemo
 open ARCUIComponentsDemo.xcodeproj
 ```
 
-The demo showcases all components with interactive examples.
+The demo showcases all components with interactive examples featuring:
+
+- **ARC Brand Colors**: Burgundy (#541311), Gold (#FFB42E), and Black
+- **Light & Dark Mode**: All screens support both appearances
+- **Interactive Examples**: Real-world usage patterns for each component
+- **Style Configurations**: Multiple preset styles including ARC Brand, Fitness, Premium, and Dark
+- **Full Showcases**: Comprehensive views demonstrating all component variants
 
 ---
 

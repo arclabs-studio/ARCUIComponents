@@ -12,6 +12,7 @@ import SwiftUI
 ///
 /// Shows the menu in a realistic app context with various configurations.
 struct ARCMenuDemoScreen: View {
+
     // MARK: Properties
 
     @State private var menuViewModel = ARCMenuViewModel.standard(
@@ -22,74 +23,22 @@ struct ARCMenuDemoScreen: View {
             avatarImage: .initials("DU")
         ),
         configuration: .default,
-        onSettings: { print("Settings tapped") },
-        onProfile: { print("Profile tapped") },
-        onPlan: { print("Plan tapped") },
-        onContact: { print("Contact tapped") },
-        onAbout: { print("About tapped") },
-        onLogout: { print("Logout tapped") }
+        onSettings: {},
+        onProfile: {},
+        onPlan: {},
+        onContact: {},
+        onAbout: {},
+        onLogout: {}
     )
 
-    @State private var selectedStyle: MenuStyle = .default
+    @State private var selectedStyle: MenuStyleOption = .arcBrand
 
     // MARK: Body
 
     var body: some View {
         ZStack {
-            // Background
-            LinearGradient(
-                colors: selectedStyle.gradientColors,
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
-
-            // Content
-            VStack(spacing: 24) {
-                Text("ARCMenu Demo")
-                    .font(.largeTitle.bold())
-                    .foregroundStyle(.white)
-
-                Text("Tap the menu button in the toolbar")
-                    .font(.subheadline)
-                    .foregroundStyle(.white.opacity(0.8))
-
-                // Style Picker
-                Picker("Style", selection: $selectedStyle) {
-                    ForEach(MenuStyle.allCases) { style in
-                        Text(style.name).tag(style)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal, 32)
-
-                Spacer()
-
-                // Instructions
-                VStack(spacing: 12) {
-                    Image(systemName: "hand.tap.fill")
-                        .font(.system(size: 40))
-                        .foregroundStyle(.white.opacity(0.6))
-
-                    Text("Features")
-                        .font(.headline)
-                        .foregroundStyle(.white)
-
-                    VStack(alignment: .leading, spacing: 8) {
-                        FeatureRow(icon: "rectangle.portrait.and.arrow.right", text: "Slide-in animation")
-                        FeatureRow(icon: "hand.draw", text: "Drag to dismiss")
-                        FeatureRow(icon: "person.crop.circle", text: "User profile header")
-                        FeatureRow(icon: "paintbrush", text: "Liquid glass effect")
-                    }
-                }
-                .padding()
-                .background(.ultraThinMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .padding(.horizontal)
-
-                Spacer()
-            }
-            .padding(.top, 60)
+            backgroundGradient
+            contentView
         }
         .navigationTitle("ARCMenu")
         #if os(iOS)
@@ -121,10 +70,78 @@ struct ARCMenuDemoScreen: View {
     }
 }
 
+// MARK: - Private Views
+
+private extension ARCMenuDemoScreen {
+
+    var backgroundGradient: some View {
+        LinearGradient(
+            colors: selectedStyle.gradientColors,
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .ignoresSafeArea()
+    }
+
+    var contentView: some View {
+        VStack(spacing: 24) {
+            Text("ARCMenu Demo")
+                .font(.largeTitle.bold())
+                .foregroundStyle(.white)
+
+            Text("Tap the menu button in the toolbar")
+                .font(.subheadline)
+                .foregroundStyle(.white.opacity(0.8))
+
+            stylePicker
+
+            Spacer()
+
+            featuresCard
+
+            Spacer()
+        }
+        .padding(.top, 60)
+    }
+
+    var stylePicker: some View {
+        Picker("Style", selection: $selectedStyle) {
+            ForEach(MenuStyleOption.allCases) { style in
+                Text(style.name).tag(style)
+            }
+        }
+        .pickerStyle(.segmented)
+        .padding(.horizontal, 32)
+    }
+
+    var featuresCard: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "hand.tap.fill")
+                .font(.system(size: 40))
+                .foregroundStyle(Color.arcBrandGold)
+
+            Text("Features")
+                .font(.headline)
+                .foregroundStyle(.primary)
+
+            VStack(alignment: .leading, spacing: 8) {
+                FeatureRowView(icon: "rectangle.portrait.and.arrow.right", text: "Slide-in animation")
+                FeatureRowView(icon: "hand.draw", text: "Drag to dismiss")
+                FeatureRowView(icon: "person.crop.circle", text: "User profile header")
+                FeatureRowView(icon: "paintbrush", text: "Liquid glass effect")
+            }
+        }
+        .padding()
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .padding(.horizontal)
+    }
+}
+
 // MARK: - Supporting Types
 
-private enum MenuStyle: String, CaseIterable, Identifiable {
-    case `default`
+private enum MenuStyleOption: String, CaseIterable, Identifiable {
+    case arcBrand
     case fitness
     case premium
     case dark
@@ -133,7 +150,7 @@ private enum MenuStyle: String, CaseIterable, Identifiable {
 
     var name: String {
         switch self {
-        case .default: "Default"
+        case .arcBrand: "ARC Brand"
         case .fitness: "Fitness"
         case .premium: "Premium"
         case .dark: "Dark"
@@ -142,7 +159,7 @@ private enum MenuStyle: String, CaseIterable, Identifiable {
 
     var configuration: ARCMenuConfiguration {
         switch self {
-        case .default: .default
+        case .arcBrand: .default
         case .fitness: .fitness
         case .premium: .premium
         case .dark: .dark
@@ -151,15 +168,15 @@ private enum MenuStyle: String, CaseIterable, Identifiable {
 
     var gradientColors: [Color] {
         switch self {
-        case .default: [.blue, .purple]
+        case .arcBrand: [.arcBrandBurgundy, .arcBrandBurgundy.opacity(0.7)]
         case .fitness: [.green, .mint]
-        case .premium: [.orange, .red]
-        case .dark: [.gray, .black]
+        case .premium: [Color.arcBrandGold, Color.arcBrandBurgundy]
+        case .dark: [.gray, Color.arcBrandBlack]
         }
     }
 }
 
-private struct FeatureRow: View {
+private struct FeatureRowView: View {
     let icon: String
     let text: String
 
@@ -167,16 +184,25 @@ private struct FeatureRow: View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .frame(width: 24)
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(Color.arcBrandGold)
 
             Text(text)
-                .foregroundStyle(.white.opacity(0.9))
+                .foregroundStyle(.primary.opacity(0.9))
         }
     }
 }
 
-#Preview {
+// MARK: - Previews
+
+#Preview("Light Mode") {
     NavigationStack {
         ARCMenuDemoScreen()
     }
+}
+
+#Preview("Dark Mode") {
+    NavigationStack {
+        ARCMenuDemoScreen()
+    }
+    .preferredColorScheme(.dark)
 }

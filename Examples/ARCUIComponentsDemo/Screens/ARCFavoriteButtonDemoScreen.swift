@@ -12,6 +12,7 @@ import SwiftUI
 ///
 /// Shows the favorite button in various sizes and configurations.
 struct ARCFavoriteButtonDemoScreen: View {
+
     // MARK: Properties
 
     @State private var favorites: [String: Bool] = [
@@ -26,13 +27,8 @@ struct ARCFavoriteButtonDemoScreen: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                // Size Comparison
                 sizeComparisonSection
-
-                // Interactive Demo
                 interactiveDemoSection
-
-                // In Context
                 contextSection
             }
             .padding()
@@ -42,10 +38,13 @@ struct ARCFavoriteButtonDemoScreen: View {
             .navigationBarTitleDisplayMode(.large)
         #endif
     }
+}
 
-    // MARK: Sections
+// MARK: - Private Views
 
-    private var sizeComparisonSection: some View {
+private extension ARCFavoriteButtonDemoScreen {
+
+    var sizeComparisonSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Sizes")
                 .font(.headline)
@@ -83,12 +82,12 @@ struct ARCFavoriteButtonDemoScreen: View {
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(Color.gray.opacity(0.1))
+            .background(Color.arcBrandBurgundy.opacity(0.1))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 
-    private var interactiveDemoSection: some View {
+    var interactiveDemoSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Interactive")
                 .font(.headline)
@@ -97,15 +96,13 @@ struct ARCFavoriteButtonDemoScreen: View {
                 ARCFavoriteButton(
                     isFavorite: binding(for: "custom"),
                     configuration: ARCFavoriteButtonConfiguration(
-                        favoriteColor: .pink,
+                        favoriteColor: .arcBrandBurgundy,
                         unfavoriteColor: .gray,
                         size: .large,
                         animationDuration: 0.3,
                         hapticFeedback: true
                     )
-                ) { isFavorite in
-                    print("Favorite changed: \(isFavorite)")
-                }
+                )
 
                 Text(favorites["custom"] == true ? "Favorited!" : "Tap to favorite")
                     .font(.subheadline)
@@ -114,24 +111,23 @@ struct ARCFavoriteButtonDemoScreen: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 32)
-            .background(Color.gray.opacity(0.1))
+            .background(Color.arcBrandGold.opacity(0.1))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 
-    private var contextSection: some View {
+    var contextSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("In Context")
                 .font(.headline)
 
-            // Sample Card
             HStack(spacing: 16) {
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.blue.opacity(0.3))
+                    .fill(Color.arcBrandBurgundy.opacity(0.3))
                     .frame(width: 60, height: 60)
                     .overlay {
                         Image(systemName: "photo")
-                            .foregroundStyle(.blue)
+                            .foregroundStyle(Color.arcBrandBurgundy)
                     }
 
                 VStack(alignment: .leading, spacing: 4) {
@@ -151,14 +147,17 @@ struct ARCFavoriteButtonDemoScreen: View {
                 )
             }
             .padding()
-            .background(Color.gray.opacity(0.1))
+            .background(Color.arcBrandBlack.opacity(0.05))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
+}
 
-    // MARK: Helpers
+// MARK: - Private Functions
 
-    private func binding(for key: String) -> Binding<Bool> {
+private extension ARCFavoriteButtonDemoScreen {
+
+    func binding(for key: String) -> Binding<Bool> {
         Binding(
             get: { favorites[key] ?? false },
             set: { favorites[key] = $0 }
@@ -166,8 +165,17 @@ struct ARCFavoriteButtonDemoScreen: View {
     }
 }
 
-#Preview {
+// MARK: - Previews
+
+#Preview("Light Mode") {
     NavigationStack {
         ARCFavoriteButtonDemoScreen()
     }
+}
+
+#Preview("Dark Mode") {
+    NavigationStack {
+        ARCFavoriteButtonDemoScreen()
+    }
+    .preferredColorScheme(.dark)
 }

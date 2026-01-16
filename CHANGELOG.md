@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Demo App Improvements**:
+  - ARC brand colors integration (Burgundy #541311, Gold #FFB42E, Black #000000)
+  - Dark mode support with dedicated SwiftUI Previews for all screens
+  - Improved code organization following ARCKnowledge standards
+  - New `Color+Brand.swift` extension for brand colors
+  - Enhanced UI sections with better visual hierarchy
+  - Consistent styling across all demo screens
 - Comprehensive unit test suite (190 tests across 14 suites)
   - ARCMenuViewModel tests (state, presentation, gestures, factory methods)
   - ARCMenuConfiguration tests (presets, custom init, LiquidGlassConfigurable)
