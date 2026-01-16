@@ -34,6 +34,9 @@ import SwiftUI
 /// - ``size``
 /// - ``style``
 /// - ``showsBackgroundWhenIdle``
+/// - ``backgroundStyle``
+/// - ``cornerRadius``
+/// - ``shadow``
 ///
 /// ### Presets
 ///
@@ -41,6 +44,7 @@ import SwiftUI
 /// - ``prominent``
 /// - ``minimal``
 /// - ``toolbar``
+/// - ``glassmorphic``
 ///
 /// ## Usage
 ///
@@ -55,13 +59,13 @@ import SwiftUI
 /// )
 /// ```
 @available(iOS 17.0, *)
-public struct ARCSearchButtonConfiguration: Sendable {
+public struct ARCSearchButtonConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Properties
 
     /// SF Symbol name for the search icon
     public let icon: String
 
-    /// Accent color for the icon
+    /// Accent color for the icon and liquid glass tinting
     public let accentColor: Color
 
     /// Background color (when style uses background)
@@ -76,6 +80,17 @@ public struct ARCSearchButtonConfiguration: Sendable {
     /// Whether to show background when not pressed
     public let showsBackgroundWhenIdle: Bool
 
+    // MARK: - LiquidGlassConfigurable Properties
+
+    /// Background style for the button container
+    public let backgroundStyle: ARCBackgroundStyle
+
+    /// Corner radius for the button container
+    public let cornerRadius: CGFloat
+
+    /// Shadow configuration for the button container
+    public let shadow: ARCShadow
+
     // MARK: - Initialization
 
     /// Creates a new search button configuration
@@ -87,13 +102,19 @@ public struct ARCSearchButtonConfiguration: Sendable {
     ///   - size: Button size
     ///   - style: Visual style
     ///   - showsBackgroundWhenIdle: Whether to show background when idle
+    ///   - backgroundStyle: Background style for liquid glass effect
+    ///   - cornerRadius: Corner radius for the container
+    ///   - shadow: Shadow configuration
     public init(
         icon: String = "magnifyingglass",
         accentColor: Color = .secondary,
         backgroundColor: Color = Color(.tertiarySystemFill),
         size: ButtonSize = .medium,
         style: ButtonStyle = .plain,
-        showsBackgroundWhenIdle: Bool = false
+        showsBackgroundWhenIdle: Bool = false,
+        backgroundStyle: ARCBackgroundStyle = .translucent,
+        cornerRadius: CGFloat = .arcCornerRadiusMedium,
+        shadow: ARCShadow = .none
     ) {
         self.icon = icon
         self.accentColor = accentColor
@@ -101,6 +122,9 @@ public struct ARCSearchButtonConfiguration: Sendable {
         self.size = size
         self.style = style
         self.showsBackgroundWhenIdle = showsBackgroundWhenIdle
+        self.backgroundStyle = backgroundStyle
+        self.cornerRadius = cornerRadius
+        self.shadow = shadow
     }
 
     // MARK: - Presets
@@ -129,6 +153,20 @@ public struct ARCSearchButtonConfiguration: Sendable {
         size: .medium,
         style: .bordered,
         showsBackgroundWhenIdle: true
+    )
+
+    /// Glassmorphic configuration with liquid glass background
+    ///
+    /// Features a premium liquid glass container for elevated
+    /// visual presence, matching Apple's flagship app style.
+    public static let glassmorphic = ARCSearchButtonConfiguration(
+        accentColor: .primary,
+        size: .large,
+        style: .bordered,
+        showsBackgroundWhenIdle: true,
+        backgroundStyle: .liquidGlass,
+        cornerRadius: .arcCornerRadiusLarge,
+        shadow: .subtle
     )
 
     // MARK: - Button Size

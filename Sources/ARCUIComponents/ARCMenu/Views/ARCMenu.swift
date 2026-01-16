@@ -1,3 +1,10 @@
+//
+//  ARCMenu.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
 import ARCDesignSystem
 import SwiftUI
 
@@ -87,75 +94,66 @@ public struct ARCMenu: View {
 
     // MARK: - Menu Content
 
-    // swiftlint:disable function_body_length
     @ViewBuilder
     private func menuContent(geometry: GeometryProxy) -> some View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: viewModel.configuration.sectionSpacing) {
-                // User header
-                if let user = viewModel.user {
-                    ARCMenuUserHeader(
-                        user: user,
-                        configuration: viewModel.configuration,
-                        onTap: nil
-                    )
-                }
-
-                // Menu items
-                VStack(spacing: .arcSpacingXSmall) {
-                    ForEach(viewModel.menuItems) { item in
-                        ARCMenuItemRow(
-                            item: item,
-                            configuration: viewModel.configuration,
-                            action: {
-                                viewModel.executeAction(for: item)
-                            }
-                        )
-
-                        // Divider between items (except last)
-                        if item.id != viewModel.menuItems.last?.id {
-                            Divider()
-                                .padding(.leading, 64) // Aligned with icon
-                        }
-                    }
-                }
-                .background {
-                    RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                        .fill(.ultraThinMaterial)
-                        .overlay {
-                            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                                .strokeBorder(
-                                    Color.white.opacity(0.1),
-                                    lineWidth: 0.5
-                                )
-                        }
-                }
-
-                // App version (optional)
-                if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-                    Text("Version \(version)")
-                        .font(.caption2)
-                        .foregroundStyle(.tertiary)
-                        .padding(.top, .arcSpacingSmall)
-                }
+                userHeaderSection
+                menuItemsSection
+                versionSection
             }
             .padding(viewModel.configuration.contentInsets)
         }
         .frame(width: viewModel.configuration.menuWidth)
         .frame(maxHeight: geometry.size.height)
         .liquidGlass(configuration: viewModel.configuration)
-        .offset(
-            x: viewModel.dragOffset,
-            y: viewModel.configuration.topPadding
-        )
-        .gesture(
-            viewModel.configuration.allowsDragToDismiss
-                ? dragGesture
-                : nil
-        )
+        .offset(x: viewModel.dragOffset, y: viewModel.configuration.topPadding)
+        .gesture(viewModel.configuration.allowsDragToDismiss ? dragGesture : nil)
     }
 
-    // swiftlint:enable function_body_length
+    @ViewBuilder
+    private var userHeaderSection: some View {
+        if let user = viewModel.user {
+            ARCMenuUserHeader(user: user, configuration: viewModel.configuration, onTap: nil)
+        }
+    }
+
+    @ViewBuilder
+    private var menuItemsSection: some View {
+        VStack(spacing: .arcSpacingXSmall) {
+            ForEach(viewModel.menuItems) { item in
+                ARCMenuItemRow(
+                    item: item,
+                    configuration: viewModel.configuration,
+                    action: { viewModel.executeAction(for: item) }
+                )
+                if item.id != viewModel.menuItems.last?.id {
+                    Divider().padding(.leading, 64)
+                }
+            }
+        }
+        .background { menuItemsBackground }
+    }
+
+    @ViewBuilder
+    private var menuItemsBackground: some View {
+        RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
+            .fill(.ultraThinMaterial)
+            .overlay {
+                RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
+                    .strokeBorder(Color.white.opacity(0.1), lineWidth: 0.5)
+            }
+    }
+
+    @ViewBuilder
+    private var versionSection: some View {
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            Text("Version \(version)")
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
+                .padding(.top, .arcSpacingSmall)
+        }
+    }
 
     // MARK: - Gestures
 

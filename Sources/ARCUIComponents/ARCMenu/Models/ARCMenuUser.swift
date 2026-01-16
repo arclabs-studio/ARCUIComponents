@@ -1,3 +1,10 @@
+//
+//  ARCMenuUser.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
 import ARCDesignSystem
 import Foundation
 import SwiftUI
@@ -53,68 +60,83 @@ public enum ARCMenuUserImage: Sendable {
     case url(URL)
     case initials(String)
 
-    // MARK: - Computed Properties
+    // MARK: - Public Methods
 
-    // swiftlint:disable function_body_length
     /// Returns the appropriate SwiftUI view for the avatar
     @ViewBuilder
     public func avatarView(size: CGFloat = 60) -> some View {
         switch self {
         case let .systemImage(name):
-            Image(systemName: name)
-                .resizable()
-                .scaledToFit()
-                .frame(width: size, height: size)
-                .foregroundStyle(.primary)
-
+            systemImageView(name: name, size: size)
         case let .imageName(name):
-            Image(name)
-                .resizable()
-                .scaledToFill()
-                .frame(width: size, height: size)
-                .clipShape(Circle())
-
+            assetImageView(name: name, size: size)
         case let .url(url):
-            AsyncImage(url: url) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                        .frame(width: size, height: size)
-                case let .success(image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: size, height: size)
-                        .clipShape(Circle())
-                case .failure:
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: size, height: size)
-                        .foregroundStyle(.secondary)
-                @unknown default:
-                    EmptyView()
-                }
-            }
-
+            asyncImageView(url: url, size: size)
         case let .initials(text):
-            ZStack {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [.blue, .purple],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-
-                Text(text)
-                    .font(.system(size: size * 0.4, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.white)
-            }
-            .frame(width: size, height: size)
+            initialsView(text: text, size: size)
         }
     }
 
-    // swiftlint:enable function_body_length
+    // MARK: - Private Helpers
+
+    @ViewBuilder
+    private func systemImageView(name: String, size: CGFloat) -> some View {
+        Image(systemName: name)
+            .resizable()
+            .scaledToFit()
+            .frame(width: size, height: size)
+            .foregroundStyle(.primary)
+    }
+
+    @ViewBuilder
+    private func assetImageView(name: String, size: CGFloat) -> some View {
+        Image(name)
+            .resizable()
+            .scaledToFill()
+            .frame(width: size, height: size)
+            .clipShape(Circle())
+    }
+
+    @ViewBuilder
+    private func asyncImageView(url: URL, size: CGFloat) -> some View {
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .empty:
+                ProgressView()
+                    .frame(width: size, height: size)
+            case let .success(image):
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: size, height: size)
+                    .clipShape(Circle())
+            case .failure:
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: size, height: size)
+                    .foregroundStyle(.secondary)
+            @unknown default:
+                EmptyView()
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func initialsView(text: String, size: CGFloat) -> some View {
+        ZStack {
+            Circle()
+                .fill(
+                    LinearGradient(
+                        colors: [.blue, .purple],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+            Text(text)
+                .font(.system(size: size * 0.4, weight: .semibold, design: .rounded))
+                .foregroundStyle(.white)
+        }
+        .frame(width: size, height: size)
+    }
 }

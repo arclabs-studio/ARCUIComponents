@@ -61,7 +61,10 @@ public struct ARCEmptyStateShowcase: View {
             #if os(iOS)
                 .navigationBarTitleDisplayMode(.large)
             #endif
-                .alert("Action Triggered", isPresented: $showAlert) {
+                .alert(
+                    "Action Triggered",
+                    isPresented: $showAlert
+                ) {
                     Button("OK", role: .cancel) {}
                 } message: {
                     Text(alertMessage)

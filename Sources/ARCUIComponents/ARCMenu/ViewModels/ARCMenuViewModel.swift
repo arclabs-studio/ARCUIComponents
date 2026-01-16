@@ -1,3 +1,10 @@
+//
+//  ARCMenuViewModel.swift
+//  ARCUIComponents
+//
+//  Created by ARC Labs Studio on 11/14/25.
+//
+
 import ARCDesignSystem
 import Observation
 import SwiftUI
@@ -19,7 +26,7 @@ public final class ARCMenuViewModel {
     // MARK: - Published State
 
     /// Whether the menu is currently presented
-    public private(set) var isPresented: Bool = false
+    public private(set) var isPresented = false
 
     /// Current drag offset for dismissal gesture
     public private(set) var dragOffset: CGFloat = 0
