@@ -71,7 +71,6 @@ import SwiftUI
 ///   ``ARCGlassContainer``.
 @available(iOS 17.0, macOS 14.0, *)
 struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier {
-
     // MARK: - Properties
 
     /// Configuration providing visual styling

@@ -61,7 +61,6 @@ import SwiftUI
 ///   ID assigned via ``SwiftUI/View/arcGlassEffectID(_:in:)``.
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCGlassContainer<Content: View>: View {
-
     // MARK: - Properties
 
     /// Spacing that controls when glass effects blend together

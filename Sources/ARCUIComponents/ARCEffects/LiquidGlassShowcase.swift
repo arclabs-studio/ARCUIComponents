@@ -25,7 +25,6 @@ import SwiftUI
 /// - **iOS 17-25**: Uses manual implementation with materials and gradients
 @available(iOS 17.0, macOS 14.0, *)
 public struct LiquidGlassShowcase: View {
-
     // MARK: - State
 
     @State private var showMorphingDemo = false
@@ -85,7 +84,6 @@ public struct LiquidGlassShowcase: View {
         HStack(spacing: .arcSpacingSmall) {
             Image(systemName: isUsingNativeGlass ? "checkmark.seal.fill" : "gear")
                 .foregroundStyle(isUsingNativeGlass ? .green : .orange)
-
             Text(isUsingNativeGlass ? "Native Glass API (iOS 26+)" : "Legacy Implementation (iOS 17-25)")
                 .font(.caption.bold())
         }
@@ -299,13 +297,10 @@ private struct ExampleCard: View {
                 Image(systemName: "sparkles")
                     .font(.title2)
                     .foregroundStyle(.blue.gradient)
-
                 Text("Example Component")
                     .font(.headline)
-
                 Spacer()
             }
-
             Text(
                 """
                 This demonstrates how the liquid glass effect appears with real content. \
