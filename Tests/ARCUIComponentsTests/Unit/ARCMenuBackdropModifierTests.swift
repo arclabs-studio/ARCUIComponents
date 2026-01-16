@@ -15,7 +15,6 @@ import Testing
 @Suite("ARCMenuBackdropModifier Tests")
 @MainActor
 struct ARCMenuBackdropModifierTests {
-
     // MARK: - Initialization Tests
 
     @Test("init_withValidOpacity_createsModifier")
@@ -94,7 +93,6 @@ struct ARCMenuBackdropModifierTests {
 @Suite("Backdrop View Extension Tests")
 @MainActor
 struct BackdropViewExtensionTests {
-
     @Test("backdropExtension_withOpacity_returnsModifiedView")
     func backdropExtension_withOpacity_returnsModifiedView() {
         // Verify the extension compiles and can be called
@@ -130,7 +128,6 @@ struct BackdropViewExtensionTests {
 @Suite("ARCMenu Liquid Glass Extension Tests")
 @MainActor
 struct ARCMenuLiquidGlassExtensionTests {
-
     @Test("arcMenuLiquidGlass_withConfiguration_returnsModifiedView")
     func arcMenuLiquidGlass_withConfiguration_returnsModifiedView() {
         let view = Text("Test")

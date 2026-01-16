@@ -94,7 +94,6 @@ public struct ARCMenu: View {
 
     // MARK: - Menu Content
 
-    // swiftlint:disable function_body_length
     @ViewBuilder
     private func menuContent(geometry: GeometryProxy) -> some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -161,8 +160,6 @@ public struct ARCMenu: View {
                 : nil
         )
     }
-
-    // swiftlint:enable function_body_length
 
     // MARK: - Gestures
 

@@ -62,7 +62,6 @@ public enum ARCMenuUserImage: Sendable {
 
     // MARK: - Computed Properties
 
-    // swiftlint:disable function_body_length
     /// Returns the appropriate SwiftUI view for the avatar
     @ViewBuilder
     public func avatarView(size: CGFloat = 60) -> some View {
@@ -122,6 +121,4 @@ public enum ARCMenuUserImage: Sendable {
             .frame(width: size, height: size)
         }
     }
-
-    // swiftlint:enable function_body_length
 }

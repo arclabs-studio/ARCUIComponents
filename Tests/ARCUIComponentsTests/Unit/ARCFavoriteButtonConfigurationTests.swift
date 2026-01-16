@@ -14,7 +14,6 @@ import Testing
 /// Tests cover default values, presets, and custom initialization.
 @Suite("ARCFavoriteButtonConfiguration Tests")
 struct ARCFavoriteButtonConfigurationTests {
-
     // MARK: - Default Configuration Tests
 
     @Test("default_hasPinkFavoriteColor")

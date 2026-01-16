@@ -14,7 +14,6 @@ import Testing
 /// Tests cover default values, styles, sizes, and presets.
 @Suite("ARCSearchButtonConfiguration Tests")
 struct ARCSearchButtonConfigurationTests {
-
     // MARK: - Default Configuration Tests
 
     @Test("default_hasPlainStyle")

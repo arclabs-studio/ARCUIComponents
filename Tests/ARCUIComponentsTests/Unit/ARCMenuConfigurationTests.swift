@@ -14,7 +14,6 @@ import Testing
 /// Tests cover preset configurations, default values, and custom initialization.
 @Suite("ARCMenuConfiguration Tests")
 struct ARCMenuConfigurationTests {
-
     // MARK: - Default Configuration Tests
 
     @Test("default_hasExpectedMenuWidth")
@@ -215,7 +214,6 @@ struct ARCMenuConfigurationTests {
 
 @Suite("ARCMenuHapticStyle Tests")
 struct ARCMenuHapticStyleTests {
-
     @Test("none_isValidCase")
     func none_isValidCase() {
         let style = ARCMenuHapticStyle.none

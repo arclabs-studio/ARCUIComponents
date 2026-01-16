@@ -14,7 +14,6 @@ import Testing
 /// Tests cover presets and custom initialization.
 @Suite("ARCEmptyStateConfiguration Tests")
 struct ARCEmptyStateConfigurationTests {
-
     // MARK: - Preset Tests: No Favorites
 
     @Test("noFavorites_hasCorrectIcon")

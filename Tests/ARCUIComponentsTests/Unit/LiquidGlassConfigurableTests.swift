@@ -15,7 +15,6 @@ import Testing
 /// requirements for unified liquid glass styling.
 @Suite("LiquidGlassConfigurable Protocol Tests")
 struct LiquidGlassConfigurableTests {
-
     // MARK: - ARCMenuConfiguration Conformance Tests
 
     @Test("ARCMenuConfiguration_conformsToProtocol_hasAllRequiredProperties")
@@ -23,7 +22,7 @@ struct LiquidGlassConfigurableTests {
         let config: any LiquidGlassConfigurable = ARCMenuConfiguration.default
 
         // Verify protocol properties are accessible and valid
-        let _ = config.accentColor // Non-optional, always present
+        _ = config.accentColor // Non-optional, always present
         #expect(config.cornerRadius > 0)
         #expect(config.shadow.radius >= 0)
     }
@@ -66,7 +65,7 @@ struct LiquidGlassConfigurableTests {
         let config: any LiquidGlassConfigurable = ARCListCardConfiguration.default
 
         // Verify protocol properties are accessible and valid
-        let _ = config.accentColor // Non-optional, always present
+        _ = config.accentColor // Non-optional, always present
         #expect(config.cornerRadius > 0)
         #expect(config.shadow.radius >= 0)
     }
@@ -151,7 +150,7 @@ struct LiquidGlassConfigurableTests {
     func ARCEmptyStateConfiguration_conformsToProtocol() {
         let config: any LiquidGlassConfigurable = ARCEmptyStateConfiguration.noFavorites
 
-        let _ = config.accentColor
+        _ = config.accentColor
         #expect(config.cornerRadius > 0)
         #expect(config.shadow.radius >= 0)
     }
@@ -160,7 +159,7 @@ struct LiquidGlassConfigurableTests {
     func ARCFavoriteButtonConfiguration_conformsToProtocol() {
         let config: any LiquidGlassConfigurable = ARCFavoriteButtonConfiguration.default
 
-        let _ = config.accentColor
+        _ = config.accentColor
         #expect(config.cornerRadius > 0)
         #expect(config.shadow.radius >= 0)
     }
@@ -169,7 +168,7 @@ struct LiquidGlassConfigurableTests {
     func ARCSearchButtonConfiguration_conformsToProtocol() {
         let config: any LiquidGlassConfigurable = ARCSearchButtonConfiguration.default
 
-        let _ = config.accentColor
+        _ = config.accentColor
         #expect(config.cornerRadius > 0)
         #expect(config.shadow.radius >= 0)
     }
@@ -243,7 +242,7 @@ struct LiquidGlassConfigurableTests {
         let config = ARCMenuConfiguration.default
 
         let result = await Task.detached {
-            return config.cornerRadius
+            config.cornerRadius
         }.value
 
         #expect(result == ARCMenuConfiguration.default.cornerRadius)
@@ -254,7 +253,7 @@ struct LiquidGlassConfigurableTests {
         let config = ARCListCardConfiguration.prominent
 
         let result = await Task.detached {
-            return config.cornerRadius
+            config.cornerRadius
         }.value
 
         #expect(result == ARCListCardConfiguration.prominent.cornerRadius)
@@ -265,7 +264,6 @@ struct LiquidGlassConfigurableTests {
 
 @Suite("LiquidGlass Background Style Tests")
 struct LiquidGlassBackgroundStyleTests {
-
     @Test("liquidGlass_canBeUsedInMenuConfiguration")
     func liquidGlass_canBeUsedInMenuConfiguration() {
         let config = ARCMenuConfiguration(backgroundStyle: .liquidGlass)

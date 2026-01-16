@@ -14,7 +14,6 @@ import Testing
 /// Tests cover initialization and avatar image types.
 @Suite("ARCMenuUser Tests")
 struct ARCMenuUserTests {
-
     // MARK: - Initialization Tests
 
     @Test("init_withRequiredParameters_createsUser")
@@ -70,7 +69,7 @@ struct ARCMenuUserTests {
             avatarImage: .initials("")
         )
 
-        #expect(user.name == "")
+        #expect(user.name.isEmpty)
     }
 
     // MARK: - Identifiable Conformance Tests
@@ -96,7 +95,7 @@ struct ARCMenuUserTests {
         )
 
         let result = await Task.detached {
-            return user.name
+            user.name
         }.value
 
         #expect(result == "Sendable Test")
@@ -107,7 +106,6 @@ struct ARCMenuUserTests {
 
 @Suite("ARCMenuUserImage Tests")
 struct ARCMenuUserImageTests {
-
     @Test("systemImage_createsCorrectType")
     func systemImage_createsCorrectType() {
         let image = ARCMenuUserImage.systemImage("person.circle.fill")
@@ -132,7 +130,10 @@ struct ARCMenuUserImageTests {
 
     @Test("url_createsCorrectType")
     func url_createsCorrectType() {
-        let testURL = URL(string: "https://example.com/avatar.png")!
+        guard let testURL = URL(string: "https://example.com/avatar.png") else {
+            #expect(Bool(false), "Failed to create test URL")
+            return
+        }
         let image = ARCMenuUserImage.url(testURL)
 
         if case let .url(url) = image {
@@ -158,7 +159,7 @@ struct ARCMenuUserImageTests {
         let image = ARCMenuUserImage.initials("")
 
         if case let .initials(text) = image {
-            #expect(text == "")
+            #expect(text.isEmpty)
         } else {
             #expect(Bool(false), "Expected initials type")
         }

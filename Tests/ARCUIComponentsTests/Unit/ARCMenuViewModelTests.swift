@@ -15,7 +15,6 @@ import Testing
 @Suite("ARCMenuViewModel Tests")
 @MainActor
 struct ARCMenuViewModelTests {
-
     // MARK: - Initialization Tests
 
     @Test("init_withDefaultValues_setsCorrectInitialState")

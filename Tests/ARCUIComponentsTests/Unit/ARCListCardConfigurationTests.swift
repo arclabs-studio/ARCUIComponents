@@ -14,7 +14,6 @@ import Testing
 /// Tests cover default values, presets, and LiquidGlassConfigurable conformance.
 @Suite("ARCListCardConfiguration Tests")
 struct ARCListCardConfigurationTests {
-
     // MARK: - Default Configuration Tests
 
     @Test("default_hasTranslucentBackgroundStyle")

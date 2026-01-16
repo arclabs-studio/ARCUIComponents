@@ -12,7 +12,6 @@ import Testing
 /// Unit tests for shared models: ARCShadow and ARCBackgroundStyle
 @Suite("ARCShadow Tests")
 struct ARCShadowTests {
-
     // MARK: - Preset Tests
 
     @Test("default_hasNonZeroRadius")
@@ -76,7 +75,7 @@ struct ARCShadowTests {
         let shadow = ARCShadow.default
 
         let result = await Task.detached {
-            return shadow.radius
+            shadow.radius
         }.value
 
         #expect(result == ARCShadow.default.radius)
@@ -87,7 +86,6 @@ struct ARCShadowTests {
 
 @Suite("ARCBackgroundStyle Tests")
 struct ARCBackgroundStyleTests {
-
     @Test("liquidGlass_isValidCase")
     func liquidGlass_isValidCase() {
         let style = ARCBackgroundStyle.liquidGlass
@@ -282,7 +280,6 @@ struct ARCBackgroundStyleTests {
 
 @Suite("ARCShadow Extended Tests")
 struct ARCShadowExtendedTests {
-
     // MARK: - Preset Value Verification Tests
 
     @Test("default_hasExpectedValues")
