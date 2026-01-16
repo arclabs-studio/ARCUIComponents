@@ -118,6 +118,15 @@ public struct ARCSearchButton: View {
     // MARK: - Body
 
     public var body: some View {
+        buttonContent
+            .modifier(GlassBackgroundModifier(configuration: configuration, isInteractive: true))
+            .accessibilityLabel("Search")
+            .accessibilityHint("Tap to search")
+            .accessibilityAddTraits(.isButton)
+    }
+
+    @ViewBuilder
+    private var buttonContent: some View {
         Button(action: handleTap) {
             Image(systemName: configuration.icon)
                 .font(.system(size: configuration.size.iconSize, weight: .medium))
@@ -126,13 +135,18 @@ public struct ARCSearchButton: View {
                     width: configuration.size.frameSize,
                     height: configuration.size.frameSize
                 )
-                .background(backgroundView)
+                .background(shouldUseLiquidGlass ? nil : backgroundView)
                 .contentShape(Rectangle())
         }
         .buttonStyle(SearchButtonPressStyle(isPressed: $isPressed))
-        .accessibilityLabel("Search")
-        .accessibilityHint("Tap to search")
-        .accessibilityAddTraits(.isButton)
+    }
+
+    /// Whether to use the liquid glass effect based on configuration
+    private var shouldUseLiquidGlass: Bool {
+        if case .liquidGlass = configuration.backgroundStyle {
+            return true
+        }
+        return false
     }
 
     // MARK: - Computed Properties
@@ -187,6 +201,24 @@ public struct ARCSearchButton: View {
 
         // Perform action
         action()
+    }
+}
+
+// MARK: - Glass Background Modifier
+
+/// Conditionally applies liquid glass based on background style
+@available(iOS 17.0, macOS 14.0, *)
+private struct GlassBackgroundModifier: ViewModifier {
+    let configuration: ARCSearchButtonConfiguration
+    let isInteractive: Bool
+
+    func body(content: Content) -> some View {
+        if case .liquidGlass = configuration.backgroundStyle {
+            content
+                .liquidGlass(configuration: configuration, isInteractive: isInteractive)
+        } else {
+            content
+        }
     }
 }
 

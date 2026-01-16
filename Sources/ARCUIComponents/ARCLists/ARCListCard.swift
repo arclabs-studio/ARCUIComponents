@@ -148,7 +148,7 @@ public struct ARCListCard<Accessories: View>: View {
                 }
             }
             .padding()
-            .liquidGlass(configuration: configuration)
+            .liquidGlass(configuration: configuration, isInteractive: false)
         }
         .buttonStyle(CardPressStyle(isPressed: $isPressed))
         .accessibilityElement(children: .combine)

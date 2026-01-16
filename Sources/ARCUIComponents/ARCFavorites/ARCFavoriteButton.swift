@@ -110,6 +110,15 @@ public struct ARCFavoriteButton: View {
     // MARK: - Body
 
     public var body: some View {
+        buttonContent
+            .modifier(GlassBackgroundModifier(configuration: configuration, isInteractive: true))
+            .accessibilityLabel(isFavorite ? "Favorited" : "Not favorited")
+            .accessibilityHint("Tap to \(isFavorite ? "remove from" : "add to") favorites")
+            .accessibilityAddTraits(.isButton)
+    }
+
+    @ViewBuilder
+    private var buttonContent: some View {
         Button {
             toggleFavorite()
         } label: {
@@ -118,13 +127,10 @@ public struct ARCFavoriteButton: View {
                 .foregroundStyle(isFavorite
                     ? configuration.favoriteColor.gradient
                     : configuration.unfavoriteColor.gradient)
-                    .symbolEffect(.bounce, value: isFavorite)
-                    .contentTransition(.symbolEffect(.replace))
+                .symbolEffect(.bounce, value: isFavorite)
+                .contentTransition(.symbolEffect(.replace))
         }
         .buttonStyle(FavoriteButtonStyle(configuration: configuration))
-        .accessibilityLabel(isFavorite ? "Favorited" : "Not favorited")
-        .accessibilityHint("Tap to \(isFavorite ? "remove from" : "add to") favorites")
-        .accessibilityAddTraits(.isButton)
     }
 
     // MARK: - Actions
@@ -145,6 +151,24 @@ public struct ARCFavoriteButton: View {
 
         // Notify callback
         onToggle?(isFavorite)
+    }
+}
+
+// MARK: - Glass Background Modifier
+
+/// Conditionally applies liquid glass based on background style
+@available(iOS 17.0, macOS 14.0, *)
+private struct GlassBackgroundModifier: ViewModifier {
+    let configuration: ARCFavoriteButtonConfiguration
+    let isInteractive: Bool
+
+    func body(content: Content) -> some View {
+        if case .liquidGlass = configuration.backgroundStyle {
+            content
+                .liquidGlass(configuration: configuration, isInteractive: isInteractive)
+        } else {
+            content
+        }
     }
 }
 

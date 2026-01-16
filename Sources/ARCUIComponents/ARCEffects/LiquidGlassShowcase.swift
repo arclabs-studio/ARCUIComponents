@@ -18,8 +18,19 @@ import SwiftUI
 /// - Test visual appearance in Light and Dark modes
 /// - Compare different background styles side by side
 /// - Verify accessibility and Dynamic Type support
-@available(iOS 17.0, *)
+///
+/// ## Platform Behavior
+///
+/// - **iOS 26+**: Uses native `glassEffect()` API with morphing animations
+/// - **iOS 17-25**: Uses manual implementation with materials and gradients
+@available(iOS 17.0, macOS 14.0, *)
 public struct LiquidGlassShowcase: View {
+
+    // MARK: - State
+
+    @State private var showMorphingDemo = false
+    @Namespace private var morphNamespace
+
     // MARK: - Body
 
     public init() {}
@@ -35,6 +46,8 @@ public struct LiquidGlassShowcase: View {
                     Text("Apple's premium glassmorphism")
                         .font(.title3)
                         .foregroundStyle(.secondary)
+
+                    platformBadge
                 }
                 .padding(.top)
 
@@ -46,6 +59,7 @@ public struct LiquidGlassShowcase: View {
                     materialExample
                     colorVariationsExample
                     shadowVariationsExample
+                    morphingExample
                 }
                 .padding(.horizontal)
             }
@@ -63,6 +77,32 @@ public struct LiquidGlassShowcase: View {
             )
             .ignoresSafeArea()
         )
+    }
+
+    // MARK: - Platform Badge
+
+    private var platformBadge: some View {
+        HStack(spacing: .arcSpacingSmall) {
+            Image(systemName: isUsingNativeGlass ? "checkmark.seal.fill" : "gear")
+                .foregroundStyle(isUsingNativeGlass ? .green : .orange)
+
+            Text(isUsingNativeGlass ? "Native Glass API (iOS 26+)" : "Legacy Implementation (iOS 17-25)")
+                .font(.caption.bold())
+        }
+        .padding(.horizontal, .arcSpacingMedium)
+        .padding(.vertical, .arcSpacingSmall)
+        .background(
+            Capsule()
+                .fill(isUsingNativeGlass ? Color.green.opacity(0.15) : Color.orange.opacity(0.15))
+        )
+        .padding(.top, .arcSpacingSmall)
+    }
+
+    private var isUsingNativeGlass: Bool {
+        if #available(iOS 26.0, macOS 26.0, *) {
+            return true
+        }
+        return false
     }
 
     // MARK: - Examples
@@ -180,11 +220,66 @@ public struct LiquidGlassShowcase: View {
             }
         }
     }
+
+    // MARK: - Morphing Example
+
+    private var morphingExample: some View {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+            SectionHeader(
+                title: "Morphing Animations",
+                subtitle: isUsingNativeGlass
+                    ? "Tap to see glass elements morph (iOS 26+)"
+                    : "Available on iOS 26+ with native Glass API"
+            )
+
+            ARCGlassContainer(spacing: 40) {
+                HStack(spacing: 40) {
+                    MorphButton(
+                        icon: "star.fill",
+                        title: "Star",
+                        color: .yellow
+                    )
+                    .arcGlassEffectID("star", in: morphNamespace)
+
+                    if showMorphingDemo {
+                        MorphButton(
+                            icon: "heart.fill",
+                            title: "Heart",
+                            color: .pink
+                        )
+                        .arcGlassEffectID("heart", in: morphNamespace)
+
+                        MorphButton(
+                            icon: "bookmark.fill",
+                            title: "Bookmark",
+                            color: .blue
+                        )
+                        .arcGlassEffectID("bookmark", in: morphNamespace)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .animation(.spring(response: 0.5, dampingFraction: 0.8), value: showMorphingDemo)
+
+            Button {
+                showMorphingDemo.toggle()
+            } label: {
+                Text(showMorphingDemo ? "Hide Elements" : "Show Elements")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, .arcSpacingXLarge)
+                    .padding(.vertical, .arcSpacingMedium)
+                    .background(Capsule().fill(Color.blue.gradient))
+            }
+            .buttonStyle(.plain)
+            .frame(maxWidth: .infinity)
+        }
+    }
 }
 
 // MARK: - Example Configuration
 
-@available(iOS 17.0, *)
+@available(iOS 17.0, macOS 14.0, *)
 private struct LiquidGlassConfiguration: LiquidGlassConfigurable {
     let accentColor: Color
     let backgroundStyle: ARCBackgroundStyle
@@ -194,7 +289,7 @@ private struct LiquidGlassConfiguration: LiquidGlassConfigurable {
 
 // MARK: - Example Card
 
-@available(iOS 17.0, *)
+@available(iOS 17.0, macOS 14.0, *)
 private struct ExampleCard: View {
     let configuration: LiquidGlassConfiguration
 
@@ -226,7 +321,7 @@ private struct ExampleCard: View {
     }
 }
 
-@available(iOS 17.0, *)
+@available(iOS 17.0, macOS 14.0, *)
 private struct SmallExampleCard: View {
     let configuration: LiquidGlassConfiguration
     let title: String
@@ -248,7 +343,7 @@ private struct SmallExampleCard: View {
     }
 }
 
-@available(iOS 17.0, *)
+@available(iOS 17.0, macOS 14.0, *)
 private struct MediumExampleCard: View {
     let configuration: LiquidGlassConfiguration
     let title: String
@@ -278,9 +373,38 @@ private struct MediumExampleCard: View {
     }
 }
 
+// MARK: - Morph Button
+
+@available(iOS 17.0, macOS 14.0, *)
+private struct MorphButton: View {
+    let icon: String
+    let title: String
+    let color: Color
+
+    private let configuration = LiquidGlassConfiguration(
+        accentColor: .blue,
+        backgroundStyle: .liquidGlass,
+        cornerRadius: .arcCornerRadiusMedium,
+        shadow: .subtle
+    )
+
+    var body: some View {
+        VStack(spacing: .arcSpacingSmall) {
+            Image(systemName: icon)
+                .font(.title)
+                .foregroundStyle(color.gradient)
+
+            Text(title)
+                .font(.caption.bold())
+        }
+        .padding(.arcSpacingLarge)
+        .liquidGlass(configuration: configuration, isInteractive: true)
+    }
+}
+
 // MARK: - Section Header
 
-@available(iOS 17.0, *)
+@available(iOS 17.0, macOS 14.0, *)
 private struct SectionHeader: View {
     let title: String
     let subtitle: String
@@ -302,7 +426,7 @@ private struct SectionHeader: View {
 
 // MARK: - Color Variations
 
-@available(iOS 17.0, *)
+@available(iOS 17.0, macOS 14.0, *)
 private enum ColorVariation: CaseIterable {
     case blue, purple, green, orange, pink, indigo
 
@@ -331,7 +455,7 @@ private enum ColorVariation: CaseIterable {
 
 // MARK: - Shadow Variations
 
-@available(iOS 17.0, *)
+@available(iOS 17.0, macOS 14.0, *)
 private enum ShadowVariation: CaseIterable {
     case none, subtle, `default`, prominent
 

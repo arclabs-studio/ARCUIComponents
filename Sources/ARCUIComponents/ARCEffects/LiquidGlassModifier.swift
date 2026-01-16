@@ -10,9 +10,9 @@ import SwiftUI
 
 /// Liquid glass effect modifier for ARC components
 ///
-/// Implements Apple's modern glassmorphism effect seen in flagship apps like
-/// Music, Podcasts, and Fitness. Combines ultra-thin materials, vibrancy, and
-/// subtle blur for a premium, depth-rich appearance.
+/// Implements Apple's modern glassmorphism effect. On iOS 26+, uses the native
+/// `.glassEffect()` API for optimal performance and full Liquid Glass features.
+/// On iOS 17-25, provides a manual implementation using materials and gradients.
 ///
 /// ## Overview
 ///
@@ -23,15 +23,22 @@ import SwiftUI
 /// conforms to ``LiquidGlassConfigurable``, ensuring visual consistency
 /// across the entire ARCUIComponents package.
 ///
+/// ## Platform Behavior
+///
+/// - **iOS 26+**: Uses native `glassEffect()` API with full Liquid Glass features
+///   including touch/pointer interactivity, morphing animations, and system optimizations.
+/// - **iOS 17-25**: Uses manual implementation with materials, gradients, and shadows
+///   for a similar visual appearance.
+///
 /// ## Topics
 ///
 /// ### Creating the Effect
 ///
-/// - ``init(configuration:)``
+/// - ``init(configuration:isInteractive:)``
 ///
 /// ### View Extension
 ///
-/// - ``SwiftUI/View/liquidGlass(configuration:)``
+/// - ``SwiftUI/View/liquidGlass(configuration:isInteractive:)``
 ///
 /// ## Usage
 ///
@@ -40,11 +47,15 @@ import SwiftUI
 /// MyView()
 ///     .liquidGlass(configuration: myConfig)
 ///
+/// // With interactivity (for buttons, responds to touch on iOS 26+)
+/// Button("Tap") { }
+///     .liquidGlass(configuration: myConfig, isInteractive: true)
+///
 /// // The modifier automatically adapts to:
-/// // - .liquidGlass: Full premium effect
-/// // - .translucent: Standard blur
-/// // - .solid: Custom color
-/// // - .material: Custom material
+/// // - .liquidGlass: Full premium effect (Glass.regular on iOS 26+)
+/// // - .translucent: Lighter effect (Glass.clear on iOS 26+)
+/// // - .solid: Custom color (no glass effect)
+/// // - .material: Custom material (no glass effect)
 /// ```
 ///
 /// ## Design Philosophy
@@ -55,27 +66,112 @@ import SwiftUI
 /// - **Subtlety**: Effects are noticeable but never overwhelming
 /// - **Adaptability**: Automatically adjusts for Dark Mode and accessibility
 ///
-/// - Note: Best experienced on ProMotion displays where subtle animations
-///   and blur transitions are smoothest.
-@available(iOS 17.0, *)
+/// - Note: On iOS 26+, the native implementation provides additional features
+///   like touch responsiveness and morphing animations when used with
+///   ``ARCGlassContainer``.
+@available(iOS 17.0, macOS 14.0, *)
 struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier {
+
     // MARK: - Properties
 
     /// Configuration providing visual styling
     let configuration: Configuration
 
+    /// Whether the glass effect should respond to touch/pointer interactions (iOS 26+ only)
+    let isInteractive: Bool
+
+    // MARK: - Initialization
+
+    /// Creates a liquid glass modifier with the specified configuration
+    ///
+    /// - Parameters:
+    ///   - configuration: Configuration providing visual styling
+    ///   - isInteractive: Whether the effect responds to touch (iOS 26+ only). Default is `false`.
+    init(configuration: Configuration, isInteractive: Bool = false) {
+        self.configuration = configuration
+        self.isInteractive = isInteractive
+    }
+
     // MARK: - Body
 
     func body(content: Content) -> some View {
+        if #available(iOS 26.0, macOS 26.0, *) {
+            nativeGlassBody(content: content)
+        } else {
+            legacyGlassBody(content: content)
+        }
+    }
+
+    // MARK: - iOS 26+ Native Implementation
+
+    /// Native Liquid Glass implementation using iOS 26+ APIs
+    @available(iOS 26.0, macOS 26.0, *)
+    @ViewBuilder
+    private func nativeGlassBody(content: Content) -> some View {
+        switch configuration.backgroundStyle {
+        case .liquidGlass:
+            content
+                .glassEffect(
+                    nativeGlassConfiguration,
+                    in: .rect(cornerRadius: configuration.cornerRadius)
+                )
+
+        case .translucent:
+            content
+                .glassEffect(
+                    nativeClearGlassConfiguration,
+                    in: .rect(cornerRadius: configuration.cornerRadius)
+                )
+
+        case let .solid(color, opacity):
+            // Solid backgrounds don't use glass effect
+            content
+                .background {
+                    solidBackground(color: color, opacity: opacity)
+                }
+
+        case let .material(material):
+            // Custom materials don't use glass effect
+            content
+                .background {
+                    materialBackground(material: material)
+                }
+        }
+    }
+
+    /// Native Glass configuration for liquidGlass style
+    @available(iOS 26.0, macOS 26.0, *)
+    private var nativeGlassConfiguration: Glass {
+        var glass = Glass.regular.tint(configuration.accentColor)
+        if isInteractive {
+            glass = glass.interactive()
+        }
+        return glass
+    }
+
+    /// Native Glass configuration for translucent style
+    @available(iOS 26.0, macOS 26.0, *)
+    private var nativeClearGlassConfiguration: Glass {
+        var glass = Glass.clear.tint(configuration.accentColor)
+        if isInteractive {
+            glass = glass.interactive()
+        }
+        return glass
+    }
+
+    // MARK: - iOS 17-25 Legacy Implementation
+
+    /// Legacy implementation using materials and gradients
+    @ViewBuilder
+    private func legacyGlassBody(content: Content) -> some View {
         content
             .background {
-                backgroundView
+                legacyBackgroundView
             }
     }
 
-    // MARK: - Background View
-
-    @ViewBuilder private var backgroundView: some View {
+    @ViewBuilder
+    private var legacyBackgroundView: some View {
         switch configuration.backgroundStyle {
         case .liquidGlass:
             liquidGlassBackground
@@ -91,9 +187,9 @@ struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier
         }
     }
 
-    // MARK: - Liquid Glass Background
+    // MARK: - Legacy Liquid Glass Background
 
-    /// Full liquid glass effect with all visual layers
+    /// Full liquid glass effect with all visual layers (iOS 17-25)
     ///
     /// Combines:
     /// 1. Ultra-thin material base
@@ -152,9 +248,9 @@ struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier
         )
     }
 
-    // MARK: - Alternative Backgrounds
+    // MARK: - Legacy Translucent Background
 
-    /// Translucent background with standard blur
+    /// Translucent background with standard blur (iOS 17-25)
     ///
     /// Lighter than liquid glass, using thin material with minimal accent tinting.
     private var translucentBackground: some View {
@@ -174,6 +270,8 @@ struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier
             y: configuration.shadow.y
         )
     }
+
+    // MARK: - Shared Backgrounds
 
     /// Solid background with custom color and opacity
     ///
@@ -208,15 +306,21 @@ struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier
 
 // MARK: - View Extension
 
-@available(iOS 17.0, *)
-extension View {
+@available(iOS 17.0, macOS 14.0, *)
+public extension View {
     /// Applies the liquid glass effect to a view
     ///
     /// This unified modifier works with any configuration type that conforms
     /// to ``LiquidGlassConfigurable``, automatically adapting the visual
     /// treatment based on the ``ARCBackgroundStyle`` specified.
     ///
-    /// - Parameter configuration: Configuration providing visual styling
+    /// On iOS 26+, this uses the native `glassEffect()` API for optimal performance.
+    /// On iOS 17-25, it uses a manual implementation with materials and gradients.
+    ///
+    /// - Parameters:
+    ///   - configuration: Configuration providing visual styling
+    ///   - isInteractive: Whether the effect responds to touch/pointer interactions.
+    ///     Only effective on iOS 26+. Default is `false`.
     /// - Returns: View with liquid glass effect applied
     ///
     /// ## Example
@@ -233,10 +337,15 @@ extension View {
     ///         .liquidGlass(configuration: config)
     ///     }
     /// }
+    ///
+    /// // For interactive buttons (iOS 26+)
+    /// Button("Action") { }
+    ///     .liquidGlass(configuration: config, isInteractive: true)
     /// ```
-    public func liquidGlass(
-        configuration: some LiquidGlassConfigurable
+    func liquidGlass(
+        configuration: some LiquidGlassConfigurable,
+        isInteractive: Bool = false
     ) -> some View {
-        modifier(LiquidGlassModifier(configuration: configuration))
+        modifier(LiquidGlassModifier(configuration: configuration, isInteractive: isInteractive))
     }
 }
