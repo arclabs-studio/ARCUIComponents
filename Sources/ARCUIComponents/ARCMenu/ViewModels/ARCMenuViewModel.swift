@@ -100,9 +100,11 @@ public final class ARCMenuViewModel {
     }
 
     /// Updates drag offset during drag gesture
-    /// - Parameter offset: Current drag offset
-    public func updateDragOffset(_ offset: CGFloat) {
-        // Only allow dragging to the right (positive offset)
+    /// - Parameters:
+    ///   - offset: Current drag offset
+    ///   - isVertical: Whether the drag is vertical (bottomSheet) or horizontal (trailingPanel)
+    public func updateDragOffset(_ offset: CGFloat, isVertical: Bool = false) {
+        // Only allow dragging in the dismissal direction (positive offset)
         if offset > 0 {
             dragOffset = offset
 
@@ -118,8 +120,10 @@ public final class ARCMenuViewModel {
     }
 
     /// Handles end of drag gesture
-    /// - Parameter offset: Final drag offset
-    public func endDrag(at offset: CGFloat) {
+    /// - Parameters:
+    ///   - offset: Final drag offset
+    ///   - isVertical: Whether the drag is vertical (bottomSheet) or horizontal (trailingPanel)
+    public func endDrag(at offset: CGFloat, isVertical: Bool = false) {
         if offset >= configuration.dragDismissalThreshold {
             dismiss()
         } else {

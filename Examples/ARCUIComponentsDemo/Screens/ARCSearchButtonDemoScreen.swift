@@ -12,6 +12,7 @@ import SwiftUI
 ///
 /// Shows search buttons in various styles and contexts.
 struct ARCSearchButtonDemoScreen: View {
+
     // MARK: Properties
 
     @State private var showSearchSheet = false
@@ -21,16 +22,9 @@ struct ARCSearchButtonDemoScreen: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                // Styles Section
                 stylesSection
-
-                // Sizes Section
                 sizesSection
-
-                // In Toolbar
                 toolbarSection
-
-                // In Context
                 contextSection
             }
             .padding()
@@ -43,13 +37,17 @@ struct ARCSearchButtonDemoScreen: View {
                 SearchSheetView()
             }
     }
+}
 
-    // MARK: Sections
+// MARK: - Private Views
 
-    private var stylesSection: some View {
+private extension ARCSearchButtonDemoScreen {
+
+    var stylesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Styles")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
             HStack(spacing: 24) {
                 VStack {
@@ -81,15 +79,16 @@ struct ARCSearchButtonDemoScreen: View {
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(Color.gray.opacity(0.1))
+            .background(Color.arcBrandBurgundy.opacity(0.1))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 
-    private var sizesSection: some View {
+    var sizesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Sizes")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
             HStack(spacing: 24) {
                 VStack {
@@ -121,21 +120,21 @@ struct ARCSearchButtonDemoScreen: View {
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(Color.gray.opacity(0.1))
+            .background(Color.arcBrandGold.opacity(0.1))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 
-    private var toolbarSection: some View {
+    var toolbarSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("In Toolbar")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
             Text("The search button is commonly placed in the navigation bar toolbar.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
-            // Visual representation
             HStack {
                 Text("Title")
                     .font(.headline)
@@ -145,23 +144,23 @@ struct ARCSearchButtonDemoScreen: View {
                 ARCSearchButton {}
             }
             .padding()
-            .background(Color.gray.opacity(0.15))
+            .background(Color.arcBrandBlack.opacity(0.05))
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 
-    private var contextSection: some View {
+    var contextSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("In Context")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
-            // Simulated search bar alternative
             Button {
                 showSearchSheet = true
             } label: {
                 HStack {
                     Image(systemName: "magnifyingglass")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.arcBrandBurgundy)
 
                     Text("Search...")
                         .foregroundStyle(.secondary)
@@ -169,7 +168,7 @@ struct ARCSearchButtonDemoScreen: View {
                     Spacer()
                 }
                 .padding()
-                .background(Color.gray.opacity(0.1))
+                .background(Color.arcBrandBurgundy.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             }
             .buttonStyle(.plain)
@@ -184,6 +183,7 @@ struct ARCSearchButtonDemoScreen: View {
 // MARK: - Search Sheet
 
 private struct SearchSheetView: View {
+
     @Environment(\.dismiss) private var dismiss
     @State private var searchText = ""
 
@@ -217,14 +217,25 @@ private struct SearchSheetView: View {
                         Button("Cancel") {
                             dismiss()
                         }
+                        .tint(.arcBrandBurgundy)
                     }
                 }
         }
+        .tint(.arcBrandBurgundy)
     }
 }
 
-#Preview {
+// MARK: - Previews
+
+#Preview("Light Mode") {
     NavigationStack {
         ARCSearchButtonDemoScreen()
     }
+}
+
+#Preview("Dark Mode") {
+    NavigationStack {
+        ARCSearchButtonDemoScreen()
+    }
+    .preferredColorScheme(.dark)
 }

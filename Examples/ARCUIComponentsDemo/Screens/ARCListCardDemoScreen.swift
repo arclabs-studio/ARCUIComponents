@@ -12,21 +12,15 @@ import SwiftUI
 ///
 /// Shows list cards with various configurations and content types.
 struct ARCListCardDemoScreen: View {
+
     // MARK: Body
 
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Basic Cards
                 basicCardsSection
-
-                // With Images
                 imageCardsSection
-
-                // With Accessories
                 accessoryCardsSection
-
-                // Configurations
                 configurationsSection
             }
             .padding()
@@ -36,13 +30,17 @@ struct ARCListCardDemoScreen: View {
             .navigationBarTitleDisplayMode(.large)
         #endif
     }
+}
 
-    // MARK: Sections
+// MARK: - Private Views
 
-    private var basicCardsSection: some View {
+private extension ARCListCardDemoScreen {
+
+    var basicCardsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Basic Cards")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
             ARCListCard(
                 title: "Simple Card",
@@ -52,9 +50,7 @@ struct ARCListCardDemoScreen: View {
             ARCListCard(
                 title: "Card with Action",
                 subtitle: "Tap to interact",
-                action: {
-                    print("Card tapped")
-                }
+                action: {}
             )
 
             ARCListCard(
@@ -68,13 +64,20 @@ struct ARCListCardDemoScreen: View {
         }
     }
 
-    private var imageCardsSection: some View {
+    var imageCardsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("With Images")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
             ARCListCard(
-                image: .system("star.fill", color: .yellow, size: 44),
+                image: .system("a.square.fill", color: .arcBrandBurgundy, size: 50),
+                title: "ARC Labs Studio",
+                subtitle: "Premium UI Components"
+            )
+
+            ARCListCard(
+                image: .system("star.fill", color: .arcBrandGold, size: 44),
                 title: "System Image",
                 subtitle: "Using SF Symbols"
             )
@@ -90,13 +93,14 @@ struct ARCListCardDemoScreen: View {
         }
     }
 
-    private var accessoryCardsSection: some View {
+    var accessoryCardsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("With Accessories")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
             ARCListCard(
-                image: .system("bell.fill", color: .blue, size: 44),
+                image: .system("bell.fill", color: .arcBrandGold, size: 44),
                 title: "With Badge",
                 subtitle: "Shows a notification count",
                 accessories: {
@@ -105,27 +109,29 @@ struct ARCListCardDemoScreen: View {
                         .foregroundStyle(.white)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(Color.red)
+                        .background(Color.arcBrandBurgundy)
                         .clipShape(Capsule())
                 }
             )
 
             ARCListCard(
-                image: .system("moon.fill", color: .purple, size: 44),
+                image: .system("moon.fill", color: .arcBrandBurgundy, size: 44),
                 title: "With Toggle",
                 subtitle: "Interactive accessory",
                 accessories: {
                     Toggle("", isOn: .constant(true))
                         .labelsHidden()
+                        .tint(.arcBrandGold)
                 }
             )
         }
     }
 
-    private var configurationsSection: some View {
+    var configurationsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Configurations")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
             ARCListCard(
                 configuration: .default,
@@ -148,8 +154,17 @@ struct ARCListCardDemoScreen: View {
     }
 }
 
-#Preview {
+// MARK: - Previews
+
+#Preview("Light Mode") {
     NavigationStack {
         ARCListCardDemoScreen()
     }
+}
+
+#Preview("Dark Mode") {
+    NavigationStack {
+        ARCListCardDemoScreen()
+    }
+    .preferredColorScheme(.dark)
 }

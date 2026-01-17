@@ -13,30 +13,23 @@ import SwiftUI
 /// Shows the glassmorphism effect with various backgrounds and configurations.
 @available(iOS 17.0, *)
 struct LiquidGlassDemoScreen: View {
+
     // MARK: Properties
 
-    @State private var backgroundStyle: BackgroundStyleOption = .gradient
+    @State private var backgroundStyle: BackgroundStyleOption = .arcBrand
 
     // MARK: Body
 
     var body: some View {
         ZStack {
-            // Dynamic Background
             backgroundView
                 .ignoresSafeArea()
 
-            // Content with Liquid Glass
             ScrollView {
                 VStack(spacing: 24) {
-                    // Background Picker
                     backgroundPicker
-
-                    // Glass Card Demo
                     glassCardDemo
-
-                    // Multiple Cards
                     multipleCardsDemo
-
                     Spacer(minLength: 100)
                 }
                 .padding()
@@ -47,14 +40,19 @@ struct LiquidGlassDemoScreen: View {
             .navigationBarTitleDisplayMode(.inline)
         #endif
     }
+}
 
-    // MARK: Background
+// MARK: - Private Views
 
-    @ViewBuilder private var backgroundView: some View {
+@available(iOS 17.0, *)
+private extension LiquidGlassDemoScreen {
+
+    @ViewBuilder
+    var backgroundView: some View {
         switch backgroundStyle {
-        case .gradient:
+        case .arcBrand:
             LinearGradient(
-                colors: [.blue, .purple, .pink],
+                colors: [.arcBrandBurgundy, .arcBrandBurgundy.opacity(0.7), .arcBrandGold.opacity(0.3)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -65,11 +63,11 @@ struct LiquidGlassDemoScreen: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
             } placeholder: {
-                Color.gray
+                Color.arcBrandBurgundy
             }
 
         case .solid:
-            Color.indigo
+            Color.arcBrandBurgundy
 
         case .animated:
             TimelineView(.animation) { timeline in
@@ -86,9 +84,7 @@ struct LiquidGlassDemoScreen: View {
         }
     }
 
-    // MARK: Sections
-
-    private var backgroundPicker: some View {
+    var backgroundPicker: some View {
         VStack(spacing: 8) {
             Text("Background")
                 .font(.caption)
@@ -106,10 +102,17 @@ struct LiquidGlassDemoScreen: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    private var glassCardDemo: some View {
+    var glassCardDemo: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Liquid Glass Effect")
-                .font(.title2.bold())
+            HStack(spacing: 12) {
+                Image("ARC_Symbol")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
+
+                Text("Liquid Glass Effect")
+                    .font(.title2.bold())
+            }
 
             Text(
                 "This card uses the liquid glass modifier to create a premium glassmorphism effect. Notice how it blurs and tints the background while maintaining readability."
@@ -119,24 +122,25 @@ struct LiquidGlassDemoScreen: View {
 
             HStack {
                 Label("Premium Feel", systemImage: "sparkles")
+                    .foregroundStyle(Color.arcBrandGold)
                 Spacer()
                 Label("iOS Native", systemImage: "apple.logo")
+                    .foregroundStyle(Color.arcBrandBurgundy)
             }
             .font(.caption)
-            .foregroundStyle(.tertiary)
         }
         .padding(20)
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(color: .black.opacity(0.2), radius: 20, y: 10)
+        .shadow(color: .arcBrandBlack.opacity(0.2), radius: 20, y: 10)
     }
 
-    private var multipleCardsDemo: some View {
+    var multipleCardsDemo: some View {
         VStack(spacing: 16) {
             ForEach(0 ..< 3) { index in
                 HStack(spacing: 16) {
                     Circle()
-                        .fill(.white.opacity(0.3))
+                        .fill(Color.arcBrandGold.opacity(0.3))
                         .frame(width: 50, height: 50)
                         .overlay {
                             Image(systemName: ["star.fill", "heart.fill", "bolt.fill"][index])
@@ -169,7 +173,7 @@ struct LiquidGlassDemoScreen: View {
 
 @available(iOS 17.0, *)
 private enum BackgroundStyleOption: String, CaseIterable, Identifiable {
-    case gradient
+    case arcBrand
     case image
     case solid
     case animated
@@ -178,7 +182,7 @@ private enum BackgroundStyleOption: String, CaseIterable, Identifiable {
 
     var name: String {
         switch self {
-        case .gradient: "Gradient"
+        case .arcBrand: "ARC Brand"
         case .image: "Image"
         case .solid: "Solid"
         case .animated: "Animated"
@@ -186,9 +190,19 @@ private enum BackgroundStyleOption: String, CaseIterable, Identifiable {
     }
 }
 
+// MARK: - Previews
+
 @available(iOS 17.0, *)
-#Preview {
+#Preview("Light Mode") {
     NavigationStack {
         LiquidGlassDemoScreen()
     }
+}
+
+@available(iOS 17.0, *)
+#Preview("Dark Mode") {
+    NavigationStack {
+        LiquidGlassDemoScreen()
+    }
+    .preferredColorScheme(.dark)
 }

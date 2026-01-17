@@ -13,6 +13,7 @@ import SwiftUI
 /// Shows empty state configurations for common scenarios.
 @available(iOS 17.0, *)
 struct ARCEmptyStateDemoScreen: View {
+
     // MARK: Properties
 
     @State private var selectedPreset: EmptyStatePreset = .noFavorites
@@ -23,13 +24,8 @@ struct ARCEmptyStateDemoScreen: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
-                // Preset Selector
                 presetSelector
-
-                // Preview
                 previewSection
-
-                // All Presets Gallery
                 presetsGallery
             }
             .padding()
@@ -44,13 +40,18 @@ struct ARCEmptyStateDemoScreen: View {
                 Text("The empty state action was tapped.")
             }
     }
+}
 
-    // MARK: Sections
+// MARK: - Private Views
 
-    private var presetSelector: some View {
+@available(iOS 17.0, *)
+private extension ARCEmptyStateDemoScreen {
+
+    var presetSelector: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Select Preset")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
             Picker("Preset", selection: $selectedPreset) {
                 ForEach(EmptyStatePreset.allCases) { preset in
@@ -61,10 +62,11 @@ struct ARCEmptyStateDemoScreen: View {
         }
     }
 
-    private var previewSection: some View {
+    var previewSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Preview")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
             VStack {
                 Spacer()
@@ -77,15 +79,16 @@ struct ARCEmptyStateDemoScreen: View {
             }
             .frame(height: 350)
             .frame(maxWidth: .infinity)
-            .background(Color.gray.opacity(0.1))
+            .background(Color.arcBrandBlack.opacity(0.05))
             .clipShape(RoundedRectangle(cornerRadius: 16))
         }
     }
 
-    private var presetsGallery: some View {
+    var presetsGallery: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("All Presets")
                 .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
 
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
                 ForEach(EmptyStatePreset.allCases) { preset in
@@ -102,10 +105,13 @@ struct ARCEmptyStateDemoScreen: View {
                     .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(selectedPreset == preset ? Color.blue.opacity(0.1) : Color.gray.opacity(0.1))
+                            .fill(selectedPreset == preset ? Color.arcBrandGold.opacity(0.2) : Color.arcBrandBlack.opacity(0.05))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .strokeBorder(selectedPreset == preset ? Color.blue : Color.clear, lineWidth: 2)
+                                    .strokeBorder(
+                                        selectedPreset == preset ? Color.arcBrandBurgundy : Color.clear,
+                                        lineWidth: 2
+                                    )
                             )
                     )
                     .onTapGesture {
@@ -150,9 +156,19 @@ private enum EmptyStatePreset: String, CaseIterable, Identifiable {
     }
 }
 
+// MARK: - Previews
+
 @available(iOS 17.0, *)
-#Preview {
+#Preview("Light Mode") {
     NavigationStack {
         ARCEmptyStateDemoScreen()
     }
+}
+
+@available(iOS 17.0, *)
+#Preview("Dark Mode") {
+    NavigationStack {
+        ARCEmptyStateDemoScreen()
+    }
+    .preferredColorScheme(.dark)
 }
