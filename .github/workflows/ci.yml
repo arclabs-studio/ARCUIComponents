@@ -80,7 +80,7 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ./DerivedData
-        key: ${{ runner.os }}-deriveddata-docs-${{ hashFiles('**/Package.swift', '**/Package.resolved') }}
+        key: ${{ runner.os }}-deriveddata-docs-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-deriveddata-docs-
 
