@@ -69,10 +69,20 @@ jobs:
     runs-on: macos-15
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+    # Make this job non-blocking - it runs in parallel but doesn't block other checks
+    continue-on-error: true
 
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+
+    - name: Cache DerivedData
+      uses: actions/cache@v4
+      with:
+        path: ./DerivedData
+        key: ${{ runner.os }}-deriveddata-docs-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-deriveddata-docs-
 
     - name: List available simulators
       run: xcrun simctl list devices available

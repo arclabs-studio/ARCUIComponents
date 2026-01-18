@@ -1,6 +1,6 @@
-# ARCUIComponents Demo App
+# ARCUIComponentsDemoApp
 
-This Xcode project demonstrates all features of the ARCUIComponents package in a runnable iOS application.
+This standalone Xcode project demonstrates all features of the ARCUIComponents package in a runnable iOS application.
 
 ## Requirements
 
@@ -11,7 +11,7 @@ This Xcode project demonstrates all features of the ARCUIComponents package in a
 
 1. Open the project in Xcode:
    ```bash
-   open ARCUIComponentsDemo/ARCUIComponentsDemo.xcodeproj
+   open ARCUIComponentsDemoApp/ARCUIComponentsDemo.xcodeproj
    ```
 
 2. Select an iOS Simulator (iPhone 15 Pro recommended)
@@ -39,9 +39,9 @@ Each component includes a full showcase view (from the package itself) demonstra
 ## Architecture
 
 ```
-Examples/
+Example/
 ├── README.md
-└── ARCUIComponentsDemo/
+└── ARCUIComponentsDemoApp/
     ├── ARCUIComponentsDemo.xcodeproj  # Xcode project
     ├── ARCUIComponentsDemoApp.swift   # App entry point
     ├── DemoHomeView.swift             # Navigation menu
