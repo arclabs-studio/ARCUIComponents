@@ -11,8 +11,8 @@ import SwiftUI
 
 /// A comprehensive showcase view demonstrating all thematic artworks.
 ///
-/// Use `ThematicArtworkShowcase` to explore the available artwork presets,
-/// animation types, and configurations in an interactive gallery.
+/// Use `ThematicArtworkShowcase` to explore the available artwork types,
+/// animation styles, and configurations in an interactive gallery.
 public struct ThematicArtworkShowcase: View {
 
     // MARK: - State
@@ -84,30 +84,13 @@ public struct ThematicArtworkShowcase: View {
             sectionHeader("Food Artworks")
 
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))], spacing: 20) {
-                artworkCard("Pizza") {
-                    ThemedArtworkView(
-                        isAnimating: isAnimating,
-                        animationType: selectedAnimation
-                    ) {
-                        PizzaArtwork()
-                    }
-                }
-
-                artworkCard("Sushi") {
-                    ThemedArtworkView(
-                        isAnimating: isAnimating,
-                        animationType: selectedAnimation
-                    ) {
-                        SushiArtwork()
-                    }
-                }
-
-                artworkCard("Taco") {
-                    ThemedArtworkView(
-                        isAnimating: isAnimating,
-                        animationType: selectedAnimation
-                    ) {
-                        TacoArtwork()
+                ForEach(ArtworkType.allFoodCases, id: \.displayName) { type in
+                    artworkCard(type.displayName) {
+                        ThemedArtworkView(
+                            type: type,
+                            isAnimating: isAnimating,
+                            animationType: selectedAnimation
+                        )
                     }
                 }
             }
@@ -121,33 +104,13 @@ public struct ThematicArtworkShowcase: View {
             sectionHeader("Book Artworks")
 
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 20) {
-                bookCard("Noir") {
-                    ThemedArtworkView(
-                        configuration: .book,
-                        isAnimating: isAnimating,
-                        animationType: selectedAnimation
-                    ) {
-                        NoirBookArtwork()
-                    }
-                }
-
-                bookCard("Romance") {
-                    ThemedArtworkView(
-                        configuration: .book,
-                        isAnimating: isAnimating,
-                        animationType: selectedAnimation
-                    ) {
-                        RomanceBookArtwork()
-                    }
-                }
-
-                bookCard("Horror") {
-                    ThemedArtworkView(
-                        configuration: .book,
-                        isAnimating: isAnimating,
-                        animationType: selectedAnimation
-                    ) {
-                        HorrorBookArtwork()
+                ForEach(ArtworkType.allBookCases, id: \.displayName) { type in
+                    bookCard(type.displayName) {
+                        ThemedArtworkView(
+                            type: type,
+                            isAnimating: isAnimating,
+                            animationType: selectedAnimation
+                        )
                     }
                 }
             }
@@ -161,16 +124,8 @@ public struct ThematicArtworkShowcase: View {
             sectionHeader("Loader Examples")
 
             HStack(spacing: 24) {
-                loaderExample("Pizza", size: 48) {
-                    PizzaArtwork()
-                }
-
-                loaderExample("Sushi", size: 64) {
-                    SushiArtwork()
-                }
-
-                loaderExample("Taco", size: 80) {
-                    TacoArtwork()
+                ForEach(ArtworkType.allFoodCases, id: \.displayName) { type in
+                    loaderExample(type.displayName, type: type, size: 60)
                 }
             }
 
@@ -182,16 +137,25 @@ public struct ThematicArtworkShowcase: View {
                 ForEach(ArtworkAnimationType.allCases, id: \.self) { animationType in
                     VStack(spacing: 8) {
                         ThemedLoaderView(
+                            type: .food(.pizza),
                             size: 60,
                             animationType: animationType
-                        ) {
-                            PizzaArtwork()
-                        }
+                        )
 
                         Text(animationType.displayName)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
+                }
+            }
+
+            Divider()
+
+            sectionHeader("Book Loaders")
+
+            HStack(spacing: 24) {
+                ForEach(ArtworkType.allBookCases, id: \.displayName) { type in
+                    loaderExample(type.displayName, type: type, size: 60)
                 }
             }
         }
@@ -235,13 +199,13 @@ public struct ThematicArtworkShowcase: View {
         }
     }
 
-    private func loaderExample<Content: ThematicArtwork>(
+    private func loaderExample(
         _ title: String,
-        size: CGFloat,
-        @ViewBuilder content: () -> Content
+        type: ArtworkType,
+        size: CGFloat
     ) -> some View {
         VStack(spacing: 8) {
-            ThemedLoaderView(size: size, content: content)
+            ThemedLoaderView(type: type, size: size)
 
             Text(title)
                 .font(.caption)

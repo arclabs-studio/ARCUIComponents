@@ -9,38 +9,38 @@ import SwiftUI
 
 // MARK: - ThemedArtworkView
 
-/// A container view that adds animation and configuration to any `ThematicArtwork`.
+/// A customizable thematic artwork view for placeholders and loaders.
 ///
-/// Use `ThemedArtworkView` to wrap thematic artworks with animations, custom shapes,
-/// and shadow effects. This view handles the animation state and applies the
-/// appropriate visual transformations based on the configuration.
+/// Use `ThemedArtworkView` to display themed visual components based on the
+/// specified `ArtworkType`. The view supports animations, custom configurations,
+/// and automatically applies the appropriate theme colors.
 ///
 /// ## Example Usage
 /// ```swift
-/// // Static artwork
-/// ThemedArtworkView {
-///     PizzaArtwork()
-/// }
+/// // Food artwork (circular by default)
+/// ThemedArtworkView(type: .food(.pizza))
+///
+/// // Book artwork (uses book configuration by default)
+/// ThemedArtworkView(type: .book(.romance))
 ///
 /// // Animated loader
 /// ThemedArtworkView(
+///     type: .food(.sushi),
 ///     isAnimating: true,
-///     animationType: .spin,
-///     animationDuration: 1.2
-/// ) {
-///     PizzaArtwork()
-/// }
+///     animationType: .spin
+/// )
 ///
-/// // Book-shaped artwork
-/// ThemedArtworkView(configuration: .book) {
-///     NoirBookArtwork()
-/// }
+/// // Custom configuration
+/// ThemedArtworkView(
+///     type: .food(.taco),
+///     configuration: .card
+/// )
 /// ```
-public struct ThemedArtworkView<Content: ThematicArtwork>: View {
+public struct ThemedArtworkView: View {
 
     // MARK: - Properties
 
-    private let content: Content
+    private let type: ArtworkType
     private let configuration: ArtworkConfiguration
     private let isAnimating: Bool
     private let animationType: ArtworkAnimationType
@@ -53,20 +53,21 @@ public struct ThemedArtworkView<Content: ThematicArtwork>: View {
     /// Creates a themed artwork view.
     ///
     /// - Parameters:
-    ///   - configuration: The shape and shadow configuration. Defaults to `.circular`.
+    ///   - type: The type of artwork to display.
+    ///   - configuration: The shape and shadow configuration. If not provided,
+    ///     uses the recommended configuration for the artwork type.
     ///   - isAnimating: Whether the artwork should animate. Defaults to `false`.
     ///   - animationType: The type of animation to apply. Defaults to `.spin`.
     ///   - animationDuration: The duration of one animation cycle. Defaults to `1.2`.
-    ///   - content: A closure that returns the thematic artwork to display.
     public init(
-        configuration: ArtworkConfiguration = .circular,
+        type: ArtworkType,
+        configuration: ArtworkConfiguration? = nil,
         isAnimating: Bool = false,
         animationType: ArtworkAnimationType = .spin,
-        animationDuration: Double = 1.2,
-        @ViewBuilder content: () -> Content
+        animationDuration: Double = 1.2
     ) {
-        self.content = content()
-        self.configuration = configuration
+        self.type = type
+        self.configuration = configuration ?? type.recommendedConfiguration
         self.isAnimating = isAnimating
         self.animationType = animationType
         self.animationDuration = animationDuration
@@ -75,26 +76,31 @@ public struct ThemedArtworkView<Content: ThematicArtwork>: View {
     // MARK: - Body
 
     public var body: some View {
-        content
-            .aspectRatio(configuration.aspectRatio, contentMode: .fit)
-            .artworkAnimation(
-                type: animationType,
-                isActive: isAnimating,
-                progress: animationProgress
-            )
-            .clipShape(resolvedShape)
-            .shadow(
-                color: content.theme.shadowColor,
-                radius: configuration.shadowRadius,
-                x: configuration.shadowOffset.width,
-                y: configuration.shadowOffset.height
-            )
-            .modifier(ShimmerConditionalModifier(
-                isActive: isAnimating && animationType == .shimmer,
-                duration: animationDuration
-            ))
-            .onAppear { startAnimationIfNeeded() }
-            .onDisappear { animationProgress = 0 }
+        GeometryReader { geometry in
+            let dimension = min(geometry.size.width, geometry.size.height)
+
+            ArtworkRenderer(type: type, dimension: dimension)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .aspectRatio(configuration.aspectRatio, contentMode: .fit)
+        .artworkAnimation(
+            type: animationType,
+            isActive: isAnimating,
+            progress: animationProgress
+        )
+        .clipShape(resolvedShape)
+        .shadow(
+            color: type.theme.shadowColor,
+            radius: configuration.shadowRadius,
+            x: configuration.shadowOffset.width,
+            y: configuration.shadowOffset.height
+        )
+        .modifier(ShimmerConditionalModifier(
+            isActive: isAnimating && animationType == .shimmer,
+            duration: animationDuration
+        ))
+        .onAppear { startAnimationIfNeeded() }
+        .onDisappear { animationProgress = 0 }
     }
 
     // MARK: - Private
@@ -138,67 +144,107 @@ private struct ShimmerConditionalModifier: ViewModifier {
 
 // MARK: - Preview
 
-#Preview("Static Artwork") {
-    ThemedArtworkView {
-        PreviewArtwork()
-    }
-    .frame(width: 150, height: 150)
-    .padding()
+#Preview("Food - Pizza") {
+    ThemedArtworkView(type: .food(.pizza))
+        .frame(width: 150, height: 150)
+        .padding()
 }
 
-#Preview("Spinning Animation") {
+#Preview("Food - Sushi") {
+    ThemedArtworkView(type: .food(.sushi))
+        .frame(width: 150, height: 150)
+        .padding()
+}
+
+#Preview("Food - Taco") {
+    ThemedArtworkView(type: .food(.taco))
+        .frame(width: 150, height: 150)
+        .padding()
+}
+
+#Preview("Book - Noir") {
+    ThemedArtworkView(type: .book(.noir))
+        .frame(width: 130, height: 200)
+        .padding()
+}
+
+#Preview("Book - Romance") {
+    ThemedArtworkView(type: .book(.romance))
+        .frame(width: 130, height: 200)
+        .padding()
+}
+
+#Preview("Book - Horror") {
+    ThemedArtworkView(type: .book(.horror))
+        .frame(width: 130, height: 200)
+        .padding()
+}
+
+#Preview("Animated - Spin") {
     ThemedArtworkView(
+        type: .food(.pizza),
         isAnimating: true,
         animationType: .spin
-    ) {
-        PreviewArtwork()
-    }
-    .frame(width: 150, height: 150)
+    )
+    .frame(width: 100, height: 100)
     .padding()
 }
 
-#Preview("Pulse Animation") {
+#Preview("Animated - Pulse") {
     ThemedArtworkView(
+        type: .food(.sushi),
         isAnimating: true,
         animationType: .pulse
-    ) {
-        PreviewArtwork()
-    }
-    .frame(width: 150, height: 150)
+    )
+    .frame(width: 100, height: 100)
     .padding()
 }
 
-// MARK: - Preview Helper
-
-/// A simple preview artwork for testing the wrapper.
-private struct PreviewArtwork: ThematicArtwork {
-
-    var theme: ArtworkTheme { .pizza }
-
-    func backgroundLayer(dimension: CGFloat) -> some View {
-        Circle()
-            .fill(
-                RadialGradient(
-                    colors: [theme.primaryColor, theme.primaryColor.opacity(0.6)],
-                    center: .center,
-                    startRadius: 0,
-                    endRadius: dimension * 0.5
-                )
-            )
-    }
-
-    func decorationLayer(dimension: CGFloat) -> some View {
-        ForEach(0..<6, id: \.self) { index in
-            Circle()
-                .fill(theme.accentColors.first ?? .red)
-                .frame(width: dimension * 0.1)
-                .offset(y: -dimension * 0.3)
-                .rotationEffect(.degrees(Double(index) * 60))
+#Preview("All Food Types") {
+    HStack(spacing: 20) {
+        ForEach(ArtworkType.allFoodCases, id: \.displayName) { type in
+            VStack {
+                ThemedArtworkView(type: type)
+                    .frame(width: 80, height: 80)
+                Text(type.displayName)
+                    .font(.caption)
+            }
         }
     }
+    .padding()
+}
 
-    func overlayLayer(dimension: CGFloat) -> some View {
-        Circle()
-            .strokeBorder(Color.white.opacity(0.2), lineWidth: dimension * 0.02)
+#Preview("All Book Types") {
+    HStack(spacing: 20) {
+        ForEach(ArtworkType.allBookCases, id: \.displayName) { type in
+            VStack {
+                ThemedArtworkView(type: type)
+                    .frame(width: 80, height: 120)
+                Text(type.displayName)
+                    .font(.caption)
+            }
+        }
     }
+    .padding()
+}
+
+#Preview("Dark Mode") {
+    VStack(spacing: 20) {
+        HStack(spacing: 20) {
+            ThemedArtworkView(type: .food(.pizza))
+                .frame(width: 100, height: 100)
+            ThemedArtworkView(type: .food(.sushi))
+                .frame(width: 100, height: 100)
+        }
+
+        HStack(spacing: 20) {
+            ThemedArtworkView(type: .book(.noir))
+                .frame(width: 80, height: 120)
+            ThemedArtworkView(type: .book(.horror))
+                .frame(width: 80, height: 120)
+        }
+    }
+    .padding()
+    .background(Color.black)
+    .preferredColorScheme(.dark)
 }
