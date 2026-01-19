@@ -41,6 +41,9 @@
 /// ### LiquidGlass Modifier
 /// Apple Music-style glassmorphism effect.
 ///
+/// ### ThematicArtwork
+/// Themed visual placeholders and loaders for food and book categories.
+///
 /// ## Quick Start
 ///
 /// ```swift
@@ -104,6 +107,7 @@ public struct ARCUIComponents {
         • ARCSearchButton - Search trigger button
         • ARCEmptyState - Empty content placeholder
         • LiquidGlass - Glassmorphism effect modifier
+        • ThematicArtwork - Themed placeholders and loaders
 
         Coming Soon (v2.x):
         • macOS-native components (popovers, sidebars, toolbars)
