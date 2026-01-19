@@ -248,7 +248,7 @@ private extension ThematicArtworkDemoScreen {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
                 Image(systemName: icon)
-                    .foregroundStyle(.arcBrandBurgundy)
+                    .foregroundStyle(Color.arcBrandBurgundy)
                 Text(title)
                     .font(.subheadline.bold())
             }
