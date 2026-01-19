@@ -46,8 +46,6 @@ public struct ThemedArtworkView: View {
     private let animationType: ArtworkAnimationType
     private let animationDuration: Double
 
-    @State private var animationProgress: Double = 0
-
     // MARK: - Initialization
 
     /// Creates a themed artwork view.
@@ -58,13 +56,13 @@ public struct ThemedArtworkView: View {
     ///     uses the recommended configuration for the artwork type.
     ///   - isAnimating: Whether the artwork should animate. Defaults to `false`.
     ///   - animationType: The type of animation to apply. Defaults to `.spin`.
-    ///   - animationDuration: The duration of one animation cycle. Defaults to `1.2`.
+    ///   - animationDuration: The duration of one animation cycle. Defaults to `4.0`.
     public init(
         type: ArtworkType,
         configuration: ArtworkConfiguration? = nil,
         isAnimating: Bool = false,
         animationType: ArtworkAnimationType = .spin,
-        animationDuration: Double = 1.2
+        animationDuration: Double = 4.0
     ) {
         self.type = type
         self.configuration = configuration ?? type.recommendedConfiguration
@@ -76,6 +74,40 @@ public struct ThemedArtworkView: View {
     // MARK: - Body
 
     public var body: some View {
+        if isAnimating && animationType != .shimmer {
+            animatedContent
+        } else {
+            staticContent
+        }
+    }
+
+    // MARK: - Private
+
+    @ViewBuilder
+    private var animatedContent: some View {
+        TimelineView(.animation(minimumInterval: 1.0 / 60.0, paused: false)) { timeline in
+            let progress = calculateProgress(from: timeline.date)
+
+            artworkContent
+                .artworkAnimation(
+                    type: animationType,
+                    isActive: isAnimating,
+                    progress: progress
+                )
+        }
+    }
+
+    @ViewBuilder
+    private var staticContent: some View {
+        artworkContent
+            .modifier(ShimmerConditionalModifier(
+                isActive: isAnimating && animationType == .shimmer,
+                duration: animationDuration
+            ))
+    }
+
+    @ViewBuilder
+    private var artworkContent: some View {
         GeometryReader { geometry in
             let dimension = min(geometry.size.width, geometry.size.height)
 
@@ -83,11 +115,6 @@ public struct ThemedArtworkView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .aspectRatio(configuration.aspectRatio, contentMode: .fit)
-        .artworkAnimation(
-            type: animationType,
-            isActive: isAnimating,
-            progress: animationProgress
-        )
         .clipShape(resolvedShape)
         .shadow(
             color: type.theme.shadowColor,
@@ -95,15 +122,7 @@ public struct ThemedArtworkView: View {
             x: configuration.shadowOffset.width,
             y: configuration.shadowOffset.height
         )
-        .modifier(ShimmerConditionalModifier(
-            isActive: isAnimating && animationType == .shimmer,
-            duration: animationDuration
-        ))
-        .onAppear { startAnimationIfNeeded() }
-        .onDisappear { animationProgress = 0 }
     }
-
-    // MARK: - Private
 
     private var resolvedShape: AnyShape {
         switch configuration.baseShape {
@@ -116,12 +135,10 @@ public struct ThemedArtworkView: View {
         }
     }
 
-    private func startAnimationIfNeeded() {
-        guard isAnimating, animationType != .shimmer else { return }
-        animationProgress = 0
-        withAnimation(.linear(duration: max(0.3, animationDuration)).repeatForever(autoreverses: false)) {
-            animationProgress = 1
-        }
+    private func calculateProgress(from date: Date) -> Double {
+        let seconds = date.timeIntervalSinceReferenceDate
+        let cycle = seconds.truncatingRemainder(dividingBy: animationDuration)
+        return cycle / animationDuration
     }
 }
 

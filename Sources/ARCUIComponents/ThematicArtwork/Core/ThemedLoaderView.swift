@@ -49,13 +49,13 @@ public struct ThemedLoaderView: View {
     ///   - type: The type of artwork to display.
     ///   - size: The width and height of the loader. Defaults to `64`.
     ///   - animationType: The animation type. Defaults to `.spin`.
-    ///   - animationDuration: The duration of one animation cycle. Defaults to `1.0`.
+    ///   - animationDuration: The duration of one animation cycle. Defaults to `4.0`.
     ///   - accessibilityLabel: The accessibility label. Defaults to `"Loading"`.
     public init(
         type: ArtworkType,
         size: CGFloat = 64,
         animationType: ArtworkAnimationType = .spin,
-        animationDuration: Double = 1.0,
+        animationDuration: Double = 4.0,
         accessibilityLabel: String = "Loading"
     ) {
         self.type = type

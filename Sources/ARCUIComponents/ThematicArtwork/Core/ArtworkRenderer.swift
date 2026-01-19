@@ -250,16 +250,47 @@ private extension ArtworkRenderer {
     }
 
     private var tacoMeat: some View {
-        ForEach(0..<4, id: \.self) { index in
-            RoundedRectangle(cornerRadius: dimension * 0.02)
-                .fill(theme.secondaryColor.opacity(0.85))
-                .frame(width: dimension * 0.12, height: dimension * 0.08)
-                .offset(
-                    x: CGFloat(index - 2) * dimension * 0.12 + dimension * 0.06,
-                    y: -dimension * 0.02
-                )
-                .rotationEffect(.degrees(tacoMeatRotation(for: index)))
+        ZStack {
+            ForEach(0..<8, id: \.self) { index in
+                RoundedRectangle(cornerRadius: dimension * 0.025)
+                    .fill(theme.secondaryColor.opacity(0.85))
+                    .frame(width: dimension * 0.14, height: dimension * 0.09)
+                    .offset(
+                        x: tacoMeatOffset(for: index).x,
+                        y: tacoMeatOffset(for: index).y
+                    )
+                    .rotationEffect(.degrees(tacoMeatRotation(for: index)))
+            }
+
+            ForEach(0..<5, id: \.self) { index in
+                RoundedRectangle(cornerRadius: dimension * 0.015)
+                    .fill(theme.secondaryColor.opacity(0.75))
+                    .frame(width: dimension * 0.1, height: dimension * 0.07)
+                    .offset(
+                        x: tacoMeatSmallOffset(for: index).x,
+                        y: tacoMeatSmallOffset(for: index).y
+                    )
+                    .rotationEffect(.degrees(Double(index * 15 - 30)))
+            }
         }
+    }
+
+    private func tacoMeatOffset(for index: Int) -> CGPoint {
+        let xOffsets: [CGFloat] = [-0.24, -0.12, 0.0, 0.12, 0.24, -0.18, 0.06, 0.18]
+        let yOffsets: [CGFloat] = [-0.02, 0.0, -0.03, 0.01, -0.02, 0.04, 0.03, 0.05]
+        return CGPoint(
+            x: xOffsets[index % xOffsets.count] * dimension,
+            y: yOffsets[index % yOffsets.count] * dimension
+        )
+    }
+
+    private func tacoMeatSmallOffset(for index: Int) -> CGPoint {
+        let xOffsets: [CGFloat] = [-0.2, -0.06, 0.08, 0.2, -0.02]
+        let yOffsets: [CGFloat] = [0.06, 0.08, 0.07, 0.06, 0.1]
+        return CGPoint(
+            x: xOffsets[index % xOffsets.count] * dimension,
+            y: yOffsets[index % yOffsets.count] * dimension
+        )
     }
 
     private var tacoCilantro: some View {
@@ -300,7 +331,7 @@ private extension ArtworkRenderer {
     }
 
     private func tacoMeatRotation(for index: Int) -> Double {
-        let rotations = [-8.0, 5.0, -3.0, 7.0]
+        let rotations = [-8.0, 5.0, -3.0, 7.0, -5.0, 10.0, -6.0, 4.0]
         return rotations[index % rotations.count]
     }
 
