@@ -138,6 +138,8 @@ private extension DemoHomeView {
                 } label: {
                     Label("Tab View Showcase", systemImage: "rectangle.split.3x1.fill")
                 }
+            }
+
             NavigationLink {
                 ThematicArtworkShowcase()
             } label: {
