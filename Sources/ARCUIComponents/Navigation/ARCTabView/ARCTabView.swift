@@ -155,15 +155,12 @@ public struct ARCTabView<
 
     @ViewBuilder
     private var tabViewContent: some View {
-        #if os(iOS)
-        if hasAccessoryContent, AccessoryContent.self != EmptyView.self {
-            tabViewWithAccessory
-        } else {
-            basicTabView
-        }
-        #else
+        // NOTE: Bottom accessory support requires iOS 26+ SDK.
+        // When iOS 26 SDK is available, enable the accessory branch using
+        // swift(>=6.2) or similar compiler directive.
+        // For now, always use basicTabView since tabViewBottomAccessory
+        // is not available in the current SDK.
         basicTabView
-        #endif
     }
 
     @ViewBuilder
@@ -183,34 +180,6 @@ public struct ARCTabView<
         }
         .modifier(TabViewStyleModifier(style: configuration.style))
     }
-
-    #if os(iOS)
-    @available(iOS 18.0, *)
-    @ViewBuilder
-    private var tabViewWithAccessory: some View {
-        if #available(iOS 26.0, *) {
-            TabView(selection: $selection) {
-                // Regular tabs from ARCTabItem
-                ForEach(Array(TabItem.allCases), id: \.self) { tab in
-                    tabItem(for: tab)
-                }
-
-                // Search tab (if content provided)
-                if hasSearchContent, SearchContent.self != EmptyView.self {
-                    Tab(value: selection, role: .search) {
-                        searchContent
-                    }
-                }
-            }
-            .tabViewBottomAccessory {
-                accessoryContent
-            }
-            .modifier(TabViewStyleModifier(style: configuration.style))
-        } else {
-            basicTabView
-        }
-    }
-    #endif
 
     @TabContentBuilder<TabItem>
     private func tabItem(for tab: TabItem) -> some TabContent<TabItem> {
@@ -319,7 +288,6 @@ private struct TabViewStyleModifier: ViewModifier {
         }
     }
 }
-
 
 // MARK: - Preview Support
 
