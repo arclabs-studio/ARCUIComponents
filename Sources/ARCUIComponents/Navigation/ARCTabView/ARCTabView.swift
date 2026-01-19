@@ -155,6 +155,19 @@ public struct ARCTabView<
 
     @ViewBuilder
     private var tabViewContent: some View {
+        #if os(iOS)
+        if hasAccessoryContent, AccessoryContent.self != EmptyView.self {
+            tabViewWithAccessory
+        } else {
+            basicTabView
+        }
+        #else
+        basicTabView
+        #endif
+    }
+
+    @ViewBuilder
+    private var basicTabView: some View {
         TabView(selection: $selection) {
             // Regular tabs from ARCTabItem
             ForEach(Array(TabItem.allCases), id: \.self) { tab in
@@ -169,13 +182,35 @@ public struct ARCTabView<
             }
         }
         .modifier(TabViewStyleModifier(style: configuration.style))
-        #if os(iOS)
-        .modifier(BottomAccessoryModifier(
-            hasAccessory: hasAccessoryContent && AccessoryContent.self != EmptyView.self,
-            content: { accessoryContent }
-        ))
-        #endif
     }
+
+    #if os(iOS)
+    @available(iOS 18.0, *)
+    @ViewBuilder
+    private var tabViewWithAccessory: some View {
+        if #available(iOS 26.0, *) {
+            TabView(selection: $selection) {
+                // Regular tabs from ARCTabItem
+                ForEach(Array(TabItem.allCases), id: \.self) { tab in
+                    tabItem(for: tab)
+                }
+
+                // Search tab (if content provided)
+                if hasSearchContent, SearchContent.self != EmptyView.self {
+                    Tab(value: selection, role: .search) {
+                        searchContent
+                    }
+                }
+            }
+            .tabViewBottomAccessory {
+                accessoryContent
+            }
+            .modifier(TabViewStyleModifier(style: configuration.style))
+        } else {
+            basicTabView
+        }
+    }
+    #endif
 
     @TabContentBuilder<TabItem>
     private func tabItem(for tab: TabItem) -> some TabContent<TabItem> {
@@ -285,29 +320,6 @@ private struct TabViewStyleModifier: ViewModifier {
     }
 }
 
-// MARK: - Bottom Accessory Modifier
-
-#if os(iOS)
-@available(iOS 18.0, *)
-private struct BottomAccessoryModifier<AccessoryContent: View>: ViewModifier {
-    let hasAccessory: Bool
-    @ViewBuilder let content: () -> AccessoryContent
-
-    func body(content: Content) -> some View {
-        if hasAccessory {
-            if #available(iOS 26.0, *) {
-                content.tabViewBottomAccessory {
-                    self.content()
-                }
-            } else {
-                content
-            }
-        } else {
-            content
-        }
-    }
-}
-#endif
 
 // MARK: - Preview Support
 
