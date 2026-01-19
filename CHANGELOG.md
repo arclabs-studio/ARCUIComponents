@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **ARCTabView Component**: Tab navigation with iOS 26 Liquid Glass support
+  - Native `TabView` wrapper with automatic Liquid Glass detection
+  - Fallback styling for iOS 17-25 with translucent materials
+  - `ARCTabViewConfiguration` for customization
+  - `ARCTabViewStyle` enum for visual variants
+  - Demo screen with interactive examples
+
 - **ARCMenu Presentation Styles** (Apple HIG compliant):
   - New `ARCMenuPresentationStyle` enum with two options:
     - `bottomSheet`: Slides up from bottom (Apple standard, default)
@@ -67,6 +74,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `Shared/` → `Core/`
 - Enhanced inline documentation with DocC markup
 - Improved code examples in documentation
+
+### Fixed
+- **Demo App Configuration**:
+  - Added missing `ARCTabViewDemoScreen.swift` to Xcode project (file existed but was not registered)
+  - Removed residual `Examples/` directory (correct path is `Example/ARCUIComponentsDemoApp/`)
+  - Updated Package.swift comments to reflect correct demo app path
+
+### Technical
+- Enabled `StrictConcurrency` experimental feature for main target and test target
+- Updated ARCDevTools submodule to latest version
 
 ## [1.0.0] - 2025-11-12
 

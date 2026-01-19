@@ -65,6 +65,14 @@ private extension DemoHomeView {
             } label: {
                 Label("ARCEmptyState", systemImage: "tray")
             }
+
+            if #available(iOS 18.0, *) {
+                NavigationLink {
+                    ARCTabViewDemoScreen()
+                } label: {
+                    Label("ARCTabView", systemImage: "rectangle.split.3x1")
+                }
+            }
         } header: {
             Text("Components")
         } footer: {
@@ -116,6 +124,14 @@ private extension DemoHomeView {
                 ARCEmptyStateShowcase()
             } label: {
                 Label("Empty State Showcase", systemImage: "tray.circle")
+            }
+
+            if #available(iOS 18.0, *) {
+                NavigationLink {
+                    ARCTabViewShowcase()
+                } label: {
+                    Label("Tab View Showcase", systemImage: "rectangle.split.3x1.fill")
+                }
             }
         } header: {
             Text("Full Showcases")

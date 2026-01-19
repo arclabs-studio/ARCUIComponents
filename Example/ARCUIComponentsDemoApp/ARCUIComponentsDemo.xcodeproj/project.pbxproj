@@ -16,6 +16,7 @@
 		B10000010000000000000007 /* ARCEmptyStateDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000007 /* ARCEmptyStateDemoScreen.swift */; };
 		B10000010000000000000008 /* LiquidGlassDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000008 /* LiquidGlassDemoScreen.swift */; };
 		B10000010000000000000009 /* Color+Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000009 /* Color+Brand.swift */; };
+		B1000001000000000000000A /* ARCTabViewDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000000A /* ARCTabViewDemoScreen.swift */; };
 		B1000001000000000000000B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000000B /* Assets.xcassets */; };
 		B1000001000000000000000C /* ARCUIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = B3000001000000000000000C /* ARCUIComponents */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,7 @@
 		B20000010000000000000007 /* ARCEmptyStateDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCEmptyStateDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000008 /* LiquidGlassDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000009 /* Color+Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Brand.swift"; sourceTree = "<group>"; };
+		B2000001000000000000000A /* ARCTabViewDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCTabViewDemoScreen.swift; sourceTree = "<group>"; };
 		B2000001000000000000000B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B2000001000000000000000D /* ARCUIComponentsDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARCUIComponentsDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2000001000000000000000E /* ARCUIComponents */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ARCUIComponents; path = ../..; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				B20000010000000000000006 /* ARCSearchButtonDemoScreen.swift */,
 				B20000010000000000000007 /* ARCEmptyStateDemoScreen.swift */,
 				B20000010000000000000008 /* LiquidGlassDemoScreen.swift */,
+				B2000001000000000000000A /* ARCTabViewDemoScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 				B10000010000000000000006 /* ARCSearchButtonDemoScreen.swift in Sources */,
 				B10000010000000000000007 /* ARCEmptyStateDemoScreen.swift in Sources */,
 				B10000010000000000000008 /* LiquidGlassDemoScreen.swift in Sources */,
+				B1000001000000000000000A /* ARCTabViewDemoScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
