@@ -21,6 +21,7 @@ Each component is crafted to match Apple's design language as seen in their flag
 - <doc:ARCListCard>
 - <doc:ARCSearchButton>
 - <doc:ARCEmptyState>
+- <doc:ThematicArtwork>
 
 ### ARCMenu
 
@@ -54,6 +55,17 @@ Each component is crafted to match Apple's design language as seen in their flag
 - ``ARCEmptyState``
 - ``ARCEmptyStateConfiguration``
 
+### ThematicArtwork
+
+- ``ThemedArtworkView``
+- ``ThemedLoaderView``
+- ``ArtworkType``
+- ``ArtworkTheme``
+- ``ArtworkConfiguration``
+- ``ArtworkAnimationType``
+- ``ShimmerModifier``
+- ``HeartShape``
+
 ### Core Models
 
 - ``ARCBackgroundStyle``
@@ -77,6 +89,7 @@ Each component is crafted to match Apple's design language as seen in their flag
 - ``ARCSearchButtonShowcase``
 - ``ARCEmptyStateShowcase``
 - ``LiquidGlassShowcase``
+- ``ThematicArtworkShowcase``
 
 ## Installation
 
@@ -152,6 +165,7 @@ Sources/ARCUIComponents/
 ├── ARCSearch/         # Search button component
 ├── ARCEmptyState/     # Empty state component
 ├── ARCEffects/        # Visual effects (Liquid Glass)
+├── ThematicArtwork/   # Themed placeholders and loaders
 ├── Core/              # Shared models and protocols
 └── ARCUIComponents.docc/  # Documentation
 ```

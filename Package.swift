@@ -15,8 +15,8 @@ let package = Package(
             name: "ARCUIComponents",
             targets: ["ARCUIComponents"]
         )
-        // Note: ARCUIComponentsDemo is intentionally NOT exposed as a product.
-        // It's a separate Xcode project in Examples/ARCUIComponentsDemo.xcodeproj
+        // Note: ARCUIComponentsDemoApp is intentionally NOT exposed as a product.
+        // It's a separate Xcode project in Example/ARCUIComponentsDemoApp/
     ],
     dependencies: [
         .package(url: "https://github.com/arclabs-studio/ARCDesignSystem", from: "2.0.0"),
@@ -27,16 +27,18 @@ let package = Package(
         .target(
             name: "ARCUIComponents",
             dependencies: ["ARCDesignSystem"],
-            path: "Sources"
+            path: "Sources",
+            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]
         ),
 
         // Tests
         .testTarget(
             name: "ARCUIComponentsTests",
             dependencies: ["ARCUIComponents"],
-            path: "Tests"
+            path: "Tests",
+            swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]
         )
-        // Note: iOS demo app is in Examples/ARCUIComponentsDemo.xcodeproj
+        // Note: iOS demo app is in Example/ARCUIComponentsDemoApp/
         // It's a separate Xcode project that imports this package locally.
     ],
     swiftLanguageModes: [.v6]
