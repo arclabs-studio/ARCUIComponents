@@ -50,7 +50,7 @@ public struct CircularDecoration: View {
     ///   - count: The number of elements to distribute evenly around the circle.
     ///   - radius: The radius as a proportion of the dimension (0-1).
     ///   - dimension: The reference dimension for sizing.
-    ///   - elementBuilder: A closure that creates a `DecorationElement` for each index.
+    ///   - elementBuilder: A closure that creates an `DecorationElement` for each index.
     public init(
         count: Int,
         radius: CGFloat,
@@ -66,7 +66,7 @@ public struct CircularDecoration: View {
     // MARK: - Body
 
     public var body: some View {
-        ForEach(0..<count, id: \.self) { index in
+        ForEach(0 ..< count, id: \.self) { index in
             let angle = (360.0 / Double(count)) * Double(index)
             let element = elementBuilder(index, dimension)
 

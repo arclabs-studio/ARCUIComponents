@@ -57,9 +57,9 @@ Each component is crafted to match Apple's design language as seen in their flag
 
 ### ThematicArtwork
 
-- ``ThemedArtworkView``
-- ``ThemedLoaderView``
-- ``ArtworkType``
+- ``ARCThemedArtworkView``
+- ``ARCThemedLoaderView``
+- ``ArtworkTypeProtocol``
 - ``ArtworkTheme``
 - ``ArtworkConfiguration``
 - ``ArtworkAnimationType``
@@ -89,7 +89,7 @@ Each component is crafted to match Apple's design language as seen in their flag
 - ``ARCSearchButtonShowcase``
 - ``ARCEmptyStateShowcase``
 - ``LiquidGlassShowcase``
-- ``ThematicArtworkShowcase``
+- ``ARCThemedArtworkShowcase``
 
 ## Installation
 

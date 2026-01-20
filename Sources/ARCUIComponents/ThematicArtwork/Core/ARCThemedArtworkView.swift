@@ -1,5 +1,5 @@
 //
-//  GenericThemedArtworkView.swift
+//  ARCThemedArtworkView.swift
 //  ARCUIComponents
 //
 //  Created by ARC Labs Studio on 1/20/26.
@@ -7,33 +7,33 @@
 
 import SwiftUI
 
-// MARK: - GenericThemedArtworkView
+// MARK: - ARCThemedArtworkView
 
 /// A customizable thematic artwork view for placeholders and loaders.
 ///
-/// Use `GenericThemedArtworkView` to display themed visual components based on
+/// Use `ARCThemedArtworkView` to display themed visual components based on
 /// any type conforming to `ArtworkTypeProtocol`. The view supports animations,
 /// custom configurations, and automatically applies the appropriate theme colors.
 ///
 /// ## Example Usage
 /// ```swift
 /// // Basic usage with custom artwork type
-/// GenericThemedArtworkView(type: MyArtwork.pizza)
+/// ARCThemedArtworkView(type: MyArtwork.pizza)
 ///
 /// // With animation
-/// GenericThemedArtworkView(
+/// ARCThemedArtworkView(
 ///     type: MyArtwork.sushi,
 ///     isAnimating: true,
 ///     animationType: .spin
 /// )
 ///
 /// // Custom configuration override
-/// GenericThemedArtworkView(
+/// ARCThemedArtworkView(
 ///     type: MyArtwork.taco,
 ///     configuration: .card
 /// )
 /// ```
-public struct GenericThemedArtworkView<ArtworkType: ArtworkTypeProtocol>: View {
+public struct ARCThemedArtworkView<ArtworkType: ArtworkTypeProtocol>: View {
     // MARK: - Properties
 
     private let type: ArtworkType

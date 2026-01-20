@@ -13,7 +13,7 @@ import SwiftUI
 ///
 /// Use `ArtworkConfiguration` to customize the base shape, aspect ratio,
 /// corner radius, and shadow properties of an artwork when wrapping it
-/// with `ThemedArtworkView`.
+/// with `ARCThemedArtworkView`.
 ///
 /// ## Predefined Configurations
 /// - `.circular` - Circle shape with 1:1 aspect ratio
@@ -78,19 +78,19 @@ public struct ArtworkConfiguration: Sendable {
 
 // MARK: - Predefined Configurations
 
-public extension ArtworkConfiguration {
+extension ArtworkConfiguration {
     /// Circular configuration for round artworks like pizza or sushi.
-    static let circular = ArtworkConfiguration(baseShape: .circle)
+    public static let circular = ArtworkConfiguration(baseShape: .circle)
 
     /// Book configuration with typical book proportions.
-    static let book = ArtworkConfiguration(
+    public static let book = ArtworkConfiguration(
         baseShape: .roundedRectangle(cornerRadius: 4),
         aspectRatio: 0.65,
         cornerRadius: 8
     )
 
     /// Card configuration for square card-style artworks.
-    static let card = ArtworkConfiguration(
+    public static let card = ArtworkConfiguration(
         baseShape: .roundedRectangle(cornerRadius: 12),
         aspectRatio: 1.0,
         cornerRadius: 16
