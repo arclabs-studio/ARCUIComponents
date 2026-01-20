@@ -1,6 +1,6 @@
 //
 //  ThematicArtworkDemoScreen.swift
-//  ARCUIComponentsDemo
+//  ARCUIComponentsDemoApp
 //
 //  Created by ARC Labs Studio on 19/1/2026.
 //
@@ -11,13 +11,12 @@ import SwiftUI
 /// Demo screen for Thematic Artwork components.
 ///
 /// Shows themed visual placeholders and loaders with interactive configuration options.
+/// Demonstrates how to use the generic artwork system with custom artwork types.
 struct ThematicArtworkDemoScreen: View {
 
     // MARK: Properties
 
-    @State private var selectedCategory: CategoryOption = .food
-    @State private var selectedFoodStyle: ArtworkType.FoodStyle = .pizza
-    @State private var selectedBookStyle: ArtworkType.BookStyle = .romance
+    @State private var selectedArtwork: ExampleArtwork = .circles
     @State private var isAnimating: Bool = false
     @State private var selectedAnimation: ArtworkAnimationType = .spin
 
@@ -28,6 +27,7 @@ struct ThematicArtworkDemoScreen: View {
             VStack(spacing: 32) {
                 configurationSection
                 previewSection
+                allArtworksSection
                 useCasesSection
                 loaderSizesSection
             }
@@ -52,8 +52,7 @@ private extension ThematicArtworkDemoScreen {
             sectionHeader("Configuration")
 
             VStack(spacing: 12) {
-                categoryPicker
-                stylePicker
+                artworkPicker
                 animationToggle
 
                 if isAnimating {
@@ -66,44 +65,18 @@ private extension ThematicArtworkDemoScreen {
         }
     }
 
-    var categoryPicker: some View {
+    var artworkPicker: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Category")
+            Text("Artwork Style")
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            Picker("Category", selection: $selectedCategory) {
-                ForEach(CategoryOption.allCases) { category in
-                    Text(category.name).tag(category)
+            Picker("Style", selection: $selectedArtwork) {
+                ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
+                    Text(artwork.displayName).tag(artwork)
                 }
             }
             .pickerStyle(.segmented)
-        }
-    }
-
-    var stylePicker: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Style")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-            switch selectedCategory {
-            case .food:
-                Picker("Food Style", selection: $selectedFoodStyle) {
-                    ForEach(ArtworkType.FoodStyle.allCases, id: \.self) { style in
-                        Text(style.rawValue.capitalized).tag(style)
-                    }
-                }
-                .pickerStyle(.segmented)
-
-            case .book:
-                Picker("Book Style", selection: $selectedBookStyle) {
-                    ForEach(ArtworkType.BookStyle.allCases, id: \.self) { style in
-                        Text(style.rawValue.capitalized).tag(style)
-                    }
-                }
-                .pickerStyle(.segmented)
-            }
         }
     }
 
@@ -133,21 +106,18 @@ private extension ThematicArtworkDemoScreen {
             sectionHeader("Preview")
 
             VStack(spacing: 12) {
-                ThemedArtworkView(
-                    type: currentArtworkType,
+                GenericThemedArtworkView(
+                    type: selectedArtwork,
                     isAnimating: isAnimating,
                     animationType: selectedAnimation
                 )
-                .frame(
-                    width: selectedCategory == .food ? 150 : 120,
-                    height: selectedCategory == .food ? 150 : 180
-                )
+                .frame(width: 150, height: 150)
 
-                Text(currentArtworkType.displayName)
+                Text(selectedArtwork.displayName)
                     .font(.headline)
                     .foregroundStyle(.primary)
 
-                Text(currentArtworkType.categoryName)
+                Text("Example Artwork")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -155,6 +125,35 @@ private extension ThematicArtworkDemoScreen {
             .padding(.vertical, 32)
             .background(Color(.secondarySystemGroupedBackground))
             .clipShape(RoundedRectangle(cornerRadius: 16))
+        }
+    }
+
+    // MARK: All Artworks Section
+
+    var allArtworksSection: some View {
+        VStack(spacing: 16) {
+            sectionHeader("All Artwork Styles")
+
+            HStack(spacing: 24) {
+                ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
+                    VStack(spacing: 8) {
+                        GenericThemedArtworkView(
+                            type: artwork,
+                            isAnimating: isAnimating,
+                            animationType: selectedAnimation
+                        )
+                        .frame(width: 80, height: 80)
+
+                        Text(artwork.displayName)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 24)
+            .background(Color(.secondarySystemGroupedBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 
@@ -171,9 +170,9 @@ private extension ThematicArtworkDemoScreen {
                     icon: "hourglass"
                 ) {
                     HStack(spacing: 16) {
-                        ThemedLoaderView(type: .food(.pizza), size: 40)
-                        ThemedLoaderView(type: .food(.sushi), size: 40)
-                        ThemedLoaderView(type: .food(.taco), size: 40)
+                        ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
+                            GenericThemedLoaderView(type: artwork, size: 40)
+                        }
                     }
                 }
 
@@ -183,12 +182,10 @@ private extension ThematicArtworkDemoScreen {
                     icon: "photo"
                 ) {
                     HStack(spacing: 12) {
-                        ThemedArtworkView(type: .book(.noir))
-                            .frame(width: 60, height: 90)
-                        ThemedArtworkView(type: .book(.romance))
-                            .frame(width: 60, height: 90)
-                        ThemedArtworkView(type: .book(.horror))
-                            .frame(width: 60, height: 90)
+                        ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
+                            GenericThemedArtworkView(type: artwork)
+                                .frame(width: 60, height: 60)
+                        }
                     }
                 }
 
@@ -198,7 +195,7 @@ private extension ThematicArtworkDemoScreen {
                     icon: "tray"
                 ) {
                     VStack(spacing: 8) {
-                        ThemedArtworkView(type: .food(.sushi))
+                        GenericThemedArtworkView(type: ExampleArtwork.circles)
                             .frame(width: 80, height: 80)
                         Text("No items yet")
                             .font(.caption)
@@ -268,37 +265,10 @@ private extension ThematicArtworkDemoScreen {
 
     func loaderSize(_ size: CGFloat, label: String) -> some View {
         VStack(spacing: 8) {
-            ThemedLoaderView(type: .food(.pizza), size: size)
+            GenericThemedLoaderView(type: ExampleArtwork.circles, size: size)
             Text(label)
                 .font(.caption2)
                 .foregroundStyle(.secondary)
-        }
-    }
-
-    // MARK: Computed Properties
-
-    var currentArtworkType: ArtworkType {
-        switch selectedCategory {
-        case .food:
-            return .food(selectedFoodStyle)
-        case .book:
-            return .book(selectedBookStyle)
-        }
-    }
-}
-
-// MARK: - Supporting Types
-
-private enum CategoryOption: String, CaseIterable, Identifiable {
-    case food
-    case book
-
-    var id: String { rawValue }
-
-    var name: String {
-        switch self {
-        case .food: "Food"
-        case .book: "Book"
         }
     }
 }

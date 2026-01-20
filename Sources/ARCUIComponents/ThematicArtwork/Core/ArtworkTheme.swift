@@ -16,12 +16,22 @@ import SwiftUI
 /// or create custom ones for specific visual styles.
 ///
 /// ## Predefined Themes
-/// - `.pizza` - Warm orange tones with pepperoni and basil accents
-/// - `.sushi` - Clean whites with salmon and avocado accents
-/// - `.taco` - Tortilla browns with cilantro and salsa accents
-/// - `.noirBook` - Dark grays with blood red accent
-/// - `.horrorBook` - Deep purples with toxic green accent
-/// - `.romanceBook` - Soft pinks with gold accent
+/// - `.neutral` - Gray tones for generic placeholders
+/// - `.warm` - Orange and red tones
+/// - `.cool` - Blue and purple tones
+/// - `.nature` - Green and earth tones
+/// - `.dark` - Dark tones for noir or mystery styles
+///
+/// ## Creating Custom Themes
+/// ```swift
+/// extension ArtworkTheme {
+///     static let pizza = ArtworkTheme(
+///         primaryColor: .orange,
+///         secondaryColor: .red,
+///         accentColors: [.brown, .green]
+///     )
+/// }
+/// ```
 public struct ArtworkTheme: Sendable {
 
     // MARK: - Properties
@@ -66,72 +76,51 @@ public struct ArtworkTheme: Sendable {
     }
 }
 
-// MARK: - Food Themes
+// MARK: - Preset Themes
 
 public extension ArtworkTheme {
 
-    /// Pizza theme with warm orange and tomato tones.
-    static let pizza = ArtworkTheme(
+    /// A neutral gray theme suitable for generic placeholders.
+    static let neutral = ArtworkTheme(
+        primaryColor: Color(white: 0.85),
+        secondaryColor: Color(white: 0.6),
+        accentColors: [Color(white: 0.4)]
+    )
+
+    /// A warm theme with orange and red tones.
+    static let warm = ArtworkTheme(
         primaryColor: Color(red: 0.95, green: 0.6, blue: 0.2),
         secondaryColor: Color(red: 0.8, green: 0.3, blue: 0.2),
         accentColors: [
             Color(red: 0.64, green: 0.28, blue: 0.18),
-            Color(red: 0.2, green: 0.45, blue: 0.16)
+            Color(red: 0.9, green: 0.5, blue: 0.1)
         ]
     )
 
-    /// Sushi theme with clean whites and fresh accents.
-    static let sushi = ArtworkTheme(
-        primaryColor: .white,
-        secondaryColor: Color(red: 0.1, green: 0.1, blue: 0.1),
+    /// A cool theme with blue and purple tones.
+    static let cool = ArtworkTheme(
+        primaryColor: Color(red: 0.4, green: 0.6, blue: 0.9),
+        secondaryColor: Color(red: 0.3, green: 0.4, blue: 0.7),
         accentColors: [
-            Color(red: 0.9, green: 0.4, blue: 0.3),
-            Color(red: 0.4, green: 0.7, blue: 0.4)
+            Color(red: 0.5, green: 0.3, blue: 0.8),
+            Color(red: 0.2, green: 0.5, blue: 0.9)
         ]
     )
 
-    /// Taco theme with tortilla and fresh ingredient tones.
-    static let taco = ArtworkTheme(
-        primaryColor: Color(red: 0.85, green: 0.7, blue: 0.4),
-        secondaryColor: Color(red: 0.6, green: 0.3, blue: 0.2),
+    /// A nature theme with green and earth tones.
+    static let nature = ArtworkTheme(
+        primaryColor: Color(red: 0.4, green: 0.7, blue: 0.4),
+        secondaryColor: Color(red: 0.6, green: 0.5, blue: 0.3),
         accentColors: [
-            Color(red: 0.3, green: 0.6, blue: 0.3),
-            Color(red: 0.95, green: 0.9, blue: 0.8),
-            Color(red: 0.8, green: 0.2, blue: 0.2)
+            Color(red: 0.2, green: 0.5, blue: 0.2),
+            Color(red: 0.8, green: 0.7, blue: 0.4)
         ]
     )
-}
 
-// MARK: - Book Themes
-
-public extension ArtworkTheme {
-
-    /// Noir book theme with dark, mysterious tones.
-    static let noirBook = ArtworkTheme(
+    /// A dark theme suitable for noir or mystery styles.
+    static let dark = ArtworkTheme(
         primaryColor: Color(red: 0.15, green: 0.15, blue: 0.18),
         secondaryColor: Color(red: 0.3, green: 0.3, blue: 0.35),
-        accentColors: [
-            Color(red: 0.6, green: 0.1, blue: 0.1)
-        ]
-    )
-
-    /// Horror book theme with eerie purple and toxic green.
-    static let horrorBook = ArtworkTheme(
-        primaryColor: Color(red: 0.1, green: 0.08, blue: 0.12),
-        secondaryColor: Color(red: 0.3, green: 0.1, blue: 0.35),
-        accentColors: [
-            Color(red: 0.4, green: 0.8, blue: 0.3),
-            Color(red: 0.8, green: 0.1, blue: 0.1)
-        ]
-    )
-
-    /// Romance book theme with soft pinks and gold.
-    static let romanceBook = ArtworkTheme(
-        primaryColor: Color(red: 0.95, green: 0.85, blue: 0.88),
-        secondaryColor: Color(red: 0.85, green: 0.4, blue: 0.5),
-        accentColors: [
-            Color(red: 0.8, green: 0.6, blue: 0.2),
-            Color(red: 0.95, green: 0.3, blue: 0.4)
-        ]
+        accentColors: [Color(red: 0.6, green: 0.1, blue: 0.1)]
     )
 }

@@ -1,42 +1,39 @@
 //
-//  ThemedArtworkView.swift
+//  GenericThemedArtworkView.swift
 //  ARCUIComponents
 //
-//  Created by ARC Labs Studio on 1/19/26.
+//  Created by ARC Labs Studio on 1/20/26.
 //
 
 import SwiftUI
 
-// MARK: - ThemedArtworkView
+// MARK: - GenericThemedArtworkView
 
 /// A customizable thematic artwork view for placeholders and loaders.
 ///
-/// Use `ThemedArtworkView` to display themed visual components based on the
-/// specified `ArtworkType`. The view supports animations, custom configurations,
-/// and automatically applies the appropriate theme colors.
+/// Use `GenericThemedArtworkView` to display themed visual components based on
+/// any type conforming to `ArtworkTypeProtocol`. The view supports animations,
+/// custom configurations, and automatically applies the appropriate theme colors.
 ///
 /// ## Example Usage
 /// ```swift
-/// // Food artwork (circular by default)
-/// ThemedArtworkView(type: .food(.pizza))
+/// // Basic usage with custom artwork type
+/// GenericThemedArtworkView(type: MyArtwork.pizza)
 ///
-/// // Book artwork (uses book configuration by default)
-/// ThemedArtworkView(type: .book(.romance))
-///
-/// // Animated loader
-/// ThemedArtworkView(
-///     type: .food(.sushi),
+/// // With animation
+/// GenericThemedArtworkView(
+///     type: MyArtwork.sushi,
 ///     isAnimating: true,
 ///     animationType: .spin
 /// )
 ///
-/// // Custom configuration
-/// ThemedArtworkView(
-///     type: .food(.taco),
+/// // Custom configuration override
+/// GenericThemedArtworkView(
+///     type: MyArtwork.taco,
 ///     configuration: .card
 /// )
 /// ```
-public struct ThemedArtworkView: View {
+public struct GenericThemedArtworkView<ArtworkType: ArtworkTypeProtocol>: View {
 
     // MARK: - Properties
 
@@ -111,7 +108,7 @@ public struct ThemedArtworkView: View {
         GeometryReader { geometry in
             let dimension = min(geometry.size.width, geometry.size.height)
 
-            ArtworkRenderer(type: type, dimension: dimension)
+            type.makeContent(dimension: dimension)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .aspectRatio(configuration.aspectRatio, contentMode: .fit)
@@ -157,111 +154,4 @@ private struct ShimmerConditionalModifier: ViewModifier {
             content
         }
     }
-}
-
-// MARK: - Preview
-
-#Preview("Food - Pizza") {
-    ThemedArtworkView(type: .food(.pizza))
-        .frame(width: 150, height: 150)
-        .padding()
-}
-
-#Preview("Food - Sushi") {
-    ThemedArtworkView(type: .food(.sushi))
-        .frame(width: 150, height: 150)
-        .padding()
-}
-
-#Preview("Food - Taco") {
-    ThemedArtworkView(type: .food(.taco))
-        .frame(width: 150, height: 150)
-        .padding()
-}
-
-#Preview("Book - Noir") {
-    ThemedArtworkView(type: .book(.noir))
-        .frame(width: 130, height: 200)
-        .padding()
-}
-
-#Preview("Book - Romance") {
-    ThemedArtworkView(type: .book(.romance))
-        .frame(width: 130, height: 200)
-        .padding()
-}
-
-#Preview("Book - Horror") {
-    ThemedArtworkView(type: .book(.horror))
-        .frame(width: 130, height: 200)
-        .padding()
-}
-
-#Preview("Animated - Spin") {
-    ThemedArtworkView(
-        type: .food(.pizza),
-        isAnimating: true,
-        animationType: .spin
-    )
-    .frame(width: 100, height: 100)
-    .padding()
-}
-
-#Preview("Animated - Pulse") {
-    ThemedArtworkView(
-        type: .food(.sushi),
-        isAnimating: true,
-        animationType: .pulse
-    )
-    .frame(width: 100, height: 100)
-    .padding()
-}
-
-#Preview("All Food Types") {
-    HStack(spacing: 20) {
-        ForEach(ArtworkType.allFoodCases, id: \.displayName) { type in
-            VStack {
-                ThemedArtworkView(type: type)
-                    .frame(width: 80, height: 80)
-                Text(type.displayName)
-                    .font(.caption)
-            }
-        }
-    }
-    .padding()
-}
-
-#Preview("All Book Types") {
-    HStack(spacing: 20) {
-        ForEach(ArtworkType.allBookCases, id: \.displayName) { type in
-            VStack {
-                ThemedArtworkView(type: type)
-                    .frame(width: 80, height: 120)
-                Text(type.displayName)
-                    .font(.caption)
-            }
-        }
-    }
-    .padding()
-}
-
-#Preview("Dark Mode") {
-    VStack(spacing: 20) {
-        HStack(spacing: 20) {
-            ThemedArtworkView(type: .food(.pizza))
-                .frame(width: 100, height: 100)
-            ThemedArtworkView(type: .food(.sushi))
-                .frame(width: 100, height: 100)
-        }
-
-        HStack(spacing: 20) {
-            ThemedArtworkView(type: .book(.noir))
-                .frame(width: 80, height: 120)
-            ThemedArtworkView(type: .book(.horror))
-                .frame(width: 80, height: 120)
-        }
-    }
-    .padding()
-    .background(Color.black)
-    .preferredColorScheme(.dark)
 }

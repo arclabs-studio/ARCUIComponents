@@ -140,11 +140,6 @@ private extension DemoHomeView {
                 }
             }
 
-            NavigationLink {
-                ThematicArtworkShowcase()
-            } label: {
-                Label("Thematic Artwork Showcase", systemImage: "sparkles.rectangle.stack")
-            }
         } header: {
             Text("Full Showcases")
         } footer: {
