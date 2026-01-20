@@ -1,5 +1,5 @@
 //
-//  GenericThemedLoaderView.swift
+//  ARCThemedLoaderView.swift
 //  ARCUIComponents
 //
 //  Created by ARC Labs Studio on 1/20/26.
@@ -7,28 +7,28 @@
 
 import SwiftUI
 
-// MARK: - GenericThemedLoaderView
+// MARK: - ARCThemedLoaderView
 
 /// A loader view using thematic artwork as its visual.
 ///
-/// `GenericThemedLoaderView` displays an animated thematic artwork,
+/// `ARCThemedLoaderView` displays an animated thematic artwork,
 /// making it easy to create themed loading indicators. The view includes
 /// accessibility support with customizable labels.
 ///
 /// ## Example Usage
 /// ```swift
 /// // Simple loader with custom artwork type
-/// GenericThemedLoaderView(type: MyArtwork.pizza, size: 64)
+/// ARCThemedLoaderView(type: MyArtwork.pizza, size: 64)
 ///
 /// // Custom animation and accessibility
-/// GenericThemedLoaderView(
+/// ARCThemedLoaderView(
 ///     type: MyArtwork.sushi,
 ///     size: 80,
 ///     animationType: .pulse,
 ///     accessibilityLabel: "Loading menu items"
 /// )
 /// ```
-public struct GenericThemedLoaderView<ArtworkType: ArtworkTypeProtocol>: View {
+public struct ARCThemedLoaderView<ArtworkType: ArtworkTypeProtocol>: View {
     // MARK: - Properties
 
     private let type: ArtworkType
@@ -64,7 +64,7 @@ public struct GenericThemedLoaderView<ArtworkType: ArtworkTypeProtocol>: View {
     // MARK: - Body
 
     public var body: some View {
-        GenericThemedArtworkView(
+        ARCThemedArtworkView(
             type: type,
             isAnimating: true,
             animationType: animationType,

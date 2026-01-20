@@ -23,11 +23,11 @@ import ARCUIComponents
 struct ContentView: View {
     var body: some View {
         // Food artwork (circular)
-        ThemedArtworkView(type: .food(.pizza))
+        ARCThemedArtworkView(type: .food(.pizza))
             .frame(width: 150, height: 150)
 
         // Book artwork (book proportions)
-        ThemedArtworkView(type: .book(.romance))
+        ARCThemedArtworkView(type: .book(.romance))
             .frame(width: 120, height: 180)
     }
 }
@@ -39,26 +39,26 @@ struct ContentView: View {
 
 ```swift
 // Pizza - Italian themed with toppings
-ThemedArtworkView(type: .food(.pizza))
+ARCThemedArtworkView(type: .food(.pizza))
 
 // Sushi - Japanese themed with nigiri
-ThemedArtworkView(type: .food(.sushi))
+ARCThemedArtworkView(type: .food(.sushi))
 
 // Taco - Mexican themed with toppings
-ThemedArtworkView(type: .food(.taco))
+ARCThemedArtworkView(type: .food(.taco))
 ```
 
 ### Book Category
 
 ```swift
 // Noir - Dark detective theme
-ThemedArtworkView(type: .book(.noir))
+ARCThemedArtworkView(type: .book(.noir))
 
 // Romance - Pink hearts theme
-ThemedArtworkView(type: .book(.romance))
+ARCThemedArtworkView(type: .book(.romance))
 
 // Horror - Spooky green/red theme
-ThemedArtworkView(type: .book(.horror))
+ARCThemedArtworkView(type: .book(.horror))
 ```
 
 ## Animations
@@ -67,28 +67,28 @@ ThemedArtworkView(type: .book(.horror))
 
 ```swift
 // Spinning animation (default)
-ThemedArtworkView(
+ARCThemedArtworkView(
     type: .food(.pizza),
     isAnimating: true,
     animationType: .spin
 )
 
 // Pulse animation
-ThemedArtworkView(
+ARCThemedArtworkView(
     type: .food(.sushi),
     isAnimating: true,
     animationType: .pulse
 )
 
 // Shimmer effect
-ThemedArtworkView(
+ARCThemedArtworkView(
     type: .book(.romance),
     isAnimating: true,
     animationType: .shimmer
 )
 
 // Breathing animation
-ThemedArtworkView(
+ARCThemedArtworkView(
     type: .book(.horror),
     isAnimating: true,
     animationType: .breathe
@@ -98,7 +98,7 @@ ThemedArtworkView(
 ### Animation Duration
 
 ```swift
-ThemedArtworkView(
+ARCThemedArtworkView(
     type: .food(.pizza),
     isAnimating: true,
     animationType: .spin,
@@ -108,14 +108,14 @@ ThemedArtworkView(
 
 ## Loaders
 
-Use `ThemedLoaderView` for loading indicators:
+Use `ARCThemedLoaderView` for loading indicators:
 
 ```swift
 // Simple loader
-ThemedLoaderView(type: .food(.pizza), size: 64)
+ARCThemedLoaderView(type: .food(.pizza), size: 64)
 
 // Custom animation
-ThemedLoaderView(
+ARCThemedLoaderView(
     type: .food(.sushi),
     size: 80,
     animationType: .pulse,
@@ -123,7 +123,7 @@ ThemedLoaderView(
 )
 
 // Book loader
-ThemedLoaderView(type: .book(.romance), size: 60)
+ARCThemedLoaderView(type: .book(.romance), size: 60)
 ```
 
 ### Loader Sizes
@@ -141,7 +141,7 @@ ThemedLoaderView(type: .book(.romance), size: 60)
 
 ```swift
 // Override recommended configuration
-ThemedArtworkView(
+ARCThemedArtworkView(
     type: .food(.pizza),
     configuration: .card  // Use card instead of circular
 )
@@ -161,7 +161,7 @@ Apply shimmer effect to any view:
 
 ```swift
 // On artwork
-ThemedArtworkView(type: .food(.pizza))
+ARCThemedArtworkView(type: .food(.pizza))
     .shimmer(isActive: isLoading)
 
 // On any view
@@ -176,7 +176,7 @@ RoundedRectangle(cornerRadius: 12)
 
 ```swift
 VStack(spacing: 16) {
-    ThemedArtworkView(type: .food(.sushi))
+    ARCThemedArtworkView(type: .food(.sushi))
         .frame(width: 120, height: 120)
 
     Text("No items yet")
@@ -192,7 +192,7 @@ VStack(spacing: 16) {
 
 ```swift
 if isLoading {
-    ThemedLoaderView(type: .food(.pizza), size: 64)
+    ARCThemedLoaderView(type: .food(.pizza), size: 64)
 } else {
     ContentView()
 }
@@ -202,8 +202,8 @@ if isLoading {
 
 ```swift
 LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
-    ForEach(ArtworkType.allBookCases, id: \.displayName) { type in
-        ThemedArtworkView(type: type)
+    ForEach(ArtworkTypeProtocol.allBookCases, id: \.displayName) { type in
+        ARCThemedArtworkView(type: type)
             .frame(width: 80, height: 120)
     }
 }
@@ -218,7 +218,7 @@ struct InteractiveDemo: View {
 
     var body: some View {
         VStack {
-            ThemedArtworkView(
+            ARCThemedArtworkView(
                 type: .food(.pizza),
                 isAnimating: isAnimating,
                 animationType: animationType
@@ -240,14 +240,14 @@ struct InteractiveDemo: View {
 
 ## Accessibility
 
-ThemedLoaderView includes comprehensive accessibility support:
+ARCThemedLoaderView includes comprehensive accessibility support:
 
 - **VoiceOver Labels**: Customizable loading labels
 - **Image Trait**: Properly identified as decorative image
 - **Dynamic Type**: Scales appropriately with system settings
 
 ```swift
-ThemedLoaderView(
+ARCThemedLoaderView(
     type: .food(.sushi),
     size: 64,
     accessibilityLabel: "Loading your order"
@@ -258,9 +258,9 @@ ThemedLoaderView(
 
 ### Essentials
 
-- ``ThemedArtworkView``
-- ``ThemedLoaderView``
-- ``ArtworkType``
+- ``ARCThemedArtworkView``
+- ``ARCThemedLoaderView``
+- ``ArtworkTypeProtocol``
 
 ### Configuration
 
@@ -284,4 +284,4 @@ ThemedLoaderView(
 
 ### Examples
 
-- ``ThematicArtworkShowcase``
+- ``ARCThemedArtworkShowcase``

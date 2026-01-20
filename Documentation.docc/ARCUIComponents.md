@@ -23,17 +23,15 @@ ARCUIComponents provides beautifully designed, reusable UI components that feel 
 - ``ARCMenuViewModel``
 - ``ARCFavoriteButton``
 - ``ARCListCard``
-- ``ARCSearchButton``
 - ``ARCEmptyState``
+- ``ARCTabView``
 
 ### Configuration
 
 - ``ARCMenuConfiguration``
 - ``ARCMenuUser``
 - ``ARCMenuItem``
-- ``ARCFavoriteButtonConfiguration``
 - ``ARCListCardConfiguration``
-- ``ARCSearchButtonConfiguration``
 - ``ARCEmptyStateConfiguration``
 
 ### Visual Effects
@@ -45,8 +43,6 @@ ARCUIComponents provides beautifully designed, reusable UI components that feel 
 ### Showcases
 
 - ``ARCMenuShowcase``
-- ``ARCFavoriteButtonShowcase``
 - ``ARCListCardShowcase``
-- ``ARCSearchButtonShowcase``
 - ``ARCEmptyStateShowcase``
 - ``LiquidGlassShowcase``

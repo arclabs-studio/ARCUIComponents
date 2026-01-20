@@ -11,7 +11,7 @@ import SwiftUI
 
 /// The type of animation to apply to a thematic artwork.
 ///
-/// Use these animation types with `ThemedArtworkView` or `ThemedLoaderView`
+/// Use these animation types with `ARCThemedArtworkView` or `ARCThemedLoaderView`
 /// to create engaging loading states or visual effects.
 ///
 /// ## Animation Types
@@ -35,32 +35,32 @@ public enum ArtworkAnimationType: Sendable, CaseIterable {
 
 // MARK: - Animation Descriptions
 
-public extension ArtworkAnimationType {
+extension ArtworkAnimationType {
     /// A human-readable name for the animation type.
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .spin:
-            return "Spin"
+            "Spin"
         case .pulse:
-            return "Pulse"
+            "Pulse"
         case .shimmer:
-            return "Shimmer"
+            "Shimmer"
         case .breathe:
-            return "Breathe"
+            "Breathe"
         }
     }
 
     /// A description of the animation effect.
-    var description: String {
+    public var description: String {
         switch self {
         case .spin:
-            return "Continuous 360° rotation"
+            "Continuous 360° rotation"
         case .pulse:
-            return "Subtle scale pulsing"
+            "Subtle scale pulsing"
         case .shimmer:
-            return "Horizontal light sweep"
+            "Horizontal light sweep"
         case .breathe:
-            return "Gentle opacity fading"
+            "Gentle opacity fading"
         }
     }
 }

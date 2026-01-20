@@ -12,7 +12,6 @@ import SwiftUI
 ///
 /// Provides access to different component showcases organized by category.
 struct DemoHomeView: View {
-
     // MARK: Body
 
     var body: some View {
@@ -32,9 +31,8 @@ struct DemoHomeView: View {
 
 // MARK: - Private Views
 
-private extension DemoHomeView {
-
-    var componentsSection: some View {
+extension DemoHomeView {
+    private var componentsSection: some View {
         Section {
             NavigationLink {
                 ARCMenuDemoScreen()
@@ -52,12 +50,6 @@ private extension DemoHomeView {
                 ARCListCardDemoScreen()
             } label: {
                 Label("ARCListCard", systemImage: "rectangle.stack")
-            }
-
-            NavigationLink {
-                ARCSearchButtonDemoScreen()
-            } label: {
-                Label("ARCSearchButton", systemImage: "magnifyingglass")
             }
 
             NavigationLink {
@@ -80,7 +72,7 @@ private extension DemoHomeView {
         }
     }
 
-    var effectsSection: some View {
+    private var effectsSection: some View {
         Section {
             NavigationLink {
                 LiquidGlassDemoScreen()
@@ -100,18 +92,12 @@ private extension DemoHomeView {
         }
     }
 
-    var showcasesSection: some View {
+    private var showcasesSection: some View {
         Section {
             NavigationLink {
                 ARCMenuShowcase()
             } label: {
                 Label("ARCMenu Showcase", systemImage: "sparkles.rectangle.stack")
-            }
-
-            NavigationLink {
-                ARCFavoriteButtonShowcase()
-            } label: {
-                Label("Favorite Button Showcase", systemImage: "sparkles")
             }
 
             NavigationLink {
@@ -121,25 +107,16 @@ private extension DemoHomeView {
             }
 
             NavigationLink {
-                ARCSearchButtonShowcase()
-            } label: {
-                Label("Search Button Showcase", systemImage: "magnifyingglass.circle")
-            }
-
-            NavigationLink {
                 ARCEmptyStateShowcase()
             } label: {
                 Label("Empty State Showcase", systemImage: "tray.circle")
             }
 
-            if #available(iOS 18.0, *) {
-                NavigationLink {
-                    ARCTabViewShowcase()
-                } label: {
-                    Label("Tab View Showcase", systemImage: "rectangle.split.3x1.fill")
-                }
+            NavigationLink {
+                LiquidGlassShowcase()
+            } label: {
+                Label("Liquid Glass Showcase", systemImage: "drop.circle")
             }
-
         } header: {
             Text("Full Showcases")
         } footer: {
@@ -147,7 +124,7 @@ private extension DemoHomeView {
         }
     }
 
-    var aboutSection: some View {
+    private var aboutSection: some View {
         Section {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 12) {

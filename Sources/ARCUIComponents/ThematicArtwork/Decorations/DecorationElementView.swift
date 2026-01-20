@@ -9,7 +9,7 @@ import SwiftUI
 
 // MARK: - DecorationElementView
 
-/// A view that renders a `DecorationElement`.
+/// A view that renders an `DecorationElement`.
 ///
 /// Use `DecorationElementView` to display individual decoration elements
 /// within a thematic artwork's decoration layer.
@@ -96,7 +96,7 @@ public struct DecorationElementView: View {
             .fill(Color.orange.opacity(0.3))
             .frame(width: 200, height: 200)
 
-        ForEach(0..<6, id: \.self) { index in
+        ForEach(0 ..< 6, id: \.self) { index in
             let element = DecorationElement.circle(
                 color: index.isMultiple(of: 2) ? .red : .green,
                 diameter: 20,

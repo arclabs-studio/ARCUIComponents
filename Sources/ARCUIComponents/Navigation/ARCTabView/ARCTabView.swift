@@ -7,41 +7,26 @@
 
 import SwiftUI
 
-/// A reusable tab view component with Liquid Glass design for iOS 26+
+/// Type-safe tab view wrapper using the `ARCTabItem` protocol.
 ///
-/// ARCTabView provides a type-safe, customizable tab bar navigation that follows
-/// Apple's Human Interface Guidelines. It automatically adopts Liquid Glass
-/// styling on iOS 26 and supports search tabs and bottom accessories.
+/// ## Why ARCTabView exists (vs native TabView)
 ///
-/// ## Overview
+/// SwiftUI's `TabView` (iOS 18+) requires repeating `Tab()` for each tab.
+/// ARCTabView standardizes tab definition via the ``ARCTabItem`` protocol:
 ///
-/// ARCTabView wraps SwiftUI's `TabView` with a simplified API that works with
-/// any type conforming to ``ARCTabItem``. It provides:
-///
-/// - Type-safe tab navigation with enums
-/// - Optional search tab with `TabRole.search`
-/// - Bottom accessory support (like Music's MiniPlayer)
-/// - Automatic Liquid Glass styling on iOS 26
-/// - Platform-adaptive presentation
-///
-/// ## Topics
-///
-/// ### Creating Tab Views
-///
-/// - ``init(selection:configuration:content:)``
-/// - ``init(selection:configuration:content:searchContent:)``
-/// - ``init(selection:configuration:content:bottomAccessory:)``
-/// - ``init(selection:configuration:content:searchContent:bottomAccessory:)``
+/// | Aspect | Native TabView | ARCTabView |
+/// |--------|---------------|------------|
+/// | Tab definition | Repeat `Tab()` per tab | Enum + protocol |
+/// | Type-safety | Manual | Automatic via `CaseIterable` |
+/// | Consistency | Each app decides | Same pattern across ARC apps |
 ///
 /// ## Usage
 ///
-/// ### Basic Usage
-///
 /// ```swift
+/// // 1. Define tabs with ARCTabItem protocol
 /// enum AppTab: String, ARCTabItem {
 ///     case home, favorites, settings
 ///
-///     var id: String { rawValue }
 ///     var title: String { rawValue.capitalized }
 ///     var icon: String {
 ///         switch self {
@@ -50,8 +35,10 @@ import SwiftUI
 ///         case .settings: "gearshape.fill"
 ///         }
 ///     }
+///     var badge: Int? { self == .favorites ? 3 : nil }
 /// }
 ///
+/// // 2. Use ARCTabView
 /// struct ContentView: View {
 ///     @State private var selectedTab: AppTab = .home
 ///
@@ -67,127 +54,86 @@ import SwiftUI
 /// }
 /// ```
 ///
-/// ### With Search Tab
+/// ## With Search Tab
 ///
 /// ```swift
 /// ARCTabView(selection: $selectedTab) { tab in
 ///     TabContent(for: tab)
-/// } searchContent: {
+/// } search: {
 ///     SearchView()
 /// }
 /// ```
-///
-/// ### With Bottom Accessory (iOS 26+)
-///
-/// ```swift
-/// ARCTabView(selection: $selectedTab) { tab in
-///     TabContent(for: tab)
-/// } bottomAccessory: {
-///     MiniPlayerView()
-/// }
-/// ```
-///
-/// - Note: The component requires iOS 18+ for the new `Tab` API.
-///   Bottom accessory support requires iOS 26+.
 @available(iOS 18.0, macOS 15.0, *)
-public struct ARCTabView<
-    TabItem: ARCTabItem,
-    Content: View,
-    SearchContent: View,
-    AccessoryContent: View
->: View {
+public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View>: View {
     // MARK: - Properties
 
-    /// Current tab selection
     @Binding private var selection: TabItem
-
-    /// Configuration for appearance and behavior
-    private let configuration: ARCTabViewConfiguration
-
-    /// Content builder for each tab
+    private let sidebarAdaptable: Bool
     private let content: (TabItem) -> Content
-
-    /// Optional search content
-    private let searchContent: SearchContent
-
-    /// Optional bottom accessory content
-    private let accessoryContent: AccessoryContent
-
-    /// Tracks if search content is provided
-    private let hasSearchContent: Bool
-
-    /// Tracks if accessory content is provided
-    private let hasAccessoryContent: Bool
+    private let searchContent: SearchContent?
 
     // MARK: - Initialization
 
-    /// Creates a tab view with all options
+    /// Creates a tab view with the specified tabs.
     ///
     /// - Parameters:
     ///   - selection: Binding to the currently selected tab
-    ///   - configuration: Configuration for appearance and behavior
-    ///   - content: View builder that creates content for each tab
-    ///   - searchContent: View builder for search tab content
-    ///   - bottomAccessory: View builder for bottom accessory (iOS 26+)
+    ///   - sidebarAdaptable: Use sidebar style on iPad (default: `false`)
+    ///   - content: View builder for each tab's content
     public init(
         selection: Binding<TabItem>,
-        configuration: ARCTabViewConfiguration = .default,
+        sidebarAdaptable: Bool = false,
+        @ViewBuilder content: @escaping (TabItem) -> Content
+    ) where SearchContent == Never {
+        _selection = selection
+        self.sidebarAdaptable = sidebarAdaptable
+        self.content = content
+        searchContent = nil
+    }
+
+    /// Creates a tab view with a search tab.
+    ///
+    /// - Parameters:
+    ///   - selection: Binding to the currently selected tab
+    ///   - sidebarAdaptable: Use sidebar style on iPad (default: `false`)
+    ///   - content: View builder for each tab's content
+    ///   - search: View builder for search tab content
+    public init(
+        selection: Binding<TabItem>,
+        sidebarAdaptable: Bool = false,
         @ViewBuilder content: @escaping (TabItem) -> Content,
-        @ViewBuilder searchContent: () -> SearchContent,
-        @ViewBuilder bottomAccessory: () -> AccessoryContent
+        @ViewBuilder search: () -> SearchContent
     ) {
         _selection = selection
-        self.configuration = configuration
+        self.sidebarAdaptable = sidebarAdaptable
         self.content = content
-        self.searchContent = searchContent()
-        self.accessoryContent = bottomAccessory()
-        self.hasSearchContent = true
-        self.hasAccessoryContent = true
+        searchContent = search()
     }
 
     // MARK: - Body
 
     public var body: some View {
-        tabViewContent
-    }
-
-    // MARK: - Private Views
-
-    @ViewBuilder
-    private var tabViewContent: some View {
-        // NOTE: Bottom accessory support requires iOS 26+ SDK.
-        // When iOS 26 SDK is available, enable the accessory branch using
-        // swift(>=6.2) or similar compiler directive.
-        // For now, always use basicTabView since tabViewBottomAccessory
-        // is not available in the current SDK.
-        basicTabView
-    }
-
-    @ViewBuilder
-    private var basicTabView: some View {
         TabView(selection: $selection) {
-            // Regular tabs from ARCTabItem
             ForEach(Array(TabItem.allCases), id: \.self) { tab in
-                tabItem(for: tab)
+                tabContent(for: tab)
             }
 
-            // Search tab (if content provided)
-            if hasSearchContent, SearchContent.self != EmptyView.self {
+            if let searchContent {
                 Tab(value: selection, role: .search) {
                     searchContent
                 }
             }
         }
-        .modifier(TabViewStyleModifier(style: configuration.style))
+        .modifier(TabViewStyleModifier(sidebarAdaptable: sidebarAdaptable))
     }
 
     @TabContentBuilder<TabItem>
-    private func tabItem(for tab: TabItem) -> some TabContent<TabItem> {
-        if let badgeCount = tab.badge {
+    private func tabContent(for tab: TabItem) -> some TabContent<TabItem> {
+        if let badge = tab.badge {
             Tab(tab.title, systemImage: tab.icon, value: tab) {
                 content(tab)
             }
-            .badge(badgeCount)
+            .badge(badge)
         } else {
             Tab(tab.title, systemImage: tab.icon, value: tab) {
                 content(tab)
@@ -196,117 +142,29 @@ public struct ARCTabView<
     }
 }
 
-// MARK: - Convenience Initializers
-
-@available(iOS 18.0, macOS 15.0, *)
-public extension ARCTabView where SearchContent == EmptyView, AccessoryContent == EmptyView {
-    /// Creates a basic tab view without search or accessory
-    ///
-    /// - Parameters:
-    ///   - selection: Binding to the currently selected tab
-    ///   - configuration: Configuration for appearance and behavior
-    ///   - content: View builder that creates content for each tab
-    init(
-        selection: Binding<TabItem>,
-        configuration: ARCTabViewConfiguration = .default,
-        @ViewBuilder content: @escaping (TabItem) -> Content
-    ) {
-        _selection = selection
-        self.configuration = configuration
-        self.content = content
-        self.searchContent = EmptyView()
-        self.accessoryContent = EmptyView()
-        self.hasSearchContent = false
-        self.hasAccessoryContent = false
-    }
-}
-
-@available(iOS 18.0, macOS 15.0, *)
-public extension ARCTabView where AccessoryContent == EmptyView {
-    /// Creates a tab view with search but no accessory
-    ///
-    /// - Parameters:
-    ///   - selection: Binding to the currently selected tab
-    ///   - configuration: Configuration for appearance and behavior
-    ///   - content: View builder that creates content for each tab
-    ///   - searchContent: View builder for search tab content
-    init(
-        selection: Binding<TabItem>,
-        configuration: ARCTabViewConfiguration = .default,
-        @ViewBuilder content: @escaping (TabItem) -> Content,
-        @ViewBuilder searchContent: () -> SearchContent
-    ) {
-        _selection = selection
-        self.configuration = configuration
-        self.content = content
-        self.searchContent = searchContent()
-        self.accessoryContent = EmptyView()
-        self.hasSearchContent = true
-        self.hasAccessoryContent = false
-    }
-}
-
-@available(iOS 18.0, macOS 15.0, *)
-public extension ARCTabView where SearchContent == EmptyView {
-    /// Creates a tab view with accessory but no search
-    ///
-    /// - Parameters:
-    ///   - selection: Binding to the currently selected tab
-    ///   - configuration: Configuration for appearance and behavior
-    ///   - content: View builder that creates content for each tab
-    ///   - bottomAccessory: View builder for bottom accessory (iOS 26+)
-    init(
-        selection: Binding<TabItem>,
-        configuration: ARCTabViewConfiguration = .default,
-        @ViewBuilder content: @escaping (TabItem) -> Content,
-        @ViewBuilder bottomAccessory: () -> AccessoryContent
-    ) {
-        _selection = selection
-        self.configuration = configuration
-        self.content = content
-        self.searchContent = EmptyView()
-        self.accessoryContent = bottomAccessory()
-        self.hasSearchContent = false
-        self.hasAccessoryContent = true
-    }
-}
-
 // MARK: - Style Modifier
 
 @available(iOS 18.0, macOS 15.0, *)
 private struct TabViewStyleModifier: ViewModifier {
-    let style: ARCTabViewStyle
+    let sidebarAdaptable: Bool
 
     func body(content: Content) -> some View {
-        switch style {
-        case .automatic:
-            content
-        case .tabBarOnly:
-            content.tabViewStyle(.tabBarOnly)
-        case .sidebarAdaptable:
+        if sidebarAdaptable {
             content.tabViewStyle(.sidebarAdaptable)
+        } else {
+            content
         }
     }
 }
 
-// MARK: - Preview Support
+// MARK: - Preview
 
 @available(iOS 18.0, macOS 15.0, *)
 private enum PreviewTab: String, ARCTabItem, CaseIterable {
-    case home
-    case favorites
-    case settings
+    case home, favorites, settings
 
     var id: String { rawValue }
-
-    var title: String {
-        switch self {
-        case .home: "Home"
-        case .favorites: "Favorites"
-        case .settings: "Settings"
-        }
-    }
-
+    var title: String { rawValue.capitalized }
     var icon: String {
         switch self {
         case .home: "house.fill"
@@ -315,81 +173,43 @@ private enum PreviewTab: String, ARCTabItem, CaseIterable {
         }
     }
 
-    var badge: Int? {
-        switch self {
-        case .favorites: 5
-        default: nil
-        }
-    }
+    var badge: Int? { self == .favorites ? 5 : nil }
 }
-
-// MARK: - Preview Wrapper
-
-@available(iOS 18.0, macOS 15.0, *)
-private struct ARCTabViewPreview: View {
-    @State private var selectedTab: PreviewTab = .home
-    let showSearch: Bool
-    let style: ARCTabViewConfiguration
-
-    init(showSearch: Bool = false, style: ARCTabViewConfiguration = .default) {
-        self.showSearch = showSearch
-        self.style = style
-    }
-
-    var body: some View {
-        if showSearch {
-            ARCTabView(
-                selection: $selectedTab,
-                configuration: style
-            ) { tab in
-                tabContent(for: tab)
-            } searchContent: {
-                NavigationStack {
-                    Text("Search Content")
-                        .navigationTitle("Search")
-                }
-            }
-        } else {
-            ARCTabView(
-                selection: $selectedTab,
-                configuration: style
-            ) { tab in
-                tabContent(for: tab)
-            }
-        }
-    }
-
-    private func tabContent(for tab: PreviewTab) -> some View {
-        NavigationStack {
-            VStack {
-                Text("Content for \(tab.title)")
-                    .font(.largeTitle)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .navigationTitle(tab.title)
-        }
-    }
-}
-
-// MARK: - Previews
 
 @available(iOS 18.0, macOS 15.0, *)
 #Preview("Basic") {
-    ARCTabViewPreview()
+    @Previewable @State var tab: PreviewTab = .home
+    ARCTabView(selection: $tab) { tab in
+        NavigationStack {
+            Text(tab.title)
+                .navigationTitle(tab.title)
+        }
+    }
 }
 
 @available(iOS 18.0, macOS 15.0, *)
 #Preview("With Search") {
-    ARCTabViewPreview(showSearch: true)
+    @Previewable @State var tab: PreviewTab = .home
+    ARCTabView(selection: $tab) { tab in
+        NavigationStack {
+            Text(tab.title)
+                .navigationTitle(tab.title)
+        }
+    } search: {
+        NavigationStack {
+            Text("Search")
+                .navigationTitle("Search")
+        }
+    }
 }
 
 @available(iOS 18.0, macOS 15.0, *)
 #Preview("Sidebar Adaptable") {
-    ARCTabViewPreview(style: .sidebarAdaptable)
-}
-
-@available(iOS 18.0, macOS 15.0, *)
-#Preview("Dark Mode") {
-    ARCTabViewPreview()
-        .preferredColorScheme(.dark)
+    @Previewable @State var tab: PreviewTab = .home
+    ARCTabView(selection: $tab, sidebarAdaptable: true) { tab in
+        NavigationStack {
+            Text(tab.title)
+                .navigationTitle(tab.title)
+        }
+    }
 }

@@ -18,10 +18,10 @@ A modern Swift package providing beautifully designed, reusable UI components th
 | Component | Description |
 |-----------|-------------|
 | **ARCMenu** | Slide-in menu with Liquid Glass effect, user profile, and customizable items |
-| **ARCFavoriteButton** | Animated toggle button with haptic feedback and spring animations |
+| **ARCFavoriteButton** | Animated toggle button with haptic feedback, symbol effects, and icon presets |
 | **ARCListCard** | Versatile card for lists with images, accessories, and multiple styles |
-| **ARCSearchButton** | Search button with multiple styles (default, prominent, minimal) |
 | **ARCEmptyState** | Empty state views for various scenarios (no data, errors, offline) |
+| **ARCTabView** | Floating tab bar with Liquid Glass effect (iOS 18+) |
 | **LiquidGlass** | Glassmorphism effect modifier for any view |
 
 ---
@@ -372,19 +372,21 @@ Sources/ARCUIComponents/
 │       ├── ARCMenuUserHeader.swift
 │       └── ARCMenuItemRow.swift
 ├── ARCFavorites/             # Favorite button component
-│   ├── ARCFavoriteButton.swift
-│   └── ARCFavoriteButtonConfiguration.swift
+│   └── ARCFavoriteButton.swift
 ├── ARCLists/                 # List card component
 │   ├── ARCListCard.swift
 │   └── ARCListCardConfiguration.swift
-├── ARCSearch/                # Search button component
-│   ├── ARCSearchButton.swift
-│   └── ARCSearchButtonConfiguration.swift
 ├── ARCEmptyState/            # Empty state component
 │   ├── ARCEmptyState.swift
 │   └── ARCEmptyStateConfiguration.swift
 ├── ARCEffects/               # Visual effects
 │   └── LiquidGlassModifier.swift
+├── Navigation/               # Navigation components
+│   └── ARCTabView/
+│       ├── ARCTabView.swift
+│       └── ARCTabItem.swift
+├── ThematicArtwork/          # Themed artwork views
+│   └── ...
 ├── Core/                     # Shared models
 │   └── Models/
 │       ├── ARCBackgroundStyle.swift
@@ -423,7 +425,7 @@ Leverages Swift's type system for compile-time safety. No stringly-typed APIs or
 
 ## 🧪 Testing
 
-ARCUIComponents includes a comprehensive unit test suite with **190 tests** across **14 test suites**.
+ARCUIComponents includes a comprehensive unit test suite with **226 tests** across **19 test suites**.
 
 ### Test Coverage
 
@@ -433,12 +435,14 @@ ARCUIComponents includes a comprehensive unit test suite with **190 tests** acro
 | ARCMenuConfiguration | 17 |
 | ARCMenuItem | 25 |
 | ARCMenuUser | 13 |
-| ARCFavoriteButtonConfiguration | 17 |
+| ARCMenuPresentationStyle | 11 |
 | ARCListCardConfiguration | 14 |
-| ARCSearchButtonConfiguration | 16 |
 | ARCEmptyStateConfiguration | 27 |
-| ARCShadow & ARCBackgroundStyle | 18 |
-| **Total** | **190** |
+| ARCShadow & ARCBackgroundStyle | 32 |
+| LiquidGlassConfigurable | 19 |
+| ARCMenuBackdropModifier | 15 |
+| Other tests | 22 |
+| **Total** | **226** |
 
 ### Running Tests
 

@@ -13,7 +13,6 @@ import SwiftUI
 /// Shows themed visual placeholders and loaders with interactive configuration options.
 /// Demonstrates how to use the generic artwork system with custom artwork types.
 struct ThematicArtworkDemoScreen: View {
-
     // MARK: Properties
 
     @State private var selectedArtwork: ExampleArtwork = .circles
@@ -37,17 +36,16 @@ struct ThematicArtworkDemoScreen: View {
         #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
-        .background(Color(.systemGroupedBackground))
+            .background(Color(.systemGroupedBackground))
     }
 }
 
 // MARK: - Private Views
 
-private extension ThematicArtworkDemoScreen {
-
+extension ThematicArtworkDemoScreen {
     // MARK: Configuration Section
 
-    var configurationSection: some View {
+    private var configurationSection: some View {
         VStack(spacing: 16) {
             sectionHeader("Configuration")
 
@@ -65,7 +63,7 @@ private extension ThematicArtworkDemoScreen {
         }
     }
 
-    var artworkPicker: some View {
+    private var artworkPicker: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Artwork Style")
                 .font(.caption)
@@ -80,11 +78,11 @@ private extension ThematicArtworkDemoScreen {
         }
     }
 
-    var animationToggle: some View {
+    private var animationToggle: some View {
         Toggle("Animate", isOn: $isAnimating.animation(.easeInOut))
     }
 
-    var animationPicker: some View {
+    private var animationPicker: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Animation Type")
                 .font(.caption)
@@ -101,12 +99,12 @@ private extension ThematicArtworkDemoScreen {
 
     // MARK: Preview Section
 
-    var previewSection: some View {
+    private var previewSection: some View {
         VStack(spacing: 16) {
             sectionHeader("Preview")
 
             VStack(spacing: 12) {
-                GenericThemedArtworkView(
+                ARCThemedArtworkView(
                     type: selectedArtwork,
                     isAnimating: isAnimating,
                     animationType: selectedAnimation
@@ -130,14 +128,14 @@ private extension ThematicArtworkDemoScreen {
 
     // MARK: All Artworks Section
 
-    var allArtworksSection: some View {
+    private var allArtworksSection: some View {
         VStack(spacing: 16) {
             sectionHeader("All Artwork Styles")
 
             HStack(spacing: 24) {
                 ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
                     VStack(spacing: 8) {
-                        GenericThemedArtworkView(
+                        ARCThemedArtworkView(
                             type: artwork,
                             isAnimating: isAnimating,
                             animationType: selectedAnimation
@@ -159,7 +157,7 @@ private extension ThematicArtworkDemoScreen {
 
     // MARK: Use Cases Section
 
-    var useCasesSection: some View {
+    private var useCasesSection: some View {
         VStack(spacing: 16) {
             sectionHeader("Use Cases")
 
@@ -171,7 +169,7 @@ private extension ThematicArtworkDemoScreen {
                 ) {
                     HStack(spacing: 16) {
                         ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
-                            GenericThemedLoaderView(type: artwork, size: 40)
+                            ARCThemedLoaderView(type: artwork, size: 40)
                         }
                     }
                 }
@@ -183,7 +181,7 @@ private extension ThematicArtworkDemoScreen {
                 ) {
                     HStack(spacing: 12) {
                         ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
-                            GenericThemedArtworkView(type: artwork)
+                            ARCThemedArtworkView(type: artwork)
                                 .frame(width: 60, height: 60)
                         }
                     }
@@ -195,7 +193,7 @@ private extension ThematicArtworkDemoScreen {
                     icon: "tray"
                 ) {
                     VStack(spacing: 8) {
-                        GenericThemedArtworkView(type: ExampleArtwork.circles)
+                        ARCThemedArtworkView(type: ExampleArtwork.circles)
                             .frame(width: 80, height: 80)
                         Text("No items yet")
                             .font(.caption)
@@ -208,7 +206,7 @@ private extension ThematicArtworkDemoScreen {
 
     // MARK: Loader Sizes Section
 
-    var loaderSizesSection: some View {
+    private var loaderSizesSection: some View {
         VStack(spacing: 16) {
             sectionHeader("Loader Sizes")
 
@@ -227,7 +225,7 @@ private extension ThematicArtworkDemoScreen {
 
     // MARK: Helper Views
 
-    func sectionHeader(_ title: String) -> some View {
+    private func sectionHeader(_ title: String) -> some View {
         HStack {
             Text(title)
                 .font(.headline)
@@ -236,11 +234,11 @@ private extension ThematicArtworkDemoScreen {
         }
     }
 
-    func useCaseCard<Content: View>(
+    private func useCaseCard(
         title: String,
         description: String,
         icon: String,
-        @ViewBuilder content: () -> Content
+        @ViewBuilder content: () -> some View
     ) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
@@ -263,9 +261,9 @@ private extension ThematicArtworkDemoScreen {
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    func loaderSize(_ size: CGFloat, label: String) -> some View {
+    private func loaderSize(_ size: CGFloat, label: String) -> some View {
         VStack(spacing: 8) {
-            GenericThemedLoaderView(type: ExampleArtwork.circles, size: size)
+            ARCThemedLoaderView(type: ExampleArtwork.circles, size: size)
             Text(label)
                 .font(.caption2)
                 .foregroundStyle(.secondary)

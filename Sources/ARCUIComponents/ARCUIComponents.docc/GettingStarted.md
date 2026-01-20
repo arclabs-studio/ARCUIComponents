@@ -20,6 +20,21 @@ By the end of this tutorial, you'll have a fully functional menu with:
 - iOS 17.0+ deployment target
 - Basic knowledge of SwiftUI
 
+## Understanding Naming Conventions
+
+ARCUIComponents uses a consistent naming pattern:
+
+| Type | Prefix | Example |
+|------|--------|---------|
+| **Main UI Views** | `ARC` | `ARCMenu`, `ARCThemedArtworkView` |
+| **Configurations** | Component name | `ARCMenuConfiguration` |
+| **ViewModels** | Component name | `ARCMenuViewModel` |
+| **Protocols** | None | `ArtworkTypeProtocol` |
+| **Modifiers** | None | `ShimmerModifier` |
+| **Support Types** | None | `ArtworkTheme`, `HeartShape` |
+
+The `ARC` prefix identifies primary UI views to avoid confusion with native SwiftUI components (e.g., `ARCMenu` vs SwiftUI's `Menu`).
+
 ## Step 1: Add the Package
 
 ### Using Xcode

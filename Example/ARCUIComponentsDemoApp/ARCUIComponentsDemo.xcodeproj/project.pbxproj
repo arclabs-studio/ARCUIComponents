@@ -12,7 +12,6 @@
 		B10000010000000000000003 /* ARCMenuDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000003 /* ARCMenuDemoScreen.swift */; };
 		B10000010000000000000004 /* ARCFavoriteButtonDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000004 /* ARCFavoriteButtonDemoScreen.swift */; };
 		B10000010000000000000005 /* ARCListCardDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000005 /* ARCListCardDemoScreen.swift */; };
-		B10000010000000000000006 /* ARCSearchButtonDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000006 /* ARCSearchButtonDemoScreen.swift */; };
 		B10000010000000000000007 /* ARCEmptyStateDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000007 /* ARCEmptyStateDemoScreen.swift */; };
 		B10000010000000000000008 /* LiquidGlassDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000008 /* LiquidGlassDemoScreen.swift */; };
 		B10000010000000000000009 /* Color+Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000009 /* Color+Brand.swift */; };
@@ -29,7 +28,6 @@
 		B20000010000000000000003 /* ARCMenuDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCMenuDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000004 /* ARCFavoriteButtonDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCFavoriteButtonDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000005 /* ARCListCardDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCListCardDemoScreen.swift; sourceTree = "<group>"; };
-		B20000010000000000000006 /* ARCSearchButtonDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCSearchButtonDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000007 /* ARCEmptyStateDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCEmptyStateDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000008 /* LiquidGlassDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000009 /* Color+Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Brand.swift"; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 				B20000010000000000000003 /* ARCMenuDemoScreen.swift */,
 				B20000010000000000000004 /* ARCFavoriteButtonDemoScreen.swift */,
 				B20000010000000000000005 /* ARCListCardDemoScreen.swift */,
-				B20000010000000000000006 /* ARCSearchButtonDemoScreen.swift */,
 				B20000010000000000000007 /* ARCEmptyStateDemoScreen.swift */,
 				B20000010000000000000008 /* LiquidGlassDemoScreen.swift */,
 				B2000001000000000000000A /* ARCTabViewDemoScreen.swift */,
@@ -212,7 +209,6 @@
 				B10000010000000000000003 /* ARCMenuDemoScreen.swift in Sources */,
 				B10000010000000000000004 /* ARCFavoriteButtonDemoScreen.swift in Sources */,
 				B10000010000000000000005 /* ARCListCardDemoScreen.swift in Sources */,
-				B10000010000000000000006 /* ARCSearchButtonDemoScreen.swift in Sources */,
 				B10000010000000000000007 /* ARCEmptyStateDemoScreen.swift in Sources */,
 				B10000010000000000000008 /* LiquidGlassDemoScreen.swift in Sources */,
 				B1000001000000000000000A /* ARCTabViewDemoScreen.swift in Sources */,

@@ -12,271 +12,223 @@ import SwiftUI
 import UIKit
 #endif
 
-/// Favorite button component following Apple's Human Interface Guidelines
+/// Animated toggle button for marking content as favorite/liked/bookmarked.
 ///
-/// An animated toggle button for marking content as favorite, matching the
-/// interaction patterns found in Music, Podcasts, Books, and other Apple apps.
+/// ## Why ARCFavoriteButton exists (vs native Toggle)
 ///
-/// ## Overview
-///
-/// ARCFavoriteButton provides a delightful interaction for toggling favorite state,
-/// complete with:
-/// - Smooth spring animation when toggling
-/// - Symbol effect animation (iOS 17+)
-/// - Haptic feedback
-/// - Accessibility support
-/// - Minimum 44x44pt touch target per HIG
-///
-/// ## Topics
-///
-/// ### Creating Favorite Buttons
-///
-/// - ``init(isFavorite:configuration:onToggle:)``
-///
-/// ### Convenience Initializers
-///
-/// - ``init(isFavorite:favoriteColor:size:onToggle:)``
+/// SwiftUI's `Toggle` can be styled but doesn't provide:
+/// - Symbol effect animations (bounce on toggle)
+/// - Built-in haptic feedback
+/// - Gradient color support
+/// - Preset icon pairs (heart, star, bookmark)
 ///
 /// ## Usage
 ///
 /// ```swift
-/// @State private var isFavorite = false
+/// // Default heart icon
+/// ARCFavoriteButton(isFavorite: $isFavorite)
 ///
-/// var body: some View {
-///     ARCFavoriteButton(
-///         isFavorite: $isFavorite,
-///         favoriteColor: .pink
-///     ) { newValue in
-///         // Handle favorite state change
-///         saveFavoriteState(newValue)
-///     }
-/// }
+/// // Star rating style
+/// ARCFavoriteButton(isFavorite: $isStarred, icon: .star, color: .yellow)
+///
+/// // Bookmark style
+/// ARCFavoriteButton(isFavorite: $isBookmarked, icon: .bookmark, color: .blue)
+///
+/// // Custom icons
+/// ARCFavoriteButton(
+///     isFavorite: $isLiked,
+///     icon: .custom(filled: "hand.thumbsup.fill", empty: "hand.thumbsup")
+/// )
 /// ```
-///
-/// - Note: The button automatically handles animations, haptics, and accessibility.
-///   You only need to provide the state binding and optional change handler.
 @available(iOS 17.0, *)
 public struct ARCFavoriteButton: View {
+    // MARK: - Icon Preset
+
+    /// Preset icon pairs for common use cases.
+    public enum Icon: Sendable, Equatable {
+        /// Heart icon (default) - Music, Photos style
+        case heart
+        /// Star icon - Ratings, highlights
+        case star
+        /// Bookmark icon - Reading lists, saved items
+        case bookmark
+        /// Flag icon - Important items
+        case flag
+        /// Custom SF Symbol pair
+        case custom(filled: String, empty: String)
+
+        var filledName: String {
+            switch self {
+            case .heart: "heart.fill"
+            case .star: "star.fill"
+            case .bookmark: "bookmark.fill"
+            case .flag: "flag.fill"
+            case let .custom(filled, _): filled
+            }
+        }
+
+        var emptyName: String {
+            switch self {
+            case .heart: "heart"
+            case .star: "star"
+            case .bookmark: "bookmark"
+            case .flag: "flag"
+            case let .custom(_, empty): empty
+            }
+        }
+    }
+
+    // MARK: - Size
+
+    /// Button size options.
+    public enum Size: Sendable {
+        case small, medium, large
+        case custom(CGFloat)
+
+        var iconSize: CGFloat {
+            switch self {
+            case .small: 20
+            case .medium: 24
+            case .large: 28
+            case let .custom(size): size
+            }
+        }
+
+        var touchTarget: CGFloat { max(44, iconSize + 20) }
+    }
+
     // MARK: - Properties
 
-    /// Current favorite state
     @Binding private var isFavorite: Bool
-
-    /// Configuration for appearance
-    private let configuration: ARCFavoriteButtonConfiguration
-
-    /// Optional callback when state changes
+    private let icon: Icon
+    private let color: Color
+    private let size: Size
+    private let haptics: Bool
     private let onToggle: ((Bool) -> Void)?
 
     // MARK: - Initialization
 
-    /// Creates a favorite button with configuration
+    /// Creates a favorite button.
     ///
     /// - Parameters:
-    ///   - isFavorite: Binding to favorite state
-    ///   - configuration: Visual configuration
+    ///   - isFavorite: Binding to the favorite state
+    ///   - icon: Icon preset (default: `.heart`)
+    ///   - color: Active color (default: `.pink`)
+    ///   - size: Button size (default: `.medium`)
+    ///   - haptics: Enable haptic feedback (default: `true`)
     ///   - onToggle: Optional callback when state changes
     public init(
         isFavorite: Binding<Bool>,
-        configuration: ARCFavoriteButtonConfiguration = .default,
+        icon: Icon = .heart,
+        color: Color = .pink,
+        size: Size = .medium,
+        haptics: Bool = true,
         onToggle: ((Bool) -> Void)? = nil
     ) {
         _isFavorite = isFavorite
-        self.configuration = configuration
-        self.onToggle = onToggle
-    }
-
-    /// Creates a favorite button with common parameters
-    ///
-    /// - Parameters:
-    ///   - isFavorite: Binding to favorite state
-    ///   - favoriteColor: Color when favorited
-    ///   - size: Button size
-    ///   - onToggle: Optional callback when state changes
-    public init(
-        isFavorite: Binding<Bool>,
-        favoriteColor: Color = .pink,
-        size: ARCFavoriteButtonConfiguration.ButtonSize = .medium,
-        onToggle: ((Bool) -> Void)? = nil
-    ) {
-        _isFavorite = isFavorite
-        configuration = ARCFavoriteButtonConfiguration(
-            favoriteColor: favoriteColor,
-            size: size
-        )
+        self.icon = icon
+        self.color = color
+        self.size = size
+        self.haptics = haptics
         self.onToggle = onToggle
     }
 
     // MARK: - Body
 
     public var body: some View {
-        buttonContent
-            .modifier(GlassBackgroundModifier(configuration: configuration, isInteractive: true))
-            .accessibilityLabel(isFavorite ? "Favorited" : "Not favorited")
-            .accessibilityHint("Tap to \(isFavorite ? "remove from" : "add to") favorites")
-            .accessibilityAddTraits(.isButton)
-    }
-
-    @ViewBuilder
-    private var buttonContent: some View {
-        Button {
-            toggleFavorite()
-        } label: {
-            Image(systemName: isFavorite ? configuration.favoriteIcon : configuration.unfavoriteIcon)
-                .font(.system(size: configuration.size.iconSize))
-                .foregroundStyle(isFavorite
-                    ? configuration.favoriteColor.gradient
-                    : configuration.unfavoriteColor.gradient)
+        Button(action: toggle) {
+            Image(systemName: isFavorite ? icon.filledName : icon.emptyName)
+                .font(.system(size: size.iconSize))
+                .foregroundStyle(isFavorite ? color.gradient : Color.secondary.gradient)
                 .symbolEffect(.bounce, value: isFavorite)
                 .contentTransition(.symbolEffect(.replace))
         }
-        .buttonStyle(FavoriteButtonStyle(configuration: configuration))
+        .buttonStyle(ScaleButtonStyle(touchTarget: size.touchTarget))
+        .accessibilityLabel(isFavorite ? "Favorited" : "Not favorited")
+        .accessibilityHint("Tap to \(isFavorite ? "remove from" : "add to") favorites")
     }
 
     // MARK: - Actions
 
-    private func toggleFavorite() {
-        // Provide haptic feedback
+    private func toggle() {
         #if os(iOS)
-        if configuration.hapticFeedback {
-            let generator = UIImpactFeedbackGenerator(style: .medium)
-            generator.impactOccurred()
+        if haptics {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         }
         #endif
 
-        // Animate state change
-        withAnimation(.spring(response: configuration.animationDuration, dampingFraction: 0.6)) {
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
             isFavorite.toggle()
         }
 
-        // Notify callback
         onToggle?(isFavorite)
-    }
-}
-
-// MARK: - Glass Background Modifier
-
-/// Conditionally applies liquid glass based on background style
-@available(iOS 17.0, macOS 14.0, *)
-private struct GlassBackgroundModifier: ViewModifier {
-    let configuration: ARCFavoriteButtonConfiguration
-    let isInteractive: Bool
-
-    func body(content: Content) -> some View {
-        if case .liquidGlass = configuration.backgroundStyle {
-            content
-                .liquidGlass(configuration: configuration, isInteractive: isInteractive)
-        } else {
-            content
-        }
     }
 }
 
 // MARK: - Button Style
 
 @available(iOS 17.0, *)
-private struct FavoriteButtonStyle: ButtonStyle {
-    let configuration: ARCFavoriteButtonConfiguration
+private struct ScaleButtonStyle: ButtonStyle {
+    let touchTarget: CGFloat
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .frame(
-                width: self.configuration.size.touchTargetSize,
-                height: self.configuration.size.touchTargetSize
-            )
+            .frame(width: touchTarget, height: touchTarget)
             .contentShape(Rectangle())
             .scaleEffect(configuration.isPressed ? 0.85 : 1.0)
             .animation(.spring(response: 0.3, dampingFraction: 0.6), value: configuration.isPressed)
     }
 }
 
-// MARK: - Preview
+// MARK: - Previews
 
-#Preview("Not Favorited") {
-    @Previewable @State var isFavorite = false
+@available(iOS 17.0, *)
+#Preview("Icons") {
+    @Previewable @State var heart = false
+    @Previewable @State var star = false
+    @Previewable @State var bookmark = false
+    @Previewable @State var flag = false
 
-    VStack(spacing: 40) { // Intentionally larger for showcase
-        ARCFavoriteButton(
-            isFavorite: $isFavorite,
-            size: .small
-        )
-
-        ARCFavoriteButton(
-            isFavorite: $isFavorite,
-            size: .medium
-        )
-
-        ARCFavoriteButton(
-            isFavorite: $isFavorite,
-            size: .large
-        )
+    HStack(spacing: 32) {
+        ARCFavoriteButton(isFavorite: $heart, icon: .heart, color: .pink)
+        ARCFavoriteButton(isFavorite: $star, icon: .star, color: .yellow)
+        ARCFavoriteButton(isFavorite: $bookmark, icon: .bookmark, color: .blue)
+        ARCFavoriteButton(isFavorite: $flag, icon: .flag, color: .orange)
     }
     .padding()
 }
 
-#Preview("Favorited") {
-    @Previewable @State var isFavorite = true
+@available(iOS 17.0, *)
+#Preview("Sizes") {
+    @Previewable @State var small = true
+    @Previewable @State var medium = true
+    @Previewable @State var large = true
+
+    HStack(spacing: 32) {
+        ARCFavoriteButton(isFavorite: $small, size: .small)
+        ARCFavoriteButton(isFavorite: $medium, size: .medium)
+        ARCFavoriteButton(isFavorite: $large, size: .large)
+    }
+    .padding()
+}
+
+@available(iOS 17.0, *)
+#Preview("Custom Icon") {
+    @Previewable @State var liked = false
 
     ARCFavoriteButton(
-        isFavorite: $isFavorite,
-        favoriteColor: .pink
+        isFavorite: $liked,
+        icon: .custom(filled: "hand.thumbsup.fill", empty: "hand.thumbsup"),
+        color: .blue
     )
     .padding()
 }
 
-#Preview("Custom Colors") {
-    @Previewable @State var isPink = false
-    @Previewable @State var isBlue = false
-    @Previewable @State var isGreen = false
-
-    VStack(spacing: 40) { // Intentionally larger for showcase
-        ARCFavoriteButton(
-            isFavorite: $isPink,
-            favoriteColor: .pink
-        )
-
-        ARCFavoriteButton(
-            isFavorite: $isBlue,
-            favoriteColor: .blue
-        )
-
-        ARCFavoriteButton(
-            isFavorite: $isGreen,
-            favoriteColor: .green
-        )
-    }
-    .padding()
-}
-
+@available(iOS 17.0, *)
 #Preview("Dark Mode") {
-    @Previewable @State var isFavorite = true
+    @Previewable @State var fav = true
 
-    ARCFavoriteButton(
-        isFavorite: $isFavorite
-    )
-    .padding()
-    .preferredColorScheme(.dark)
-}
-
-#Preview("Interactive Demo") {
-    @Previewable @State var isFavorite = false
-    @Previewable @State var toggleCount = 0
-
-    VStack(spacing: .arcSpacingXXLarge) {
-        ARCFavoriteButton(
-            isFavorite: $isFavorite
-        ) { _ in
-            toggleCount += 1
-        }
-
-        VStack(spacing: .arcSpacingSmall) {
-            Text("Status: \(isFavorite ? "❤️ Favorited" : "🤍 Not Favorited")")
-                .font(.headline)
-
-            Text("Toggled \(toggleCount) times")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-    }
-    .padding()
+    ARCFavoriteButton(isFavorite: $fav)
+        .padding()
+        .preferredColorScheme(.dark)
 }
