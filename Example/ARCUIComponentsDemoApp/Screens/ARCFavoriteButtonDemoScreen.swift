@@ -12,7 +12,6 @@ import SwiftUI
 ///
 /// Shows the favorite button in various sizes and configurations.
 struct ARCFavoriteButtonDemoScreen: View {
-
     // MARK: Properties
 
     @State private var favorites: [String: Bool] = [
@@ -42,9 +41,8 @@ struct ARCFavoriteButtonDemoScreen: View {
 
 // MARK: - Private Views
 
-private extension ARCFavoriteButtonDemoScreen {
-
-    var sizeComparisonSection: some View {
+extension ARCFavoriteButtonDemoScreen {
+    private var sizeComparisonSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Sizes")
                 .font(.headline)
@@ -87,7 +85,7 @@ private extension ARCFavoriteButtonDemoScreen {
         }
     }
 
-    var interactiveDemoSection: some View {
+    private var interactiveDemoSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Interactive")
                 .font(.headline)
@@ -95,13 +93,8 @@ private extension ARCFavoriteButtonDemoScreen {
             VStack(spacing: 16) {
                 ARCFavoriteButton(
                     isFavorite: binding(for: "custom"),
-                    configuration: ARCFavoriteButtonConfiguration(
-                        favoriteColor: .arcBrandBurgundy,
-                        unfavoriteColor: .gray,
-                        size: .large,
-                        animationDuration: 0.3,
-                        hapticFeedback: true
-                    )
+                    color: .arcBrandBurgundy,
+                    size: .large
                 )
 
                 Text(favorites["custom"] == true ? "Favorited!" : "Tap to favorite")
@@ -116,7 +109,7 @@ private extension ARCFavoriteButtonDemoScreen {
         }
     }
 
-    var contextSection: some View {
+    private var contextSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("In Context")
                 .font(.headline)
@@ -153,9 +146,8 @@ private extension ARCFavoriteButtonDemoScreen {
 
 // MARK: - Private Functions
 
-private extension ARCFavoriteButtonDemoScreen {
-
-    func binding(for key: String) -> Binding<Bool> {
+extension ARCFavoriteButtonDemoScreen {
+    private func binding(for key: String) -> Binding<Bool> {
         Binding(
             get: { favorites[key] ?? false },
             set: { favorites[key] = $0 }

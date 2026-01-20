@@ -6,14 +6,12 @@ An animated toggle button for marking content as favorite.
 
 ARCFavoriteButton provides a delightful interaction for toggling favorite state, matching the interaction patterns found in Music, Podcasts, Books, and other Apple apps.
 
-![ARCFavoriteButton Preview](arcfavoritebutton-preview)
-
 ## Features
 
-- **Spring Animation**: Smooth bounce effect when toggling
-- **Symbol Effect**: iOS 17+ symbol animations
-- **Haptic Feedback**: Tactile response on toggle
+- **Symbol Effect**: iOS 17+ bounce animations on toggle
 - **Gradient Colors**: Beautiful gradient fills
+- **Icon Presets**: Heart, star, bookmark, flag, or custom icons
+- **Haptic Feedback**: Tactile response on toggle
 - **Accessibility**: Full VoiceOver support
 - **HIG Compliant**: 44x44pt minimum touch target
 
@@ -26,61 +24,35 @@ struct ContentView: View {
     @State private var isFavorite = false
 
     var body: some View {
-        ARCFavoriteButton(
-            isFavorite: $isFavorite,
-            favoriteColor: .pink
-        ) { newValue in
-            // Handle favorite state change
-            saveFavoriteState(newValue)
-        }
+        ARCFavoriteButton(isFavorite: $isFavorite)
     }
 }
 ```
 
-## Configuration
-
-### Using Presets
+## Icon Presets
 
 ```swift
-// Default (pink, medium size)
-ARCFavoriteButton(
-    isFavorite: $isFavorite,
-    configuration: .default
-)
+// Heart (default) - Music, Photos style
+ARCFavoriteButton(isFavorite: $isFavorite, icon: .heart, color: .pink)
 
-// Large size
-ARCFavoriteButton(
-    isFavorite: $isFavorite,
-    configuration: .large
-)
+// Star - Ratings, highlights
+ARCFavoriteButton(isFavorite: $isStarred, icon: .star, color: .yellow)
 
-// Subtle (small, muted)
+// Bookmark - Reading lists, saved items
+ARCFavoriteButton(isFavorite: $isBookmarked, icon: .bookmark, color: .blue)
+
+// Flag - Important items
+ARCFavoriteButton(isFavorite: $isFlagged, icon: .flag, color: .orange)
+
+// Custom SF Symbol pair
 ARCFavoriteButton(
-    isFavorite: $isFavorite,
-    configuration: .subtle
+    isFavorite: $isLiked,
+    icon: .custom(filled: "hand.thumbsup.fill", empty: "hand.thumbsup"),
+    color: .blue
 )
 ```
 
-### Custom Configuration
-
-```swift
-let config = ARCFavoriteButtonConfiguration(
-    favoriteIcon: "star.fill",      // Custom filled icon
-    unfavoriteIcon: "star",         // Custom empty icon
-    favoriteColor: .yellow,         // Favorited color
-    unfavoriteColor: .gray,         // Unfavorited color
-    size: .large,                   // Button size
-    animationDuration: 0.3,         // Animation speed
-    hapticFeedback: true            // Enable haptics
-)
-
-ARCFavoriteButton(
-    isFavorite: $isFavorite,
-    configuration: config
-)
-```
-
-### Size Options
+## Size Options
 
 | Size | Icon Size | Touch Target |
 |------|-----------|--------------|
@@ -88,6 +60,32 @@ ARCFavoriteButton(
 | `.medium` | 24pt | 44pt |
 | `.large` | 28pt | 48pt |
 | `.custom(CGFloat)` | Custom | Auto (min 44pt) |
+
+```swift
+// Different sizes
+ARCFavoriteButton(isFavorite: $fav, size: .small)
+ARCFavoriteButton(isFavorite: $fav, size: .medium)
+ARCFavoriteButton(isFavorite: $fav, size: .large)
+ARCFavoriteButton(isFavorite: $fav, size: .custom(32))
+```
+
+## Callback on Toggle
+
+```swift
+ARCFavoriteButton(isFavorite: $isFavorite) { newValue in
+    // Handle favorite state change
+    saveFavoriteState(newValue)
+}
+```
+
+## Disabling Haptics
+
+```swift
+ARCFavoriteButton(
+    isFavorite: $isFavorite,
+    haptics: false
+)
+```
 
 ## Common Patterns
 
@@ -119,32 +117,14 @@ ARCListCard(
 )
 ```
 
-### Multiple Colors
+### Multiple Icon Types
 
 ```swift
 HStack(spacing: 20) {
-    ARCFavoriteButton(
-        isFavorite: $isHeart,
-        favoriteColor: .pink
-    )
-
-    ARCFavoriteButton(
-        isFavorite: $isStar,
-        configuration: ARCFavoriteButtonConfiguration(
-            favoriteIcon: "star.fill",
-            unfavoriteIcon: "star",
-            favoriteColor: .yellow
-        )
-    )
-
-    ARCFavoriteButton(
-        isFavorite: $isBookmark,
-        configuration: ARCFavoriteButtonConfiguration(
-            favoriteIcon: "bookmark.fill",
-            unfavoriteIcon: "bookmark",
-            favoriteColor: .blue
-        )
-    )
+    ARCFavoriteButton(isFavorite: $heart, icon: .heart, color: .pink)
+    ARCFavoriteButton(isFavorite: $star, icon: .star, color: .yellow)
+    ARCFavoriteButton(isFavorite: $bookmark, icon: .bookmark, color: .blue)
+    ARCFavoriteButton(isFavorite: $flag, icon: .flag, color: .orange)
 }
 ```
 
@@ -162,15 +142,5 @@ ARCFavoriteButton includes comprehensive accessibility support:
 ### Essentials
 
 - ``ARCFavoriteButton``
-- ``ARCFavoriteButtonConfiguration``
-
-### Configuration
-
-- ``ARCFavoriteButtonConfiguration/ButtonSize``
-- ``ARCFavoriteButtonConfiguration/default``
-- ``ARCFavoriteButtonConfiguration/large``
-- ``ARCFavoriteButtonConfiguration/subtle``
-
-### Examples
-
-- ``ARCFavoriteButtonShowcase``
+- ``ARCFavoriteButton/Icon``
+- ``ARCFavoriteButton/Size``

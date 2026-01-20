@@ -23,14 +23,15 @@ This standalone Xcode project demonstrates all features of the ARCUIComponents p
 ### Components
 
 - **ARCMenu**: Slide-in menu with liquid glass effect, user profile header, drag-to-dismiss gesture, and multiple style presets (Default, Fitness, Premium, Dark)
-- **ARCFavoriteButton**: Animated toggle button with haptic feedback, multiple sizes (Small, Medium, Large), and customizable colors
+- **ARCFavoriteButton**: Animated toggle button with haptic feedback, multiple sizes (Small, Medium, Large), icon presets (heart, star, bookmark, flag), and customizable colors
 - **ARCListCard**: Versatile list card with system/remote images, custom accessories (badges, toggles), and multiple configurations (Default, Prominent, Subtle)
-- **ARCSearchButton**: Search button with different styles (Default, Prominent, Minimal) and sizes
 - **ARCEmptyState**: Empty state views for various scenarios (No Favorites, No Results, No Data, Error, Offline)
+- **ARCTabView**: Floating tab bar with Liquid Glass effect (iOS 18+)
 
 ### Effects
 
 - **Liquid Glass**: Glassmorphism effect with dynamic backgrounds (Gradient, Image, Solid, Animated)
+- **Thematic Artwork**: Themed placeholder views with shimmer animations
 
 ### Full Showcases
 
@@ -49,9 +50,10 @@ Example/
     │   ├── ARCMenuDemoScreen.swift
     │   ├── ARCFavoriteButtonDemoScreen.swift
     │   ├── ARCListCardDemoScreen.swift
-    │   ├── ARCSearchButtonDemoScreen.swift
     │   ├── ARCEmptyStateDemoScreen.swift
-    │   └── LiquidGlassDemoScreen.swift
+    │   ├── ARCTabViewDemoScreen.swift
+    │   ├── LiquidGlassDemoScreen.swift
+    │   └── ThematicArtworkDemoScreen.swift
     └── Resources/
         └── Assets.xcassets
 ```
@@ -79,11 +81,19 @@ var body: some View {
 ```swift
 @State private var isFavorite = false
 
+// Default heart icon
+ARCFavoriteButton(isFavorite: $isFavorite)
+
+// Star icon with custom color
 ARCFavoriteButton(
-    isFavorite: $isFavorite,
-    favoriteColor: .pink,
-    size: .medium
-) { newValue in
+    isFavorite: $isStarred,
+    icon: .star,
+    color: .yellow,
+    size: .large
+)
+
+// With callback
+ARCFavoriteButton(isFavorite: $isFavorite) { newValue in
     saveFavoriteState(newValue)
 }
 ```
