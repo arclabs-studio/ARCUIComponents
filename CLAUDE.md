@@ -107,3 +107,80 @@ Currently no automated tests. When adding tests:
 
 - For new branches, use `feature/...`, `bugfix/...`or `hotfix/...` according to the type of task.
 - It has to be followed by the Linear issue ID and a short description. For example: `feature/EX-1-main-screen`
+
+---
+
+# Naming Conventions
+
+## ARC Prefix Policy
+
+The `ARC` prefix is used **exclusively for primary UI view components** that users will directly use in their SwiftUI code. This prevents confusion with native SwiftUI components (e.g., `Menu` vs `ARCMenu`, `TabView` vs `ARCTabView`).
+
+### WITH ARC Prefix ✅
+
+Use the `ARC` prefix for:
+
+| Category | Examples | Rationale |
+|----------|----------|-----------|
+| **Main UI Views** | `ARCMenu`, `ARCTabView`, `ARCFavoriteButton`, `ARCListCard`, `ARCSearchButton`, `ARCEmptyState` | Distinguishes from native SwiftUI components |
+| **Themed UI Views** | `ARCThemedArtworkView`, `ARCThemedLoaderView` | Primary views users interact with |
+| **Showcase Views** | `ARCMenuShowcase`, `ARCThemedArtworkShowcase` | Demo/preview views for components |
+
+### WITHOUT ARC Prefix ❌
+
+Do NOT use the `ARC` prefix for:
+
+| Category | Examples | Rationale |
+|----------|----------|-----------|
+| **Configurations** | `ARCMenuConfiguration`, `ARCFavoriteButtonConfiguration` | Already namespaced by component name, `ARC` prefix on the component itself |
+| **ViewModels** | `ARCMenuViewModel` | Internal to component, not confused with native types |
+| **Protocols** | `ArtworkTypeProtocol`, `LiquidGlassConfigurable` | Protocols are suffixed, no native conflicts |
+| **Themes/Styles** | `ArtworkTheme`, `ArtworkConfiguration`, `ArtworkAnimationType` | Support types, not primary UI |
+| **Modifiers** | `ShimmerModifier`, `LiquidGlassModifier` | Follows SwiftUI naming (no `Swift` prefix on modifiers) |
+| **Shapes** | `HeartShape` | Follows SwiftUI naming (`Circle`, `Rectangle`, etc.) |
+| **Helper Views** | `DecorationElement`, `DecorationElementView`, `CircularDecoration`, `LinearDecoration` | Internal implementation details |
+| **Core Models** | `ARCBackgroundStyle`, `ARCShadow` | Exception: these ARE prefixed because they're shared across multiple components and could conflict |
+
+### Decision Tree
+
+When creating a new type, ask:
+
+```
+1. Is it a primary UI View that users will place in their SwiftUI hierarchy?
+   → YES: Add ARC prefix (e.g., ARCNewComponent)
+   → NO: Continue to step 2
+
+2. Could it be confused with a native SwiftUI/Foundation type?
+   → YES: Add ARC prefix (e.g., ARCShadow vs Shadow)
+   → NO: Continue to step 3
+
+3. Is it a Configuration, ViewModel, or Showcase for an ARC component?
+   → YES: The component name already contains ARC (e.g., ARCMenuConfiguration)
+   → NO: No prefix needed (e.g., ShimmerModifier, HeartShape)
+```
+
+### Examples by Component
+
+**ARCMenu Component:**
+- `ARCMenu` ✅ (main view)
+- `ARCMenuButton` ✅ (main view)
+- `ARCMenuConfiguration` ✅ (contains ARC from component)
+- `ARCMenuViewModel` ✅ (contains ARC from component)
+- `ARCMenuShowcase` ✅ (showcase view)
+
+**ThematicArtwork Component:**
+- `ARCThemedArtworkView` ✅ (main view)
+- `ARCThemedLoaderView` ✅ (main view)
+- `ArtworkTheme` ❌ (support type)
+- `ArtworkConfiguration` ❌ (support type)
+- `ArtworkAnimationType` ❌ (enum, support type)
+- `ArtworkTypeProtocol` ❌ (protocol)
+- `ShimmerModifier` ❌ (modifier)
+- `HeartShape` ❌ (shape)
+- `DecorationElement` ❌ (helper model)
+- `CircularDecoration` ❌ (helper view)
+
+**Effects:**
+- `LiquidGlassModifier` ❌ (modifier)
+- `LiquidGlassConfigurable` ❌ (protocol)
+- `LiquidGlassShowcase` ❌ (not a component showcase, utility showcase)

@@ -13,6 +13,7 @@ Each component is crafted to match Apple's design language as seen in their flag
 ### Getting Started
 
 - <doc:GettingStarted>
+- <doc:NamingConventions>
 
 ### Components
 
