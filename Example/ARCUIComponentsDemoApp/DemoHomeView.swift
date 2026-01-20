@@ -87,6 +87,12 @@ private extension DemoHomeView {
             } label: {
                 Label("Liquid Glass Effect", systemImage: "drop.fill")
             }
+
+            NavigationLink {
+                ThematicArtworkDemoScreen()
+            } label: {
+                Label("Thematic Artwork", systemImage: "paintbrush.fill")
+            }
         } header: {
             Text("Effects")
         } footer: {
@@ -133,6 +139,7 @@ private extension DemoHomeView {
                     Label("Tab View Showcase", systemImage: "rectangle.split.3x1.fill")
                 }
             }
+
         } header: {
             Text("Full Showcases")
         } footer: {
