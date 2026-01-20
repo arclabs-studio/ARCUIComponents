@@ -20,12 +20,10 @@ import SwiftUI
 /// - `.book` - Rounded rectangle with typical book proportions (0.65)
 /// - `.card` - Square rounded rectangle
 public struct ArtworkConfiguration: Sendable {
-
     // MARK: - BaseShape
 
     /// The base shape type for the artwork container.
     public enum BaseShape: Sendable, Equatable {
-
         /// A circular shape.
         case circle
 
@@ -81,7 +79,6 @@ public struct ArtworkConfiguration: Sendable {
 // MARK: - Predefined Configurations
 
 public extension ArtworkConfiguration {
-
     /// Circular configuration for round artworks like pizza or sushi.
     static let circular = ArtworkConfiguration(baseShape: .circle)
 

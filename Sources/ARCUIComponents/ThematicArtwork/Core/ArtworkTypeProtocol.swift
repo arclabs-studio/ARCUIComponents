@@ -45,7 +45,6 @@ import SwiftUI
 /// }
 /// ```
 public protocol ArtworkTypeProtocol: Sendable, Equatable {
-
     /// The associated view type returned by `makeContent`.
     associatedtype ContentView: View
 
@@ -66,7 +65,6 @@ public protocol ArtworkTypeProtocol: Sendable, Equatable {
 // MARK: - Default Implementations
 
 public extension ArtworkTypeProtocol {
-
     /// Default recommended configuration is circular.
     var recommendedConfiguration: ArtworkConfiguration {
         .circular

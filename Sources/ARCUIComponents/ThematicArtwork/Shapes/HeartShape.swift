@@ -21,7 +21,6 @@ import SwiftUI
 ///     .frame(width: 50, height: 50)
 /// ```
 public struct HeartShape: Shape {
-
     // MARK: - Shape
 
     public init() {}
@@ -107,7 +106,7 @@ public struct HeartShape: Shape {
             .fill(Color.pink.opacity(0.2))
             .frame(width: 200, height: 200)
 
-        ForEach(0..<5, id: \.self) { index in
+        ForEach(0..<5, id: \.self) { _ in
             HeartShape()
                 .fill(Color.pink.opacity(0.6))
                 .frame(width: 25, height: 25)

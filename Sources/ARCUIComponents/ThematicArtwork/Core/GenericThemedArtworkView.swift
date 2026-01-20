@@ -34,7 +34,6 @@ import SwiftUI
 /// )
 /// ```
 public struct GenericThemedArtworkView<ArtworkType: ArtworkTypeProtocol>: View {
-
     // MARK: - Properties
 
     private let type: ArtworkType
@@ -143,7 +142,6 @@ public struct GenericThemedArtworkView<ArtworkType: ArtworkTypeProtocol>: View {
 
 /// Helper modifier to conditionally apply shimmer effect.
 private struct ShimmerConditionalModifier: ViewModifier {
-
     let isActive: Bool
     let duration: Double
 

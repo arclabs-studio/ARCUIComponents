@@ -14,7 +14,6 @@ import SwiftUI
 /// This modifier is used internally by `ThemedArtworkView` to apply
 /// rotation, scale, or opacity animations to thematic artworks.
 struct AnimationModifier: ViewModifier {
-
     // MARK: - Properties
 
     let type: ArtworkAnimationType
@@ -46,7 +45,6 @@ struct AnimationModifier: ViewModifier {
 // MARK: - View Extension
 
 extension View {
-
     /// Applies an artwork animation to the view.
     ///
     /// - Parameters:

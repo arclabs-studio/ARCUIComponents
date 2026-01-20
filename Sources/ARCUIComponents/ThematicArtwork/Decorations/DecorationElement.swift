@@ -26,7 +26,6 @@ import SwiftUI
 /// )
 /// ```
 public struct DecorationElement: Identifiable, Sendable {
-
     // MARK: - Properties
 
     /// Unique identifier for the element.
@@ -117,7 +116,6 @@ public struct DecorationElement: Identifiable, Sendable {
 // MARK: - Convenience Initializers
 
 public extension DecorationElement {
-
     /// Creates a circular decoration element.
     ///
     /// - Parameters:

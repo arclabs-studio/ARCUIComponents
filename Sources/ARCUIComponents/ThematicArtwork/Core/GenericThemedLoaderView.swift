@@ -29,7 +29,6 @@ import SwiftUI
 /// )
 /// ```
 public struct GenericThemedLoaderView<ArtworkType: ArtworkTypeProtocol>: View {
-
     // MARK: - Properties
 
     private let type: ArtworkType

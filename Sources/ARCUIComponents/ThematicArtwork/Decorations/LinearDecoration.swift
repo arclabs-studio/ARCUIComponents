@@ -23,7 +23,6 @@ import SwiftUI
 /// )
 /// ```
 public struct LinearDecoration: View {
-
     // MARK: - Properties
 
     /// The number of lines to render.

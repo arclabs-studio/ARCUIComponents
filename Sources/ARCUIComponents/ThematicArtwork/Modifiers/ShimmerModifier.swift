@@ -25,7 +25,6 @@ import SwiftUI
 ///     .shimmer(isActive: true, duration: 2.0)
 /// ```
 public struct ShimmerModifier: ViewModifier {
-
     // MARK: - Properties
 
     @State private var phase: CGFloat = 0
@@ -90,7 +89,6 @@ public struct ShimmerModifier: ViewModifier {
 // MARK: - View Extension
 
 public extension View {
-
     /// Adds a shimmer effect to the view.
     ///
     /// - Parameters:

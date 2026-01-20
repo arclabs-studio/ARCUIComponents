@@ -33,7 +33,6 @@ import SwiftUI
 /// }
 /// ```
 public struct ArtworkTheme: Sendable {
-
     // MARK: - Properties
 
     /// The primary color used for the main shape/background.
@@ -79,7 +78,6 @@ public struct ArtworkTheme: Sendable {
 // MARK: - Preset Themes
 
 public extension ArtworkTheme {
-
     /// A neutral gray theme suitable for generic placeholders.
     static let neutral = ArtworkTheme(
         primaryColor: Color(white: 0.85),

@@ -28,7 +28,6 @@ import SwiftUI
 /// }
 /// ```
 public struct CircularDecoration: View {
-
     // MARK: - Properties
 
     /// The number of elements to distribute.
@@ -90,7 +89,7 @@ public struct CircularDecoration: View {
             count: 6,
             radius: 0.35,
             dimension: 200
-        ) { index, dim in
+        ) { _, dim in
             DecorationElement.circle(
                 color: .black,
                 diameter: dim * 0.12,

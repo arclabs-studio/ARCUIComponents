@@ -25,7 +25,6 @@ import SwiftUI
 /// DecorationElementView(element: element)
 /// ```
 public struct DecorationElementView: View {
-
     // MARK: - Properties
 
     /// The decoration element to render.

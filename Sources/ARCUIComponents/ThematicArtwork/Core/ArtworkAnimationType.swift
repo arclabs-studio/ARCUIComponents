@@ -20,7 +20,6 @@ import SwiftUI
 /// - `.shimmer` - Horizontal light sweep effect
 /// - `.breathe` - Opacity fading effect
 public enum ArtworkAnimationType: Sendable, CaseIterable {
-
     /// Continuous rotation animation, ideal for loading states.
     case spin
 
@@ -37,7 +36,6 @@ public enum ArtworkAnimationType: Sendable, CaseIterable {
 // MARK: - Animation Descriptions
 
 public extension ArtworkAnimationType {
-
     /// A human-readable name for the animation type.
     var displayName: String {
         switch self {
