@@ -8,76 +8,60 @@
 import ARCDesignSystem
 import SwiftUI
 
-/// Empty state component following Apple's Human Interface Guidelines
+/// Empty state component with ARC Labs customizations over native SwiftUI.
 ///
-/// Displays informative, encouraging content when there's nothing to show,
-/// with optional action buttons to guide users toward their next step.
+/// ## Why ARCEmptyState exists (vs ContentUnavailableView)
 ///
-/// ## Overview
+/// SwiftUI's `ContentUnavailableView` (iOS 17+) provides basic empty states,
+/// but ARCEmptyState adds capabilities needed for ARC Labs apps:
 ///
-/// Empty states are crucial for user experience, transforming potentially
-/// frustrating moments into opportunities for guidance and engagement.
+/// | Feature | ContentUnavailableView | ARCEmptyState |
+/// |---------|----------------------|---------------|
+/// | Icon color customization | ❌ System only | ✅ Any color |
+/// | Liquid Glass background | ❌ | ✅ |
+/// | Custom button styles | ❌ Default buttons | ✅ Capsule gradient |
+/// | Adaptive icon sizing | ❌ Fixed | ✅ Dynamic Type aware |
+/// | Brand presets | ❌ Only `.search` | ✅ Multiple |
 ///
-/// ARCEmptyState follows Apple's design patterns as seen in Mail, Photos,
-/// Notes, and other system apps, providing:
-/// - Clear icon representing the empty state
-/// - Concise, helpful title
-/// - Supportive message explaining what happened
-/// - Optional call-to-action button
+/// ## Automatic Native Fallback
 ///
-/// ## Topics
-///
-/// ### Creating Empty States
-///
-/// - ``init(configuration:action:)``
-///
-/// ### Convenience Initializers
-///
-/// - ``init(icon:iconColor:title:message:actionTitle:showsAction:accentColor:action:)``
+/// When using default styling (no glass, secondary icon color, no action),
+/// ARCEmptyState internally uses `ContentUnavailableView` for system consistency.
 ///
 /// ## Usage
 ///
 /// ```swift
-/// // With preset configuration
+/// // Simple - uses ContentUnavailableView internally
+/// ARCEmptyState(configuration: .noResults)
+///
+/// // With action button - uses ARC custom styling
 /// ARCEmptyState(configuration: .noFavorites) {
 ///     navigateToExplore()
 /// }
 ///
-/// // With custom configuration
-/// ARCEmptyState(
-///     icon: "photo",
-///     title: "No Photos",
-///     message: "Add photos to get started",
-///     actionTitle: "Add Photo",
-///     showsAction: true
-/// ) {
-///     presentPhotoPicker()
+/// // Premium glass effect
+/// ARCEmptyState(configuration: .premium) {
+///     presentUpgrade()
 /// }
 /// ```
-///
-/// - Note: Empty states should be centered in the available space and
-///   avoid overwhelming users with too much information.
 @available(iOS 17.0, *)
 public struct ARCEmptyState: View {
     // MARK: - Properties
 
-    /// Configuration for appearance
     private let configuration: ARCEmptyStateConfiguration
-
-    /// Optional action to perform when button is tapped
     private let action: (() -> Void)?
 
-    // MARK: - State
+    // MARK: - Environment
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     // MARK: - Initialization
 
-    /// Creates an empty state with configuration and optional action
+    /// Creates an empty state with configuration and optional action.
     ///
     /// - Parameters:
-    ///   - configuration: Visual configuration
-    ///   - action: Optional action when button is tapped
+    ///   - configuration: Visual and content configuration
+    ///   - action: Action when the button is tapped (requires `showsAction: true`)
     public init(
         configuration: ARCEmptyStateConfiguration,
         action: (() -> Void)? = nil
@@ -86,17 +70,17 @@ public struct ARCEmptyState: View {
         self.action = action
     }
 
-    /// Creates an empty state with individual parameters
+    /// Creates an empty state with individual parameters.
     ///
     /// - Parameters:
     ///   - icon: SF Symbol name
-    ///   - iconColor: Icon color
-    ///   - title: Primary title
-    ///   - message: Supporting message
-    ///   - actionTitle: Action button title
-    ///   - showsAction: Whether to show action button
-    ///   - accentColor: Accent color for button
-    ///   - action: Optional action when button is tapped
+    ///   - iconColor: Icon tint color (default: `.secondary`)
+    ///   - title: Primary title text
+    ///   - message: Supporting description
+    ///   - actionTitle: Button title (default: "Get Started")
+    ///   - showsAction: Show action button (default: `false`)
+    ///   - accentColor: Button accent color (default: `.blue`)
+    ///   - action: Action when the button is tapped
     public init(
         icon: String,
         iconColor: Color = .secondary,
@@ -122,61 +106,98 @@ public struct ARCEmptyState: View {
     // MARK: - Body
 
     public var body: some View {
-        contentView
-            .modifier(GlassBackgroundModifier(configuration: configuration))
-            .accessibilityElement(children: .contain)
-    }
-
-    @ViewBuilder
-    private var contentView: some View {
-        VStack(spacing: configuration.spacing) {
-            // Icon
-            Image(systemName: configuration.icon)
-                .font(.system(size: iconSize))
-                .foregroundStyle(configuration.iconColor.gradient)
-                .symbolRenderingMode(.hierarchical)
-                .accessibilityHidden(true)
-
-            // Text content
-            VStack(spacing: .arcSpacingSmall) {
-                Text(configuration.title)
-                    .font(.title2.bold())
-                    .foregroundStyle(.primary)
-                    .multilineTextAlignment(.center)
-
-                Text(configuration.message)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-            .padding(.horizontal)
-
-            // Action button
-            if configuration.showsAction, let action {
-                Button(action: action) {
-                    Text(configuration.actionTitle)
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, .arcSpacingXLarge)
-                        .padding(.vertical, .arcSpacingMedium)
-                        .background(
-                            Capsule()
-                                .fill(configuration.accentColor.gradient)
-                        )
-                }
-                .buttonStyle(.plain)
-                .padding(.top, .arcSpacingSmall)
-                .accessibilityLabel(configuration.actionTitle)
-                .accessibilityHint("Tap to \(configuration.actionTitle.lowercased())")
+        Group {
+            if shouldUseNativeView {
+                nativeContentUnavailableView
+            } else {
+                customARCView
             }
         }
-        .frame(maxWidth: maxWidth)
+        .accessibilityElement(children: .contain)
     }
 
-    // MARK: - Computed Properties
+    // MARK: - Native ContentUnavailableView
 
-    /// Icon size based on Dynamic Type
+    /// Uses native SwiftUI when no ARC-specific customizations are needed.
+    @ViewBuilder private var nativeContentUnavailableView: some View {
+        ContentUnavailableView {
+            Label(configuration.title, systemImage: configuration.icon)
+        } description: {
+            Text(configuration.message)
+        }
+    }
+
+    /// Determines if we can use native ContentUnavailableView.
+    ///
+    /// Returns `true` when:
+    /// - No liquid glass background
+    /// - Default icon color (secondary)
+    /// - No action button
+    private var shouldUseNativeView: Bool {
+        guard case .translucent = configuration.backgroundStyle else { return false }
+        guard configuration.iconColor == .secondary else { return false }
+        guard !configuration.showsAction else { return false }
+        return true
+    }
+
+    // MARK: - Custom ARC View
+
+    @ViewBuilder private var customARCView: some View {
+        VStack(spacing: configuration.spacing) {
+            iconView
+            textContent
+            actionButton
+        }
+        .frame(maxWidth: maxWidth)
+        .modifier(GlassBackgroundModifier(configuration: configuration))
+    }
+
+    @ViewBuilder private var iconView: some View {
+        Image(systemName: configuration.icon)
+            .font(.system(size: iconSize))
+            .foregroundStyle(configuration.iconColor.gradient)
+            .symbolRenderingMode(.hierarchical)
+            .accessibilityHidden(true)
+    }
+
+    @ViewBuilder private var textContent: some View {
+        VStack(spacing: .arcSpacingSmall) {
+            Text(configuration.title)
+                .font(.title2.bold())
+                .foregroundStyle(.primary)
+                .multilineTextAlignment(.center)
+
+            Text(configuration.message)
+                .font(.body)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.horizontal)
+    }
+
+    @ViewBuilder private var actionButton: some View {
+        if configuration.showsAction, let action {
+            Button(action: action) {
+                Text(configuration.actionTitle)
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, .arcSpacingXLarge)
+                    .padding(.vertical, .arcSpacingMedium)
+                    .background(
+                        Capsule()
+                            .fill(configuration.accentColor.gradient)
+                    )
+            }
+            .buttonStyle(.plain)
+            .padding(.top, .arcSpacingSmall)
+            .accessibilityLabel(configuration.actionTitle)
+            .accessibilityHint("Tap to \(configuration.actionTitle.lowercased())")
+        }
+    }
+
+    // MARK: - Adaptive Sizing
+
     private var iconSize: CGFloat {
         switch dynamicTypeSize {
         case .xSmall, .small, .medium:
@@ -185,19 +206,18 @@ public struct ARCEmptyState: View {
             72
         case .xxxLarge:
             80
-        default: // Accessibility sizes
+        default:
             88
         }
     }
 
-    /// Maximum width for content
     private var maxWidth: CGFloat {
         switch dynamicTypeSize {
         case .xSmall, .small, .medium, .large:
             320
         case .xLarge, .xxLarge, .xxxLarge:
             360
-        default: // Accessibility sizes
+        default:
             400
         }
     }
@@ -205,7 +225,6 @@ public struct ARCEmptyState: View {
 
 // MARK: - Glass Background Modifier
 
-/// Conditionally applies liquid glass based on background style
 @available(iOS 17.0, macOS 14.0, *)
 private struct GlassBackgroundModifier: ViewModifier {
     let configuration: ARCEmptyStateConfiguration

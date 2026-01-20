@@ -112,11 +112,7 @@ struct LiquidGlassConfigurableTests {
 
         let otherConfigs: [any LiquidGlassConfigurable] = [
             ARCEmptyStateConfiguration.noFavorites,
-            ARCEmptyStateConfiguration.premium,
-            ARCFavoriteButtonConfiguration.default,
-            ARCFavoriteButtonConfiguration.glassmorphic,
-            ARCSearchButtonConfiguration.default,
-            ARCSearchButtonConfiguration.glassmorphic
+            ARCEmptyStateConfiguration.premium
         ]
 
         for config in menuConfigs + listConfigs + otherConfigs {
@@ -132,11 +128,7 @@ struct LiquidGlassConfigurableTests {
             ARCListCardConfiguration.default,
             ARCListCardConfiguration.prominent,
             ARCEmptyStateConfiguration.noFavorites,
-            ARCEmptyStateConfiguration.premium,
-            ARCFavoriteButtonConfiguration.default,
-            ARCFavoriteButtonConfiguration.glassmorphic,
-            ARCSearchButtonConfiguration.default,
-            ARCSearchButtonConfiguration.glassmorphic
+            ARCEmptyStateConfiguration.premium
         ]
 
         for config in configs {
@@ -155,32 +147,12 @@ struct LiquidGlassConfigurableTests {
         #expect(config.shadow.radius >= 0)
     }
 
-    @Test("ARCFavoriteButtonConfiguration_conformsToProtocol")
-    func ARCFavoriteButtonConfiguration_conformsToProtocol() {
-        let config: any LiquidGlassConfigurable = ARCFavoriteButtonConfiguration.default
-
-        _ = config.accentColor
-        #expect(config.cornerRadius > 0)
-        #expect(config.shadow.radius >= 0)
-    }
-
-    @Test("ARCSearchButtonConfiguration_conformsToProtocol")
-    func ARCSearchButtonConfiguration_conformsToProtocol() {
-        let config: any LiquidGlassConfigurable = ARCSearchButtonConfiguration.default
-
-        _ = config.accentColor
-        #expect(config.cornerRadius > 0)
-        #expect(config.shadow.radius >= 0)
-    }
-
     @Test("allGlassmorphicPresets_haveLiquidGlassBackground")
     func allGlassmorphicPresets_haveLiquidGlassBackground() {
         let glassmorphicConfigs: [any LiquidGlassConfigurable] = [
             ARCMenuConfiguration.default,
             ARCListCardConfiguration.glassmorphic,
-            ARCEmptyStateConfiguration.premium,
-            ARCFavoriteButtonConfiguration.glassmorphic,
-            ARCSearchButtonConfiguration.glassmorphic
+            ARCEmptyStateConfiguration.premium
         ]
 
         for config in glassmorphicConfigs {

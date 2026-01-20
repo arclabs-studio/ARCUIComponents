@@ -11,16 +11,14 @@ import SwiftUI
 /// Demo screen showcasing ARCTabView functionality
 ///
 /// Provides an interactive demonstration of the ARCTabView component
-/// with configurable options for style, search, and accessories.
+/// with configurable options for style and search.
 @available(iOS 18.0, *)
 struct ARCTabViewDemoScreen: View {
-
     // MARK: - State
 
     @State private var selectedTab: DemoAppTab = .home
     @State private var showSearchTab = true
-    @State private var showAccessory = false
-    @State private var selectedStyle: ARCTabViewStyle = .automatic
+    @State private var sidebarAdaptable = false
     @State private var isFullScreenDemo = false
 
     // MARK: - Body
@@ -42,22 +40,15 @@ struct ARCTabViewDemoScreen: View {
 
     private var configurationSection: some View {
         Section {
-            // Style Picker
-            Picker("Style", selection: $selectedStyle) {
-                Text("Automatic").tag(ARCTabViewStyle.automatic)
-                Text("Tab Bar Only").tag(ARCTabViewStyle.tabBarOnly)
-                Text("Sidebar Adaptable").tag(ARCTabViewStyle.sidebarAdaptable)
-            }
+            // Sidebar Adaptable Toggle
+            Toggle("Sidebar Adaptable (iPad)", isOn: $sidebarAdaptable)
 
             // Search Tab Toggle
             Toggle("Show Search Tab", isOn: $showSearchTab)
-
-            // Accessory Toggle
-            Toggle("Show Bottom Accessory", isOn: $showAccessory)
         } header: {
             Text("Configuration")
         } footer: {
-            Text("Bottom accessory requires iOS 26+. Search tab uses TabRole.search for integrated search experience.")
+            Text("Sidebar adaptable uses sidebar style on iPad. Search uses TabRole.search.")
         }
     }
 
@@ -101,83 +92,41 @@ struct ARCTabViewDemoScreen: View {
 
     // MARK: - Demo Views
 
-    @ViewBuilder
-    private var embeddedDemoView: some View {
-        if showSearchTab && showAccessory {
+    @ViewBuilder private var embeddedDemoView: some View {
+        if showSearchTab {
             ARCTabView(
                 selection: $selectedTab,
-                configuration: ARCTabViewConfiguration(style: selectedStyle)
+                sidebarAdaptable: sidebarAdaptable
             ) { tab in
                 TabContentView(tab: tab)
-            } searchContent: {
+            } search: {
                 SearchContentView()
-            } bottomAccessory: {
-                MiniPlayerView()
-            }
-        } else if showSearchTab {
-            ARCTabView(
-                selection: $selectedTab,
-                configuration: ARCTabViewConfiguration(style: selectedStyle)
-            ) { tab in
-                TabContentView(tab: tab)
-            } searchContent: {
-                SearchContentView()
-            }
-        } else if showAccessory {
-            ARCTabView(
-                selection: $selectedTab,
-                configuration: ARCTabViewConfiguration(style: selectedStyle)
-            ) { tab in
-                TabContentView(tab: tab)
-            } bottomAccessory: {
-                MiniPlayerView()
             }
         } else {
             ARCTabView(
                 selection: $selectedTab,
-                configuration: ARCTabViewConfiguration(style: selectedStyle)
+                sidebarAdaptable: sidebarAdaptable
             ) { tab in
                 TabContentView(tab: tab)
             }
         }
     }
 
-    @ViewBuilder
-    private var fullScreenDemoView: some View {
+    @ViewBuilder private var fullScreenDemoView: some View {
         NavigationStack {
-            if showSearchTab && showAccessory {
+            if showSearchTab {
                 ARCTabView(
                     selection: $selectedTab,
-                    configuration: ARCTabViewConfiguration(style: selectedStyle)
+                    sidebarAdaptable: sidebarAdaptable
                 ) { tab in
                     FullScreenTabContent(tab: tab)
-                } searchContent: {
+                } search: {
                     FullScreenSearchContent()
-                } bottomAccessory: {
-                    MiniPlayerView()
-                }
-            } else if showSearchTab {
-                ARCTabView(
-                    selection: $selectedTab,
-                    configuration: ARCTabViewConfiguration(style: selectedStyle)
-                ) { tab in
-                    FullScreenTabContent(tab: tab)
-                } searchContent: {
-                    FullScreenSearchContent()
-                }
-            } else if showAccessory {
-                ARCTabView(
-                    selection: $selectedTab,
-                    configuration: ARCTabViewConfiguration(style: selectedStyle)
-                ) { tab in
-                    FullScreenTabContent(tab: tab)
-                } bottomAccessory: {
-                    MiniPlayerView()
                 }
             } else {
                 ARCTabView(
                     selection: $selectedTab,
-                    configuration: ARCTabViewConfiguration(style: selectedStyle)
+                    sidebarAdaptable: sidebarAdaptable
                 ) { tab in
                     FullScreenTabContent(tab: tab)
                 }
@@ -286,7 +235,7 @@ private struct FullScreenTabContent: View {
                 .padding(.top, 40)
 
                 // Sample content
-                ForEach(1..<6) { index in
+                ForEach(1 ..< 6) { index in
                     HStack {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.blue.opacity(0.1))
@@ -339,52 +288,6 @@ private struct FullScreenSearchContent: View {
         .background(Color(.systemGroupedBackground))
         .navigationTitle("Search")
         .searchable(text: $searchText)
-    }
-}
-
-@available(iOS 18.0, *)
-private struct MiniPlayerView: View {
-    var body: some View {
-        HStack(spacing: 12) {
-            RoundedRectangle(cornerRadius: 6)
-                .fill(
-                    LinearGradient(
-                        colors: [.blue, .purple],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(width: 44, height: 44)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text("Now Playing")
-                    .font(.caption.bold())
-
-                Text("Sample Track - Artist")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
-            Spacer()
-
-            HStack(spacing: 16) {
-                Button {} label: {
-                    Image(systemName: "backward.fill")
-                }
-
-                Button {} label: {
-                    Image(systemName: "play.fill")
-                }
-
-                Button {} label: {
-                    Image(systemName: "forward.fill")
-                }
-            }
-            .font(.body)
-            .foregroundStyle(.primary)
-        }
-        .padding(.horizontal)
-        .padding(.vertical, 8)
     }
 }
 

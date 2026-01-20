@@ -20,7 +20,6 @@ Each component is crafted to match Apple's design language as seen in their flag
 - <doc:ARCMenu>
 - <doc:ARCFavoriteButton>
 - <doc:ARCListCard>
-- <doc:ARCSearchButton>
 - <doc:ARCEmptyState>
 - <doc:ThematicArtwork>
 
@@ -39,17 +38,11 @@ Each component is crafted to match Apple's design language as seen in their flag
 ### ARCFavoriteButton
 
 - ``ARCFavoriteButton``
-- ``ARCFavoriteButtonConfiguration``
 
 ### ARCListCard
 
 - ``ARCListCard``
 - ``ARCListCardConfiguration``
-
-### ARCSearchButton
-
-- ``ARCSearchButton``
-- ``ARCSearchButtonConfiguration``
 
 ### ARCEmptyState
 
@@ -85,12 +78,9 @@ Each component is crafted to match Apple's design language as seen in their flag
 ### Showcases
 
 - ``ARCMenuShowcase``
-- ``ARCFavoriteButtonShowcase``
 - ``ARCListCardShowcase``
-- ``ARCSearchButtonShowcase``
 - ``ARCEmptyStateShowcase``
 - ``LiquidGlassShowcase``
-- ``ARCThemedArtworkShowcase``
 
 ## Installation
 
@@ -163,9 +153,9 @@ Sources/ARCUIComponents/
 ├── ARCMenu/           # Menu component (MVVM)
 ├── ARCFavorites/      # Favorite button component
 ├── ARCLists/          # List card component
-├── ARCSearch/         # Search button component
 ├── ARCEmptyState/     # Empty state component
 ├── ARCEffects/        # Visual effects (Liquid Glass)
+├── Navigation/        # Tab view and navigation components
 ├── ThematicArtwork/   # Themed placeholders and loaders
 ├── Core/              # Shared models and protocols
 └── ARCUIComponents.docc/  # Documentation
