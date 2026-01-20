@@ -8,59 +8,46 @@
 import ARCDesignSystem
 import SwiftUI
 
-/// Configuration for ARCEmptyState appearance and behavior
+/// Configuration for ARCEmptyState appearance and behavior.
 ///
-/// Provides customization options for empty state displays while maintaining
-/// Apple's Human Interface Guidelines for informative, helpful empty states.
+/// ## Native vs Custom Rendering
 ///
-/// ## Overview
+/// ARCEmptyState automatically chooses between native `ContentUnavailableView`
+/// and custom ARC rendering based on your configuration:
 ///
-/// Empty states should be encouraging and actionable, guiding users toward
-/// their next step. ARCEmptyStateConfiguration allows you to customize the
-/// visual appearance while preserving best practices for empty state design.
+/// | Preset | Rendering | Why |
+/// |--------|-----------|-----|
+/// | `.noResults` | Native | Default colors, no action |
+/// | `.noData` | Native | Default colors, no action |
+/// | `.noFavorites` | Custom | Pink icon, action button |
+/// | `.error` | Custom | Orange icon, action button |
+/// | `.offline` | Custom | Red icon, action button |
+/// | `.premium` | Custom | Liquid Glass background |
 ///
-/// ## Topics
-///
-/// ### Creating Configurations
-///
-/// - ``init(icon:iconColor:title:message:actionTitle:showsAction:accentColor:spacing:)``
-///
-/// ### Properties
-///
-/// - ``icon``
-/// - ``iconColor``
-/// - ``title``
-/// - ``message``
-/// - ``actionTitle``
-/// - ``showsAction``
-/// - ``accentColor``
-/// - ``spacing``
-/// - ``backgroundStyle``
-/// - ``cornerRadius``
-/// - ``shadow``
-///
-/// ### Presets
-///
-/// - ``noResults``
-/// - ``noFavorites``
-/// - ``noData``
-/// - ``error``
-/// - ``offline``
-/// - ``premium``
+/// **Custom rendering triggers when ANY of these are true:**
+/// - `iconColor` ≠ `.secondary`
+/// - `showsAction` = `true`
+/// - `backgroundStyle` = `.liquidGlass`
 ///
 /// ## Usage
 ///
 /// ```swift
-/// // Use a preset
-/// let config = ARCEmptyStateConfiguration.noResults
+/// // Native rendering (simple)
+/// ARCEmptyState(configuration: .noResults)
 ///
-/// // Create custom configuration
+/// // Custom rendering (branded)
+/// ARCEmptyState(configuration: .noFavorites) {
+///     navigateToExplore()
+/// }
+///
+/// // Custom configuration
 /// let config = ARCEmptyStateConfiguration(
 ///     icon: "photo.on.rectangle",
 ///     iconColor: .blue,
 ///     title: "No Photos",
 ///     message: "Add photos to get started",
-///     actionTitle: "Add Photo"
+///     actionTitle: "Add Photo",
+///     showsAction: true
 /// )
 /// ```
 @available(iOS 17.0, *)
@@ -144,9 +131,11 @@ public struct ARCEmptyStateConfiguration: Sendable, LiquidGlassConfigurable {
         self.shadow = shadow
     }
 
-    // MARK: - Presets
+    // MARK: - Presets (Native Rendering)
 
-    /// Configuration for no search results
+    /// No search results - uses native `ContentUnavailableView`.
+    ///
+    /// Ideal for search screens. Uses system styling for consistency.
     public static let noResults = ARCEmptyStateConfiguration(
         icon: "magnifyingglass",
         iconColor: .secondary,
@@ -156,7 +145,23 @@ public struct ARCEmptyStateConfiguration: Sendable, LiquidGlassConfigurable {
         showsAction: false
     )
 
-    /// Configuration for empty favorites
+    /// No data available - uses native `ContentUnavailableView`.
+    ///
+    /// Generic empty state for lists or collections without content.
+    public static let noData = ARCEmptyStateConfiguration(
+        icon: "tray",
+        iconColor: .secondary,
+        title: "No Data",
+        message: "There's nothing here right now. Check back later.",
+        actionTitle: "Refresh",
+        showsAction: false
+    )
+
+    // MARK: - Presets (Custom ARC Rendering)
+
+    /// Empty favorites - uses custom rendering with branded colors.
+    ///
+    /// Pink icon + action button triggers ARC custom view.
     public static let noFavorites = ARCEmptyStateConfiguration(
         icon: "heart",
         iconColor: .pink,
@@ -167,17 +172,9 @@ public struct ARCEmptyStateConfiguration: Sendable, LiquidGlassConfigurable {
         accentColor: .pink
     )
 
-    /// Configuration for no data
-    public static let noData = ARCEmptyStateConfiguration(
-        icon: "tray",
-        iconColor: .secondary,
-        title: "No Data",
-        message: "There's nothing here right now. Check back later.",
-        actionTitle: "Refresh",
-        showsAction: false
-    )
-
-    /// Configuration for error state
+    /// Error state - uses custom rendering with warning colors.
+    ///
+    /// Orange icon + retry action for failed operations.
     public static let error = ARCEmptyStateConfiguration(
         icon: "exclamationmark.triangle",
         iconColor: .orange,
@@ -188,7 +185,9 @@ public struct ARCEmptyStateConfiguration: Sendable, LiquidGlassConfigurable {
         accentColor: .orange
     )
 
-    /// Configuration for offline state
+    /// Offline state - uses custom rendering with status colors.
+    ///
+    /// Red icon + settings action for network issues.
     public static let offline = ARCEmptyStateConfiguration(
         icon: "wifi.slash",
         iconColor: .red,
@@ -199,10 +198,10 @@ public struct ARCEmptyStateConfiguration: Sendable, LiquidGlassConfigurable {
         accentColor: .blue
     )
 
-    /// Premium configuration with liquid glass effect
+    /// Premium glass effect - full ARC styling with Liquid Glass.
     ///
-    /// Features the full liquid glass background for a premium,
-    /// depth-rich appearance matching Apple's flagship app style.
+    /// Use for premium/featured sections. Features glassmorphism background
+    /// matching Apple's flagship app design language.
     public static let premium = ARCEmptyStateConfiguration(
         icon: "sparkles",
         iconColor: .purple,

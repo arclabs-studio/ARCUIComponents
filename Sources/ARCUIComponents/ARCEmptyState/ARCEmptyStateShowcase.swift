@@ -76,16 +76,16 @@ public struct ARCEmptyStateShowcase: View {
 
     private var presetsContent: some View {
         VStack(spacing: 60) {
+            // Native Rendering Section
             SectionHeader(
-                title: "Presets",
-                subtitle: "Ready-to-use configurations"
+                title: "Native Rendering",
+                subtitle: "Uses ContentUnavailableView internally"
             )
             .padding(.horizontal)
 
-            // No Results
             PresetExample(
                 title: "No Results",
-                description: "For empty search results"
+                description: "Native - system styling"
             ) {
                 ARCEmptyState(configuration: .noResults)
             }
@@ -93,10 +93,26 @@ public struct ARCEmptyStateShowcase: View {
             Divider()
                 .padding(.horizontal)
 
-            // No Favorites
+            PresetExample(
+                title: "No Data",
+                description: "Native - system styling"
+            ) {
+                ARCEmptyState(configuration: .noData)
+            }
+
+            Divider()
+                .padding(.horizontal)
+
+            // Custom Rendering Section
+            SectionHeader(
+                title: "Custom ARC Rendering",
+                subtitle: "Branded colors, actions, glass effects"
+            )
+            .padding(.horizontal)
+
             PresetExample(
                 title: "No Favorites",
-                description: "For empty favorites list"
+                description: "Custom - pink icon + action"
             ) {
                 ARCEmptyState(configuration: .noFavorites) {
                     triggerAction("Browse action")
@@ -106,21 +122,9 @@ public struct ARCEmptyStateShowcase: View {
             Divider()
                 .padding(.horizontal)
 
-            // No Data
-            PresetExample(
-                title: "No Data",
-                description: "For empty content"
-            ) {
-                ARCEmptyState(configuration: .noData)
-            }
-
-            Divider()
-                .padding(.horizontal)
-
-            // Error
             PresetExample(
                 title: "Error",
-                description: "For failed operations"
+                description: "Custom - orange icon + retry"
             ) {
                 ARCEmptyState(configuration: .error) {
                     triggerAction("Retry action")
@@ -130,13 +134,24 @@ public struct ARCEmptyStateShowcase: View {
             Divider()
                 .padding(.horizontal)
 
-            // Offline
             PresetExample(
                 title: "Offline",
-                description: "For no network connection"
+                description: "Custom - red icon + settings"
             ) {
                 ARCEmptyState(configuration: .offline) {
                     triggerAction("Open Settings")
+                }
+            }
+
+            Divider()
+                .padding(.horizontal)
+
+            PresetExample(
+                title: "Premium",
+                description: "Custom - Liquid Glass background"
+            ) {
+                ARCEmptyState(configuration: .premium) {
+                    triggerAction("Explore")
                 }
             }
         }
