@@ -26,23 +26,74 @@ public struct ARCCardShowcase: View {
     public var body: some View {
         ScrollView {
             VStack(spacing: .arcSpacingXXLarge) {
+                configurationsSection
                 basicCardsSection
                 badgesSection
-                gridLayoutSection
                 interactiveCardsSection
-                configurationsSection
             }
             .padding()
         }
-        #if os(iOS)
-        .background(Color(.systemGroupedBackground))
-        #else
-        .background(Color(nsColor: .controlBackgroundColor))
-        #endif
+        .background(showcaseBackground)
         .navigationTitle("ARCCard")
     }
 
+    // MARK: - Background
+
+    @ViewBuilder
+    private var showcaseBackground: some View {
+        LinearGradient(
+            colors: [.blue.opacity(0.15), .purple.opacity(0.1), .pink.opacity(0.05)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .ignoresSafeArea()
+    }
+
     // MARK: - Sections
+
+    @ViewBuilder
+    private var configurationsSection: some View {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+            sectionHeader("Configurations")
+            Text("Unified styling with LiquidGlassConfigurable")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            LazyVGrid(columns: gridColumns, spacing: .arcSpacingLarge) {
+                configCard(
+                    name: "Default",
+                    subtitle: "Material background",
+                    config: .default,
+                    icon: "square.grid.2x2",
+                    color: .blue
+                )
+
+                configCard(
+                    name: "Prominent",
+                    subtitle: "Liquid Glass effect",
+                    config: .prominent,
+                    icon: "sparkles",
+                    color: .purple
+                )
+
+                configCard(
+                    name: "Glassmorphic",
+                    subtitle: "Apple Music style",
+                    config: .glassmorphic,
+                    icon: "waveform",
+                    color: .pink
+                )
+
+                configCard(
+                    name: "Compact",
+                    subtitle: "Smaller spacing",
+                    config: .compact,
+                    icon: "square.compress.vertical",
+                    color: .green
+                )
+            }
+        }
+    }
 
     @ViewBuilder
     private var basicCardsSection: some View {
@@ -53,11 +104,19 @@ public struct ARCCardShowcase: View {
                 ARCCard(
                     title: "Restaurant",
                     subtitle: "Italian Cuisine",
-                    subtitleIcon: "fork.knife"
+                    secondarySubtitle: "Downtown",
+                    subtitleIcon: "fork.knife",
+                    secondarySubtitleIcon: "location.fill"
                 ) {
                     cardImage(icon: "fork.knife", color: .orange)
                 } footer: {
-                    ARCRatingView(rating: 4.5)
+                    HStack {
+                        Label("12", systemImage: "person.2.fill")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        ARCRatingView(rating: 4.5)
+                    }
                 }
 
                 ARCCard(
@@ -65,7 +124,8 @@ public struct ARCCardShowcase: View {
                     subtitle: "Author Name",
                     secondarySubtitle: "Fiction",
                     subtitleIcon: "person.fill",
-                    secondarySubtitleIcon: "books.vertical.fill"
+                    secondarySubtitleIcon: "books.vertical.fill",
+                    configuration: .prominent
                 ) {
                     cardImage(icon: "book.fill", color: .blue)
                 } footer: {
@@ -82,12 +142,13 @@ public struct ARCCardShowcase: View {
 
             HStack(alignment: .top, spacing: .arcSpacingLarge) {
                 ARCCard(
-                    title: "With Badges",
-                    subtitle: "Material style",
+                    title: "Material Badges",
+                    subtitle: "Blur effect",
                     badges: [
                         .init(text: "$12.99", position: .topTrailing, style: .material),
                         .init(text: "NEW", position: .topLeading, style: .material)
-                    ]
+                    ],
+                    configuration: .glassmorphic
                 ) {
                     cardImage(icon: "star.fill", color: .yellow)
                 }
@@ -107,54 +168,17 @@ public struct ARCCardShowcase: View {
     }
 
     @ViewBuilder
-    private var gridLayoutSection: some View {
-        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            sectionHeader("Grid Layout")
-
-            LazyVGrid(columns: gridColumns, spacing: .arcSpacingLarge) {
-                gridCard(title: "Pizza Place", subtitle: "Italian", icon: "flame.fill", color: .orange)
-                gridCard(title: "Sushi Bar", subtitle: "Japanese", icon: "fish.fill", color: .pink)
-                gridCard(title: "Burger Joint", subtitle: "American", icon: "leaf.fill", color: .red)
-                gridCard(title: "Taco Shop", subtitle: "Mexican", icon: "sun.max.fill", color: .green)
-            }
-        }
-    }
-
-    private var gridColumns: [GridItem] {
-        [GridItem(.flexible()), GridItem(.flexible())]
-    }
-
-    @ViewBuilder
-    private func gridCard(title: String, subtitle: String, icon: String, color: Color) -> some View {
-        ARCCard(
-            title: title,
-            subtitle: subtitle,
-            subtitleIcon: icon
-        ) {
-            color.opacity(0.2)
-                .frame(height: 100)
-                .overlay {
-                    Image(systemName: icon)
-                        .font(.title)
-                        .foregroundStyle(color)
-                }
-        } footer: {
-            ARCRatingView(rating: 4.5)
-        }
-    }
-
-    @ViewBuilder
     private var interactiveCardsSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            sectionHeader("Interactive Cards")
+            sectionHeader("Interactive (ARCCardPressStyle)")
 
             HStack(alignment: .top, spacing: .arcSpacingLarge) {
                 Button {
-                    print("Card tapped")
+                    print("Default tap")
                 } label: {
                     ARCCard(
-                        title: "Tap Me",
-                        subtitle: "Press effect"
+                        title: "Default Press",
+                        subtitle: "Scale: 0.96"
                     ) {
                         cardImage(icon: "hand.tap.fill", color: .blue)
                     }
@@ -162,11 +186,25 @@ public struct ARCCardShowcase: View {
                 .buttonStyle(ARCCardPressStyle.default)
 
                 Button {
+                    print("Subtle tap")
+                } label: {
+                    ARCCard(
+                        title: "Subtle Press",
+                        subtitle: "Scale: 0.98",
+                        configuration: .prominent
+                    ) {
+                        cardImage(icon: "hand.point.up.fill", color: .mint)
+                    }
+                }
+                .buttonStyle(ARCCardPressStyle.subtle)
+
+                Button {
                     print("Prominent tap")
                 } label: {
                     ARCCard(
                         title: "Prominent",
-                        subtitle: "Strong effect"
+                        subtitle: "Scale: 0.94",
+                        configuration: .glassmorphic
                     ) {
                         cardImage(icon: "sparkles", color: .purple)
                     }
@@ -176,20 +214,11 @@ public struct ARCCardShowcase: View {
         }
     }
 
-    @ViewBuilder
-    private var configurationsSection: some View {
-        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            sectionHeader("Configurations")
-
-            VStack(spacing: .arcSpacingLarge) {
-                configCard("Default", config: .default, color: .blue)
-                configCard("Compact", config: .compact, color: .green)
-                configCard("Prominent", config: .prominent, color: .purple)
-            }
-        }
-    }
-
     // MARK: - Helpers
+
+    private var gridColumns: [GridItem] {
+        [GridItem(.flexible()), GridItem(.flexible())]
+    }
 
     @ViewBuilder
     private func sectionHeader(_ title: String) -> some View {
@@ -211,28 +240,25 @@ public struct ARCCardShowcase: View {
 
     @ViewBuilder
     private func configCard(
-        _ name: String,
+        name: String,
+        subtitle: String,
         config: ARCCardConfiguration,
+        icon: String,
         color: Color
     ) -> some View {
-        HStack {
-            Text(name)
-                .font(.subheadline.weight(.medium))
-                .foregroundStyle(.secondary)
-                .frame(width: 80, alignment: .leading)
-
-            ARCCard(
-                title: "\(name) Config",
-                subtitle: "Configuration preset",
-                configuration: config
-            ) {
-                color.opacity(0.2)
-                    .frame(height: 60)
-                    .overlay {
-                        Image(systemName: "gearshape.fill")
-                            .foregroundStyle(color)
-                    }
-            }
+        ARCCard(
+            title: name,
+            subtitle: subtitle,
+            subtitleIcon: icon,
+            configuration: config
+        ) {
+            color.opacity(0.15)
+                .frame(height: 80)
+                .overlay {
+                    Image(systemName: icon)
+                        .font(.title2)
+                        .foregroundStyle(color)
+                }
         }
     }
 }

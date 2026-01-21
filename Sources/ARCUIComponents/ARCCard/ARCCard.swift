@@ -159,7 +159,7 @@ public struct ARCCard<ImageContent: View, FooterContent: View>: View {
             // Content section
             contentSection
         }
-        .background(cardBackground)
+        .liquidGlass(configuration: configuration)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityLabel)
     }
@@ -258,35 +258,7 @@ public struct ARCCard<ImageContent: View, FooterContent: View>: View {
         .lineLimit(1)
     }
 
-    // MARK: - Background
-
-    @ViewBuilder
-    private var cardBackground: some View {
-        switch configuration.backgroundStyle {
-        case .material:
-            RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                .fill(.ultraThinMaterial)
-                .modifier(CardShadowModifier(shadow: configuration.shadow))
-
-        case let .solidColor(color):
-            RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                .fill(color)
-                .modifier(CardShadowModifier(shadow: configuration.shadow))
-
-        case let .gradient(gradient):
-            RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                .fill(gradient)
-                .modifier(CardShadowModifier(shadow: configuration.shadow))
-
-        case .clear:
-            RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                .fill(.clear)
-                .modifier(CardShadowModifier(shadow: configuration.shadow))
-        }
-    }
 }
-
-// MARK: - Card Shadow Modifier
 
 // MARK: - Computed Properties
 
@@ -309,29 +281,6 @@ extension ARCCard {
             components.append(badge.text)
         }
         return components.joined(separator: ", ")
-    }
-}
-
-// MARK: - Card Shadow Modifier
-
-@available(iOS 17.0, macOS 14.0, *)
-private struct CardShadowModifier: ViewModifier {
-    let shadow: ARCShadow
-
-    func body(content: Content) -> some View {
-        content
-            .shadow(
-                color: shadow.color,
-                radius: shadow.radius,
-                x: shadow.x,
-                y: shadow.y
-            )
-            .shadow(
-                color: .arcShadowLight,
-                radius: 1,
-                x: 0,
-                y: 1
-            )
     }
 }
 

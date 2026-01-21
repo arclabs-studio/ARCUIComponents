@@ -59,6 +59,7 @@ public struct ARCListCardShowcase: View {
                 .padding(.bottom, 40)
             }
             .navigationTitle("List Cards")
+            .background(showcaseBackground)
             #if os(iOS)
                 .navigationBarTitleDisplayMode(.large)
             #endif
@@ -71,6 +72,18 @@ public struct ARCListCardShowcase: View {
                     }
                 }
         }
+    }
+
+    // MARK: - Background
+
+    @ViewBuilder
+    private var showcaseBackground: some View {
+        LinearGradient(
+            colors: [.blue.opacity(0.15), .purple.opacity(0.1), .pink.opacity(0.05)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .ignoresSafeArea()
     }
 
     // MARK: - Styles Content

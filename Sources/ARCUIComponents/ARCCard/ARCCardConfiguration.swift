@@ -15,24 +15,27 @@ import SwiftUI
 ///
 /// ## Overview
 ///
-/// ARCCardConfiguration allows you to customize spacing, corner radius,
-/// background style, and shadow while preserving the familiar card pattern.
+/// ARCCardConfiguration conforms to ``LiquidGlassConfigurable``, enabling
+/// the unified liquid glass effect system used across all ARC components.
 ///
 /// ## Topics
 ///
 /// ### Properties
 ///
+/// - ``accentColor``
+/// - ``backgroundStyle``
+/// - ``cornerRadius``
+/// - ``shadow``
 /// - ``contentSpacing``
 /// - ``contentPadding``
-/// - ``cornerRadius``
-/// - ``backgroundStyle``
-/// - ``shadow``
+/// - ``showImage``
 ///
 /// ### Presets
 ///
 /// - ``default``
 /// - ``compact``
 /// - ``prominent``
+/// - ``glassmorphic``
 ///
 /// ## Usage
 ///
@@ -42,30 +45,35 @@ import SwiftUI
 ///
 /// // Create custom configuration
 /// let config = ARCCardConfiguration(
-///     cornerRadius: 20,
-///     backgroundStyle: .solidColor(.white)
+///     accentColor: .blue,
+///     backgroundStyle: .liquidGlass
 /// )
 /// ARCCard(title: "Title", configuration: config) { ... }
 /// ```
 @available(iOS 17.0, macOS 14.0, *)
-public struct ARCCardConfiguration: Sendable {
+public struct ARCCardConfiguration: Sendable, LiquidGlassConfigurable {
 
-    // MARK: - Properties
+    // MARK: - LiquidGlassConfigurable Properties
+
+    /// Primary accent color for the component
+    public let accentColor: Color
+
+    /// Background style for the card
+    public let backgroundStyle: ARCBackgroundStyle
+
+    /// Corner radius for the card
+    public let cornerRadius: CGFloat
+
+    /// Shadow configuration
+    public let shadow: ARCShadow
+
+    // MARK: - Card-specific Properties
 
     /// Spacing between content elements
     public let contentSpacing: CGFloat
 
     /// Padding around content section
     public let contentPadding: CGFloat
-
-    /// Corner radius for the card
-    public let cornerRadius: CGFloat
-
-    /// Background style for the card
-    public let backgroundStyle: ARCCardBackgroundStyle
-
-    /// Shadow configuration
-    public let shadow: ARCShadow
 
     /// Whether to show the image section
     public let showImage: Bool
@@ -75,31 +83,34 @@ public struct ARCCardConfiguration: Sendable {
     /// Creates a card configuration
     ///
     /// - Parameters:
+    ///   - accentColor: Primary accent color (default: .blue)
+    ///   - backgroundStyle: Background style (default: material)
+    ///   - cornerRadius: Corner radius (default: medium)
+    ///   - shadow: Shadow configuration (default: card shadow)
     ///   - contentSpacing: Spacing between elements (default: small)
     ///   - contentPadding: Padding around content (default: medium)
-    ///   - cornerRadius: Corner radius (default: medium)
-    ///   - backgroundStyle: Background style (default: material)
-    ///   - shadow: Shadow configuration (default: card shadow)
     ///   - showImage: Whether to show image section (default: true)
     public init(
+        accentColor: Color = .blue,
+        backgroundStyle: ARCBackgroundStyle = .material(.ultraThinMaterial),
+        cornerRadius: CGFloat = .arcCornerRadiusMedium,
+        shadow: ARCShadow = .card,
         contentSpacing: CGFloat = .arcSpacingSmall,
         contentPadding: CGFloat = .arcSpacingMedium,
-        cornerRadius: CGFloat = .arcCornerRadiusMedium,
-        backgroundStyle: ARCCardBackgroundStyle = .material,
-        shadow: ARCShadow = .card,
         showImage: Bool = true
     ) {
+        self.accentColor = accentColor
+        self.backgroundStyle = backgroundStyle
+        self.cornerRadius = cornerRadius
+        self.shadow = shadow
         self.contentSpacing = contentSpacing
         self.contentPadding = contentPadding
-        self.cornerRadius = cornerRadius
-        self.backgroundStyle = backgroundStyle
-        self.shadow = shadow
         self.showImage = showImage
     }
 
     // MARK: - Presets
 
-    /// Default card configuration
+    /// Default card configuration with material background
     public static let `default` = ARCCardConfiguration()
 
     /// Compact configuration with smaller spacing
@@ -108,34 +119,25 @@ public struct ARCCardConfiguration: Sendable {
         contentPadding: .arcSpacingSmall
     )
 
-    /// Prominent configuration with larger corner radius and shadow
+    /// Prominent configuration with liquid glass effect
     public static let prominent = ARCCardConfiguration(
+        backgroundStyle: .liquidGlass,
         cornerRadius: .arcCornerRadiusLarge,
         shadow: .prominent
+    )
+
+    /// Glassmorphic configuration matching Apple Music style
+    public static let glassmorphic = ARCCardConfiguration(
+        accentColor: .pink,
+        backgroundStyle: .liquidGlass,
+        cornerRadius: .arcCornerRadiusMedium,
+        shadow: .default
     )
 
     /// Text-only configuration without image
     public static let textOnly = ARCCardConfiguration(
         showImage: false
     )
-}
-
-// MARK: - Background Style
-
-/// Background style options for ARCCard
-@available(iOS 17.0, macOS 14.0, *)
-public enum ARCCardBackgroundStyle: Sendable {
-    /// Ultra thin material background
-    case material
-
-    /// Solid color background
-    case solidColor(Color)
-
-    /// Gradient background
-    case gradient(LinearGradient)
-
-    /// Clear background (no fill)
-    case clear
 }
 
 // MARK: - Shadow Extension
