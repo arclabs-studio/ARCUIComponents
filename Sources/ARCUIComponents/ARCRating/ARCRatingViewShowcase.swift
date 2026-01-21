@@ -8,10 +8,17 @@
 import ARCDesignSystem
 import SwiftUI
 
-/// Showcase view demonstrating ARCRatingView capabilities
+/// Showcase demonstrating ARCRatingView in various configurations
 ///
-/// This view provides comprehensive examples of ARCRatingView usage patterns,
-/// configurations, and customization options for documentation and testing.
+/// This view provides a visual gallery of rating display variations,
+/// demonstrating different configurations, icons, and use cases.
+///
+/// Use this showcase to:
+/// - Preview rating configurations and sizes
+/// - Test custom icons and colors
+/// - See ratings in realistic contexts (cards, lists)
+/// - Verify accessibility and Dynamic Type support
+/// - Compare numeric vs icon-only displays
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCRatingViewShowcase: View {
     // MARK: - Body

@@ -8,10 +8,17 @@
 import ARCDesignSystem
 import SwiftUI
 
-/// Showcase view demonstrating ARCCard capabilities
+/// Showcase demonstrating ARCCard in various configurations
 ///
-/// This view provides comprehensive examples of ARCCard usage patterns,
-/// configurations, and customization options for documentation and testing.
+/// This view provides a visual gallery of card variations,
+/// demonstrating different configurations, badges, and use cases.
+///
+/// Use this showcase to:
+/// - Preview card configurations and styles
+/// - Test badge positioning and styling
+/// - See cards with different content combinations
+/// - Verify accessibility and Dynamic Type support
+/// - View interactive card patterns with ARCCardPressStyle
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCCardShowcase: View {
     // MARK: - State
