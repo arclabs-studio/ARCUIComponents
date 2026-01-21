@@ -53,6 +53,18 @@ extension DemoHomeView {
             }
 
             NavigationLink {
+                ARCCardDemoScreen()
+            } label: {
+                Label("ARCCard", systemImage: "square.stack.3d.up")
+            }
+
+            NavigationLink {
+                ARCRatingViewDemoScreen()
+            } label: {
+                Label("ARCRatingView", systemImage: "star.fill")
+            }
+
+            NavigationLink {
                 ARCEmptyStateDemoScreen()
             } label: {
                 Label("ARCEmptyState", systemImage: "tray")
@@ -104,6 +116,24 @@ extension DemoHomeView {
                 ARCListCardShowcase()
             } label: {
                 Label("List Card Showcase", systemImage: "list.bullet.rectangle.portrait")
+            }
+
+            NavigationLink {
+                ARCCardShowcase()
+            } label: {
+                Label("Card Showcase", systemImage: "square.stack.3d.up.fill")
+            }
+
+            NavigationLink {
+                ARCRatingViewShowcase()
+            } label: {
+                Label("Rating View Showcase", systemImage: "star.circle")
+            }
+
+            NavigationLink {
+                ARCFavoriteButtonShowcase()
+            } label: {
+                Label("Favorite Button Showcase", systemImage: "heart.circle")
             }
 
             NavigationLink {

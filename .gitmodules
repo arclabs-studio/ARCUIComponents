@@ -1,3 +1,3 @@
-[submodule "Dependencies/ARCDevTools"]
-	path = Dependencies/ARCDevTools
+[submodule "ARCDevTools"]
+	path = ARCDevTools
 	url = https://github.com/arclabs-studio/ARCDevTools.git
