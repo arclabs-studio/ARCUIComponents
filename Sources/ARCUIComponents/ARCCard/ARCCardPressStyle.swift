@@ -108,16 +108,16 @@ extension ARCCardPressStyle {
     /// smaller interactive elements or when less emphasis is desired.
     public static let subtle = ARCCardPressStyle(
         pressedScale: 0.98,
-        pressedOpacity: 0.95
+        pressedOpacity: 1.0
     )
 
     /// Prominent press style with stronger visual feedback
     ///
-    /// Uses 0.94 scale and 0.9 opacity for a more dramatic press effect,
+    /// Uses 0.92 scale and 0.85 opacity for a more dramatic press effect,
     /// suitable for hero cards or important interactive elements.
     public static let prominent = ARCCardPressStyle(
-        pressedScale: 0.94,
-        pressedOpacity: 0.9
+        pressedScale: 0.92,
+        pressedOpacity: 0.85
     )
 }
 
@@ -143,33 +143,45 @@ extension ARCCardPressStyle {
 }
 
 #Preview("Style Comparison") {
-    VStack(spacing: 24) {
-        Text("Default")
+    VStack(spacing: 16) {
+        Text("Press and hold to compare")
             .font(.caption)
             .foregroundStyle(.secondary)
 
-        Button {} label: {
-            cardContent(color: .blue, text: "Default (0.96)")
+        HStack(spacing: 16) {
+            VStack(spacing: 8) {
+                Button {} label: {
+                    cardContent(color: .green, text: "Subtle")
+                }
+                .buttonStyle(ARCCardPressStyle.subtle)
+
+                Text("Scale: 0.98")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+
+            VStack(spacing: 8) {
+                Button {} label: {
+                    cardContent(color: .blue, text: "Default")
+                }
+                .buttonStyle(ARCCardPressStyle.default)
+
+                Text("Scale: 0.96")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+
+            VStack(spacing: 8) {
+                Button {} label: {
+                    cardContent(color: .orange, text: "Prominent")
+                }
+                .buttonStyle(ARCCardPressStyle.prominent)
+
+                Text("Scale: 0.92")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
         }
-        .buttonStyle(ARCCardPressStyle.default)
-
-        Text("Subtle")
-            .font(.caption)
-            .foregroundStyle(.secondary)
-
-        Button {} label: {
-            cardContent(color: .green, text: "Subtle (0.98)")
-        }
-        .buttonStyle(ARCCardPressStyle.subtle)
-
-        Text("Prominent")
-            .font(.caption)
-            .foregroundStyle(.secondary)
-
-        Button {} label: {
-            cardContent(color: .orange, text: "Prominent (0.94)")
-        }
-        .buttonStyle(ARCCardPressStyle.prominent)
     }
     .padding()
 }
@@ -178,11 +190,11 @@ extension ARCCardPressStyle {
 private func cardContent(color: Color, text: String) -> some View {
     RoundedRectangle(cornerRadius: 12)
         .fill(color.gradient)
-        .frame(height: 80)
+        .frame(width: 100, height: 80)
         .overlay {
             Text(text)
                 .foregroundStyle(.white)
-                .font(.subheadline.weight(.medium))
+                .font(.caption.weight(.semibold))
         }
 }
 

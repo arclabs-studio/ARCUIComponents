@@ -229,10 +229,11 @@ public struct ARCRatingViewShowcase: View {
 
 // MARK: - Preview
 
-#Preview("ARCRatingView Showcase") {
+#Preview("Showcase - Light") {
     NavigationStack {
         ARCRatingViewShowcase()
     }
+    .preferredColorScheme(.light)
 }
 
 #Preview("Dark Mode") {

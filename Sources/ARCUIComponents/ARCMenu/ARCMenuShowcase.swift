@@ -823,8 +823,9 @@ private struct GalleryCard: View {
 
 // MARK: - Preview Provider
 
-#Preview("ARCMenu Showcase") {
+#Preview("Showcase - Light") {
     ARCMenuShowcase()
+        .preferredColorScheme(.light)
 }
 
 #Preview("Showcase - Dark Mode") {

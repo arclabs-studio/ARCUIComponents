@@ -59,34 +59,35 @@ public struct ARCCardShowcase: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            LazyVGrid(columns: gridColumns, spacing: .arcSpacingLarge) {
-                configCard(
+            // Feature comparison
+            VStack(spacing: .arcSpacingMedium) {
+                ConfigurationRow(
                     name: "Default",
-                    subtitle: "Material background",
+                    features: ["Material blur", "Medium corners", "Card shadow"],
                     config: .default,
                     icon: "square.grid.2x2",
                     color: .blue
                 )
 
-                configCard(
+                ConfigurationRow(
                     name: "Prominent",
-                    subtitle: "Liquid Glass effect",
+                    features: ["Liquid Glass ✨", "Large corners", "Prominent shadow"],
                     config: .prominent,
                     icon: "sparkles",
                     color: .purple
                 )
 
-                configCard(
+                ConfigurationRow(
                     name: "Glassmorphic",
-                    subtitle: "Apple Music style",
+                    features: ["Liquid Glass ✨", "Pink accent", "Default shadow"],
                     config: .glassmorphic,
                     icon: "waveform",
                     color: .pink
                 )
 
-                configCard(
+                ConfigurationRow(
                     name: "Compact",
-                    subtitle: "Smaller spacing",
+                    features: ["Material blur", "Smaller padding", "Card shadow"],
                     config: .compact,
                     icon: "square.compress.vertical",
                     color: .green
@@ -203,7 +204,7 @@ public struct ARCCardShowcase: View {
                 } label: {
                     ARCCard(
                         title: "Prominent",
-                        subtitle: "Scale: 0.94",
+                        subtitle: "Scale: 0.92",
                         configuration: .glassmorphic
                     ) {
                         cardImage(icon: "sparkles", color: .purple)
@@ -215,10 +216,6 @@ public struct ARCCardShowcase: View {
     }
 
     // MARK: - Helpers
-
-    private var gridColumns: [GridItem] {
-        [GridItem(.flexible()), GridItem(.flexible())]
-    }
 
     @ViewBuilder
     private func sectionHeader(_ title: String) -> some View {
@@ -237,38 +234,68 @@ public struct ARCCardShowcase: View {
                     .foregroundStyle(color)
             }
     }
+}
 
-    @ViewBuilder
-    private func configCard(
-        name: String,
-        subtitle: String,
-        config: ARCCardConfiguration,
-        icon: String,
-        color: Color
-    ) -> some View {
-        ARCCard(
-            title: name,
-            subtitle: subtitle,
-            subtitleIcon: icon,
-            configuration: config
-        ) {
-            color.opacity(0.15)
-                .frame(height: 80)
-                .overlay {
-                    Image(systemName: icon)
-                        .font(.title2)
-                        .foregroundStyle(color)
+// MARK: - Configuration Row
+
+@available(iOS 17.0, macOS 14.0, *)
+private struct ConfigurationRow: View {
+    let name: String
+    let features: [String]
+    let config: ARCCardConfiguration
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: .arcSpacingLarge) {
+            // Card preview
+            ARCCard(
+                title: name,
+                subtitle: features.first ?? "",
+                subtitleIcon: icon,
+                configuration: config
+            ) {
+                color.opacity(0.15)
+                    .frame(height: 60)
+                    .overlay {
+                        Image(systemName: icon)
+                            .font(.title3)
+                            .foregroundStyle(color)
+                    }
+            }
+            .frame(width: 160)
+
+            // Features list
+            VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
+                Text(name)
+                    .font(.subheadline.bold())
+                    .foregroundStyle(color)
+
+                ForEach(features, id: \.self) { feature in
+                    HStack(spacing: 4) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.caption2)
+                            .foregroundStyle(color.opacity(0.7))
+                        Text(feature)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .padding(.arcSpacingMedium)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: .arcCornerRadiusMedium))
     }
 }
 
 // MARK: - Preview
 
-#Preview("ARCCard Showcase") {
+#Preview("Showcase - Light") {
     NavigationStack {
         ARCCardShowcase()
     }
+    .preferredColorScheme(.light)
 }
 
 #Preview("Dark Mode") {
