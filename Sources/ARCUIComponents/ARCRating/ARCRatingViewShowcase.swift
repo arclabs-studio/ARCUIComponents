@@ -14,7 +14,6 @@ import SwiftUI
 /// configurations, and customization options for documentation and testing.
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCRatingViewShowcase: View {
-
     // MARK: - Body
 
     public init() {}

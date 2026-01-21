@@ -5,6 +5,8 @@
 //  Created by ARC Labs Studio on 21/1/26.
 //
 
+// swiftlint:disable file_length
+
 import ARCDesignSystem
 import SwiftUI
 
@@ -67,7 +69,6 @@ import SwiftUI
 /// - Note: Use `ARCCardPressStyle` button style when making cards interactive.
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCCard<ImageContent: View, FooterContent: View>: View {
-
     // MARK: - Properties
 
     /// Card title
@@ -257,14 +258,12 @@ public struct ARCCard<ImageContent: View, FooterContent: View>: View {
         .foregroundStyle(.secondary)
         .lineLimit(1)
     }
-
 }
 
 // MARK: - Computed Properties
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCCard {
-
     private var hasFooterContent: Bool {
         !(FooterContent.self == EmptyView.self)
     }
@@ -288,7 +287,6 @@ extension ARCCard {
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCCard where FooterContent == EmptyView {
-
     /// Creates a card without footer content
     ///
     /// - Parameters:
@@ -326,10 +324,8 @@ extension ARCCard where FooterContent == EmptyView {
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCCard {
-
     /// A badge to display over the card image
     public struct Badge: Sendable {
-
         /// Badge text
         public let text: String
 

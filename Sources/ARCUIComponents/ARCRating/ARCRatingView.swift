@@ -52,7 +52,6 @@ import SwiftUI
 ///   provides meaningful accessibility labels.
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCRatingView: View {
-
     // MARK: - Properties
 
     /// The rating value to display
@@ -147,7 +146,6 @@ public struct ARCRatingView: View {
 /// Configuration for ARCRatingView appearance
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCRatingViewConfiguration: Sendable {
-
     // MARK: - Properties
 
     /// Maximum rating value (used for accessibility)

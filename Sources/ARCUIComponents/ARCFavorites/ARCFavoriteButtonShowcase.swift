@@ -5,6 +5,8 @@
 //  Created by ARC Labs Studio on 11/14/25.
 //
 
+// swiftlint:disable file_length
+
 import SwiftUI
 
 /// Showcase demonstrating ARCFavoriteButton in various configurations
@@ -312,7 +314,7 @@ public struct ARCFavoriteButtonShowcase: View {
 @available(iOS 17.0, *)
 private struct SizeExample: View {
     @State private var isFavorite = false
-    let size: ARCFavoriteButtonConfiguration.ButtonSize
+    let size: ARCFavoriteButton.Size
     let title: String
     let description: String
 
@@ -384,11 +386,8 @@ private struct IconExample: View {
                 VStack(spacing: 12) {
                     ARCFavoriteButton(
                         isFavorite: .constant(false),
-                        configuration: ARCFavoriteButtonConfiguration(
-                            favoriteIcon: favoriteIcon,
-                            unfavoriteIcon: unfavoriteIcon,
-                            favoriteColor: color
-                        )
+                        icon: .custom(filled: favoriteIcon, empty: unfavoriteIcon),
+                        color: color
                     )
 
                     Text("Not Active")
@@ -399,11 +398,8 @@ private struct IconExample: View {
                 VStack(spacing: 12) {
                     ARCFavoriteButton(
                         isFavorite: .constant(true),
-                        configuration: ARCFavoriteButtonConfiguration(
-                            favoriteIcon: favoriteIcon,
-                            unfavoriteIcon: unfavoriteIcon,
-                            favoriteColor: color
-                        )
+                        icon: .custom(filled: favoriteIcon, empty: unfavoriteIcon),
+                        color: color
                     )
 
                     Text("Active")
@@ -414,12 +410,9 @@ private struct IconExample: View {
                 VStack(spacing: 12) {
                     ARCFavoriteButton(
                         isFavorite: $isFavorite,
-                        configuration: ARCFavoriteButtonConfiguration(
-                            favoriteIcon: favoriteIcon,
-                            unfavoriteIcon: unfavoriteIcon,
-                            favoriteColor: color,
-                            size: .large
-                        )
+                        icon: .custom(filled: favoriteIcon, empty: unfavoriteIcon),
+                        color: color,
+                        size: .large
                     )
 
                     Text("Interactive")
@@ -442,7 +435,7 @@ private struct ColorExample: View {
         VStack(spacing: 16) {
             ARCFavoriteButton(
                 isFavorite: $isFavorite,
-                favoriteColor: variation.color,
+                color: variation.color,
                 size: .large
             )
 

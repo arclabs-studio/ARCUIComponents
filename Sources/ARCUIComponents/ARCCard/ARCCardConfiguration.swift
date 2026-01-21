@@ -52,7 +52,6 @@ import SwiftUI
 /// ```
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCCardConfiguration: Sendable, LiquidGlassConfigurable {
-
     // MARK: - LiquidGlassConfigurable Properties
 
     /// Primary accent color for the component
@@ -144,7 +143,6 @@ public struct ARCCardConfiguration: Sendable, LiquidGlassConfigurable {
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCShadow {
-
     /// Standard card shadow with dual layers
     ///
     /// Combines a medium and light shadow for depth, matching Apple's card patterns.

@@ -49,7 +49,6 @@ import SwiftUI
 /// - Note: For best results, use on larger interactive elements like cards or cells.
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCCardPressStyle: ButtonStyle {
-
     // MARK: - Properties
 
     /// Scale factor when pressed (0.0 - 1.0)
@@ -96,7 +95,6 @@ public struct ARCCardPressStyle: ButtonStyle {
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCCardPressStyle {
-
     /// Default card press style matching Apple's patterns
     ///
     /// Uses 0.96 scale for a subtle but noticeable press effect.
