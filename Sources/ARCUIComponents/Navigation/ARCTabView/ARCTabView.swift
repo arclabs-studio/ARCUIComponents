@@ -190,7 +190,9 @@ private enum PreviewTab: String, ARCTabItem, CaseIterable {
 @available(iOS 18.0, macOS 15.0, *)
 #Preview("With Search") {
     @Previewable @State var tab: PreviewTab = .home
-    ARCTabView(selection: $tab) { tab in
+    ARCTabView(
+        selection: $tab
+    ) { tab in
         NavigationStack {
             Text(tab.title)
                 .navigationTitle(tab.title)

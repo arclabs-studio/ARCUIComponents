@@ -84,9 +84,8 @@ public struct ARCListCard<Accessories: View>: View {
     /// Optional action when tapped
     private let action: (() -> Void)?
 
-    // MARK: - State
+    // MARK: - Environment
 
-    @State private var isPressed = false
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     // MARK: - Initialization
@@ -150,7 +149,7 @@ public struct ARCListCard<Accessories: View>: View {
             .padding()
             .liquidGlass(configuration: configuration, isInteractive: false)
         }
-        .buttonStyle(CardPressStyle(isPressed: $isPressed))
+        .buttonStyle(ARCCardPressStyle.subtle)
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(action != nil ? .isButton : [])
     }
@@ -263,23 +262,6 @@ extension ARCListCard {
 
         /// Custom SwiftUI Image
         case custom(Image, size: CGFloat = 60)
-    }
-}
-
-// MARK: - Card Press Style
-
-@available(iOS 17.0, *)
-private struct CardPressStyle: ButtonStyle {
-    @Binding var isPressed: Bool
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
-            .opacity(configuration.isPressed ? 0.9 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: configuration.isPressed)
-            .onChange(of: configuration.isPressed) { _, newValue in
-                isPressed = newValue
-            }
     }
 }
 

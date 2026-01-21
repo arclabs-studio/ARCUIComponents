@@ -26,11 +26,20 @@
 /// ### ARCMenu
 /// A sophisticated slide-in menu component with liquid glass effect.
 ///
+/// ### ARCCard
+/// Generic card component with configurable image, badges, and footer slots for grids.
+///
 /// ### ARCFavoriteButton
 /// Animated heart toggle button for favorite/like actions.
 ///
 /// ### ARCListCard
 /// Card-based list rows with configurable styles.
+///
+/// ### ARCRatingView
+/// Compact rating display with customizable icon and numeric value.
+///
+/// ### ARCCardPressStyle
+/// Button style with scale animation for interactive cards.
 ///
 /// ### ARCSearchButton
 /// Customizable search trigger button.
@@ -102,8 +111,11 @@ public struct ARCUIComponents {
 
         iOS/iPadOS Components (v1.x):
         • ARCMenu - Premium slide-in menu with liquid glass effect
+        • ARCCard - Generic card for grids with image, badges, and footer
         • ARCFavoriteButton - Animated favorite toggle
         • ARCListCard - Card-based list rows
+        • ARCRatingView - Compact rating display with icon
+        • ARCCardPressStyle - Button style for interactive cards
         • ARCSearchButton - Search trigger button
         • ARCEmptyState - Empty content placeholder
         • LiquidGlass - Glassmorphism effect modifier
