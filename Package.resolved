@@ -1,0 +1,33 @@
+{
+  "originHash" : "37de781c665ce721d03bb0c42ce4e1ddf148525536ff78f3d27292be367ec4ba",
+  "pins" : [
+    {
+      "identity" : "arcdesignsystem",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/arclabs-studio/ARCDesignSystem",
+      "state" : {
+        "revision" : "0824bf4c3839773386eee6b039923b1613ccae3a",
+        "version" : "2.1.0"
+      }
+    },
+    {
+      "identity" : "swift-docc-plugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-docc-plugin",
+      "state" : {
+        "revision" : "3e4f133a77e644a5812911a0513aeb7288b07d06",
+        "version" : "1.4.5"
+      }
+    },
+    {
+      "identity" : "swift-docc-symbolkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-docc-symbolkit",
+      "state" : {
+        "revision" : "b45d1f2ed151d057b54504d653e0da5552844e34",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}
