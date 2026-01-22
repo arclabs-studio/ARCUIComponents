@@ -388,23 +388,42 @@ public struct ARCRatingViewShowcase: View {
 
     // MARK: - Sample Data
 
-    private var sampleItems: [(name: String, icon: String, color: Color, rating: Double)] {
+    private var sampleItems: [SampleItem] {
         [
-            ("Pasta Carbonara", "fork.knife", .orange, 9.2),
-            ("Caesar Salad", "leaf.fill", .green, 7.8),
-            ("Tiramisu", "birthday.cake", .brown, 8.5),
-            ("Espresso", "cup.and.saucer.fill", .brown, 6.5)
+            SampleItem(name: "Pasta Carbonara", icon: "fork.knife", color: .orange, rating: 9.2),
+            SampleItem(name: "Caesar Salad", icon: "leaf.fill", color: .green, rating: 7.8),
+            SampleItem(name: "Tiramisu", icon: "birthday.cake", color: .brown, rating: 8.5),
+            SampleItem(name: "Espresso", icon: "cup.and.saucer.fill", color: .brown, rating: 6.5)
         ]
     }
 
-    private var productItems: [(name: String, category: String, icon: String, color: Color, rating: Double)] {
+    private var productItems: [ProductItem] {
         [
-            ("iPhone 16 Pro", "Electronics", "iphone", .blue, 9.4),
-            ("AirPods Pro", "Audio", "airpodspro", .gray, 8.8),
-            ("MacBook Air", "Computers", "laptopcomputer", .gray, 9.1),
-            ("Apple Watch", "Wearables", "applewatch", .pink, 8.2)
+            ProductItem(name: "iPhone 16 Pro", category: "Electronics", icon: "iphone", color: .blue, rating: 9.4),
+            ProductItem(name: "AirPods Pro", category: "Audio", icon: "airpodspro", color: .gray, rating: 8.8),
+            ProductItem(name: "MacBook Air", category: "Computers", icon: "laptopcomputer", color: .gray, rating: 9.1),
+            ProductItem(name: "Apple Watch", category: "Wearables", icon: "applewatch", color: .pink, rating: 8.2)
         ]
     }
+}
+
+// MARK: - Sample Data Models
+
+@available(iOS 17.0, macOS 14.0, *)
+private struct SampleItem {
+    let name: String
+    let icon: String
+    let color: Color
+    let rating: Double
+}
+
+@available(iOS 17.0, macOS 14.0, *)
+private struct ProductItem {
+    let name: String
+    let category: String
+    let icon: String
+    let color: Color
+    let rating: Double
 }
 
 // MARK: - Preview

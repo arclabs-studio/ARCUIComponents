@@ -310,19 +310,20 @@ extension ARCRatingView {
     private var ratingGradient: LinearGradient {
         let normalized = clampedRating / configuration.maxRating
 
-        let colors: [Color] = switch normalized {
+        let colors: [Color]
+        switch normalized {
         case 0..<0.3:
-            [.red, .orange]
+            colors = [.red, .orange]
         case 0.3..<0.5:
-            [.orange, .yellow]
+            colors = [.orange, .yellow]
         case 0.5..<0.65:
-            [.yellow, Color(red: 0.7, green: 0.8, blue: 0.2)]
+            colors = [.yellow, Color(red: 0.7, green: 0.8, blue: 0.2)]
         case 0.65..<0.75:
-            [Color(red: 0.6, green: 0.8, blue: 0.2), Color(red: 0.4, green: 0.75, blue: 0.25)]
+            colors = [Color(red: 0.6, green: 0.8, blue: 0.2), Color(red: 0.4, green: 0.75, blue: 0.25)]
         case 0.75..<0.85:
-            [Color(red: 0.4, green: 0.75, blue: 0.25), Color(red: 0.2, green: 0.7, blue: 0.25)]
+            colors = [Color(red: 0.4, green: 0.75, blue: 0.25), Color(red: 0.2, green: 0.7, blue: 0.25)]
         default:
-            [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
+            colors = [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
         }
 
         return LinearGradient(
