@@ -20,8 +20,10 @@ A modern Swift package providing beautifully designed, reusable UI components th
 | **ARCMenu** | Slide-in menu with Liquid Glass effect, user profile, and customizable items |
 | **ARCFavoriteButton** | Animated toggle button with haptic feedback, symbol effects, and icon presets |
 | **ARCListCard** | Versatile card for lists with images, accessories, and multiple styles |
+| **ARCCard** | Generic card component with image, badges, and footer slots |
 | **ARCRatingView** | Numeric rating display with 3 styles: circular gauge, compact inline, and minimal badge |
 | **ARCEmptyState** | Empty state views for various scenarios (no data, errors, offline) |
+| **ARCSkeletonView** | Skeleton loading placeholders with shimmer animation |
 | **ARCTabView** | Floating tab bar with Liquid Glass effect (iOS 18+) |
 | **LiquidGlass** | Glassmorphism effect modifier for any view |
 
@@ -383,6 +385,13 @@ Sources/ARCUIComponents/
 ├── ARCEmptyState/            # Empty state component
 │   ├── ARCEmptyState.swift
 │   └── ARCEmptyStateConfiguration.swift
+├── ARCSkeleton/              # Skeleton loading component
+│   ├── ARCSkeletonView.swift
+│   ├── ARCSkeletonConfiguration.swift
+│   ├── ARCSkeletonText.swift
+│   ├── ARCSkeletonCard.swift
+│   ├── SkeletonShimmerModifier.swift
+│   └── ARCSkeletonShowcase.swift
 ├── ARCEffects/               # Visual effects
 │   └── LiquidGlassModifier.swift
 ├── Navigation/               # Navigation components
@@ -527,7 +536,10 @@ ARCUIComponents is available under the MIT license. See the [LICENSE](LICENSE) f
 - [x] ARCSearchButton
 - [x] ARCEmptyState
 - [x] LiquidGlass effect modifier
-- [ ] ARCCard component
+- [x] ARCCard component
+- [x] ARCSkeletonView (skeleton loading with shimmer)
+- [ ] ARCToast component
+- [ ] ARCBadge/Tag/Chip component
 - [ ] ARCButton component
 - [ ] ARCTextField component
 - [ ] ARCAlert component

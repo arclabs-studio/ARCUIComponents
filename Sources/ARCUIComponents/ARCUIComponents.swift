@@ -47,6 +47,9 @@
 /// ### ARCEmptyState
 /// Empty content placeholder with optional action.
 ///
+/// ### ARCSkeletonView
+/// Skeleton loading placeholders with shimmer animation for perceived performance.
+///
 /// ### LiquidGlass Modifier
 /// Apple Music-style glassmorphism effect.
 ///
@@ -118,6 +121,7 @@ public struct ARCUIComponents {
         • ARCCardPressStyle - Button style for interactive cards
         • ARCSearchButton - Search trigger button
         • ARCEmptyState - Empty content placeholder
+        • ARCSkeletonView - Skeleton loading with shimmer animation
         • LiquidGlass - Glassmorphism effect modifier
         • ThematicArtwork - Themed placeholders and loaders
 

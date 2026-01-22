@@ -70,6 +70,18 @@ extension DemoHomeView {
                 Label("ARCEmptyState", systemImage: "tray")
             }
 
+            NavigationLink {
+                ARCSkeletonDemoScreen()
+            } label: {
+                Label("ARCSkeletonView", systemImage: "rectangle.dashed")
+            }
+
+            NavigationLink {
+                ARCToastDemoScreen()
+            } label: {
+                Label("ARCToast", systemImage: "bubble.middle.bottom.fill")
+            }
+
             if #available(iOS 18.0, *) {
                 NavigationLink {
                     ARCTabViewDemoScreen()
@@ -140,6 +152,18 @@ extension DemoHomeView {
                 ARCEmptyStateShowcase()
             } label: {
                 Label("Empty State Showcase", systemImage: "tray.circle")
+            }
+
+            NavigationLink {
+                ARCSkeletonShowcase()
+            } label: {
+                Label("Skeleton Showcase", systemImage: "rectangle.dashed.badge.record")
+            }
+
+            NavigationLink {
+                ARCToastShowcase()
+            } label: {
+                Label("Toast Showcase", systemImage: "bubble.middle.bottom")
             }
 
             NavigationLink {
