@@ -57,12 +57,10 @@ public enum ARCRatingStyle: String, CaseIterable, Sendable {
 /// // Minimal badge for inline text
 /// ARCRatingView(rating: 9.0, style: .minimal)
 ///
-/// // Custom max rating (1-5 scale)
-/// ARCRatingView(rating: 4.5, maxRating: 5.0)
-///
 /// // Using configuration presets
-/// ARCRatingView(rating: 8.0, configuration: .compact)
-/// ARCRatingView(rating: 4.2, configuration: .fiveStars)
+/// ARCRatingView(rating: 8.0, configuration: .circularGauge)
+/// ARCRatingView(rating: 7.5, configuration: .compactInline)
+/// ARCRatingView(rating: 9.2, configuration: .minimal)
 /// ```
 ///
 /// ## Color Scale
@@ -108,10 +106,10 @@ public struct ARCRatingView: View {
     ///
     /// - Parameters:
     ///   - rating: The rating value to display
-    ///   - configuration: Visual configuration (default: `.default`)
+    ///   - configuration: Visual configuration (default: `.circularGauge`)
     public init(
         rating: Double,
-        configuration: ARCRatingViewConfiguration = .default
+        configuration: ARCRatingViewConfiguration = .circularGauge
     ) {
         self.rating = rating
         self.configuration = configuration
@@ -344,20 +342,14 @@ extension ARCRatingView {
 /// ## Presets
 ///
 /// ```swift
-/// // Default (1-10 scale, circular gauge)
-/// ARCRatingView(rating: 8.5, configuration: .default)
+/// // Circular gauge (default)
+/// ARCRatingView(rating: 8.5, configuration: .circularGauge)
 ///
 /// // Compact inline for lists
-/// ARCRatingView(rating: 7.0, configuration: .compact)
+/// ARCRatingView(rating: 7.0, configuration: .compactInline)
 ///
 /// // Minimal badge
 /// ARCRatingView(rating: 9.2, configuration: .minimal)
-///
-/// // 5-star scale
-/// ARCRatingView(rating: 4.5, configuration: .fiveStars)
-///
-/// // Static (no animation)
-/// ARCRatingView(rating: 8.0, configuration: .static)
 /// ```
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCRatingViewConfiguration: Sendable {
@@ -390,36 +382,16 @@ public struct ARCRatingViewConfiguration: Sendable {
         self.animated = animated
     }
 
-    // MARK: - Presets (1-10 Scale)
+    // MARK: - Presets
 
-    /// Default: Circular gauge, 1-10 scale, animated
-    public static let `default` = ARCRatingViewConfiguration()
+    /// Circular gauge style, 1-10 scale, animated
+    public static let circularGauge = ARCRatingViewConfiguration()
 
     /// Compact inline style for lists, 1-10 scale
-    public static let compact = ARCRatingViewConfiguration(style: .compactInline)
+    public static let compactInline = ARCRatingViewConfiguration(style: .compactInline)
 
     /// Minimal badge style, 1-10 scale
     public static let minimal = ARCRatingViewConfiguration(style: .minimal)
-
-    /// Static display without animation, 1-10 scale
-    public static let `static` = ARCRatingViewConfiguration(animated: false)
-
-    // MARK: - Presets (1-5 Scale)
-
-    /// Circular gauge for 1-5 star scale
-    public static let fiveStars = ARCRatingViewConfiguration(maxRating: 5.0)
-
-    /// Compact inline for 1-5 star scale
-    public static let fiveStarsCompact = ARCRatingViewConfiguration(
-        style: .compactInline,
-        maxRating: 5.0
-    )
-
-    /// Minimal badge for 1-5 star scale
-    public static let fiveStarsMinimal = ARCRatingViewConfiguration(
-        style: .minimal,
-        maxRating: 5.0
-    )
 }
 
 // MARK: - View Extension
@@ -474,30 +446,6 @@ public extension View {
     ], spacing: .arcSpacingLarge) {
         ForEach([2.0, 4.0, 5.5, 7.0, 8.5, 10.0], id: \.self) { rating in
             ARCRatingView(rating: rating)
-        }
-    }
-    .padding()
-}
-
-#Preview("5-Star Scale") {
-    VStack(spacing: .arcSpacingLarge) {
-        Text("5-Star Scale")
-            .font(.headline)
-
-        HStack(spacing: .arcSpacingLarge) {
-            ARCRatingView(rating: 2.0, configuration: .fiveStars)
-            ARCRatingView(rating: 3.5, configuration: .fiveStars)
-            ARCRatingView(rating: 5.0, configuration: .fiveStars)
-        }
-
-        HStack(spacing: .arcSpacingLarge) {
-            ARCRatingView(rating: 2.5, configuration: .fiveStarsCompact)
-            ARCRatingView(rating: 4.0, configuration: .fiveStarsCompact)
-        }
-
-        HStack(spacing: .arcSpacingLarge) {
-            ARCRatingView(rating: 3.0, configuration: .fiveStarsMinimal)
-            ARCRatingView(rating: 4.5, configuration: .fiveStarsMinimal)
         }
     }
     .padding()

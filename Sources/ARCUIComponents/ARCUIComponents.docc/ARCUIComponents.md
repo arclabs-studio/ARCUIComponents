@@ -20,6 +20,7 @@ Each component is crafted to match Apple's design language as seen in their flag
 - <doc:ARCMenu>
 - <doc:ARCFavoriteButton>
 - <doc:ARCListCard>
+- <doc:ARCRatingView>
 - <doc:ARCEmptyState>
 - <doc:ThematicArtwork>
 
@@ -43,6 +44,12 @@ Each component is crafted to match Apple's design language as seen in their flag
 
 - ``ARCListCard``
 - ``ARCListCardConfiguration``
+
+### ARCRatingView
+
+- ``ARCRatingView``
+- ``ARCRatingStyle``
+- ``ARCRatingViewConfiguration``
 
 ### ARCEmptyState
 
@@ -79,6 +86,7 @@ Each component is crafted to match Apple's design language as seen in their flag
 
 - ``ARCMenuShowcase``
 - ``ARCListCardShowcase``
+- ``ARCRatingViewShowcase``
 - ``ARCEmptyStateShowcase``
 - ``LiquidGlassShowcase``
 
