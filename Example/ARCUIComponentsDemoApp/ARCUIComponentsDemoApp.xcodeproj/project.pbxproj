@@ -58,13 +58,13 @@
 		B50000010000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				B50000010000000000000002 /* ARCUIComponentsDemoApp */,
+				B50000010000000000000002 /*  */,
 				B50000010000000000000003 /* Products */,
 				B50000010000000000000004 /* Packages */,
 			);
 			sourceTree = "<group>";
 		};
-		B50000010000000000000002 /* ARCUIComponentsDemoApp */ = {
+		B50000010000000000000002 /*  */ = {
 			isa = PBXGroup;
 			children = (
 				B20000010000000000000001 /* ARCUIComponentsDemoApp.swift */,
