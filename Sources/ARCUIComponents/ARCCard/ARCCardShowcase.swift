@@ -136,7 +136,7 @@ public struct ARCCardShowcase: View {
                 ) {
                     cardImage(icon: "book.fill", color: .blue)
                 } footer: {
-                    ARCRatingView(rating: 4.8, configuration: .heart)
+                    ARCRatingView(rating: 4.8)
                 }
             }
         }

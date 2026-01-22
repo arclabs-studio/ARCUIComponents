@@ -10,17 +10,24 @@ import SwiftUI
 
 /// Demo screen for ARCRatingView component.
 ///
-/// Shows rating displays with various configurations, icons, and styles.
+/// Shows rating displays with various styles, configurations, and scales.
 struct ARCRatingViewDemoScreen: View {
+    // MARK: - State
+
+    @State private var interactiveRating: Double = 7.0
+
     // MARK: - Body
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
-                basicRatingsSection
-                configurationsSection
-                customIconsSection
+            VStack(spacing: 32) {
+                stylesSection
+                colorScaleSection
+                interactiveSection
+                presetsSection
+                fiveStarsSection
                 usageExamplesSection
+                overlaySection
             }
             .padding()
         }
@@ -31,67 +38,32 @@ struct ARCRatingViewDemoScreen: View {
     }
 }
 
-// MARK: - Private Views
+// MARK: - Sections
 
 private extension ARCRatingViewDemoScreen {
-    var basicRatingsSection: some View {
+    // MARK: - Styles Section
+
+    var stylesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Basic Ratings")
-                .font(.headline)
-                .foregroundStyle(Color.arcBrandBurgundy)
+            sectionHeader("Styles", description: "3 visual styles for different contexts")
 
-            VStack(alignment: .leading, spacing: 16) {
-                ratingRow(label: "Excellent", rating: 5.0)
-                ratingRow(label: "Very Good", rating: 4.5)
-                ratingRow(label: "Good", rating: 4.0)
-                ratingRow(label: "Average", rating: 3.5)
-                ratingRow(label: "Below Average", rating: 2.5)
-            }
-            .padding()
-            .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-        }
-    }
-
-    func ratingRow(label: String, rating: Double) -> some View {
-        HStack {
-            Text(label)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-            Spacer()
-            ARCRatingView(rating: rating)
-        }
-    }
-
-    var configurationsSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Configurations")
-                .font(.headline)
-                .foregroundStyle(Color.arcBrandBurgundy)
-
-            VStack(alignment: .leading, spacing: 20) {
-                configRow(
-                    title: "Default",
-                    description: "Star icon with numeric value",
-                    content: { ARCRatingView(rating: 4.5, configuration: .default) }
+            VStack(spacing: 20) {
+                styleRow(
+                    title: "Circular Gauge",
+                    description: "Default - Cards, featured content",
+                    style: .circularGauge
                 )
 
-                configRow(
-                    title: "Compact",
-                    description: "Icon only, no numeric value",
-                    content: { ARCRatingView(rating: 4.5, configuration: .compact) }
+                styleRow(
+                    title: "Compact Inline",
+                    description: "Lists, table rows",
+                    style: .compactInline
                 )
 
-                configRow(
-                    title: "Large",
-                    description: "Headline font size",
-                    content: { ARCRatingView(rating: 4.5, configuration: .large) }
-                )
-
-                configRow(
-                    title: "Heart",
-                    description: "Pink heart icon",
-                    content: { ARCRatingView(rating: 4.5, configuration: .heart) }
+                styleRow(
+                    title: "Minimal",
+                    description: "Badges, inline text",
+                    style: .minimal
                 )
             }
             .padding()
@@ -100,11 +72,7 @@ private extension ARCRatingViewDemoScreen {
         }
     }
 
-    func configRow<Content: View>(
-        title: String,
-        description: String,
-        @ViewBuilder content: () -> Content
-    ) -> some View {
+    func styleRow(title: String, description: String, style: ARCRatingStyle) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -114,27 +82,37 @@ private extension ARCRatingViewDemoScreen {
                     .foregroundStyle(.secondary)
             }
             Spacer()
-            content()
+            ARCRatingView(rating: 8.5, style: style)
         }
     }
 
-    var customIconsSection: some View {
+    // MARK: - Color Scale Section
+
+    var colorScaleSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Custom Icons")
-                .font(.headline)
-                .foregroundStyle(Color.arcBrandBurgundy)
+            sectionHeader("Color Scale", description: "Semantic colors from 1 to 10")
 
             LazyVGrid(columns: [
                 GridItem(.flexible()),
                 GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
                 GridItem(.flexible())
             ], spacing: 16) {
-                iconExample(icon: "star.fill", color: .yellow, label: "Star")
-                iconExample(icon: "heart.fill", color: .pink, label: "Heart")
-                iconExample(icon: "flame.fill", color: .orange, label: "Flame")
-                iconExample(icon: "hand.thumbsup.fill", color: .blue, label: "Thumbs")
-                iconExample(icon: "bolt.fill", color: .purple, label: "Bolt")
-                iconExample(icon: "leaf.fill", color: .green, label: "Leaf")
+                ForEach(1...10, id: \.self) { rating in
+                    VStack(spacing: 4) {
+                        ARCRatingView(
+                            rating: Double(rating),
+                            style: .circularGauge,
+                            animated: false
+                        )
+                        .scaleEffect(0.7)
+
+                        Text("\(rating)")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                }
             }
             .padding()
             .background(.ultraThinMaterial)
@@ -142,27 +120,120 @@ private extension ARCRatingViewDemoScreen {
         }
     }
 
-    func iconExample(icon: String, color: Color, label: String) -> some View {
-        VStack(spacing: 8) {
-            ARCRatingView(
-                rating: 4.2,
-                icon: icon,
-                iconColor: color
-            )
-            Text(label)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+    // MARK: - Interactive Section
+
+    var interactiveSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            sectionHeader("Interactive", description: "Drag to see animated transitions")
+
+            VStack(spacing: 20) {
+                HStack {
+                    Spacer()
+                    ARCRatingView(rating: interactiveRating, style: .circularGauge)
+                    Spacer()
+                    ARCRatingView(rating: interactiveRating, style: .compactInline)
+                    Spacer()
+                    ARCRatingView(rating: interactiveRating, style: .minimal)
+                    Spacer()
+                }
+
+                Slider(value: $interactiveRating, in: 1...10, step: 0.5)
+                    .tint(.green)
+
+                Text("Rating: \(String(format: "%.1f", interactiveRating))")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .padding()
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
     }
 
-    var usageExamplesSection: some View {
+    // MARK: - Presets Section
+
+    var presetsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Usage Examples")
-                .font(.headline)
-                .foregroundStyle(Color.arcBrandBurgundy)
+            sectionHeader("Configuration Presets", description: "Ready-to-use configurations")
 
             VStack(spacing: 16) {
-                // Restaurant card example
+                presetRow(title: ".default", config: .default)
+                presetRow(title: ".compact", config: .compact)
+                presetRow(title: ".minimal", config: .minimal)
+                presetRow(title: ".static", config: .static)
+            }
+            .padding()
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        }
+    }
+
+    func presetRow(title: String, config: ARCRatingViewConfiguration) -> some View {
+        HStack {
+            Text(title)
+                .font(.subheadline.monospaced())
+                .foregroundStyle(.secondary)
+            Spacer()
+            ARCRatingView(rating: 8.5, configuration: config)
+        }
+    }
+
+    // MARK: - Five Stars Section
+
+    var fiveStarsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            sectionHeader("5-Star Scale", description: "Alternative scale for classic ratings")
+
+            VStack(spacing: 20) {
+                HStack {
+                    Text(".fiveStars")
+                        .font(.caption.monospaced())
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    HStack(spacing: 16) {
+                        ARCRatingView(rating: 2.0, configuration: .fiveStars)
+                        ARCRatingView(rating: 3.5, configuration: .fiveStars)
+                        ARCRatingView(rating: 5.0, configuration: .fiveStars)
+                    }
+                }
+
+                HStack {
+                    Text(".fiveStarsCompact")
+                        .font(.caption.monospaced())
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    HStack(spacing: 16) {
+                        ARCRatingView(rating: 2.5, configuration: .fiveStarsCompact)
+                        ARCRatingView(rating: 4.0, configuration: .fiveStarsCompact)
+                    }
+                }
+
+                HStack {
+                    Text(".fiveStarsMinimal")
+                        .font(.caption.monospaced())
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    HStack(spacing: 16) {
+                        ARCRatingView(rating: 3.0, configuration: .fiveStarsMinimal)
+                        ARCRatingView(rating: 4.5, configuration: .fiveStarsMinimal)
+                    }
+                }
+            }
+            .padding()
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        }
+    }
+
+    // MARK: - Usage Examples Section
+
+    var usageExamplesSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            sectionHeader("Usage Examples", description: "Real-world integration patterns")
+
+            VStack(spacing: 16) {
+                // Restaurant card
                 HStack(spacing: 12) {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(Color.orange.opacity(0.2))
@@ -173,70 +244,108 @@ private extension ARCRatingViewDemoScreen {
                         }
 
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Restaurant Name")
+                        Text("La Bella Italia")
                             .font(.headline)
-                        Text("Italian Cuisine • $$")
+                        Text("Italian Cuisine • $$$$")
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                        ARCRatingView(rating: 4.7)
                     }
 
                     Spacer()
+
+                    ARCRatingView(rating: 9.2)
                 }
                 .padding()
                 .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
 
-                // Book card example
-                HStack(spacing: 12) {
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.pink.opacity(0.2))
-                        .frame(width: 60, height: 60)
-                        .overlay {
-                            Image(systemName: "book.fill")
-                                .foregroundStyle(.pink)
-                        }
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Book Title")
-                            .font(.headline)
-                        Text("Author Name")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                        ARCRatingView(rating: 4.9, configuration: .heart)
-                    }
-
-                    Spacer()
+                // Product list
+                VStack(spacing: 0) {
+                    listRow(name: "iPhone 16 Pro", rating: 9.4)
+                    Divider().padding(.leading, 16)
+                    listRow(name: "AirPods Pro", rating: 8.8)
+                    Divider().padding(.leading, 16)
+                    listRow(name: "MacBook Air", rating: 9.1)
                 }
-                .padding()
                 .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
 
-                // App review example
-                HStack(spacing: 12) {
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.blue.opacity(0.2))
-                        .frame(width: 60, height: 60)
-                        .overlay {
-                            Image(systemName: "app.fill")
-                                .foregroundStyle(.blue)
-                        }
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("App Name")
-                            .font(.headline)
-                        Text("125K Reviews")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                        ARCRatingView(rating: 4.8, configuration: .large)
-                    }
-
-                    Spacer()
+                // Inline text
+                HStack(spacing: 4) {
+                    Text("Rating:")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    ARCRatingView(rating: 8.7, style: .minimal)
+                    Text("(234 reviews)")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
                 .background(.ultraThinMaterial)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
+        }
+    }
+
+    func listRow(name: String, rating: Double) -> some View {
+        HStack {
+            Text(name)
+                .font(.subheadline)
+            Spacer()
+            ARCRatingView(rating: rating, style: .compactInline)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+    }
+
+    // MARK: - Overlay Section
+
+    var overlaySection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            sectionHeader("Rating Overlay", description: "View modifier for easy integration")
+
+            HStack(spacing: 16) {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(
+                        LinearGradient(
+                            colors: [.blue.opacity(0.3), .purple.opacity(0.2)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 120, height: 80)
+                    .overlay {
+                        Image(systemName: "photo")
+                            .font(.largeTitle)
+                            .foregroundStyle(.blue.opacity(0.5))
+                    }
+                    .ratingOverlay(9.2)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(".ratingOverlay(9.2)")
+                        .font(.caption.monospaced())
+                    Text("Adds a minimal rating badge to any view")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding()
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        }
+    }
+
+    // MARK: - Helpers
+
+    func sectionHeader(_ title: String, description: String) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title)
+                .font(.headline)
+                .foregroundStyle(Color.arcBrandBurgundy)
+            Text(description)
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
 }
