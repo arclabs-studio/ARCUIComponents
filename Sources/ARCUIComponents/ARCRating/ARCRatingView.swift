@@ -393,20 +393,6 @@ public struct ARCRatingViewConfiguration: Sendable {
 
     /// Minimal badge style, 1-10 scale
     public static let minimal = ARCRatingViewConfiguration(style: .minimal)
-
-    /// Static display without animation, 1-10 scale
-    public static let `static` = ARCRatingViewConfiguration(animated: false)
-
-    // MARK: - 5-Star Scale Presets
-
-    /// Circular gauge style for 5-star scale
-    public static let fiveStars = ARCRatingViewConfiguration(maxRating: 5.0)
-
-    /// Compact inline style for 5-star scale
-    public static let fiveStarsCompact = ARCRatingViewConfiguration(style: .compactInline, maxRating: 5.0)
-
-    /// Minimal badge style for 5-star scale
-    public static let fiveStarsMinimal = ARCRatingViewConfiguration(style: .minimal, maxRating: 5.0)
 }
 
 // MARK: - View Extension

@@ -25,7 +25,6 @@ struct ARCRatingViewDemoScreen: View {
                 colorScaleSection
                 interactiveSection
                 presetsSection
-                fiveStarsSection
                 usageExamplesSection
                 overlaySection
             }
@@ -158,10 +157,9 @@ private extension ARCRatingViewDemoScreen {
             sectionHeader("Configuration Presets", description: "Ready-to-use configurations")
 
             VStack(spacing: 16) {
-                presetRow(title: ".default", config: .circularGauge)
-                presetRow(title: ".compact", config: .compactInline)
+                presetRow(title: ".circularGauge", config: .circularGauge)
+                presetRow(title: ".compactInline", config: .compactInline)
                 presetRow(title: ".minimal", config: .minimal)
-                presetRow(title: ".static", config: .static)
             }
             .padding()
             .background(.ultraThinMaterial)
@@ -176,53 +174,6 @@ private extension ARCRatingViewDemoScreen {
                 .foregroundStyle(.secondary)
             Spacer()
             ARCRatingView(rating: 8.5, configuration: config)
-        }
-    }
-
-    // MARK: - Five Stars Section
-
-    var fiveStarsSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            sectionHeader("5-Star Scale", description: "Alternative scale for classic ratings")
-
-            VStack(spacing: 20) {
-                HStack {
-                    Text(".fiveStars")
-                        .font(.caption.monospaced())
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    HStack(spacing: 16) {
-                        ARCRatingView(rating: 2.0, configuration: .fiveStars)
-                        ARCRatingView(rating: 3.5, configuration: .fiveStars)
-                        ARCRatingView(rating: 5.0, configuration: .fiveStars)
-                    }
-                }
-
-                HStack {
-                    Text(".fiveStarsCompact")
-                        .font(.caption.monospaced())
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    HStack(spacing: 16) {
-                        ARCRatingView(rating: 2.5, configuration: .fiveStarsCompact)
-                        ARCRatingView(rating: 4.0, configuration: .fiveStarsCompact)
-                    }
-                }
-
-                HStack {
-                    Text(".fiveStarsMinimal")
-                        .font(.caption.monospaced())
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    HStack(spacing: 16) {
-                        ARCRatingView(rating: 3.0, configuration: .fiveStarsMinimal)
-                        ARCRatingView(rating: 4.5, configuration: .fiveStarsMinimal)
-                    }
-                }
-            }
-            .padding()
-            .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         }
     }
 
