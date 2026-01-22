@@ -25,6 +25,8 @@ A modern Swift package providing beautifully designed, reusable UI components th
 | **ARCEmptyState** | Empty state views for various scenarios (no data, errors, offline) |
 | **ARCSkeletonView** | Skeleton loading placeholders with shimmer animation |
 | **ARCToast** | Non-intrusive toast notifications with queuing, actions, and haptic feedback |
+| **ARCBadge/Tag/Chip** | Label components for status, categories, and filters |
+| **ARCOnboarding** | Customizable onboarding flow with page indicators, navigation, and animations |
 | **ARCTabView** | Floating tab bar with Liquid Glass effect (iOS 18+) |
 | **LiquidGlass** | Glassmorphism effect modifier for any view |
 
@@ -401,6 +403,14 @@ Sources/ARCUIComponents/
 │   ├── ARCToastManager.swift
 │   ├── ARCToastModifier.swift
 │   └── ARCToastShowcase.swift
+├── ARCOnboarding/            # Onboarding flow component
+│   ├── ARCOnboarding.swift
+│   ├── ARCOnboardingPage.swift
+│   ├── ARCOnboardingConfiguration.swift
+│   ├── Views/
+│   │   ├── ARCOnboardingPageView.swift
+│   │   └── ARCOnboardingIndicator.swift
+│   └── ARCOnboardingShowcase.swift
 ├── ARCEffects/               # Visual effects
 │   └── LiquidGlassModifier.swift
 ├── Navigation/               # Navigation components
@@ -548,7 +558,9 @@ ARCUIComponents is available under the MIT license. See the [LICENSE](LICENSE) f
 - [x] ARCCard component
 - [x] ARCSkeletonView (skeleton loading with shimmer)
 - [x] ARCToast (toast notifications with queuing)
-- [ ] ARCBadge/Tag/Chip component
+- [x] ARCBadge/Tag/Chip component
+- [x] ARCOnboarding (onboarding flow with page navigation)
+- [ ] ARCBottomSheet component
 - [ ] ARCButton component
 - [ ] ARCTextField component
 - [ ] ARCAlert component

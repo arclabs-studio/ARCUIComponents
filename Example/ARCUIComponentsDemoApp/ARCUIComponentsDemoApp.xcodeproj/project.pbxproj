@@ -27,6 +27,7 @@
 		B10000010000000000000015 /* ARCBadgeDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000015 /* ARCBadgeDemoScreen.swift */; };
 		B10000010000000000000016 /* ARCTagDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000016 /* ARCTagDemoScreen.swift */; };
 		B10000010000000000000017 /* ARCChipDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000017 /* ARCChipDemoScreen.swift */; };
+		B10000010000000000000018 /* ARCOnboardingDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000018 /* ARCOnboardingDemoScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		B20000010000000000000015 /* ARCBadgeDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCBadgeDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000016 /* ARCTagDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCTagDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000017 /* ARCChipDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCChipDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000018 /* ARCOnboardingDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCOnboardingDemoScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				B20000010000000000000015 /* ARCBadgeDemoScreen.swift */,
 				B20000010000000000000016 /* ARCTagDemoScreen.swift */,
 				B20000010000000000000017 /* ARCChipDemoScreen.swift */,
+				B20000010000000000000018 /* ARCOnboardingDemoScreen.swift */,
 				B20000010000000000000008 /* LiquidGlassDemoScreen.swift */,
 				B2000001000000000000000A /* ARCTabViewDemoScreen.swift */,
 				B2000001000000000000000F /* ThematicArtworkDemoScreen.swift */,
@@ -238,6 +241,7 @@
 				B10000010000000000000015 /* ARCBadgeDemoScreen.swift in Sources */,
 				B10000010000000000000016 /* ARCTagDemoScreen.swift in Sources */,
 				B10000010000000000000017 /* ARCChipDemoScreen.swift in Sources */,
+				B10000010000000000000018 /* ARCOnboardingDemoScreen.swift in Sources */,
 				B10000010000000000000008 /* LiquidGlassDemoScreen.swift in Sources */,
 				B1000001000000000000000A /* ARCTabViewDemoScreen.swift in Sources */,
 				B1000001000000000000000F /* ThematicArtworkDemoScreen.swift in Sources */,

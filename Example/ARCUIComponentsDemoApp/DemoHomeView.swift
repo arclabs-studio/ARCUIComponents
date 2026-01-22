@@ -100,6 +100,12 @@ extension DemoHomeView {
                 Label("ARCChip", systemImage: "capsule.fill")
             }
 
+            NavigationLink {
+                ARCOnboardingDemoScreen()
+            } label: {
+                Label("ARCOnboarding", systemImage: "person.crop.rectangle.stack")
+            }
+
             if #available(iOS 18.0, *) {
                 NavigationLink {
                     ARCTabViewDemoScreen()
@@ -200,6 +206,12 @@ extension DemoHomeView {
                 ARCChipShowcase()
             } label: {
                 Label("Chip Showcase", systemImage: "capsule.inset.filled")
+            }
+
+            NavigationLink {
+                ARCOnboardingShowcase()
+            } label: {
+                Label("Onboarding Showcase", systemImage: "person.crop.rectangle.stack.fill")
             }
 
             NavigationLink {
