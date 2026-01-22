@@ -20,6 +20,7 @@ A modern Swift package providing beautifully designed, reusable UI components th
 | **ARCMenu** | Slide-in menu with Liquid Glass effect, user profile, and customizable items |
 | **ARCFavoriteButton** | Animated toggle button with haptic feedback, symbol effects, and icon presets |
 | **ARCListCard** | Versatile card for lists with images, accessories, and multiple styles |
+| **ARCRatingView** | Numeric rating display with 3 styles: circular gauge, compact inline, and minimal badge |
 | **ARCEmptyState** | Empty state views for various scenarios (no data, errors, offline) |
 | **ARCTabView** | Floating tab bar with Liquid Glass effect (iOS 18+) |
 | **LiquidGlass** | Glassmorphism effect modifier for any view |
@@ -376,6 +377,9 @@ Sources/ARCUIComponents/
 ├── ARCLists/                 # List card component
 │   ├── ARCListCard.swift
 │   └── ARCListCardConfiguration.swift
+├── ARCRating/                # Rating view component
+│   ├── ARCRatingView.swift
+│   └── ARCRatingViewShowcase.swift
 ├── ARCEmptyState/            # Empty state component
 │   ├── ARCEmptyState.swift
 │   └── ARCEmptyStateConfiguration.swift

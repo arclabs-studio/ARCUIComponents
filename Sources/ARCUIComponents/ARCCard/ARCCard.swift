@@ -435,7 +435,7 @@ extension ARCCard {
                 .foregroundStyle(.blue)
         }
     } footer: {
-        ARCRatingView(rating: 4.8, configuration: .heart)
+        ARCRatingView(rating: 4.8)
     }
     .frame(width: 180)
     .padding()
