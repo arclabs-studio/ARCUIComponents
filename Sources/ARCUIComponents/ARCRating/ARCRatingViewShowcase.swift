@@ -230,21 +230,18 @@ public struct ARCRatingViewShowcase: View {
             .background(cardBackground)
         }
     }
+}
 
-    // MARK: - In Context Section
+// MARK: - In Context Section
 
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCRatingViewShowcase {
     @ViewBuilder
-    private var inContextSection: some View {
+    var inContextSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("In Context", subtitle: "Real-world usage examples")
-
-            // Restaurant card
             restaurantCard
-
-            // Product list
             productList
-
-            // Inline text example
             inlineTextExample
         }
     }
@@ -353,11 +350,14 @@ public struct ARCRatingViewShowcase: View {
         .padding()
         .background(cardBackground)
     }
+}
 
-    // MARK: - Helpers
+// MARK: - Helpers
 
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCRatingViewShowcase {
     @ViewBuilder
-    private func sectionHeader(_ title: String, subtitle: String? = nil) -> some View {
+    func sectionHeader(_ title: String, subtitle: String? = nil) -> some View {
         VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
             Text(title)
                 .font(.title2.bold())
@@ -371,12 +371,12 @@ public struct ARCRatingViewShowcase: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    private var cardBackground: some View {
+    var cardBackground: some View {
         RoundedRectangle(cornerRadius: .arcCornerRadiusMedium)
             .fill(.ultraThinMaterial)
     }
 
-    private func ratingLabel(for rating: Double) -> String {
+    func ratingLabel(for rating: Double) -> String {
         switch rating {
         case 0..<3: return "Poor"
         case 3..<5: return "Fair"
@@ -385,10 +385,13 @@ public struct ARCRatingViewShowcase: View {
         default: return "Excellent"
         }
     }
+}
 
-    // MARK: - Sample Data
+// MARK: - Sample Data
 
-    private var sampleItems: [SampleItem] {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCRatingViewShowcase {
+    fileprivate var sampleItems: [SampleItem] {
         [
             SampleItem(name: "Pasta Carbonara", icon: "fork.knife", color: .orange, rating: 9.2),
             SampleItem(name: "Caesar Salad", icon: "leaf.fill", color: .green, rating: 7.8),
@@ -397,7 +400,7 @@ public struct ARCRatingViewShowcase: View {
         ]
     }
 
-    private var productItems: [ProductItem] {
+    fileprivate var productItems: [ProductItem] {
         [
             ProductItem(name: "iPhone 16 Pro", category: "Electronics", icon: "iphone", color: .blue, rating: 9.4),
             ProductItem(name: "AirPods Pro", category: "Audio", icon: "airpodspro", color: .gray, rating: 8.8),
