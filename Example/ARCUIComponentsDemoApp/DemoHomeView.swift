@@ -82,6 +82,24 @@ extension DemoHomeView {
                 Label("ARCToast", systemImage: "bubble.middle.bottom.fill")
             }
 
+            NavigationLink {
+                ARCBadgeDemoScreen()
+            } label: {
+                Label("ARCBadge", systemImage: "app.badge")
+            }
+
+            NavigationLink {
+                ARCTagDemoScreen()
+            } label: {
+                Label("ARCTag", systemImage: "tag.fill")
+            }
+
+            NavigationLink {
+                ARCChipDemoScreen()
+            } label: {
+                Label("ARCChip", systemImage: "capsule.fill")
+            }
+
             if #available(iOS 18.0, *) {
                 NavigationLink {
                     ARCTabViewDemoScreen()
@@ -164,6 +182,24 @@ extension DemoHomeView {
                 ARCToastShowcase()
             } label: {
                 Label("Toast Showcase", systemImage: "bubble.middle.bottom")
+            }
+
+            NavigationLink {
+                ARCBadgeShowcase()
+            } label: {
+                Label("Badge Showcase", systemImage: "app.badge.fill")
+            }
+
+            NavigationLink {
+                ARCTagShowcase()
+            } label: {
+                Label("Tag Showcase", systemImage: "tag.circle")
+            }
+
+            NavigationLink {
+                ARCChipShowcase()
+            } label: {
+                Label("Chip Showcase", systemImage: "capsule.inset.filled")
             }
 
             NavigationLink {
