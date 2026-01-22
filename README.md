@@ -24,6 +24,7 @@ A modern Swift package providing beautifully designed, reusable UI components th
 | **ARCRatingView** | Numeric rating display with 3 styles: circular gauge, compact inline, and minimal badge |
 | **ARCEmptyState** | Empty state views for various scenarios (no data, errors, offline) |
 | **ARCSkeletonView** | Skeleton loading placeholders with shimmer animation |
+| **ARCToast** | Non-intrusive toast notifications with queuing, actions, and haptic feedback |
 | **ARCTabView** | Floating tab bar with Liquid Glass effect (iOS 18+) |
 | **LiquidGlass** | Glassmorphism effect modifier for any view |
 
@@ -392,6 +393,14 @@ Sources/ARCUIComponents/
 │   ├── ARCSkeletonCard.swift
 │   ├── SkeletonShimmerModifier.swift
 │   └── ARCSkeletonShowcase.swift
+├── ARCToast/                 # Toast notification component
+│   ├── ARCToast.swift
+│   ├── ARCToastType.swift
+│   ├── ARCToastAction.swift
+│   ├── ARCToastConfiguration.swift
+│   ├── ARCToastManager.swift
+│   ├── ARCToastModifier.swift
+│   └── ARCToastShowcase.swift
 ├── ARCEffects/               # Visual effects
 │   └── LiquidGlassModifier.swift
 ├── Navigation/               # Navigation components
@@ -538,7 +547,7 @@ ARCUIComponents is available under the MIT license. See the [LICENSE](LICENSE) f
 - [x] LiquidGlass effect modifier
 - [x] ARCCard component
 - [x] ARCSkeletonView (skeleton loading with shimmer)
-- [ ] ARCToast component
+- [x] ARCToast (toast notifications with queuing)
 - [ ] ARCBadge/Tag/Chip component
 - [ ] ARCButton component
 - [ ] ARCTextField component
