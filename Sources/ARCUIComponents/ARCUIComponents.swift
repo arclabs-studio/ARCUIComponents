@@ -50,6 +50,12 @@
 /// ### ARCSkeletonView
 /// Skeleton loading placeholders with shimmer animation for perceived performance.
 ///
+/// ### ARCAvatar
+/// User profile avatar with support for images, initials, status indicators, and grouped display.
+///
+/// ### ARCCarousel
+/// Horizontal carousel component with snapping, indicators, auto-scroll, and scale effects.
+///
 /// ### LiquidGlass Modifier
 /// Apple Music-style glassmorphism effect.
 ///
@@ -122,6 +128,8 @@ public struct ARCUIComponents {
         • ARCSearchButton - Search trigger button
         • ARCEmptyState - Empty content placeholder
         • ARCSkeletonView - Skeleton loading with shimmer animation
+        • ARCAvatar - User profile avatar with initials and status
+        • ARCCarousel - Horizontal carousel with snapping and indicators
         • LiquidGlass - Glassmorphism effect modifier
         • ThematicArtwork - Themed placeholders and loaders
 

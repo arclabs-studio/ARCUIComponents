@@ -106,6 +106,30 @@ extension DemoHomeView {
                 Label("ARCOnboarding", systemImage: "person.crop.rectangle.stack")
             }
 
+            NavigationLink {
+                ARCBottomSheetDemoScreen()
+            } label: {
+                Label("ARCBottomSheet", systemImage: "rectangle.bottomhalf.inset.filled")
+            }
+
+            NavigationLink {
+                ARCActionButtonDemoScreen()
+            } label: {
+                Label("ARCActionButton", systemImage: "button.horizontal.top.press")
+            }
+
+            NavigationLink {
+                ARCAvatarDemoScreen()
+            } label: {
+                Label("ARCAvatar", systemImage: "person.crop.circle")
+            }
+
+            NavigationLink {
+                ARCCarouselDemoScreen()
+            } label: {
+                Label("ARCCarousel", systemImage: "rectangle.split.1x2")
+            }
+
             if #available(iOS 18.0, *) {
                 NavigationLink {
                     ARCTabViewDemoScreen()
@@ -212,6 +236,30 @@ extension DemoHomeView {
                 ARCOnboardingShowcase()
             } label: {
                 Label("Onboarding Showcase", systemImage: "person.crop.rectangle.stack.fill")
+            }
+
+            NavigationLink {
+                ARCBottomSheetShowcase()
+            } label: {
+                Label("Bottom Sheet Showcase", systemImage: "rectangle.bottomhalf.inset.filled")
+            }
+
+            NavigationLink {
+                ARCActionButtonShowcase()
+            } label: {
+                Label("Action Button Showcase", systemImage: "button.horizontal.top.press.fill")
+            }
+
+            NavigationLink {
+                ARCAvatarShowcase()
+            } label: {
+                Label("Avatar Showcase", systemImage: "person.crop.circle.fill")
+            }
+
+            NavigationLink {
+                ARCCarouselShowcase()
+            } label: {
+                Label("Carousel Showcase", systemImage: "rectangle.split.1x2.fill")
             }
 
             NavigationLink {
