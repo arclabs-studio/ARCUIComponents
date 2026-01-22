@@ -158,8 +158,8 @@ private extension ARCRatingViewDemoScreen {
             sectionHeader("Configuration Presets", description: "Ready-to-use configurations")
 
             VStack(spacing: 16) {
-                presetRow(title: ".default", config: .default)
-                presetRow(title: ".compact", config: .compact)
+                presetRow(title: ".default", config: .circularGauge)
+                presetRow(title: ".compact", config: .compactInline)
                 presetRow(title: ".minimal", config: .minimal)
                 presetRow(title: ".static", config: .static)
             }

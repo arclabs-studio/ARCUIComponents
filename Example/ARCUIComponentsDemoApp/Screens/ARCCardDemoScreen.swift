@@ -180,7 +180,7 @@ private extension ARCCardDemoScreen {
                                 .foregroundStyle(.pink)
                         }
                 } footer: {
-                    ARCRatingView(rating: 4.8, configuration: .compact)
+                    ARCRatingView(rating: 4.8, configuration: .compactInline)
                 }
             }
         }
