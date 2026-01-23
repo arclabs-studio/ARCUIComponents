@@ -821,10 +821,120 @@ private struct GalleryCard: View {
     }
 }
 
+// MARK: - Integration Guide
+
+/*
+ # ARCMenu Integration Guide
+
+ ## Basic Setup
+
+ 1. Import the package:
+ ```swift
+ import ARCUIComponents
+ ```
+
+ 2. Create a view model (usually as a @State property):
+ ```swift
+ @State private var menuViewModel = ARCMenuViewModel.standard(
+     user: ARCMenuUser(
+         name: "Your Name",
+         email: "you@email.com",
+         avatarImage: .initials("YN")
+     ),
+     onSettings: { /* handle settings */ },
+     onProfile: { /* handle profile */ },
+     onLogout: { /* handle logout */ }
+ )
+ ```
+
+ 3. Add menu to your view:
+ ```swift
+ var body: some View {
+     NavigationStack {
+         YourContentView()
+             .arcMenuButton(viewModel: menuViewModel)
+             .arcMenu(viewModel: menuViewModel)
+     }
+ }
+ ```
+
+ ## Advanced Customization
+
+ ### Custom Menu Items
+ ```swift
+ let customItem = ARCMenuItem(
+     title: "Custom Action",
+     subtitle: "Tap to do something",
+     icon: .system("star.fill", renderingMode: .multicolor),
+     badge: "New",
+     showsDisclosure: true,
+     action: { /* your action */ }
+ )
+ ```
+
+ ### Custom Configuration
+ ```swift
+ let config = ARCMenuConfiguration(
+     accentColor: .purple,
+     backgroundStyle: .liquidGlass,
+     cornerRadius: 30,
+     shadow: .prominent,
+     menuWidth: 320,
+     hapticFeedback: .medium
+ )
+
+ let viewModel = ARCMenuViewModel(
+     user: yourUser,
+     menuItems: yourItems,
+     configuration: config
+ )
+ ```
+
+ ### User Avatar Options
+ ```swift
+ // SF Symbol
+ .avatarImage(.systemImage("person.circle.fill"))
+
+ // Image from assets
+ .avatarImage(.imageName("avatar"))
+
+ // Remote URL
+ .avatarImage(.url(URL(string: "https://...")!))
+
+ // Initials with gradient
+ .avatarImage(.initials("AB"))
+ ```
+
+ ## Best Practices
+
+ 1. **Configuration Presets**: Use built-in presets (.default, .fitness, .premium, .dark)
+    for consistent Apple-like styling
+
+ 2. **Haptic Feedback**: Keep haptic feedback enabled for better UX
+    (can be customized via configuration)
+
+ 3. **Badge Count**: Use badges sparingly for important notifications only
+
+ 4. **Menu Width**: Default 320pt works well for most cases,
+    adjust for iPad if needed
+
+ 5. **Destructive Actions**: Place logout/delete actions at the bottom
+    and mark as destructive
+
+ ## Tips
+
+ - The menu automatically handles safe areas and notches
+ - Drag-to-dismiss is enabled by default (can be disabled)
+ - The backdrop automatically adjusts opacity during drag
+ - All animations follow Apple's spring animation curves
+ - The menu supports both light and dark mode automatically
+ */
+
 // MARK: - Preview Provider
 
-#Preview("ARCMenu Showcase") {
+#Preview("Showcase - Light") {
     ARCMenuShowcase()
+        .preferredColorScheme(.light)
 }
 
 #Preview("Showcase - Dark Mode") {

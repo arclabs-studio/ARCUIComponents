@@ -20,7 +20,12 @@ Each component is crafted to match Apple's design language as seen in their flag
 - <doc:ARCMenu>
 - <doc:ARCFavoriteButton>
 - <doc:ARCListCard>
+- <doc:ARCRatingView>
 - <doc:ARCEmptyState>
+- <doc:ARCCarousel>
+- <doc:ARCSegmentedControl>
+- <doc:ARCProgress>
+- <doc:ARCTextField>
 - <doc:ThematicArtwork>
 
 ### ARCMenu
@@ -44,10 +49,44 @@ Each component is crafted to match Apple's design language as seen in their flag
 - ``ARCListCard``
 - ``ARCListCardConfiguration``
 
+### ARCRatingView
+
+- ``ARCRatingView``
+- ``ARCRatingStyle``
+- ``ARCRatingViewConfiguration``
+
 ### ARCEmptyState
 
 - ``ARCEmptyState``
 - ``ARCEmptyStateConfiguration``
+
+### ARCCarousel
+
+- ``ARCCarousel``
+- ``ARCFeaturedCarousel``
+- ``ARCCarouselConfiguration``
+
+### ARCSegmentedControl
+
+- ``ARCSegmentedControl``
+- ``ARCSegment``
+- ``ARCSegmentedControlConfiguration``
+
+### ARCProgress
+
+- ``ARCLinearProgress``
+- ``ARCLinearProgressConfiguration``
+- ``ARCCircularProgress``
+- ``ARCCircularProgressConfiguration``
+- ``ARCStepIndicator``
+- ``ARCStepIndicatorConfiguration``
+
+### ARCTextField
+
+- ``ARCTextField``
+- ``ARCSecureField``
+- ``ARCTextFieldConfiguration``
+- ``ARCTextFieldValidation``
 
 ### ThematicArtwork
 
@@ -79,7 +118,12 @@ Each component is crafted to match Apple's design language as seen in their flag
 
 - ``ARCMenuShowcase``
 - ``ARCListCardShowcase``
+- ``ARCRatingViewShowcase``
 - ``ARCEmptyStateShowcase``
+- ``ARCCarouselShowcase``
+- ``ARCSegmentedControlShowcase``
+- ``ARCProgressShowcase``
+- ``ARCTextFieldShowcase``
 - ``LiquidGlassShowcase``
 
 ## Installation

@@ -26,17 +26,46 @@
 /// ### ARCMenu
 /// A sophisticated slide-in menu component with liquid glass effect.
 ///
+/// ### ARCCard
+/// Generic card component with configurable image, badges, and footer slots for grids.
+///
 /// ### ARCFavoriteButton
 /// Animated heart toggle button for favorite/like actions.
 ///
 /// ### ARCListCard
 /// Card-based list rows with configurable styles.
 ///
+/// ### ARCRatingView
+/// Compact rating display with customizable icon and numeric value.
+///
+/// ### ARCCardPressStyle
+/// Button style with scale animation for interactive cards.
+///
 /// ### ARCSearchButton
 /// Customizable search trigger button.
 ///
 /// ### ARCEmptyState
 /// Empty content placeholder with optional action.
+///
+/// ### ARCSkeletonView
+/// Skeleton loading placeholders with shimmer animation for perceived performance.
+///
+/// ### ARCAvatar
+/// User profile avatar with support for images, initials, status indicators, and grouped display.
+///
+/// ### ARCCarousel
+/// Horizontal carousel component with snapping, indicators, auto-scroll, and scale effects.
+///
+/// ### ARCSegmentedControl
+/// Customizable segmented control with smooth selection animation and multiple styles.
+///
+/// ### ARCProgress
+/// Progress indicators including linear bars (``ARCLinearProgress``), circular indicators
+/// (``ARCCircularProgress``), and step indicators (``ARCStepIndicator``) for multi-step flows.
+///
+/// ### ARCTextField
+/// Advanced text field component with validation, floating labels, icons, and multiple styles.
+/// Includes ``ARCSecureField`` for password entry with visibility toggle.
 ///
 /// ### LiquidGlass Modifier
 /// Apple Music-style glassmorphism effect.
@@ -102,10 +131,19 @@ public struct ARCUIComponents {
 
         iOS/iPadOS Components (v1.x):
         • ARCMenu - Premium slide-in menu with liquid glass effect
+        • ARCCard - Generic card for grids with image, badges, and footer
         • ARCFavoriteButton - Animated favorite toggle
         • ARCListCard - Card-based list rows
+        • ARCRatingView - Compact rating display with icon
+        • ARCCardPressStyle - Button style for interactive cards
         • ARCSearchButton - Search trigger button
         • ARCEmptyState - Empty content placeholder
+        • ARCSkeletonView - Skeleton loading with shimmer animation
+        • ARCAvatar - User profile avatar with initials and status
+        • ARCCarousel - Horizontal carousel with snapping and indicators
+        • ARCSegmentedControl - Segmented control with multiple styles
+        • ARCProgress - Linear, circular, and step progress indicators
+        • ARCTextField - Advanced text field with validation and styling
         • LiquidGlass - Glassmorphism effect modifier
         • ThematicArtwork - Themed placeholders and loaders
 

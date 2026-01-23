@@ -66,6 +66,7 @@ public struct ARCMenu: View {
                                 viewModel.dismiss()
                             }
                         }
+                        .accessibilityHidden(true)
                         .transition(.opacity)
                 }
 
@@ -156,8 +157,7 @@ public struct ARCMenu: View {
 
     // MARK: - Sheet Header Components
 
-    @ViewBuilder
-    private var grabberView: some View {
+    @ViewBuilder private var grabberView: some View {
         RoundedRectangle(cornerRadius: 2.5)
             .fill(Color.secondary.opacity(0.4))
             .frame(width: 36, height: 5)
@@ -165,8 +165,7 @@ public struct ARCMenu: View {
             .padding(.bottom, .arcSpacingXSmall)
     }
 
-    @ViewBuilder
-    private var sheetHeaderView: some View {
+    @ViewBuilder private var sheetHeaderView: some View {
         HStack {
             // Close button (leading position like Apple Music)
             if viewModel.configuration.showsCloseButton {
@@ -201,15 +200,13 @@ public struct ARCMenu: View {
         .padding(.vertical, .arcSpacingSmall)
     }
 
-    @ViewBuilder
-    private var userHeaderSection: some View {
+    @ViewBuilder private var userHeaderSection: some View {
         if let user = viewModel.user {
             ARCMenuUserHeader(user: user, configuration: viewModel.configuration, onTap: nil)
         }
     }
 
-    @ViewBuilder
-    private var menuItemsSection: some View {
+    @ViewBuilder private var menuItemsSection: some View {
         VStack(spacing: .arcSpacingXSmall) {
             ForEach(viewModel.menuItems) { item in
                 ARCMenuItemRow(
@@ -225,8 +222,7 @@ public struct ARCMenu: View {
         .background { menuItemsBackground }
     }
 
-    @ViewBuilder
-    private var menuItemsBackground: some View {
+    @ViewBuilder private var menuItemsBackground: some View {
         RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
             .fill(.ultraThinMaterial)
             .overlay {
@@ -235,8 +231,7 @@ public struct ARCMenu: View {
             }
     }
 
-    @ViewBuilder
-    private var versionSection: some View {
+    @ViewBuilder private var versionSection: some View {
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             Text("Version \(version)")
                 .font(.caption2)

@@ -53,9 +53,99 @@ extension DemoHomeView {
             }
 
             NavigationLink {
+                ARCCardDemoScreen()
+            } label: {
+                Label("ARCCard", systemImage: "square.stack.3d.up")
+            }
+
+            NavigationLink {
+                ARCRatingViewDemoScreen()
+            } label: {
+                Label("ARCRatingView", systemImage: "star.fill")
+            }
+
+            NavigationLink {
                 ARCEmptyStateDemoScreen()
             } label: {
                 Label("ARCEmptyState", systemImage: "tray")
+            }
+
+            NavigationLink {
+                ARCSkeletonDemoScreen()
+            } label: {
+                Label("ARCSkeletonView", systemImage: "rectangle.dashed")
+            }
+
+            NavigationLink {
+                ARCToastDemoScreen()
+            } label: {
+                Label("ARCToast", systemImage: "bubble.middle.bottom.fill")
+            }
+
+            NavigationLink {
+                ARCBadgeDemoScreen()
+            } label: {
+                Label("ARCBadge", systemImage: "app.badge")
+            }
+
+            NavigationLink {
+                ARCTagDemoScreen()
+            } label: {
+                Label("ARCTag", systemImage: "tag.fill")
+            }
+
+            NavigationLink {
+                ARCChipDemoScreen()
+            } label: {
+                Label("ARCChip", systemImage: "capsule.fill")
+            }
+
+            NavigationLink {
+                ARCOnboardingDemoScreen()
+            } label: {
+                Label("ARCOnboarding", systemImage: "person.crop.rectangle.stack")
+            }
+
+            NavigationLink {
+                ARCBottomSheetDemoScreen()
+            } label: {
+                Label("ARCBottomSheet", systemImage: "rectangle.bottomhalf.inset.filled")
+            }
+
+            NavigationLink {
+                ARCButtonDemoScreen()
+            } label: {
+                Label("ARCButton", systemImage: "button.horizontal.top.press")
+            }
+
+            NavigationLink {
+                ARCAvatarDemoScreen()
+            } label: {
+                Label("ARCAvatar", systemImage: "person.crop.circle")
+            }
+
+            NavigationLink {
+                ARCCarouselDemoScreen()
+            } label: {
+                Label("ARCCarousel", systemImage: "rectangle.split.1x2")
+            }
+
+            NavigationLink {
+                ARCSegmentedControlDemoScreen()
+            } label: {
+                Label("ARCSegmentedControl", systemImage: "rectangle.split.3x1")
+            }
+
+            NavigationLink {
+                ARCProgressDemoScreen()
+            } label: {
+                Label("ARCProgress", systemImage: "chart.bar.fill")
+            }
+
+            NavigationLink {
+                ARCTextFieldDemoScreen()
+            } label: {
+                Label("ARCTextField", systemImage: "character.cursor.ibeam")
             }
 
             if #available(iOS 18.0, *) {
@@ -107,9 +197,105 @@ extension DemoHomeView {
             }
 
             NavigationLink {
+                ARCCardShowcase()
+            } label: {
+                Label("Card Showcase", systemImage: "square.stack.3d.up.fill")
+            }
+
+            NavigationLink {
+                ARCRatingViewShowcase()
+            } label: {
+                Label("Rating View Showcase", systemImage: "star.circle")
+            }
+
+            NavigationLink {
+                ARCFavoriteButtonShowcase()
+            } label: {
+                Label("Favorite Button Showcase", systemImage: "heart.circle")
+            }
+
+            NavigationLink {
                 ARCEmptyStateShowcase()
             } label: {
                 Label("Empty State Showcase", systemImage: "tray.circle")
+            }
+
+            NavigationLink {
+                ARCSkeletonShowcase()
+            } label: {
+                Label("Skeleton Showcase", systemImage: "rectangle.dashed.badge.record")
+            }
+
+            NavigationLink {
+                ARCToastShowcase()
+            } label: {
+                Label("Toast Showcase", systemImage: "bubble.middle.bottom")
+            }
+
+            NavigationLink {
+                ARCBadgeShowcase()
+            } label: {
+                Label("Badge Showcase", systemImage: "app.badge.fill")
+            }
+
+            NavigationLink {
+                ARCTagShowcase()
+            } label: {
+                Label("Tag Showcase", systemImage: "tag.circle")
+            }
+
+            NavigationLink {
+                ARCChipShowcase()
+            } label: {
+                Label("Chip Showcase", systemImage: "capsule.inset.filled")
+            }
+
+            NavigationLink {
+                ARCOnboardingShowcase()
+            } label: {
+                Label("Onboarding Showcase", systemImage: "person.crop.rectangle.stack.fill")
+            }
+
+            NavigationLink {
+                ARCBottomSheetShowcase()
+            } label: {
+                Label("Bottom Sheet Showcase", systemImage: "rectangle.bottomhalf.inset.filled")
+            }
+
+            NavigationLink {
+                ARCButtonShowcase()
+            } label: {
+                Label("Button Showcase", systemImage: "button.horizontal.top.press.fill")
+            }
+
+            NavigationLink {
+                ARCAvatarShowcase()
+            } label: {
+                Label("Avatar Showcase", systemImage: "person.crop.circle.fill")
+            }
+
+            NavigationLink {
+                ARCCarouselShowcase()
+            } label: {
+                Label("Carousel Showcase", systemImage: "rectangle.split.1x2.fill")
+            }
+
+            NavigationLink {
+                ARCSegmentedControlShowcase()
+            } label: {
+                Label("Segmented Control Showcase", systemImage: "rectangle.split.3x1.fill")
+            }
+
+            NavigationLink {
+                ARCProgressShowcase()
+            } label: {
+                Label("Progress Showcase", systemImage: "chart.bar.fill")
+            }
+
+            NavigationLink {
+                ARCTextFieldShowcase()
+            } label: {
+                Label("TextField Showcase", systemImage: "character.cursor.ibeam")
             }
 
             NavigationLink {
