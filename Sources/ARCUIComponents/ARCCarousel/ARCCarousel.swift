@@ -79,7 +79,7 @@ where Data.Element: Identifiable {
 
     @State private var containerWidth: CGFloat = 0
     @State private var autoScrollTimer: Timer?
-    @State private var isDragging: Bool = false
+    @State private var isDragging = false
     @State private var scrollPosition: Int?
 
     // MARK: - Environment
@@ -102,7 +102,7 @@ where Data.Element: Identifiable {
         @ViewBuilder content: @escaping (Data.Element) -> Content
     ) {
         self.data = data
-        self._currentIndex = currentIndex
+        _currentIndex = currentIndex
         self.configuration = configuration
         self.content = content
     }
@@ -384,7 +384,7 @@ private struct PreviewItem: Identifiable {
         PreviewItem(color: .blue, title: "First"),
         PreviewItem(color: .green, title: "Second"),
         PreviewItem(color: .orange, title: "Third"),
-        PreviewItem(color: .purple, title: "Fourth"),
+        PreviewItem(color: .purple, title: "Fourth")
     ]
 
     ARCCarousel(items) { item in
@@ -406,7 +406,7 @@ private struct PreviewItem: Identifiable {
     let items = [
         PreviewItem(color: .red, title: "Featured 1"),
         PreviewItem(color: .blue, title: "Featured 2"),
-        PreviewItem(color: .green, title: "Featured 3"),
+        PreviewItem(color: .green, title: "Featured 3")
     ]
 
     ARCCarousel(items, configuration: .featured) { item in
@@ -428,7 +428,7 @@ private struct PreviewItem: Identifiable {
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Cards") {
-    let items = (1...8).map { PreviewItem(color: .blue.opacity(Double($0) / 10 + 0.2), title: "Card \($0)") }
+    let items = (1 ... 8).map { PreviewItem(color: .blue.opacity(Double($0) / 10 + 0.2), title: "Card \($0)") }
 
     ARCCarousel(items, configuration: .cards) { item in
         RoundedRectangle(cornerRadius: 20)

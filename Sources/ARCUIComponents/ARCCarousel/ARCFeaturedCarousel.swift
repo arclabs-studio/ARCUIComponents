@@ -75,7 +75,7 @@ where Data.Element: Identifiable {
         @ViewBuilder content: @escaping (Data.Element) -> Content
     ) {
         self.data = data
-        self._currentIndex = currentIndex
+        _currentIndex = currentIndex
         self.autoScrollInterval = autoScrollInterval
         self.showIndicators = showIndicators
         self.content = content
@@ -129,7 +129,7 @@ private struct FeaturedPreviewItem: Identifiable {
         FeaturedPreviewItem(color: .blue, title: "Summer Sale", subtitle: "Up to 50% off"),
         FeaturedPreviewItem(color: .orange, title: "New Arrivals", subtitle: "Check out what's new"),
         FeaturedPreviewItem(color: .purple, title: "Featured", subtitle: "Editor's choice"),
-        FeaturedPreviewItem(color: .green, title: "Trending", subtitle: "Popular this week"),
+        FeaturedPreviewItem(color: .green, title: "Trending", subtitle: "Popular this week")
     ]
 
     VStack {

@@ -66,7 +66,7 @@ public struct ARCBottomSheetShowcase: View {
         LinearGradient(
             colors: [
                 Color.arcBrandBurgundy.opacity(0.1),
-                Color.purple.opacity(0.1),
+                Color.purple.opacity(0.1)
             ],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
@@ -213,17 +213,19 @@ public struct ARCBottomSheetShowcase: View {
         .buttonStyle(.plain)
     }
 
+    private func fractionForDetent(_ detent: ARCBottomSheetDetent) -> CGFloat {
+        switch detent {
+        case .small: 0.15
+        case .medium: 0.5
+        case .large: 0.9
+        case let .fraction(value): value
+        case .height: 0.3
+        }
+    }
+
     @ViewBuilder
     private func detentPreview(_ detent: ARCBottomSheetDetent) -> some View {
-        let fraction: CGFloat = {
-            switch detent {
-            case .small: return 0.15
-            case .medium: return 0.5
-            case .large: return 0.9
-            case .fraction(let f): return f
-            case .height: return 0.3
-            }
-        }()
+        let fraction = fractionForDetent(detent)
 
         ZStack(alignment: .bottom) {
             RoundedRectangle(cornerRadius: 4)
@@ -366,11 +368,14 @@ public struct ARCBottomSheetShowcase: View {
                     Text("Sheet Content")
                         .font(.subheadline.weight(.medium))
 
-                    Text("Drag the handle to resize between detents. The sheet supports velocity-based snapping for natural interaction.")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                    Text("""
+                    Drag the handle to resize between detents. \
+                    The sheet supports velocity-based snapping for natural interaction.
+                    """)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
 
-                    ForEach(0..<5, id: \.self) { index in
+                    ForEach(0 ..< 5, id: \.self) { index in
                         HStack(spacing: 12) {
                             Circle()
                                 .fill(Color.arcBrandBurgundy.opacity(0.2))
@@ -418,16 +423,9 @@ public struct ARCBottomSheetShowcase: View {
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCBottomSheetShowcase {
     fileprivate enum ShowcaseSection: String, CaseIterable {
-        case configurations
-        case detents
-        case interactive
+        case configurations, detents, interactive
     }
-}
 
-// MARK: - ConfigOption
-
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCBottomSheetShowcase {
     fileprivate enum ConfigOption: String, CaseIterable, Identifiable {
         case `default`
         case modal
@@ -440,80 +438,63 @@ extension ARCBottomSheetShowcase {
 
         var title: String {
             switch self {
-            case .default: return "Default"
-            case .modal: return "Modal"
-            case .persistent: return "Persistent"
-            case .drawer: return "Drawer"
-            case .glass: return "Glass"
-            case .compact: return "Compact"
+            case .default: "Default"
+            case .modal: "Modal"
+            case .persistent: "Persistent"
+            case .drawer: "Drawer"
+            case .glass: "Glass"
+            case .compact: "Compact"
             }
         }
 
         var description: String {
             switch self {
             case .default:
-                return "Balanced settings with handle, dismissable, background dimming"
+                "Balanced settings with handle, dismissable, background dimming"
             case .modal:
-                return "Strong dimming, tap background to dismiss, focused presentation"
+                "Strong dimming, tap background to dismiss, focused presentation"
             case .persistent:
-                return "Non-dismissable, no background dimming, always visible"
+                "Non-dismissable, no background dimming, always visible"
             case .drawer:
-                return "Maps-style drawer, non-dismissable, semi-transparent"
+                "Maps-style drawer, non-dismissable, semi-transparent"
             case .glass:
-                return "Premium liquid glass effect with larger corner radius"
+                "Premium liquid glass effect with larger corner radius"
             case .compact:
-                return "Smaller handle, lighter styling for small content"
+                "Smaller handle, lighter styling for small content"
             }
         }
 
         var icon: String {
             switch self {
-            case .default: return "slider.horizontal.3"
-            case .modal: return "rectangle.portrait.on.rectangle.portrait"
-            case .persistent: return "pin.fill"
-            case .drawer: return "map"
-            case .glass: return "sparkles"
-            case .compact: return "rectangle.compress.vertical"
+            case .default: "slider.horizontal.3"
+            case .modal: "rectangle.portrait.on.rectangle.portrait"
+            case .persistent: "pin.fill"
+            case .drawer: "map"
+            case .glass: "sparkles"
+            case .compact: "rectangle.compress.vertical"
             }
         }
 
         var color: Color {
             switch self {
-            case .default: return .blue
-            case .modal: return .purple
-            case .persistent: return .green
-            case .drawer: return .orange
-            case .glass: return .pink
-            case .compact: return .gray
+            case .default: .blue
+            case .modal: .purple
+            case .persistent: .green
+            case .drawer: .orange
+            case .glass: .pink
+            case .compact: .gray
             }
         }
 
         var configuration: ARCBottomSheetConfiguration {
             switch self {
-            case .default: return .default
-            case .modal: return .modal
-            case .persistent: return .persistent
-            case .drawer: return .drawer
-            case .glass: return .glass
-            case .compact: return .compact
+            case .default: .default
+            case .modal: .modal
+            case .persistent: .persistent
+            case .drawer: .drawer
+            case .glass: .glass
+            case .compact: .compact
             }
         }
     }
-}
-
-// MARK: - Preview
-
-@available(iOS 17.0, macOS 14.0, *)
-#Preview("ARCBottomSheetShowcase") {
-    NavigationStack {
-        ARCBottomSheetShowcase()
-    }
-}
-
-@available(iOS 17.0, macOS 14.0, *)
-#Preview("Dark Mode") {
-    NavigationStack {
-        ARCBottomSheetShowcase()
-    }
-    .preferredColorScheme(.dark)
 }

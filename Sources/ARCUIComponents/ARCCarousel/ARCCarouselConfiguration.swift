@@ -250,10 +250,10 @@ extension ARCCarouselConfiguration {
 
         public static func == (lhs: IndicatorPosition, rhs: IndicatorPosition) -> Bool {
             switch (lhs, rhs) {
-            case let (.bottom(l), .bottom(r)): l == r
-            case let (.top(l), .top(r)): l == r
-            case let (.overlay(l), .overlay(r)):
-                l.horizontal == r.horizontal && l.vertical == r.vertical
+            case let (.bottom(left), .bottom(right)): left == right
+            case let (.top(left), .top(right)): left == right
+            case let (.overlay(left), .overlay(right)):
+                left.horizontal == right.horizontal && left.vertical == right.vertical
             default: false
             }
         }

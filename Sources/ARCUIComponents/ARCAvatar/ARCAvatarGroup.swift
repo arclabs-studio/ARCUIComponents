@@ -259,7 +259,7 @@ public struct ARCAvatarGroupConfiguration: Sendable {
             avatars: [
                 ARCAvatar(name: "John Doe"),
                 ARCAvatar(name: "Jane Smith"),
-                ARCAvatar(name: "Bob Wilson"),
+                ARCAvatar(name: "Bob Wilson")
             ]
         )
 
@@ -270,7 +270,7 @@ public struct ARCAvatarGroupConfiguration: Sendable {
                 ARCAvatar(name: "Charlie"),
                 ARCAvatar(name: "Diana"),
                 ARCAvatar(name: "Eve"),
-                ARCAvatar(name: "Frank"),
+                ARCAvatar(name: "Frank")
             ],
             maxDisplay: 4
         )
@@ -323,6 +323,6 @@ public struct ARCAvatarGroupConfiguration: Sendable {
         ARCAvatar(name: "Jane Smith"),
         ARCAvatar(name: "Bob Wilson"),
         ARCAvatar(name: "Alice Brown"),
-        ARCAvatar(name: "Charlie Davis"),
+        ARCAvatar(name: "Charlie Davis")
     ]
 }

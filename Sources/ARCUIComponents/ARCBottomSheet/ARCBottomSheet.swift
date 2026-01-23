@@ -64,7 +64,8 @@ import SwiftUI
 /// }
 /// ```
 ///
-/// - Note: For presenting as an overlay, use the ``View/arcBottomSheet(isPresented:detents:selectedDetent:configuration:onDismiss:content:)``
+/// - Note: For presenting as an overlay, use the
+/// ``View/arcBottomSheet(isPresented:detents:selectedDetent:configuration:onDismiss:content:)``
 ///   view modifier instead.
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCBottomSheet<Content: View>: View {
@@ -124,7 +125,7 @@ public struct ARCBottomSheet<Content: View>: View {
         configuration: ARCBottomSheetConfiguration = .default,
         @ViewBuilder content: @escaping () -> Content
     ) {
-        self._selectedDetent = selectedDetent
+        _selectedDetent = selectedDetent
         self.detents = detents.isEmpty ? [.medium, .large] : detents
         self.configuration = configuration
         self.content = content
@@ -215,7 +216,7 @@ public struct ARCBottomSheet<Content: View>: View {
                         LinearGradient(
                             colors: [
                                 .white.opacity(0.15),
-                                .white.opacity(0.05),
+                                .white.opacity(0.05)
                             ],
                             startPoint: .top,
                             endPoint: .bottom
@@ -230,11 +231,11 @@ public struct ARCBottomSheet<Content: View>: View {
             Rectangle()
                 .fill(.thinMaterial)
 
-        case .solid(let color, let opacity):
+        case let .solid(color, opacity):
             Rectangle()
                 .fill(color.opacity(opacity))
 
-        case .material(let material):
+        case let .material(material):
             Rectangle()
                 .fill(material)
         }
@@ -363,7 +364,7 @@ public struct ARCBottomSheet<Content: View>: View {
                         Text("Drag the handle or swipe to change detents.")
                             .foregroundStyle(.secondary)
 
-                        ForEach(0..<5) { index in
+                        ForEach(0 ..< 5) { index in
                             HStack {
                                 Circle()
                                     .fill(.blue)

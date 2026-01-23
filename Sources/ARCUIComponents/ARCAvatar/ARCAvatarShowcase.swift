@@ -331,104 +331,47 @@ public struct ARCAvatarShowcase: View {
             .frame(maxWidth: .infinity)
         }
     }
+}
 
-    // MARK: - Avatar Group Section
+// MARK: - Example Sections
 
-    private var avatarGroupSection: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCAvatarShowcase {
+    var avatarGroupSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Avatar Groups")
-
             VStack(alignment: .leading, spacing: 20) {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("3 Members").font(.subheadline)
-                    ARCAvatarGroup(
-                        avatars: [
-                            ARCAvatar(name: "Alice Brown"),
-                            ARCAvatar(name: "Bob Smith"),
-                            ARCAvatar(name: "Carol White"),
-                        ]
-                    )
-                }
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("6 Members (max 4)").font(.subheadline)
-                    ARCAvatarGroup(
-                        avatars: [
-                            ARCAvatar(name: "Alice"),
-                            ARCAvatar(name: "Bob"),
-                            ARCAvatar(name: "Carol"),
-                            ARCAvatar(name: "David"),
-                            ARCAvatar(name: "Eve"),
-                            ARCAvatar(name: "Frank"),
-                        ],
-                        maxDisplay: 4
-                    )
-                }
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Compact Style").font(.subheadline)
-                    ARCAvatarGroup(
-                        avatars: sampleAvatars,
-                        maxDisplay: 5,
-                        configuration: .compact
-                    )
-                }
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Spread Style").font(.subheadline)
-                    ARCAvatarGroup(
-                        avatars: sampleAvatars,
-                        maxDisplay: 4,
-                        configuration: .spread
-                    )
-                }
-
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Large Style").font(.subheadline)
-                    ARCAvatarGroup(
-                        avatars: sampleAvatars,
-                        maxDisplay: 3,
-                        configuration: .large
-                    )
-                }
+                groupExample("3 Members", avatars: [
+                    ARCAvatar(name: "Alice Brown"),
+                    ARCAvatar(name: "Bob Smith"),
+                    ARCAvatar(name: "Carol White")
+                ])
+                groupExample(
+                    "6 Members (max 4)",
+                    avatars: [
+                        ARCAvatar(name: "Alice"),
+                        ARCAvatar(name: "Bob"),
+                        ARCAvatar(name: "Carol"),
+                        ARCAvatar(name: "David"),
+                        ARCAvatar(name: "Eve"),
+                        ARCAvatar(name: "Frank")
+                    ],
+                    maxDisplay: 4
+                )
+                groupExample("Compact Style", avatars: sampleAvatars, maxDisplay: 5, config: .compact)
+                groupExample("Spread Style", avatars: sampleAvatars, maxDisplay: 4, config: .spread)
+                groupExample("Large Style", avatars: sampleAvatars, maxDisplay: 3, config: .large)
             }
         }
     }
 
-    // MARK: - List Example Section
-
-    private var listExampleSection: some View {
+    var listExampleSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("List Example")
-
             VStack(spacing: 0) {
                 ForEach(sampleUsers, id: \.name) { user in
-                    HStack(spacing: 12) {
-                        ARCAvatar(
-                            name: user.name,
-                            status: user.status,
-                            configuration: .listItem
-                        )
-
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(user.name)
-                                .font(.body)
-                            Text(user.email)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-
-                        Spacer()
-
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
-                    }
-                    .padding(.vertical, 12)
-
-                    if user.name != sampleUsers.last?.name {
-                        Divider()
-                    }
+                    userRow(user)
+                    if user.name != sampleUsers.last?.name { Divider() }
                 }
             }
             .padding(.horizontal)
@@ -437,51 +380,17 @@ public struct ARCAvatarShowcase: View {
         }
     }
 
-    // MARK: - Profile Header Section
-
-    private var profileHeaderSection: some View {
+    var profileHeaderSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Profile Header Example")
-
             VStack(spacing: 16) {
-                ARCAvatar(
-                    name: "John Appleseed",
-                    status: .online,
-                    configuration: .profile
-                )
-
-                Text("John Appleseed")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-
-                Text("iOS Developer")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-
+                ARCAvatar(name: "John Appleseed", status: .online, configuration: .profile)
+                Text("John Appleseed").font(.title2).fontWeight(.semibold)
+                Text("iOS Developer").font(.subheadline).foregroundStyle(.secondary)
                 HStack(spacing: 32) {
-                    VStack {
-                        Text("142")
-                            .font(.headline)
-                        Text("Posts")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-
-                    VStack {
-                        Text("1.2K")
-                            .font(.headline)
-                        Text("Followers")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-
-                    VStack {
-                        Text("234")
-                            .font(.headline)
-                        Text("Following")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
+                    statView("142", "Posts")
+                    statView("1.2K", "Followers")
+                    statView("234", "Following")
                 }
             }
             .frame(maxWidth: .infinity)
@@ -490,33 +399,80 @@ public struct ARCAvatarShowcase: View {
             .clipShape(RoundedRectangle(cornerRadius: 16))
         }
     }
+}
 
-    // MARK: - Helpers
+// MARK: - Helpers
 
-    private func sectionHeader(_ title: String) -> some View {
-        Text(title)
-            .font(.headline)
-            .frame(maxWidth: .infinity, alignment: .leading)
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCAvatarShowcase {
+    func sectionHeader(_ title: String) -> some View {
+        Text(title).font(.headline).frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    private var sampleAvatars: [ARCAvatar] {
+    var sampleAvatars: [ARCAvatar] {
         [
             ARCAvatar(name: "Alice Brown"),
             ARCAvatar(name: "Bob Smith"),
             ARCAvatar(name: "Carol White"),
             ARCAvatar(name: "David Green"),
-            ARCAvatar(name: "Eve Black"),
+            ARCAvatar(name: "Eve Black")
         ]
     }
 
-    private var sampleUsers: [(name: String, email: String, status: ARCAvatarStatus)] {
+    var sampleUsers: [SampleUser] {
         [
-            (name: "Alice Brown", email: "alice@example.com", status: .online),
-            (name: "Bob Smith", email: "bob@example.com", status: .busy),
-            (name: "Carol White", email: "carol@example.com", status: .away),
-            (name: "David Green", email: "david@example.com", status: .offline),
+            SampleUser(name: "Alice Brown", email: "alice@example.com", status: .online),
+            SampleUser(name: "Bob Smith", email: "bob@example.com", status: .busy),
+            SampleUser(name: "Carol White", email: "carol@example.com", status: .away),
+            SampleUser(name: "David Green", email: "david@example.com", status: .offline)
         ]
     }
+
+    private func groupExample(
+        _ title: String,
+        avatars: [ARCAvatar],
+        maxDisplay: Int? = nil,
+        config: ARCAvatarGroupConfiguration? = nil
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title).font(.subheadline)
+            if let max = maxDisplay, let cfg = config {
+                ARCAvatarGroup(avatars: avatars, maxDisplay: max, configuration: cfg)
+            } else if let max = maxDisplay {
+                ARCAvatarGroup(avatars: avatars, maxDisplay: max)
+            } else {
+                ARCAvatarGroup(avatars: avatars)
+            }
+        }
+    }
+
+    private func userRow(_ user: SampleUser) -> some View {
+        HStack(spacing: 12) {
+            ARCAvatar(name: user.name, status: user.status, configuration: .listItem)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(user.name).font(.body)
+                Text(user.email).font(.caption).foregroundStyle(.secondary)
+            }
+            Spacer()
+            Image(systemName: "chevron.right").font(.caption).foregroundStyle(.tertiary)
+        }
+        .padding(.vertical, 12)
+    }
+
+    private func statView(_ value: String, _ label: String) -> some View {
+        VStack {
+            Text(value).font(.headline)
+            Text(label).font(.caption).foregroundStyle(.secondary)
+        }
+    }
+}
+
+// MARK: - Sample User Model
+
+private struct SampleUser {
+    let name: String
+    let email: String
+    let status: ARCAvatarStatus
 }
 
 // MARK: - Preview

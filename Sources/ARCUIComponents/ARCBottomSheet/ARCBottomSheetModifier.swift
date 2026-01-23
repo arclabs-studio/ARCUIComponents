@@ -47,7 +47,7 @@ struct ARCBottomSheetModifier<SheetContent: View>: ViewModifier {
     // MARK: - Sheet Overlay
 
     @ViewBuilder private var sheetOverlay: some View {
-        GeometryReader { geometry in
+        GeometryReader { _ in
             ZStack(alignment: .bottom) {
                 if configuration.dimBackground {
                     dimmedBackground
@@ -71,7 +71,7 @@ struct ARCBottomSheetModifier<SheetContent: View>: ViewModifier {
             .opacity(configuration.dimOpacity)
             .ignoresSafeArea()
             .onTapGesture {
-                if configuration.tapBackgroundToDismiss && configuration.isDismissable {
+                if configuration.tapBackgroundToDismiss, configuration.isDismissable {
                     dismiss()
                 }
             }
@@ -159,13 +159,13 @@ extension View {
     ///   - onDismiss: Closure called when the sheet is dismissed
     ///   - content: The content to display inside the sheet
     /// - Returns: A view with the bottom sheet modifier applied
-    public func arcBottomSheet<Content: View>(
+    public func arcBottomSheet(
         isPresented: Binding<Bool>,
         detents: Set<ARCBottomSheetDetent> = [.medium, .large],
         selectedDetent: Binding<ARCBottomSheetDetent>,
         configuration: ARCBottomSheetConfiguration = .default,
         onDismiss: (() -> Void)? = nil,
-        @ViewBuilder content: @escaping () -> Content
+        @ViewBuilder content: @escaping () -> some View
     ) -> some View {
         modifier(ARCBottomSheetModifier(
             isPresented: isPresented,
@@ -208,11 +208,11 @@ extension View {
     ///   - configuration: Configuration options for appearance and behavior (default: .persistent)
     ///   - content: The content to display inside the sheet
     /// - Returns: A view with the persistent sheet modifier applied
-    public func arcPersistentSheet<Content: View>(
+    public func arcPersistentSheet(
         selectedDetent: Binding<ARCBottomSheetDetent>,
         detents: Set<ARCBottomSheetDetent>,
         configuration: ARCBottomSheetConfiguration = .persistent,
-        @ViewBuilder content: @escaping () -> Content
+        @ViewBuilder content: @escaping () -> some View
     ) -> some View {
         modifier(ARCPersistentSheetModifier(
             selectedDetent: selectedDetent,
@@ -254,25 +254,18 @@ extension View {
                 detents: [.small, .medium, .large],
                 selectedDetent: $detent,
                 configuration: .modal,
-                onDismiss: {
-                    print("Sheet dismissed")
-                }
-            ) {
-                VStack(spacing: 16) {
-                    Text("Modal Sheet")
-                        .font(.headline)
-
-                    Text("Tap outside or drag down to dismiss")
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-
-                    Button("Close") {
-                        showSheet = false
+                onDismiss: { print("Sheet dismissed") },
+                content: {
+                    VStack(spacing: 16) {
+                        Text("Modal Sheet").font(.headline)
+                        Text("Tap outside or drag down to dismiss")
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                        Button("Close") { showSheet = false }.buttonStyle(.bordered)
                     }
-                    .buttonStyle(.bordered)
+                    .padding()
                 }
-                .padding()
-            }
+            )
         }
     }
 

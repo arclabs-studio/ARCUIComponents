@@ -31,10 +31,10 @@ public struct ARCCarouselShowcase: View {
         CarouselSampleItem(color: .green, title: "Forest", subtitle: "Nature calls"),
         CarouselSampleItem(color: .orange, title: "Sunset", subtitle: "Golden hour"),
         CarouselSampleItem(color: .purple, title: "Galaxy", subtitle: "Explore space"),
-        CarouselSampleItem(color: .red, title: "Passion", subtitle: "Feel alive"),
+        CarouselSampleItem(color: .red, title: "Passion", subtitle: "Feel alive")
     ]
 
-    private let manyItems: [CarouselSampleItem] = (1...12).map { index in
+    private let manyItems: [CarouselSampleItem] = (1 ... 12).map { index in
         CarouselSampleItem(
             color: Color(hue: Double(index) / 12.0, saturation: 0.7, brightness: 0.8),
             title: "Item \(index)",
@@ -206,10 +206,10 @@ public struct ARCCarouselShowcase: View {
     // MARK: - Helper Views
 
     @ViewBuilder
-    private func showcaseSection<Content: View>(
+    private func showcaseSection(
         title: String,
         subtitle: String,
-        @ViewBuilder content: () -> Content
+        @ViewBuilder content: () -> some View
     ) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionHeader(title: title, subtitle: subtitle)
