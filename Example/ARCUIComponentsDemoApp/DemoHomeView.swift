@@ -130,6 +130,24 @@ extension DemoHomeView {
                 Label("ARCCarousel", systemImage: "rectangle.split.1x2")
             }
 
+            NavigationLink {
+                ARCSegmentedControlDemoScreen()
+            } label: {
+                Label("ARCSegmentedControl", systemImage: "rectangle.split.3x1")
+            }
+
+            NavigationLink {
+                ARCProgressDemoScreen()
+            } label: {
+                Label("ARCProgress", systemImage: "chart.bar.fill")
+            }
+
+            NavigationLink {
+                ARCTextFieldDemoScreen()
+            } label: {
+                Label("ARCTextField", systemImage: "character.cursor.ibeam")
+            }
+
             if #available(iOS 18.0, *) {
                 NavigationLink {
                     ARCTabViewDemoScreen()
@@ -260,6 +278,24 @@ extension DemoHomeView {
                 ARCCarouselShowcase()
             } label: {
                 Label("Carousel Showcase", systemImage: "rectangle.split.1x2.fill")
+            }
+
+            NavigationLink {
+                ARCSegmentedControlShowcase()
+            } label: {
+                Label("Segmented Control Showcase", systemImage: "rectangle.split.3x1.fill")
+            }
+
+            NavigationLink {
+                ARCProgressShowcase()
+            } label: {
+                Label("Progress Showcase", systemImage: "chart.bar.fill")
+            }
+
+            NavigationLink {
+                ARCTextFieldShowcase()
+            } label: {
+                Label("TextField Showcase", systemImage: "character.cursor.ibeam")
             }
 
             NavigationLink {

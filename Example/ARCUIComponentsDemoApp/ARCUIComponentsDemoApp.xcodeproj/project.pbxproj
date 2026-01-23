@@ -32,6 +32,9 @@
 		B1000001000000000000001A /* ARCActionButtonDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000001A /* ARCActionButtonDemoScreen.swift */; };
 		B1000001000000000000001B /* ARCAvatarDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000001B /* ARCAvatarDemoScreen.swift */; };
 		B1000001000000000000001C /* ARCCarouselDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000001C /* ARCCarouselDemoScreen.swift */; };
+		B1000001000000000000001D /* ARCSegmentedControlDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000001D /* ARCSegmentedControlDemoScreen.swift */; };
+		B1000001000000000000001E /* ARCProgressDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000001E /* ARCProgressDemoScreen.swift */; };
+		B1000001000000000000001F /* ARCTextFieldDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000001F /* ARCTextFieldDemoScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +64,9 @@
 		B2000001000000000000001A /* ARCActionButtonDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCActionButtonDemoScreen.swift; sourceTree = "<group>"; };
 		B2000001000000000000001B /* ARCAvatarDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCAvatarDemoScreen.swift; sourceTree = "<group>"; };
 		B2000001000000000000001C /* ARCCarouselDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCCarouselDemoScreen.swift; sourceTree = "<group>"; };
+		B2000001000000000000001D /* ARCSegmentedControlDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCSegmentedControlDemoScreen.swift; sourceTree = "<group>"; };
+		B2000001000000000000001E /* ARCProgressDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCProgressDemoScreen.swift; sourceTree = "<group>"; };
+		B2000001000000000000001F /* ARCTextFieldDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCTextFieldDemoScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +138,9 @@
 				B2000001000000000000001A /* ARCActionButtonDemoScreen.swift */,
 				B2000001000000000000001B /* ARCAvatarDemoScreen.swift */,
 				B2000001000000000000001C /* ARCCarouselDemoScreen.swift */,
+				B2000001000000000000001D /* ARCSegmentedControlDemoScreen.swift */,
+				B2000001000000000000001E /* ARCProgressDemoScreen.swift */,
+				B2000001000000000000001F /* ARCTextFieldDemoScreen.swift */,
 				B20000010000000000000008 /* LiquidGlassDemoScreen.swift */,
 				B2000001000000000000000A /* ARCTabViewDemoScreen.swift */,
 				B2000001000000000000000F /* ThematicArtworkDemoScreen.swift */,
@@ -258,6 +267,9 @@
 				B1000001000000000000001A /* ARCActionButtonDemoScreen.swift in Sources */,
 				B1000001000000000000001B /* ARCAvatarDemoScreen.swift in Sources */,
 				B1000001000000000000001C /* ARCCarouselDemoScreen.swift in Sources */,
+				B1000001000000000000001D /* ARCSegmentedControlDemoScreen.swift in Sources */,
+				B1000001000000000000001E /* ARCProgressDemoScreen.swift in Sources */,
+				B1000001000000000000001F /* ARCTextFieldDemoScreen.swift in Sources */,
 				B10000010000000000000008 /* LiquidGlassDemoScreen.swift in Sources */,
 				B1000001000000000000000A /* ARCTabViewDemoScreen.swift in Sources */,
 				B1000001000000000000000F /* ThematicArtworkDemoScreen.swift in Sources */,

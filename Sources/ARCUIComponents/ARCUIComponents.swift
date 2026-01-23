@@ -56,6 +56,17 @@
 /// ### ARCCarousel
 /// Horizontal carousel component with snapping, indicators, auto-scroll, and scale effects.
 ///
+/// ### ARCSegmentedControl
+/// Customizable segmented control with smooth selection animation and multiple styles.
+///
+/// ### ARCProgress
+/// Progress indicators including linear bars (``ARCLinearProgress``), circular indicators
+/// (``ARCCircularProgress``), and step indicators (``ARCStepIndicator``) for multi-step flows.
+///
+/// ### ARCTextField
+/// Advanced text field component with validation, floating labels, icons, and multiple styles.
+/// Includes ``ARCSecureField`` for password entry with visibility toggle.
+///
 /// ### LiquidGlass Modifier
 /// Apple Music-style glassmorphism effect.
 ///
@@ -130,6 +141,9 @@ public struct ARCUIComponents {
         • ARCSkeletonView - Skeleton loading with shimmer animation
         • ARCAvatar - User profile avatar with initials and status
         • ARCCarousel - Horizontal carousel with snapping and indicators
+        • ARCSegmentedControl - Segmented control with multiple styles
+        • ARCProgress - Linear, circular, and step progress indicators
+        • ARCTextField - Advanced text field with validation and styling
         • LiquidGlass - Glassmorphism effect modifier
         • ThematicArtwork - Themed placeholders and loaders
 
