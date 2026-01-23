@@ -339,12 +339,10 @@ public struct ARCSegmentedControl<SelectionValue: Hashable & Sendable>: View {
 
 // MARK: - CaseIterable Convenience Init
 
-// swiftformat:disable:next wrapMultilineStatementBraces
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCSegmentedControl
     where SelectionValue: CaseIterable & RawRepresentable, SelectionValue.AllCases: RandomAccessCollection,
-    SelectionValue.RawValue == String
-{
+    SelectionValue.RawValue == String {
     /// Creates a segmented control from an enum conforming to CaseIterable
     ///
     /// This convenience initializer automatically creates segments from all cases
