@@ -231,11 +231,23 @@ extension ARCChipDemoScreen {
                 }
 
                 configRow("Custom Colors", description: "Brand color variations") {
-                    HStack(spacing: 8) {
-                        ARCChip("Blue", isSelected: .constant(true), configuration: .init(selectedColor: .blue))
-                        ARCChip("Green", isSelected: .constant(true), configuration: .init(selectedColor: .green))
-                        ARCChip("Purple", isSelected: .constant(true), configuration: .init(selectedColor: .purple))
-                        ARCChip("Orange", isSelected: .constant(true), configuration: .init(selectedColor: .orange))
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 8) {
+                            ARCChip("Blue", isSelected: .constant(true), configuration: .init(selectedColor: .blue))
+                            ARCChip("Green", isSelected: .constant(true), configuration: .init(selectedColor: .green))
+                            ARCChip("Purple", isSelected: .constant(true), configuration: .init(selectedColor: .purple))
+                            ARCChip("Orange", isSelected: .constant(true), configuration: .init(selectedColor: .orange))
+                            ARCChip(
+                                "Burgundy",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .arcBrandBurgundy)
+                            )
+                            ARCChip(
+                                "Gold",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .arcBrandGold)
+                            )
+                        }
                     }
                 }
 
