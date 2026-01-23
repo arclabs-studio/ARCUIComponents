@@ -178,7 +178,7 @@ public struct ARCTextField: View {
     // MARK: - Field Content
 
     @ViewBuilder private var fieldContent: some View {
-        HStack(spacing: 12) {
+        HStack(alignment: hasFloatingLabel ? .center : .center, spacing: 12) {
             leadingContent
             textFieldContent
             trailingContent
@@ -191,19 +191,26 @@ public struct ARCTextField: View {
             Image(systemName: icon)
                 .font(.system(size: 18, weight: .medium))
                 .foregroundStyle(iconColor)
-                .frame(width: 24)
+                .frame(width: 24, height: 24)
         }
     }
 
     @ViewBuilder private var textFieldContent: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            if let label = configuration.label {
+        if let label = configuration.label {
+            VStack(alignment: .leading, spacing: 2) {
                 floatingLabel(label)
+                textInputView
             }
-
+            .frame(maxWidth: .infinity, alignment: .leading)
+        } else {
             textInputView
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// Whether this configuration has a floating label
+    private var hasFloatingLabel: Bool {
+        configuration.label != nil
     }
 
     @ViewBuilder
@@ -249,14 +256,20 @@ public struct ARCTextField: View {
     }
 
     @ViewBuilder private var multilineTextField: some View {
-        TextField(
-            shouldFloatLabel ? "" : placeholder,
-            text: $text,
-            axis: .vertical
-        )
-        .font(.body)
-        .foregroundStyle(.primary)
-        .lineLimit(1 ... (configuration.lineLimit ?? 10))
+        ZStack(alignment: .topLeading) {
+            if text.isEmpty, !shouldFloatLabel {
+                Text(placeholder)
+                    .font(.body)
+                    .foregroundStyle(.secondary.opacity(0.6))
+                    .padding(.top, 8)
+            }
+
+            TextEditor(text: $text)
+                .font(.body)
+                .foregroundStyle(.primary)
+                .scrollContentBackground(.hidden)
+                .frame(minHeight: 60)
+        }
     }
 
     @ViewBuilder private var trailingContent: some View {
