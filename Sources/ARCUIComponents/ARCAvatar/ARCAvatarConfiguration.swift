@@ -247,6 +247,64 @@ public struct ARCAvatarConfiguration: Sendable {
         borderColor: .white,
         borderWidth: 2
     )
+
+    // MARK: - Fun Placeholder Icons
+
+    /// Robot avatar for playful UX
+    public static let robot = ARCAvatarConfiguration(
+        backgroundColor: .purple.opacity(0.3),
+        foregroundColor: .purple,
+        placeholderIcon: "cpu.fill"
+    )
+
+    /// Alien avatar for playful UX
+    public static let alien = ARCAvatarConfiguration(
+        backgroundColor: .green.opacity(0.3),
+        foregroundColor: .green,
+        placeholderIcon: "antenna.radiowaves.left.and.right"
+    )
+
+    /// Ghost avatar for playful UX
+    public static let ghost = ARCAvatarConfiguration(
+        backgroundColor: .gray.opacity(0.2),
+        foregroundColor: .gray,
+        placeholderIcon: "theatermasks.fill"
+    )
+
+    /// Cat avatar for playful UX
+    public static let cat = ARCAvatarConfiguration(
+        backgroundColor: .orange.opacity(0.3),
+        foregroundColor: .orange,
+        placeholderIcon: "cat.fill"
+    )
+
+    /// Dog avatar for playful UX
+    public static let dog = ARCAvatarConfiguration(
+        backgroundColor: .brown.opacity(0.3),
+        foregroundColor: .brown,
+        placeholderIcon: "dog.fill"
+    )
+
+    /// Wizard avatar for playful UX
+    public static let wizard = ARCAvatarConfiguration(
+        backgroundColor: .indigo.opacity(0.3),
+        foregroundColor: .indigo,
+        placeholderIcon: "sparkles"
+    )
+
+    /// Ninja avatar for playful UX
+    public static let ninja = ARCAvatarConfiguration(
+        backgroundColor: .black.opacity(0.3),
+        foregroundColor: .primary,
+        placeholderIcon: "figure.martial.arts"
+    )
+
+    /// Gamer avatar for playful UX
+    public static let gamer = ARCAvatarConfiguration(
+        backgroundColor: .cyan.opacity(0.3),
+        foregroundColor: .cyan,
+        placeholderIcon: "gamecontroller.fill"
+    )
 }
 
 // MARK: - ARCAvatarStatus

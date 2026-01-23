@@ -419,7 +419,7 @@ extension ARCAvatarShowcase {
         ]
     }
 
-    var sampleUsers: [SampleUser] {
+    private var sampleUsers: [SampleUser] {
         [
             SampleUser(name: "Alice Brown", email: "alice@example.com", status: .online),
             SampleUser(name: "Bob Smith", email: "bob@example.com", status: .busy),

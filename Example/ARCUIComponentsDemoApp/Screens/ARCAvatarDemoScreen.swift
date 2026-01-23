@@ -24,6 +24,7 @@ struct ARCAvatarDemoScreen: View {
         ScrollView {
             VStack(spacing: 32) {
                 contentTypesSection
+                funAvatarsSection
                 sizesSection
                 shapesSection
                 statusSection
@@ -116,6 +117,36 @@ extension ARCAvatarDemoScreen {
         .background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
     }
 
+    // MARK: - Fun Avatars Section
+
+    private var funAvatarsSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            sectionHeader("Fun Avatars", subtitle: "Playful placeholder designs")
+
+            contentRow("Characters & Animals", description: "Whimsical placeholder icons") {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 16) {
+                        labeledAvatar(.robot, "Robot")
+                        labeledAvatar(.alien, "Alien")
+                        labeledAvatar(.wizard, "Wizard")
+                        labeledAvatar(.ninja, "Ninja")
+                        labeledAvatar(.gamer, "Gamer")
+                        labeledAvatar(.cat, "Cat")
+                        labeledAvatar(.dog, "Dog")
+                        labeledAvatar(.ghost, "Ghost")
+                    }
+                }
+            }
+        }
+    }
+
+    private func labeledAvatar(_ config: ARCAvatarConfiguration, _ label: String) -> some View {
+        VStack(spacing: 4) {
+            ARCAvatar(configuration: config)
+            Text(label).font(.caption2).foregroundStyle(.secondary)
+        }
+    }
+
     // MARK: - Sizes Section
 
     private var sizesSection: some View {
@@ -123,39 +154,27 @@ extension ARCAvatarDemoScreen {
             sectionHeader("Avatar Sizes", subtitle: "From extra small to extra extra large")
 
             HStack(alignment: .bottom, spacing: 12) {
-                VStack(spacing: 4) {
-                    ARCAvatar(name: "XS", configuration: ARCAvatarConfiguration(size: .xs))
-                    Text("XS").font(.caption2).foregroundStyle(.secondary)
-                    Text("24pt").font(.caption2).foregroundStyle(.tertiary)
-                }
-
-                VStack(spacing: 4) {
-                    ARCAvatar(name: "SM", configuration: ARCAvatarConfiguration(size: .sm))
-                    Text("SM").font(.caption2).foregroundStyle(.secondary)
-                    Text("32pt").font(.caption2).foregroundStyle(.tertiary)
-                }
-
-                VStack(spacing: 4) {
-                    ARCAvatar(name: "MD", configuration: ARCAvatarConfiguration(size: .md))
-                    Text("MD").font(.caption2).foregroundStyle(.secondary)
-                    Text("40pt").font(.caption2).foregroundStyle(.tertiary)
-                }
-
-                VStack(spacing: 4) {
-                    ARCAvatar(name: "LG", configuration: ARCAvatarConfiguration(size: .lg))
-                    Text("LG").font(.caption2).foregroundStyle(.secondary)
-                    Text("56pt").font(.caption2).foregroundStyle(.tertiary)
-                }
-
-                VStack(spacing: 4) {
-                    ARCAvatar(name: "XL", configuration: ARCAvatarConfiguration(size: .xl))
-                    Text("XL").font(.caption2).foregroundStyle(.secondary)
-                    Text("80pt").font(.caption2).foregroundStyle(.tertiary)
-                }
+                sizeExample(.xs, "XS", "24pt")
+                sizeExample(.sm, "SM", "32pt")
+                sizeExample(.md, "MD", "40pt")
+                sizeExample(.lg, "LG", "56pt")
+                sizeExample(.xl, "XL", "80pt")
             }
             .frame(maxWidth: .infinity)
             .padding()
             .background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
+    private func sizeExample(
+        _ size: ARCAvatarConfiguration.Size,
+        _ label: String,
+        _ dimension: String
+    ) -> some View {
+        VStack(spacing: 4) {
+            ARCAvatar(name: label, configuration: ARCAvatarConfiguration(size: size))
+            Text(label).font(.caption2).foregroundStyle(.secondary)
+            Text(dimension).font(.caption2).foregroundStyle(.tertiary)
         }
     }
 
@@ -166,42 +185,20 @@ extension ARCAvatarDemoScreen {
             sectionHeader("Avatar Shapes", subtitle: "Circle, rounded square, and squircle")
 
             HStack(spacing: 32) {
-                VStack(spacing: 8) {
-                    ARCAvatar(
-                        name: "Circle",
-                        configuration: ARCAvatarConfiguration(
-                            size: .lg,
-                            shape: .circle
-                        )
-                    )
-                    Text("Circle").font(.caption).foregroundStyle(.secondary)
-                }
-
-                VStack(spacing: 8) {
-                    ARCAvatar(
-                        name: "Rounded",
-                        configuration: ARCAvatarConfiguration(
-                            size: .lg,
-                            shape: .roundedSquare(cornerRadius: 12)
-                        )
-                    )
-                    Text("Rounded").font(.caption).foregroundStyle(.secondary)
-                }
-
-                VStack(spacing: 8) {
-                    ARCAvatar(
-                        name: "Squircle",
-                        configuration: ARCAvatarConfiguration(
-                            size: .lg,
-                            shape: .squircle
-                        )
-                    )
-                    Text("Squircle").font(.caption).foregroundStyle(.secondary)
-                }
+                shapeExample("Circle", .circle)
+                shapeExample("Rounded", .roundedSquare(cornerRadius: 12))
+                shapeExample("Squircle", .squircle)
             }
             .frame(maxWidth: .infinity)
             .padding()
             .background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
+    private func shapeExample(_ label: String, _ shape: ARCAvatarConfiguration.Shape) -> some View {
+        VStack(spacing: 8) {
+            ARCAvatar(name: label, configuration: ARCAvatarConfiguration(size: .lg, shape: shape))
+            Text(label).font(.caption).foregroundStyle(.secondary)
         }
     }
 
@@ -301,7 +298,7 @@ extension ARCAvatarDemoScreen {
                         avatars: [
                             ARCAvatar(name: "Alice Brown"),
                             ARCAvatar(name: "Bob Smith"),
-                            ARCAvatar(name: "Carol White"),
+                            ARCAvatar(name: "Carol White")
                         ]
                     )
                 }
@@ -315,7 +312,7 @@ extension ARCAvatarDemoScreen {
                             ARCAvatar(name: "Carol"),
                             ARCAvatar(name: "David"),
                             ARCAvatar(name: "Eve"),
-                            ARCAvatar(name: "Frank"),
+                            ARCAvatar(name: "Frank")
                         ],
                         maxDisplay: 4
                     )
@@ -456,18 +453,26 @@ extension ARCAvatarDemoScreen {
             ARCAvatar(name: "Bob Smith"),
             ARCAvatar(name: "Carol White"),
             ARCAvatar(name: "David Green"),
-            ARCAvatar(name: "Eve Black"),
+            ARCAvatar(name: "Eve Black")
         ]
     }
 
-    private var sampleUsers: [(name: String, email: String, status: ARCAvatarStatus)] {
+    private var sampleUsers: [DemoUser] {
         [
-            (name: "Alice Brown", email: "alice@example.com", status: .online),
-            (name: "Bob Smith", email: "bob@example.com", status: .busy),
-            (name: "Carol White", email: "carol@example.com", status: .away),
-            (name: "David Green", email: "david@example.com", status: .offline),
+            DemoUser(name: "Alice Brown", email: "alice@example.com", status: .online),
+            DemoUser(name: "Bob Smith", email: "bob@example.com", status: .busy),
+            DemoUser(name: "Carol White", email: "carol@example.com", status: .away),
+            DemoUser(name: "David Green", email: "david@example.com", status: .offline)
         ]
     }
+}
+
+// MARK: - Demo User Model
+
+private struct DemoUser {
+    let name: String
+    let email: String
+    let status: ARCAvatarStatus
 }
 
 // MARK: - Previews
