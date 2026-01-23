@@ -225,7 +225,7 @@ ZStack {
         }
         .padding(24)
         .background(.ultraThinMaterial)
-        .cornerRadius(16)
+        .clipShape(.rect(cornerRadius: 16))
     }
 }
 ```

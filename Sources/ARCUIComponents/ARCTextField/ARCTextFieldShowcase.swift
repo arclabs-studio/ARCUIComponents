@@ -306,7 +306,7 @@ public struct ARCTextFieldShowcase: View {
                     endPoint: .bottomTrailing
                 )
                 .frame(height: 80)
-                .cornerRadius(12)
+                .clipShape(.rect(cornerRadius: 12))
 
                 ARCTextField("Glass", text: .constant(""), configuration: .glass)
                     .padding(.horizontal)
