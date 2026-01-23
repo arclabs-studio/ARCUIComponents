@@ -286,10 +286,10 @@ extension ARCTextFieldDemoScreen {
                     )
                 )
 
-                ARCActionButton(
+                ARCButton(
                     "Create Account",
                     icon: "person.badge.plus",
-                    configuration: ARCActionButtonConfiguration(isFullWidth: true)
+                    configuration: ARCButtonConfiguration(isFullWidth: true)
                 ) {
                     // Form submission
                 }

@@ -113,9 +113,9 @@ extension DemoHomeView {
             }
 
             NavigationLink {
-                ARCActionButtonDemoScreen()
+                ARCButtonDemoScreen()
             } label: {
-                Label("ARCActionButton", systemImage: "button.horizontal.top.press")
+                Label("ARCButton", systemImage: "button.horizontal.top.press")
             }
 
             NavigationLink {
@@ -263,9 +263,9 @@ extension DemoHomeView {
             }
 
             NavigationLink {
-                ARCActionButtonShowcase()
+                ARCButtonShowcase()
             } label: {
-                Label("Action Button Showcase", systemImage: "button.horizontal.top.press.fill")
+                Label("Button Showcase", systemImage: "button.horizontal.top.press.fill")
             }
 
             NavigationLink {
