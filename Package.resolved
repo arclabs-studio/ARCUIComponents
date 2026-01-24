@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/arclabs-studio/ARCDesignSystem",
       "state" : {
-        "revision" : "0824bf4c3839773386eee6b039923b1613ccae3a",
-        "version" : "2.1.0"
+        "revision" : "9d8b9f1d8dcc5235fbbb3c26a12f4bd00556bc36",
+        "version" : "2.2.0"
       }
     },
     {
