@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 19/12/2025.
 //
 
+import ARCUIComponents
 import SwiftUI
 
 /// Main entry point for the ARCUIComponents demo application.
@@ -14,6 +15,14 @@ import SwiftUI
 /// and customization options.
 @main
 struct ARCUIComponentsDemoApp: App {
+    // MARK: Initialization
+
+    init() {
+        ARCBrandFont.registerFonts()
+    }
+
+    // MARK: Body
+
     var body: some Scene {
         WindowGroup {
             DemoHomeView()
