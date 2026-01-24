@@ -165,3 +165,6 @@ public struct ARCUIComponents {
 // Re-export all public types for convenient importing
 @_exported import struct Foundation.UUID
 @_exported import SwiftUI
+
+// Re-export ARCDesignSystem for consumers who need design tokens and brand assets
+@_exported import ARCDesignSystem

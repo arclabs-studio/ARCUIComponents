@@ -18,6 +18,7 @@
 		B1000001000000000000000A /* ARCTabViewDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000000A /* ARCTabViewDemoScreen.swift */; };
 		B1000001000000000000000B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000000B /* Assets.xcassets */; };
 		B1000001000000000000000C /* ARCUIComponents in Frameworks */ = {isa = PBXBuildFile; productRef = B3000001000000000000000C /* ARCUIComponents */; };
+		B10000010000000000000020 /* ARCDesignSystemDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000020 /* ARCDesignSystemDemoScreen.swift */; };
 		B1000001000000000000000F /* ThematicArtworkDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000000F /* ThematicArtworkDemoScreen.swift */; };
 		B10000010000000000000010 /* ExampleArtwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000010 /* ExampleArtwork.swift */; };
 		B10000010000000000000011 /* ARCCardDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000011 /* ARCCardDemoScreen.swift */; };
@@ -67,6 +68,7 @@
 		B2000001000000000000001D /* ARCSegmentedControlDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCSegmentedControlDemoScreen.swift; sourceTree = "<group>"; };
 		B2000001000000000000001E /* ARCProgressDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCProgressDemoScreen.swift; sourceTree = "<group>"; };
 		B2000001000000000000001F /* ARCTextFieldDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCTextFieldDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000020 /* ARCDesignSystemDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCDesignSystemDemoScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				B20000010000000000000008 /* LiquidGlassDemoScreen.swift */,
 				B2000001000000000000000A /* ARCTabViewDemoScreen.swift */,
 				B2000001000000000000000F /* ThematicArtworkDemoScreen.swift */,
+				B20000010000000000000020 /* ARCDesignSystemDemoScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				B10000010000000000000008 /* LiquidGlassDemoScreen.swift in Sources */,
 				B1000001000000000000000A /* ARCTabViewDemoScreen.swift in Sources */,
 				B1000001000000000000000F /* ThematicArtworkDemoScreen.swift in Sources */,
+				B10000010000000000000020 /* ARCDesignSystemDemoScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

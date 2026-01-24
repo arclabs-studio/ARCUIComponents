@@ -17,6 +17,7 @@ struct DemoHomeView: View {
     var body: some View {
         NavigationStack {
             List {
+                designSystemSection
                 componentsSection
                 effectsSection
                 showcasesSection
@@ -32,6 +33,34 @@ struct DemoHomeView: View {
 // MARK: - Private Views
 
 extension DemoHomeView {
+    private var designSystemSection: some View {
+        Section {
+            NavigationLink {
+                ARCDesignSystemDemoScreen()
+            } label: {
+                HStack(spacing: .arcSpacingMedium) {
+                    ARCBrandAsset.icon.image(variant: .burgundy)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 32, height: 32)
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("ARCDesignSystem")
+                            .font(.headline)
+
+                        Text("Brand assets, typography & tokens")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+        } header: {
+            Text("Design System")
+        } footer: {
+            Text("ARC Labs Studio brand assets and design tokens.")
+        }
+    }
+
     private var componentsSection: some View {
         Section {
             NavigationLink {
