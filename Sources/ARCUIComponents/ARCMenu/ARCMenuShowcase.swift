@@ -1,5 +1,6 @@
 // swiftlint:disable file_length
 
+import ARCDesignSystem
 import SwiftUI
 
 #if canImport(UIKit)
@@ -157,7 +158,7 @@ public struct ARCMenuShowcase: View {
                             style: style,
                             isSelected: selectedStyle == style
                         ) {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            arcWithAnimation(.arcSpring) {
                                 selectedStyle = style
                             }
                         }
@@ -184,7 +185,7 @@ public struct ARCMenuShowcase: View {
                             variant: variant,
                             isSelected: selectedVariant == variant
                         ) {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            arcWithAnimation(.arcSpring) {
                                 selectedVariant = variant
                             }
                         }
