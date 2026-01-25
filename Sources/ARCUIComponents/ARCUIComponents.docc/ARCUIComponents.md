@@ -14,6 +14,7 @@ Each component is crafted to match Apple's design language as seen in their flag
 
 - <doc:GettingStarted>
 - <doc:NamingConventions>
+- <doc:ARCDesignSystem>
 
 ### Components
 

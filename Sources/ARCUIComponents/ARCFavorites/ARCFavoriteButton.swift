@@ -157,7 +157,7 @@ public struct ARCFavoriteButton: View {
         }
         #endif
 
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+        arcWithAnimation(.arcBouncy) {
             isFavorite.toggle()
         }
 
@@ -176,7 +176,7 @@ private struct ScaleButtonStyle: ButtonStyle {
             .frame(width: touchTarget, height: touchTarget)
             .contentShape(Rectangle())
             .scaleEffect(configuration.isPressed ? 0.85 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: configuration.isPressed)
+            .arcAnimation(.arcBouncy, value: configuration.isPressed)
     }
 }
 

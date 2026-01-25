@@ -222,7 +222,7 @@ public struct ARCToast: View {
                     dismissToast()
                 } else {
                     // Spring back
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                    arcWithAnimation(.arcSpring) {
                         offset = 0
                     }
                 }

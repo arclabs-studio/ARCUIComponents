@@ -310,7 +310,7 @@ public struct ARCSegmentedControl<SelectionValue: Hashable & Sendable>: View {
         guard configuration.animated, !reduceMotion else {
             return nil
         }
-        return .spring(response: 0.3, dampingFraction: 0.75)
+        return .arcSpring
     }
 
     // MARK: - Actions
@@ -340,9 +340,11 @@ public struct ARCSegmentedControl<SelectionValue: Hashable & Sendable>: View {
 // MARK: - CaseIterable Convenience Init
 
 @available(iOS 17.0, macOS 14.0, *)
-extension ARCSegmentedControl
-    where SelectionValue: CaseIterable & RawRepresentable, SelectionValue.AllCases: RandomAccessCollection,
-    SelectionValue.RawValue == String {
+extension ARCSegmentedControl where
+    SelectionValue: CaseIterable & RawRepresentable,
+    SelectionValue.AllCases: RandomAccessCollection,
+    SelectionValue.RawValue == String
+{
     /// Creates a segmented control from an enum conforming to CaseIterable
     ///
     /// This convenience initializer automatically creates segments from all cases

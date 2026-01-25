@@ -5,7 +5,12 @@
 //  Created by ARC Labs Studio on 23/1/26.
 //
 
+import ARCDesignSystem
 import SwiftUI
+
+#if canImport(UIKit)
+import UIKit
+#endif
 
 // MARK: - Background Views
 
@@ -93,7 +98,7 @@ extension ARCTextField {
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCTextField {
     @ViewBuilder var fieldContent: some View {
-        HStack(alignment: hasFloatingLabel ? .center : .center, spacing: 12) {
+        HStack(alignment: .center, spacing: 12) {
             leadingContent
             textFieldContent
             trailingContent
@@ -112,27 +117,22 @@ extension ARCTextField {
 
     @ViewBuilder var textFieldContent: some View {
         if let label = configuration.label {
-            VStack(alignment: .leading, spacing: 2) {
-                floatingLabel(label)
+            VStack(alignment: .leading, spacing: 0) {
+                if shouldFloatLabel {
+                    Text(label)
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundStyle(labelColor)
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                }
                 textInputView
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .arcAnimation(.arcSnappy, value: shouldFloatLabel)
         } else {
             textInputView
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-    }
-
-    @ViewBuilder
-    func floatingLabel(_ label: String) -> some View {
-        Text(label)
-            .font(.caption)
-            .fontWeight(.medium)
-            .foregroundStyle(labelColor)
-            .scaleEffect(shouldFloatLabel ? 1 : 1.2, anchor: .leading)
-            .offset(y: shouldFloatLabel ? 0 : 10)
-            .opacity(shouldFloatLabel ? 1 : 0)
-            .animation(.spring(response: 0.25, dampingFraction: 0.8), value: shouldFloatLabel)
     }
 }
 
@@ -162,17 +162,12 @@ extension ARCTextField {
     }
 
     @ViewBuilder var singleLineTextField: some View {
-        ZStack(alignment: .leading) {
-            if text.isEmpty, !shouldFloatLabel {
-                Text(placeholder)
-                    .font(.body)
-                    .foregroundStyle(.secondary.opacity(0.6))
-            }
-
-            TextField("", text: $text)
-                .font(.body)
-                .foregroundStyle(.primary)
-        }
+        TextField(
+            shouldFloatLabel ? "" : placeholder,
+            text: $text
+        )
+        .font(.body)
+        .foregroundStyle(.primary)
     }
 
     @ViewBuilder var multilineTextField: some View {
@@ -180,7 +175,11 @@ extension ARCTextField {
             if text.isEmpty, !shouldFloatLabel {
                 Text(placeholder)
                     .font(.body)
-                    .foregroundStyle(.secondary.opacity(0.6))
+                #if os(iOS)
+                    .foregroundColor(Color(UIColor.placeholderText))
+                #else
+                    .foregroundStyle(.secondary)
+                #endif
                     .padding(.top, 8)
             }
 
@@ -246,7 +245,7 @@ extension ARCTextField {
             }
         }
         .transition(.opacity.combined(with: .scale))
-        .animation(.spring(response: 0.3), value: validationState)
+        .arcAnimation(.arcSpring, value: validationState)
     }
 }
 
@@ -277,6 +276,6 @@ extension ARCTextField {
             }
         }
         .padding(.horizontal, 4)
-        .animation(.easeInOut(duration: 0.2), value: validationState)
+        .arcAnimation(.arcQuick, value: validationState)
     }
 }

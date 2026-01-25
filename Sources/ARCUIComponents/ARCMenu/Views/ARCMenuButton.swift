@@ -79,14 +79,8 @@ public struct ARCMenuButton: View {
                     )
                     .scaleEffect(isPressed ? 0.92 : 1.0)
                     .rotationEffect(.degrees(viewModel.isPresented ? 90 : 0))
-                    .animation(
-                        .spring(response: 0.4, dampingFraction: 0.7),
-                        value: viewModel.isPresented
-                    )
-                    .animation(
-                        .spring(response: 0.3, dampingFraction: 0.6),
-                        value: isPressed
-                    )
+                    .arcAnimation(.arcBouncy, value: viewModel.isPresented)
+                    .arcAnimation(.arcBouncy, value: isPressed)
 
                 // Badge
                 if showsBadge, badgeCount > 0 {

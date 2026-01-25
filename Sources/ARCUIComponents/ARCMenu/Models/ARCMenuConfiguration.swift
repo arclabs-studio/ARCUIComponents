@@ -124,8 +124,8 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
         showsGrabber: Bool = true,
         showsCloseButton: Bool = true,
         sheetTitle: String? = nil,
-        presentationAnimation: Animation = .spring(response: 0.5, dampingFraction: 0.8),
-        dismissalAnimation: Animation = .spring(response: 0.4, dampingFraction: 0.85),
+        presentationAnimation: Animation = .arcGentle,
+        dismissalAnimation: Animation = .arcSmooth,
         hapticFeedback: ARCMenuHapticStyle = .medium,
         allowsDragToDismiss: Bool = true,
         dismissOnOutsideTap: Bool = true,
@@ -173,7 +173,7 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
     public static let fitness = ARCMenuConfiguration(
         accentColor: .green,
         backgroundStyle: .liquidGlass,
-        presentationAnimation: .spring(response: 0.45, dampingFraction: 0.82)
+        presentationAnimation: .arcGentle
     )
 
     /// Configuration for premium/subscription apps

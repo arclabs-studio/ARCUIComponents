@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 22/1/26.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 // MARK: - ARCOnboardingIndicator
@@ -71,10 +72,7 @@ struct ARCOnboardingIndicator: View {
                         width: index == currentPage ? dotSize * 1.25 : dotSize,
                         height: index == currentPage ? dotSize * 1.25 : dotSize
                     )
-                    .animation(
-                        reduceMotion ? .none : .spring(response: 0.3, dampingFraction: 0.7),
-                        value: currentPage
-                    )
+                    .arcAnimationIfAllowed(.arcSpring, value: currentPage)
             }
         }
     }
@@ -90,10 +88,7 @@ struct ARCOnboardingIndicator: View {
                         width: index == currentPage ? lineWidth * 1.5 : lineWidth,
                         height: lineHeight
                     )
-                    .animation(
-                        reduceMotion ? .none : .spring(response: 0.3, dampingFraction: 0.7),
-                        value: currentPage
-                    )
+                    .arcAnimationIfAllowed(.arcSpring, value: currentPage)
             }
         }
     }
@@ -122,10 +117,7 @@ struct ARCOnboardingIndicator: View {
                         width: progressWidth(totalWidth: geometry.size.width),
                         height: lineHeight
                     )
-                    .animation(
-                        reduceMotion ? .none : .spring(response: 0.4, dampingFraction: 0.8),
-                        value: currentPage
-                    )
+                    .arcAnimationIfAllowed(.arcGentle, value: currentPage)
             }
         }
         .frame(maxWidth: 200)

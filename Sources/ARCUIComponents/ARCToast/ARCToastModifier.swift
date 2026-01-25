@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 22/1/26.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 // MARK: - ARCToastModifier
@@ -100,13 +101,13 @@ struct ARCToastModifier: ViewModifier {
         }
         #endif
 
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+        arcWithAnimation(.arcGentle) {
             isVisible = true
         }
     }
 
     private func hideToast() {
-        withAnimation(.easeOut(duration: 0.2)) {
+        arcWithAnimation(.arcQuick) {
             isVisible = false
         }
     }

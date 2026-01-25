@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 22/1/26.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 // MARK: - ARCButtonStyle
@@ -37,7 +38,7 @@ struct ARCButtonStyle: ButtonStyle {
         configuration.label
             .scaleEffect(scaleEffect(for: configuration))
             .opacity(opacity(for: configuration))
-            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+            .arcAnimation(.arcQuick, value: configuration.isPressed)
     }
 
     // MARK: - Private Methods
