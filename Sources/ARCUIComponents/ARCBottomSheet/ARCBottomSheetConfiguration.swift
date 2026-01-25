@@ -179,7 +179,7 @@ public struct ARCBottomSheetConfiguration: Sendable, LiquidGlassConfigurable {
         isInteractiveDismissDisabled: Bool = false,
         snapToDetents: Bool = true,
         tapHandleToCycle: Bool = true,
-        animation: Animation = .spring(response: 0.35, dampingFraction: 0.8),
+        animation: Animation = .arcGentle,
         velocityThreshold: CGFloat = 500,
         dimBackground: Bool = true,
         dimOpacity: CGFloat = 0.3,
