@@ -307,7 +307,6 @@ extension ARCRatingView {
     private var ratingGradient: LinearGradient {
         let normalized = clampedRating / configuration.maxRating
 
-        // swiftlint:disable switch_case_alignment
         let colors: [Color] = switch normalized {
         case 0 ..< 0.3:
             [.red, .orange]
@@ -322,7 +321,6 @@ extension ARCRatingView {
         default:
             [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
         }
-        // swiftlint:enable switch_case_alignment
 
         return LinearGradient(
             colors: colors,
