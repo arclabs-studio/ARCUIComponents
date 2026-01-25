@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 22/1/26.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 // MARK: - ARCCarousel
@@ -177,7 +178,7 @@ where Data.Element: Identifiable {
                 }
                 .onChange(of: currentIndex) { _, newIndex in
                     if scrollPosition != newIndex {
-                        withAnimation(reduceMotion ? .none : .spring(response: 0.35, dampingFraction: 0.8)) {
+                        withAnimation(reduceMotion ? .none : .arcGentle) {
                             scrollPosition = newIndex
                             proxy.scrollTo(newIndex, anchor: .center)
                         }
@@ -328,7 +329,7 @@ where Data.Element: Identifiable {
             Task { @MainActor in
                 guard !isDragging else { return }
 
-                withAnimation(reduceMotion ? .none : .spring(response: 0.5, dampingFraction: 0.8)) {
+                withAnimation(reduceMotion ? .none : .arcGentle) {
                     if currentIndex < data.count - 1 {
                         currentIndex += 1
                     } else if configuration.loopEnabled {

@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 22/1/26.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 // MARK: - ARCCarouselIndicator
@@ -83,7 +84,7 @@ struct ARCCarouselIndicator: View {
                 Circle()
                     .fill(index == currentIndex ? accentColor : accentColor.opacity(0.3))
                     .frame(width: dotSizeFor(index: index), height: dotSizeFor(index: index))
-                    .animation(reduceMotion ? .none : .spring(response: 0.3), value: currentIndex)
+                    .arcAnimationIfAllowed(.arcSpring, value: currentIndex)
             }
         }
         .accessibilityElement(children: .ignore)
@@ -94,11 +95,11 @@ struct ARCCarouselIndicator: View {
 
     @ViewBuilder private var linesIndicator: some View {
         HStack(spacing: spacing) {
-            ForEach(0..<totalItems, id: \.self) { index in
+            ForEach(0 ..< totalItems, id: \.self) { index in
                 Capsule()
                     .fill(index == currentIndex ? accentColor : accentColor.opacity(0.3))
                     .frame(width: lineWidth, height: lineHeight)
-                    .animation(reduceMotion ? .none : .spring(response: 0.3), value: currentIndex)
+                    .arcAnimationIfAllowed(.arcSpring, value: currentIndex)
             }
         }
         .accessibilityElement(children: .ignore)
@@ -119,7 +120,7 @@ struct ARCCarouselIndicator: View {
     /// Returns the indices of dots to display (for large item counts)
     private var visibleDotIndices: [Int] {
         guard totalItems > maxVisibleDots else {
-            return Array(0..<totalItems)
+            return Array(0 ..< totalItems)
         }
 
         // Calculate visible range centered on current index
@@ -137,7 +138,7 @@ struct ARCCarouselIndicator: View {
             start = totalItems - maxVisibleDots
         }
 
-        return Array(start...end)
+        return Array(start ... end)
     }
 
     /// Returns the size for a dot at the given index (smaller for edge dots)
