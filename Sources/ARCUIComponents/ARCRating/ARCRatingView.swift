@@ -151,7 +151,7 @@ public struct ARCRatingView: View {
         }
         .onAppear {
             if configuration.animated {
-                withAnimation(.spring(response: 0.8, dampingFraction: 0.7)) {
+                arcWithAnimation(.arcSlow) {
                     animatedRating = clampedRating
                 }
             } else {
@@ -161,7 +161,7 @@ public struct ARCRatingView: View {
         .onChange(of: rating) { _, newValue in
             let newClamped = min(max(newValue, 0), configuration.maxRating)
             if configuration.animated {
-                withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
+                arcWithAnimation(.arcGentle) {
                     animatedRating = newClamped
                 }
             } else {
@@ -178,8 +178,7 @@ public struct ARCRatingView: View {
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCRatingView {
-    @ViewBuilder
-    private var circularGaugeView: some View {
+    @ViewBuilder private var circularGaugeView: some View {
         ZStack {
             // Background fill with gradient
             Circle()
@@ -216,8 +215,7 @@ extension ARCRatingView {
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCRatingView {
-    @ViewBuilder
-    private var compactInlineView: some View {
+    @ViewBuilder private var compactInlineView: some View {
         HStack(spacing: spacing) {
             // Progress bar
             GeometryReader { geometry in
@@ -244,8 +242,7 @@ extension ARCRatingView {
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCRatingView {
-    @ViewBuilder
-    private var minimalView: some View {
+    @ViewBuilder private var minimalView: some View {
         Text(formattedRating)
             .font(.system(.subheadline, design: .rounded, weight: .semibold))
             .foregroundStyle(ratingColor)
@@ -291,15 +288,15 @@ extension ARCRatingView {
         let normalized = clampedRating / configuration.maxRating
 
         switch normalized {
-        case 0..<0.3:
+        case 0 ..< 0.3:
             return .red
-        case 0.3..<0.5:
+        case 0.3 ..< 0.5:
             return .orange
-        case 0.5..<0.65:
+        case 0.5 ..< 0.65:
             return .yellow
-        case 0.65..<0.75:
+        case 0.65 ..< 0.75:
             return Color(red: 0.6, green: 0.75, blue: 0.2)
-        case 0.75..<0.85:
+        case 0.75 ..< 0.85:
             return Color(red: 0.3, green: 0.75, blue: 0.3)
         default:
             return Color(red: 0.1, green: 0.65, blue: 0.2)
@@ -310,21 +307,22 @@ extension ARCRatingView {
     private var ratingGradient: LinearGradient {
         let normalized = clampedRating / configuration.maxRating
 
-        let colors: [Color]
-        switch normalized {
-        case 0..<0.3:
-            colors = [.red, .orange]
-        case 0.3..<0.5:
-            colors = [.orange, .yellow]
-        case 0.5..<0.65:
-            colors = [.yellow, Color(red: 0.7, green: 0.8, blue: 0.2)]
-        case 0.65..<0.75:
-            colors = [Color(red: 0.6, green: 0.8, blue: 0.2), Color(red: 0.4, green: 0.75, blue: 0.25)]
-        case 0.75..<0.85:
-            colors = [Color(red: 0.4, green: 0.75, blue: 0.25), Color(red: 0.2, green: 0.7, blue: 0.25)]
+        // swiftlint:disable switch_case_alignment
+        let colors: [Color] = switch normalized {
+        case 0 ..< 0.3:
+            [.red, .orange]
+        case 0.3 ..< 0.5:
+            [.orange, .yellow]
+        case 0.5 ..< 0.65:
+            [.yellow, Color(red: 0.7, green: 0.8, blue: 0.2)]
+        case 0.65 ..< 0.75:
+            [Color(red: 0.6, green: 0.8, blue: 0.2), Color(red: 0.4, green: 0.75, blue: 0.25)]
+        case 0.75 ..< 0.85:
+            [Color(red: 0.4, green: 0.75, blue: 0.25), Color(red: 0.2, green: 0.7, blue: 0.25)]
         default:
-            colors = [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
+            [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
         }
+        // swiftlint:enable switch_case_alignment
 
         return LinearGradient(
             colors: colors,
@@ -438,7 +436,7 @@ extension ARCRatingView {
                     Text(item)
                         .font(.subheadline)
                     Spacer()
-                    ARCRatingView(rating: Double.random(in: 7.0...10.0), style: .compactInline)
+                    ARCRatingView(rating: Double.random(in: 7.0 ... 10.0), style: .compactInline)
                 }
                 .padding(.vertical, .arcSpacingSmall)
                 .padding(.horizontal, .arcSpacingMedium)
