@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 21/1/26.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 /// A button style that provides a pressed effect with scale and opacity animations
@@ -84,10 +85,7 @@ public struct ARCCardPressStyle: ButtonStyle {
         configuration.label
             .scaleEffect(configuration.isPressed ? pressedScale : 1.0)
             .opacity(configuration.isPressed ? pressedOpacity : 1.0)
-            .animation(
-                .spring(response: animationDuration, dampingFraction: 0.6),
-                value: configuration.isPressed
-            )
+            .arcAnimation(.arcBouncy, value: configuration.isPressed)
     }
 }
 
