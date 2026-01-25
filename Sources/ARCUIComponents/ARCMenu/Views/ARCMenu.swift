@@ -82,7 +82,7 @@ public struct ARCMenu: View {
                     : viewModel.configuration.dismissalAnimation,
                 value: viewModel.isPresented
             )
-            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: viewModel.dragOffset)
+            .arcAnimation(.arcSpring, value: viewModel.dragOffset)
         }
     }
 

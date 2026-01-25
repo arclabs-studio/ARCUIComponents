@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 22/1/26.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 // MARK: - ARCBottomSheetHandle
@@ -34,7 +35,7 @@ struct ARCBottomSheetHandle: View {
                 height: configuration.handleHeight
             )
             .scaleEffect(isPressed ? 1.1 : 1.0)
-            .animation(.spring(response: 0.2, dampingFraction: 0.7), value: isPressed)
+            .arcAnimation(.arcSnappy, value: isPressed)
             .padding(.top, 8)
             .padding(.bottom, 4)
             .contentShape(Rectangle().size(width: 60, height: 30))

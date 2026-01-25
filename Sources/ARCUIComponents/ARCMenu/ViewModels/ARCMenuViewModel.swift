@@ -103,7 +103,7 @@ public final class ARCMenuViewModel {
     /// - Parameters:
     ///   - offset: Current drag offset
     ///   - isVertical: Whether the drag is vertical (bottomSheet) or horizontal (trailingPanel)
-    public func updateDragOffset(_ offset: CGFloat, isVertical: Bool = false) {
+    public func updateDragOffset(_ offset: CGFloat, isVertical _: Bool = false) {
         // Only allow dragging in the dismissal direction (positive offset)
         if offset > 0 {
             dragOffset = offset
@@ -123,12 +123,12 @@ public final class ARCMenuViewModel {
     /// - Parameters:
     ///   - offset: Final drag offset
     ///   - isVertical: Whether the drag is vertical (bottomSheet) or horizontal (trailingPanel)
-    public func endDrag(at offset: CGFloat, isVertical: Bool = false) {
+    public func endDrag(at offset: CGFloat, isVertical _: Bool = false) {
         if offset >= configuration.dragDismissalThreshold {
             dismiss()
         } else {
             // Snap back with spring animation
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+            arcWithAnimation(.arcSpring) {
                 dragOffset = 0
                 backdropOpacity = 1.0
             }

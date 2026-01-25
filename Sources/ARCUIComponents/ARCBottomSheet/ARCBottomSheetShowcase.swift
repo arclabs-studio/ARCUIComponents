@@ -53,7 +53,7 @@ public struct ARCBottomSheetShowcase: View {
                 sheetOverlay
             }
         }
-        .animation(.spring(response: 0.35, dampingFraction: 0.8), value: showSheet)
+        .arcAnimation(.arcGentle, value: showSheet)
         .navigationTitle("ARCBottomSheet")
         #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)

@@ -114,7 +114,7 @@ struct ARCMenuUserHeader: View {
                     }
             }
             .scaleEffect(isPressed ? 0.97 : 1.0)
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
+            .arcAnimation(.arcBouncy, value: isPressed)
         }
         .buttonStyle(.plain)
         .simultaneousGesture(
