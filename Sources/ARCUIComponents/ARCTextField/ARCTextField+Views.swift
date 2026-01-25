@@ -94,7 +94,7 @@ extension ARCTextField {
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCTextField {
     @ViewBuilder var fieldContent: some View {
-        HStack(alignment: hasFloatingLabel ? .center : .center, spacing: 12) {
+        HStack(alignment: .center, spacing: 12) {
             leadingContent
             textFieldContent
             trailingContent
@@ -113,27 +113,22 @@ extension ARCTextField {
 
     @ViewBuilder var textFieldContent: some View {
         if let label = configuration.label {
-            VStack(alignment: .leading, spacing: 2) {
-                floatingLabel(label)
+            VStack(alignment: .leading, spacing: 0) {
+                if shouldFloatLabel {
+                    Text(label)
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundStyle(labelColor)
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                }
                 textInputView
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .arcAnimation(.arcSnappy, value: shouldFloatLabel)
         } else {
             textInputView
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-    }
-
-    @ViewBuilder
-    func floatingLabel(_ label: String) -> some View {
-        Text(label)
-            .font(.caption)
-            .fontWeight(.medium)
-            .foregroundStyle(labelColor)
-            .scaleEffect(shouldFloatLabel ? 1 : 1.2, anchor: .leading)
-            .offset(y: shouldFloatLabel ? 0 : 10)
-            .opacity(shouldFloatLabel ? 1 : 0)
-            .arcAnimation(.arcSnappy, value: shouldFloatLabel)
     }
 }
 
@@ -163,17 +158,13 @@ extension ARCTextField {
     }
 
     @ViewBuilder var singleLineTextField: some View {
-        ZStack(alignment: .leading) {
-            if text.isEmpty, !shouldFloatLabel {
-                Text(placeholder)
-                    .font(.body)
-                    .foregroundStyle(.secondary.opacity(0.6))
-            }
-
-            TextField("", text: $text)
-                .font(.body)
-                .foregroundStyle(.primary)
-        }
+        TextField(
+            "",
+            text: $text,
+            prompt: text.isEmpty && !shouldFloatLabel ? Text(placeholder).foregroundStyle(.secondary.opacity(0.6)) : nil
+        )
+        .font(.body)
+        .foregroundStyle(.primary)
     }
 
     @ViewBuilder var multilineTextField: some View {

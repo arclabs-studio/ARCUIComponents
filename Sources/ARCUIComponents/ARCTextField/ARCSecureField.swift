@@ -219,31 +219,28 @@ public struct ARCSecureField: View {
             Image(systemName: icon)
                 .font(.system(size: 18, weight: .medium))
                 .foregroundStyle(iconColor)
-                .frame(width: 24)
+                .frame(width: 24, height: 24)
         }
     }
 
     @ViewBuilder private var textFieldContent: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            if let label = configuration.label {
-                floatingLabel(label)
+        if let label = configuration.label {
+            VStack(alignment: .leading, spacing: 0) {
+                if shouldFloatLabel {
+                    Text(label)
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundStyle(labelColor)
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                }
+                secureInputView
             }
-
-            secureInputView
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    @ViewBuilder
-    private func floatingLabel(_ label: String) -> some View {
-        Text(label)
-            .font(.caption)
-            .fontWeight(.medium)
-            .foregroundStyle(labelColor)
-            .scaleEffect(shouldFloatLabel ? 1 : 1.2, anchor: .leading)
-            .offset(y: shouldFloatLabel ? 0 : 10)
-            .opacity(shouldFloatLabel ? 1 : 0)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .animation(.spring(response: 0.25, dampingFraction: 0.8), value: shouldFloatLabel)
+        } else {
+            secureInputView
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
     }
 
     @ViewBuilder private var secureInputView: some View {
