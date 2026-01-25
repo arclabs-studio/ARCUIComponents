@@ -222,10 +222,7 @@ public struct ARCOnboarding: View {
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
-        .animation(
-            reduceMotion ? .none : .spring(response: 0.35, dampingFraction: 0.8),
-            value: currentPage
-        )
+        .arcAnimationIfAllowed(.arcGentle, value: currentPage)
         #else
         // macOS fallback - simple view with navigation
         ARCOnboardingPageView(
@@ -233,10 +230,7 @@ public struct ARCOnboarding: View {
             configuration: configuration,
             isCurrentPage: true
         )
-        .animation(
-            reduceMotion ? .none : .spring(response: 0.35, dampingFraction: 0.8),
-            value: currentPage
-        )
+        .arcAnimationIfAllowed(.arcGentle, value: currentPage)
         #endif
     }
 
@@ -364,14 +358,14 @@ public struct ARCOnboarding: View {
 
     private func nextPage() {
         guard currentPage < pages.count - 1 else { return }
-        withAnimation(reduceMotion ? .none : .spring(response: 0.35, dampingFraction: 0.8)) {
+        withAnimation(reduceMotion ? .none : .arcGentle) {
             currentPage += 1
         }
     }
 
     private func previousPage() {
         guard currentPage > 0 else { return }
-        withAnimation(reduceMotion ? .none : .spring(response: 0.35, dampingFraction: 0.8)) {
+        withAnimation(reduceMotion ? .none : .arcGentle) {
             currentPage -= 1
         }
     }
@@ -399,7 +393,7 @@ private struct OnboardingButtonStyle: ButtonStyle {
             .background(backgroundView)
             .clipShape(RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous))
             .scaleEffect(pressedConfiguration.isPressed ? 0.97 : 1.0)
-            .animation(.spring(response: 0.2, dampingFraction: 0.7), value: pressedConfiguration.isPressed)
+            .arcAnimation(.arcSnappy, value: pressedConfiguration.isPressed)
     }
 
     @ViewBuilder private var backgroundView: some View {
