@@ -8,6 +8,10 @@
 import ARCDesignSystem
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 // MARK: - Background Views
 
 @available(iOS 17.0, macOS 14.0, *)
@@ -159,9 +163,8 @@ extension ARCTextField {
 
     @ViewBuilder var singleLineTextField: some View {
         TextField(
-            "",
-            text: $text,
-            prompt: text.isEmpty && !shouldFloatLabel ? Text(placeholder).foregroundStyle(.secondary.opacity(0.6)) : nil
+            shouldFloatLabel ? "" : placeholder,
+            text: $text
         )
         .font(.body)
         .foregroundStyle(.primary)
@@ -172,7 +175,11 @@ extension ARCTextField {
             if text.isEmpty, !shouldFloatLabel {
                 Text(placeholder)
                     .font(.body)
-                    .foregroundStyle(.secondary.opacity(0.6))
+                #if os(iOS)
+                    .foregroundColor(Color(UIColor.placeholderText))
+                #else
+                    .foregroundStyle(.secondary)
+                #endif
                     .padding(.top, 8)
             }
 
