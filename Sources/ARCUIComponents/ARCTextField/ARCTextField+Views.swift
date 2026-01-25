@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 23/1/26.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 // MARK: - Background Views
@@ -132,7 +133,7 @@ extension ARCTextField {
             .scaleEffect(shouldFloatLabel ? 1 : 1.2, anchor: .leading)
             .offset(y: shouldFloatLabel ? 0 : 10)
             .opacity(shouldFloatLabel ? 1 : 0)
-            .animation(.spring(response: 0.25, dampingFraction: 0.8), value: shouldFloatLabel)
+            .arcAnimation(.arcSnappy, value: shouldFloatLabel)
     }
 }
 
@@ -246,7 +247,7 @@ extension ARCTextField {
             }
         }
         .transition(.opacity.combined(with: .scale))
-        .animation(.spring(response: 0.3), value: validationState)
+        .arcAnimation(.arcSpring, value: validationState)
     }
 }
 
@@ -277,6 +278,6 @@ extension ARCTextField {
             }
         }
         .padding(.horizontal, 4)
-        .animation(.easeInOut(duration: 0.2), value: validationState)
+        .arcAnimation(.arcQuick, value: validationState)
     }
 }
