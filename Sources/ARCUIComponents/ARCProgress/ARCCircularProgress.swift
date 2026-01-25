@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 22/1/26.
 //
 
+import ARCDesignSystem
 import SwiftUI
 
 // MARK: - ARCCircularProgress
