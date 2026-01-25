@@ -94,7 +94,7 @@ extension ARCTextField {
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCTextField {
     @ViewBuilder var fieldContent: some View {
-        HStack(alignment: hasFloatingLabel ? .center : .center, spacing: 12) {
+        HStack(alignment: .center, spacing: 12) {
             leadingContent
             textFieldContent
             trailingContent
@@ -117,10 +117,10 @@ extension ARCTextField {
                 floatingLabel(label)
                 textInputView
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         } else {
             textInputView
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         }
     }
 
@@ -168,12 +168,15 @@ extension ARCTextField {
                 Text(placeholder)
                     .font(.body)
                     .foregroundStyle(.secondary.opacity(0.6))
+                    .allowsHitTesting(false)
             }
 
             TextField("", text: $text)
                 .font(.body)
                 .foregroundStyle(.primary)
         }
+        .frame(maxHeight: .infinity)
+        .contentShape(Rectangle())
     }
 
     @ViewBuilder var multilineTextField: some View {
