@@ -5,19 +5,25 @@
 //  Created by ARC Labs Studio on 24/1/2026.
 //
 
+import ARCDesignSystem
 import ARCUIComponents
 import SwiftUI
 
 /// Demo screen showcasing ARC Labs Studio brand assets and typography.
 ///
 /// This screen demonstrates the usage of ARCDesignSystem components
-/// including brand assets, typography, and color tokens.
+/// including brand assets, typography, animation tokens, and color tokens.
 struct ARCDesignSystemDemoScreen: View {
-    // MARK: Body
+    // MARK: - State
+
+    @State private var animationDemoValue = false
+
+    // MARK: - Body
 
     var body: some View {
         ScrollView {
             VStack(spacing: .arcSpacingXLarge) {
+                animationTokensSection
                 typographySection
                 brandColorsSection
                 iconsSection
@@ -37,6 +43,63 @@ struct ARCDesignSystemDemoScreen: View {
 // MARK: - Private Views
 
 extension ARCDesignSystemDemoScreen {
+    // MARK: - Animation Tokens Section
+
+    private var animationTokensSection: some View {
+        sectionContainer(title: "Animation Tokens", icon: "wand.and.stars") {
+            VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+                Text("Tap the circles to see each animation style")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+
+                LazyVGrid(
+                    columns: [
+                        GridItem(.flexible()),
+                        GridItem(.flexible())
+                    ],
+                    spacing: .arcSpacingMedium
+                ) {
+                    animationDemoItem(name: "Standard", animation: .arcStandard)
+                    animationDemoItem(name: "Quick", animation: .arcQuick)
+                    animationDemoItem(name: "Smooth", animation: .arcSmooth)
+                    animationDemoItem(name: "Slow", animation: .arcSlow)
+                    animationDemoItem(name: "Spring", animation: .arcSpring)
+                    animationDemoItem(name: "Bouncy", animation: .arcBouncy)
+                    animationDemoItem(name: "Gentle", animation: .arcGentle)
+                    animationDemoItem(name: "Snappy", animation: .arcSnappy)
+                }
+
+                Divider()
+
+                VStack(alignment: .leading, spacing: .arcSpacingSmall) {
+                    Text("Usage")
+                        .font(.subheadline.bold())
+
+                    Text("""
+                    // View modifier
+                    .arcAnimation(.arcSpring, value: isExpanded)
+
+                    // WithAnimation helper
+                    arcWithAnimation(.arcBouncy) {
+                        showMenu.toggle()
+                    }
+                    """)
+                    .font(.caption.monospaced())
+                    .padding(.arcSpacingSmall)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.arcBackgroundTertiary)
+                    .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall))
+                }
+            }
+        }
+    }
+
+    private func animationDemoItem(name: String, animation: Animation) -> some View {
+        AnimationDemoCard(name: name, animation: animation)
+    }
+
+    // MARK: - Typography Section
+
     private var typographySection: some View {
         sectionContainer(title: "Typography", icon: "textformat") {
             VStack(alignment: .leading, spacing: .arcSpacingMedium) {
@@ -225,6 +288,40 @@ extension ARCDesignSystemDemoScreen {
         .padding(.arcPaddingCard)
         .background(Color.arcBackgroundSecondary)
         .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusLarge))
+    }
+}
+
+// MARK: - Animation Demo Card
+
+private struct AnimationDemoCard: View {
+    let name: String
+    let animation: Animation
+
+    @State private var isAnimating = false
+
+    var body: some View {
+        VStack(spacing: .arcSpacingSmall) {
+            Circle()
+                .fill(Color.arcBrandBurgundy.gradient)
+                .frame(width: 40, height: 40)
+                .scaleEffect(isAnimating ? 1.3 : 1.0)
+                .animation(animation, value: isAnimating)
+
+            Text(name)
+                .font(.caption)
+                .fontWeight(.medium)
+
+            Text(".arc\(name)")
+                .font(.caption2.monospaced())
+                .foregroundStyle(.tertiary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.arcSpacingMedium)
+        .background(Color.arcBackgroundTertiary)
+        .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall))
+        .onTapGesture {
+            isAnimating.toggle()
+        }
     }
 }
 
