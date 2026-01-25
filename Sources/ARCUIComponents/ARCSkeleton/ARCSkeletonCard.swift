@@ -384,7 +384,7 @@ extension ARCSkeletonCard {
                 }
 
                 Button(isLoading ? "Show Content" : "Show Skeleton") {
-                    withAnimation(.easeInOut(duration: 0.3)) {
+                    arcWithAnimation(.arcStandard) {
                         isLoading.toggle()
                     }
                 }
