@@ -12,7 +12,6 @@ import SwiftUI
 ///
 /// Shows the menu in a realistic app context with various configurations.
 struct ARCMenuDemoScreen: View {
-
     // MARK: Properties
 
     @State private var menuViewModel = ARCMenuViewModel.standard(
@@ -33,6 +32,7 @@ struct ARCMenuDemoScreen: View {
 
     @State private var selectedPresentationStyle: PresentationStyleOption = .bottomSheet
     @State private var selectedTheme: MenuThemeOption = .arcBrand
+    @State private var selectedIconStyle: IconStyleOption = .subtle
 
     // MARK: Body
 
@@ -71,6 +71,9 @@ struct ARCMenuDemoScreen: View {
             .onChange(of: selectedTheme) { _, _ in
                 updateConfiguration()
             }
+            .onChange(of: selectedIconStyle) { _, _ in
+                updateConfiguration()
+            }
     }
 
     // MARK: Private Methods
@@ -79,6 +82,7 @@ struct ARCMenuDemoScreen: View {
         menuViewModel.configuration = ARCMenuConfiguration(
             presentationStyle: selectedPresentationStyle.style,
             accentColor: selectedTheme.accentColor,
+            iconStyle: selectedIconStyle.style,
             showsGrabber: selectedPresentationStyle == .bottomSheet,
             showsCloseButton: selectedPresentationStyle == .bottomSheet,
             sheetTitle: selectedPresentationStyle == .bottomSheet ? "Cuenta" : nil
@@ -88,9 +92,8 @@ struct ARCMenuDemoScreen: View {
 
 // MARK: - Private Views
 
-private extension ARCMenuDemoScreen {
-
-    var backgroundGradient: some View {
+extension ARCMenuDemoScreen {
+    private var backgroundGradient: some View {
         LinearGradient(
             colors: selectedTheme.gradientColors,
             startPoint: .topLeading,
@@ -99,12 +102,13 @@ private extension ARCMenuDemoScreen {
         .ignoresSafeArea()
     }
 
-    var contentView: some View {
+    private var contentView: some View {
         ScrollView {
             VStack(spacing: 24) {
                 headerSection
                 presentationStylePicker
                 themePicker
+                iconStylePicker
                 featuresCard
             }
             .padding(.top, 20)
@@ -112,7 +116,7 @@ private extension ARCMenuDemoScreen {
         }
     }
 
-    var headerSection: some View {
+    private var headerSection: some View {
         VStack(spacing: 12) {
             Image("ARC_Symbol")
                 .resizable()
@@ -129,7 +133,7 @@ private extension ARCMenuDemoScreen {
         }
     }
 
-    var presentationStylePicker: some View {
+    private var presentationStylePicker: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Presentation Style")
                 .font(.caption)
@@ -147,7 +151,7 @@ private extension ARCMenuDemoScreen {
         .padding(.horizontal, 32)
     }
 
-    var themePicker: some View {
+    private var themePicker: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Theme")
                 .font(.caption)
@@ -165,7 +169,25 @@ private extension ARCMenuDemoScreen {
         .padding(.horizontal, 32)
     }
 
-    var featuresCard: some View {
+    private var iconStylePicker: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Icon Style")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white.opacity(0.7))
+                .padding(.horizontal, 4)
+
+            Picker("Icon Style", selection: $selectedIconStyle) {
+                ForEach(IconStyleOption.allCases) { style in
+                    Text(style.name).tag(style)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+        .padding(.horizontal, 32)
+    }
+
+    private var featuresCard: some View {
         VStack(spacing: 16) {
             Image(systemName: selectedPresentationStyle.icon)
                 .font(.system(size: 40))
@@ -258,6 +280,27 @@ private enum PresentationStyleOption: String, CaseIterable, Identifiable {
                 ("person.crop.circle", "User profile header"),
                 ("paintbrush", "Liquid glass effect")
             ]
+        }
+    }
+}
+
+private enum IconStyleOption: String, CaseIterable, Identifiable {
+    case subtle
+    case prominent
+
+    var id: String { rawValue }
+
+    var name: String {
+        switch self {
+        case .subtle: "Subtle"
+        case .prominent: "Prominent"
+        }
+    }
+
+    var style: ARCMenuIconStyle {
+        switch self {
+        case .subtle: .subtle
+        case .prominent: .prominent
         }
     }
 }
