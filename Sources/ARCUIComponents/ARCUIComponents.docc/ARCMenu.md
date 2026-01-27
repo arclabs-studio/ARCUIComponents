@@ -112,7 +112,7 @@ struct ContentView: View {
 
 ### Configuration Presets
 
-ARCMenu includes six built-in configuration presets:
+ARCMenu includes eight built-in configuration presets:
 
 - **Default**: Bottom sheet style with blue accent (Apple standard)
 - **Trailing Panel**: Drawer-style presentation from trailing edge
@@ -120,6 +120,8 @@ ARCMenu includes six built-in configuration presets:
 - **Premium**: Subscription services with orange/gold accent
 - **Dark**: Dark theme apps with purple accent
 - **Minimal**: Subtle and clean with gray accent
+- **Prominent**: Orange accent with bold category-style icons
+- **Restaurant**: Amber accent for food-related apps with prominent icons
 
 ```swift
 // Bottom sheet (default)
@@ -130,11 +132,43 @@ let config = ARCMenuConfiguration.trailingPanel
 
 // Theme presets
 let config = ARCMenuConfiguration.fitness
+
+// Category-style menus with prominent icons
+let config = ARCMenuConfiguration.restaurant
+
 let viewModel = ARCMenuViewModel(
     user: user,
     menuItems: items,
     configuration: config
 )
+```
+
+### Icon Styles
+
+ARCMenu supports two icon styles for menu items, controlled via the `iconStyle` property:
+
+#### Subtle (Default)
+
+The default style uses a low-opacity accent color background (15%) with the icon in primary color. This blends well with most menu designs.
+
+```swift
+let config = ARCMenuConfiguration(
+    iconStyle: .subtle  // Default
+)
+```
+
+#### Prominent
+
+The prominent style uses a dark muted background with accent-colored icons. This style is ideal for category-style menus where icons should stand out, similar to cuisine category lists in restaurant apps.
+
+```swift
+let config = ARCMenuConfiguration(
+    accentColor: .orange,
+    iconStyle: .prominent
+)
+
+// Or use the preset
+let config = ARCMenuConfiguration.restaurant
 ```
 
 ### Custom Configuration
@@ -149,6 +183,7 @@ let customConfig = ARCMenuConfiguration(
     backgroundStyle: .liquidGlass,
     cornerRadius: 30,
     shadow: .prominent,
+    iconStyle: .subtle,  // or .prominent for category-style
 
     // Layout (for trailingPanel)
     menuWidth: 340,
@@ -216,7 +251,8 @@ ARCMenu/
 │   ├── ARCMenuUser              # User representation
 │   ├── ARCMenuItem              # Menu item model
 │   ├── ARCMenuConfiguration     # Configuration & theming
-│   └── ARCMenuPresentationStyle # Presentation style enum
+│   ├── ARCMenuPresentationStyle # Presentation style enum
+│   └── ARCMenuIconStyle         # Icon style (subtle/prominent)
 ├── ViewModels/
 │   └── ARCMenuViewModel         # Business logic & state
 └── Views/
@@ -246,6 +282,7 @@ ARCMenu/
 
 - ``ARCMenuUserImage``
 - ``ARCMenuIcon``
+- ``ARCMenuIconStyle``
 - ``ARCMenuBackgroundStyle``
 - ``ARCMenuShadow``
 - ``ARCMenuHapticStyle``
