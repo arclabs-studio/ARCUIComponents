@@ -110,89 +110,97 @@ private struct MockRecommendation: AIRecommenderItem {
 // MARK: - Sample Data
 
 extension ARCAIRecommenderDemoScreen {
-    static let favoritesItems: [MockRecommendation] = [
-        MockRecommendation(
-            id: UUID(),
-            title: "La Tagliatella",
-            subtitle: "Italiano · €€",
-            rating: 8.5,
-            imageSource: .system("fork.knife", color: .orange),
-            aiReason: "Te encanta la cocina italiana"
-        ),
-        MockRecommendation(
-            id: UUID(),
-            title: "Sushi Master",
-            subtitle: "Japonés · €€€",
-            rating: 9.2,
-            imageSource: .system("fish.fill", color: .cyan),
-            aiReason: "Similar a tus favoritos"
-        ),
-        MockRecommendation(
-            id: UUID(),
-            title: "Pizzería Napoli",
-            subtitle: "Italiano · €€",
-            rating: 8.9,
-            imageSource: .system("flame.fill", color: .red),
-            aiReason: "Basado en tus preferencias"
-        )
-    ]
+    fileprivate static var favoritesItems: [MockRecommendation] {
+        [
+            MockRecommendation(
+                id: UUID(),
+                title: "La Tagliatella",
+                subtitle: "Italiano · €€",
+                rating: 8.5,
+                imageSource: .system("fork.knife", color: .orange),
+                aiReason: "Te encanta la cocina italiana"
+            ),
+            MockRecommendation(
+                id: UUID(),
+                title: "Sushi Master",
+                subtitle: "Japonés · €€€",
+                rating: 9.2,
+                imageSource: .system("fish.fill", color: .cyan),
+                aiReason: "Similar a tus favoritos"
+            ),
+            MockRecommendation(
+                id: UUID(),
+                title: "Pizzería Napoli",
+                subtitle: "Italiano · €€",
+                rating: 8.9,
+                imageSource: .system("flame.fill", color: .red),
+                aiReason: "Basado en tus preferencias"
+            )
+        ]
+    }
 
-    static let trendingItems: [MockRecommendation] = [
-        MockRecommendation(
-            id: UUID(),
-            title: "Burger Lab",
-            subtitle: "Americana · €€",
-            rating: 9.1,
-            imageSource: .system("flame.fill", color: .orange),
-            aiReason: "En tendencia esta semana"
-        ),
-        MockRecommendation(
-            id: UUID(),
-            title: "Taco Loco",
-            subtitle: "Mexicano · €",
-            rating: 8.7,
-            imageSource: .system("leaf.fill", color: .green),
-            aiReason: "Muy popular en tu zona"
-        )
-    ]
+    fileprivate static var trendingItems: [MockRecommendation] {
+        [
+            MockRecommendation(
+                id: UUID(),
+                title: "Burger Lab",
+                subtitle: "Americana · €€",
+                rating: 9.1,
+                imageSource: .system("flame.fill", color: .orange),
+                aiReason: "En tendencia esta semana"
+            ),
+            MockRecommendation(
+                id: UUID(),
+                title: "Taco Loco",
+                subtitle: "Mexicano · €",
+                rating: 8.7,
+                imageSource: .system("leaf.fill", color: .green),
+                aiReason: "Muy popular en tu zona"
+            )
+        ]
+    }
 
-    static let nearYouItems: [MockRecommendation] = [
-        MockRecommendation(
-            id: UUID(),
-            title: "Café del Barrio",
-            subtitle: "Cafetería · €",
-            rating: 8.3,
-            imageSource: .system("cup.and.saucer.fill", color: .brown),
-            aiReason: "A 200m de ti"
-        ),
-        MockRecommendation(
-            id: UUID(),
-            title: "El Rincón",
-            subtitle: "Español · €€",
-            rating: 8.8,
-            imageSource: .system("mappin.and.ellipse", color: .red),
-            aiReason: "A 350m de ti"
-        )
-    ]
+    fileprivate static var nearYouItems: [MockRecommendation] {
+        [
+            MockRecommendation(
+                id: UUID(),
+                title: "Café del Barrio",
+                subtitle: "Cafetería · €",
+                rating: 8.3,
+                imageSource: .system("cup.and.saucer.fill", color: .brown),
+                aiReason: "A 200m de ti"
+            ),
+            MockRecommendation(
+                id: UUID(),
+                title: "El Rincón",
+                subtitle: "Español · €€",
+                rating: 8.8,
+                imageSource: .system("mappin.and.ellipse", color: .red),
+                aiReason: "A 350m de ti"
+            )
+        ]
+    }
 
-    static let newItems: [MockRecommendation] = [
-        MockRecommendation(
-            id: UUID(),
-            title: "Poke Paradise",
-            subtitle: "Hawaiano · €€",
-            rating: 8.0,
-            imageSource: .system("sparkles", color: .purple),
-            aiReason: "Nuevo en la zona"
-        ),
-        MockRecommendation(
-            id: UUID(),
-            title: "Thai Garden",
-            subtitle: "Tailandés · €€",
-            rating: 7.9,
-            imageSource: .system("leaf.fill", color: .green),
-            aiReason: "Abierto hace 2 semanas"
-        )
-    ]
+    fileprivate static var newItems: [MockRecommendation] {
+        [
+            MockRecommendation(
+                id: UUID(),
+                title: "Poke Paradise",
+                subtitle: "Hawaiano · €€",
+                rating: 8.0,
+                imageSource: .system("sparkles", color: .purple),
+                aiReason: "Nuevo en la zona"
+            ),
+            MockRecommendation(
+                id: UUID(),
+                title: "Thai Garden",
+                subtitle: "Tailandés · €€",
+                rating: 7.9,
+                imageSource: .system("leaf.fill", color: .green),
+                aiReason: "Abierto hace 2 semanas"
+            )
+        ]
+    }
 }
 
 // MARK: - Demo Questions
