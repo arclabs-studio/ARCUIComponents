@@ -36,6 +36,7 @@
 		B1000001000000000000001D /* ARCSegmentedControlDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000001D /* ARCSegmentedControlDemoScreen.swift */; };
 		B1000001000000000000001E /* ARCProgressDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000001E /* ARCProgressDemoScreen.swift */; };
 		B1000001000000000000001F /* ARCTextFieldDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000001F /* ARCTextFieldDemoScreen.swift */; };
+		B10000010000000000000021 /* ARCAIRecommenderDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000021 /* ARCAIRecommenderDemoScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,7 @@
 		B2000001000000000000001E /* ARCProgressDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCProgressDemoScreen.swift; sourceTree = "<group>"; };
 		B2000001000000000000001F /* ARCTextFieldDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCTextFieldDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000020 /* ARCDesignSystemDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCDesignSystemDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000021 /* ARCAIRecommenderDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCAIRecommenderDemoScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 				B2000001000000000000000A /* ARCTabViewDemoScreen.swift */,
 				B2000001000000000000000F /* ThematicArtworkDemoScreen.swift */,
 				B20000010000000000000020 /* ARCDesignSystemDemoScreen.swift */,
+				B20000010000000000000021 /* ARCAIRecommenderDemoScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				B1000001000000000000000A /* ARCTabViewDemoScreen.swift in Sources */,
 				B1000001000000000000000F /* ThematicArtworkDemoScreen.swift in Sources */,
 				B10000010000000000000020 /* ARCDesignSystemDemoScreen.swift in Sources */,
+				B10000010000000000000021 /* ARCAIRecommenderDemoScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
