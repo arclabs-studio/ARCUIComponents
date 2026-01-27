@@ -40,7 +40,7 @@ struct ARCMenuItemRow: View {
                     .background {
                         if !item.isDestructive {
                             RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous)
-                                .fill(configuration.accentColor.opacity(0.15))
+                                .fill(configuration.accentColor.opacity(iconBackgroundOpacity))
                         }
                     }
 
@@ -105,6 +105,30 @@ struct ARCMenuItemRow: View {
     @ViewBuilder private var iconView: some View {
         item.icon.iconView(isDestructive: item.isDestructive)
             .frame(width: 22, height: 22)
+            .foregroundStyle(iconForegroundStyle)
+    }
+
+    /// Foreground style for the icon based on configuration
+    private var iconForegroundStyle: some ShapeStyle {
+        if item.isDestructive {
+            return AnyShapeStyle(.red)
+        }
+        switch configuration.iconStyle {
+        case .subtle:
+            return AnyShapeStyle(.primary)
+        case .prominent:
+            return AnyShapeStyle(Color.black.opacity(0.8))
+        }
+    }
+
+    /// Background opacity for the icon based on configuration
+    private var iconBackgroundOpacity: Double {
+        switch configuration.iconStyle {
+        case .subtle:
+            0.15
+        case .prominent:
+            0.9
+        }
     }
 
     // MARK: - Badge View
@@ -302,4 +326,131 @@ struct ARCMenuItemRow: View {
         .padding()
     }
     .background(Color.green.opacity(0.2))
+}
+
+#Preview("Menu Item - Prominent Icons") {
+    ZStack {
+        Color(red: 0.1, green: 0.1, blue: 0.12).ignoresSafeArea()
+
+        VStack(spacing: 0) {
+            ARCMenuItemRow(
+                item: ARCMenuItem(
+                    title: "Italian",
+                    subtitle: "Pizza, Pasta, Risotto",
+                    icon: .system("fork.knife", renderingMode: .monochrome),
+                    showsDisclosure: true,
+                    action: {}
+                ),
+                configuration: .restaurant,
+                action: {}
+            )
+
+            Divider()
+                .padding(.leading, 64)
+
+            ARCMenuItemRow(
+                item: ARCMenuItem(
+                    title: "Japanese",
+                    subtitle: "Sushi, Ramen, Tempura",
+                    icon: .system("leaf.fill", renderingMode: .monochrome),
+                    showsDisclosure: true,
+                    action: {}
+                ),
+                configuration: .restaurant,
+                action: {}
+            )
+
+            Divider()
+                .padding(.leading, 64)
+
+            ARCMenuItemRow(
+                item: ARCMenuItem(
+                    title: "Mexican",
+                    subtitle: "Tacos, Burritos, Enchiladas",
+                    icon: .system("flame.fill", renderingMode: .monochrome),
+                    showsDisclosure: true,
+                    action: {}
+                ),
+                configuration: .restaurant,
+                action: {}
+            )
+
+            Divider()
+                .padding(.leading, 64)
+
+            ARCMenuItemRow(
+                item: ARCMenuItem(
+                    title: "Indian",
+                    subtitle: "Curry, Biryani, Naan",
+                    icon: .system("star.fill", renderingMode: .monochrome),
+                    showsDisclosure: true,
+                    action: {}
+                ),
+                configuration: .restaurant,
+                action: {}
+            )
+        }
+        .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .fill(.ultraThinMaterial)
+        }
+        .padding()
+    }
+}
+
+#Preview("Icon Style Comparison") {
+    VStack(spacing: 24) {
+        // Subtle style (default)
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Subtle (Default)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal)
+
+            VStack(spacing: 0) {
+                ARCMenuItemRow(
+                    item: .Common.settings(action: {}),
+                    configuration: .default,
+                    action: {}
+                )
+                ARCMenuItemRow(
+                    item: .Common.profile(action: {}),
+                    configuration: .default,
+                    action: {}
+                )
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(.regularMaterial)
+            }
+        }
+
+        // Prominent style
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Prominent")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal)
+
+            VStack(spacing: 0) {
+                ARCMenuItemRow(
+                    item: .Common.settings(action: {}),
+                    configuration: .prominent,
+                    action: {}
+                )
+                ARCMenuItemRow(
+                    item: .Common.profile(action: {}),
+                    configuration: .prominent,
+                    action: {}
+                )
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(.regularMaterial)
+            }
+        }
+    }
+    .padding()
+    .background(Color.gray.opacity(0.1))
 }
