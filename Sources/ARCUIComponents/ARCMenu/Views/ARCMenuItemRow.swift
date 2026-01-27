@@ -39,8 +39,8 @@ struct ARCMenuItemRow: View {
                     .frame(width: 32, height: 32)
                     .background {
                         if !item.isDestructive {
-                            RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous)
-                                .fill(configuration.accentColor.opacity(iconBackgroundOpacity))
+                            Circle()
+                                .fill(iconBackgroundColor)
                         }
                     }
 
@@ -117,17 +117,18 @@ struct ARCMenuItemRow: View {
         case .subtle:
             return AnyShapeStyle(.primary)
         case .prominent:
-            return AnyShapeStyle(Color.black.opacity(0.8))
+            return AnyShapeStyle(configuration.accentColor)
         }
     }
 
-    /// Background opacity for the icon based on configuration
-    private var iconBackgroundOpacity: Double {
+    /// Background color for the icon based on configuration
+    private var iconBackgroundColor: Color {
         switch configuration.iconStyle {
         case .subtle:
-            0.15
+            configuration.accentColor.opacity(0.15)
         case .prominent:
-            0.9
+            // Dark olive/brown background for prominent icons
+            Color(red: 0.25, green: 0.22, blue: 0.15)
         }
     }
 

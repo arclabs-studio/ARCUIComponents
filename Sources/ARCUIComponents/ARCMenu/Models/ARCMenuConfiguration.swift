@@ -202,7 +202,7 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
 
     /// Configuration with prominent icons (category-style menus)
     ///
-    /// Uses high-opacity accent color backgrounds with dark icons
+    /// Uses dark muted backgrounds with accent-colored icons
     /// for a bold, category-style appearance similar to cuisine lists.
     public static let prominent = ARCMenuConfiguration(
         accentColor: .orange,

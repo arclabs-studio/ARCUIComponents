@@ -20,11 +20,11 @@ public enum ARCMenuIconStyle: Sendable {
     /// style that blends well with most menu designs.
     case subtle
 
-    /// Prominent background with dark icon on accent color
+    /// Dark background with accent-colored icon
     ///
-    /// The icon uses a high-opacity accent color background (90%)
-    /// with a dark icon for strong contrast. This style is ideal
+    /// The icon uses a dark muted background (olive/brown) with
+    /// the icon rendered in the accent color. This style is ideal
     /// for category-style menus where icons should stand out,
-    /// similar to cuisine category lists.
+    /// similar to cuisine category lists in restaurant apps.
     case prominent
 }
