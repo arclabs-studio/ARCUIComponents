@@ -198,24 +198,6 @@ private struct MockItem: AIRecommenderItem {
     .background(Color(.systemGroupedBackground))
 }
 
-#Preview("Item Card - Books") {
-    AIRecommenderItemCard(
-        item: MockItem(
-            id: UUID(),
-            title: "Cien años de soledad",
-            subtitle: "Gabriel García Márquez",
-            rating: 9.5,
-            imageSource: .system("book.fill", color: .blue),
-            aiReason: "Basado en tu interés en realismo mágico"
-        ),
-        rank: 1,
-        configuration: .books,
-        action: {}
-    )
-    .padding()
-    .background(Color(.systemGroupedBackground))
-}
-
 #Preview("Item Card - Dark Mode") {
     AIRecommenderItemCard(
         item: MockItem(

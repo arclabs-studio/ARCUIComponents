@@ -83,14 +83,8 @@ struct AIRecommenderHeader: View {
         .background(Color(.systemGroupedBackground))
 }
 
-#Preview("Header - Restaurant") {
-    AIRecommenderHeader(configuration: .restaurant)
-        .padding()
-        .background(Color(.systemGroupedBackground))
-}
-
-#Preview("Header - Books") {
-    AIRecommenderHeader(configuration: .books)
+#Preview("Header - Minimal") {
+    AIRecommenderHeader(configuration: .minimal)
         .padding()
         .background(Color(.systemGroupedBackground))
 }
