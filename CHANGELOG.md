@@ -7,6 +7,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-01-28
+
+### Added
+- **ARCAIRecommender Component**: AI-powered recommendation interface
+  - Dual mode support: quick categories and questionnaire modes
+  - `ARCAIRecommender`: Main view with mode switcher tabs
+  - `AIRecommenderCategory`: Predefined and custom categories for quick mode
+  - `AIRecommenderItem`: Protocol for type-safe displayable items
+  - `AIRecommenderQuestion`: Model for single/multiple/slider inputs
+  - `AIRecommenderAnswers`: Collection for storing user responses with JSON/Dictionary export
+  - `AIRecommenderHeader`: Hero section with animated sparkles icon
+  - `AIRecommenderCategoryPicker`: Horizontal scrolling capsule buttons
+  - `AIRecommenderItemCard`: Recommendation card with rank badge, image, and rating
+  - `AIRecommenderQuestionCard`: Question with chip-based option selection
+  - `AIRecommenderQuestionnaire`: Full survey with progress indicator
+  - `QuestionFlowLayout`: Custom SwiftUI Layout for wrapping chips
+  - `ARCAIRecommenderConfiguration`: Comprehensive configuration system
+  - Configuration presets: `.default`, `.restaurant`, `.books`, `.minimal`, `.compact`
+  - Full VoiceOver accessibility support
+  - Dark mode support with semantic colors
+  - Demo screen with interactive examples
+  - Comprehensive DocC documentation
+
+- **ARCMenu Icon Styles**:
+  - `ARCMenuIconStyle` enum with two options:
+    - `.subtle`: Low-opacity background (15%) with primary-colored icon (default)
+    - `.prominent`: Dark muted background with accent-colored icon
+  - New configuration presets: `.prominent`, `.restaurant`
+  - Interactive icon style picker in demo app
+
+### Changed
+- Demo app updated with ARCAIRecommender demo screen
+- ARCMenu demo enhanced with icon style selector
+- Updated ARCUIComponents.md documentation catalog
+
+### Technical
+- Refactored ARCAIRecommender previews to separate files for SwiftLint compliance
+- Moved showcase sections to extensions to fix type_body_length violations
+
+## [1.6.0] - 2026-01-27
+
 ### Added
 - **ARCTabView Component**: Tab navigation with iOS 26 Liquid Glass support
   - Native `TabView` wrapper with automatic Liquid Glass detection
@@ -149,5 +190,7 @@ See [TECHNICAL_REVIEW.md](TECHNICAL_REVIEW.md) for planned improvements and futu
 
 ---
 
-[Unreleased]: https://github.com/arclabs-studio/ARCUIComponents/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/arclabs-studio/ARCUIComponents/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.7.0
+[1.6.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.6.0
 [1.0.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.0.0
