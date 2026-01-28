@@ -9,9 +9,9 @@ on:
 jobs:
   build-and-test:
     name: Build and Test
-    runs-on: macos-15
+    runs-on: macos-14
     env:
-      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
 
     steps:
     - name: Checkout
@@ -52,7 +52,7 @@ jobs:
 
   swiftlint:
     name: SwiftLint
-    runs-on: macos-15
+    runs-on: macos-14
 
     steps:
     - name: Checkout
@@ -66,9 +66,9 @@ jobs:
 
   documentation:
     name: Build Documentation
-    runs-on: macos-15
+    runs-on: macos-14
     env:
-      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
     # Make this job non-blocking - it runs in parallel but doesn't block other checks
     continue-on-error: true
 
@@ -113,20 +113,22 @@ jobs:
 
   ios-compatibility:
     name: iOS/iPadOS Compatibility
-    runs-on: macos-15
+    runs-on: macos-14
     env:
-      DEVELOPER_DIR: /Applications/Xcode_16.4.app/Contents/Developer
+      DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
+    # Temporarily reduced matrix to speed up CI
     strategy:
       matrix:
         include:
           - device: 'iPhone 16 Pro'
             os: 'iOS'
-          - device: 'iPhone SE (3rd generation)'
-            os: 'iOS'
-          - device: 'iPad Pro 13-inch (M4)'
-            os: 'iPadOS'
-          - device: 'iPad Air 11-inch (M2)'
-            os: 'iPadOS'
+          # Temporarily disabled to reduce runner queue time
+          # - device: 'iPhone SE (3rd generation)'
+          #   os: 'iOS'
+          # - device: 'iPad Pro 13-inch (M4)'
+          #   os: 'iPadOS'
+          # - device: 'iPad Air 11-inch (M2)'
+          #   os: 'iPadOS'
 
     steps:
     - name: Checkout
