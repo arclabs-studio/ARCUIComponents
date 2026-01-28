@@ -177,6 +177,12 @@ extension DemoHomeView {
                 Label("ARCTextField", systemImage: "character.cursor.ibeam")
             }
 
+            NavigationLink {
+                ARCAIRecommenderDemoScreen()
+            } label: {
+                Label("ARCAIRecommender", systemImage: "sparkles")
+            }
+
             if #available(iOS 18.0, *) {
                 NavigationLink {
                     ARCTabViewDemoScreen()
@@ -331,6 +337,12 @@ extension DemoHomeView {
                 LiquidGlassShowcase()
             } label: {
                 Label("Liquid Glass Showcase", systemImage: "drop.circle")
+            }
+
+            NavigationLink {
+                ARCAIRecommenderShowcase()
+            } label: {
+                Label("AI Recommender Showcase", systemImage: "sparkles.rectangle.stack")
             }
         } header: {
             Text("Full Showcases")
