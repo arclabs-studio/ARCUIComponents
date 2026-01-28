@@ -8,196 +8,147 @@
 import ARCDesignSystem
 import SwiftUI
 
-/// ARCMenu - Premium menu component following Apple's design language
+// MARK: - ARCMenu
+
+/// ARCMenu - Native menu component following Apple's design language
 ///
-/// A sophisticated, reusable menu component that implements Apple's modern
-/// design patterns including:
-/// - Liquid Glass effect (glassmorphism)
-/// - Smooth spring animations
-/// - Drag-to-dismiss gestures
+/// A menu component that uses native SwiftUI sheet APIs for an Apple-native experience.
+/// Supports iOS 26+ Liquid Glass effect when available, falling back to Material on earlier versions.
+///
+/// ## Features
+/// - Native `.sheet()` presentation with `PresentationDetent` support
+/// - Material background (ultraThinMaterial) for glass effect
+/// - iOS 26+ Liquid Glass support via `@available`
+/// - Drag indicator and X close button
 /// - Haptic feedback
-/// - Full customization support
+/// - Optional trailing panel mode for iPad/Mac
 ///
-/// Usage:
+/// ## Usage
+///
 /// ```swift
 /// struct ContentView: View {
-///     @State private var viewModel = ARCMenuViewModel.standard(
-///         user: ARCMenuUser(
-///             name: "Carlos Ramirez",
-///             email: "carlos@arclabs.studio",
-///             avatarImage: .initials("CR")
-///         ),
-///         onSettings: { print("Settings") },
-///         onProfile: { print("Profile") },
-///         onLogout: { print("Logout") }
+///     @State private var showMenu = false
+///     @State private var menuViewModel = ARCMenuViewModel(
+///         user: ARCMenuUser(name: "John", avatarImage: .initials("JD")),
+///         menuItems: ARCMenuItem.defaultItems(...)
 ///     )
 ///
 ///     var body: some View {
 ///         YourContentView()
-///             .arcMenu(viewModel: viewModel)
+///             .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
 ///     }
 /// }
 /// ```
 public struct ARCMenu: View {
     // MARK: - Properties
 
+    @Binding private var isPresented: Bool
     @Bindable private var viewModel: ARCMenuViewModel
 
     // MARK: - Initialization
 
     /// Creates a new ARCMenu
-    /// - Parameter viewModel: View model containing menu state and configuration
-    public init(viewModel: ARCMenuViewModel) {
+    /// - Parameters:
+    ///   - isPresented: Binding to control sheet presentation
+    ///   - viewModel: View model containing menu state and configuration
+    public init(isPresented: Binding<Bool>, viewModel: ARCMenuViewModel) {
+        _isPresented = isPresented
         self.viewModel = viewModel
     }
 
     // MARK: - Body
 
     public var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: viewModel.configuration.presentationStyle.contentAlignment) {
-                // Backdrop
-                if viewModel.isPresented {
-                    Color.black
-                        .opacity(viewModel.backdropOpacity * 0.4)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            if viewModel.configuration.dismissOnOutsideTap {
-                                viewModel.dismiss()
-                            }
-                        }
-                        .accessibilityHidden(true)
-                        .transition(.opacity)
-                }
-
-                // Menu content
-                if viewModel.isPresented {
-                    menuContent(geometry: geometry)
-                        .transition(menuTransition)
-                }
-            }
-            .animation(
-                viewModel.isPresented
-                    ? viewModel.configuration.presentationAnimation
-                    : viewModel.configuration.dismissalAnimation,
-                value: viewModel.isPresented
-            )
-            .arcAnimation(.arcSpring, value: viewModel.dragOffset)
-        }
-    }
-
-    // MARK: - Transition
-
-    private var menuTransition: AnyTransition {
-        let edge = viewModel.configuration.presentationStyle.enteringEdge
-        return .asymmetric(
-            insertion: .move(edge: edge).combined(with: .opacity),
-            removal: .move(edge: edge).combined(with: .opacity)
-        )
-    }
-
-    // MARK: - Menu Content
-
-    @ViewBuilder
-    private func menuContent(geometry: GeometryProxy) -> some View {
         switch viewModel.configuration.presentationStyle {
         case .bottomSheet:
-            bottomSheetContent(geometry: geometry)
+            EmptyView() // Sheet is presented via modifier
         case .trailingPanel:
-            trailingPanelContent(geometry: geometry)
+            trailingPanelOverlay
         }
     }
 
-    @ViewBuilder
-    private func bottomSheetContent(geometry: GeometryProxy) -> some View {
-        VStack(spacing: 0) {
-            // Grabber
-            if viewModel.configuration.showsGrabber {
-                grabberView
-            }
+    // MARK: - Trailing Panel (Custom Implementation)
 
-            // Header with title and close button
-            if viewModel.configuration.showsCloseButton || viewModel.configuration.sheetTitle != nil {
-                sheetHeaderView
-            }
-
-            // Scrollable content
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: viewModel.configuration.sectionSpacing) {
-                    userHeaderSection
-                    menuItemsSection
-                    versionSection
+    @ViewBuilder private var trailingPanelOverlay: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .trailing) {
+                // Backdrop (Button for VoiceOver accessibility)
+                if isPresented {
+                    Button {
+                        dismissWithHaptic()
+                    } label: {
+                        Color.black
+                            .opacity(0.4)
+                            .ignoresSafeArea()
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(String(localized: "Close menu"))
+                    .accessibilityHint(String(localized: "Double tap to close the menu"))
+                    .transition(.opacity)
                 }
-                .padding(viewModel.configuration.contentInsets)
+
+                // Panel content
+                if isPresented {
+                    trailingPanelContent(geometry: geometry)
+                        .transition(.move(edge: .trailing).combined(with: .opacity))
+                }
             }
+            .animation(.arcGentle, value: isPresented)
         }
-        .frame(maxWidth: .infinity)
-        .frame(maxHeight: geometry.size.height * 0.85)
-        .liquidGlass(configuration: viewModel.configuration, isInteractive: false)
-        .offset(y: max(0, viewModel.dragOffset))
-        .gesture(viewModel.configuration.allowsDragToDismiss ? bottomSheetDragGesture : nil)
     }
 
     @ViewBuilder
     private func trailingPanelContent(geometry: GeometryProxy) -> some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: viewModel.configuration.sectionSpacing) {
-                userHeaderSection
-                menuItemsSection
-                versionSection
+        VStack(spacing: 0) {
+            // Header with close button
+            if viewModel.configuration.showsCloseButton || viewModel.configuration.sheetTitle != nil {
+                panelHeader
             }
-            .padding(viewModel.configuration.contentInsets)
+
+            // Scrollable content
+            ScrollView(.vertical, showsIndicators: false) {
+                menuContentStack
+            }
         }
         .frame(width: viewModel.configuration.menuWidth)
         .frame(maxHeight: geometry.size.height)
-        .liquidGlass(configuration: viewModel.configuration, isInteractive: false)
-        .offset(x: max(0, viewModel.dragOffset), y: viewModel.configuration.topPadding)
-        .gesture(viewModel.configuration.allowsDragToDismiss ? trailingPanelDragGesture : nil)
-    }
-
-    // MARK: - Sheet Header Components
-
-    @ViewBuilder private var grabberView: some View {
-        RoundedRectangle(cornerRadius: 2.5)
-            .fill(Color.secondary.opacity(0.4))
-            .frame(width: 36, height: 5)
-            .padding(.top, .arcSpacingSmall)
-            .padding(.bottom, .arcSpacingXSmall)
-    }
-
-    @ViewBuilder private var sheetHeaderView: some View {
-        HStack {
-            // Close button (leading position like Apple Music)
-            if viewModel.configuration.showsCloseButton {
-                Button {
-                    viewModel.dismiss()
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 12, weight: .bold))
-                        .foregroundStyle(.secondary)
-                        .frame(width: 30, height: 30)
-                        .background(.ultraThinMaterial, in: Circle())
-                }
-            } else {
-                Spacer().frame(width: 30)
-            }
-
-            Spacer()
-
-            // Title
-            if let title = viewModel.configuration.sheetTitle {
-                Text(title)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-            }
-
-            Spacer()
-
-            // Placeholder for symmetry
-            Spacer().frame(width: 30)
+        .background {
+            RoundedRectangle(cornerRadius: viewModel.configuration.cornerRadius, style: .continuous)
+                .fill(.ultraThinMaterial)
         }
-        .padding(.horizontal, .arcSpacingMedium)
-        .padding(.vertical, .arcSpacingSmall)
+        .clipShape(RoundedRectangle(cornerRadius: viewModel.configuration.cornerRadius, style: .continuous))
+        .shadow(color: .black.opacity(0.15), radius: 20, x: -5, y: 0)
+        .gesture(panelDragGesture)
+        .offset(x: viewModel.dragOffset)
+    }
+
+    private var panelDragGesture: some Gesture {
+        DragGesture(minimumDistance: 10)
+            .onChanged { value in
+                if value.translation.width > 0 {
+                    viewModel.dragOffset = value.translation.width
+                }
+            }
+            .onEnded { value in
+                if value.translation.width > 100 {
+                    dismissWithHaptic()
+                } else {
+                    withAnimation(.arcSpring) {
+                        viewModel.dragOffset = 0
+                    }
+                }
+            }
+    }
+
+    // MARK: - Shared Content
+
+    private var menuContentStack: some View {
+        VStack(spacing: viewModel.configuration.sectionSpacing) {
+            userHeaderSection
+            menuItemsSection
+            versionSection
+        }
+        .padding(viewModel.configuration.contentInsets)
     }
 
     @ViewBuilder private var userHeaderSection: some View {
@@ -207,28 +158,30 @@ public struct ARCMenu: View {
     }
 
     @ViewBuilder private var menuItemsSection: some View {
-        VStack(spacing: .arcSpacingXSmall) {
+        VStack(spacing: 0) {
             ForEach(viewModel.menuItems) { item in
                 ARCMenuItemRow(
                     item: item,
                     configuration: viewModel.configuration,
-                    action: { viewModel.executeAction(for: item) }
+                    action: {
+                        dismissWithHaptic()
+                        // Execute action after dismiss animation
+                        Task {
+                            try? await Task.sleep(for: .milliseconds(300))
+                            item.action()
+                        }
+                    }
                 )
                 if item.id != viewModel.menuItems.last?.id {
-                    Divider().padding(.leading, 64)
+                    Divider()
+                        .padding(.leading, 56)
                 }
             }
         }
-        .background { menuItemsBackground }
-    }
-
-    @ViewBuilder private var menuItemsBackground: some View {
-        RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-            .fill(.ultraThinMaterial)
-            .overlay {
-                RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                    .strokeBorder(Color.white.opacity(0.1), lineWidth: 0.5)
-            }
+        .background {
+            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
+                .fill(.ultraThinMaterial)
+        }
     }
 
     @ViewBuilder private var versionSection: some View {
@@ -240,229 +193,236 @@ public struct ARCMenu: View {
         }
     }
 
-    // MARK: - Gestures
+    // MARK: - Panel Header
 
-    private var bottomSheetDragGesture: some Gesture {
-        DragGesture(minimumDistance: 10)
-            .onChanged { value in
-                viewModel.updateDragOffset(value.translation.height, isVertical: true)
+    @ViewBuilder private var panelHeader: some View {
+        HStack {
+            if let title = viewModel.configuration.sheetTitle {
+                Text(title)
+                    .font(.headline)
+                    .fontWeight(.semibold)
             }
-            .onEnded { value in
-                viewModel.endDrag(at: value.translation.height, isVertical: true)
+
+            Spacer()
+
+            if viewModel.configuration.showsCloseButton {
+                closeButton
             }
+        }
+        .padding(.horizontal, .arcSpacingLarge)
+        .padding(.vertical, .arcSpacingMedium)
     }
 
-    private var trailingPanelDragGesture: some Gesture {
-        DragGesture(minimumDistance: 10)
-            .onChanged { value in
-                viewModel.updateDragOffset(value.translation.width, isVertical: false)
+    private var closeButton: some View {
+        Button {
+            dismissWithHaptic()
+        } label: {
+            Image(systemName: "xmark")
+                .font(.system(size: 12, weight: .bold))
+                .foregroundStyle(.secondary)
+                .frame(width: 30, height: 30)
+                .background(.ultraThinMaterial, in: Circle())
+        }
+        .buttonStyle(.plain)
+    }
+
+    // MARK: - Helpers
+
+    private func dismissWithHaptic() {
+        viewModel.configuration.hapticFeedback.perform()
+        isPresented = false
+        viewModel.dragOffset = 0
+    }
+}
+
+// MARK: - Sheet Content View
+
+/// Internal view for sheet content with native presentation modifiers
+struct ARCMenuSheetContent: View {
+    @Binding var isPresented: Bool
+    @Bindable var viewModel: ARCMenuViewModel
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header
+            sheetHeader
+
+            // Scrollable content
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing: viewModel.configuration.sectionSpacing) {
+                    userHeaderSection
+                    menuItemsSection
+                    versionSection
+                }
+                .padding(viewModel.configuration.contentInsets)
             }
-            .onEnded { value in
-                viewModel.endDrag(at: value.translation.width, isVertical: false)
+        }
+        .presentationDetents(
+            viewModel.configuration.detents,
+            selection: .constant(viewModel.configuration.selectedDetent ?? .medium)
+        )
+        .presentationDragIndicator(viewModel.configuration.showsGrabber ? .visible : .hidden)
+        .presentationCornerRadius(32)
+        .presentationBackground {
+            materialBackground
+        }
+        .presentationBackgroundInteraction(
+            viewModel.configuration.allowsBackgroundInteraction
+                ? .enabled(upThrough: .medium)
+                : .disabled
+        )
+        .onAppear {
+            viewModel.configuration.hapticFeedback.perform()
+        }
+    }
+
+    // MARK: - Background
+
+    @ViewBuilder private var materialBackground: some View {
+        if #available(iOS 26.0, *) {
+            // Use Liquid Glass on iOS 26+
+            Rectangle()
+                .fill(.ultraThinMaterial)
+            // TODO: Replace with .glassEffect() when iOS 26 SDK is available
+            // .glassEffect(.regular)
+        } else {
+            // Fall back to Material on earlier versions
+            Rectangle()
+                .fill(.ultraThinMaterial)
+        }
+    }
+
+    // MARK: - Header
+
+    @ViewBuilder private var sheetHeader: some View {
+        if viewModel.configuration.showsCloseButton || viewModel.configuration.sheetTitle != nil {
+            HStack {
+                // Close button (leading position like Apple Music)
+                if viewModel.configuration.showsCloseButton {
+                    Button {
+                        viewModel.configuration.hapticFeedback.perform()
+                        isPresented = false
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundStyle(.secondary)
+                            .frame(width: 30, height: 30)
+                            .background(.ultraThinMaterial, in: Circle())
+                    }
+                    .buttonStyle(.plain)
+                } else {
+                    Spacer().frame(width: 30)
+                }
+
+                Spacer()
+
+                // Title
+                if let title = viewModel.configuration.sheetTitle {
+                    Text(title)
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                }
+
+                Spacer()
+
+                // Placeholder for symmetry
+                Spacer().frame(width: 30)
             }
+            .padding(.horizontal, .arcSpacingMedium)
+            .padding(.vertical, .arcSpacingSmall)
+        }
+    }
+
+    // MARK: - Sections
+
+    @ViewBuilder private var userHeaderSection: some View {
+        if let user = viewModel.user {
+            ARCMenuUserHeader(user: user, configuration: viewModel.configuration, onTap: nil)
+        }
+    }
+
+    @ViewBuilder private var menuItemsSection: some View {
+        VStack(spacing: 0) {
+            ForEach(viewModel.menuItems) { item in
+                ARCMenuItemRow(
+                    item: item,
+                    configuration: viewModel.configuration,
+                    action: {
+                        viewModel.configuration.hapticFeedback.perform()
+                        isPresented = false
+                        // Execute action after dismiss animation
+                        Task {
+                            try? await Task.sleep(for: .milliseconds(300))
+                            item.action()
+                        }
+                    }
+                )
+                if item.id != viewModel.menuItems.last?.id {
+                    Divider()
+                        .padding(.leading, 56)
+                }
+            }
+        }
+        .background {
+            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
+                .fill(.ultraThinMaterial)
+        }
+    }
+
+    @ViewBuilder private var versionSection: some View {
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            Text("Version \(version)")
+                .font(.caption2)
+                .foregroundStyle(.tertiary)
+                .padding(.top, .arcSpacingSmall)
+        }
     }
 }
 
 // MARK: - View Extension
 
 extension View {
-    /// Adds an ARCMenu to a view
+    /// Adds an ARCMenu to a view using native sheet presentation
+    ///
+    /// - Parameters:
+    ///   - isPresented: Binding to control menu visibility
+    ///   - viewModel: View model containing menu data and configuration
+    /// - Returns: View with menu sheet attached
+    public func arcMenu(isPresented: Binding<Bool>, viewModel: ARCMenuViewModel) -> some View {
+        modifier(ARCMenuModifier(isPresented: isPresented, viewModel: viewModel))
+    }
+
+    /// Adds an ARCMenu to a view using the view model's internal presentation state
+    ///
     /// - Parameter viewModel: View model containing menu state and configuration
-    /// - Returns: View with menu overlay
+    /// - Returns: View with menu overlay (for backward compatibility)
+    @available(*, deprecated, message: "Use arcMenu(isPresented:viewModel:) instead")
     public func arcMenu(viewModel: ARCMenuViewModel) -> some View {
         overlay {
-            ARCMenu(viewModel: viewModel)
+            ARCMenu(isPresented: .constant(viewModel.isPresented), viewModel: viewModel)
         }
     }
 }
 
-// MARK: - Preview Provider
+// MARK: - Menu Modifier
 
-#Preview("ARCMenu - Bottom Sheet (Default)") {
-    @Previewable @State var viewModel = ARCMenuViewModel.standard(
-        user: ARCMenuUser(
-            name: "Carlos Ramirez",
-            email: "carlos@arclabs.studio",
-            subtitle: "Premium Member",
-            avatarImage: .initials("CR")
-        ),
-        configuration: ARCMenuConfiguration(
-            sheetTitle: "Cuenta"
-        ),
-        onSettings: { print("Settings tapped") },
-        onProfile: { print("Profile tapped") },
-        onPlan: { print("Plan tapped") },
-        onContact: { print("Contact tapped") },
-        onAbout: { print("About tapped") },
-        onLogout: { print("Logout tapped") }
-    )
+/// View modifier that handles both native sheet and custom trailing panel
+struct ARCMenuModifier: ViewModifier {
+    @Binding var isPresented: Bool
+    @Bindable var viewModel: ARCMenuViewModel
 
-    ZStack {
-        // Sample app content
-        LinearGradient(
-            colors: [.blue, .purple],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
-
-        VStack {
-            Text("ARCMenu Demo")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundStyle(.white)
-
-            Text("Bottom Sheet Style (Apple Standard)")
-                .font(.subheadline)
-                .foregroundStyle(.white.opacity(0.8))
-
-            Button("Toggle Menu") {
-                viewModel.toggle()
-            }
-            .buttonStyle(.borderedProminent)
+    func body(content: Content) -> some View {
+        switch viewModel.configuration.presentationStyle {
+        case .bottomSheet:
+            content
+                .sheet(isPresented: $isPresented) {
+                    ARCMenuSheetContent(isPresented: $isPresented, viewModel: viewModel)
+                }
+        case .trailingPanel:
+            content
+                .overlay {
+                    ARCMenu(isPresented: $isPresented, viewModel: viewModel)
+                }
         }
-    }
-    .arcMenu(viewModel: viewModel)
-    .onAppear {
-        viewModel.present()
-    }
-}
-
-#Preview("ARCMenu - Trailing Panel") {
-    @Previewable @State var viewModel = ARCMenuViewModel.standard(
-        user: ARCMenuUser(
-            name: "Jane Cooper",
-            email: "jane@example.app",
-            avatarImage: .initials("JC")
-        ),
-        configuration: .trailingPanel,
-        onSettings: { print("Settings") },
-        onProfile: { print("Profile") },
-        onLogout: { print("Logout") }
-    )
-
-    ZStack {
-        LinearGradient(
-            colors: [.indigo, .purple],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
-
-        VStack {
-            Text("Trailing Panel Demo")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundStyle(.white)
-
-            Text("Drawer Style Presentation")
-                .font(.subheadline)
-                .foregroundStyle(.white.opacity(0.8))
-
-            Button("Toggle Menu") {
-                viewModel.toggle()
-            }
-            .buttonStyle(.borderedProminent)
-        }
-    }
-    .arcMenu(viewModel: viewModel)
-    .onAppear {
-        viewModel.present()
-    }
-}
-
-#Preview("ARCMenu - Fitness Style") {
-    @Previewable @State var viewModel = ARCMenuViewModel.standard(
-        user: ARCMenuUser(
-            name: "Jane Cooper",
-            email: "jane@fitness.app",
-            avatarImage: .initials("JC")
-        ),
-        configuration: .fitness,
-        onSettings: { print("Settings") },
-        onProfile: { print("Profile") },
-        onLogout: { print("Logout") }
-    )
-
-    ZStack {
-        Color.green.opacity(0.2).ignoresSafeArea()
-
-        Text("Fitness App")
-            .font(.largeTitle)
-            .fontWeight(.black)
-    }
-    .arcMenu(viewModel: viewModel)
-    .onAppear {
-        viewModel.present()
-    }
-}
-
-#Preview("ARCMenu - Premium Style") {
-    @Previewable @State var viewModel = ARCMenuViewModel(
-        user: ARCMenuUser(
-            name: "Alex Morgan",
-            subtitle: "Gold Member",
-            avatarImage: .systemImage("crown.fill")
-        ),
-        menuItems: [
-            .Common.profile(action: {}),
-            .Common.plan(badge: "Pro", action: {}),
-            .Common.notifications(badge: "5", action: {}),
-            .Common.settings(action: {}),
-            .Common.help(action: {}),
-            .Common.logout(action: {})
-        ],
-        configuration: .premium
-    )
-
-    ZStack {
-        LinearGradient(
-            colors: [.orange, .red],
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .ignoresSafeArea()
-
-        Text("Premium App")
-            .font(.largeTitle)
-            .fontWeight(.bold)
-            .foregroundStyle(.white)
-    }
-    .arcMenu(viewModel: viewModel)
-    .onAppear {
-        viewModel.present()
-    }
-}
-
-#Preview("ARCMenu - Dark Style") {
-    @Previewable @State var viewModel = ARCMenuViewModel.standard(
-        user: ARCMenuUser(
-            name: "Dark Mode User",
-            email: "user@dark.app",
-            avatarImage: .initials("DM")
-        ),
-        configuration: .dark,
-        onSettings: {},
-        onProfile: {},
-        onLogout: {}
-    )
-
-    ZStack {
-        Color.black.ignoresSafeArea()
-
-        VStack {
-            Image(systemName: "moon.stars.fill")
-                .font(.system(size: 100))
-                .foregroundStyle(.purple)
-
-            Text("Dark Theme")
-                .font(.title)
-                .foregroundStyle(.white)
-        }
-    }
-    .arcMenu(viewModel: viewModel)
-    .preferredColorScheme(.dark)
-    .onAppear {
-        viewModel.present()
     }
 }

@@ -11,10 +11,15 @@ import SwiftUI
 /// Demo screen for ARCMenu component.
 ///
 /// Shows the menu in a realistic app context with various configurations.
+/// Demonstrates the native sheet API with external `isPresented` binding.
 struct ARCMenuDemoScreen: View {
     // MARK: Properties
 
-    @State private var menuViewModel = ARCMenuViewModel.standard(
+    /// Controls menu presentation via native SwiftUI sheet
+    @State private var showMenu = false
+
+    /// Menu view model with user data, items, and configuration
+    @State private var menuViewModel = ARCMenuViewModel.withDefaultItems(
         user: ARCMenuUser(
             name: "ARC Labs",
             email: "hello@arclabs.studio",
@@ -22,12 +27,14 @@ struct ARCMenuDemoScreen: View {
             avatarImage: .imageName("ARC_Icon")
         ),
         configuration: ARCMenuConfiguration(sheetTitle: "Cuenta"),
-        onSettings: {},
-        onProfile: {},
-        onPlan: {},
-        onContact: {},
-        onAbout: {},
-        onLogout: {}
+        actions: ARCMenuActions(
+            onProfile: { print("Profile tapped") },
+            onSettings: { print("Settings tapped") },
+            onFeedback: { print("Feedback tapped") },
+            onSubscriptions: { print("Subscriptions tapped") },
+            onAbout: { print("About tapped") },
+            onLogout: { print("Logout tapped") }
+        )
     )
 
     @State private var selectedPresentationStyle: PresentationStyleOption = .bottomSheet
@@ -47,29 +54,63 @@ struct ARCMenuDemoScreen: View {
             .toolbar {
                 #if os(iOS)
                 ToolbarItem(placement: .topBarTrailing) {
-                    ARCMenuButton(
-                        viewModel: menuViewModel,
-                        showsBadge: true,
-                        badgeCount: 3
-                    )
+                    menuButton
                 }
                 #else
                 ToolbarItem(placement: .automatic) {
-                    ARCMenuButton(
-                        viewModel: menuViewModel,
-                        showsBadge: true,
-                        badgeCount: 3
-                    )
+                    menuButton
                 }
                 #endif
             }
-            .arcMenu(viewModel: menuViewModel)
+            .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
             .onChange(of: selectedPresentationStyle) { _, _ in
                 updateConfiguration()
             }
             .onChange(of: selectedTheme) { _, _ in
                 updateConfiguration()
             }
+    }
+
+    // MARK: - Menu Button
+
+    /// Custom menu button that toggles the external `showMenu` binding
+    private var menuButton: some View {
+        Button {
+            showMenu.toggle()
+        } label: {
+            ZStack(alignment: .topTrailing) {
+                if let user = menuViewModel.user {
+                    user.avatarImage.avatarView(size: 32)
+                        .clipShape(Circle())
+                } else {
+                    Image(systemName: "line.3.horizontal")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundStyle(menuViewModel.configuration.accentColor)
+                }
+            }
+            .frame(width: 40, height: 40)
+            .background {
+                Circle()
+                    .fill(.ultraThinMaterial)
+            }
+            .overlay {
+                // Badge
+                if true {
+                    ZStack {
+                        Circle()
+                            .fill(Color.red)
+                            .frame(width: 18, height: 18)
+                        Text("3")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                    }
+                    .offset(x: 12, y: -12)
+                }
+            }
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: Private Methods

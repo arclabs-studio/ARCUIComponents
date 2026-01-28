@@ -174,16 +174,16 @@ struct ARCMenuItemRow: View {
 
         VStack(spacing: 8) {
             ARCMenuItemRow(
-                item: .Common.plan(badge: "Pro", action: {}),
-                configuration: .premium,
+                item: .Common.subscriptions(badge: "Pro", action: {}),
+                configuration: ARCMenuConfiguration(accentColor: .orange),
                 action: {
-                    print("Plan tapped")
+                    print("Subscriptions tapped")
                 }
             )
 
             ARCMenuItemRow(
                 item: .Common.notifications(badge: "3", action: {}),
-                configuration: .premium,
+                configuration: ARCMenuConfiguration(accentColor: .orange),
                 action: {
                     print("Notifications tapped")
                 }
@@ -230,60 +230,62 @@ struct ARCMenuItemRow: View {
 }
 
 #Preview("Menu Item - All Variants") {
+    let config = ARCMenuConfiguration(accentColor: .green)
+
     ScrollView {
         VStack(spacing: 12) {
             Group {
                 ARCMenuItemRow(
                     item: .Common.profile(action: {}),
-                    configuration: .fitness,
+                    configuration: config,
                     action: {}
                 )
 
                 ARCMenuItemRow(
                     item: .Common.settings(action: {}),
-                    configuration: .fitness,
+                    configuration: config,
                     action: {}
                 )
 
                 ARCMenuItemRow(
-                    item: .Common.plan(badge: "Premium", action: {}),
-                    configuration: .fitness,
+                    item: .Common.subscriptions(badge: "Premium", action: {}),
+                    configuration: config,
                     action: {}
                 )
 
                 ARCMenuItemRow(
                     item: .Common.notifications(badge: "12", action: {}),
-                    configuration: .fitness,
+                    configuration: config,
                     action: {}
                 )
 
                 ARCMenuItemRow(
                     item: .Common.privacy(action: {}),
-                    configuration: .fitness,
+                    configuration: config,
                     action: {}
                 )
 
                 ARCMenuItemRow(
                     item: .Common.help(action: {}),
-                    configuration: .fitness,
+                    configuration: config,
                     action: {}
                 )
 
                 ARCMenuItemRow(
                     item: .Common.contact(action: {}),
-                    configuration: .fitness,
+                    configuration: config,
                     action: {}
                 )
 
                 ARCMenuItemRow(
                     item: .Common.about(action: {}),
-                    configuration: .fitness,
+                    configuration: config,
                     action: {}
                 )
 
                 ARCMenuItemRow(
                     item: .Common.logout(action: {}),
-                    configuration: .fitness,
+                    configuration: config,
                     action: {}
                 )
             }
@@ -298,7 +300,12 @@ struct ARCMenuItemRow: View {
     .background(Color.green.opacity(0.2))
 }
 
-#Preview("Menu Item - Custom Items") {
+#Preview("Menu Item - Prominent Icons") {
+    let config = ARCMenuConfiguration(
+        accentColor: Color(red: 0.95, green: 0.75, blue: 0.3),
+        iconStyle: .prominent
+    )
+
     ZStack {
         Color(red: 0.1, green: 0.1, blue: 0.12).ignoresSafeArea()
 
@@ -311,7 +318,7 @@ struct ARCMenuItemRow: View {
                     showsDisclosure: true,
                     action: {}
                 ),
-                configuration: .default,
+                configuration: config,
                 action: {}
             )
 
@@ -326,7 +333,7 @@ struct ARCMenuItemRow: View {
                     showsDisclosure: true,
                     action: {}
                 ),
-                configuration: .default,
+                configuration: config,
                 action: {}
             )
 
@@ -341,7 +348,22 @@ struct ARCMenuItemRow: View {
                     showsDisclosure: true,
                     action: {}
                 ),
-                configuration: .default,
+                configuration: config,
+                action: {}
+            )
+
+            Divider()
+                .padding(.leading, 64)
+
+            ARCMenuItemRow(
+                item: ARCMenuItem(
+                    title: "Indian",
+                    subtitle: "Curry, Biryani, Naan",
+                    icon: .system("star.fill", renderingMode: .monochrome),
+                    showsDisclosure: true,
+                    action: {}
+                ),
+                configuration: config,
                 action: {}
             )
         }
@@ -352,4 +374,65 @@ struct ARCMenuItemRow: View {
         }
         .padding()
     }
+}
+
+#Preview("Icon Style Comparison") {
+    let prominentConfig = ARCMenuConfiguration(
+        accentColor: .orange,
+        iconStyle: .prominent
+    )
+
+    VStack(spacing: 24) {
+        // Subtle style (default)
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Subtle (Default)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal)
+
+            VStack(spacing: 0) {
+                ARCMenuItemRow(
+                    item: .Common.settings(action: {}),
+                    configuration: .default,
+                    action: {}
+                )
+                ARCMenuItemRow(
+                    item: .Common.profile(action: {}),
+                    configuration: .default,
+                    action: {}
+                )
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(.regularMaterial)
+            }
+        }
+
+        // Prominent style
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Prominent")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal)
+
+            VStack(spacing: 0) {
+                ARCMenuItemRow(
+                    item: .Common.settings(action: {}),
+                    configuration: prominentConfig,
+                    action: {}
+                )
+                ARCMenuItemRow(
+                    item: .Common.profile(action: {}),
+                    configuration: prominentConfig,
+                    action: {}
+                )
+            }
+            .background {
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                    .fill(.regularMaterial)
+            }
+        }
+    }
+    .padding()
+    .background(Color.gray.opacity(0.1))
 }

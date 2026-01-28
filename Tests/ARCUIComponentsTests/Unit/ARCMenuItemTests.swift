@@ -117,25 +117,25 @@ struct ARCMenuItemTests {
         #expect(item.showsDisclosure == true)
     }
 
-    // MARK: - Factory Method Tests: Plan
+    // MARK: - Factory Method Tests: Subscriptions
 
-    @Test("plan_hasCorrectTitle")
-    func plan_hasCorrectTitle() {
-        let item = ARCMenuItem.Common.plan(action: {})
+    @Test("subscriptions_hasCorrectTitle")
+    func subscriptions_hasCorrectTitle() {
+        let item = ARCMenuItem.Common.subscriptions(action: {})
 
-        #expect(item.title == "Plan")
+        #expect(item.title == "Subscriptions")
     }
 
-    @Test("plan_withBadge_setsBadgeCorrectly")
-    func plan_withBadge_setsBadgeCorrectly() {
-        let item = ARCMenuItem.Common.plan(badge: "Pro", action: {})
+    @Test("subscriptions_withBadge_setsBadgeCorrectly")
+    func subscriptions_withBadge_setsBadgeCorrectly() {
+        let item = ARCMenuItem.Common.subscriptions(badge: "Pro", action: {})
 
         #expect(item.badge == "Pro")
     }
 
-    @Test("plan_withoutBadge_hasNoBadge")
-    func plan_withoutBadge_hasNoBadge() {
-        let item = ARCMenuItem.Common.plan(action: {})
+    @Test("subscriptions_withoutBadge_hasNoBadge")
+    func subscriptions_withoutBadge_hasNoBadge() {
+        let item = ARCMenuItem.Common.subscriptions(action: {})
 
         #expect(item.badge == nil)
     }

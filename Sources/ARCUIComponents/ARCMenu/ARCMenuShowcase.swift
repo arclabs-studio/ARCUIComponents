@@ -333,10 +333,10 @@ public struct ARCMenuShowcase: View {
 
 enum ShowcaseStyle: String, CaseIterable, Identifiable {
     case `default` = "Default"
-    case fitness = "Fitness"
-    case premium = "Premium"
-    case dark = "Dark"
-    case minimal = "Minimal"
+    case green = "Green"
+    case orange = "Orange"
+    case purple = "Purple"
+    case trailingPanel = "Trailing Panel"
 
     var id: String { rawValue }
 
@@ -345,61 +345,61 @@ enum ShowcaseStyle: String, CaseIterable, Identifiable {
     var configName: String {
         switch self {
         case .default: "default"
-        case .fitness: "fitness"
-        case .premium: "premium"
-        case .dark: "dark"
-        case .minimal: "minimal"
+        case .green: "ARCMenuConfiguration(accentColor: .green)"
+        case .orange: "ARCMenuConfiguration(accentColor: .orange)"
+        case .purple: "ARCMenuConfiguration(accentColor: .purple)"
+        case .trailingPanel: "trailingPanel"
         }
     }
 
     var accentColor: Color {
         switch self {
-        case .default: .blue
-        case .fitness: .green
-        case .premium: .orange
-        case .dark: .purple
-        case .minimal: .gray
+        case .default: .arcBrandGold
+        case .green: .green
+        case .orange: .orange
+        case .purple: .purple
+        case .trailingPanel: .arcBrandGold
         }
     }
 
     var configuration: ARCMenuConfiguration {
         switch self {
         case .default: .default
-        case .fitness: .fitness
-        case .premium: .premium
-        case .dark: .dark
-        case .minimal: .minimal
+        case .green: ARCMenuConfiguration(accentColor: .green)
+        case .orange: ARCMenuConfiguration(accentColor: .orange)
+        case .purple: ARCMenuConfiguration(accentColor: .purple)
+        case .trailingPanel: .trailingPanel
         }
     }
 
     var description: String {
         switch self {
-        case .default: "Apple Music style"
-        case .fitness: "Health & Fitness apps"
-        case .premium: "Subscription services"
-        case .dark: "Dark theme apps"
-        case .minimal: "Subtle & clean"
+        case .default: "ARC Brand Gold accent"
+        case .green: "Health & Fitness apps"
+        case .orange: "Subscription services"
+        case .purple: "Dark theme apps"
+        case .trailingPanel: "Drawer style (iPad/Mac)"
         }
     }
 
     var icon: String {
         switch self {
-        case .default: "music.note"
-        case .fitness: "figure.run"
-        case .premium: "crown.fill"
-        case .dark: "moon.stars.fill"
-        case .minimal: "circle"
+        case .default: "menucard"
+        case .green: "figure.run"
+        case .orange: "crown.fill"
+        case .purple: "moon.stars.fill"
+        case .trailingPanel: "sidebar.trailing"
         }
     }
 
     // swiftlint:disable:next large_tuple
     var sampleUser: (name: String, email: String?, initials: String) {
         switch self {
-        case .default: ("Music Lover", "user@music.app", "ML")
-        case .fitness: ("Athlete Pro", "athlete@fit.app", "AP")
-        case .premium: ("Gold Member", "gold@premium.app", "GM")
-        case .dark: ("Night User", "night@dark.app", "NU")
-        case .minimal: ("Clean User", "user@minimal.app", "CU")
+        case .default: ("ARC User", "user@arclabs.studio", "AU")
+        case .green: ("Athlete Pro", "athlete@fit.app", "AP")
+        case .orange: ("Gold Member", "gold@premium.app", "GM")
+        case .purple: ("Night User", "night@dark.app", "NU")
+        case .trailingPanel: ("Panel User", "user@app.com", "PU")
         }
     }
 }

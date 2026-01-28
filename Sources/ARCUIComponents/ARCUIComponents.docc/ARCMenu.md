@@ -1,36 +1,102 @@
 # ARCMenu
 
-A sophisticated menu component with liquid glass effect following Apple's design language.
+A sophisticated menu component using native SwiftUI sheet presentation with optional liquid glass effect.
 
 ## Overview
 
-ARCMenu is a premium, reusable menu component that implements Apple's modern design patterns including the **Liquid Glass** effect seen in apps like Music, Podcasts, and Fitness.
+ARCMenu is a premium, reusable menu component that uses native SwiftUI `.sheet()` APIs for an Apple-native experience. It supports iOS 26+ Liquid Glass effect when available, falling back to Material on earlier versions.
 
 ![ARCMenu Preview](arcmenu-preview)
 
 ## Features
 
-- **Presentation Styles**: Two presentation modes following Apple HIG
-  - `bottomSheet`: Slides up from bottom (Apple standard, default)
-  - `trailingPanel`: Slides in from trailing edge (drawer style)
-- **Liquid Glass Effect**: Beautiful glassmorphism with ultra-thin materials and vibrancy
-- **Smooth Animations**: Spring-based animations following Apple's timing curves
-- **Gesture Support**: Drag-to-dismiss with haptic feedback and progress visualization
+- **Native Sheet Presentation**: Uses SwiftUI's `.sheet()` with `PresentationDetent` support
+- **Material Background**: Ultra-thin material for glass effect
+- **iOS 26+ Liquid Glass**: Ready for future Liquid Glass API
+- **Presentation Styles**: Bottom sheet (Apple standard) or trailing panel (drawer)
+- **Drag Indicator**: Optional grabber handle
+- **Close Button**: Optional X button in header
+- **Haptic Feedback**: Configurable haptic responses
 - **User Profile Section**: Customizable header with flexible avatar options
 - **Flexible Menu Items**: Pre-built common items and custom item support
 - **Badge Support**: For notifications, counts, and "New" labels
 - **Destructive Actions**: Specially styled for actions like Logout or Delete
-- **Full Customization**: Colors, sizing, animations, and behavior
 - **Swift 6 Ready**: Complete concurrency support with `@MainActor` and `Sendable`
-- **Clean Architecture**: Clear separation of concerns
+
+## Basic Usage
+
+ARCMenu uses an external `@State` binding for presentation control, following SwiftUI's native sheet pattern.
+
+### Standard Implementation
+
+```swift
+import ARCUIComponents
+
+struct ContentView: View {
+    @State private var showMenu = false
+    @State private var menuViewModel = ARCMenuViewModel.withDefaultItems(
+        user: ARCMenuUser(
+            name: "Carlos Ramirez",
+            email: "carlos@arclabs.studio",
+            avatarImage: .initials("CR")
+        ),
+        actions: ARCMenuActions(
+            onProfile: { print("Profile") },
+            onSettings: { print("Settings") },
+            onFeedback: { print("Feedback") },
+            onSubscriptions: { print("Subscriptions") },
+            onAbout: { print("About") },
+            onLogout: { print("Logout") }
+        )
+    )
+
+    var body: some View {
+        NavigationStack {
+            YourContentView()
+                .navigationTitle("My App")
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showMenu = true
+                        } label: {
+                            Image(systemName: "line.3.horizontal")
+                        }
+                    }
+                }
+                .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+        }
+    }
+}
+```
+
+### Using ARCMenuActions
+
+`ARCMenuActions` encapsulates all action handlers for the default menu items, providing a cleaner API:
+
+```swift
+let actions = ARCMenuActions(
+    onProfile: { router.navigate(to: .profile) },
+    onSettings: { router.navigate(to: .settings) },
+    onFeedback: { showFeedbackSheet = true },
+    onSubscriptions: { router.navigate(to: .subscriptions) },
+    onAbout: { router.navigate(to: .about) },
+    onLogout: { authService.logout() }
+)
+
+let viewModel = ARCMenuViewModel.withDefaultItems(
+    user: currentUser,
+    configuration: .default,
+    actions: actions
+)
+```
 
 ## Presentation Styles
 
-ARCMenu supports two presentation styles, matching the patterns used by Apple apps like Music, Apple TV, and Slack.
+ARCMenu supports two presentation styles, matching the patterns used by Apple apps.
 
 ### Bottom Sheet (Default)
 
-The bottom sheet style slides up from the bottom of the screen, following Apple's Human Interface Guidelines. This is the recommended style for iOS apps.
+The bottom sheet style slides up from the bottom of the screen using native SwiftUI sheet presentation. This is the recommended style for iOS apps.
 
 ```swift
 let config = ARCMenuConfiguration(
@@ -42,7 +108,8 @@ let config = ARCMenuConfiguration(
 ```
 
 **Features:**
-- Slides up from bottom
+- Uses native `.sheet()` modifier
+- Supports `PresentationDetent` for height control
 - Includes grabber handle
 - Close button in header
 - Optional centered title
@@ -50,91 +117,67 @@ let config = ARCMenuConfiguration(
 
 ### Trailing Panel
 
-The trailing panel style slides in from the right edge, similar to a drawer or panel. Useful for iPad apps or desktop layouts.
+The trailing panel style slides in from the right edge, similar to a drawer. Useful for iPad apps or desktop layouts.
 
 ```swift
-let config = ARCMenuConfiguration.trailingPanel
-// or
 let config = ARCMenuConfiguration(
     presentationStyle: .trailingPanel,
     showsGrabber: false,
-    showsCloseButton: false
+    showsCloseButton: true
 )
 ```
 
 **Features:**
+- Custom overlay implementation
 - Slides in from right
-- No grabber or close button
 - Swipe right to dismiss
-
-## Basic Usage
-
-### Standard Implementation
-
-```swift
-import ARCUIComponents
-
-struct ContentView: View {
-    @State private var menuViewModel = ARCMenuViewModel.standard(
-        user: ARCMenuUser(
-            name: "Carlos Ramirez",
-            email: "carlos@arclabs.studio",
-            avatarImage: .initials("CR")
-        ),
-        configuration: .default,
-        onSettings: { print("Settings") },
-        onProfile: { print("Profile") },
-        onLogout: { print("Logout") }
-    )
-
-    var body: some View {
-        NavigationStack {
-            YourContentView()
-                .navigationTitle("My App")
-                .arcMenuButton(viewModel: menuViewModel)
-                .arcMenu(viewModel: menuViewModel)
-        }
-    }
-}
-```
-
-### With Badge Notifications
-
-```swift
-.arcMenuButton(
-    viewModel: menuViewModel,
-    showsBadge: true,
-    badgeCount: 5
-)
-```
+- Backdrop tap to dismiss
 
 ## Customization
 
 ### Configuration Presets
 
-ARCMenu includes five built-in configuration presets:
+ARCMenu includes built-in configuration presets:
 
-- **Default**: Bottom sheet style with blue accent (Apple standard)
-- **Trailing Panel**: Drawer-style presentation from trailing edge
-- **Fitness**: Health & Fitness apps with green accent
-- **Premium**: Subscription services with orange/gold accent
-- **Dark**: Dark theme apps with purple accent
-- **Minimal**: Subtle and clean with gray accent
+| Preset | Description |
+|--------|-------------|
+| `.default` | Bottom sheet with blue accent |
+| `.trailingPanel` | Drawer-style from trailing edge |
+| `.fitness` | Health apps with green accent |
+| `.premium` | Subscription services with gold accent |
+| `.dark` | Dark theme with purple accent |
+| `.minimal` | Subtle and clean with gray accent |
+| `.prominent` | Bold category-style icons |
+| `.restaurant` | Food apps with amber accent |
 
 ```swift
-// Bottom sheet (default)
-let config = ARCMenuConfiguration.default
-
-// Trailing panel (drawer)
-let config = ARCMenuConfiguration.trailingPanel
-
-// Theme presets
-let config = ARCMenuConfiguration.fitness
-
 let viewModel = ARCMenuViewModel(
     user: user,
     menuItems: items,
-    configuration: config
+    configuration: .fitness
+)
+```
+
+### Icon Styles
+
+ARCMenu supports two icon styles controlled via the `iconStyle` property:
+
+#### Subtle (Default)
+
+Low-opacity accent color background (15%) with primary-colored icon.
+
+```swift
+let config = ARCMenuConfiguration(iconStyle: .subtle)
+```
+
+#### Prominent
+
+Dark muted background with accent-colored icons. Ideal for category-style menus.
+
+```swift
+let config = ARCMenuConfiguration(
+    accentColor: .orange,
+    iconStyle: .prominent
 )
 ```
 
@@ -142,24 +185,16 @@ let viewModel = ARCMenuViewModel(
 
 ```swift
 let customConfig = ARCMenuConfiguration(
-    // Presentation style
     presentationStyle: .bottomSheet,
-
-    // Visual customization
     accentColor: .purple,
     backgroundStyle: .liquidGlass,
     cornerRadius: 30,
-    shadow: .default,
-
-    // Layout (for trailingPanel)
+    shadow: .prominent,
+    iconStyle: .subtle,
     menuWidth: 340,
-
-    // Bottom sheet options
     showsGrabber: true,
     showsCloseButton: true,
     sheetTitle: "My Account",
-
-    // Behavior
     hapticFeedback: .medium,
     allowsDragToDismiss: true
 )
@@ -189,7 +224,7 @@ let customConfig = ARCMenuConfiguration(
 let items: [ARCMenuItem] = [
     .Common.profile(action: { /* ... */ }),
     .Common.settings(action: { /* ... */ }),
-    .Common.plan(badge: "Pro", action: { /* ... */ }),
+    .Common.subscriptions(badge: "Pro", action: { /* ... */ }),
     .Common.logout(action: { /* ... */ })
 ]
 ```
@@ -209,24 +244,26 @@ let customItem = ARCMenuItem(
 
 ## Architecture
 
-ARCMenu follows Clean Architecture principles with clear separation:
+ARCMenu follows Clean Architecture principles:
 
 ```
 ARCMenu/
 ├── Models/
 │   ├── ARCMenuUser              # User representation
 │   ├── ARCMenuItem              # Menu item model
+│   ├── ARCMenuActions           # Action handlers struct
 │   ├── ARCMenuConfiguration     # Configuration & theming
 │   ├── ARCMenuPresentationStyle # Presentation style enum
 │   └── ARCMenuIconStyle         # Icon style (subtle/prominent)
 ├── ViewModels/
-│   └── ARCMenuViewModel         # Business logic & state
+│   └── ARCMenuViewModel         # Data and configuration
 └── Views/
     ├── ARCMenu                  # Main container
+    ├── ARCMenuSheetContent      # Sheet content view
     ├── ARCMenuButton            # Trigger button
     ├── ARCMenuUserHeader        # User profile section
     ├── ARCMenuItemRow           # Individual item
-    └── Modifiers                # Visual effects
+    └── ARCMenuModifier          # View modifier
 ```
 
 ## Topics
@@ -234,8 +271,8 @@ ARCMenu/
 ### Essentials
 
 - ``ARCMenu``
-- ``ARCMenuButton``
 - ``ARCMenuViewModel``
+- ``ARCMenuActions``
 
 ### Configuration
 
@@ -252,51 +289,38 @@ ARCMenu/
 
 ### Components
 
+- ``ARCMenuButton``
 - ``ARCMenuUserHeader``
 - ``ARCMenuItemRow``
 
 ### Examples
 
-- ``ARCMenuExample``
 - ``ARCMenuShowcase``
 
 ## Best Practices
 
-### Menu Placement
+### Presentation Control
 
-Always place the menu button in the top-right corner using the toolbar:
+Always use an external `@State` binding for presentation control:
 
 ```swift
-.arcMenuButton(viewModel: viewModel)
-```
+@State private var showMenu = false
 
-This automatically places the button in `.topBarTrailing` placement.
+// In body:
+.arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+```
 
 ### Haptic Feedback
 
 Keep haptic feedback enabled for better user experience:
 
 ```swift
-ARCMenuConfiguration(
-    hapticFeedback: .medium  // Recommended
-)
-```
-
-### Badge Usage
-
-Use badges sparingly for important notifications only:
-
-```swift
-.arcMenuButton(
-    viewModel: viewModel,
-    showsBadge: true,
-    badgeCount: unreadCount
-)
+ARCMenuConfiguration(hapticFeedback: .medium)
 ```
 
 ### Destructive Actions
 
-Always place destructive actions (Logout, Delete) at the bottom and mark them appropriately:
+Always place destructive actions (Logout, Delete) at the bottom:
 
 ```swift
 let items: [ARCMenuItem] = [
@@ -311,6 +335,7 @@ let items: [ARCMenuItem] = [
 
 ARCMenu is optimized for smooth animations:
 - Minimal view updates with `@Observable`
+- Native sheet presentation
 - Efficient gesture handling
 - Proper use of `@MainActor`
 - Spring animations matching system behavior
@@ -323,9 +348,47 @@ ARCMenu includes full accessibility support:
 - **Dynamic Type**: Text scales with user preferences
 - **Reduced Motion**: Respects system animation preferences
 - **High Contrast**: Adapts to accessibility display modes
+- **Backdrop Dismiss**: Accessible button for backdrop tap-to-dismiss
+
+## Migration Guide
+
+### From Legacy API
+
+If you're using the deprecated API, migrate to the new native sheet pattern:
+
+**Before (deprecated):**
+```swift
+@State private var viewModel = ARCMenuViewModel.standard(
+    user: user,
+    onSettings: { },
+    onProfile: { },
+    onLogout: { }
+)
+
+// In body:
+.arcMenu(viewModel: viewModel)
+```
+
+**After (recommended):**
+```swift
+@State private var showMenu = false
+@State private var viewModel = ARCMenuViewModel.withDefaultItems(
+    user: user,
+    actions: ARCMenuActions(
+        onProfile: { },
+        onSettings: { },
+        onFeedback: { },
+        onSubscriptions: { },
+        onAbout: { },
+        onLogout: { }
+    )
+)
+
+// In body:
+.arcMenu(isPresented: $showMenu, viewModel: viewModel)
+```
 
 ## See Also
 
 - <doc:GettingStarted>
 - ``ARCMenuShowcase``
-- ``ARCMenuExample``

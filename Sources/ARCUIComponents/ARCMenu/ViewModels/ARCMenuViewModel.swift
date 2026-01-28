@@ -15,45 +15,54 @@ import UIKit
 
 /// View model for ARCMenu
 ///
-/// Manages menu state, animations, and user interactions.
-/// Uses Swift's `@Observable` macro for reactive updates.
+/// Manages menu state and configuration. With native sheet presentation,
+/// this view model primarily handles data and configuration while SwiftUI
+/// manages presentation state via bindings.
 ///
-/// - Note: Conforms to `@MainActor` for UI thread safety with Swift 6
+/// ## Usage
+///
+/// ```swift
+/// @State private var showMenu = false
+/// @State private var viewModel = ARCMenuViewModel(
+///     user: ARCMenuUser(name: "John", avatarImage: .initials("JD")),
+///     menuItems: ARCMenuItem.defaultItems(...)
+/// )
+///
+/// ContentView()
+///     .arcMenu(isPresented: $showMenu, viewModel: viewModel)
+/// ```
+///
+/// - Note: Uses `@Observable` for Swift 6 compatibility
 @MainActor
 @Observable
 // swiftlint:disable:next observable_viewmodel
 public final class ARCMenuViewModel {
-    // MARK: - Published State
+    // MARK: - State
 
-    /// Whether the menu is currently presented
+    /// Whether the menu is currently presented (for backward compatibility)
+    @available(*, deprecated, message: "Use external @State binding with arcMenu(isPresented:viewModel:)")
     public private(set) var isPresented = false
 
-    /// Current drag offset for dismissal gesture
-    public private(set) var dragOffset: CGFloat = 0
+    /// Current drag offset for trailing panel dismissal gesture
+    public var dragOffset: CGFloat = 0
 
-    /// Opacity of the backdrop overlay
-    public private(set) var backdropOpacity: Double = 0
+    // MARK: - Data
 
     /// Menu user information
     public var user: ARCMenuUser?
 
     /// Menu items to display
-    public var menuItems: [ARCMenuItem] = []
+    public var menuItems: [ARCMenuItem]
 
     /// Menu configuration
     public var configuration: ARCMenuConfiguration
 
-    // MARK: - Private State
-
-    #if os(iOS)
-    private var feedbackGenerator: UIImpactFeedbackGenerator?
-    #endif
-
     // MARK: - Initialization
 
     /// Creates a new ARCMenu view model
+    ///
     /// - Parameters:
-    ///   - user: User information to display
+    ///   - user: User information to display in header
     ///   - menuItems: Items to show in the menu
     ///   - configuration: Menu configuration
     public init(
@@ -64,33 +73,27 @@ public final class ARCMenuViewModel {
         self.user = user
         self.menuItems = menuItems
         self.configuration = configuration
-        prepareFeedbackGenerator()
     }
 
-    // MARK: - Public Methods
+    // MARK: - Deprecated Methods (Backward Compatibility)
 
     /// Presents the menu with animation
+    @available(*, deprecated, message: "Use external @State binding instead")
     public func present() {
         configuration.hapticFeedback.perform()
-
-        withAnimation(configuration.presentationAnimation) {
-            isPresented = true
-            backdropOpacity = 1.0
-        }
+        isPresented = true
     }
 
     /// Dismisses the menu with animation
+    @available(*, deprecated, message: "Use external @State binding instead")
     public func dismiss() {
         configuration.hapticFeedback.perform()
-
-        withAnimation(configuration.dismissalAnimation) {
-            isPresented = false
-            backdropOpacity = 0
-            dragOffset = 0
-        }
+        isPresented = false
+        dragOffset = 0
     }
 
     /// Toggles the menu presentation state
+    @available(*, deprecated, message: "Use external @State binding instead")
     public func toggle() {
         if isPresented {
             dismiss()
@@ -98,95 +101,81 @@ public final class ARCMenuViewModel {
             present()
         }
     }
-
-    /// Updates drag offset during drag gesture
-    /// - Parameters:
-    ///   - offset: Current drag offset
-    ///   - isVertical: Whether the drag is vertical (bottomSheet) or horizontal (trailingPanel)
-    public func updateDragOffset(_ offset: CGFloat, isVertical _: Bool = false) {
-        // Only allow dragging in the dismissal direction (positive offset)
-        if offset > 0 {
-            dragOffset = offset
-
-            // Update backdrop opacity based on drag progress
-            let progress = min(offset / configuration.dragDismissalThreshold, 1.0)
-            backdropOpacity = 1.0 - (progress * 0.5)
-
-            // Trigger haptic at threshold
-            if offset >= configuration.dragDismissalThreshold {
-                triggerDismissalHaptic()
-            }
-        }
-    }
-
-    /// Handles end of drag gesture
-    /// - Parameters:
-    ///   - offset: Final drag offset
-    ///   - isVertical: Whether the drag is vertical (bottomSheet) or horizontal (trailingPanel)
-    public func endDrag(at offset: CGFloat, isVertical _: Bool = false) {
-        if offset >= configuration.dragDismissalThreshold {
-            dismiss()
-        } else {
-            // Snap back with spring animation
-            arcWithAnimation(.arcSpring) {
-                dragOffset = 0
-                backdropOpacity = 1.0
-            }
-        }
-    }
-
-    /// Executes a menu item action and dismisses the menu
-    /// - Parameter item: The menu item to execute
-    public func executeAction(for item: ARCMenuItem) {
-        // Perform light haptic for item selection
-        #if os(iOS)
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        #endif
-
-        // Dismiss menu first for better UX
-        dismiss()
-
-        // Execute action after a brief delay to complete animation
-        Task {
-            try? await Task.sleep(for: .milliseconds(300))
-            item.action()
-        }
-    }
-
-    // MARK: - Private Methods
-
-    private func prepareFeedbackGenerator() {
-        #if os(iOS)
-        feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
-        feedbackGenerator?.prepare()
-        #endif
-    }
-
-    private func triggerDismissalHaptic() {
-        #if os(iOS)
-        // Only trigger once at threshold
-        if dragOffset == configuration.dragDismissalThreshold {
-            feedbackGenerator?.impactOccurred()
-            feedbackGenerator?.prepare()
-        }
-        #endif
-    }
 }
 
 // MARK: - Convenience Initializers
 
 extension ARCMenuViewModel {
-    /// Creates a view model with common menu items
+    /// Creates a view model with default menu items
+    ///
+    /// Includes: Profile, Settings, Feedback, Subscriptions, About, Logout
+    ///
     /// - Parameters:
     ///   - user: User information
     ///   - configuration: Menu configuration
-    ///   - onSettings: Settings action handler
-    ///   - onProfile: Profile action handler
-    ///   - onPlan: Plan action handler
-    ///   - onContact: Contact action handler
-    ///   - onAbout: About action handler
-    ///   - onLogout: Logout action handler
-    /// - Returns: Configured view model with standard menu items
+    ///   - actions: Action handlers for menu items
+    /// - Returns: Configured view model with default menu items
+    ///
+    /// ## Example
+    ///
+    /// ```swift
+    /// let viewModel = ARCMenuViewModel.withDefaultItems(
+    ///     user: currentUser,
+    ///     actions: ARCMenuActions(
+    ///         onProfile: { router.navigate(to: .profile) },
+    ///         onSettings: { router.navigate(to: .settings) },
+    ///         onFeedback: { showFeedbackSheet = true },
+    ///         onSubscriptions: { router.navigate(to: .subscriptions) },
+    ///         onAbout: { router.navigate(to: .about) },
+    ///         onLogout: { authService.logout() }
+    ///     )
+    /// )
+    /// ```
+    public static func withDefaultItems(
+        user: ARCMenuUser?,
+        configuration: ARCMenuConfiguration = .default,
+        actions: ARCMenuActions
+    ) -> ARCMenuViewModel {
+        ARCMenuViewModel(
+            user: user,
+            menuItems: ARCMenuItem.defaultItems(actions: actions),
+            configuration: configuration
+        )
+    }
+
+    /// Creates a view model with default menu items (legacy)
+    ///
+    /// - Note: Deprecated in favor of `withDefaultItems(user:configuration:actions:)`
+    @available(*, deprecated, message: "Use withDefaultItems(user:configuration:actions:) with ARCMenuActions")
+    // swiftlint:disable:next function_parameter_count
+    public static func withDefaultItems(
+        user: ARCMenuUser?,
+        configuration: ARCMenuConfiguration = .default,
+        onProfile: @escaping @Sendable () -> Void,
+        onSettings: @escaping @Sendable () -> Void,
+        onFeedback: @escaping @Sendable () -> Void,
+        onSubscriptions: @escaping @Sendable () -> Void,
+        onAbout: @escaping @Sendable () -> Void,
+        onLogout: @escaping @Sendable () -> Void
+    ) -> ARCMenuViewModel {
+        withDefaultItems(
+            user: user,
+            configuration: configuration,
+            actions: ARCMenuActions(
+                onProfile: onProfile,
+                onSettings: onSettings,
+                onFeedback: onFeedback,
+                onSubscriptions: onSubscriptions,
+                onAbout: onAbout,
+                onLogout: onLogout
+            )
+        )
+    }
+
+    /// Creates a view model with common menu items (legacy)
+    ///
+    /// - Note: Deprecated in favor of `withDefaultItems`
+    @available(*, deprecated, renamed: "withDefaultItems")
     public static func standard(
         user: ARCMenuUser?,
         configuration: ARCMenuConfiguration = .default,
@@ -208,7 +197,7 @@ extension ARCMenuViewModel {
         }
 
         if let onPlan {
-            items.append(.Common.plan(action: onPlan))
+            items.append(.Common.subscriptions(action: onPlan))
         }
 
         if let onContact {
