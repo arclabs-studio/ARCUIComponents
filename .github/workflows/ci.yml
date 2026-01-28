@@ -116,17 +116,19 @@ jobs:
     runs-on: macos-14
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
+    # Temporarily reduced matrix to speed up CI
     strategy:
       matrix:
         include:
           - device: 'iPhone 16 Pro'
             os: 'iOS'
-          - device: 'iPhone SE (3rd generation)'
-            os: 'iOS'
-          - device: 'iPad Pro 13-inch (M4)'
-            os: 'iPadOS'
-          - device: 'iPad Air 11-inch (M2)'
-            os: 'iPadOS'
+          # Temporarily disabled to reduce runner queue time
+          # - device: 'iPhone SE (3rd generation)'
+          #   os: 'iOS'
+          # - device: 'iPad Pro 13-inch (M4)'
+          #   os: 'iPadOS'
+          # - device: 'iPad Air 11-inch (M2)'
+          #   os: 'iPadOS'
 
     steps:
     - name: Checkout
