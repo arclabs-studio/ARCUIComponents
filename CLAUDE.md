@@ -18,17 +18,31 @@ swift test
 # Run specific test suite
 swift test --filter ARCMenuViewModelTests
 
+# Build and test with xcodebuild (iOS Simulator)
+xcodebuild -scheme ARCUIComponents \
+  -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+  test
+
 # Lint code
 swiftlint lint
 
-# Build demo app (iOS Simulator)
+# Lint with strict mode (CI)
+swiftlint --strict
+
+# Build demo app
 xcodebuild -project Example/ARCUIComponentsDemoApp/ARCUIComponentsDemoApp.xcodeproj \
   -scheme ARCUIComponentsDemoApp \
-  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+  -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
   build
 
 # Update dependencies
 swift package update
+
+# Build documentation
+xcodebuild docbuild \
+  -scheme ARCUIComponents \
+  -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+  -derivedDataPath ./DerivedData
 ```
 
 ---
@@ -42,26 +56,25 @@ ARCUIComponents is a Swift Package providing reusable SwiftUI components. It dep
 Each component follows this organization:
 
 ```
-Sources/ARCUIComponents/
-├── ARC[ComponentName]/
-│   ├── ARC[ComponentName].swift           # Main view
-│   ├── ARC[ComponentName]Configuration.swift  # Configuration model
-│   ├── ARC[ComponentName]Showcase.swift   # Interactive demo view
-│   ├── Models/                            # (optional) Additional models
-│   ├── Views/                             # (optional) Subviews
-│   └── ViewModels/                        # (optional) @Observable ViewModels
-├── Core/
-│   └── Models/                            # Shared models (ARCBackgroundStyle, ARCShadow)
-└── ARCUIComponents.docc/                  # Documentation catalog
+Sources/ARCUIComponents/ARC[ComponentName]/
+├── ARC[ComponentName].swift              # Main view
+├── ARC[ComponentName]Configuration.swift # Configuration model with presets
+├── ARC[ComponentName]Showcase.swift      # Interactive demo view with previews
+├── Models/                               # (optional) Supporting models
+├── Views/                                # (optional) Subviews
+└── ViewModels/                           # (optional) @Observable ViewModels
 ```
 
 ### Key Dependencies
 
-- **ARCDesignSystem** (v2.3.0+): Provides animation tokens (`.arcSpring`, `.arcBouncy`, `.arcGentle`, etc.), color tokens, and accessibility helpers. Use `arcWithAnimation()` and `.arcAnimation()` for motion-aware animations.
+- **ARCDesignSystem** (v2.3.0+): Provides animation tokens, color tokens, and accessibility helpers
+  - Animation tokens: `.arcSpring`, `.arcBouncy`, `.arcGentle`, `.arcSnappy`, `.arcQuick`, `.arcSlow`
+  - Use `arcWithAnimation()` and `.arcAnimation()` for motion-aware animations
+  - Respects Reduce Motion accessibility setting
 
 ### Demo App
 
-Located at `Example/ARCUIComponentsDemoApp/`. Open the `.xcodeproj` file in Xcode to run the interactive showcase of all components.
+Located at `Example/ARCUIComponentsDemoApp/`. Open the `.xcodeproj` file in Xcode. Each component has a corresponding `ARC[ComponentName]DemoScreen.swift` in `Screens/`.
 
 ---
 
@@ -69,7 +82,7 @@ Located at `Example/ARCUIComponentsDemoApp/`. Open the `.xcodeproj` file in Xcod
 
 ### One Type per File
 
-Every `struct`, `class`, or `enum` must be in its own file named after the type. Exceptions: private nested types or helper enums.
+Every public `struct`, `class`, or `enum` must be in its own file named after the type. Exceptions: private nested types or helper enums used only within that file.
 
 ### File Structure
 
@@ -84,13 +97,16 @@ Every `struct`, `class`, or `enum` must be in its own file named after the type.
 import ARCDesignSystem  // alphabetical order
 import SwiftUI
 
-struct MyView: View {
+// MARK: - [TypeName]
 
+/// DocC documentation with overview and usage examples
+@available(iOS 17.0, macOS 14.0, *)
+public struct MyView: View {
     // MARK: - Properties
 
     // MARK: - Body
 
-    var body: some View { ... }
+    public var body: some View { ... }
 }
 
 // MARK: - Private Helpers
@@ -100,7 +116,7 @@ private extension MyView { ... }
 
 ### SwiftUI Previews
 
-Every View must include previews in both light and dark mode using static mock data.
+Every View must include `#Preview` macros in both light and dark mode using static mock data.
 
 ### Linting
 
@@ -108,8 +124,10 @@ SwiftLint is configured via `.swiftlint.yml`. Key rules:
 - Line length: 120 warning, 150 error
 - Function body: 50 lines warning, 100 error
 - File length: 500 lines warning, 1000 error
-- No force cast (`as!`) or force try (`try!`)
-- ViewModels must use `@Observable`
+- No force cast (`as!`) or force try (`try!`) - both are errors
+- ViewModels must use `@Observable` (custom rule)
+
+Use `// swiftlint:disable` sparingly and only when necessary (e.g., SwiftFormat conflicts).
 
 ---
 
@@ -117,35 +135,63 @@ SwiftLint is configured via `.swiftlint.yml`. Key rules:
 
 ### ARC Prefix Policy
 
-Use `ARC` prefix **only for primary UI views** that users directly place in their SwiftUI hierarchy:
+Use `ARC` prefix for **all public types** in this package:
 
-| Use ARC Prefix | Examples |
-|----------------|----------|
+| Category | Examples |
+|----------|----------|
 | Main views | `ARCMenu`, `ARCCard`, `ARCToast`, `ARCButton` |
+| Configurations | `ARCMenuConfiguration`, `ARCCardConfiguration` |
 | Showcase views | `ARCMenuShowcase`, `ARCCardShowcase` |
-| Shared core models | `ARCBackgroundStyle`, `ARCShadow` |
+| ViewModels | `ARCMenuViewModel` |
+| Shared models | `ARCBackgroundStyle`, `ARCShadow` |
 
-| No ARC Prefix | Examples |
-|---------------|----------|
-| Configurations | `ARCMenuConfiguration` (inherits from component name) |
-| ViewModels | `ARCMenuViewModel` (inherits from component name) |
-| Modifiers | `LiquidGlassModifier`, `ShimmerModifier` |
+**No ARC prefix** for internal/private types:
+
+| Category | Examples |
+|----------|----------|
+| View modifiers | `LiquidGlassModifier`, `ShimmerModifier` |
 | Shapes | `HeartShape` |
-| Protocols | `LiquidGlassConfigurable` |
+| Internal protocols | `LiquidGlassConfigurable` |
+| Supporting enums | `AIRecommenderMode`, `AIRecommenderCategory` |
 
 ---
 
 ## Testing
 
-Uses Swift Testing framework:
+Uses **Swift Testing** framework (not XCTest):
 
 ```swift
-@Test func execute_withSuccess() { ... }
+import Testing
+@testable import ARCUIComponents
+
+@Suite("ARCMenuViewModel Tests")
+@MainActor
+struct ARCMenuViewModelTests {
+    @Test("init_withDefaultValues_setsCorrectInitialState")
+    func init_withDefaultValues_setsCorrectInitialState() {
+        let viewModel = ARCMenuViewModel()
+
+        #expect(viewModel.isPresented == false)
+        #expect(viewModel.menuItems.isEmpty)
+    }
+}
 ```
 
-Test naming: `methodName_testDescription`
+### Test Naming Convention
 
-Focus on testing ViewModels and Configurations, not UI.
+`methodName_testCondition_expectedBehavior` or `methodName_expectedBehavior`
+
+Examples:
+- `init_withDefaultValues_setsCorrectInitialState`
+- `present_whenCalled_setsIsPresentedToTrue`
+- `endDrag_aboveThreshold_dismissesMenu`
+
+### Test Structure
+
+- Use `@Suite("Component Tests")` for grouping
+- Add `@MainActor` for ViewModel tests
+- Use `#expect()` for assertions (not XCTAssert)
+- Focus on testing ViewModels and Configurations, not UI rendering
 
 ---
 
@@ -154,6 +200,8 @@ Focus on testing ViewModels and Configurations, not UI.
 Branch naming: `feature/ISSUE-ID-description`, `bugfix/ISSUE-ID-description`, `hotfix/ISSUE-ID-description`
 
 Example: `feature/ARC-123-add-carousel-component`
+
+Commits follow Conventional Commits: `feat(scope):`, `fix(scope):`, `docs(scope):`, `refactor(scope):`
 
 ---
 
