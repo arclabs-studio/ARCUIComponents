@@ -279,6 +279,7 @@ extension ARCMenuItem {
     ///
     /// - Note: Deprecated in favor of `defaultItems(actions:)`
     @available(*, deprecated, message: "Use defaultItems(actions:) with ARCMenuActions struct")
+    // swiftlint:disable:next function_parameter_count
     public static func defaultItems(
         onProfile: @escaping @Sendable () -> Void,
         onSettings: @escaping @Sendable () -> Void,

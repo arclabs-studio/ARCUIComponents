@@ -147,6 +147,7 @@ extension ARCMenuViewModel {
     ///
     /// - Note: Deprecated in favor of `withDefaultItems(user:configuration:actions:)`
     @available(*, deprecated, message: "Use withDefaultItems(user:configuration:actions:) with ARCMenuActions")
+    // swiftlint:disable:next function_parameter_count
     public static func withDefaultItems(
         user: ARCMenuUser?,
         configuration: ARCMenuConfiguration = .default,
