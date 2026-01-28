@@ -30,49 +30,6 @@ struct ARCMenuConfigurationTests {
         #expect(config.cornerRadius > 0)
     }
 
-    @Test("default_allowsDragToDismiss")
-    func default_allowsDragToDismiss() {
-        let config = ARCMenuConfiguration.default
-
-        #expect(config.allowsDragToDismiss == true)
-    }
-
-    @Test("default_dismissesOnOutsideTap")
-    func default_dismissesOnOutsideTap() {
-        let config = ARCMenuConfiguration.default
-
-        #expect(config.dismissOnOutsideTap == true)
-    }
-
-    @Test("default_hasLiquidGlassBackgroundStyle")
-    func default_hasLiquidGlassBackgroundStyle() {
-        let config = ARCMenuConfiguration.default
-
-        if case .liquidGlass = config.backgroundStyle {
-            #expect(true)
-        } else {
-            #expect(Bool(false), "Expected liquidGlass background style")
-        }
-    }
-
-    @Test("default_hasMediumHapticFeedback")
-    func default_hasMediumHapticFeedback() {
-        let config = ARCMenuConfiguration.default
-
-        if case .medium = config.hapticFeedback {
-            #expect(true)
-        } else {
-            #expect(Bool(false), "Expected medium haptic feedback")
-        }
-    }
-
-    @Test("default_hasExpectedDragDismissalThreshold")
-    func default_hasExpectedDragDismissalThreshold() {
-        let config = ARCMenuConfiguration.default
-
-        #expect(config.dragDismissalThreshold == 100)
-    }
-
     @Test("default_hasBottomSheetPresentationStyle")
     func default_hasBottomSheetPresentationStyle() {
         let config = ARCMenuConfiguration.default
@@ -101,58 +58,39 @@ struct ARCMenuConfigurationTests {
         #expect(config.sheetTitle == nil)
     }
 
-    // MARK: - Preset Configuration Tests
+    @Test("default_hasMediumHapticFeedback")
+    func default_hasMediumHapticFeedback() {
+        let config = ARCMenuConfiguration.default
 
-    @Test("dark_hasLiquidGlassBackgroundStyle")
-    func dark_hasLiquidGlassBackgroundStyle() {
-        let config = ARCMenuConfiguration.dark
-
-        if case .liquidGlass = config.backgroundStyle {
-            #expect(true)
+        if case .medium = config.hapticFeedback {
+            #expect(Bool(true))
         } else {
-            #expect(Bool(false), "Expected liquidGlass background style")
+            #expect(Bool(false), "Expected medium haptic feedback")
         }
     }
 
-    @Test("fitness_hasLiquidGlassBackgroundStyle")
-    func fitness_hasLiquidGlassBackgroundStyle() {
-        let config = ARCMenuConfiguration.fitness
+    @Test("default_hasSubtleIconStyle")
+    func default_hasSubtleIconStyle() {
+        let config = ARCMenuConfiguration.default
 
-        if case .liquidGlass = config.backgroundStyle {
-            #expect(true)
-        } else {
-            #expect(Bool(false), "Expected liquidGlass background style")
-        }
+        #expect(config.iconStyle == .subtle)
     }
 
-    @Test("premium_hasLiquidGlassBackgroundStyle")
-    func premium_hasLiquidGlassBackgroundStyle() {
-        let config = ARCMenuConfiguration.premium
+    @Test("default_hasDetents")
+    func default_hasDetents() {
+        let config = ARCMenuConfiguration.default
 
-        if case .liquidGlass = config.backgroundStyle {
-            #expect(true)
-        } else {
-            #expect(Bool(false), "Expected liquidGlass background style")
-        }
+        #expect(config.detents.isEmpty == false)
     }
 
-    @Test("minimal_hasTranslucentBackgroundStyle")
-    func minimal_hasTranslucentBackgroundStyle() {
-        let config = ARCMenuConfiguration.minimal
+    @Test("default_allowsBackgroundInteraction")
+    func default_allowsBackgroundInteraction() {
+        let config = ARCMenuConfiguration.default
 
-        if case .translucent = config.backgroundStyle {
-            #expect(true)
-        } else {
-            #expect(Bool(false), "Expected translucent background style")
-        }
+        #expect(config.allowsBackgroundInteraction == false)
     }
 
-    @Test("minimal_hasSubtleShadow")
-    func minimal_hasSubtleShadow() {
-        let config = ARCMenuConfiguration.minimal
-
-        #expect(config.shadow.radius == ARCShadow.subtle.radius)
-    }
+    // MARK: - Trailing Panel Configuration Tests
 
     @Test("trailingPanel_hasTrailingPanelPresentationStyle")
     func trailingPanel_hasTrailingPanelPresentationStyle() {
@@ -166,13 +104,6 @@ struct ARCMenuConfigurationTests {
         let config = ARCMenuConfiguration.trailingPanel
 
         #expect(config.showsGrabber == false)
-    }
-
-    @Test("trailingPanel_hidesCloseButton")
-    func trailingPanel_hidesCloseButton() {
-        let config = ARCMenuConfiguration.trailingPanel
-
-        #expect(config.showsCloseButton == false)
     }
 
     // MARK: - Custom Initialization Tests
@@ -189,34 +120,6 @@ struct ARCMenuConfigurationTests {
         let config = ARCMenuConfiguration(cornerRadius: 20)
 
         #expect(config.cornerRadius == 20)
-    }
-
-    @Test("init_withDisabledDragToDismiss_disablesDrag")
-    func init_withDisabledDragToDismiss_disablesDrag() {
-        let config = ARCMenuConfiguration(allowsDragToDismiss: false)
-
-        #expect(config.allowsDragToDismiss == false)
-    }
-
-    @Test("init_withDisabledOutsideTap_disablesTap")
-    func init_withDisabledOutsideTap_disablesTap() {
-        let config = ARCMenuConfiguration(dismissOnOutsideTap: false)
-
-        #expect(config.dismissOnOutsideTap == false)
-    }
-
-    @Test("init_withCustomDragThreshold_setsCorrectThreshold")
-    func init_withCustomDragThreshold_setsCorrectThreshold() {
-        let config = ARCMenuConfiguration(dragDismissalThreshold: 200)
-
-        #expect(config.dragDismissalThreshold == 200)
-    }
-
-    @Test("init_withTopPadding_setsCorrectPadding")
-    func init_withTopPadding_setsCorrectPadding() {
-        let config = ARCMenuConfiguration(topPadding: 50)
-
-        #expect(config.topPadding == 50)
     }
 
     @Test("init_withCustomSectionSpacing_setsCorrectSpacing")
@@ -254,36 +157,25 @@ struct ARCMenuConfigurationTests {
         #expect(config.showsCloseButton == false)
     }
 
-    // MARK: - LiquidGlassConfigurable Conformance Tests
+    @Test("init_withProminentIconStyle_setsCorrectStyle")
+    func init_withProminentIconStyle_setsCorrectStyle() {
+        let config = ARCMenuConfiguration(iconStyle: .prominent)
 
-    @Test("conformsToLiquidGlassConfigurable_hasAccentColor")
-    func conformsToLiquidGlassConfigurable_hasAccentColor() {
-        let config: any LiquidGlassConfigurable = ARCMenuConfiguration.default
-
-        #expect(config.accentColor != nil)
+        #expect(config.iconStyle == .prominent)
     }
 
-    @Test("conformsToLiquidGlassConfigurable_hasBackgroundStyle")
-    func conformsToLiquidGlassConfigurable_hasBackgroundStyle() {
-        let config: any LiquidGlassConfigurable = ARCMenuConfiguration.default
+    @Test("init_withBackgroundInteraction_setsCorrectValue")
+    func init_withBackgroundInteraction_setsCorrectValue() {
+        let config = ARCMenuConfiguration(allowsBackgroundInteraction: true)
 
-        // Just verify it compiles and has a value
-        _ = config.backgroundStyle
-        #expect(true)
+        #expect(config.allowsBackgroundInteraction == true)
     }
 
-    @Test("conformsToLiquidGlassConfigurable_hasCornerRadius")
-    func conformsToLiquidGlassConfigurable_hasCornerRadius() {
-        let config: any LiquidGlassConfigurable = ARCMenuConfiguration.default
+    @Test("init_withCustomAccentColor_setsCorrectColor")
+    func init_withCustomAccentColor_setsCorrectColor() {
+        let config = ARCMenuConfiguration(accentColor: .red)
 
-        #expect(config.cornerRadius > 0)
-    }
-
-    @Test("conformsToLiquidGlassConfigurable_hasShadow")
-    func conformsToLiquidGlassConfigurable_hasShadow() {
-        let config: any LiquidGlassConfigurable = ARCMenuConfiguration.default
-
-        #expect(config.shadow.radius >= 0)
+        #expect(config.accentColor == .red)
     }
 }
 
@@ -295,7 +187,7 @@ struct ARCMenuHapticStyleTests {
     func none_isValidCase() {
         let style = ARCMenuHapticStyle.none
         if case .none = style {
-            #expect(true)
+            #expect(Bool(true))
         } else {
             #expect(Bool(false))
         }
@@ -305,7 +197,7 @@ struct ARCMenuHapticStyleTests {
     func light_isValidCase() {
         let style = ARCMenuHapticStyle.light
         if case .light = style {
-            #expect(true)
+            #expect(Bool(true))
         } else {
             #expect(Bool(false))
         }
@@ -315,7 +207,7 @@ struct ARCMenuHapticStyleTests {
     func medium_isValidCase() {
         let style = ARCMenuHapticStyle.medium
         if case .medium = style {
-            #expect(true)
+            #expect(Bool(true))
         } else {
             #expect(Bool(false))
         }
@@ -325,7 +217,7 @@ struct ARCMenuHapticStyleTests {
     func heavy_isValidCase() {
         let style = ARCMenuHapticStyle.heavy
         if case .heavy = style {
-            #expect(true)
+            #expect(Bool(true))
         } else {
             #expect(Bool(false))
         }
@@ -335,7 +227,7 @@ struct ARCMenuHapticStyleTests {
     func soft_isValidCase() {
         let style = ARCMenuHapticStyle.soft
         if case .soft = style {
-            #expect(true)
+            #expect(Bool(true))
         } else {
             #expect(Bool(false))
         }
@@ -345,9 +237,28 @@ struct ARCMenuHapticStyleTests {
     func rigid_isValidCase() {
         let style = ARCMenuHapticStyle.rigid
         if case .rigid = style {
-            #expect(true)
+            #expect(Bool(true))
         } else {
             #expect(Bool(false))
         }
+    }
+}
+
+// MARK: - ARCMenuIconStyle Tests
+
+@Suite("ARCMenuIconStyle Tests")
+struct ARCMenuIconStyleTests {
+    @Test("subtle_isValidCase")
+    func subtle_isValidCase() {
+        let style = ARCMenuIconStyle.subtle
+
+        #expect(style == .subtle)
+    }
+
+    @Test("prominent_isValidCase")
+    func prominent_isValidCase() {
+        let style = ARCMenuIconStyle.prominent
+
+        #expect(style == .prominent)
     }
 }

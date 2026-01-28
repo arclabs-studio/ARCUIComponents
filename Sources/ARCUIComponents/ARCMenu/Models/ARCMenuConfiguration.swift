@@ -14,41 +14,62 @@ import UIKit
 
 /// Configuration for ARCMenu appearance and behavior
 ///
-/// Provides extensive customization options while maintaining
-/// Apple's design principles and Human Interface Guidelines.
+/// Uses native SwiftUI sheet APIs with Material backgrounds for an Apple-native experience.
+/// Supports iOS 26+ Liquid Glass effect when available.
+///
+/// ## Usage
+///
+/// ```swift
+/// // Default configuration
+/// .arcMenu(isPresented: $showMenu)
+///
+/// // Custom configuration
+/// .arcMenu(isPresented: $showMenu, configuration: .init(accentColor: .purple))
+/// ```
 ///
 /// - Note: Conforms to `Sendable` for Swift 6 concurrency safety
-/// - Note: Conforms to `LiquidGlassConfigurable` to leverage unified liquid glass effect
-public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
+public struct ARCMenuConfiguration: Sendable {
     // MARK: - Presentation Style
 
     /// How the menu is presented on screen
     ///
-    /// - `bottomSheet`: Slides up from the bottom (Apple standard, default)
-    /// - `trailingPanel`: Slides in from the trailing edge (drawer style)
+    /// - `bottomSheet`: Native sheet from bottom (Apple standard, default)
+    /// - `trailingPanel`: Custom drawer from trailing edge (iPad/Mac optimized)
     public let presentationStyle: ARCMenuPresentationStyle
 
     // MARK: - Visual Customization
 
     /// Primary accent color for the menu
+    ///
+    /// Used for badges, selected states, and interactive elements.
+    /// Default: `.arcBrandGold`
     public let accentColor: Color
 
-    /// Background style for the liquid glass effect
-    public let backgroundStyle: ARCBackgroundStyle
-
-    /// Corner radius for the menu container
+    /// Corner radius for the sheet
+    ///
+    /// Only applies to trailingPanel style; native sheet uses system default.
     public let cornerRadius: CGFloat
 
-    /// Shadow configuration
-    public let shadow: ARCShadow
+    /// Style for menu item icons
+    ///
+    /// - `.subtle`: Low-opacity accent background with primary icon (default)
+    /// - `.prominent`: Dark background with accent-colored icon
+    public let iconStyle: ARCMenuIconStyle
+
+    // MARK: - Sheet Detents (Native)
+
+    /// Available heights where the sheet can rest
+    ///
+    /// Uses native `PresentationDetent`. Default: `[.medium, .large]`
+    public let detents: Set<PresentationDetent>
+
+    /// The initially selected detent when the sheet appears
+    public let selectedDetent: PresentationDetent?
 
     // MARK: - Layout Configuration
 
-    /// Width of the menu (used for trailingPanel style, default: 320)
+    /// Width of the menu (used for trailingPanel style only)
     public let menuWidth: CGFloat
-
-    /// Top padding from safe area (used for trailingPanel style, default: 0)
-    public let topPadding: CGFloat
 
     /// Edge insets for menu content
     public let contentInsets: EdgeInsets
@@ -56,138 +77,94 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
     /// Spacing between menu sections
     public let sectionSpacing: CGFloat
 
-    // MARK: - Bottom Sheet Configuration
+    // MARK: - Header Configuration
 
-    /// Whether to show the grabber handle for bottomSheet style
+    /// Whether to show the native drag indicator (grabber)
     public let showsGrabber: Bool
 
-    /// Whether to show a close button in the header for bottomSheet style
+    /// Whether to show a close button (X icon)
     public let showsCloseButton: Bool
 
     /// Title displayed in the sheet header (optional)
     public let sheetTitle: String?
 
-    // MARK: - Animation Configuration
-
-    /// Animation used for menu presentation
-    public let presentationAnimation: Animation
-
-    /// Animation used for menu dismissal
-    public let dismissalAnimation: Animation
-
-    /// Haptic feedback style
-    public let hapticFeedback: ARCMenuHapticStyle
-
     // MARK: - Behavior Configuration
 
-    /// Whether the menu can be dismissed by dragging
-    public let allowsDragToDismiss: Bool
+    /// Haptic feedback on open/close
+    public let hapticFeedback: ARCMenuHapticStyle
 
-    /// Whether tapping outside dismisses the menu
-    public let dismissOnOutsideTap: Bool
-
-    /// Minimum drag distance to trigger dismissal
-    public let dragDismissalThreshold: CGFloat
+    /// Whether users can interact with content behind the sheet
+    ///
+    /// When enabled at `.medium` detent, users can tap content below.
+    public let allowsBackgroundInteraction: Bool
 
     // MARK: - Initialization
 
     /// Creates a new menu configuration
+    ///
     /// - Parameters:
     ///   - presentationStyle: How the menu is presented (default: `.bottomSheet`)
-    ///   - accentColor: Primary accent color for the menu
-    ///   - backgroundStyle: Background style for the liquid glass effect
-    ///   - cornerRadius: Corner radius for the menu container
-    ///   - shadow: Shadow configuration
-    ///   - menuWidth: Width of the menu (for trailingPanel style)
-    ///   - topPadding: Top padding from safe area (for trailingPanel style)
-    ///   - contentInsets: Edge insets for menu content
-    ///   - sectionSpacing: Spacing between menu sections
-    ///   - showsGrabber: Whether to show the grabber handle (for bottomSheet style)
-    ///   - showsCloseButton: Whether to show a close button in the header
-    ///   - sheetTitle: Title displayed in the sheet header
-    ///   - presentationAnimation: Animation used for menu presentation
-    ///   - dismissalAnimation: Animation used for menu dismissal
-    ///   - hapticFeedback: Haptic feedback style
-    ///   - allowsDragToDismiss: Whether the menu can be dismissed by dragging
-    ///   - dismissOnOutsideTap: Whether tapping outside dismisses the menu
-    ///   - dragDismissalThreshold: Minimum drag distance to trigger dismissal
+    ///   - accentColor: Primary accent color (default: `.arcBrandGold`)
+    ///   - cornerRadius: Corner radius for trailingPanel style
+    ///   - iconStyle: Style for menu item icons (default: `.subtle`)
+    ///   - detents: Available sheet heights (default: `[.medium, .large]`)
+    ///   - selectedDetent: Initial detent (default: `.medium`)
+    ///   - menuWidth: Width for trailingPanel style (default: 320)
+    ///   - contentInsets: Content padding
+    ///   - sectionSpacing: Spacing between sections
+    ///   - showsGrabber: Show drag indicator (default: true)
+    ///   - showsCloseButton: Show X button (default: true)
+    ///   - sheetTitle: Optional header title
+    ///   - hapticFeedback: Haptic style (default: `.medium`)
+    ///   - allowsBackgroundInteraction: Allow taps behind sheet (default: false)
     public init(
         presentationStyle: ARCMenuPresentationStyle = .bottomSheet,
-        accentColor: Color = .blue,
-        backgroundStyle: ARCBackgroundStyle = .liquidGlass,
+        accentColor: Color = .arcBrandGold,
         cornerRadius: CGFloat = .arcCornerRadiusXLarge,
-        shadow: ARCShadow = .default,
+        iconStyle: ARCMenuIconStyle = .subtle,
+        detents: Set<PresentationDetent> = [.medium, .large],
+        selectedDetent: PresentationDetent? = .medium,
         menuWidth: CGFloat = 320,
-        topPadding: CGFloat = 0,
         contentInsets: EdgeInsets = .arcPaddingSection,
         sectionSpacing: CGFloat = .arcSpacingXLarge,
         showsGrabber: Bool = true,
         showsCloseButton: Bool = true,
         sheetTitle: String? = nil,
-        presentationAnimation: Animation = .arcGentle,
-        dismissalAnimation: Animation = .arcSmooth,
         hapticFeedback: ARCMenuHapticStyle = .medium,
-        allowsDragToDismiss: Bool = true,
-        dismissOnOutsideTap: Bool = true,
-        dragDismissalThreshold: CGFloat = 100
+        allowsBackgroundInteraction: Bool = false
     ) {
         self.presentationStyle = presentationStyle
         self.accentColor = accentColor
-        self.backgroundStyle = backgroundStyle
         self.cornerRadius = cornerRadius
-        self.shadow = shadow
+        self.iconStyle = iconStyle
+        self.detents = detents
+        self.selectedDetent = selectedDetent
         self.menuWidth = menuWidth
-        self.topPadding = topPadding
         self.contentInsets = contentInsets
         self.sectionSpacing = sectionSpacing
         self.showsGrabber = showsGrabber
         self.showsCloseButton = showsCloseButton
         self.sheetTitle = sheetTitle
-        self.presentationAnimation = presentationAnimation
-        self.dismissalAnimation = dismissalAnimation
         self.hapticFeedback = hapticFeedback
-        self.allowsDragToDismiss = allowsDragToDismiss
-        self.dismissOnOutsideTap = dismissOnOutsideTap
-        self.dragDismissalThreshold = dragDismissalThreshold
+        self.allowsBackgroundInteraction = allowsBackgroundInteraction
     }
 
     // MARK: - Presets
 
-    /// Default configuration with bottomSheet presentation (Apple standard)
+    /// Default configuration using native sheet with Material background
+    ///
+    /// - Accent: `.arcBrandGold`
+    /// - Detents: `.medium` and `.large`
+    /// - Shows grabber and close button
     public static let `default` = ARCMenuConfiguration()
 
     /// Configuration with trailing panel presentation (drawer style)
+    ///
+    /// Optimized for iPad and Mac where a side panel feels more natural.
+    /// Uses custom implementation since native sheets don't support trailing edge.
     public static let trailingPanel = ARCMenuConfiguration(
         presentationStyle: .trailingPanel,
-        showsGrabber: false,
-        showsCloseButton: false
-    )
-
-    /// Configuration for dark-themed apps (e.g., Podcasts)
-    public static let dark = ARCMenuConfiguration(
-        accentColor: .purple,
-        backgroundStyle: .liquidGlass
-    )
-
-    /// Configuration for fitness/health apps
-    public static let fitness = ARCMenuConfiguration(
-        accentColor: .green,
-        backgroundStyle: .liquidGlass,
-        presentationAnimation: .arcGentle
-    )
-
-    /// Configuration for premium/subscription apps
-    public static let premium = ARCMenuConfiguration(
-        accentColor: .orange,
-        backgroundStyle: .liquidGlass,
-        cornerRadius: .arcCornerRadiusXLarge
-    )
-
-    /// Minimal configuration with subtle effects
-    public static let minimal = ARCMenuConfiguration(
-        backgroundStyle: .translucent,
-        cornerRadius: .arcCornerRadiusLarge,
-        shadow: .subtle
+        showsGrabber: false
     )
 }
 
