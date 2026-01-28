@@ -32,7 +32,6 @@ struct ARCMenuDemoScreen: View {
 
     @State private var selectedPresentationStyle: PresentationStyleOption = .bottomSheet
     @State private var selectedTheme: MenuThemeOption = .arcBrand
-    @State private var selectedIconStyle: IconStyleOption = .subtle
 
     // MARK: Body
 
@@ -71,9 +70,6 @@ struct ARCMenuDemoScreen: View {
             .onChange(of: selectedTheme) { _, _ in
                 updateConfiguration()
             }
-            .onChange(of: selectedIconStyle) { _, _ in
-                updateConfiguration()
-            }
     }
 
     // MARK: Private Methods
@@ -82,7 +78,6 @@ struct ARCMenuDemoScreen: View {
         menuViewModel.configuration = ARCMenuConfiguration(
             presentationStyle: selectedPresentationStyle.style,
             accentColor: selectedTheme.accentColor,
-            iconStyle: selectedIconStyle.style,
             showsGrabber: selectedPresentationStyle == .bottomSheet,
             showsCloseButton: selectedPresentationStyle == .bottomSheet,
             sheetTitle: selectedPresentationStyle == .bottomSheet ? "Cuenta" : nil
@@ -108,7 +103,6 @@ extension ARCMenuDemoScreen {
                 headerSection
                 presentationStylePicker
                 themePicker
-                iconStylePicker
                 featuresCard
             }
             .padding(.top, 20)
@@ -162,24 +156,6 @@ extension ARCMenuDemoScreen {
             Picker("Theme", selection: $selectedTheme) {
                 ForEach(MenuThemeOption.allCases) { theme in
                     Text(theme.name).tag(theme)
-                }
-            }
-            .pickerStyle(.segmented)
-        }
-        .padding(.horizontal, 32)
-    }
-
-    private var iconStylePicker: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Icon Style")
-                .font(.caption)
-                .fontWeight(.semibold)
-                .foregroundStyle(.white.opacity(0.7))
-                .padding(.horizontal, 4)
-
-            Picker("Icon Style", selection: $selectedIconStyle) {
-                ForEach(IconStyleOption.allCases) { style in
-                    Text(style.name).tag(style)
                 }
             }
             .pickerStyle(.segmented)
@@ -280,27 +256,6 @@ private enum PresentationStyleOption: String, CaseIterable, Identifiable {
                 ("person.crop.circle", "User profile header"),
                 ("paintbrush", "Liquid glass effect")
             ]
-        }
-    }
-}
-
-private enum IconStyleOption: String, CaseIterable, Identifiable {
-    case subtle
-    case prominent
-
-    var id: String { rawValue }
-
-    var name: String {
-        switch self {
-        case .subtle: "Subtle"
-        case .prominent: "Prominent"
-        }
-    }
-
-    var style: ARCMenuIconStyle {
-        switch self {
-        case .subtle: .subtle
-        case .prominent: .prominent
         }
     }
 }
