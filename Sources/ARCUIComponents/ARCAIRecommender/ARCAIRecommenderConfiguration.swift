@@ -19,12 +19,12 @@ import SwiftUI
 /// for specific app needs.
 ///
 /// ```swift
-/// // Use a preset
+/// // Use default preset
 /// ARCAIRecommender(
 ///     categories: .defaultCategories,
 ///     selectedCategory: $selectedCategory,
 ///     items: recommendations,
-///     configuration: .restaurant
+///     configuration: .default
 /// )
 ///
 /// // Or customize
@@ -170,26 +170,6 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
 
     /// Default configuration with amber accent (AI/Intelligence style)
     public static let `default` = ARCAIRecommenderConfiguration()
-
-    /// Configuration for restaurant/food apps (FavRes style)
-    ///
-    /// Features orange accent color optimized for food-related applications.
-    public static let restaurant = ARCAIRecommenderConfiguration(
-        title: "Recomendador IA",
-        subtitle: "Descubre restaurantes personalizados según tus gustos",
-        accentColor: .orange,
-        ratingColor: .orange
-    )
-
-    /// Configuration for book apps (FavBook style)
-    ///
-    /// Features blue accent color optimized for reading applications.
-    public static let books = ARCAIRecommenderConfiguration(
-        title: "Recomendador IA",
-        subtitle: "Encuentra tu próxima lectura perfecta",
-        accentColor: .blue,
-        ratingColor: .blue
-    )
 
     /// Minimal configuration without ranks or AI reasons
     ///

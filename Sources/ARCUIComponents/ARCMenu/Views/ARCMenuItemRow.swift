@@ -36,13 +36,7 @@ struct ARCMenuItemRow: View {
             HStack(spacing: .arcSpacingLarge) {
                 // Icon
                 iconView
-                    .frame(width: 32, height: 32)
-                    .background {
-                        if !item.isDestructive {
-                            Circle()
-                                .fill(iconBackgroundColor)
-                        }
-                    }
+                    .frame(width: 24, height: 24)
 
                 // Content
                 VStack(alignment: .leading, spacing: 2) {
@@ -104,32 +98,7 @@ struct ARCMenuItemRow: View {
 
     @ViewBuilder private var iconView: some View {
         item.icon.iconView(isDestructive: item.isDestructive)
-            .frame(width: 22, height: 22)
-            .foregroundStyle(iconForegroundStyle)
-    }
-
-    /// Foreground style for the icon based on configuration
-    private var iconForegroundStyle: some ShapeStyle {
-        if item.isDestructive {
-            return AnyShapeStyle(.red)
-        }
-        switch configuration.iconStyle {
-        case .subtle:
-            return AnyShapeStyle(.primary)
-        case .prominent:
-            return AnyShapeStyle(configuration.accentColor)
-        }
-    }
-
-    /// Background color for the icon based on configuration
-    private var iconBackgroundColor: Color {
-        switch configuration.iconStyle {
-        case .subtle:
-            configuration.accentColor.opacity(0.15)
-        case .prominent:
-            // Dark olive/brown background for prominent icons
-            Color(red: 0.25, green: 0.22, blue: 0.15)
-        }
+            .foregroundStyle(item.isDestructive ? .red : configuration.accentColor)
     }
 
     // MARK: - Badge View
@@ -329,7 +298,7 @@ struct ARCMenuItemRow: View {
     .background(Color.green.opacity(0.2))
 }
 
-#Preview("Menu Item - Prominent Icons") {
+#Preview("Menu Item - Custom Items") {
     ZStack {
         Color(red: 0.1, green: 0.1, blue: 0.12).ignoresSafeArea()
 
@@ -342,7 +311,7 @@ struct ARCMenuItemRow: View {
                     showsDisclosure: true,
                     action: {}
                 ),
-                configuration: .restaurant,
+                configuration: .default,
                 action: {}
             )
 
@@ -357,7 +326,7 @@ struct ARCMenuItemRow: View {
                     showsDisclosure: true,
                     action: {}
                 ),
-                configuration: .restaurant,
+                configuration: .default,
                 action: {}
             )
 
@@ -372,22 +341,7 @@ struct ARCMenuItemRow: View {
                     showsDisclosure: true,
                     action: {}
                 ),
-                configuration: .restaurant,
-                action: {}
-            )
-
-            Divider()
-                .padding(.leading, 64)
-
-            ARCMenuItemRow(
-                item: ARCMenuItem(
-                    title: "Indian",
-                    subtitle: "Curry, Biryani, Naan",
-                    icon: .system("star.fill", renderingMode: .monochrome),
-                    showsDisclosure: true,
-                    action: {}
-                ),
-                configuration: .restaurant,
+                configuration: .default,
                 action: {}
             )
         }
@@ -398,60 +352,4 @@ struct ARCMenuItemRow: View {
         }
         .padding()
     }
-}
-
-#Preview("Icon Style Comparison") {
-    VStack(spacing: 24) {
-        // Subtle style (default)
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Subtle (Default)")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .padding(.horizontal)
-
-            VStack(spacing: 0) {
-                ARCMenuItemRow(
-                    item: .Common.settings(action: {}),
-                    configuration: .default,
-                    action: {}
-                )
-                ARCMenuItemRow(
-                    item: .Common.profile(action: {}),
-                    configuration: .default,
-                    action: {}
-                )
-            }
-            .background {
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(.regularMaterial)
-            }
-        }
-
-        // Prominent style
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Prominent")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .padding(.horizontal)
-
-            VStack(spacing: 0) {
-                ARCMenuItemRow(
-                    item: .Common.settings(action: {}),
-                    configuration: .prominent,
-                    action: {}
-                )
-                ARCMenuItemRow(
-                    item: .Common.profile(action: {}),
-                    configuration: .prominent,
-                    action: {}
-                )
-            }
-            .background {
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-                    .fill(.regularMaterial)
-            }
-        }
-    }
-    .padding()
-    .background(Color.gray.opacity(0.1))
 }

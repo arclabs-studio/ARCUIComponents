@@ -13,63 +13,56 @@ import SwiftUI
 @available(iOS 17.0, macOS 14.0, *)
 enum ShowcasePreset: String, CaseIterable, Identifiable {
     case `default`
-    case restaurant
-    case books
     case minimal
+    case compact
 
     var id: String { rawValue }
 
     var name: String {
         switch self {
         case .default: "Default"
-        case .restaurant: "Restaurant"
-        case .books: "Books"
         case .minimal: "Minimal"
+        case .compact: "Compact"
         }
     }
 
     var configName: String {
         switch self {
         case .default: "default"
-        case .restaurant: "restaurant"
-        case .books: "books"
         case .minimal: "minimal"
+        case .compact: "compact"
         }
     }
 
     var description: String {
         switch self {
         case .default: "Amber accent, AI style"
-        case .restaurant: "Orange accent for food apps"
-        case .books: "Blue accent for reading apps"
         case .minimal: "Simplified display"
+        case .compact: "Compact layout"
         }
     }
 
     var icon: String {
         switch self {
         case .default: "sparkles"
-        case .restaurant: "fork.knife"
-        case .books: "book.fill"
         case .minimal: "minus"
+        case .compact: "rectangle.compress.vertical"
         }
     }
 
     var accentColor: Color {
         switch self {
         case .default: Color(red: 0.95, green: 0.75, blue: 0.3)
-        case .restaurant: .orange
-        case .books: .blue
         case .minimal: .gray
+        case .compact: .blue
         }
     }
 
     var configuration: ARCAIRecommenderConfiguration {
         switch self {
         case .default: .default
-        case .restaurant: .restaurant
-        case .books: .books
         case .minimal: .minimal
+        case .compact: .compact
         }
     }
 }

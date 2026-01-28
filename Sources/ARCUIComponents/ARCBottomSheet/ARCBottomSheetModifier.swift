@@ -261,7 +261,12 @@ extension View {
                         Text("Tap outside or drag down to dismiss")
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
-                        Button("Close") { showSheet = false }.buttonStyle(.bordered)
+                        Button {
+                            showSheet = false
+                        } label: {
+                            Label("Close", systemImage: "xmark.circle.fill")
+                        }
+                        .buttonStyle(.bordered)
                     }
                     .padding()
                 }
