@@ -19,6 +19,7 @@ Each component is crafted to match Apple's design language as seen in their flag
 ### Components
 
 - <doc:ARCMenu>
+- <doc:ARCAIRecommender>
 - <doc:ARCFavoriteButton>
 - <doc:ARCListCard>
 - <doc:ARCRatingView>
@@ -37,9 +38,21 @@ Each component is crafted to match Apple's design language as seen in their flag
 - ``ARCMenuUser``
 - ``ARCMenuItem``
 - ``ARCMenuConfiguration``
+- ``ARCMenuIconStyle``
 - ``ARCMenuUserImage``
 - ``ARCMenuIcon``
 - ``ARCMenuHapticStyle``
+
+### ARCAIRecommender
+
+- ``ARCAIRecommender``
+- ``ARCAIRecommenderConfiguration``
+- ``AIRecommenderMode``
+- ``AIRecommenderCategory``
+- ``AIRecommenderItem``
+- ``AIRecommenderImageSource``
+- ``AIRecommenderQuestion``
+- ``AIRecommenderAnswers``
 
 ### ARCFavoriteButton
 
@@ -118,6 +131,7 @@ Each component is crafted to match Apple's design language as seen in their flag
 ### Showcases
 
 - ``ARCMenuShowcase``
+- ``ARCAIRecommenderShowcase``
 - ``ARCListCardShowcase``
 - ``ARCRatingViewShowcase``
 - ``ARCEmptyStateShowcase``
@@ -196,6 +210,7 @@ Built with Clean Architecture principles:
 ```
 Sources/ARCUIComponents/
 ├── ARCMenu/           # Menu component (MVVM)
+├── ARCAIRecommender/  # AI recommendation component
 ├── ARCFavorites/      # Favorite button component
 ├── ARCLists/          # List card component
 ├── ARCEmptyState/     # Empty state component

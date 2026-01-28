@@ -42,6 +42,13 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
     /// Shadow configuration
     public let shadow: ARCShadow
 
+    /// Style for menu item icons
+    ///
+    /// Determines how icons are rendered in menu item rows.
+    /// Use `.subtle` (default) for minimal appearance or `.prominent`
+    /// for category-style menus where icons should stand out.
+    public let iconStyle: ARCMenuIconStyle
+
     // MARK: - Layout Configuration
 
     /// Width of the menu (used for trailingPanel style, default: 320)
@@ -98,6 +105,7 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - backgroundStyle: Background style for the liquid glass effect
     ///   - cornerRadius: Corner radius for the menu container
     ///   - shadow: Shadow configuration
+    ///   - iconStyle: Style for menu item icons (default: `.subtle`)
     ///   - menuWidth: Width of the menu (for trailingPanel style)
     ///   - topPadding: Top padding from safe area (for trailingPanel style)
     ///   - contentInsets: Edge insets for menu content
@@ -117,6 +125,7 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
         backgroundStyle: ARCBackgroundStyle = .liquidGlass,
         cornerRadius: CGFloat = .arcCornerRadiusXLarge,
         shadow: ARCShadow = .default,
+        iconStyle: ARCMenuIconStyle = .subtle,
         menuWidth: CGFloat = 320,
         topPadding: CGFloat = 0,
         contentInsets: EdgeInsets = .arcPaddingSection,
@@ -136,6 +145,7 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
         self.backgroundStyle = backgroundStyle
         self.cornerRadius = cornerRadius
         self.shadow = shadow
+        self.iconStyle = iconStyle
         self.menuWidth = menuWidth
         self.topPadding = topPadding
         self.contentInsets = contentInsets
@@ -188,6 +198,24 @@ public struct ARCMenuConfiguration: Sendable, LiquidGlassConfigurable {
         backgroundStyle: .translucent,
         cornerRadius: .arcCornerRadiusLarge,
         shadow: .subtle
+    )
+
+    /// Configuration with prominent icons (category-style menus)
+    ///
+    /// Uses dark muted backgrounds with accent-colored icons
+    /// for a bold, category-style appearance similar to cuisine lists.
+    public static let prominent = ARCMenuConfiguration(
+        accentColor: .orange,
+        iconStyle: .prominent
+    )
+
+    /// Configuration for restaurant/food apps with prominent icons
+    ///
+    /// Amber accent color with prominent icon style, ideal for
+    /// cuisine category menus and food-related applications.
+    public static let restaurant = ARCMenuConfiguration(
+        accentColor: Color(red: 0.95, green: 0.75, blue: 0.3),
+        iconStyle: .prominent
     )
 }
 
