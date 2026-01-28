@@ -231,7 +231,7 @@ extension View {
             name: "Carlos Ramirez",
             avatarImage: .initials("CR")
         ),
-        configuration: .fitness
+        configuration: ARCMenuConfiguration(accentColor: .green)
     )
 
     NavigationStack {
@@ -253,7 +253,7 @@ extension View {
             name: "Jane Cooper",
             avatarImage: .initials("JC")
         ),
-        configuration: .premium
+        configuration: ARCMenuConfiguration(accentColor: .orange)
     )
 
     NavigationStack {

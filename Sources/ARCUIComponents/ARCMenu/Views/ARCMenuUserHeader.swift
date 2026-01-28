@@ -184,7 +184,7 @@ struct ARCMenuUserHeader: View {
                 subtitle: "Premium Member",
                 avatarImage: .initials("JC")
             ),
-            configuration: .premium,
+            configuration: ARCMenuConfiguration(accentColor: .orange),
             onTap: {
                 print("Profile tapped")
             }
