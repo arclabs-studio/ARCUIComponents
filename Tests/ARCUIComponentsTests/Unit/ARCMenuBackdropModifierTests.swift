@@ -123,11 +123,11 @@ struct BackdropViewExtensionTests {
     }
 }
 
-// MARK: - Legacy Modifier Extension Tests
+// MARK: - Material Extension Tests
 
-@Suite("ARCMenu Liquid Glass Extension Tests")
+@Suite("ARCMenu Material Extension Tests")
 @MainActor
-struct ARCMenuLiquidGlassExtensionTests {
+struct ARCMenuMaterialExtensionTests {
     @Test("arcMenuLiquidGlass_withConfiguration_returnsModifiedView")
     func arcMenuLiquidGlass_withConfiguration_returnsModifiedView() {
         let view = Text("Test")
@@ -141,21 +141,8 @@ struct ARCMenuLiquidGlassExtensionTests {
     @Test("arcMenuLiquidGlass_withCustomConfiguration_returnsModifiedView")
     func arcMenuLiquidGlass_withCustomConfiguration_returnsModifiedView() {
         let view = Text("Test")
-        let config = ARCMenuConfiguration(
-            accentColor: .purple,
-            backgroundStyle: .liquidGlass
-        )
+        let config = ARCMenuConfiguration(accentColor: .purple)
         let modifiedView = view.arcMenuLiquidGlass(configuration: config)
-
-        _ = modifiedView
-        #expect(Bool(true))
-    }
-
-    @Test("liquidGlass_genericExtension_worksWithMenuConfiguration")
-    func liquidGlass_genericExtension_worksWithMenuConfiguration() {
-        let view = Text("Test")
-        let config = ARCMenuConfiguration.default
-        let modifiedView = view.liquidGlass(configuration: config)
 
         _ = modifiedView
         #expect(Bool(true))

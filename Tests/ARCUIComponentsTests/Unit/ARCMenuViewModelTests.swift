@@ -10,8 +10,8 @@ import Testing
 
 /// Unit tests for ARCMenuViewModel
 ///
-/// Tests cover state management, presentation logic, drag gestures,
-/// and action execution following Swift Testing best practices.
+/// Tests cover state management, data storage, and factory methods
+/// following Swift Testing best practices.
 @Suite("ARCMenuViewModel Tests")
 @MainActor
 struct ARCMenuViewModelTests {
@@ -21,9 +21,7 @@ struct ARCMenuViewModelTests {
     func init_withDefaultValues_setsCorrectInitialState() {
         let viewModel = ARCMenuViewModel()
 
-        #expect(viewModel.isPresented == false)
         #expect(viewModel.dragOffset == 0)
-        #expect(viewModel.backdropOpacity == 0)
         #expect(viewModel.user == nil)
         #expect(viewModel.menuItems.isEmpty)
     }
@@ -56,173 +54,64 @@ struct ARCMenuViewModelTests {
 
     @Test("init_withConfiguration_setsConfigurationCorrectly")
     func init_withConfiguration_setsConfigurationCorrectly() {
-        let config = ARCMenuConfiguration.fitness
+        let config = ARCMenuConfiguration(accentColor: .green)
 
         let viewModel = ARCMenuViewModel(configuration: config)
 
         #expect(viewModel.configuration.accentColor == config.accentColor)
     }
 
-    // MARK: - Present Tests
+    // MARK: - Property Mutation Tests
 
-    @Test("present_whenCalled_setsIsPresentedToTrue")
-    func present_whenCalled_setsIsPresentedToTrue() {
+    @Test("dragOffset_canBeUpdated")
+    func dragOffset_canBeUpdated() {
         let viewModel = ARCMenuViewModel()
 
-        viewModel.present()
-
-        #expect(viewModel.isPresented == true)
-    }
-
-    @Test("present_whenCalled_setsBackdropOpacityToOne")
-    func present_whenCalled_setsBackdropOpacityToOne() {
-        let viewModel = ARCMenuViewModel()
-
-        viewModel.present()
-
-        #expect(viewModel.backdropOpacity == 1.0)
-    }
-
-    // MARK: - Dismiss Tests
-
-    @Test("dismiss_whenPresented_setsIsPresentedToFalse")
-    func dismiss_whenPresented_setsIsPresentedToFalse() {
-        let viewModel = ARCMenuViewModel()
-        viewModel.present()
-
-        viewModel.dismiss()
-
-        #expect(viewModel.isPresented == false)
-    }
-
-    @Test("dismiss_whenPresented_setsBackdropOpacityToZero")
-    func dismiss_whenPresented_setsBackdropOpacityToZero() {
-        let viewModel = ARCMenuViewModel()
-        viewModel.present()
-
-        viewModel.dismiss()
-
-        #expect(viewModel.backdropOpacity == 0)
-    }
-
-    @Test("dismiss_whenPresented_resetsDragOffset")
-    func dismiss_whenPresented_resetsDragOffset() {
-        let viewModel = ARCMenuViewModel()
-        viewModel.present()
-        viewModel.updateDragOffset(50)
-
-        viewModel.dismiss()
-
-        #expect(viewModel.dragOffset == 0)
-    }
-
-    // MARK: - Toggle Tests
-
-    @Test("toggle_whenNotPresented_presentsMenu")
-    func toggle_whenNotPresented_presentsMenu() {
-        let viewModel = ARCMenuViewModel()
-
-        viewModel.toggle()
-
-        #expect(viewModel.isPresented == true)
-    }
-
-    @Test("toggle_whenPresented_dismissesMenu")
-    func toggle_whenPresented_dismissesMenu() {
-        let viewModel = ARCMenuViewModel()
-        viewModel.present()
-
-        viewModel.toggle()
-
-        #expect(viewModel.isPresented == false)
-    }
-
-    @Test("toggle_calledTwice_returnsToInitialState")
-    func toggle_calledTwice_returnsToInitialState() {
-        let viewModel = ARCMenuViewModel()
-        let initialState = viewModel.isPresented
-
-        viewModel.toggle()
-        viewModel.toggle()
-
-        #expect(viewModel.isPresented == initialState)
-    }
-
-    // MARK: - Drag Offset Tests
-
-    @Test("updateDragOffset_withPositiveValue_updatesOffset")
-    func updateDragOffset_withPositiveValue_updatesOffset() {
-        let viewModel = ARCMenuViewModel()
-
-        viewModel.updateDragOffset(50)
+        viewModel.dragOffset = 50
 
         #expect(viewModel.dragOffset == 50)
     }
 
-    @Test("updateDragOffset_withNegativeValue_doesNotUpdateOffset")
-    func updateDragOffset_withNegativeValue_doesNotUpdateOffset() {
+    @Test("user_canBeUpdated")
+    func user_canBeUpdated() {
         let viewModel = ARCMenuViewModel()
+        let user = ARCMenuUser(name: "Updated", avatarImage: .initials("U"))
 
-        viewModel.updateDragOffset(-50)
+        viewModel.user = user
 
-        #expect(viewModel.dragOffset == 0)
+        #expect(viewModel.user?.name == "Updated")
     }
 
-    @Test("updateDragOffset_withPositiveValue_updatesBackdropOpacity")
-    func updateDragOffset_withPositiveValue_updatesBackdropOpacity() {
+    @Test("menuItems_canBeUpdated")
+    func menuItems_canBeUpdated() {
         let viewModel = ARCMenuViewModel()
-        viewModel.present()
+        let items: [ARCMenuItem] = [.Common.settings(action: {})]
 
-        viewModel.updateDragOffset(50)
+        viewModel.menuItems = items
 
-        #expect(viewModel.backdropOpacity < 1.0)
+        #expect(viewModel.menuItems.count == 1)
     }
 
-    // MARK: - End Drag Tests
-
-    @Test("endDrag_belowThreshold_resetsOffset")
-    func endDrag_belowThreshold_resetsOffset() {
+    @Test("configuration_canBeUpdated")
+    func configuration_canBeUpdated() {
         let viewModel = ARCMenuViewModel()
-        viewModel.present()
-        viewModel.updateDragOffset(50)
+        let newConfig = ARCMenuConfiguration(accentColor: .purple)
 
-        viewModel.endDrag(at: 50)
+        viewModel.configuration = newConfig
 
-        #expect(viewModel.dragOffset == 0)
-        #expect(viewModel.isPresented == true)
+        #expect(viewModel.configuration.accentColor == .purple)
     }
 
-    @Test("endDrag_aboveThreshold_dismissesMenu")
-    func endDrag_aboveThreshold_dismissesMenu() {
-        let viewModel = ARCMenuViewModel()
-        viewModel.present()
+    // MARK: - withDefaultItems Factory Tests
 
-        viewModel.endDrag(at: 150)
-
-        #expect(viewModel.isPresented == false)
-    }
-
-    @Test("endDrag_atExactThreshold_dismissesMenu")
-    func endDrag_atExactThreshold_dismissesMenu() {
-        let viewModel = ARCMenuViewModel()
-        viewModel.present()
-        let threshold = viewModel.configuration.dragDismissalThreshold
-
-        viewModel.endDrag(at: threshold)
-
-        #expect(viewModel.isPresented == false)
-    }
-
-    // MARK: - Standard Factory Tests
-
-    @Test("standard_withAllActions_createsCorrectNumberOfItems")
-    func standard_withAllActions_createsCorrectNumberOfItems() {
-        let viewModel = ARCMenuViewModel.standard(
+    @Test("withDefaultItems_createsAllDefaultMenuItems")
+    func withDefaultItems_createsAllDefaultMenuItems() {
+        let viewModel = ARCMenuViewModel.withDefaultItems(
             user: nil,
-            onSettings: {},
             onProfile: {},
-            onPlan: {},
-            onContact: {},
+            onSettings: {},
+            onFeedback: {},
+            onSubscriptions: {},
             onAbout: {},
             onLogout: {}
         )
@@ -230,46 +119,102 @@ struct ARCMenuViewModelTests {
         #expect(viewModel.menuItems.count == 6)
     }
 
-    @Test("standard_withOnlyRequiredActions_createsCorrectNumberOfItems")
-    func standard_withOnlyRequiredActions_createsCorrectNumberOfItems() {
-        let viewModel = ARCMenuViewModel.standard(
-            user: nil,
-            onSettings: {},
-            onLogout: {}
-        )
-
-        #expect(viewModel.menuItems.count == 2)
-    }
-
-    @Test("standard_withNoActions_createsEmptyItems")
-    func standard_withNoActions_createsEmptyItems() {
-        let viewModel = ARCMenuViewModel.standard(user: nil)
-
-        #expect(viewModel.menuItems.isEmpty)
-    }
-
-    @Test("standard_withUser_setsUserCorrectly")
-    func standard_withUser_setsUserCorrectly() {
+    @Test("withDefaultItems_withUser_setsUserCorrectly")
+    func withDefaultItems_withUser_setsUserCorrectly() {
         let user = ARCMenuUser(
             name: "Test",
             avatarImage: .initials("T")
         )
 
-        let viewModel = ARCMenuViewModel.standard(
+        let viewModel = ARCMenuViewModel.withDefaultItems(
             user: user,
-            onSettings: {}
+            onProfile: {},
+            onSettings: {},
+            onFeedback: {},
+            onSubscriptions: {},
+            onAbout: {},
+            onLogout: {}
         )
 
         #expect(viewModel.user?.name == "Test")
     }
 
-    @Test("standard_withConfiguration_setsConfigurationCorrectly")
-    func standard_withConfiguration_setsConfigurationCorrectly() {
-        let viewModel = ARCMenuViewModel.standard(
+    @Test("withDefaultItems_withConfiguration_setsConfigurationCorrectly")
+    func withDefaultItems_withConfiguration_setsConfigurationCorrectly() {
+        let config = ARCMenuConfiguration(accentColor: .orange)
+
+        let viewModel = ARCMenuViewModel.withDefaultItems(
             user: nil,
-            configuration: .premium
+            configuration: config,
+            onProfile: {},
+            onSettings: {},
+            onFeedback: {},
+            onSubscriptions: {},
+            onAbout: {},
+            onLogout: {}
         )
 
-        #expect(viewModel.configuration.accentColor == ARCMenuConfiguration.premium.accentColor)
+        #expect(viewModel.configuration.accentColor == .orange)
+    }
+
+    // MARK: - Default Items Factory Tests
+
+    @Test("defaultItems_createsProfileItem")
+    func defaultItems_createsProfileItem() {
+        let items = ARCMenuItem.defaultItems(
+            onProfile: {},
+            onSettings: {},
+            onFeedback: {},
+            onSubscriptions: {},
+            onAbout: {},
+            onLogout: {}
+        )
+
+        #expect(items.first?.title == "Profile")
+    }
+
+    @Test("defaultItems_createsLogoutAsLastItem")
+    func defaultItems_createsLogoutAsLastItem() {
+        let items = ARCMenuItem.defaultItems(
+            onProfile: {},
+            onSettings: {},
+            onFeedback: {},
+            onSubscriptions: {},
+            onAbout: {},
+            onLogout: {}
+        )
+
+        #expect(items.last?.title == "Logout")
+        #expect(items.last?.isDestructive == true)
+    }
+
+    @Test("defaultItems_containsFeedbackItem")
+    func defaultItems_containsFeedbackItem() {
+        let items = ARCMenuItem.defaultItems(
+            onProfile: {},
+            onSettings: {},
+            onFeedback: {},
+            onSubscriptions: {},
+            onAbout: {},
+            onLogout: {}
+        )
+
+        let feedbackItem = items.first { $0.title == "Feedback" }
+        #expect(feedbackItem != nil)
+    }
+
+    @Test("defaultItems_containsSubscriptionsItem")
+    func defaultItems_containsSubscriptionsItem() {
+        let items = ARCMenuItem.defaultItems(
+            onProfile: {},
+            onSettings: {},
+            onFeedback: {},
+            onSubscriptions: {},
+            onAbout: {},
+            onLogout: {}
+        )
+
+        let subscriptionsItem = items.first { $0.title == "Subscriptions" }
+        #expect(subscriptionsItem != nil)
     }
 }
