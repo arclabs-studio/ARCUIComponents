@@ -63,21 +63,18 @@ public struct ARCListCardShowcase: View {
             #if os(iOS)
                 .navigationBarTitleDisplayMode(.large)
             #endif
-                .sheet(isPresented: Binding(
-                    get: { selectedItem != nil },
-                    set: { if !$0 { selectedItem = nil } }
-                )) {
-                    if let item = selectedItem {
-                        DetailSheet(item: item)
-                    }
+                .sheet(item: Binding(
+                    get: { selectedItem.map { ItemWrapper(id: $0) } },
+                    set: { selectedItem = $0?.id }
+                )) { item in
+                    DetailSheet(item: item.id)
                 }
         }
     }
 
     // MARK: - Background
 
-    @ViewBuilder
-    private var showcaseBackground: some View {
+    @ViewBuilder private var showcaseBackground: some View {
         LinearGradient(
             colors: [.blue.opacity(0.15), .purple.opacity(0.1), .pink.opacity(0.05)],
             startPoint: .topLeading,
@@ -415,38 +412,42 @@ private struct DetailSheet: View {
                 Image(systemName: "checkmark.circle.fill")
                     .font(.system(size: 60))
                     .foregroundStyle(.green.gradient)
-
-                Text("Selected")
-                    .font(.title2.bold())
-
-                Text(item)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
+                Text("Selected").font(.title2.bold())
+                Text(item).font(.body).foregroundStyle(.secondary)
             }
             .navigationTitle("Details")
             #if os(iOS)
                 .navigationBarTitleDisplayMode(.inline)
-            #endif
                 .toolbar {
-                    #if os(iOS)
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("Done") {
-                            dismiss()
+                        Button { dismiss() } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .symbolRenderingMode(.hierarchical)
+                                .foregroundStyle(.secondary)
                         }
                     }
-                    #else
-                    ToolbarItem(placement: .automatic) {
-                        Button("Done") {
-                            dismiss()
-                        }
-                    }
-                    #endif
                 }
+            #else
+                .toolbar {
+                    ToolbarItem {
+                        Button { dismiss() } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .symbolRenderingMode(.hierarchical)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            #endif
         }
     }
 }
 
 // MARK: - Sample Data
+
+@available(iOS 17.0, *)
+private struct ItemWrapper: Identifiable {
+    let id: String
+}
 
 @available(iOS 17.0, *)
 private struct SampleItem: Identifiable {
