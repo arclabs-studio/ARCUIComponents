@@ -11,28 +11,31 @@ import SwiftUI
 
 /// Legacy extension for ARCMenu-specific liquid glass effect
 ///
-/// This extension maintains backward compatibility while leveraging
-/// the new unified ``LiquidGlassModifier`` under the hood.
+/// This extension maintains backward compatibility using native Material.
+/// For iOS 26+, this will be updated to use the native `.glassEffect()` modifier.
 ///
-/// - Note: New code should use the generic `.liquidGlass(configuration:)` modifier directly.
+/// - Note: New code should use native presentation modifiers with `.presentationBackground(.ultraThinMaterial)`
 @available(iOS 17.0, *)
 extension View {
-    /// Applies the liquid glass effect to a view using ARCMenu configuration
+    /// Applies a glass-like material effect to a view using ARCMenu configuration
     ///
-    /// This is a convenience wrapper around the unified liquid glass modifier,
-    /// maintained for backward compatibility with existing ARCMenu code.
+    /// This uses native SwiftUI Material for the glass effect.
+    /// In iOS 26+, this will leverage the native `.glassEffect()` API.
     ///
-    /// - Parameter configuration: Menu configuration containing style settings
-    /// - Returns: View with liquid glass effect applied
+    /// - Parameter configuration: Menu configuration (currently unused, kept for API compatibility)
+    /// - Returns: View with material effect applied
     ///
     /// ## Example
     ///
     /// ```swift
     /// MenuContentView()
-    ///     .liquidGlass(configuration: menuConfig)
+    ///     .arcMenuLiquidGlass(configuration: menuConfig)
     /// ```
     func arcMenuLiquidGlass(configuration: ARCMenuConfiguration) -> some View {
-        liquidGlass(configuration: configuration)
+        background(
+            .ultraThinMaterial,
+            in: RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
+        )
     }
 }
 
@@ -62,13 +65,15 @@ struct ARCMenuBackdropModifier: ViewModifier {
         content
             .overlay {
                 if opacity > 0 {
-                    Color.black
-                        .opacity(opacity * 0.3)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            onTap()
-                        }
-                        .accessibilityHidden(true)
+                    Button {
+                        onTap()
+                    } label: {
+                        Color.black
+                            .opacity(opacity * 0.3)
+                            .ignoresSafeArea()
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityHidden(true)
                 }
             }
     }
