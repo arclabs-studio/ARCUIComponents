@@ -25,20 +25,38 @@ import SwiftUI
 ///
 /// ## Usage
 ///
+/// Use an external `@State` for presentation control. This follows SwiftUI's
+/// declarative pattern and works with any architecture.
+///
 /// ```swift
 /// struct ContentView: View {
 ///     @State private var showMenu = false
 ///     @State private var menuViewModel = ARCMenuViewModel(
 ///         user: ARCMenuUser(name: "John", avatarImage: .initials("JD")),
-///         menuItems: ARCMenuItem.defaultItems(...)
+///         menuItems: [
+///             .Common.settings { print("Settings") },
+///             .Common.profile { print("Profile") },
+///             .Common.logout { print("Logout") }
+///         ]
 ///     )
 ///
 ///     var body: some View {
-///         YourContentView()
-///             .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+///         NavigationStack {
+///             Text("My App")
+///                 .arcMenuToolbarButton(
+///                     isPresented: $showMenu,
+///                     viewModel: menuViewModel
+///                 )
+///         }
+///         .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
 ///     }
 /// }
 /// ```
+///
+/// ## Architecture Agnostic
+///
+/// ARCMenu works with any architecture (plain SwiftUI, MVVM, TCA, etc.).
+/// The only requirement is a `Binding<Bool>` for presentation control.
 public struct ARCMenu: View {
     // MARK: - Properties
 
@@ -394,12 +412,46 @@ extension View {
 
     /// Adds an ARCMenu to a view using the view model's internal presentation state
     ///
+    /// - Note: Deprecated. Use `arcMenu(isPresented:viewModel:)` with external `@State` binding.
     /// - Parameter viewModel: View model containing menu state and configuration
-    /// - Returns: View with menu overlay (for backward compatibility)
-    @available(*, deprecated, message: "Use arcMenu(isPresented:viewModel:) instead")
+    /// - Returns: View with menu sheet attached
+    @available(*, deprecated, message: "Use arcMenu(isPresented:viewModel:) with external @State binding")
     public func arcMenu(viewModel: ARCMenuViewModel) -> some View {
-        overlay {
-            ARCMenu(isPresented: .constant(viewModel.isPresented), viewModel: viewModel)
+        modifier(ARCMenuLegacyModifier(viewModel: viewModel))
+    }
+}
+
+// MARK: - Legacy Modifier (Backward Compatibility)
+
+/// View modifier that uses ViewModel's internal isPresented state
+///
+/// - Note: Deprecated. Exists only for backward compatibility with v1.8.x code.
+struct ARCMenuLegacyModifier: ViewModifier {
+    @Bindable var viewModel: ARCMenuViewModel
+
+    func body(content: Content) -> some View {
+        let binding = Binding<Bool>(
+            get: { viewModel.isPresented },
+            set: { newValue in
+                if newValue {
+                    viewModel.present()
+                } else {
+                    viewModel.dismiss()
+                }
+            }
+        )
+
+        switch viewModel.configuration.presentationStyle {
+        case .bottomSheet:
+            content
+                .sheet(isPresented: binding) {
+                    ARCMenuSheetContent(isPresented: binding, viewModel: viewModel)
+                }
+        case .trailingPanel:
+            content
+                .overlay {
+                    ARCMenu(isPresented: binding, viewModel: viewModel)
+                }
         }
     }
 }
