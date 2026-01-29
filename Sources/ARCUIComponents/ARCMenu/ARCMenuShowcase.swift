@@ -294,32 +294,41 @@ public struct ARCMenuShowcase: View {
         let userCode = showUserHeader
             ? """
             user: ARCMenuUser(
-                name: "\(selectedStyle.sampleUser.name)",
-                email: "\(selectedStyle.sampleUser.email ?? "")",
-                avatarImage: .initials("\(selectedStyle.sampleUser.initials)")
-            ),
+                    name: "\(selectedStyle.sampleUser.name)",
+                    email: "\(selectedStyle.sampleUser.email ?? "")",
+                    avatarImage: .initials("\(selectedStyle.sampleUser.initials)")
+                ),
             """
             : "user: nil,"
 
-        let badgeCode = showBadge ? """
-        showsBadge: true,
-        badgeCount: \(badgeCount)
-        """ : ""
+        let badgeCode = showBadge
+            ? """
+                showsBadge: true,
+                        badgeCount: \(badgeCount)
+            """
+            : ""
 
         return """
-        let viewModel = ARCMenuViewModel.standard(
+        @State private var showMenu = false
+        @State private var menuViewModel = ARCMenuViewModel(
             \(userCode)
-            configuration: .\(selectedStyle.configName),
-            onSettings: { /* ... */ },
-            onProfile: { /* ... */ },
-            onPlan: { /* ... */ },
-            onLogout: { /* ... */ }
+            menuItems: [
+                .Common.settings { coordinator.showSettings() },
+                .Common.profile { coordinator.showProfile() },
+                .Common.logout { coordinator.logout() }
+            ],
+            configuration: .\(selectedStyle.configName)
         )
 
-        NavigationStack {
-            ContentView()
-                .arcMenuButton(viewModel: viewModel\(badgeCode.isEmpty ? "" : ",\n        \(badgeCode)"))
-                .arcMenu(viewModel: viewModel)
+        var body: some View {
+            NavigationStack {
+                ContentView()
+                    .arcMenuToolbarButton(
+                        isPresented: $showMenu,
+                        viewModel: menuViewModel\(badgeCode.isEmpty ? "" : ",\n                \(badgeCode)")
+                    )
+            }
+            .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
         }
         """
     }
@@ -669,6 +678,7 @@ private struct LivePreviewMiniature: View {
     let badgeCount: Int
     let showUserHeader: Bool
 
+    @State private var showMenu = false
     @State private var viewModel: ARCMenuViewModel
 
     init(style: ShowcaseStyle, variant: ShowcaseVariant, showBadge: Bool, badgeCount: Int, showUserHeader: Bool) {
@@ -678,7 +688,7 @@ private struct LivePreviewMiniature: View {
         self.badgeCount = badgeCount
         self.showUserHeader = showUserHeader
 
-        _viewModel = State(initialValue: ARCMenuViewModel.standard(
+        _viewModel = State(initialValue: ARCMenuViewModel(
             user: showUserHeader
                 ? ARCMenuUser(
                     name: style.sampleUser.name,
@@ -686,13 +696,13 @@ private struct LivePreviewMiniature: View {
                     avatarImage: .initials(style.sampleUser.initials)
                 )
                 : nil,
-            configuration: style.configuration,
-            onSettings: {},
-            onProfile: {},
-            onPlan: {},
-            onContact: {},
-            onAbout: {},
-            onLogout: {}
+            menuItems: [
+                .Common.settings {},
+                .Common.profile {},
+                .Common.feedback {},
+                .Common.logout {}
+            ],
+            configuration: style.configuration
         ))
     }
 
@@ -716,6 +726,7 @@ private struct LivePreviewMiniature: View {
                     Spacer()
 
                     ARCMenuButton(
+                        isPresented: $showMenu,
                         viewModel: viewModel,
                         showsBadge: showBadge,
                         badgeCount: badgeCount
@@ -731,7 +742,7 @@ private struct LivePreviewMiniature: View {
                     .padding(.bottom, 20)
             }
         }
-        .arcMenu(viewModel: viewModel)
+        .arcMenu(isPresented: $showMenu, viewModel: viewModel)
     }
 }
 
@@ -740,21 +751,24 @@ private struct LivePreviewMiniature: View {
 private struct GalleryCard: View {
     let style: ShowcaseStyle
 
+    @State private var showMenu = false
     @State private var viewModel: ARCMenuViewModel
 
     init(style: ShowcaseStyle) {
         self.style = style
 
-        _viewModel = State(initialValue: ARCMenuViewModel.standard(
+        _viewModel = State(initialValue: ARCMenuViewModel(
             user: ARCMenuUser(
                 name: style.sampleUser.name,
                 email: style.sampleUser.email,
                 avatarImage: .initials(style.sampleUser.initials)
             ),
-            configuration: style.configuration,
-            onSettings: {},
-            onProfile: {},
-            onLogout: {}
+            menuItems: [
+                .Common.settings {},
+                .Common.profile {},
+                .Common.logout {}
+            ],
+            configuration: style.configuration
         ))
     }
 
@@ -776,7 +790,7 @@ private struct GalleryCard: View {
                 Spacer()
 
                 Button {
-                    viewModel.present()
+                    showMenu = true
                 } label: {
                     Text("Preview")
                         .font(.subheadline)
@@ -818,14 +832,14 @@ private struct GalleryCard: View {
                 .fill(Color(nsColor: .underPageBackgroundColor))
             #endif
         }
-        .arcMenu(viewModel: viewModel)
+        .arcMenu(isPresented: $showMenu, viewModel: viewModel)
     }
 }
 
 // MARK: - Integration Guide
 
 /*
- # ARCMenu Integration Guide
+ # ARCMenu Integration Guide (v1.9.1+)
 
  ## Basic Setup
 
@@ -834,17 +848,20 @@ private struct GalleryCard: View {
  import ARCUIComponents
  ```
 
- 2. Create a view model (usually as a @State property):
+ 2. Create state for presentation and view model:
  ```swift
- @State private var menuViewModel = ARCMenuViewModel.standard(
+ @State private var showMenu = false
+ @State private var menuViewModel = ARCMenuViewModel(
      user: ARCMenuUser(
          name: "Your Name",
          email: "you@email.com",
          avatarImage: .initials("YN")
      ),
-     onSettings: { /* handle settings */ },
-     onProfile: { /* handle profile */ },
-     onLogout: { /* handle logout */ }
+     menuItems: [
+         .Common.settings { print("Settings") },
+         .Common.profile { print("Profile") },
+         .Common.logout { print("Logout") }
+     ]
  )
  ```
 
@@ -853,15 +870,25 @@ private struct GalleryCard: View {
  var body: some View {
      NavigationStack {
          YourContentView()
-             .arcMenuButton(viewModel: menuViewModel)
-             .arcMenu(viewModel: menuViewModel)
+             .arcMenuToolbarButton(
+                 isPresented: $showMenu,
+                 viewModel: menuViewModel
+             )
      }
+     .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
  }
  ```
 
- ## Advanced Customization
+ ## Architecture Agnostic
 
- ### Custom Menu Items
+ ARCMenu works with any architecture. The only requirement is a `Binding<Bool>`:
+
+ - Plain SwiftUI: `@State private var showMenu`
+ - With Coordinator: Pass actions to menu items
+ - With TCA: `$store.isMenuPresented`
+ - With Environment: `@EnvironmentObject` for services
+
+ ## Custom Menu Items
  ```swift
  let customItem = ARCMenuItem(
      title: "Custom Action",
@@ -873,15 +900,14 @@ private struct GalleryCard: View {
  )
  ```
 
- ### Custom Configuration
+ ## Custom Configuration
  ```swift
  let config = ARCMenuConfiguration(
      accentColor: .purple,
-     backgroundStyle: .liquidGlass,
      cornerRadius: 30,
-     shadow: .prominent,
      menuWidth: 320,
-     hapticFeedback: .medium
+     hapticFeedback: .medium,
+     sheetTitle: "Account"
  )
 
  let viewModel = ARCMenuViewModel(
@@ -891,7 +917,7 @@ private struct GalleryCard: View {
  )
  ```
 
- ### User Avatar Options
+ ## User Avatar Options
  ```swift
  // SF Symbol
  .avatarImage(.systemImage("person.circle.fill"))
@@ -908,27 +934,22 @@ private struct GalleryCard: View {
 
  ## Best Practices
 
- 1. **Configuration Presets**: Use built-in presets (.default, .fitness, .premium, .dark)
-    for consistent Apple-like styling
+ 1. **External Binding**: Always use `@State var showMenu` for reliable
+    sheet presentation (this is SwiftUI's standard pattern)
 
  2. **Haptic Feedback**: Keep haptic feedback enabled for better UX
-    (can be customized via configuration)
 
  3. **Badge Count**: Use badges sparingly for important notifications only
 
- 4. **Menu Width**: Default 320pt works well for most cases,
-    adjust for iPad if needed
-
- 5. **Destructive Actions**: Place logout/delete actions at the bottom
-    and mark as destructive
+ 4. **Destructive Actions**: Place logout/delete at the bottom
 
  ## Tips
 
- - The menu automatically handles safe areas and notches
- - Drag-to-dismiss is enabled by default (can be disabled)
- - The backdrop automatically adjusts opacity during drag
+ - Uses native SwiftUI `.sheet()` presentation
+ - Drag-to-dismiss is enabled by default
  - All animations follow Apple's spring animation curves
- - The menu supports both light and dark mode automatically
+ - Supports both light and dark mode automatically
+ - iOS 26+ will use Liquid Glass effect when available
  */
 
 // MARK: - Preview Provider

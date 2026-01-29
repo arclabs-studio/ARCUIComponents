@@ -27,13 +27,16 @@ ARCMenu is a premium, reusable menu component that uses native SwiftUI `.sheet()
 
 ARCMenu uses an external `@State` binding for presentation control, following SwiftUI's native sheet pattern.
 
-### Standard Implementation
+### Standard Implementation (v1.9.1+)
 
 ```swift
 import ARCUIComponents
 
 struct ContentView: View {
+    // External state for presentation (SwiftUI standard)
     @State private var showMenu = false
+
+    // ViewModel holds data only, not presentation state
     @State private var menuViewModel = ARCMenuViewModel.withDefaultItems(
         user: ARCMenuUser(
             name: "Carlos Ramirez",
@@ -54,17 +57,33 @@ struct ContentView: View {
         NavigationStack {
             YourContentView()
                 .navigationTitle("My App")
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            showMenu = true
-                        } label: {
-                            Image(systemName: "line.3.horizontal")
-                        }
-                    }
-                }
-                .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+                // Using ARCMenuButton with binding
+                .arcMenuToolbarButton(
+                    isPresented: $showMenu,
+                    viewModel: menuViewModel,
+                    showsBadge: true,
+                    badgeCount: 3
+                )
         }
+        // Attach menu at the root level
+        .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+    }
+}
+```
+
+### Using ARCMenuButton Directly
+
+If you need more control over the toolbar placement:
+
+```swift
+.toolbar {
+    ToolbarItem(placement: .topBarTrailing) {
+        ARCMenuButton(
+            isPresented: $showMenu,
+            viewModel: menuViewModel,
+            showsBadge: true,
+            badgeCount: 5
+        )
     }
 }
 ```
@@ -350,14 +369,142 @@ ARCMenu includes full accessibility support:
 - **High Contrast**: Adapts to accessibility display modes
 - **Backdrop Dismiss**: Accessible button for backdrop tap-to-dismiss
 
+## Architecture Integration
+
+ARCMenu is **architecture-agnostic** and works with any SwiftUI pattern. The key principle is simple: use an external `@State` binding for presentation.
+
+### Simple SwiftUI
+
+```swift
+struct ContentView: View {
+    @State private var showMenu = false
+    @State private var menuViewModel = ARCMenuViewModel(
+        user: ARCMenuUser(name: "User", avatarImage: .initials("U")),
+        menuItems: [
+            .Common.settings { print("Settings") },
+            .Common.logout { print("Logout") }
+        ]
+    )
+
+    var body: some View {
+        NavigationStack {
+            Text("My App")
+                .arcMenuToolbarButton(isPresented: $showMenu, viewModel: menuViewModel)
+        }
+        .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+    }
+}
+```
+
+### With Coordinator (MVVM+C)
+
+```swift
+struct MainView: View {
+    @Environment(AppCoordinator.self) private var coordinator
+    @State private var showMenu = false
+
+    var body: some View {
+        ContentView()
+            .arcMenuToolbarButton(isPresented: $showMenu, viewModel: menuViewModel)
+            .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+    }
+
+    private var menuViewModel: ARCMenuViewModel {
+        ARCMenuViewModel(
+            menuItems: [
+                .Common.settings { coordinator.navigate(to: .settings) },
+                .Common.logout { coordinator.logout() }
+            ]
+        )
+    }
+}
+```
+
+### With Environment Object
+
+```swift
+struct MainView: View {
+    @EnvironmentObject var authService: AuthService
+    @State private var showMenu = false
+
+    var body: some View {
+        ContentView()
+            .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+    }
+
+    private var menuViewModel: ARCMenuViewModel {
+        ARCMenuViewModel(
+            user: authService.currentUser.map { ARCMenuUser(from: $0) },
+            menuItems: [.Common.logout { authService.logout() }]
+        )
+    }
+}
+```
+
+### With TCA (The Composable Architecture)
+
+```swift
+struct MenuFeature {
+    @ObservableState struct State { var isMenuPresented = false }
+    enum Action { case menuButtonTapped, menuDismissed }
+    // ...
+}
+
+struct ContentView: View {
+    @Bindable var store: StoreOf<MenuFeature>
+
+    var body: some View {
+        NavigationStack { /* ... */ }
+            .arcMenu(
+                isPresented: $store.isMenuPresented,
+                viewModel: menuViewModel
+            )
+    }
+}
+```
+
+### Key Point
+
+The only requirement is a `Binding<Bool>` for presentation. How you manage that binding (plain `@State`, Coordinator, Store, etc.) is up to you
+
 ## Migration Guide
 
-### From Legacy API
+### From v1.9.0 (Deprecated API)
 
-If you're using the deprecated API, migrate to the new native sheet pattern:
+If you're using the deprecated API, migrate to the new external binding pattern:
 
-**Before (deprecated):**
+**Before (v1.9.0 - deprecated):**
 ```swift
+@State private var viewModel = ARCMenuViewModel(...)
+
+var body: some View {
+    ContentView()
+        .arcMenuButton(viewModel: viewModel)  // Deprecated
+        .arcMenu(viewModel: viewModel)        // Deprecated
+}
+```
+
+**After (v1.9.1+ - recommended):**
+```swift
+@State private var showMenu = false  // External binding
+@State private var viewModel = ARCMenuViewModel(...)
+
+var body: some View {
+    NavigationStack {
+        ContentView()
+            .arcMenuToolbarButton(
+                isPresented: $showMenu,
+                viewModel: viewModel
+            )
+    }
+    .arcMenu(isPresented: $showMenu, viewModel: viewModel)
+}
+```
+
+### From v1.8.x (ARCMenuViewModel.standard)
+
+```swift
+// Before (v1.8.x)
 @State private var viewModel = ARCMenuViewModel.standard(
     user: user,
     onSettings: { },
@@ -365,12 +512,7 @@ If you're using the deprecated API, migrate to the new native sheet pattern:
     onLogout: { }
 )
 
-// In body:
-.arcMenu(viewModel: viewModel)
-```
-
-**After (recommended):**
-```swift
+// After (v1.9.1+)
 @State private var showMenu = false
 @State private var viewModel = ARCMenuViewModel.withDefaultItems(
     user: user,
@@ -385,8 +527,18 @@ If you're using the deprecated API, migrate to the new native sheet pattern:
 )
 
 // In body:
+.arcMenuToolbarButton(isPresented: $showMenu, viewModel: viewModel)
 .arcMenu(isPresented: $showMenu, viewModel: viewModel)
 ```
+
+### Why the Change?
+
+The new pattern fixes a critical bug where the deprecated modifier used `.constant()` binding, preventing the menu from opening. The external binding pattern:
+
+1. **Works with SwiftUI's native sheet**: `.sheet(isPresented:)` requires a mutable binding
+2. **Follows Apple's patterns**: Presentation state belongs in View layer
+3. **Better MVVM+C support**: Clear separation between UI state and data
+4. **No more bugs**: External binding guarantees sheet presentation works correctly
 
 ## See Also
 

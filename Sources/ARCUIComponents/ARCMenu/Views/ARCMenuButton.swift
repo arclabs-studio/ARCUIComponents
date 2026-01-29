@@ -17,9 +17,34 @@ import SwiftUI
 /// - User avatar or icon
 /// - Press animation with haptic feedback
 /// - Fully customizable appearance
+///
+/// ## Usage with External Binding (Recommended)
+///
+/// ```swift
+/// struct ContentView: View {
+///     @State private var showMenu = false
+///     @State private var menuViewModel = ARCMenuViewModel(...)
+///
+///     var body: some View {
+///         NavigationStack {
+///             ContentView()
+///                 .toolbar {
+///                     ToolbarItem(placement: .topBarTrailing) {
+///                         ARCMenuButton(
+///                             isPresented: $showMenu,
+///                             viewModel: menuViewModel
+///                         )
+///                     }
+///                 }
+///         }
+///         .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+///     }
+/// }
+/// ```
 public struct ARCMenuButton: View {
     // MARK: - Properties
 
+    @Binding private var isPresented: Bool
     @Bindable private var viewModel: ARCMenuViewModel
     private let showsBadge: Bool
     private let badgeCount: Int
@@ -28,16 +53,49 @@ public struct ARCMenuButton: View {
 
     // MARK: - Initialization
 
-    /// Creates a menu trigger button
+    /// Creates a menu trigger button with external presentation binding
+    ///
+    /// This is the recommended initializer that follows SwiftUI's declarative
+    /// pattern for sheet presentation. The `isPresented` binding should be
+    /// the same one passed to `.arcMenu(isPresented:viewModel:)`.
+    ///
     /// - Parameters:
-    ///   - viewModel: Menu view model to control
+    ///   - isPresented: Binding to control menu presentation
+    ///   - viewModel: Menu view model containing user and configuration
     ///   - showsBadge: Whether to show a notification badge
     ///   - badgeCount: Number to display in badge (0 hides badge)
+    public init(
+        isPresented: Binding<Bool>,
+        viewModel: ARCMenuViewModel,
+        showsBadge: Bool = false,
+        badgeCount: Int = 0
+    ) {
+        _isPresented = isPresented
+        self.viewModel = viewModel
+        self.showsBadge = showsBadge
+        self.badgeCount = badgeCount
+    }
+
+    /// Creates a menu trigger button using ViewModel's internal state
+    ///
+    /// - Note: Deprecated. Use `init(isPresented:viewModel:showsBadge:badgeCount:)` instead.
+    @available(*, deprecated, message: "Use init(isPresented:viewModel:) with external @State binding")
     public init(
         viewModel: ARCMenuViewModel,
         showsBadge: Bool = false,
         badgeCount: Int = 0
     ) {
+        // Create a binding that reads/writes to the ViewModel's deprecated isPresented
+        _isPresented = Binding(
+            get: { viewModel.isPresented },
+            set: { newValue in
+                if newValue {
+                    viewModel.present()
+                } else {
+                    viewModel.dismiss()
+                }
+            }
+        )
         self.viewModel = viewModel
         self.showsBadge = showsBadge
         self.badgeCount = badgeCount
@@ -47,7 +105,8 @@ public struct ARCMenuButton: View {
 
     public var body: some View {
         Button {
-            viewModel.toggle()
+            viewModel.configuration.hapticFeedback.perform()
+            isPresented = true
         } label: {
             ZStack(alignment: .topTrailing) {
                 // Button content
@@ -78,8 +137,8 @@ public struct ARCMenuButton: View {
                         y: .arcSpacingXSmall
                     )
                     .scaleEffect(isPressed ? 0.92 : 1.0)
-                    .rotationEffect(.degrees(viewModel.isPresented ? 90 : 0))
-                    .arcAnimation(.arcBouncy, value: viewModel.isPresented)
+                    .rotationEffect(.degrees(isPresented ? 90 : 0))
+                    .arcAnimation(.arcBouncy, value: isPresented)
                     .arcAnimation(.arcBouncy, value: isPressed)
 
                 // Badge
@@ -156,12 +215,61 @@ public struct ARCMenuButton: View {
 // MARK: - Toolbar Integration
 
 extension View {
-    /// Adds an ARCMenu button to the toolbar
+    /// Adds an ARCMenu button to the toolbar with external presentation binding
+    ///
+    /// Use this modifier together with `.arcMenu(isPresented:viewModel:)` for
+    /// a complete menu integration.
+    ///
+    /// ```swift
+    /// NavigationStack {
+    ///     ContentView()
+    ///         .arcMenuToolbarButton(
+    ///             isPresented: $showMenu,
+    ///             viewModel: menuViewModel
+    ///         )
+    /// }
+    /// .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+    /// ```
+    ///
     /// - Parameters:
+    ///   - isPresented: Binding to control menu presentation
     ///   - viewModel: Menu view model
     ///   - showsBadge: Whether to show badge
     ///   - badgeCount: Badge count
     /// - Returns: View with menu button in toolbar
+    public func arcMenuToolbarButton(
+        isPresented: Binding<Bool>,
+        viewModel: ARCMenuViewModel,
+        showsBadge: Bool = false,
+        badgeCount: Int = 0
+    ) -> some View {
+        toolbar {
+            #if os(iOS)
+            ToolbarItem(placement: .topBarTrailing) {
+                ARCMenuButton(
+                    isPresented: isPresented,
+                    viewModel: viewModel,
+                    showsBadge: showsBadge,
+                    badgeCount: badgeCount
+                )
+            }
+            #else
+            ToolbarItem(placement: .automatic) {
+                ARCMenuButton(
+                    isPresented: isPresented,
+                    viewModel: viewModel,
+                    showsBadge: showsBadge,
+                    badgeCount: badgeCount
+                )
+            }
+            #endif
+        }
+    }
+
+    /// Adds an ARCMenu button to the toolbar using ViewModel's internal state
+    ///
+    /// - Note: Deprecated. Use `arcMenuToolbarButton(isPresented:viewModel:)` instead.
+    @available(*, deprecated, message: "Use arcMenuToolbarButton(isPresented:viewModel:) with external @State binding")
     public func arcMenuButton(
         viewModel: ARCMenuViewModel,
         showsBadge: Bool = false,
@@ -191,8 +299,14 @@ extension View {
 
 // MARK: - Preview Provider
 
-#Preview("Menu Button - Default") {
+#Preview("Menu Button - With Binding") {
+    @Previewable @State var showMenu = false
     @Previewable @State var viewModel = ARCMenuViewModel(
+        user: ARCMenuUser(
+            name: "Carlos Ramirez",
+            email: "carlos@example.com",
+            avatarImage: .initials("CR")
+        ),
         configuration: .default
     )
 
@@ -211,21 +325,24 @@ extension View {
                     .fontWeight(.bold)
                     .foregroundStyle(.white)
 
-                Button("Toggle Menu State") {
-                    viewModel.toggle()
-                }
-                .buttonStyle(.borderedProminent)
+                Text("Menu is \(showMenu ? "open" : "closed")")
+                    .foregroundStyle(.white.opacity(0.8))
             }
         }
         .navigationTitle("ARCMenu Demo")
         #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
-            .arcMenuButton(viewModel: viewModel)
+            .arcMenuToolbarButton(
+                isPresented: $showMenu,
+                viewModel: viewModel
+            )
     }
+    .arcMenu(isPresented: $showMenu, viewModel: viewModel)
 }
 
 #Preview("Menu Button - With Avatar") {
+    @Previewable @State var showMenu = false
     @Previewable @State var viewModel = ARCMenuViewModel(
         user: ARCMenuUser(
             name: "Carlos Ramirez",
@@ -243,11 +360,16 @@ extension View {
                 .fontWeight(.black)
         }
         .navigationTitle("Fitness")
-        .arcMenuButton(viewModel: viewModel)
+        .arcMenuToolbarButton(
+            isPresented: $showMenu,
+            viewModel: viewModel
+        )
     }
+    .arcMenu(isPresented: $showMenu, viewModel: viewModel)
 }
 
 #Preview("Menu Button - With Badge") {
+    @Previewable @State var showMenu = false
     @Previewable @State var viewModel = ARCMenuViewModel(
         user: ARCMenuUser(
             name: "Jane Cooper",
@@ -276,41 +398,31 @@ extension View {
             }
         }
         .navigationTitle("Premium")
-        .arcMenuButton(
+        .arcMenuToolbarButton(
+            isPresented: $showMenu,
             viewModel: viewModel,
             showsBadge: true,
             badgeCount: 5
         )
     }
-}
-
-#Preview("Menu Button - High Badge Count") {
-    @Previewable @State var viewModel = ARCMenuViewModel(
-        configuration: .default
-    )
-
-    NavigationStack {
-        Color.gray.opacity(0.2)
-            .ignoresSafeArea()
-            .navigationTitle("Messages")
-            .arcMenuButton(
-                viewModel: viewModel,
-                showsBadge: true,
-                badgeCount: 142
-            )
-    }
+    .arcMenu(isPresented: $showMenu, viewModel: viewModel)
 }
 
 #Preview("Menu Button - Interactive") {
-    @Previewable @State var viewModel = ARCMenuViewModel.standard(
+    @Previewable @State var showMenu = false
+    @Previewable @State var viewModel = ARCMenuViewModel(
         user: ARCMenuUser(
             name: "Interactive Demo",
             email: "demo@arclabs.studio",
             avatarImage: .initials("ID")
         ),
-        onSettings: { print("Settings") },
-        onProfile: { print("Profile") },
-        onLogout: { print("Logout") }
+        menuItems: [
+            .Common.profile { print("Profile") },
+            .Common.settings { print("Settings") },
+            .Common.feedback { print("Feedback") },
+            .Common.logout { print("Logout") }
+        ],
+        configuration: .default
     )
 
     NavigationStack {
@@ -325,16 +437,17 @@ extension View {
                 Image(systemName: "arrow.up.right")
                     .font(.system(size: 60))
                     .foregroundStyle(.blue)
-                    .symbolEffect(.bounce, value: viewModel.isPresented)
+                    .symbolEffect(.bounce, value: showMenu)
             }
         }
         .navigationTitle("Interactive Demo")
-        .arcMenuButton(
+        .arcMenuToolbarButton(
+            isPresented: $showMenu,
             viewModel: viewModel,
             showsBadge: true,
             badgeCount: 3
         )
-        .arcMenu(viewModel: viewModel)
     }
+    .arcMenu(isPresented: $showMenu, viewModel: viewModel)
     .preferredColorScheme(.dark)
 }
