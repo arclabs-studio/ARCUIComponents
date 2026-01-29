@@ -10,15 +10,53 @@ import SwiftUI
 
 /// Demo screen for ARCMenu component.
 ///
-/// Shows the menu in a realistic app context with various configurations.
-/// Demonstrates the native sheet API with external `isPresented` binding.
+/// Demonstrates the **recommended pattern** for ARCMenu integration:
+///
+/// ## Key Concepts
+///
+/// 1. **External Binding Pattern** (`@State var showMenu`)
+///    - Presentation state lives in the View layer (SwiftUI standard)
+///    - ViewModel holds data only (user, items, configuration)
+///
+/// 2. **ARCMenuButton with Binding**
+///    - Use `ARCMenuButton(isPresented: $showMenu, viewModel:)`
+///    - Or use `.arcMenuToolbarButton(isPresented:viewModel:)` modifier
+///
+/// 3. **Architecture Agnostic**
+///    - Works with plain SwiftUI, Coordinators, TCA, or any pattern
+///    - Only requirement: a `Binding<Bool>` for presentation
+///
+/// ## Usage Example
+///
+/// ```swift
+/// struct MyView: View {
+///     @State private var showMenu = false
+///     @State private var menuViewModel = ARCMenuViewModel(...)
+///
+///     var body: some View {
+///         NavigationStack {
+///             ContentView()
+///                 .arcMenuToolbarButton(
+///                     isPresented: $showMenu,
+///                     viewModel: menuViewModel
+///                 )
+///         }
+///         .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+///     }
+/// }
+/// ```
 struct ARCMenuDemoScreen: View {
-    // MARK: Properties
+    // MARK: - Properties
 
     /// Controls menu presentation via native SwiftUI sheet
+    ///
+    /// This is the **key** to the new pattern - an external `@State`
+    /// that both the button and the menu modifier share.
     @State private var showMenu = false
 
     /// Menu view model with user data, items, and configuration
+    ///
+    /// The ViewModel now only holds data, not presentation state.
     @State private var menuViewModel = ARCMenuViewModel.withDefaultItems(
         user: ARCMenuUser(
             name: "ARC Labs",
@@ -39,8 +77,10 @@ struct ARCMenuDemoScreen: View {
 
     @State private var selectedPresentationStyle: PresentationStyleOption = .bottomSheet
     @State private var selectedTheme: MenuThemeOption = .arcBrand
+    @State private var showBadge = true
+    @State private var badgeCount = 3
 
-    // MARK: Body
+    // MARK: - Body
 
     var body: some View {
         ZStack {
@@ -54,14 +94,26 @@ struct ARCMenuDemoScreen: View {
             .toolbar {
                 #if os(iOS)
                 ToolbarItem(placement: .topBarTrailing) {
-                    menuButton
+                    // NEW: Using ARCMenuButton with isPresented binding
+                    ARCMenuButton(
+                        isPresented: $showMenu,
+                        viewModel: menuViewModel,
+                        showsBadge: showBadge,
+                        badgeCount: badgeCount
+                    )
                 }
                 #else
                 ToolbarItem(placement: .automatic) {
-                    menuButton
+                    ARCMenuButton(
+                        isPresented: $showMenu,
+                        viewModel: menuViewModel,
+                        showsBadge: showBadge,
+                        badgeCount: badgeCount
+                    )
                 }
                 #endif
             }
+            // NEW: Using arcMenu with isPresented binding
             .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
             .onChange(of: selectedPresentationStyle) { _, _ in
                 updateConfiguration()
@@ -71,49 +123,7 @@ struct ARCMenuDemoScreen: View {
             }
     }
 
-    // MARK: - Menu Button
-
-    /// Custom menu button that toggles the external `showMenu` binding
-    private var menuButton: some View {
-        Button {
-            showMenu.toggle()
-        } label: {
-            ZStack(alignment: .topTrailing) {
-                if let user = menuViewModel.user {
-                    user.avatarImage.avatarView(size: 32)
-                        .clipShape(Circle())
-                } else {
-                    Image(systemName: "line.3.horizontal")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                        .foregroundStyle(menuViewModel.configuration.accentColor)
-                }
-            }
-            .frame(width: 40, height: 40)
-            .background {
-                Circle()
-                    .fill(.ultraThinMaterial)
-            }
-            .overlay {
-                // Badge
-                if true {
-                    ZStack {
-                        Circle()
-                            .fill(Color.red)
-                            .frame(width: 18, height: 18)
-                        Text("3")
-                            .font(.caption2)
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                    }
-                    .offset(x: 12, y: -12)
-                }
-            }
-        }
-        .buttonStyle(.plain)
-    }
-
-    // MARK: Private Methods
+    // MARK: - Private Methods
 
     private func updateConfiguration() {
         menuViewModel.configuration = ARCMenuConfiguration(
@@ -142,8 +152,10 @@ extension ARCMenuDemoScreen {
         ScrollView {
             VStack(spacing: 24) {
                 headerSection
+                apiPatternCard
                 presentationStylePicker
                 themePicker
+                badgeOptions
                 featuresCard
             }
             .padding(.top, 20)
@@ -166,6 +178,40 @@ extension ARCMenuDemoScreen {
                 .font(.subheadline)
                 .foregroundStyle(.white.opacity(0.8))
         }
+    }
+
+    private var apiPatternCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(systemName: "checkmark.seal.fill")
+                    .foregroundStyle(.green)
+                Text("v1.9.1 Pattern")
+                    .font(.headline)
+            }
+
+            VStack(alignment: .leading, spacing: 8) {
+                CodeSnippetRow(
+                    label: "State",
+                    code: "@State var showMenu = false"
+                )
+                CodeSnippetRow(
+                    label: "Button",
+                    code: "ARCMenuButton(isPresented: $showMenu, ...)"
+                )
+                CodeSnippetRow(
+                    label: "Modifier",
+                    code: ".arcMenu(isPresented: $showMenu, ...)"
+                )
+            }
+
+            Text("External binding = SwiftUI native sheet presentation")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding()
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .padding(.horizontal)
     }
 
     private var presentationStylePicker: some View {
@@ -204,6 +250,30 @@ extension ARCMenuDemoScreen {
         .padding(.horizontal, 32)
     }
 
+    private var badgeOptions: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Badge Options")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white.opacity(0.7))
+                .padding(.horizontal, 4)
+
+            HStack(spacing: 16) {
+                Toggle("Show Badge", isOn: $showBadge)
+                    .toggleStyle(.button)
+                    .tint(showBadge ? .red : .gray)
+
+                if showBadge {
+                    Stepper("Count: \(badgeCount)", value: $badgeCount, in: 1 ... 99)
+                }
+            }
+            .padding()
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .padding(.horizontal, 32)
+    }
+
     private var featuresCard: some View {
         VStack(spacing: 16) {
             Image(systemName: selectedPresentationStyle.icon)
@@ -232,6 +302,27 @@ extension ARCMenuDemoScreen {
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .padding(.horizontal)
+    }
+}
+
+// MARK: - Code Snippet Row
+
+private struct CodeSnippetRow: View {
+    let label: String
+    let code: String
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 8) {
+            Text(label)
+                .font(.caption)
+                .fontWeight(.medium)
+                .foregroundStyle(.secondary)
+                .frame(width: 60, alignment: .trailing)
+
+            Text(code)
+                .font(.system(size: 11, design: .monospaced))
+                .foregroundStyle(.primary)
+        }
     }
 }
 
@@ -284,18 +375,18 @@ private enum PresentationStyleOption: String, CaseIterable, Identifiable {
         switch self {
         case .bottomSheet:
             [
-                ("arrow.up.doc", "Slides up from bottom"),
+                ("arrow.up.doc", "Native SwiftUI .sheet() presentation"),
                 ("hand.draw", "Swipe down to dismiss"),
                 ("minus.rectangle", "Grabber handle"),
                 ("xmark.circle", "Close button"),
-                ("text.justify.leading", "Centered title")
+                ("sparkles", "iOS 26+ Liquid Glass ready")
             ]
         case .trailingPanel:
             [
                 ("arrow.right.doc", "Slides in from right"),
                 ("hand.draw", "Swipe right to dismiss"),
                 ("person.crop.circle", "User profile header"),
-                ("paintbrush", "Liquid glass effect")
+                ("paintbrush", "Material background")
             ]
         }
     }
