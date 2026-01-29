@@ -7,6 +7,74 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-01-29
+
+### Changed
+- **ARCMenu Refactored for Native iOS/macOS Feel**:
+  - Simplified `ARCMenuConfiguration` to use native `.sheet()` presentation
+  - Removed `LiquidGlassConfigurable` conformance (uses native Material)
+  - Removed custom backdrop, blur, and animation properties
+  - Reduced configuration to essential properties: `accentColor`, `itemSpacing`, `sectionSpacing`
+  - Configuration presets reduced to `.default`, `.fitness`, `.minimal`, `.dark`
+  - Removed `.premium` and `.trailingPanel` presets
+
+- **ARCMenuItem Enhanced with Factory Methods**:
+  - Added factory methods for common menu items: `.profile()`, `.settings()`, `.help()`, `.logout()`
+  - Added `.customIcon()` factory for custom SF Symbol icons
+  - Simplified item creation API
+
+- **ARCMenuViewModel Simplified**:
+  - Removed complex drag gesture handling (uses native sheet gestures)
+  - Removed backdrop tap dismiss logic (handled by sheet)
+  - Cleaner state management focused on menu presentation
+
+- **ARCMenuItemRow Improved**:
+  - Icons now use accent color directly without background circles
+  - Reduced icon size to 24x24 for cleaner native appearance
+  - Better alignment with Apple HIG
+
+### Added
+- `ARCMenuActions`: New model for encapsulating menu action callbacks
+- `ARCMenuIconStyle`: Enum for icon rendering styles (`.subtle`, `.prominent`)
+- `ARCMenu+Previews.swift`: Extracted previews to separate file
+
+### Documentation
+- Updated `ARCMenu.md` DocC documentation with simplified API
+- Improved code examples reflecting new native sheet approach
+- Updated demo screen with simplified configuration options
+
+### Technical
+- Reduced code complexity and file sizes across ARCMenu module
+- Better separation of concerns with extracted preview files
+- Improved SwiftLint compliance
+
+## [1.8.0] - 2026-01-28
+
+### Added
+- **ARCAIRecommender Component**: AI-powered recommendation interface
+  - Dual mode support: quick categories and questionnaire modes
+  - Type-safe generic architecture
+  - Configuration presets: `.default`, `.minimal`, `.compact`
+  - Full VoiceOver accessibility support
+  - Dark mode support with semantic colors
+  - Demo screen with interactive examples
+  - Comprehensive DocC documentation
+
+### Changed
+- **ARCMenu Icon Styling Simplified**:
+  - Icons use accent color directly without background circles
+  - Reduced icon size for cleaner native appearance
+  - Removed `.prominent` and `.restaurant` presets
+
+- **Modal Close Buttons Updated**:
+  - Replaced text "Done"/"Close" buttons with `xmark.circle.fill` icons
+  - Better visual consistency following iOS design patterns
+
+### Technical
+- Updated ARCDevTools to v2.3.0 (GitHub Actions automation)
+- CI migrated to macos-14 runners for better availability
+- Optimized CI workflow matrix
+
 ## [1.7.0] - 2026-01-28
 
 ### Added
@@ -190,7 +258,9 @@ See [TECHNICAL_REVIEW.md](TECHNICAL_REVIEW.md) for planned improvements and futu
 
 ---
 
-[Unreleased]: https://github.com/arclabs-studio/ARCUIComponents/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/arclabs-studio/ARCUIComponents/compare/v1.9.0...HEAD
+[1.9.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.9.0
+[1.8.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.8.0
 [1.7.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.7.0
 [1.6.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.6.0
 [1.0.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.0.0
