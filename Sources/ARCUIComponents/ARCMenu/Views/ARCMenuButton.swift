@@ -137,7 +137,7 @@ public struct ARCMenuButton: View {
                         y: .arcSpacingXSmall
                     )
                     .scaleEffect(isPressed ? 0.92 : 1.0)
-                    .rotationEffect(.degrees(isPresented ? 90 : 0))
+                    .rotationEffect(.degrees(isPresented ? 360 : 0))
                     .arcAnimation(.arcBouncy, value: isPresented)
                     .arcAnimation(.arcBouncy, value: isPressed)
 
