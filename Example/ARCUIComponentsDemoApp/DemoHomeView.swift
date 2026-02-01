@@ -94,6 +94,12 @@ extension DemoHomeView {
             }
 
             NavigationLink {
+                ARCRatingInputDemoScreen()
+            } label: {
+                Label("ARCRatingInputView", systemImage: "star.leadinghalf.filled")
+            }
+
+            NavigationLink {
                 ARCEmptyStateDemoScreen()
             } label: {
                 Label("ARCEmptyState", systemImage: "tray")
@@ -241,6 +247,12 @@ extension DemoHomeView {
                 ARCRatingViewShowcase()
             } label: {
                 Label("Rating View Showcase", systemImage: "star.circle")
+            }
+
+            NavigationLink {
+                ARCRatingInputShowcase()
+            } label: {
+                Label("Rating Input Showcase", systemImage: "star.leadinghalf.filled")
             }
 
             NavigationLink {
