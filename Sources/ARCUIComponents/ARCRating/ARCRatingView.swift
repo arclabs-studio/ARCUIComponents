@@ -269,10 +269,7 @@ extension ARCRatingView {
     }
 
     private var formattedRating: String {
-        if clampedRating.truncatingRemainder(dividingBy: 1) == 0 {
-            return String(format: "%.0f", clampedRating)
-        }
-        return String(format: "%.1f", clampedRating)
+        ARCRatingColorMapper.formatted(clampedRating)
     }
 
     private var accessibilityLabel: String {
@@ -283,50 +280,12 @@ extension ARCRatingView {
         )
     }
 
-    /// Returns semantic color based on rating percentage
     private var ratingColor: Color {
-        let normalized = clampedRating / configuration.maxRating
-
-        switch normalized {
-        case 0 ..< 0.3:
-            return .red
-        case 0.3 ..< 0.5:
-            return .orange
-        case 0.5 ..< 0.65:
-            return .yellow
-        case 0.65 ..< 0.75:
-            return Color(red: 0.6, green: 0.75, blue: 0.2)
-        case 0.75 ..< 0.85:
-            return Color(red: 0.3, green: 0.75, blue: 0.3)
-        default:
-            return Color(red: 0.1, green: 0.65, blue: 0.2)
-        }
+        ARCRatingColorMapper.color(for: clampedRating, maxRating: configuration.maxRating)
     }
 
-    /// Returns gradient based on rating percentage
     private var ratingGradient: LinearGradient {
-        let normalized = clampedRating / configuration.maxRating
-
-        let colors: [Color] = switch normalized {
-        case 0 ..< 0.3:
-            [.red, .orange]
-        case 0.3 ..< 0.5:
-            [.orange, .yellow]
-        case 0.5 ..< 0.65:
-            [.yellow, Color(red: 0.7, green: 0.8, blue: 0.2)]
-        case 0.65 ..< 0.75:
-            [Color(red: 0.6, green: 0.8, blue: 0.2), Color(red: 0.4, green: 0.75, blue: 0.25)]
-        case 0.75 ..< 0.85:
-            [Color(red: 0.4, green: 0.75, blue: 0.25), Color(red: 0.2, green: 0.7, blue: 0.25)]
-        default:
-            [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
-        }
-
-        return LinearGradient(
-            colors: colors,
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
+        ARCRatingColorMapper.gradient(for: clampedRating, maxRating: configuration.maxRating)
     }
 }
 
