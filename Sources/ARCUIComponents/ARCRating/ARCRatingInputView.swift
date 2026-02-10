@@ -234,14 +234,24 @@ extension ARCRatingInputView {
 
         // Snap to nearest step
         let snappedRating = (rawRating / step).rounded() * step
-        let clampedRating = min(max(snappedRating, minRating), maxRating)
+        var newRating = min(max(snappedRating, minRating), maxRating)
+
+        // Prevent wrap-around: if the jump is larger than half the range,
+        // it means the user crossed the 12 o'clock boundary — clamp instead
+        let ratingRange = maxRating - minRating
+        let delta = newRating - rating
+        if delta > ratingRange / 2 {
+            newRating = minRating
+        } else if delta < -ratingRange / 2 {
+            newRating = maxRating
+        }
 
         if configuration.animated {
             arcWithAnimation(.arcSnappy) {
-                rating = clampedRating
+                rating = newRating
             }
         } else {
-            rating = clampedRating
+            rating = newRating
         }
     }
 }
