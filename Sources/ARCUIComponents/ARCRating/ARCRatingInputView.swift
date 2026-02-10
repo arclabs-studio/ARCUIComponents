@@ -109,17 +109,20 @@ public struct ARCRatingInputView: View {
     ///   - rating: Binding to the rating value (1.0-10.0)
     ///   - style: Interaction style (default: `.slider`)
     ///   - showLabel: Whether to show the numeric label (default: `true`)
+    ///   - showHint: Whether to show hint text for circular drag (default: `true`)
     ///   - animated: Whether to animate value changes (default: `true`)
     public init(
         rating: Binding<Double>,
         style: ARCRatingInputStyle = .slider,
         showLabel: Bool = true,
+        showHint: Bool = true,
         animated: Bool = true
     ) {
         _rating = rating
         configuration = ARCRatingInputConfiguration(
             style: style,
             showLabel: showLabel,
+            showHint: showHint,
             animated: animated
         )
     }
@@ -193,7 +196,7 @@ extension ARCRatingInputView {
                 .gesture(circularDragGesture)
                 .sensoryFeedback(.selection, trigger: rating)
 
-            if configuration.showLabel {
+            if configuration.showHint {
                 Text("Drag to adjust")
                     .font(.caption2)
                     .foregroundStyle(.tertiary)
