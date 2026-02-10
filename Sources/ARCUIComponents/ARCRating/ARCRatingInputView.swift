@@ -236,15 +236,13 @@ extension ARCRatingInputView {
         let snappedRating = (rawRating / step).rounded() * step
         var newRating = min(max(snappedRating, minRating), maxRating)
 
-        // Prevent wrap-around: if the jump is larger than half the range,
-        // it means the user crossed the 12 o'clock boundary — clamp instead
-        let ratingRange = maxRating - minRating
-        let delta = newRating - rating
-        if delta > ratingRange / 2 {
-            newRating = minRating
-        } else if delta < -ratingRange / 2 {
-            newRating = maxRating
-        }
+        // Prevent wrap-around when crossing the 12 o'clock boundary
+        newRating = Self.applyWrapAroundClamping(
+            newRating: newRating,
+            currentRating: rating,
+            minRating: minRating,
+            maxRating: maxRating
+        )
 
         if configuration.animated {
             arcWithAnimation(.arcSnappy) {
@@ -253,6 +251,26 @@ extension ARCRatingInputView {
         } else {
             rating = newRating
         }
+    }
+
+    /// Prevents wrap-around when crossing the 12 o'clock boundary in circular drag mode
+    ///
+    /// If the jump between current and new rating exceeds half the range,
+    /// it's treated as a boundary crossing and clamped to the nearest extreme.
+    static func applyWrapAroundClamping(
+        newRating: Double,
+        currentRating: Double,
+        minRating: Double,
+        maxRating: Double
+    ) -> Double {
+        let ratingRange = maxRating - minRating
+        let delta = newRating - currentRating
+        if delta > ratingRange / 2 {
+            return minRating
+        } else if delta < -ratingRange / 2 {
+            return maxRating
+        }
+        return newRating
     }
 }
 
