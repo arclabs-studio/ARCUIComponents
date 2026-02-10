@@ -234,15 +234,43 @@ extension ARCRatingInputView {
 
         // Snap to nearest step
         let snappedRating = (rawRating / step).rounded() * step
-        let clampedRating = min(max(snappedRating, minRating), maxRating)
+        var newRating = min(max(snappedRating, minRating), maxRating)
+
+        // Prevent wrap-around when crossing the 12 o'clock boundary
+        newRating = Self.applyWrapAroundClamping(
+            newRating: newRating,
+            currentRating: rating,
+            minRating: minRating,
+            maxRating: maxRating
+        )
 
         if configuration.animated {
             arcWithAnimation(.arcSnappy) {
-                rating = clampedRating
+                rating = newRating
             }
         } else {
-            rating = clampedRating
+            rating = newRating
         }
+    }
+
+    /// Prevents wrap-around when crossing the 12 o'clock boundary in circular drag mode
+    ///
+    /// If the jump between current and new rating exceeds half the range,
+    /// it's treated as a boundary crossing and clamped to the nearest extreme.
+    static func applyWrapAroundClamping(
+        newRating: Double,
+        currentRating: Double,
+        minRating: Double,
+        maxRating: Double
+    ) -> Double {
+        let ratingRange = maxRating - minRating
+        let delta = newRating - currentRating
+        if delta > ratingRange / 2 {
+            return minRating
+        } else if delta < -ratingRange / 2 {
+            return maxRating
+        }
+        return newRating
     }
 }
 
