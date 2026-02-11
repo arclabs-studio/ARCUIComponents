@@ -96,6 +96,7 @@ struct ARCTabViewDemoScreen: View {
         if showSearchTab {
             ARCTabView(
                 selection: $selectedTab,
+                searchValue: .search,
                 sidebarAdaptable: sidebarAdaptable
             ) { tab in
                 TabContentView(tab: tab)
@@ -117,6 +118,7 @@ struct ARCTabViewDemoScreen: View {
             if showSearchTab {
                 ARCTabView(
                     selection: $selectedTab,
+                    searchValue: .search,
                     sidebarAdaptable: sidebarAdaptable
                 ) { tab in
                     FullScreenTabContent(tab: tab)
@@ -149,10 +151,15 @@ struct ARCTabViewDemoScreen: View {
 // MARK: - Demo Tab Enum
 
 @available(iOS 18.0, *)
-private enum DemoAppTab: String, ARCTabItem, CaseIterable {
+private enum DemoAppTab: String, ARCTabItem {
     case home
     case favorites
     case profile
+    case search
+
+    nonisolated static var allCases: [DemoAppTab] {
+        [.home, .favorites, .profile]
+    }
 
     var id: String { rawValue }
 
@@ -161,6 +168,7 @@ private enum DemoAppTab: String, ARCTabItem, CaseIterable {
         case .home: "Home"
         case .favorites: "Favorites"
         case .profile: "Profile"
+        case .search: "Search"
         }
     }
 
@@ -169,6 +177,7 @@ private enum DemoAppTab: String, ARCTabItem, CaseIterable {
         case .home: "house.fill"
         case .favorites: "heart.fill"
         case .profile: "person.fill"
+        case .search: "magnifyingglass"
         }
     }
 
