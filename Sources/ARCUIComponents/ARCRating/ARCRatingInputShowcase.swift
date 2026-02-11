@@ -294,29 +294,11 @@ public struct ARCRatingInputShowcase: View {
     }
 
     private func formatRating(_ rating: Double) -> String {
-        if rating.truncatingRemainder(dividingBy: 1) == 0 {
-            return String(format: "%.0f", rating)
-        }
-        return String(format: "%.1f", rating)
+        ARCRatingColorMapper.formatted(rating)
     }
 
     private func colorForRating(_ rating: Double) -> Color {
-        let normalized = rating / 10.0
-
-        switch normalized {
-        case 0 ..< 0.3:
-            return .red
-        case 0.3 ..< 0.5:
-            return .orange
-        case 0.5 ..< 0.65:
-            return .yellow
-        case 0.65 ..< 0.75:
-            return Color(red: 0.6, green: 0.75, blue: 0.2)
-        case 0.75 ..< 0.85:
-            return Color(red: 0.3, green: 0.75, blue: 0.3)
-        default:
-            return Color(red: 0.1, green: 0.65, blue: 0.2)
-        }
+        ARCRatingColorMapper.color(for: rating)
     }
 
     @ViewBuilder

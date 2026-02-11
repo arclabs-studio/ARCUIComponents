@@ -28,6 +28,7 @@ let package = Package(
             name: "ARCUIComponents",
             dependencies: ["ARCDesignSystem"],
             path: "Sources",
+            exclude: ["ARCUIComponents/ARCAvatar/README.md"],
             swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]
         ),
 
