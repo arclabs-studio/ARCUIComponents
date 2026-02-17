@@ -15,14 +15,18 @@ enum ShowcasePreset: String, CaseIterable, Identifiable {
     case `default`
     case minimal
     case compact
+    case list
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     var name: String {
         switch self {
-        case .default: "Default"
+        case .default: "Default (Card Stack)"
         case .minimal: "Minimal"
         case .compact: "Compact"
+        case .list: "List"
         }
     }
 
@@ -31,22 +35,25 @@ enum ShowcasePreset: String, CaseIterable, Identifiable {
         case .default: "default"
         case .minimal: "minimal"
         case .compact: "compact"
+        case .list: "list"
         }
     }
 
     var description: String {
         switch self {
-        case .default: "Amber accent, AI style"
+        case .default: "Swipeable card stack, amber accent"
         case .minimal: "Simplified display"
         case .compact: "Compact layout"
+        case .list: "Classic vertical list"
         }
     }
 
     var icon: String {
         switch self {
-        case .default: "sparkles"
+        case .default: "rectangle.stack.fill"
         case .minimal: "minus"
         case .compact: "rectangle.compress.vertical"
+        case .list: "list.bullet"
         }
     }
 
@@ -55,6 +62,7 @@ enum ShowcasePreset: String, CaseIterable, Identifiable {
         case .default: Color(red: 0.95, green: 0.75, blue: 0.3)
         case .minimal: .gray
         case .compact: .blue
+        case .list: Color(red: 0.95, green: 0.75, blue: 0.3)
         }
     }
 
@@ -63,6 +71,7 @@ enum ShowcasePreset: String, CaseIterable, Identifiable {
         case .default: .default
         case .minimal: .minimal
         case .compact: .compact
+        case .list: .list
         }
     }
 }
@@ -73,10 +82,12 @@ enum ShowcasePreset: String, CaseIterable, Identifiable {
 struct ShowcaseMockItem: AIRecommenderItem {
     let id: UUID
     let title: String
-    let subtitle: String?
-    let rating: Double?
-    let imageSource: AIRecommenderImageSource?
-    let aiReason: String?
+    var subtitle: String?
+    var rating: Double?
+    var imageSource: AIRecommenderImageSource?
+    var aiReason: String?
+    var location: String?
+    var highlightDetail: String?
 }
 
 @available(iOS 17.0, macOS 14.0, *)
@@ -89,7 +100,9 @@ extension ARCAIRecommenderShowcase {
                 subtitle: "Italiano · €€",
                 rating: 8.5,
                 imageSource: .system("fork.knife", color: .orange),
-                aiReason: "Te encanta la cocina italiana"
+                aiReason: "Te encanta la cocina italiana y este lugar tiene los mejores platos caseros",
+                location: "Centro, Madrid · 0.5 km",
+                highlightDetail: "Pasta Carbonara"
             ),
             ShowcaseMockItem(
                 id: UUID(),
@@ -97,7 +110,9 @@ extension ARCAIRecommenderShowcase {
                 subtitle: "Japonés · €€€",
                 rating: 9.2,
                 imageSource: .system("fish.fill", color: .cyan),
-                aiReason: "Similar a tus favoritos"
+                aiReason: "Similar a tus restaurantes favoritos",
+                location: "Salamanca, Madrid · 1.2 km",
+                highlightDetail: "Omakase Menú"
             ),
             ShowcaseMockItem(
                 id: UUID(),
@@ -105,7 +120,9 @@ extension ARCAIRecommenderShowcase {
                 subtitle: "Mexicano · €",
                 rating: 7.8,
                 imageSource: .system("flame.fill", color: .red),
-                aiReason: "Muy bien valorado en tu zona"
+                aiReason: "Muy bien valorado en tu zona",
+                location: "Malasaña, Madrid · 0.8 km",
+                highlightDetail: "Tacos al Pastor"
             ),
             ShowcaseMockItem(
                 id: UUID(),
@@ -113,7 +130,8 @@ extension ARCAIRecommenderShowcase {
                 subtitle: "Asiático · €€",
                 rating: 8.1,
                 imageSource: .system("leaf.fill", color: .green),
-                aiReason: "Nuevo descubrimiento"
+                aiReason: "Nuevo descubrimiento en tu barrio",
+                location: "Lavapiés, Madrid · 0.3 km"
             )
         ]
     }

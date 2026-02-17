@@ -20,6 +20,7 @@ public struct ARCAIRecommenderShowcase: View {
     @State private var selectedCategory: AIRecommenderCategory = .favorites
     @State private var selectedMode: AIRecommenderMode = .quick
     @State private var questionnaireAnswers = AIRecommenderAnswers()
+    @State private var bookmarkedIDs: Set<AnyHashable> = []
 
     // MARK: - Initialization
 
@@ -33,6 +34,7 @@ public struct ARCAIRecommenderShowcase: View {
                 heroSection
                 presetsSection
                 modesSection
+                cardStackSection
                 livePreviewSection
                 questionnaireSection
                 categoriesSection
@@ -54,7 +56,7 @@ public struct ARCAIRecommenderShowcase: View {
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCAIRecommenderShowcase {
-    @ViewBuilder var heroSection: some View {
+    var heroSection: some View {
         VStack(spacing: .arcSpacingMedium) {
             ZStack {
                 Circle()
@@ -83,9 +85,9 @@ extension ARCAIRecommenderShowcase {
         .padding(.top, .arcSpacingMedium)
     }
 
-    @ViewBuilder var presetsSection: some View {
+    var presetsSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            sectionHeader("Configuration Presets", subtitle: "4 presets for different app types")
+            sectionHeader("Configuration Presets", subtitle: "5 presets for different app types")
             VStack(spacing: .arcSpacingMedium) {
                 ForEach(ShowcasePreset.allCases) { preset in
                     presetRow(preset)
@@ -96,7 +98,7 @@ extension ARCAIRecommenderShowcase {
         }
     }
 
-    @ViewBuilder var modesSection: some View {
+    var modesSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Display Modes", subtitle: "Quick categories or personalized questionnaire")
             VStack(spacing: .arcSpacingMedium) {
@@ -118,7 +120,28 @@ extension ARCAIRecommenderShowcase {
         }
     }
 
-    @ViewBuilder var livePreviewSection: some View {
+    var cardStackSection: some View {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+            sectionHeader("Card Stack", subtitle: "Swipeable discovery cards with bookmark")
+
+            AIRecommenderCardStack(
+                items: sampleItems,
+                bookmarkedItemIDs: bookmarkedIDs,
+                configuration: selectedPreset.configuration,
+                onItemSelected: { _ in },
+                onItemBookmarked: { item in
+                    let key = AnyHashable(item.id)
+                    if bookmarkedIDs.contains(key) {
+                        bookmarkedIDs.remove(key)
+                    } else {
+                        bookmarkedIDs.insert(key)
+                    }
+                }
+            )
+        }
+    }
+
+    var livePreviewSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Live Preview", subtitle: "Interactive demonstration with mode switcher")
             ARCAIRecommender(
@@ -128,9 +151,18 @@ extension ARCAIRecommenderShowcase {
                 questions: sampleQuestions,
                 answers: $questionnaireAnswers,
                 items: sampleItems,
-                configuration: selectedPreset.configuration
+                configuration: selectedPreset.configuration,
+                bookmarkedItemIDs: bookmarkedIDs,
+                onItemBookmarked: { item in
+                    let key = AnyHashable(item.id)
+                    if bookmarkedIDs.contains(key) {
+                        bookmarkedIDs.remove(key)
+                    } else {
+                        bookmarkedIDs.insert(key)
+                    }
+                }
             )
-            .frame(height: 550)
+            .frame(height: selectedPreset.configuration.useCardStack ? 750 : 550)
             .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusLarge))
             .overlay(
                 RoundedRectangle(cornerRadius: .arcCornerRadiusLarge)
@@ -139,7 +171,7 @@ extension ARCAIRecommenderShowcase {
         }
     }
 
-    @ViewBuilder var questionnaireSection: some View {
+    var questionnaireSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Question Types", subtitle: "Different input types for gathering preferences")
             VStack(spacing: .arcSpacingMedium) {
@@ -152,7 +184,7 @@ extension ARCAIRecommenderShowcase {
         }
     }
 
-    @ViewBuilder var categoriesSection: some View {
+    var categoriesSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Categories", subtitle: "Predefined and custom categories")
             VStack(spacing: .arcSpacingMedium) {
@@ -173,7 +205,7 @@ extension ARCAIRecommenderShowcase {
         }
     }
 
-    @ViewBuilder var cardsSection: some View {
+    var cardsSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Item Cards", subtitle: "Card variants and configurations")
             VStack(spacing: .arcSpacingMedium) {
@@ -206,7 +238,7 @@ extension ARCAIRecommenderShowcase {
         }
     }
 
-    @ViewBuilder var integrationSection: some View {
+    var integrationSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Integration", subtitle: "Code example")
             VStack(alignment: .leading, spacing: .arcSpacingSmall) {
@@ -229,7 +261,6 @@ extension ARCAIRecommenderShowcase {
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCAIRecommenderShowcase {
-    @ViewBuilder
     func presetRow(_ preset: ShowcasePreset) -> some View {
         Button {
             arcWithAnimation(.arcSpring) { selectedPreset = preset }
@@ -253,7 +284,6 @@ extension ARCAIRecommenderShowcase {
         .buttonStyle(.plain)
     }
 
-    @ViewBuilder
     func modeRow(mode: AIRecommenderMode, title: String, description: String, icon: String) -> some View {
         Button {
             arcWithAnimation(.arcSpring) { selectedMode = mode }
@@ -274,7 +304,6 @@ extension ARCAIRecommenderShowcase {
         .buttonStyle(.plain)
     }
 
-    @ViewBuilder
     func questionRow(_ question: AIRecommenderQuestion) -> some View {
         HStack(spacing: .arcSpacingMedium) {
             if let icon = question.icon {
@@ -297,7 +326,6 @@ extension ARCAIRecommenderShowcase {
         }
     }
 
-    @ViewBuilder
     func categoryRow(_ category: AIRecommenderCategory) -> some View {
         HStack(spacing: .arcSpacingMedium) {
             Image(systemName: category.icon).font(.body).foregroundStyle(selectedPreset.accentColor).frame(width: 24)
@@ -319,7 +347,6 @@ extension ARCAIRecommenderShowcase {
 
 @available(iOS 17.0, macOS 14.0, *)
 extension ARCAIRecommenderShowcase {
-    @ViewBuilder
     func sectionHeader(_ title: String, subtitle: String? = nil) -> some View {
         VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
             Text(title).font(.title2.bold())
@@ -330,7 +357,6 @@ extension ARCAIRecommenderShowcase {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    @ViewBuilder
     func cardLabel(_ text: String) -> some View {
         Text(text).font(.caption).foregroundStyle(.secondary).frame(maxWidth: .infinity, alignment: .leading)
     }
