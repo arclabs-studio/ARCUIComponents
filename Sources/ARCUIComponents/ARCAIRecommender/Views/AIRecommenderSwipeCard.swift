@@ -44,9 +44,19 @@ struct AIRecommenderSwipeCard<Item: AIRecommenderItem>: View {
 
                 VStack(alignment: .leading, spacing: .arcSpacingSmall) {
                     titleRow
-                    tagsRow
-                    locationRow
-                    highlightRow
+
+                    if configuration.showTags {
+                        tagsRow
+                    }
+
+                    if configuration.showLocation {
+                        locationRow
+                    }
+
+                    if configuration.showHighlightDetail {
+                        highlightRow
+                    }
+
                     aiReasonSection
 
                     Spacer(minLength: .arcSpacingSmall)
@@ -222,19 +232,19 @@ struct AIRecommenderSwipeCard<Item: AIRecommenderItem>: View {
     private var accessibilityLabel: String {
         var components: [String] = [item.title]
 
-        if let subtitle = item.subtitle {
+        if configuration.showTags, let subtitle = item.subtitle {
             components.append(subtitle)
         }
 
-        if let location = item.location {
+        if configuration.showLocation, let location = item.location {
             components.append(location)
         }
 
-        if let highlight = item.highlightDetail {
+        if configuration.showHighlightDetail, let highlight = item.highlightDetail {
             components.append(highlight)
         }
 
-        if let reason = item.aiReason, configuration.showAIReason {
+        if configuration.showAIReason, let reason = item.aiReason {
             components.append(reason)
         }
 

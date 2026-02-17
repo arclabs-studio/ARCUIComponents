@@ -121,6 +121,51 @@ struct ARCAIRecommenderCardStackConfigurationTests {
 
         #expect(config.useCardStack == true)
     }
+
+    // MARK: - Card Content Visibility Defaults
+
+    @Test("default_showsAllCardContent")
+    func default_showsAllCardContent() {
+        let config = ARCAIRecommenderConfiguration.default
+
+        #expect(config.showTags == true)
+        #expect(config.showLocation == true)
+        #expect(config.showHighlightDetail == true)
+    }
+
+    @Test("init_withHiddenTags_setsCorrectly")
+    func init_withHiddenTags_setsCorrectly() {
+        let config = ARCAIRecommenderConfiguration(showTags: false)
+
+        #expect(config.showTags == false)
+    }
+
+    @Test("init_withHiddenLocation_setsCorrectly")
+    func init_withHiddenLocation_setsCorrectly() {
+        let config = ARCAIRecommenderConfiguration(showLocation: false)
+
+        #expect(config.showLocation == false)
+    }
+
+    @Test("init_withHiddenHighlightDetail_setsCorrectly")
+    func init_withHiddenHighlightDetail_setsCorrectly() {
+        let config = ARCAIRecommenderConfiguration(showHighlightDetail: false)
+
+        #expect(config.showHighlightDetail == false)
+    }
+
+    @Test("init_withMultipleHiddenSections_setsCorrectly")
+    func init_withMultipleHiddenSections_setsCorrectly() {
+        let config = ARCAIRecommenderConfiguration(
+            showTags: false,
+            showLocation: false,
+            showHighlightDetail: false
+        )
+
+        #expect(config.showTags == false)
+        #expect(config.showLocation == false)
+        #expect(config.showHighlightDetail == false)
+    }
 }
 
 // MARK: - Protocol Extension Tests

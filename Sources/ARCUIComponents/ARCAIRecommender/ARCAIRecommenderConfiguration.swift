@@ -93,6 +93,17 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     /// Color used for rating display
     public let ratingColor: Color
 
+    // MARK: - Card Content Visibility
+
+    /// Whether to show subtitle tags (e.g., cuisine type, price range)
+    public let showTags: Bool
+
+    /// Whether to show the location row
+    public let showLocation: Bool
+
+    /// Whether to show the highlight detail row (e.g., featured dish, standout feature)
+    public let showHighlightDetail: Bool
+
     // MARK: - Card Stack Configuration
 
     /// Whether to use the swipeable card stack layout (default) or vertical list
@@ -149,6 +160,9 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - showRating: Whether to show rating
     ///   - itemCornerRadius: Corner radius for item cards
     ///   - ratingColor: Color for rating display
+    ///   - showTags: Whether to show subtitle tags
+    ///   - showLocation: Whether to show location row
+    ///   - showHighlightDetail: Whether to show highlight detail row
     ///   - useCardStack: Whether to use swipeable card stack layout
     ///   - cardStackDepth: Number of visible background cards
     ///   - swipeThreshold: Fraction of width to trigger navigation
@@ -176,6 +190,9 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         showRating: Bool = true,
         itemCornerRadius: CGFloat = .arcCornerRadiusMedium,
         ratingColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
+        showTags: Bool = true,
+        showLocation: Bool = true,
+        showHighlightDetail: Bool = true,
         useCardStack: Bool = true,
         cardStackDepth: Int = 3,
         swipeThreshold: CGFloat = 0.3,
@@ -203,6 +220,9 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         self.showRating = showRating
         self.itemCornerRadius = itemCornerRadius
         self.ratingColor = ratingColor
+        self.showTags = showTags
+        self.showLocation = showLocation
+        self.showHighlightDetail = showHighlightDetail
         self.useCardStack = useCardStack
         self.cardStackDepth = cardStackDepth
         self.swipeThreshold = swipeThreshold
