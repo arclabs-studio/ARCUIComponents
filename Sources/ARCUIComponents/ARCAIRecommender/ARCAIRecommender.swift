@@ -293,7 +293,7 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
 
     @ViewBuilder private var quickModeContent: some View {
         if configuration.useCardStack {
-            VStack(spacing: .arcSpacingLarge) {
+            VStack(spacing: .arcSpacingXLarge) {
                 AIRecommenderCategoryPicker(
                     categories: categories,
                     selectedCategory: $selectedCategory,

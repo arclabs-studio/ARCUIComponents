@@ -118,6 +118,18 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     /// Maximum rotation angle (degrees) applied during drag
     public let maxSwipeRotation: Double
 
+    /// Fraction of container width used by the centered card (0.0–1.0)
+    public let peekFraction: CGFloat
+
+    /// Scale applied to non-centered (adjacent) cards
+    public let adjacentCardScale: CGFloat
+
+    /// Opacity applied to non-centered (adjacent) cards
+    public let adjacentCardOpacity: Double
+
+    /// Spacing between cards in the carousel
+    public let cardSpacing: CGFloat
+
     /// Whether to show the position indicator (e.g., "2 / 8")
     public let showCardIndicator: Bool
 
@@ -167,6 +179,10 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - cardStackDepth: Number of visible background cards
     ///   - swipeThreshold: Fraction of width to trigger navigation
     ///   - maxSwipeRotation: Max rotation during drag (degrees)
+    ///   - peekFraction: Fraction of width for centered card
+    ///   - adjacentCardScale: Scale for non-centered cards
+    ///   - adjacentCardOpacity: Opacity for non-centered cards
+    ///   - cardSpacing: Spacing between cards in carousel
     ///   - showCardIndicator: Whether to show position indicator
     ///   - bookmarkIcon: SF Symbol for inactive bookmark
     ///   - bookmarkActiveIcon: SF Symbol for active bookmark
@@ -197,6 +213,10 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         cardStackDepth: Int = 3,
         swipeThreshold: CGFloat = 0.3,
         maxSwipeRotation: Double = 8.0,
+        peekFraction: CGFloat = 0.85,
+        adjacentCardScale: CGFloat = 0.95,
+        adjacentCardOpacity: Double = 0.85,
+        cardSpacing: CGFloat = 12,
         showCardIndicator: Bool = true,
         bookmarkIcon: String = "bookmark",
         bookmarkActiveIcon: String = "bookmark.fill",
@@ -227,6 +247,10 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         self.cardStackDepth = cardStackDepth
         self.swipeThreshold = swipeThreshold
         self.maxSwipeRotation = maxSwipeRotation
+        self.peekFraction = peekFraction
+        self.adjacentCardScale = adjacentCardScale
+        self.adjacentCardOpacity = adjacentCardOpacity
+        self.cardSpacing = cardSpacing
         self.showCardIndicator = showCardIndicator
         self.bookmarkIcon = bookmarkIcon
         self.bookmarkActiveIcon = bookmarkActiveIcon

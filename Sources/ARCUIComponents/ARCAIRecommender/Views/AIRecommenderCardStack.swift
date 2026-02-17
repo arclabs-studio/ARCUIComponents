@@ -10,16 +10,16 @@ import SwiftUI
 
 // MARK: - AIRecommenderCardStack
 
-/// Swipeable card stack for browsing AI recommendations
+/// Horizontal peek carousel for browsing AI recommendations
 ///
-/// Displays items as stacked cards with bidirectional swipe navigation.
-/// Supports accessibility, reduce motion, and bookmark actions.
+/// Displays items in a scrollable carousel where adjacent cards are partially
+/// visible on the sides. Supports accessibility, reduce motion, and bookmarks.
 ///
 /// ## Features
-/// - Bidirectional swipe to navigate between cards
-/// - Visual stack with depth effect (scale + offset)
+/// - Horizontal scroll with snap-to-center behavior
+/// - Adjacent cards peek from the sides with scale + opacity effects
 /// - Position indicator showing current card
-/// - Reduce motion: cross-fade instead of slide animations
+/// - Reduce motion: disables scale/opacity transitions
 @available(iOS 17.0, macOS 14.0, *)
 struct AIRecommenderCardStack<Item: AIRecommenderItem>: View {
     // MARK: - Properties
@@ -33,8 +33,7 @@ struct AIRecommenderCardStack<Item: AIRecommenderItem>: View {
     // MARK: - State
 
     @State private var currentIndex: Int = 0
-    @State private var dragOffset: CGFloat = 0
-    @State private var isDragging = false
+    @State private var scrollPosition: Int?
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -44,8 +43,8 @@ struct AIRecommenderCardStack<Item: AIRecommenderItem>: View {
         if items.isEmpty {
             emptyStateView
         } else {
-            VStack(spacing: .arcSpacingMedium) {
-                cardStack
+            VStack(spacing: .arcSpacingLarge) {
+                cardCarousel
                     .accessibilityElement(children: .contain)
                     .accessibilityLabel("Recomendaciones, card \(currentIndex + 1) de \(items.count)")
                     .accessibilityAction(named: "Siguiente") { navigateForward() }
@@ -55,7 +54,6 @@ struct AIRecommenderCardStack<Item: AIRecommenderItem>: View {
                     cardIndicator
                 }
             }
-            .padding(.horizontal, .arcSpacingLarge)
         }
     }
 
@@ -70,50 +68,46 @@ struct AIRecommenderCardStack<Item: AIRecommenderItem>: View {
         )
     }
 
-    // MARK: - Card Stack
+    // MARK: - Card Carousel
 
-    private var cardStack: some View {
+    private var cardCarousel: some View {
         GeometryReader { geometry in
-            let cardWidth = geometry.size.width
+            let cardWidth = geometry.size.width * configuration.peekFraction
 
-            ZStack {
-                // Background cards (rendered back-to-front)
-                ForEach(backgroundCardIndices, id: \.self) { index in
-                    let depth = index - currentIndex
-                    cardView(for: items[index])
-                        .scaleEffect(scaleForDepth(depth))
-                        .offset(y: offsetForDepth(depth))
-                        .opacity(opacityForDepth(depth))
-                        .allowsHitTesting(false)
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: configuration.cardSpacing) {
+                    ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                        cardView(for: item)
+                            .frame(width: cardWidth)
+                            .scaleEffect(scaleForIndex(index))
+                            .opacity(opacityForIndex(index))
+                            .id(index)
+                    }
                 }
-
-                // Top card with gesture
-                if currentIndex < items.count {
-                    cardView(for: items[currentIndex])
-                        .offset(x: dragOffset)
-                        .rotationEffect(
-                            reduceMotion ? .zero : Angle(degrees: Double(dragOffset) / 25),
-                            anchor: .bottom
-                        )
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    isDragging = true
-                                    dragOffset = value.translation.width
-                                }
-                                .onEnded { value in
-                                    handleDragEnd(
-                                        translation: value.translation.width,
-                                        cardWidth: cardWidth
-                                    )
-                                }
-                        )
-                        .id(currentIndex)
+                .scrollTargetLayout()
+            }
+            .contentMargins(.horizontal, (geometry.size.width - cardWidth) / 2)
+            .scrollTargetBehavior(.viewAligned)
+            .scrollPosition(id: $scrollPosition)
+            .onChange(of: scrollPosition) { _, newPosition in
+                if let newPosition, newPosition != currentIndex {
+                    currentIndex = newPosition
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .aspectRatio(0.62, contentMode: .fit)
+    }
+
+    // MARK: - Visual Effects
+
+    private func scaleForIndex(_ index: Int) -> CGFloat {
+        guard !reduceMotion else { return 1.0 }
+        return index == currentIndex ? 1.0 : configuration.adjacentCardScale
+    }
+
+    private func opacityForIndex(_ index: Int) -> Double {
+        guard !reduceMotion else { return 1.0 }
+        return index == currentIndex ? 1.0 : configuration.adjacentCardOpacity
     }
 
     // MARK: - Card View
@@ -128,64 +122,23 @@ struct AIRecommenderCardStack<Item: AIRecommenderItem>: View {
         )
     }
 
-    // MARK: - Background Card Indices
-
-    private var backgroundCardIndices: [Int] {
-        let maxDepth = configuration.cardStackDepth
-        let start = currentIndex + 1
-        let end = min(currentIndex + maxDepth, items.count)
-        guard start < end else { return [] }
-        return Array((start ..< end).reversed())
-    }
-
-    // MARK: - Stack Visual Calculations
-
-    private func scaleForDepth(_ depth: Int) -> CGFloat {
-        max(1.0 - CGFloat(depth) * 0.05, 0.85)
-    }
-
-    private func offsetForDepth(_ depth: Int) -> CGFloat {
-        CGFloat(depth) * 10
-    }
-
-    private func opacityForDepth(_ depth: Int) -> Double {
-        max(1.0 - Double(depth) * 0.2, 0.4)
-    }
-
-    // MARK: - Drag Handling
-
-    private func handleDragEnd(translation: CGFloat, cardWidth: CGFloat) {
-        isDragging = false
-        let threshold = cardWidth * configuration.swipeThreshold
-
-        if translation < -threshold, currentIndex < items.count - 1 {
-            // Swipe left → next card
-            navigateForward()
-        } else if translation > threshold, currentIndex > 0 {
-            // Swipe right → previous card
-            navigateBackward()
-        } else {
-            // Snap back
-            let animation: Animation = reduceMotion ? .arcGentle : .arcBouncy
-            arcWithAnimation(animation) {
-                dragOffset = 0
-            }
-        }
-    }
+    // MARK: - Navigation (Accessibility)
 
     private func navigateForward() {
+        let newIndex = min(currentIndex + 1, items.count - 1)
         let animation: Animation = reduceMotion ? .arcGentle : .arcSnappy
         arcWithAnimation(animation) {
-            dragOffset = 0
-            currentIndex = min(currentIndex + 1, items.count - 1)
+            currentIndex = newIndex
+            scrollPosition = newIndex
         }
     }
 
     private func navigateBackward() {
+        let newIndex = max(currentIndex - 1, 0)
         let animation: Animation = reduceMotion ? .arcGentle : .arcSnappy
         arcWithAnimation(animation) {
-            dragOffset = 0
-            currentIndex = max(currentIndex - 1, 0)
+            currentIndex = newIndex
+            scrollPosition = newIndex
         }
     }
 
@@ -201,7 +154,7 @@ struct AIRecommenderCardStack<Item: AIRecommenderItem>: View {
                 .font(.headline)
                 .foregroundStyle(.secondary)
 
-            Text("Explora otras categorías para descubrir nuevas sugerencias")
+            Text("Explora otras categorias para descubrir nuevas sugerencias")
                 .font(.subheadline)
                 .foregroundStyle(.tertiary)
                 .multilineTextAlignment(.center)
@@ -227,46 +180,46 @@ private struct CardStackPreviewItem: AIRecommenderItem {
 }
 
 @available(iOS 17.0, *)
-#Preview("Card Stack") {
+#Preview("Peek Carousel") {
     let items: [CardStackPreviewItem] = [
         CardStackPreviewItem(
             id: UUID(),
             title: "La Tagliatella",
-            subtitle: "Italiano · €€",
+            subtitle: "Italiano \u{00B7} \u{20AC}\u{20AC}",
             rating: 8.5,
             imageSource: .system("fork.knife", color: .orange),
             aiReason: "Te encanta la cocina italiana y este lugar tiene los mejores platos caseros",
-            location: "Centro, Madrid · 0.5 km",
+            location: "Centro, Madrid \u{00B7} 0.5 km",
             highlightDetail: "Pasta Carbonara"
         ),
         CardStackPreviewItem(
             id: UUID(),
             title: "Sushi Master",
-            subtitle: "Japonés · €€€",
+            subtitle: "Japones \u{00B7} \u{20AC}\u{20AC}\u{20AC}",
             rating: 9.2,
             imageSource: .system("fish.fill", color: .cyan),
             aiReason: "Similar a tus restaurantes favoritos",
-            location: "Salamanca, Madrid · 1.2 km",
-            highlightDetail: "Omakase Menú"
+            location: "Salamanca, Madrid \u{00B7} 1.2 km",
+            highlightDetail: "Omakase Menu"
         ),
         CardStackPreviewItem(
             id: UUID(),
             title: "El Mexicano",
-            subtitle: "Mexicano · €",
+            subtitle: "Mexicano \u{00B7} \u{20AC}",
             rating: 7.8,
             imageSource: .system("flame.fill", color: .red),
             aiReason: "Muy bien valorado en tu zona",
-            location: "Malasaña, Madrid · 0.8 km",
+            location: "Malasana, Madrid \u{00B7} 0.8 km",
             highlightDetail: "Tacos al Pastor"
         ),
         CardStackPreviewItem(
             id: UUID(),
             title: "Wok & Roll",
-            subtitle: "Asiático · €€",
+            subtitle: "Asiatico \u{00B7} \u{20AC}\u{20AC}",
             rating: 8.1,
             imageSource: .system("leaf.fill", color: .green),
             aiReason: "Nuevo descubrimiento en tu barrio",
-            location: "Lavapiés, Madrid · 0.3 km",
+            location: "Lavapies, Madrid \u{00B7} 0.3 km",
             highlightDetail: nil
         )
     ]
@@ -284,17 +237,27 @@ private struct CardStackPreviewItem: AIRecommenderItem {
 }
 
 @available(iOS 17.0, *)
-#Preview("Card Stack - Dark") {
+#Preview("Peek Carousel - Dark") {
     let items: [CardStackPreviewItem] = [
         CardStackPreviewItem(
             id: UUID(),
             title: "La Tagliatella",
-            subtitle: "Italiano · €€",
+            subtitle: "Italiano \u{00B7} \u{20AC}\u{20AC}",
             rating: 8.5,
             imageSource: .system("fork.knife", color: .orange),
             aiReason: "Te encanta la cocina italiana",
-            location: "Centro, Madrid · 0.5 km",
+            location: "Centro, Madrid \u{00B7} 0.5 km",
             highlightDetail: "Pasta Carbonara"
+        ),
+        CardStackPreviewItem(
+            id: UUID(),
+            title: "Sushi Master",
+            subtitle: "Japones \u{00B7} \u{20AC}\u{20AC}\u{20AC}",
+            rating: 9.2,
+            imageSource: .system("fish.fill", color: .cyan),
+            aiReason: "Similar a tus restaurantes favoritos",
+            location: "Salamanca, Madrid \u{00B7} 1.2 km",
+            highlightDetail: "Omakase Menu"
         )
     ]
 

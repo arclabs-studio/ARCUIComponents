@@ -122,6 +122,64 @@ struct ARCAIRecommenderCardStackConfigurationTests {
         #expect(config.useCardStack == true)
     }
 
+    // MARK: - Peek Carousel Configuration Defaults
+
+    @Test("default_hasCorrectPeekFraction")
+    func default_hasCorrectPeekFraction() {
+        let config = ARCAIRecommenderConfiguration.default
+
+        #expect(config.peekFraction == 0.85)
+    }
+
+    @Test("default_hasCorrectAdjacentCardScale")
+    func default_hasCorrectAdjacentCardScale() {
+        let config = ARCAIRecommenderConfiguration.default
+
+        #expect(config.adjacentCardScale == 0.95)
+    }
+
+    @Test("default_hasCorrectAdjacentCardOpacity")
+    func default_hasCorrectAdjacentCardOpacity() {
+        let config = ARCAIRecommenderConfiguration.default
+
+        #expect(config.adjacentCardOpacity == 0.85)
+    }
+
+    @Test("default_hasCorrectCardSpacing")
+    func default_hasCorrectCardSpacing() {
+        let config = ARCAIRecommenderConfiguration.default
+
+        #expect(config.cardSpacing == 12)
+    }
+
+    @Test("init_withCustomPeekFraction_setsCorrectly")
+    func init_withCustomPeekFraction_setsCorrectly() {
+        let config = ARCAIRecommenderConfiguration(peekFraction: 0.9)
+
+        #expect(config.peekFraction == 0.9)
+    }
+
+    @Test("init_withCustomAdjacentCardScale_setsCorrectly")
+    func init_withCustomAdjacentCardScale_setsCorrectly() {
+        let config = ARCAIRecommenderConfiguration(adjacentCardScale: 0.9)
+
+        #expect(config.adjacentCardScale == 0.9)
+    }
+
+    @Test("init_withCustomAdjacentCardOpacity_setsCorrectly")
+    func init_withCustomAdjacentCardOpacity_setsCorrectly() {
+        let config = ARCAIRecommenderConfiguration(adjacentCardOpacity: 0.7)
+
+        #expect(config.adjacentCardOpacity == 0.7)
+    }
+
+    @Test("init_withCustomCardSpacing_setsCorrectly")
+    func init_withCustomCardSpacing_setsCorrectly() {
+        let config = ARCAIRecommenderConfiguration(cardSpacing: 8)
+
+        #expect(config.cardSpacing == 8)
+    }
+
     // MARK: - Card Content Visibility Defaults
 
     @Test("default_showsAllCardContent")
