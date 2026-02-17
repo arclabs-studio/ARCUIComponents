@@ -131,6 +131,12 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
     /// Callback when an item is selected (quick mode)
     private let onItemSelected: ((Item) -> Void)?
 
+    /// Callback when an item's bookmark status is toggled
+    private let onItemBookmarked: ((Item) -> Void)?
+
+    /// Set of bookmarked item IDs (managed by the consumer)
+    private let bookmarkedItemIDs: Set<AnyHashable>
+
     /// Callback when questionnaire is submitted
     private let onQuestionnaireSubmit: ((AIRecommenderAnswers) -> Void)?
 
@@ -146,8 +152,10 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         selectedCategory: Binding<AIRecommenderCategory>,
         items: [Item],
         configuration: ARCAIRecommenderConfiguration = .default,
+        bookmarkedItemIDs: Set<AnyHashable> = [],
         onCategorySelected: ((AIRecommenderCategory) -> Void)? = nil,
-        onItemSelected: ((Item) -> Void)? = nil
+        onItemSelected: ((Item) -> Void)? = nil,
+        onItemBookmarked: ((Item) -> Void)? = nil
     ) {
         _mode = .constant(.quick)
         self.categories = categories
@@ -156,9 +164,11 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         _answers = .constant(AIRecommenderAnswers())
         self.items = items
         self.configuration = configuration
+        self.bookmarkedItemIDs = bookmarkedItemIDs
         showModeSwitcher = false
         self.onCategorySelected = onCategorySelected
         self.onItemSelected = onItemSelected
+        self.onItemBookmarked = onItemBookmarked
         onQuestionnaireSubmit = nil
     }
 
@@ -178,9 +188,11 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         _answers = answers
         items = []
         self.configuration = configuration
+        bookmarkedItemIDs = []
         showModeSwitcher = false
         onCategorySelected = nil
         onItemSelected = nil
+        onItemBookmarked = nil
         onQuestionnaireSubmit = onSubmit
     }
 
@@ -195,8 +207,10 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         answers: Binding<AIRecommenderAnswers>,
         items: [Item],
         configuration: ARCAIRecommenderConfiguration = .default,
+        bookmarkedItemIDs: Set<AnyHashable> = [],
         onCategorySelected: ((AIRecommenderCategory) -> Void)? = nil,
         onItemSelected: ((Item) -> Void)? = nil,
+        onItemBookmarked: ((Item) -> Void)? = nil,
         onQuestionnaireSubmit: ((AIRecommenderAnswers) -> Void)? = nil
     ) {
         _mode = mode
@@ -206,9 +220,11 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         _answers = answers
         self.items = items
         self.configuration = configuration
+        self.bookmarkedItemIDs = bookmarkedItemIDs
         showModeSwitcher = true
         self.onCategorySelected = onCategorySelected
         self.onItemSelected = onItemSelected
+        self.onItemBookmarked = onItemBookmarked
         self.onQuestionnaireSubmit = onQuestionnaireSubmit
     }
 
@@ -246,7 +262,7 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
 
     // MARK: - Mode Switcher
 
-    @ViewBuilder private var modeSwitcher: some View {
+    private var modeSwitcher: some View {
         HStack(spacing: 0) {
             ModeTab(
                 title: "Rápido",
@@ -276,9 +292,8 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
     // MARK: - Quick Mode Content
 
     @ViewBuilder private var quickModeContent: some View {
-        ScrollView {
+        if configuration.useCardStack {
             VStack(spacing: .arcSpacingLarge) {
-                // Category picker
                 AIRecommenderCategoryPicker(
                     categories: categories,
                     selectedCategory: $selectedCategory,
@@ -286,16 +301,29 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
                     onCategorySelected: onCategorySelected
                 )
 
-                // Items list
                 itemsSection
             }
             .padding(.vertical, .arcSpacingMedium)
+        } else {
+            ScrollView {
+                VStack(spacing: .arcSpacingLarge) {
+                    AIRecommenderCategoryPicker(
+                        categories: categories,
+                        selectedCategory: $selectedCategory,
+                        configuration: configuration,
+                        onCategorySelected: onCategorySelected
+                    )
+
+                    itemsSection
+                }
+                .padding(.vertical, .arcSpacingMedium)
+            }
         }
     }
 
     // MARK: - Questionnaire Mode Content
 
-    @ViewBuilder private var questionnaireModeContent: some View {
+    private var questionnaireModeContent: some View {
         AIRecommenderQuestionnaire(
             questions: questions,
             answers: $answers,
@@ -309,6 +337,14 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
     @ViewBuilder private var itemsSection: some View {
         if items.isEmpty {
             emptyStateView
+        } else if configuration.useCardStack {
+            AIRecommenderCardStack(
+                items: items,
+                bookmarkedItemIDs: bookmarkedItemIDs,
+                configuration: configuration,
+                onItemSelected: onItemSelected,
+                onItemBookmarked: onItemBookmarked
+            )
         } else {
             LazyVStack(spacing: .arcSpacingMedium) {
                 ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
@@ -325,7 +361,7 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         }
     }
 
-    @ViewBuilder private var emptyStateView: some View {
+    private var emptyStateView: some View {
         VStack(spacing: .arcSpacingMedium) {
             Image(systemName: "sparkles")
                 .font(.system(size: 40))

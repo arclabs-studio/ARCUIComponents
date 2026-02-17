@@ -93,6 +93,43 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     /// Color used for rating display
     public let ratingColor: Color
 
+    // MARK: - Card Content Visibility
+
+    /// Whether to show subtitle tags (e.g., cuisine type, price range)
+    public let showTags: Bool
+
+    /// Whether to show the location row
+    public let showLocation: Bool
+
+    /// Whether to show the highlight detail row (e.g., featured dish, standout feature)
+    public let showHighlightDetail: Bool
+
+    // MARK: - Card Stack Configuration
+
+    /// Whether to use the swipeable card stack layout (default) or vertical list
+    public let useCardStack: Bool
+
+    /// Number of cards visible in the stack behind the top card
+    public let cardStackDepth: Int
+
+    /// Fraction of card width that must be swiped to snap to next card
+    public let swipeThreshold: CGFloat
+
+    /// Maximum rotation angle (degrees) applied during drag
+    public let maxSwipeRotation: Double
+
+    /// Whether to show the position indicator (e.g., "2 / 8")
+    public let showCardIndicator: Bool
+
+    /// SF Symbol for the bookmark button (inactive state)
+    public let bookmarkIcon: String
+
+    /// SF Symbol for the bookmark button (active state)
+    public let bookmarkActiveIcon: String
+
+    /// Text shown when user has viewed all cards
+    public let allViewedText: String
+
     // MARK: - Questionnaire Configuration
 
     /// Default mode when using dual mode
@@ -123,6 +160,17 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - showRating: Whether to show rating
     ///   - itemCornerRadius: Corner radius for item cards
     ///   - ratingColor: Color for rating display
+    ///   - showTags: Whether to show subtitle tags
+    ///   - showLocation: Whether to show location row
+    ///   - showHighlightDetail: Whether to show highlight detail row
+    ///   - useCardStack: Whether to use swipeable card stack layout
+    ///   - cardStackDepth: Number of visible background cards
+    ///   - swipeThreshold: Fraction of width to trigger navigation
+    ///   - maxSwipeRotation: Max rotation during drag (degrees)
+    ///   - showCardIndicator: Whether to show position indicator
+    ///   - bookmarkIcon: SF Symbol for inactive bookmark
+    ///   - bookmarkActiveIcon: SF Symbol for active bookmark
+    ///   - allViewedText: Text when all cards have been viewed
     ///   - defaultMode: Default mode when using dual mode
     ///   - questionnaireSubmitText: Text for the questionnaire submit button
     ///   - showQuestionnaireProgress: Whether to show progress dots in questionnaire
@@ -142,6 +190,17 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         showRating: Bool = true,
         itemCornerRadius: CGFloat = .arcCornerRadiusMedium,
         ratingColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
+        showTags: Bool = true,
+        showLocation: Bool = true,
+        showHighlightDetail: Bool = true,
+        useCardStack: Bool = true,
+        cardStackDepth: Int = 3,
+        swipeThreshold: CGFloat = 0.3,
+        maxSwipeRotation: Double = 8.0,
+        showCardIndicator: Bool = true,
+        bookmarkIcon: String = "bookmark",
+        bookmarkActiveIcon: String = "bookmark.fill",
+        allViewedText: String = "Has explorado todas las recomendaciones",
         defaultMode: AIRecommenderMode = .quick,
         questionnaireSubmitText: String = "Obtener recomendaciones",
         showQuestionnaireProgress: Bool = true
@@ -161,6 +220,17 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         self.showRating = showRating
         self.itemCornerRadius = itemCornerRadius
         self.ratingColor = ratingColor
+        self.showTags = showTags
+        self.showLocation = showLocation
+        self.showHighlightDetail = showHighlightDetail
+        self.useCardStack = useCardStack
+        self.cardStackDepth = cardStackDepth
+        self.swipeThreshold = swipeThreshold
+        self.maxSwipeRotation = maxSwipeRotation
+        self.showCardIndicator = showCardIndicator
+        self.bookmarkIcon = bookmarkIcon
+        self.bookmarkActiveIcon = bookmarkActiveIcon
+        self.allViewedText = allViewedText
         self.defaultMode = defaultMode
         self.questionnaireSubmitText = questionnaireSubmitText
         self.showQuestionnaireProgress = showQuestionnaireProgress
@@ -186,5 +256,12 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         showCategoryIcons: false,
         showRankBadges: false,
         itemCornerRadius: .arcCornerRadiusSmall
+    )
+
+    /// Classic vertical list layout without card stack
+    ///
+    /// Use this preset to display items in the traditional list format.
+    public static let list = ARCAIRecommenderConfiguration(
+        useCardStack: false
     )
 }
