@@ -36,16 +36,14 @@ public struct ARCStatHighlightCardShowcase: View {
                 ARCStatHighlightCard(
                     title: "Best rated",
                     headline: "Sushi Zen",
-                    subtitle: "9.5",
-                    subtitleIcon: "star.fill",
+                    rating: 9.5,
                     icon: "arrow.up.circle.fill",
                     accentColor: .green
                 )
                 ARCStatHighlightCard(
                     title: "Lowest rated",
                     headline: "Quick Burger",
-                    subtitle: "5.2",
-                    subtitleIcon: "star.fill",
+                    rating: 5.2,
                     icon: "arrow.down.circle.fill",
                     accentColor: .orange
                 )
