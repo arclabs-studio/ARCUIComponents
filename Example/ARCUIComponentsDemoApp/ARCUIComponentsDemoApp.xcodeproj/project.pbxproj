@@ -38,6 +38,14 @@
 		B1000001000000000000001F /* ARCTextFieldDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2000001000000000000001F /* ARCTextFieldDemoScreen.swift */; };
 		B10000010000000000000020 /* ARCDesignSystemDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000020 /* ARCDesignSystemDemoScreen.swift */; };
 		B10000010000000000000021 /* ARCAIRecommenderDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000021 /* ARCAIRecommenderDemoScreen.swift */; };
+		B10000010000000000000030 /* ARCStatCardDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000030 /* ARCStatCardDemoScreen.swift */; };
+		B10000010000000000000031 /* ARCStatGridDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000031 /* ARCStatGridDemoScreen.swift */; };
+		B10000010000000000000032 /* ARCStatHighlightCardDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000032 /* ARCStatHighlightCardDemoScreen.swift */; };
+		B10000010000000000000033 /* ARCStatSectionHeaderDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000033 /* ARCStatSectionHeaderDemoScreen.swift */; };
+		B10000010000000000000034 /* ARCStatDashboardDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000034 /* ARCStatDashboardDemoScreen.swift */; };
+		B10000010000000000000035 /* ARCBarChartDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000035 /* ARCBarChartDemoScreen.swift */; };
+		B10000010000000000000036 /* ARCDonutChartDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000036 /* ARCDonutChartDemoScreen.swift */; };
+		B10000010000000000000037 /* ARCTimelineChartDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000037 /* ARCTimelineChartDemoScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +81,14 @@
 		B2000001000000000000001F /* ARCTextFieldDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCTextFieldDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000020 /* ARCDesignSystemDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCDesignSystemDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000021 /* ARCAIRecommenderDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCAIRecommenderDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000030 /* ARCStatCardDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCStatCardDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000031 /* ARCStatGridDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCStatGridDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000032 /* ARCStatHighlightCardDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCStatHighlightCardDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000033 /* ARCStatSectionHeaderDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCStatSectionHeaderDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000034 /* ARCStatDashboardDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCStatDashboardDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000035 /* ARCBarChartDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCBarChartDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000036 /* ARCDonutChartDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCDonutChartDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000037 /* ARCTimelineChartDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCTimelineChartDemoScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +169,14 @@
 				B20000010000000000000020 /* ARCDesignSystemDemoScreen.swift */,
 				B20000010000000000000021 /* ARCAIRecommenderDemoScreen.swift */,
 				54ABD42E989D30E93608155C /* ARCRatingInputDemoScreen.swift */,
+				B20000010000000000000030 /* ARCStatCardDemoScreen.swift */,
+				B20000010000000000000031 /* ARCStatGridDemoScreen.swift */,
+				B20000010000000000000032 /* ARCStatHighlightCardDemoScreen.swift */,
+				B20000010000000000000033 /* ARCStatSectionHeaderDemoScreen.swift */,
+				B20000010000000000000034 /* ARCStatDashboardDemoScreen.swift */,
+				B20000010000000000000035 /* ARCBarChartDemoScreen.swift */,
+				B20000010000000000000036 /* ARCDonutChartDemoScreen.swift */,
+				B20000010000000000000037 /* ARCTimelineChartDemoScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -285,6 +309,14 @@
 				B10000010000000000000020 /* ARCDesignSystemDemoScreen.swift in Sources */,
 				B10000010000000000000021 /* ARCAIRecommenderDemoScreen.swift in Sources */,
 				49B775E1DFC7A53F1C480A0D /* ARCRatingInputDemoScreen.swift in Sources */,
+				B10000010000000000000030 /* ARCStatCardDemoScreen.swift in Sources */,
+				B10000010000000000000031 /* ARCStatGridDemoScreen.swift in Sources */,
+				B10000010000000000000032 /* ARCStatHighlightCardDemoScreen.swift in Sources */,
+				B10000010000000000000033 /* ARCStatSectionHeaderDemoScreen.swift in Sources */,
+				B10000010000000000000034 /* ARCStatDashboardDemoScreen.swift in Sources */,
+				B10000010000000000000035 /* ARCBarChartDemoScreen.swift in Sources */,
+				B10000010000000000000036 /* ARCDonutChartDemoScreen.swift in Sources */,
+				B10000010000000000000037 /* ARCTimelineChartDemoScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
