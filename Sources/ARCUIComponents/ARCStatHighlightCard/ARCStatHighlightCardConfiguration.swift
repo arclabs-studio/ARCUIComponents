@@ -43,7 +43,7 @@ public struct ARCStatHighlightCardConfiguration: Sendable {
         headlineFont: Font = .subheadline.bold(),
         subtitleFont: Font = .subheadline,
         subtitleIconFont: Font = .caption,
-        spacing: CGFloat = .arcSpacingXSmall,
+        spacing: CGFloat = .arcSpacingSmall,
         padding: CGFloat = .arcSpacingMedium,
         cornerRadius: CGFloat = .arcCornerRadiusMedium
     ) {
