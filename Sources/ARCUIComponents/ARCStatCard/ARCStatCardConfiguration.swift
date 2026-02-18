@@ -49,6 +49,9 @@ public struct ARCStatCardConfiguration: Sendable {
     /// Corner radius for the card background
     public let cornerRadius: CGFloat
 
+    /// Style used for ARCRatingView when the card displays a rating
+    public let ratingStyle: ARCRatingStyle
+
     /// Creates a stat card configuration
     ///
     /// - Parameters:
@@ -59,6 +62,7 @@ public struct ARCStatCardConfiguration: Sendable {
     ///   - spacing: Spacing between elements (default: small)
     ///   - padding: Content padding (default: medium)
     ///   - cornerRadius: Corner radius (default: medium)
+    ///   - ratingStyle: Style for ARCRatingView (default: .circularGauge)
     public init(
         iconColor: Color = .accentColor,
         valueFont: Font = .title.bold(),
@@ -66,7 +70,8 @@ public struct ARCStatCardConfiguration: Sendable {
         iconFont: Font = .title2,
         spacing: CGFloat = .arcSpacingSmall,
         padding: CGFloat = .arcSpacingMedium,
-        cornerRadius: CGFloat = .arcCornerRadiusMedium
+        cornerRadius: CGFloat = .arcCornerRadiusMedium,
+        ratingStyle: ARCRatingStyle = .circularGauge
     ) {
         self.iconColor = iconColor
         self.valueFont = valueFont
@@ -75,6 +80,7 @@ public struct ARCStatCardConfiguration: Sendable {
         self.spacing = spacing
         self.padding = padding
         self.cornerRadius = cornerRadius
+        self.ratingStyle = ratingStyle
     }
 
     // MARK: - Presets
@@ -88,7 +94,8 @@ public struct ARCStatCardConfiguration: Sendable {
         labelFont: .caption2,
         iconFont: .title3,
         spacing: .arcSpacingXSmall,
-        padding: .arcSpacingSmall
+        padding: .arcSpacingSmall,
+        ratingStyle: .compactInline
     )
 
     /// Prominent configuration with larger icon and font
