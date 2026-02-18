@@ -17,6 +17,7 @@ public struct ARCStatCardShowcase: View {
         ScrollView {
             VStack(spacing: .arcSpacingXXLarge) {
                 defaultSection
+                ratingSection
                 compactSection
                 prominentSection
                 customColorsSection
@@ -42,12 +43,23 @@ public struct ARCStatCardShowcase: View {
         }
     }
 
+    private var ratingSection: some View {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+            sectionHeader("Rating")
+
+            ARCStatGrid {
+                ARCStatCard(rating: 7.8, label: "Average rating")
+                ARCStatCard(rating: 9.5, label: "Best rating")
+            }
+        }
+    }
+
     private var compactSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Compact")
 
             ARCStatGrid(columns: 3) {
-                ARCStatCard(icon: "star.fill", value: "7.8", label: "Avg", configuration: .compact)
+                ARCStatCard(rating: 7.8, label: "Avg", configuration: .compact)
                 ARCStatCard(
                     icon: "flame.fill",
                     value: "4",
@@ -55,7 +67,7 @@ public struct ARCStatCardShowcase: View {
                     iconColor: .orange,
                     configuration: .compact
                 )
-                ARCStatCard(icon: "trophy.fill", value: "9.5", label: "Best", configuration: .compact)
+                ARCStatCard(rating: 9.5, label: "Best", configuration: .compact)
             }
         }
     }

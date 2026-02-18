@@ -20,7 +20,7 @@ import SwiftUI
 ///     ARCStatCard(icon: "fork.knife", value: "15", label: "Visited")
 ///     ARCStatCard(icon: "heart.fill", value: "6", label: "Favorites")
 ///     ARCStatCard(icon: "calendar", value: "42", label: "Total visits")
-///     ARCStatCard(icon: "star.fill", value: "7.8", label: "Average rating")
+///     ARCStatCard(rating: 7.8, label: "Average rating")
 /// }
 ///
 /// // 3-column grid
@@ -74,7 +74,7 @@ public struct ARCStatGrid<Content: View>: View {
         ARCStatCard(icon: "fork.knife", value: "15", label: "Visited")
         ARCStatCard(icon: "heart.fill", value: "6", label: "Favorites", iconColor: .red)
         ARCStatCard(icon: "calendar", value: "42", label: "Total visits")
-        ARCStatCard(icon: "star.fill", value: "7.8", label: "Avg rating")
+        ARCStatCard(rating: 7.8, label: "Avg rating")
     }
     .padding()
 }

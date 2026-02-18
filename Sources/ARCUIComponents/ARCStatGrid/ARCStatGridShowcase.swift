@@ -37,7 +37,7 @@ public struct ARCStatGridShowcase: View {
                 ARCStatCard(icon: "fork.knife", value: "15", label: "Visited")
                 ARCStatCard(icon: "heart.fill", value: "6", label: "Favorites", iconColor: .red)
                 ARCStatCard(icon: "calendar", value: "42", label: "Total visits")
-                ARCStatCard(icon: "star.fill", value: "7.8", label: "Average rating")
+                ARCStatCard(rating: 7.8, label: "Average rating")
             }
         }
     }
@@ -49,7 +49,7 @@ public struct ARCStatGridShowcase: View {
                 .padding(.horizontal, .arcSpacingLarge)
 
             ARCStatGrid(columns: 3) {
-                ARCStatCard(icon: "star.fill", value: "7.8", label: "Avg", configuration: .compact)
+                ARCStatCard(rating: 7.8, label: "Avg", configuration: .compact)
                 ARCStatCard(
                     icon: "flame.fill",
                     value: "4",
@@ -57,7 +57,7 @@ public struct ARCStatGridShowcase: View {
                     iconColor: .orange,
                     configuration: .compact
                 )
-                ARCStatCard(icon: "trophy.fill", value: "9.5", label: "Best", configuration: .compact)
+                ARCStatCard(rating: 9.5, label: "Best", configuration: .compact)
             }
         }
     }

@@ -31,16 +31,14 @@ public struct ARCStatDashboardShowcase: View {
                     ARCStatHighlightCard(
                         title: "Best rated",
                         headline: "Sushi Zen",
-                        subtitle: "9.5",
-                        subtitleIcon: "star.fill",
+                        rating: 9.5,
                         icon: "arrow.up.circle.fill",
                         accentColor: .green
                     )
                     ARCStatHighlightCard(
                         title: "Lowest rated",
                         headline: "Quick Burger",
-                        subtitle: "5.2",
-                        subtitleIcon: "star.fill",
+                        rating: 5.2,
                         icon: "arrow.down.circle.fill",
                         accentColor: .orange
                     )
@@ -48,7 +46,7 @@ public struct ARCStatDashboardShowcase: View {
                 .padding(.horizontal, .arcSpacingLarge)
 
                 ARCStatGrid {
-                    ARCStatCard(icon: "star.leadinghalf.filled", value: "7.8", label: "Average")
+                    ARCStatCard(rating: 7.8, label: "Average")
                     ARCStatCard(icon: "star.circle.fill", value: "4", label: "Excellent")
                 }
             }
