@@ -128,7 +128,7 @@ MyCardView()
 | `.default` | On | On |
 | `.minimal` | Off | Off |
 | `.compact` | On | Off |
-| `.list` | Off | Off |
+| `.list` | On | Off |
 
 ## Configuration Presets
 

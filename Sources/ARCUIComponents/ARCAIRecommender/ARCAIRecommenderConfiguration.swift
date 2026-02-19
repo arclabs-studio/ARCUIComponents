@@ -307,8 +307,9 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     /// Classic vertical list layout without card stack
     ///
     /// Use this preset to display items in the traditional list format.
+    /// Glow effect is enabled without sparkles for a clean look.
     public static let list = ARCAIRecommenderConfiguration(
-        showGlowEffect: false,
+        showSparkles: false,
         useCardStack: false
     )
 }

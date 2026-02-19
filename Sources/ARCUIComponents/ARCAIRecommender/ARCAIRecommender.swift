@@ -355,6 +355,13 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
                     ) {
                         onItemSelected?(item)
                     }
+                    .aiGlowBorder(
+                        isActive: configuration.showGlowEffect,
+                        cornerRadius: configuration.itemCornerRadius,
+                        accentColor: configuration.accentColor,
+                        intensity: configuration.glowIntensity,
+                        showSparkles: configuration.showSparkles
+                    )
                 }
             }
             .padding(.horizontal, .arcSpacingLarge)
