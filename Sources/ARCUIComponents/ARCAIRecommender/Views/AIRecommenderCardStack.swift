@@ -78,6 +78,13 @@ struct AIRecommenderCardStack<Item: AIRecommenderItem>: View {
                 LazyHStack(spacing: configuration.cardSpacing) {
                     ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                         cardView(for: item)
+                            .aiGlowBorder(
+                                isActive: index == currentIndex && configuration.showGlowEffect,
+                                cornerRadius: configuration.cornerRadius,
+                                accentColor: configuration.accentColor,
+                                intensity: configuration.glowIntensity,
+                                showSparkles: configuration.showSparkles
+                            )
                             .frame(width: cardWidth)
                             .scaleEffect(scaleForIndex(index))
                             .opacity(opacityForIndex(index))
@@ -86,6 +93,7 @@ struct AIRecommenderCardStack<Item: AIRecommenderItem>: View {
                 }
                 .scrollTargetLayout()
             }
+            .scrollClipDisabled()
             .contentMargins(.horizontal, (geometry.size.width - cardWidth) / 2)
             .scrollTargetBehavior(.viewAligned)
             .scrollPosition(id: $scrollPosition)

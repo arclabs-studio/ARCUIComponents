@@ -21,6 +21,8 @@ public struct ARCAIRecommenderShowcase: View {
     @State private var selectedMode: AIRecommenderMode = .quick
     @State private var questionnaireAnswers = AIRecommenderAnswers()
     @State private var bookmarkedIDs: Set<AnyHashable> = []
+    @State private var selectedGlowIntensity: AIGlowIntensity = .subtle
+    @State private var glowDemoActive = true
 
     // MARK: - Initialization
 
@@ -34,6 +36,7 @@ public struct ARCAIRecommenderShowcase: View {
                 heroSection
                 presetsSection
                 modesSection
+                glowEffectSection
                 cardStackSection
                 livePreviewSection
                 questionnaireSection
@@ -118,6 +121,85 @@ extension ARCAIRecommenderShowcase {
             .padding()
             .background(cardBackground)
         }
+    }
+
+    var glowEffectSection: some View {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+            sectionHeader("AI Glow Effect", subtitle: "Animated border for AI-generated content")
+
+            // Intensity picker
+            VStack(spacing: .arcSpacingMedium) {
+                HStack {
+                    Text("Intensity").font(.subheadline.weight(.medium))
+                    Spacer()
+                }
+
+                HStack(spacing: .arcSpacingSmall) {
+                    glowIntensityButton(.subtle, label: "Subtle")
+                    glowIntensityButton(.standard, label: "Standard")
+                    glowIntensityButton(.prominent, label: "Prominent")
+                }
+
+                Toggle("Active", isOn: $glowDemoActive)
+                    .font(.subheadline)
+            }
+            .padding()
+            .background(cardBackground)
+
+            // Demo card with glow
+            VStack(spacing: .arcSpacingMedium) {
+                RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
+                    .fill(.ultraThinMaterial)
+                    .frame(height: 160)
+                    .overlay {
+                        VStack(spacing: .arcSpacingSmall) {
+                            Image(systemName: "sparkles")
+                                .font(.largeTitle)
+                                .foregroundStyle(selectedPreset.accentColor)
+                            Text("AI Recommendation")
+                                .font(.headline)
+                            Text("Glow effect preview")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .aiGlowBorder(
+                        isActive: glowDemoActive,
+                        cornerRadius: .arcCornerRadiusMedium,
+                        accentColor: selectedPreset.accentColor,
+                        intensity: selectedGlowIntensity,
+                        showSparkles: true
+                    )
+
+                Text(
+                    "The glow effect highlights AI-generated cards with a "
+                        + "rotating gradient border and optional sparkle particles."
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+        }
+    }
+
+    private func glowIntensityButton(_ intensity: AIGlowIntensity, label: String) -> some View {
+        Button {
+            arcWithAnimation(.arcSmooth) { selectedGlowIntensity = intensity }
+        } label: {
+            Text(label)
+                .font(.caption.weight(.medium))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, .arcSpacingSmall)
+                .background(
+                    Capsule().fill(
+                        selectedGlowIntensity == intensity
+                            ? selectedPreset.accentColor
+                            : Color.secondary.opacity(0.15)
+                    )
+                )
+                .foregroundStyle(selectedGlowIntensity == intensity ? .white : .primary)
+        }
+        .buttonStyle(.plain)
     }
 
     var cardStackSection: some View {

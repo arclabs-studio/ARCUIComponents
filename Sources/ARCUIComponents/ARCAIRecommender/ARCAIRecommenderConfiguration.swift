@@ -104,6 +104,17 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     /// Whether to show the highlight detail row (e.g., featured dish, standout feature)
     public let showHighlightDetail: Bool
 
+    // MARK: - Glow Effect Configuration
+
+    /// Whether to show the animated AI glow border on the focused card
+    public let showGlowEffect: Bool
+
+    /// Intensity level for the glow border effect
+    public let glowIntensity: AIGlowIntensity
+
+    /// Whether to show sparkle particles around the focused card
+    public let showSparkles: Bool
+
     // MARK: - Card Stack Configuration
 
     /// Whether to use the swipeable card stack layout (default) or vertical list
@@ -153,6 +164,30 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     /// Whether to show progress dots in questionnaire mode
     public let showQuestionnaireProgress: Bool
 
+    // MARK: - Spacing Configuration
+
+    /// Spacing between category picker and content in quick mode
+    public let categoryToContentSpacing: CGFloat
+
+    // MARK: - Empty State Configuration
+
+    /// Title displayed in the empty state
+    public let emptyStateTitle: String
+
+    /// Subtitle displayed in the empty state
+    public let emptyStateSubtitle: String
+
+    /// SF Symbol icon displayed in the empty state
+    public let emptyStateIcon: String
+
+    /// Optional action button text in the empty state (nil hides the button)
+    public let emptyStateActionText: String?
+
+    // MARK: - Questionnaire Results Configuration
+
+    /// Text for the retake questionnaire button
+    public let questionnaireRetakeText: String
+
     // MARK: - Initialization
 
     /// Creates a new AI recommender configuration
@@ -175,6 +210,9 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - showTags: Whether to show subtitle tags
     ///   - showLocation: Whether to show location row
     ///   - showHighlightDetail: Whether to show highlight detail row
+    ///   - showGlowEffect: Whether to show the animated AI glow border
+    ///   - glowIntensity: Intensity level for the glow effect
+    ///   - showSparkles: Whether to show sparkle particles
     ///   - useCardStack: Whether to use swipeable card stack layout
     ///   - cardStackDepth: Number of visible background cards
     ///   - swipeThreshold: Fraction of width to trigger navigation
@@ -190,6 +228,12 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - defaultMode: Default mode when using dual mode
     ///   - questionnaireSubmitText: Text for the questionnaire submit button
     ///   - showQuestionnaireProgress: Whether to show progress dots in questionnaire
+    ///   - categoryToContentSpacing: Spacing between category picker and content
+    ///   - emptyStateTitle: Title for the empty state
+    ///   - emptyStateSubtitle: Subtitle for the empty state
+    ///   - emptyStateIcon: SF Symbol icon for the empty state
+    ///   - emptyStateActionText: Optional action button text for the empty state
+    ///   - questionnaireRetakeText: Text for the retake questionnaire button
     public init(
         title: String = "Recomendador IA",
         subtitle: String = "Descubre lugares personalizados según tus gustos",
@@ -209,6 +253,9 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         showTags: Bool = true,
         showLocation: Bool = true,
         showHighlightDetail: Bool = true,
+        showGlowEffect: Bool = true,
+        glowIntensity: AIGlowIntensity = .subtle,
+        showSparkles: Bool = true,
         useCardStack: Bool = true,
         cardStackDepth: Int = 3,
         swipeThreshold: CGFloat = 0.3,
@@ -223,7 +270,13 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         allViewedText: String = "Has explorado todas las recomendaciones",
         defaultMode: AIRecommenderMode = .quick,
         questionnaireSubmitText: String = "Obtener recomendaciones",
-        showQuestionnaireProgress: Bool = true
+        showQuestionnaireProgress: Bool = true,
+        categoryToContentSpacing: CGFloat = .arcSpacingXLarge,
+        emptyStateTitle: String = "Sin recomendaciones",
+        emptyStateSubtitle: String = "Explora otras categorías para descubrir nuevas sugerencias",
+        emptyStateIcon: String = "sparkles",
+        emptyStateActionText: String? = nil,
+        questionnaireRetakeText: String = "Repetir cuestionario"
     ) {
         self.title = title
         self.subtitle = subtitle
@@ -243,6 +296,9 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         self.showTags = showTags
         self.showLocation = showLocation
         self.showHighlightDetail = showHighlightDetail
+        self.showGlowEffect = showGlowEffect
+        self.glowIntensity = glowIntensity
+        self.showSparkles = showSparkles
         self.useCardStack = useCardStack
         self.cardStackDepth = cardStackDepth
         self.swipeThreshold = swipeThreshold
@@ -258,6 +314,12 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         self.defaultMode = defaultMode
         self.questionnaireSubmitText = questionnaireSubmitText
         self.showQuestionnaireProgress = showQuestionnaireProgress
+        self.categoryToContentSpacing = categoryToContentSpacing
+        self.emptyStateTitle = emptyStateTitle
+        self.emptyStateSubtitle = emptyStateSubtitle
+        self.emptyStateIcon = emptyStateIcon
+        self.emptyStateActionText = emptyStateActionText
+        self.questionnaireRetakeText = questionnaireRetakeText
     }
 
     // MARK: - Presets
@@ -270,7 +332,8 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     /// Simplified display for contexts where detailed information isn't needed.
     public static let minimal = ARCAIRecommenderConfiguration(
         showRankBadges: false,
-        showAIReason: false
+        showAIReason: false,
+        showGlowEffect: false
     )
 
     /// Compact configuration for limited space
@@ -279,13 +342,16 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     public static let compact = ARCAIRecommenderConfiguration(
         showCategoryIcons: false,
         showRankBadges: false,
-        itemCornerRadius: .arcCornerRadiusSmall
+        itemCornerRadius: .arcCornerRadiusSmall,
+        showSparkles: false
     )
 
     /// Classic vertical list layout without card stack
     ///
     /// Use this preset to display items in the traditional list format.
+    /// Glow effect is enabled without sparkles for a clean look.
     public static let list = ARCAIRecommenderConfiguration(
+        showSparkles: false,
         useCardStack: false
     )
 }
