@@ -24,79 +24,11 @@ public enum AIRecommenderMode: Sendable, Equatable {
 
 /// AI-powered recommendation sheet content view
 ///
-/// A reusable component for displaying AI-generated recommendations with
-/// category filtering or interactive questionnaire. Designed for restaurant,
-/// book, and similar recommendation apps.
+/// Provides a complete recommendation UI with two modes:
+/// - **Quick Mode**: Category picker + recommendation cards (swipeable or list)
+/// - **Questionnaire Mode**: Interactive survey for personalized AI recommendations
 ///
-/// ## Overview
-///
-/// `ARCAIRecommender` provides a complete recommendation UI with two modes:
-///
-/// **Quick Mode** (default):
-/// - Animated header with AI branding
-/// - Horizontal category picker
-/// - Vertical list of recommendation cards
-///
-/// **Questionnaire Mode**:
-/// - Interactive survey with chip-based answers
-/// - Collects preferences for AI prompt building
-/// - Progress indicator and submit button
-///
-/// ## Quick Mode Usage
-///
-/// ```swift
-/// struct MyRecommendationsView: View {
-///     @State private var selectedCategory: AIRecommenderCategory = .favorites
-///     @State private var recommendations: [Restaurant] = []
-///
-///     var body: some View {
-///         ARCAIRecommender(
-///             selectedCategory: $selectedCategory,
-///             items: recommendations,
-///             configuration: .restaurant
-///         ) { category in
-///             loadRecommendations(for: category)
-///         } onItemSelected: { restaurant in
-///             navigateToDetail(restaurant)
-///         }
-///     }
-/// }
-/// ```
-///
-/// ## Questionnaire Mode Usage
-///
-/// ```swift
-/// struct PreferencesView: View {
-///     @State private var answers = AIRecommenderAnswers()
-///     let questions: [AIRecommenderQuestion] = [...] // Your custom questions
-///
-///     var body: some View {
-///         ARCAIRecommender<MyItem>(
-///             questions: questions,
-///             answers: $answers,
-///             configuration: .default
-///         ) { finalAnswers in
-///             // Build AI prompt from answers
-///             let prompt = buildPrompt(from: finalAnswers)
-///             fetchRecommendations(prompt: prompt)
-///         }
-///     }
-/// }
-/// ```
-///
-/// ## Dual Mode with Tab Switcher
-///
-/// ```swift
-/// ARCAIRecommender(
-///     mode: $mode,
-///     categories: categories,
-///     selectedCategory: $selectedCategory,
-///     questions: myQuestions,
-///     answers: $answers,
-///     items: recommendations,
-///     configuration: .default
-/// )
-/// ```
+/// Supports dual mode with a tab switcher for users to toggle between modes.
 @available(iOS 17.0, macOS 14.0, *)
 public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
     // MARK: - Properties
@@ -140,6 +72,15 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
     /// Callback when questionnaire is submitted
     private let onQuestionnaireSubmit: ((AIRecommenderAnswers) -> Void)?
 
+    /// Callback when the empty state action button is tapped
+    private let onEmptyStateAction: (() -> Void)?
+
+    /// Items to display in questionnaire results mode
+    private let questionnaireItems: [Item]
+
+    /// Callback when user taps retake questionnaire
+    private let onQuestionnaireRetake: (() -> Void)?
+
     // MARK: - Private State
 
     @State private var internalMode: AIRecommenderMode = .quick
@@ -155,7 +96,8 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         bookmarkedItemIDs: Set<AnyHashable> = [],
         onCategorySelected: ((AIRecommenderCategory) -> Void)? = nil,
         onItemSelected: ((Item) -> Void)? = nil,
-        onItemBookmarked: ((Item) -> Void)? = nil
+        onItemBookmarked: ((Item) -> Void)? = nil,
+        onEmptyStateAction: (() -> Void)? = nil
     ) {
         _mode = .constant(.quick)
         self.categories = categories
@@ -170,6 +112,9 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         self.onItemSelected = onItemSelected
         self.onItemBookmarked = onItemBookmarked
         onQuestionnaireSubmit = nil
+        self.onEmptyStateAction = onEmptyStateAction
+        questionnaireItems = []
+        onQuestionnaireRetake = nil
     }
 
     // MARK: - Initialization (Questionnaire Mode Only)
@@ -194,6 +139,9 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         onItemSelected = nil
         onItemBookmarked = nil
         onQuestionnaireSubmit = onSubmit
+        onEmptyStateAction = nil
+        questionnaireItems = []
+        onQuestionnaireRetake = nil
     }
 
     // MARK: - Initialization (Dual Mode)
@@ -208,10 +156,13 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         items: [Item],
         configuration: ARCAIRecommenderConfiguration = .default,
         bookmarkedItemIDs: Set<AnyHashable> = [],
+        questionnaireItems: [Item] = [],
         onCategorySelected: ((AIRecommenderCategory) -> Void)? = nil,
         onItemSelected: ((Item) -> Void)? = nil,
         onItemBookmarked: ((Item) -> Void)? = nil,
-        onQuestionnaireSubmit: ((AIRecommenderAnswers) -> Void)? = nil
+        onQuestionnaireSubmit: ((AIRecommenderAnswers) -> Void)? = nil,
+        onEmptyStateAction: (() -> Void)? = nil,
+        onQuestionnaireRetake: (() -> Void)? = nil
     ) {
         _mode = mode
         self.categories = categories
@@ -226,6 +177,9 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         self.onItemSelected = onItemSelected
         self.onItemBookmarked = onItemBookmarked
         self.onQuestionnaireSubmit = onQuestionnaireSubmit
+        self.onEmptyStateAction = onEmptyStateAction
+        self.questionnaireItems = questionnaireItems
+        self.onQuestionnaireRetake = onQuestionnaireRetake
     }
 
     // MARK: - Body
@@ -293,7 +247,7 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
 
     @ViewBuilder private var quickModeContent: some View {
         if configuration.useCardStack {
-            VStack(spacing: .arcSpacingXLarge) {
+            VStack(spacing: configuration.categoryToContentSpacing) {
                 AIRecommenderCategoryPicker(
                     categories: categories,
                     selectedCategory: $selectedCategory,
@@ -323,13 +277,61 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
 
     // MARK: - Questionnaire Mode Content
 
-    private var questionnaireModeContent: some View {
-        AIRecommenderQuestionnaire(
-            questions: questions,
-            answers: $answers,
-            configuration: configuration,
-            onSubmit: onQuestionnaireSubmit
-        )
+    @ViewBuilder private var questionnaireModeContent: some View {
+        if !questionnaireItems.isEmpty {
+            questionnaireResultsContent
+        } else {
+            AIRecommenderQuestionnaire(
+                questions: questions,
+                answers: $answers,
+                configuration: configuration,
+                onSubmit: onQuestionnaireSubmit
+            )
+        }
+    }
+
+    // MARK: - Questionnaire Results Content
+
+    private var questionnaireResultsContent: some View {
+        VStack(spacing: 0) {
+            if let retake = onQuestionnaireRetake {
+                Button(action: retake) {
+                    HStack(spacing: .arcSpacingSmall) {
+                        Image(systemName: "arrow.counterclockwise")
+                        Text(configuration.questionnaireRetakeText)
+                    }
+                    .font(.subheadline.weight(.medium))
+                    .foregroundStyle(configuration.accentColor)
+                }
+                .padding(.vertical, .arcSpacingSmall)
+            }
+
+            if configuration.useCardStack {
+                AIRecommenderCardStack(
+                    items: questionnaireItems,
+                    bookmarkedItemIDs: bookmarkedItemIDs,
+                    configuration: configuration,
+                    onItemSelected: onItemSelected,
+                    onItemBookmarked: onItemBookmarked
+                )
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: .arcSpacingMedium) {
+                        ForEach(Array(questionnaireItems.enumerated()), id: \.element.id) { index, item in
+                            AIRecommenderItemCard(
+                                item: item,
+                                rank: configuration.showRankBadges ? index + 1 : nil,
+                                configuration: configuration
+                            ) {
+                                onItemSelected?(item)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, .arcSpacingLarge)
+                }
+            }
+        }
+        .padding(.vertical, .arcSpacingMedium)
     }
 
     // MARK: - Items Section
@@ -370,18 +372,39 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
 
     private var emptyStateView: some View {
         VStack(spacing: .arcSpacingMedium) {
-            Image(systemName: "sparkles")
+            Image(systemName: configuration.emptyStateIcon)
                 .font(.system(size: 40))
                 .foregroundStyle(configuration.accentColor.opacity(0.5))
 
-            Text("Sin recomendaciones")
+            Text(configuration.emptyStateTitle)
                 .font(.headline)
                 .foregroundStyle(.secondary)
 
-            Text("Explora otras categorías para descubrir nuevas sugerencias")
+            Text(configuration.emptyStateSubtitle)
                 .font(.subheadline)
                 .foregroundStyle(.tertiary)
                 .multilineTextAlignment(.center)
+
+            if let actionText = configuration.emptyStateActionText,
+               let action = onEmptyStateAction
+            {
+                Button(action: action) {
+                    HStack(spacing: .arcSpacingSmall) {
+                        Image(systemName: "sparkles")
+                        Text(actionText)
+                            .fontWeight(.semibold)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, .arcSpacingMedium)
+                    .background(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .fill(configuration.accentColor)
+                    )
+                    .foregroundStyle(.white)
+                }
+                .padding(.top, .arcSpacingSmall)
+                .padding(.horizontal, .arcSpacingLarge)
+            }
         }
         .padding(.arcSpacingXLarge)
         .frame(maxWidth: .infinity)

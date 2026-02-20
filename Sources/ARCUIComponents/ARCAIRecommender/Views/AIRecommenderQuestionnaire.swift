@@ -38,12 +38,14 @@ struct AIRecommenderQuestionnaire: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            // Sticky progress indicator
+            progressIndicator
+                .padding(.horizontal, .arcSpacingLarge)
+                .background(.ultraThinMaterial)
+
             // Questions scroll view
             ScrollView {
                 VStack(spacing: .arcSpacingMedium) {
-                    // Progress indicator
-                    progressIndicator
-
                     // Question cards
                     ForEach(Array(questions.enumerated()), id: \.element.id) { index, question in
                         AIRecommenderQuestionCard(
@@ -75,7 +77,7 @@ struct AIRecommenderQuestionnaire: View {
 
     // MARK: - Progress Indicator
 
-    @ViewBuilder private var progressIndicator: some View {
+    private var progressIndicator: some View {
         HStack(spacing: .arcSpacingSmall) {
             Image(systemName: "sparkles")
                 .foregroundStyle(configuration.accentColor)
@@ -116,7 +118,7 @@ struct AIRecommenderQuestionnaire: View {
 
     // MARK: - Submit Button
 
-    @ViewBuilder private var submitButton: some View {
+    private var submitButton: some View {
         VStack(spacing: 0) {
             Divider()
 

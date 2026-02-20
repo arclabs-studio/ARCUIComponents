@@ -164,6 +164,30 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     /// Whether to show progress dots in questionnaire mode
     public let showQuestionnaireProgress: Bool
 
+    // MARK: - Spacing Configuration
+
+    /// Spacing between category picker and content in quick mode
+    public let categoryToContentSpacing: CGFloat
+
+    // MARK: - Empty State Configuration
+
+    /// Title displayed in the empty state
+    public let emptyStateTitle: String
+
+    /// Subtitle displayed in the empty state
+    public let emptyStateSubtitle: String
+
+    /// SF Symbol icon displayed in the empty state
+    public let emptyStateIcon: String
+
+    /// Optional action button text in the empty state (nil hides the button)
+    public let emptyStateActionText: String?
+
+    // MARK: - Questionnaire Results Configuration
+
+    /// Text for the retake questionnaire button
+    public let questionnaireRetakeText: String
+
     // MARK: - Initialization
 
     /// Creates a new AI recommender configuration
@@ -204,6 +228,12 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - defaultMode: Default mode when using dual mode
     ///   - questionnaireSubmitText: Text for the questionnaire submit button
     ///   - showQuestionnaireProgress: Whether to show progress dots in questionnaire
+    ///   - categoryToContentSpacing: Spacing between category picker and content
+    ///   - emptyStateTitle: Title for the empty state
+    ///   - emptyStateSubtitle: Subtitle for the empty state
+    ///   - emptyStateIcon: SF Symbol icon for the empty state
+    ///   - emptyStateActionText: Optional action button text for the empty state
+    ///   - questionnaireRetakeText: Text for the retake questionnaire button
     public init(
         title: String = "Recomendador IA",
         subtitle: String = "Descubre lugares personalizados según tus gustos",
@@ -240,7 +270,13 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         allViewedText: String = "Has explorado todas las recomendaciones",
         defaultMode: AIRecommenderMode = .quick,
         questionnaireSubmitText: String = "Obtener recomendaciones",
-        showQuestionnaireProgress: Bool = true
+        showQuestionnaireProgress: Bool = true,
+        categoryToContentSpacing: CGFloat = .arcSpacingXLarge,
+        emptyStateTitle: String = "Sin recomendaciones",
+        emptyStateSubtitle: String = "Explora otras categorías para descubrir nuevas sugerencias",
+        emptyStateIcon: String = "sparkles",
+        emptyStateActionText: String? = nil,
+        questionnaireRetakeText: String = "Repetir cuestionario"
     ) {
         self.title = title
         self.subtitle = subtitle
@@ -278,6 +314,12 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         self.defaultMode = defaultMode
         self.questionnaireSubmitText = questionnaireSubmitText
         self.showQuestionnaireProgress = showQuestionnaireProgress
+        self.categoryToContentSpacing = categoryToContentSpacing
+        self.emptyStateTitle = emptyStateTitle
+        self.emptyStateSubtitle = emptyStateSubtitle
+        self.emptyStateIcon = emptyStateIcon
+        self.emptyStateActionText = emptyStateActionText
+        self.questionnaireRetakeText = questionnaireRetakeText
     }
 
     // MARK: - Presets
