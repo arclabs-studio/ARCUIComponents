@@ -242,12 +242,21 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         }
         .padding(.horizontal, .arcSpacingLarge)
     }
+}
 
+// MARK: - Private Views
+
+@available(iOS 17.0, macOS 14.0, *)
+private extension ARCAIRecommender {
     // MARK: - Quick Mode Content
 
-    @ViewBuilder private var quickModeContent: some View {
-        if configuration.useCardStack {
-            VStack(spacing: configuration.categoryToContentSpacing) {
+    @ViewBuilder var quickModeContent: some View {
+        let spacing: CGFloat = configuration.useCardStack
+            ? configuration.categoryToContentSpacing
+            : .arcSpacingLarge
+
+        ScrollView {
+            VStack(spacing: spacing) {
                 AIRecommenderCategoryPicker(
                     categories: categories,
                     selectedCategory: $selectedCategory,
@@ -258,26 +267,12 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
                 itemsSection
             }
             .padding(.vertical, .arcSpacingMedium)
-        } else {
-            ScrollView {
-                VStack(spacing: .arcSpacingLarge) {
-                    AIRecommenderCategoryPicker(
-                        categories: categories,
-                        selectedCategory: $selectedCategory,
-                        configuration: configuration,
-                        onCategorySelected: onCategorySelected
-                    )
-
-                    itemsSection
-                }
-                .padding(.vertical, .arcSpacingMedium)
-            }
         }
     }
 
     // MARK: - Questionnaire Mode Content
 
-    @ViewBuilder private var questionnaireModeContent: some View {
+    @ViewBuilder var questionnaireModeContent: some View {
         if !questionnaireItems.isEmpty {
             questionnaireResultsContent
         } else {
@@ -292,30 +287,30 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
 
     // MARK: - Questionnaire Results Content
 
-    private var questionnaireResultsContent: some View {
-        VStack(spacing: 0) {
-            if let retake = onQuestionnaireRetake {
-                Button(action: retake) {
-                    HStack(spacing: .arcSpacingSmall) {
-                        Image(systemName: "arrow.counterclockwise")
-                        Text(configuration.questionnaireRetakeText)
+    var questionnaireResultsContent: some View {
+        ScrollView {
+            VStack(spacing: 0) {
+                if let retake = onQuestionnaireRetake {
+                    Button(action: retake) {
+                        HStack(spacing: .arcSpacingSmall) {
+                            Image(systemName: "arrow.counterclockwise")
+                            Text(configuration.questionnaireRetakeText)
+                        }
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(configuration.accentColor)
                     }
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(configuration.accentColor)
+                    .padding(.vertical, .arcSpacingSmall)
                 }
-                .padding(.vertical, .arcSpacingSmall)
-            }
 
-            if configuration.useCardStack {
-                AIRecommenderCardStack(
-                    items: questionnaireItems,
-                    bookmarkedItemIDs: bookmarkedItemIDs,
-                    configuration: configuration,
-                    onItemSelected: onItemSelected,
-                    onItemBookmarked: onItemBookmarked
-                )
-            } else {
-                ScrollView {
+                if configuration.useCardStack {
+                    AIRecommenderCardStack(
+                        items: questionnaireItems,
+                        bookmarkedItemIDs: bookmarkedItemIDs,
+                        configuration: configuration,
+                        onItemSelected: onItemSelected,
+                        onItemBookmarked: onItemBookmarked
+                    )
+                } else {
                     LazyVStack(spacing: .arcSpacingMedium) {
                         ForEach(Array(questionnaireItems.enumerated()), id: \.element.id) { index, item in
                             AIRecommenderItemCard(
@@ -330,13 +325,13 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
                     .padding(.horizontal, .arcSpacingLarge)
                 }
             }
+            .padding(.vertical, .arcSpacingMedium)
         }
-        .padding(.vertical, .arcSpacingMedium)
     }
 
     // MARK: - Items Section
 
-    @ViewBuilder private var itemsSection: some View {
+    @ViewBuilder var itemsSection: some View {
         if items.isEmpty {
             emptyStateView
         } else if configuration.useCardStack {
@@ -370,7 +365,7 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         }
     }
 
-    private var emptyStateView: some View {
+    var emptyStateView: some View {
         VStack(spacing: .arcSpacingMedium) {
             Image(systemName: configuration.emptyStateIcon)
                 .font(.system(size: 40))
