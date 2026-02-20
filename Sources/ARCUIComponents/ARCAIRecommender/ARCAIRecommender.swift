@@ -242,7 +242,6 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         }
         .padding(.horizontal, .arcSpacingLarge)
     }
-
 }
 
 // MARK: - Private Views
