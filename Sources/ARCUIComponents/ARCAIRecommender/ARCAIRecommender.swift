@@ -247,17 +247,19 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
 
     @ViewBuilder private var quickModeContent: some View {
         if configuration.useCardStack {
-            VStack(spacing: configuration.categoryToContentSpacing) {
-                AIRecommenderCategoryPicker(
-                    categories: categories,
-                    selectedCategory: $selectedCategory,
-                    configuration: configuration,
-                    onCategorySelected: onCategorySelected
-                )
+            ScrollView {
+                VStack(spacing: configuration.categoryToContentSpacing) {
+                    AIRecommenderCategoryPicker(
+                        categories: categories,
+                        selectedCategory: $selectedCategory,
+                        configuration: configuration,
+                        onCategorySelected: onCategorySelected
+                    )
 
-                itemsSection
+                    itemsSection
+                }
+                .padding(.vertical, .arcSpacingMedium)
             }
-            .padding(.vertical, .arcSpacingMedium)
         } else {
             ScrollView {
                 VStack(spacing: .arcSpacingLarge) {
@@ -293,29 +295,29 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
     // MARK: - Questionnaire Results Content
 
     private var questionnaireResultsContent: some View {
-        VStack(spacing: 0) {
-            if let retake = onQuestionnaireRetake {
-                Button(action: retake) {
-                    HStack(spacing: .arcSpacingSmall) {
-                        Image(systemName: "arrow.counterclockwise")
-                        Text(configuration.questionnaireRetakeText)
+        ScrollView {
+            VStack(spacing: 0) {
+                if let retake = onQuestionnaireRetake {
+                    Button(action: retake) {
+                        HStack(spacing: .arcSpacingSmall) {
+                            Image(systemName: "arrow.counterclockwise")
+                            Text(configuration.questionnaireRetakeText)
+                        }
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(configuration.accentColor)
                     }
-                    .font(.subheadline.weight(.medium))
-                    .foregroundStyle(configuration.accentColor)
+                    .padding(.vertical, .arcSpacingSmall)
                 }
-                .padding(.vertical, .arcSpacingSmall)
-            }
 
-            if configuration.useCardStack {
-                AIRecommenderCardStack(
-                    items: questionnaireItems,
-                    bookmarkedItemIDs: bookmarkedItemIDs,
-                    configuration: configuration,
-                    onItemSelected: onItemSelected,
-                    onItemBookmarked: onItemBookmarked
-                )
-            } else {
-                ScrollView {
+                if configuration.useCardStack {
+                    AIRecommenderCardStack(
+                        items: questionnaireItems,
+                        bookmarkedItemIDs: bookmarkedItemIDs,
+                        configuration: configuration,
+                        onItemSelected: onItemSelected,
+                        onItemBookmarked: onItemBookmarked
+                    )
+                } else {
                     LazyVStack(spacing: .arcSpacingMedium) {
                         ForEach(Array(questionnaireItems.enumerated()), id: \.element.id) { index, item in
                             AIRecommenderItemCard(
@@ -330,8 +332,8 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
                     .padding(.horizontal, .arcSpacingLarge)
                 }
             }
+            .padding(.vertical, .arcSpacingMedium)
         }
-        .padding(.vertical, .arcSpacingMedium)
     }
 
     // MARK: - Items Section
