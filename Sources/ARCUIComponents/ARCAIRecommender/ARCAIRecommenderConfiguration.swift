@@ -141,6 +141,10 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     /// Spacing between cards in the carousel
     public let cardSpacing: CGFloat
 
+    /// Aspect ratio (width/height) for the card stack container.
+    /// Lower values produce taller cards. Default is `0.75`.
+    public let cardAspectRatio: CGFloat
+
     /// Whether to show the position indicator (e.g., "2 / 8")
     public let showCardIndicator: Bool
 
@@ -264,6 +268,7 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         adjacentCardScale: CGFloat = 0.95,
         adjacentCardOpacity: Double = 0.85,
         cardSpacing: CGFloat = 12,
+        cardAspectRatio: CGFloat = 0.75,
         showCardIndicator: Bool = true,
         bookmarkIcon: String = "bookmark",
         bookmarkActiveIcon: String = "bookmark.fill",
@@ -307,6 +312,7 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
         self.adjacentCardScale = adjacentCardScale
         self.adjacentCardOpacity = adjacentCardOpacity
         self.cardSpacing = cardSpacing
+        self.cardAspectRatio = cardAspectRatio
         self.showCardIndicator = showCardIndicator
         self.bookmarkIcon = bookmarkIcon
         self.bookmarkActiveIcon = bookmarkActiveIcon

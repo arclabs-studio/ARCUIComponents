@@ -21,24 +21,24 @@ struct AIRecommenderHeader: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: .arcSpacingMedium) {
+        VStack(spacing: .arcSpacingXSmall) {
             // Animated icon in gradient circle
             iconView
 
             // Title and subtitle
-            VStack(spacing: .arcSpacingXSmall) {
+            VStack(spacing: 2) {
                 Text(configuration.title)
-                    .font(.title2)
+                    .font(.headline)
                     .fontWeight(.bold)
 
                 Text(configuration.subtitle)
-                    .font(.subheadline)
+                    .font(.caption)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }
         }
         .padding(.horizontal, .arcSpacingLarge)
-        .padding(.top, .arcSpacingMedium)
+        .padding(.top, .arcSpacingSmall)
     }
 
     // MARK: - Private Views
@@ -57,17 +57,17 @@ struct AIRecommenderHeader: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .frame(width: 80, height: 80)
+                .frame(width: 48, height: 48)
 
             // Icon with optional pulse animation
             if configuration.animateHeaderIcon {
                 Image(systemName: configuration.headerIcon)
-                    .font(.largeTitle)
+                    .font(.title3)
                     .foregroundStyle(configuration.accentColor)
                     .symbolEffect(.pulse, options: .repeating)
             } else {
                 Image(systemName: configuration.headerIcon)
-                    .font(.largeTitle)
+                    .font(.title3)
                     .foregroundStyle(configuration.accentColor)
             }
         }

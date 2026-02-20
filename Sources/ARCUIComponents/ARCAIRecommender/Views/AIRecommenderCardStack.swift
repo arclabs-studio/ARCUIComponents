@@ -103,7 +103,7 @@ struct AIRecommenderCardStack<Item: AIRecommenderItem>: View {
                 }
             }
         }
-        .aspectRatio(0.62, contentMode: .fit)
+        .aspectRatio(configuration.cardAspectRatio, contentMode: .fit)
     }
 
     // MARK: - Visual Effects
