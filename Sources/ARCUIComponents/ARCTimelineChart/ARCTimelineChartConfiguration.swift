@@ -14,8 +14,7 @@ import SwiftUI
 ///
 /// - ``default``
 /// - ``compact``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCTimelineChartConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCTimelineChartConfiguration: Sendable {
     /// Color for the line mark
     public let lineColor: Color
 
@@ -38,15 +37,14 @@ public struct ARCTimelineChartConfiguration: Sendable {
     public let horizontalPadding: CGFloat
 
     /// Creates a timeline chart configuration
-    public init(
-        lineColor: Color = .accentColor,
-        fillGradient: Bool = true,
-        lineWidth: CGFloat = 2,
-        height: CGFloat = 200,
-        xAxisStride: Calendar.Component = .month,
-        xAxisStrideCount: Int = 2,
-        horizontalPadding: CGFloat = .arcSpacingLarge
-    ) {
+    public init(lineColor: Color = .accentColor,
+                fillGradient: Bool = true,
+                lineWidth: CGFloat = 2,
+                height: CGFloat = 200,
+                xAxisStride: Calendar.Component = .month,
+                xAxisStrideCount: Int = 2,
+                horizontalPadding: CGFloat = .arcSpacingLarge)
+    {
         self.lineColor = lineColor
         self.fillGradient = fillGradient
         self.lineWidth = lineWidth
@@ -62,8 +60,6 @@ public struct ARCTimelineChartConfiguration: Sendable {
     public static let `default` = ARCTimelineChartConfiguration()
 
     /// Compact configuration without gradient fill
-    public static let compact = ARCTimelineChartConfiguration(
-        fillGradient: false,
-        height: 120
-    )
+    public static let compact = ARCTimelineChartConfiguration(fillGradient: false,
+                                                              height: 120)
 }

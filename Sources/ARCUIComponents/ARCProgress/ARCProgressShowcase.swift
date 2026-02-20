@@ -14,8 +14,7 @@ import SwiftUI
 /// This view provides a comprehensive demonstration of all progress indicator
 /// components including linear, circular, and step indicators with various
 /// configurations.
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCProgressShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCProgressShowcase: View {
     // MARK: - State
 
     @State var linearProgress: Double = 0.65
@@ -47,7 +46,7 @@ public struct ARCProgressShowcase: View {
 
     // MARK: - Header Section
 
-    @ViewBuilder var headerSection: some View {
+    var headerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("ARCProgress Components")
                 .font(.title2.bold())
@@ -64,7 +63,6 @@ public struct ARCProgressShowcase: View {
 
     // MARK: - Helper Views
 
-    @ViewBuilder
     func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.headline)

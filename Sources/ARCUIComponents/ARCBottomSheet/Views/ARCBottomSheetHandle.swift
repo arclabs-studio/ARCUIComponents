@@ -14,8 +14,7 @@ import SwiftUI
 ///
 /// The handle provides a visual indicator that the sheet can be dragged,
 /// following Apple's Human Interface Guidelines for resizable sheets.
-@available(iOS 17.0, macOS 14.0, *)
-struct ARCBottomSheetHandle: View {
+@available(iOS 17.0, macOS 14.0, *) struct ARCBottomSheetHandle: View {
     // MARK: - Properties
 
     let configuration: ARCBottomSheetConfiguration
@@ -30,10 +29,8 @@ struct ARCBottomSheetHandle: View {
     var body: some View {
         Capsule()
             .fill(configuration.handleColor)
-            .frame(
-                width: configuration.handleWidth,
-                height: configuration.handleHeight
-            )
+            .frame(width: configuration.handleWidth,
+                   height: configuration.handleHeight)
             .scaleEffect(isPressed ? 1.1 : 1.0)
             .arcAnimation(.arcSnappy, value: isPressed)
             .padding(.top, 8)
@@ -44,13 +41,11 @@ struct ARCBottomSheetHandle: View {
                     onTap()
                 }
             }
-            .onLongPressGesture(
-                minimumDuration: 0,
-                pressing: { pressing in
-                    isPressed = pressing
-                },
-                perform: {}
-            )
+            .onLongPressGesture(minimumDuration: 0,
+                                pressing: { pressing in
+                                    isPressed = pressing
+                                },
+                                perform: {})
             .accessibilityElement(children: .ignore)
             .accessibilityLabel("Sheet handle")
             .accessibilityHint(configuration.tapHandleToCycle ? "Tap to resize sheet" : "Drag to resize sheet")
@@ -72,10 +67,8 @@ struct ARCBottomSheetHandle: View {
                 .fill(.ultraThinMaterial)
                 .frame(height: 100)
                 .overlay(alignment: .top) {
-                    ARCBottomSheetHandle(
-                        configuration: .default,
-                        onTap: {}
-                    )
+                    ARCBottomSheetHandle(configuration: .default,
+                                         onTap: {})
                 }
         }
 
@@ -88,10 +81,8 @@ struct ARCBottomSheetHandle: View {
                 .fill(.regularMaterial)
                 .frame(height: 100)
                 .overlay(alignment: .top) {
-                    ARCBottomSheetHandle(
-                        configuration: .drawer,
-                        onTap: {}
-                    )
+                    ARCBottomSheetHandle(configuration: .drawer,
+                                         onTap: {})
                 }
         }
 
@@ -104,19 +95,13 @@ struct ARCBottomSheetHandle: View {
                 .fill(.ultraThinMaterial)
                 .frame(height: 100)
                 .overlay(alignment: .top) {
-                    ARCBottomSheetHandle(
-                        configuration: .glass,
-                        onTap: {}
-                    )
+                    ARCBottomSheetHandle(configuration: .glass,
+                                         onTap: {})
                 }
         }
     }
     .padding()
-    .background(
-        LinearGradient(
-            colors: [.blue, .purple],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    )
+    .background(LinearGradient(colors: [.blue, .purple],
+                               startPoint: .topLeading,
+                               endPoint: .bottomTrailing))
 }

@@ -9,8 +9,7 @@ import ARCDesignSystem
 import SwiftUI
 
 /// Showcase demonstrating ARCDonutChart in various configurations
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCDonutChartShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCDonutChartShowcase: View {
     public init() {}
 
     public var body: some View {
@@ -31,12 +30,10 @@ public struct ARCDonutChartShowcase: View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Default (with legend)")
 
-            ARCDonutChart(
-                data: ShowcaseData.cuisines,
-                value: \.count,
-                label: \.name,
-                icon: \.icon
-            )
+            ARCDonutChart(data: ShowcaseData.cuisines,
+                          value: \.count,
+                          label: \.name,
+                          icon: \.icon)
         }
     }
 
@@ -44,12 +41,10 @@ public struct ARCDonutChartShowcase: View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Compact (no legend)")
 
-            ARCDonutChart(
-                data: ShowcaseData.genres,
-                value: \.count,
-                label: \.name,
-                configuration: .compact
-            )
+            ARCDonutChart(data: ShowcaseData.genres,
+                          value: \.count,
+                          label: \.name,
+                          configuration: .compact)
         }
     }
 
@@ -64,8 +59,7 @@ public struct ARCDonutChartShowcase: View {
 
 // MARK: - Showcase Data
 
-@available(iOS 17.0, macOS 14.0, *)
-private enum ShowcaseData {
+@available(iOS 17.0, macOS 14.0, *) private enum ShowcaseData {
     struct Item: Identifiable {
         let id = UUID()
         let name: String
@@ -79,20 +73,16 @@ private enum ShowcaseData {
         }
     }
 
-    static let cuisines: [Item] = [
-        Item("Japanese", 5, "fork.knife"),
-        Item("Italian", 4, "fork.knife"),
-        Item("Mexican", 3, "fork.knife"),
-        Item("Spanish", 2, "fork.knife"),
-        Item("Chinese", 1, "fork.knife")
-    ]
+    static let cuisines: [Item] = [Item("Japanese", 5, "fork.knife"),
+                                   Item("Italian", 4, "fork.knife"),
+                                   Item("Mexican", 3, "fork.knife"),
+                                   Item("Spanish", 2, "fork.knife"),
+                                   Item("Chinese", 1, "fork.knife")]
 
-    static let genres: [Item] = [
-        Item("Fiction", 12),
-        Item("Non-Fiction", 8),
-        Item("Science", 5),
-        Item("History", 3)
-    ]
+    static let genres: [Item] = [Item("Fiction", 12),
+                                 Item("Non-Fiction", 8),
+                                 Item("Science", 5),
+                                 Item("History", 3)]
 }
 
 // MARK: - Preview

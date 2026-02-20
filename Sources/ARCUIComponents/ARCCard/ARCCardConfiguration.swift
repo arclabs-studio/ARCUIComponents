@@ -50,8 +50,7 @@ import SwiftUI
 /// )
 /// ARCCard(title: "Title", configuration: config) { ... }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCCardConfiguration: Sendable, LiquidGlassConfigurable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCCardConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - LiquidGlassConfigurable Properties
 
     /// Primary accent color for the component
@@ -89,15 +88,14 @@ public struct ARCCardConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - contentSpacing: Spacing between elements (default: small)
     ///   - contentPadding: Padding around content (default: medium)
     ///   - showImage: Whether to show image section (default: true)
-    public init(
-        accentColor: Color = .blue,
-        backgroundStyle: ARCBackgroundStyle = .material(.ultraThinMaterial),
-        cornerRadius: CGFloat = .arcCornerRadiusMedium,
-        shadow: ARCShadow = .card,
-        contentSpacing: CGFloat = .arcSpacingSmall,
-        contentPadding: CGFloat = .arcSpacingMedium,
-        showImage: Bool = true
-    ) {
+    public init(accentColor: Color = .blue,
+                backgroundStyle: ARCBackgroundStyle = .material(.ultraThinMaterial),
+                cornerRadius: CGFloat = .arcCornerRadiusMedium,
+                shadow: ARCShadow = .card,
+                contentSpacing: CGFloat = .arcSpacingSmall,
+                contentPadding: CGFloat = .arcSpacingMedium,
+                showImage: Bool = true)
+    {
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
         self.cornerRadius = cornerRadius
@@ -113,43 +111,32 @@ public struct ARCCardConfiguration: Sendable, LiquidGlassConfigurable {
     public static let `default` = ARCCardConfiguration()
 
     /// Compact configuration with smaller spacing
-    public static let compact = ARCCardConfiguration(
-        contentSpacing: .arcSpacingXSmall,
-        contentPadding: .arcSpacingSmall
-    )
+    public static let compact = ARCCardConfiguration(contentSpacing: .arcSpacingXSmall,
+                                                     contentPadding: .arcSpacingSmall)
 
     /// Prominent configuration with liquid glass effect
-    public static let prominent = ARCCardConfiguration(
-        backgroundStyle: .liquidGlass,
-        cornerRadius: .arcCornerRadiusLarge,
-        shadow: .prominent
-    )
+    public static let prominent = ARCCardConfiguration(backgroundStyle: .liquidGlass,
+                                                       cornerRadius: .arcCornerRadiusLarge,
+                                                       shadow: .prominent)
 
     /// Glassmorphic configuration matching Apple Music style
-    public static let glassmorphic = ARCCardConfiguration(
-        accentColor: .pink,
-        backgroundStyle: .liquidGlass,
-        cornerRadius: .arcCornerRadiusMedium,
-        shadow: .default
-    )
+    public static let glassmorphic = ARCCardConfiguration(accentColor: .pink,
+                                                          backgroundStyle: .liquidGlass,
+                                                          cornerRadius: .arcCornerRadiusMedium,
+                                                          shadow: .default)
 
     /// Text-only configuration without image
-    public static let textOnly = ARCCardConfiguration(
-        showImage: false
-    )
+    public static let textOnly = ARCCardConfiguration(showImage: false)
 }
 
 // MARK: - Shadow Extension
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCShadow {
+@available(iOS 17.0, macOS 14.0, *) extension ARCShadow {
     /// Standard card shadow with dual layers
     ///
     /// Combines a medium and light shadow for depth, matching Apple's card patterns.
-    public static let card = ARCShadow(
-        color: .arcShadowMedium,
-        radius: 8,
-        x: 0,
-        y: 2
-    )
+    public static let card = ARCShadow(color: .arcShadowMedium,
+                                       radius: 8,
+                                       x: 0,
+                                       y: 2)
 }

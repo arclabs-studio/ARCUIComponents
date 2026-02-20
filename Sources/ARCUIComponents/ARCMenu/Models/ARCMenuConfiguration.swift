@@ -117,22 +117,21 @@ public struct ARCMenuConfiguration: Sendable {
     ///   - sheetTitle: Optional header title
     ///   - hapticFeedback: Haptic style (default: `.medium`)
     ///   - allowsBackgroundInteraction: Allow taps behind sheet (default: false)
-    public init(
-        presentationStyle: ARCMenuPresentationStyle = .bottomSheet,
-        accentColor: Color = .arcBrandGold,
-        cornerRadius: CGFloat = .arcCornerRadiusXLarge,
-        iconStyle: ARCMenuIconStyle = .subtle,
-        detents: Set<PresentationDetent> = [.medium, .large],
-        selectedDetent: PresentationDetent? = .medium,
-        menuWidth: CGFloat = 320,
-        contentInsets: EdgeInsets = .arcPaddingSection,
-        sectionSpacing: CGFloat = .arcSpacingXLarge,
-        showsGrabber: Bool = true,
-        showsCloseButton: Bool = true,
-        sheetTitle: String? = nil,
-        hapticFeedback: ARCMenuHapticStyle = .medium,
-        allowsBackgroundInteraction: Bool = false
-    ) {
+    public init(presentationStyle: ARCMenuPresentationStyle = .bottomSheet,
+                accentColor: Color = .arcBrandGold,
+                cornerRadius: CGFloat = .arcCornerRadiusXLarge,
+                iconStyle: ARCMenuIconStyle = .subtle,
+                detents: Set<PresentationDetent> = [.medium, .large],
+                selectedDetent: PresentationDetent? = .medium,
+                menuWidth: CGFloat = 320,
+                contentInsets: EdgeInsets = .arcPaddingSection,
+                sectionSpacing: CGFloat = .arcSpacingXLarge,
+                showsGrabber: Bool = true,
+                showsCloseButton: Bool = true,
+                sheetTitle: String? = nil,
+                hapticFeedback: ARCMenuHapticStyle = .medium,
+                allowsBackgroundInteraction: Bool = false)
+    {
         self.presentationStyle = presentationStyle
         self.accentColor = accentColor
         self.cornerRadius = cornerRadius
@@ -162,10 +161,8 @@ public struct ARCMenuConfiguration: Sendable {
     ///
     /// Optimized for iPad and Mac where a side panel feels more natural.
     /// Uses custom implementation since native sheets don't support trailing edge.
-    public static let trailingPanel = ARCMenuConfiguration(
-        presentationStyle: .trailingPanel,
-        showsGrabber: false
-    )
+    public static let trailingPanel = ARCMenuConfiguration(presentationStyle: .trailingPanel,
+                                                           showsGrabber: false)
 }
 
 // MARK: - ARCMenuHapticStyle
@@ -180,8 +177,7 @@ public enum ARCMenuHapticStyle: Sendable {
     case rigid
 
     /// Performs the haptic feedback
-    @MainActor
-    func perform() {
+    @MainActor func perform() {
         #if os(iOS)
         switch self {
         case .none:

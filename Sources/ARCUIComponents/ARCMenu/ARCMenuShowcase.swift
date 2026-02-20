@@ -28,8 +28,7 @@ import AppKit
 /// - Design reference
 /// - Integration examples
 /// - Feature exploration
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCMenuShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCMenuShowcase: View {
     // MARK: - State
 
     @State private var selectedStyle: ShowcaseStyle = .default
@@ -85,13 +84,10 @@ public struct ARCMenuShowcase: View {
         VStack(spacing: 16) {
             Image(systemName: "menucard.fill")
                 .font(.system(size: 70))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [selectedStyle.accentColor, selectedStyle.accentColor.opacity(0.6)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .foregroundStyle(LinearGradient(colors: [selectedStyle.accentColor,
+                                                         selectedStyle.accentColor.opacity(0.6)],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing))
                 .symbolEffect(.bounce, value: selectedStyle)
 
             Text("ARCMenu Showcase")
@@ -127,13 +123,11 @@ public struct ARCMenuShowcase: View {
             }
 
             // Mini preview
-            ShowcaseLivePreviewMiniature(
-                style: selectedStyle,
-                variant: selectedVariant,
-                showBadge: showBadge,
-                badgeCount: badgeCount,
-                showUserHeader: showUserHeader
-            )
+            ShowcaseLivePreviewMiniature(style: selectedStyle,
+                                         variant: selectedVariant,
+                                         showBadge: showBadge,
+                                         badgeCount: badgeCount,
+                                         showUserHeader: showUserHeader)
         }
         .padding(20)
         .background {
@@ -159,10 +153,9 @@ public struct ARCMenuShowcase: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(ShowcaseStyle.allCases) { style in
-                        ShowcaseStyleCard(
-                            style: style,
-                            isSelected: selectedStyle == style
-                        ) {
+                        ShowcaseStyleCard(style: style,
+                                          isSelected: selectedStyle == style)
+                        {
                             arcWithAnimation(.arcSpring) {
                                 selectedStyle = style
                             }
@@ -186,10 +179,9 @@ public struct ARCMenuShowcase: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(ShowcaseVariant.allCases) { variant in
-                        ShowcaseVariantCard(
-                            variant: variant,
-                            isSelected: selectedVariant == variant
-                        ) {
+                        ShowcaseVariantCard(variant: variant,
+                                            isSelected: selectedVariant == variant)
+                        {
                             arcWithAnimation(.arcSpring) {
                                 selectedVariant = variant
                             }
@@ -211,29 +203,23 @@ public struct ARCMenuShowcase: View {
                 .padding(.horizontal, 20)
 
             VStack(spacing: 12) {
-                ShowcaseOptionToggle(
-                    title: "Show Badge",
-                    icon: "circle.badge.fill",
-                    isOn: $showBadge,
-                    accentColor: selectedStyle.accentColor
-                )
+                ShowcaseOptionToggle(title: "Show Badge",
+                                     icon: "circle.badge.fill",
+                                     isOn: $showBadge,
+                                     accentColor: selectedStyle.accentColor)
 
                 if showBadge {
-                    ShowcaseOptionStepper(
-                        title: "Badge Count",
-                        icon: "number.circle.fill",
-                        value: $badgeCount,
-                        range: 0 ... 99,
-                        accentColor: selectedStyle.accentColor
-                    )
+                    ShowcaseOptionStepper(title: "Badge Count",
+                                          icon: "number.circle.fill",
+                                          value: $badgeCount,
+                                          range: 0 ... 99,
+                                          accentColor: selectedStyle.accentColor)
                 }
 
-                ShowcaseOptionToggle(
-                    title: "Show User Header",
-                    icon: "person.crop.circle.fill",
-                    isOn: $showUserHeader,
-                    accentColor: selectedStyle.accentColor
-                )
+                ShowcaseOptionToggle(title: "Show User Header",
+                                     icon: "person.crop.circle.fill",
+                                     isOn: $showUserHeader,
+                                     accentColor: selectedStyle.accentColor)
             }
             .padding(.horizontal, 20)
         }
@@ -267,11 +253,9 @@ public struct ARCMenuShowcase: View {
             }
             .padding(.horizontal, 20)
 
-            ShowcaseCodeBlock(
-                code: generateCodeExample(),
-                accentColor: selectedStyle.accentColor
-            )
-            .padding(.horizontal, 20)
+            ShowcaseCodeBlock(code: generateCodeExample(),
+                              accentColor: selectedStyle.accentColor)
+                .padding(.horizontal, 20)
         }
     }
 

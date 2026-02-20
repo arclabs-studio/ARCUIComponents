@@ -9,8 +9,7 @@ import ARCDesignSystem
 import SwiftUI
 
 /// Showcase demonstrating ARCStatCard in various configurations
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatCardShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatCardShowcase: View {
     public init() {}
 
     public var body: some View {
@@ -60,13 +59,11 @@ public struct ARCStatCardShowcase: View {
 
             ARCStatGrid(columns: 3) {
                 ARCStatCard(rating: 7.8, label: "Avg", configuration: .compact)
-                ARCStatCard(
-                    icon: "flame.fill",
-                    value: "4",
-                    label: "Streak",
-                    iconColor: .orange,
-                    configuration: .compact
-                )
+                ARCStatCard(icon: "flame.fill",
+                            value: "4",
+                            label: "Streak",
+                            iconColor: .orange,
+                            configuration: .compact)
                 ARCStatCard(rating: 9.5, label: "Best", configuration: .compact)
             }
         }
@@ -78,13 +75,11 @@ public struct ARCStatCardShowcase: View {
 
             HStack(spacing: .arcSpacingMedium) {
                 ARCStatCard(icon: "book.fill", value: "128", label: "Books read", configuration: .prominent)
-                ARCStatCard(
-                    icon: "clock.fill",
-                    value: "340h",
-                    label: "Reading time",
-                    iconColor: .purple,
-                    configuration: .prominent
-                )
+                ARCStatCard(icon: "clock.fill",
+                            value: "340h",
+                            label: "Reading time",
+                            iconColor: .purple,
+                            configuration: .prominent)
             }
             .padding(.horizontal, .arcSpacingLarge)
         }

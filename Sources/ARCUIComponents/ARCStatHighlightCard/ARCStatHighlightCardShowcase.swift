@@ -9,8 +9,7 @@ import ARCDesignSystem
 import SwiftUI
 
 /// Showcase demonstrating ARCStatHighlightCard in various configurations
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatHighlightCardShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatHighlightCardShowcase: View {
     public init() {}
 
     public var body: some View {
@@ -33,20 +32,16 @@ public struct ARCStatHighlightCardShowcase: View {
             sectionHeader("Restaurant Examples")
 
             HStack(spacing: .arcSpacingMedium) {
-                ARCStatHighlightCard(
-                    title: "Best rated",
-                    headline: "Sushi Zen",
-                    rating: 9.5,
-                    icon: "arrow.up.circle.fill",
-                    accentColor: .green
-                )
-                ARCStatHighlightCard(
-                    title: "Lowest rated",
-                    headline: "Quick Burger",
-                    rating: 5.2,
-                    icon: "arrow.down.circle.fill",
-                    accentColor: .orange
-                )
+                ARCStatHighlightCard(title: "Best rated",
+                                     headline: "Sushi Zen",
+                                     rating: 9.5,
+                                     icon: "arrow.up.circle.fill",
+                                     accentColor: .green)
+                ARCStatHighlightCard(title: "Lowest rated",
+                                     headline: "Quick Burger",
+                                     rating: 5.2,
+                                     icon: "arrow.down.circle.fill",
+                                     accentColor: .orange)
             }
         }
     }
@@ -56,22 +51,18 @@ public struct ARCStatHighlightCardShowcase: View {
             sectionHeader("Book Examples")
 
             HStack(spacing: .arcSpacingMedium) {
-                ARCStatHighlightCard(
-                    title: "Highest rated",
-                    headline: "Don Quixote",
-                    subtitle: "1200 pages",
-                    subtitleIcon: "book.fill",
-                    icon: "crown.fill",
-                    accentColor: .purple
-                )
-                ARCStatHighlightCard(
-                    title: "Most read author",
-                    headline: "Gabriel Garcia Marquez",
-                    subtitle: "8 books",
-                    subtitleIcon: "person.fill",
-                    icon: "star.circle.fill",
-                    accentColor: .blue
-                )
+                ARCStatHighlightCard(title: "Highest rated",
+                                     headline: "Don Quixote",
+                                     subtitle: "1200 pages",
+                                     subtitleIcon: "book.fill",
+                                     icon: "crown.fill",
+                                     accentColor: .purple)
+                ARCStatHighlightCard(title: "Most read author",
+                                     headline: "Gabriel Garcia Marquez",
+                                     subtitle: "8 books",
+                                     subtitleIcon: "person.fill",
+                                     icon: "star.circle.fill",
+                                     accentColor: .blue)
             }
         }
     }
@@ -81,20 +72,16 @@ public struct ARCStatHighlightCardShowcase: View {
             sectionHeader("Compact")
 
             HStack(spacing: .arcSpacingSmall) {
-                ARCStatHighlightCard(
-                    title: "Top",
-                    headline: "Madrid",
-                    icon: "building.2.fill",
-                    accentColor: .accentColor,
-                    configuration: .compact
-                )
-                ARCStatHighlightCard(
-                    title: "Recent",
-                    headline: "Barcelona",
-                    icon: "clock.fill",
-                    accentColor: .secondary,
-                    configuration: .compact
-                )
+                ARCStatHighlightCard(title: "Top",
+                                     headline: "Madrid",
+                                     icon: "building.2.fill",
+                                     accentColor: .accentColor,
+                                     configuration: .compact)
+                ARCStatHighlightCard(title: "Recent",
+                                     headline: "Barcelona",
+                                     icon: "clock.fill",
+                                     accentColor: .secondary,
+                                     configuration: .compact)
             }
         }
     }

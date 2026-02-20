@@ -42,12 +42,10 @@ extension ARCDonutChartDemoScreen {
                 .foregroundStyle(.secondary)
                 .padding(.horizontal)
 
-            ARCDonutChart(
-                data: DemoDonutData.cuisines,
-                value: \.count,
-                label: \.name,
-                icon: \.icon
-            )
+            ARCDonutChart(data: DemoDonutData.cuisines,
+                          value: \.count,
+                          label: \.name,
+                          icon: \.icon)
         }
     }
 
@@ -60,13 +58,11 @@ extension ARCDonutChartDemoScreen {
                 .foregroundStyle(.secondary)
                 .padding(.horizontal)
 
-            ARCDonutChart(
-                data: DemoDonutData.genres,
-                value: \.count,
-                label: \.name,
-                icon: \.icon,
-                configuration: .compact
-            )
+            ARCDonutChart(data: DemoDonutData.genres,
+                          value: \.count,
+                          label: \.name,
+                          icon: \.icon,
+                          configuration: .compact)
         }
     }
 
@@ -88,20 +84,16 @@ private enum DemoDonutData {
         let icon: String
     }
 
-    static let cuisines: [DonutItem] = [
-        DonutItem(name: "Japanese", count: 5, icon: "fork.knife"),
-        DonutItem(name: "Italian", count: 4, icon: "fork.knife"),
-        DonutItem(name: "Mexican", count: 3, icon: "fork.knife"),
-        DonutItem(name: "Spanish", count: 2, icon: "fork.knife"),
-        DonutItem(name: "Chinese", count: 1, icon: "fork.knife")
-    ]
+    static let cuisines: [DonutItem] = [DonutItem(name: "Japanese", count: 5, icon: "fork.knife"),
+                                        DonutItem(name: "Italian", count: 4, icon: "fork.knife"),
+                                        DonutItem(name: "Mexican", count: 3, icon: "fork.knife"),
+                                        DonutItem(name: "Spanish", count: 2, icon: "fork.knife"),
+                                        DonutItem(name: "Chinese", count: 1, icon: "fork.knife")]
 
-    static let genres: [DonutItem] = [
-        DonutItem(name: "Sci-Fi", count: 8, icon: "sparkles"),
-        DonutItem(name: "Fantasy", count: 6, icon: "wand.and.stars"),
-        DonutItem(name: "Mystery", count: 4, icon: "magnifyingglass"),
-        DonutItem(name: "Non-Fiction", count: 3, icon: "book.fill")
-    ]
+    static let genres: [DonutItem] = [DonutItem(name: "Sci-Fi", count: 8, icon: "sparkles"),
+                                      DonutItem(name: "Fantasy", count: 6, icon: "wand.and.stars"),
+                                      DonutItem(name: "Mystery", count: 4, icon: "magnifyingglass"),
+                                      DonutItem(name: "Non-Fiction", count: 3, icon: "book.fill")]
 }
 
 // MARK: - Previews

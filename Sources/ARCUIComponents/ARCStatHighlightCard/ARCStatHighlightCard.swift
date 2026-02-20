@@ -41,8 +41,7 @@ import SwiftUI
 ///     accentColor: .purple
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatHighlightCard: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatHighlightCard: View {
     // MARK: - Properties
 
     private let title: String
@@ -65,14 +64,13 @@ public struct ARCStatHighlightCard: View {
     ///   - icon: SF Symbol for the title label (e.g. "arrow.up.circle.fill")
     ///   - accentColor: Color for the title and icon
     ///   - configuration: Visual configuration (default: .default)
-    public init(
-        title: String,
-        headline: String,
-        rating: Double,
-        icon: String,
-        accentColor: Color,
-        configuration: ARCStatHighlightCardConfiguration = .default
-    ) {
+    public init(title: String,
+                headline: String,
+                rating: Double,
+                icon: String,
+                accentColor: Color,
+                configuration: ARCStatHighlightCardConfiguration = .default)
+    {
         self.title = title
         self.headline = headline
         self.rating = rating
@@ -93,15 +91,14 @@ public struct ARCStatHighlightCard: View {
     ///   - icon: SF Symbol for the title label (e.g. "arrow.up.circle.fill")
     ///   - accentColor: Color for the title and icon
     ///   - configuration: Visual configuration (default: .default)
-    public init(
-        title: String,
-        headline: String,
-        subtitle: String? = nil,
-        subtitleIcon: String? = nil,
-        icon: String,
-        accentColor: Color,
-        configuration: ARCStatHighlightCardConfiguration = .default
-    ) {
+    public init(title: String,
+                headline: String,
+                subtitle: String? = nil,
+                subtitleIcon: String? = nil,
+                icon: String,
+                accentColor: Color,
+                configuration: ARCStatHighlightCardConfiguration = .default)
+    {
         self.title = title
         self.headline = headline
         rating = nil
@@ -160,42 +157,34 @@ public struct ARCStatHighlightCard: View {
 
 #Preview("ARCStatHighlightCard - Rating") {
     HStack {
-        ARCStatHighlightCard(
-            title: "Best rated",
-            headline: "Sushi Zen",
-            rating: 9.5,
-            icon: "arrow.up.circle.fill",
-            accentColor: .green
-        )
-        ARCStatHighlightCard(
-            title: "Lowest rated",
-            headline: "Quick Burger",
-            rating: 5.2,
-            icon: "arrow.down.circle.fill",
-            accentColor: .orange
-        )
+        ARCStatHighlightCard(title: "Best rated",
+                             headline: "Sushi Zen",
+                             rating: 9.5,
+                             icon: "arrow.up.circle.fill",
+                             accentColor: .green)
+        ARCStatHighlightCard(title: "Lowest rated",
+                             headline: "Quick Burger",
+                             rating: 5.2,
+                             icon: "arrow.down.circle.fill",
+                             accentColor: .orange)
     }
     .padding()
 }
 
 #Preview("ARCStatHighlightCard - Text Subtitle") {
     HStack {
-        ARCStatHighlightCard(
-            title: "Most read",
-            headline: "Brandon Sanderson",
-            subtitle: "12 books",
-            subtitleIcon: "book.fill",
-            icon: "star.circle.fill",
-            accentColor: .purple
-        )
-        ARCStatHighlightCard(
-            title: "Top city",
-            headline: "Madrid",
-            subtitle: "8 restaurants",
-            subtitleIcon: "building.2.fill",
-            icon: "mappin.circle.fill",
-            accentColor: .blue
-        )
+        ARCStatHighlightCard(title: "Most read",
+                             headline: "Brandon Sanderson",
+                             subtitle: "12 books",
+                             subtitleIcon: "book.fill",
+                             icon: "star.circle.fill",
+                             accentColor: .purple)
+        ARCStatHighlightCard(title: "Top city",
+                             headline: "Madrid",
+                             subtitle: "8 restaurants",
+                             subtitleIcon: "building.2.fill",
+                             icon: "mappin.circle.fill",
+                             accentColor: .blue)
     }
     .padding()
 }

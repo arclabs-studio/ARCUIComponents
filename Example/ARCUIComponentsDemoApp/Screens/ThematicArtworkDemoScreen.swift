@@ -104,12 +104,10 @@ extension ThematicArtworkDemoScreen {
             sectionHeader("Preview")
 
             VStack(spacing: 12) {
-                ARCThemedArtworkView(
-                    type: selectedArtwork,
-                    isAnimating: isAnimating,
-                    animationType: selectedAnimation
-                )
-                .frame(width: 150, height: 150)
+                ARCThemedArtworkView(type: selectedArtwork,
+                                     isAnimating: isAnimating,
+                                     animationType: selectedAnimation)
+                    .frame(width: 150, height: 150)
 
                 Text(selectedArtwork.displayName)
                     .font(.headline)
@@ -135,12 +133,10 @@ extension ThematicArtworkDemoScreen {
             HStack(spacing: 24) {
                 ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
                     VStack(spacing: 8) {
-                        ARCThemedArtworkView(
-                            type: artwork,
-                            isAnimating: isAnimating,
-                            animationType: selectedAnimation
-                        )
-                        .frame(width: 80, height: 80)
+                        ARCThemedArtworkView(type: artwork,
+                                             isAnimating: isAnimating,
+                                             animationType: selectedAnimation)
+                            .frame(width: 80, height: 80)
 
                         Text(artwork.displayName)
                             .font(.caption)
@@ -162,11 +158,10 @@ extension ThematicArtworkDemoScreen {
             sectionHeader("Use Cases")
 
             VStack(spacing: 16) {
-                useCaseCard(
-                    title: "Loading State",
-                    description: "Use as a themed loading indicator",
-                    icon: "hourglass"
-                ) {
+                useCaseCard(title: "Loading State",
+                            description: "Use as a themed loading indicator",
+                            icon: "hourglass")
+                {
                     HStack(spacing: 16) {
                         ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
                             ARCThemedLoaderView(type: artwork, size: 40)
@@ -174,11 +169,10 @@ extension ThematicArtworkDemoScreen {
                     }
                 }
 
-                useCaseCard(
-                    title: "Placeholder",
-                    description: "Use as image placeholder while content loads",
-                    icon: "photo"
-                ) {
+                useCaseCard(title: "Placeholder",
+                            description: "Use as image placeholder while content loads",
+                            icon: "photo")
+                {
                     HStack(spacing: 12) {
                         ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
                             ARCThemedArtworkView(type: artwork)
@@ -187,11 +181,10 @@ extension ThematicArtworkDemoScreen {
                     }
                 }
 
-                useCaseCard(
-                    title: "Empty State",
-                    description: "Use to illustrate empty categories",
-                    icon: "tray"
-                ) {
+                useCaseCard(title: "Empty State",
+                            description: "Use to illustrate empty categories",
+                            icon: "tray")
+                {
                     VStack(spacing: 8) {
                         ARCThemedArtworkView(type: ExampleArtwork.circles)
                             .frame(width: 80, height: 80)
@@ -234,12 +227,11 @@ extension ThematicArtworkDemoScreen {
         }
     }
 
-    private func useCaseCard(
-        title: String,
-        description: String,
-        icon: String,
-        @ViewBuilder content: () -> some View
-    ) -> some View {
+    private func useCaseCard(title: String,
+                             description: String,
+                             icon: String,
+                             @ViewBuilder content: () -> some View) -> some View
+    {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
                 Image(systemName: icon)

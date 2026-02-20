@@ -15,8 +15,7 @@ import Testing
 /// `applyWrapAroundClamping` function detects these jumps and clamps
 /// to the nearest boundary instead.
 @Suite("ARCRatingInputView Wrap-Around Tests")
-@MainActor
-struct ARCRatingInputWrapAroundTests {
+@MainActor struct ARCRatingInputWrapAroundTests {
     // MARK: - Constants
 
     private let minRating: Double = 1.0
@@ -24,16 +23,13 @@ struct ARCRatingInputWrapAroundTests {
 
     // MARK: - SUT
 
-    private func makeSUT(
-        newRating: Double,
-        currentRating: Double
-    ) -> Double {
-        ARCRatingInputView.applyWrapAroundClamping(
-            newRating: newRating,
-            currentRating: currentRating,
-            minRating: minRating,
-            maxRating: maxRating
-        )
+    private func makeSUT(newRating: Double,
+                         currentRating: Double) -> Double
+    {
+        ARCRatingInputView.applyWrapAroundClamping(newRating: newRating,
+                                                   currentRating: currentRating,
+                                                   minRating: minRating,
+                                                   maxRating: maxRating)
     }
 
     // MARK: - Boundary Crossing Tests
@@ -149,8 +145,7 @@ struct ARCRatingInputWrapAroundTests {
         #expect(result == 5.0)
     }
 
-    @Test("applyWrapAroundClamping_maxToMin_clampsToMax")
-    func applyWrapAroundClamping_maxToMin_clampsToMax() {
+    @Test("applyWrapAroundClamping_maxToMin_clampsToMax") func applyWrapAroundClamping_maxToMin_clampsToMax() {
         // Given: extreme case — exactly at max, new is exactly at min
         // delta = 1.0 - 10.0 = -9.0
 
@@ -161,8 +156,7 @@ struct ARCRatingInputWrapAroundTests {
         #expect(result == maxRating)
     }
 
-    @Test("applyWrapAroundClamping_minToMax_clampsToMin")
-    func applyWrapAroundClamping_minToMax_clampsToMin() {
+    @Test("applyWrapAroundClamping_minToMax_clampsToMin") func applyWrapAroundClamping_minToMax_clampsToMin() {
         // Given: extreme case — exactly at min, new is exactly at max
         // delta = 10.0 - 1.0 = 9.0
 

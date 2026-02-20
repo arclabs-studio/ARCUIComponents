@@ -9,8 +9,7 @@ import ARCDesignSystem
 import SwiftUI
 
 /// Showcase demonstrating ARCStatSectionHeader
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatSectionHeaderShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatSectionHeaderShowcase: View {
     public init() {}
 
     public var body: some View {

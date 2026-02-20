@@ -87,20 +87,16 @@ extension ARCStatSectionHeaderDemoScreen {
 
                 ARCStatSectionHeader(title: "Highlights", icon: "star.fill")
                 HStack(spacing: 12) {
-                    ARCStatHighlightCard(
-                        title: "Best rated",
-                        headline: "Sushi Zen",
-                        rating: 9.5,
-                        icon: "arrow.up.circle.fill",
-                        accentColor: .green
-                    )
-                    ARCStatHighlightCard(
-                        title: "Lowest rated",
-                        headline: "Quick Burger",
-                        rating: 5.2,
-                        icon: "arrow.down.circle.fill",
-                        accentColor: .orange
-                    )
+                    ARCStatHighlightCard(title: "Best rated",
+                                         headline: "Sushi Zen",
+                                         rating: 9.5,
+                                         icon: "arrow.up.circle.fill",
+                                         accentColor: .green)
+                    ARCStatHighlightCard(title: "Lowest rated",
+                                         headline: "Quick Burger",
+                                         rating: 5.2,
+                                         icon: "arrow.down.circle.fill",
+                                         accentColor: .orange)
                 }
                 .padding(.horizontal)
             }

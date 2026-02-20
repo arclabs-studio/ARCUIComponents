@@ -44,21 +44,17 @@ extension ARCStatHighlightCardDemoScreen {
                 .foregroundStyle(.secondary)
 
             HStack(spacing: 12) {
-                ARCStatHighlightCard(
-                    title: "Best rated",
-                    headline: "Sushi Nakazawa",
-                    rating: 9.5,
-                    icon: "arrow.up.circle.fill",
-                    accentColor: .green
-                )
+                ARCStatHighlightCard(title: "Best rated",
+                                     headline: "Sushi Nakazawa",
+                                     rating: 9.5,
+                                     icon: "arrow.up.circle.fill",
+                                     accentColor: .green)
 
-                ARCStatHighlightCard(
-                    title: "Lowest rated",
-                    headline: "Quick Burger",
-                    rating: 5.2,
-                    icon: "arrow.down.circle.fill",
-                    accentColor: .orange
-                )
+                ARCStatHighlightCard(title: "Lowest rated",
+                                     headline: "Quick Burger",
+                                     rating: 5.2,
+                                     icon: "arrow.down.circle.fill",
+                                     accentColor: .orange)
             }
         }
     }
@@ -68,22 +64,18 @@ extension ARCStatHighlightCardDemoScreen {
             sectionTitle("Book Highlights")
 
             HStack(spacing: 12) {
-                ARCStatHighlightCard(
-                    title: "Highest rated",
-                    headline: "Dune",
-                    rating: 4.9,
-                    icon: "crown.fill",
-                    accentColor: .yellow
-                )
+                ARCStatHighlightCard(title: "Highest rated",
+                                     headline: "Dune",
+                                     rating: 4.9,
+                                     icon: "crown.fill",
+                                     accentColor: .yellow)
 
-                ARCStatHighlightCard(
-                    title: "Most read author",
-                    headline: "Brandon Sanderson",
-                    subtitle: "12 books",
-                    subtitleIcon: "book.fill",
-                    icon: "star.circle.fill",
-                    accentColor: .purple
-                )
+                ARCStatHighlightCard(title: "Most read author",
+                                     headline: "Brandon Sanderson",
+                                     subtitle: "12 books",
+                                     subtitleIcon: "book.fill",
+                                     icon: "star.circle.fill",
+                                     accentColor: .purple)
             }
         }
     }
@@ -97,23 +89,19 @@ extension ARCStatHighlightCardDemoScreen {
                 .foregroundStyle(.secondary)
 
             HStack(spacing: 12) {
-                ARCStatHighlightCard(
-                    title: "Most visited",
-                    headline: "Cafe Central",
-                    subtitle: "12 visits",
-                    subtitleIcon: "arrow.counterclockwise",
-                    icon: "flame.fill",
-                    accentColor: .orange
-                )
+                ARCStatHighlightCard(title: "Most visited",
+                                     headline: "Cafe Central",
+                                     subtitle: "12 visits",
+                                     subtitleIcon: "arrow.counterclockwise",
+                                     icon: "flame.fill",
+                                     accentColor: .orange)
 
-                ARCStatHighlightCard(
-                    title: "Most expensive",
-                    headline: "Le Petit Chef",
-                    subtitle: "$85 avg",
-                    subtitleIcon: "dollarsign.circle.fill",
-                    icon: "creditcard.fill",
-                    accentColor: .green
-                )
+                ARCStatHighlightCard(title: "Most expensive",
+                                     headline: "Le Petit Chef",
+                                     subtitle: "$85 avg",
+                                     subtitleIcon: "dollarsign.circle.fill",
+                                     icon: "creditcard.fill",
+                                     accentColor: .green)
             }
         }
     }
@@ -127,25 +115,21 @@ extension ARCStatHighlightCardDemoScreen {
                 .foregroundStyle(.secondary)
 
             HStack(spacing: 12) {
-                ARCStatHighlightCard(
-                    title: "Top city",
-                    headline: "Madrid",
-                    subtitle: "8 restaurants",
-                    subtitleIcon: "building.2.fill",
-                    icon: "mappin.circle.fill",
-                    accentColor: .blue,
-                    configuration: .compact
-                )
+                ARCStatHighlightCard(title: "Top city",
+                                     headline: "Madrid",
+                                     subtitle: "8 restaurants",
+                                     subtitleIcon: "building.2.fill",
+                                     icon: "mappin.circle.fill",
+                                     accentColor: .blue,
+                                     configuration: .compact)
 
-                ARCStatHighlightCard(
-                    title: "Longest streak",
-                    headline: "14 days",
-                    subtitle: "Reading",
-                    subtitleIcon: "clock.fill",
-                    icon: "flame.fill",
-                    accentColor: .red,
-                    configuration: .compact
-                )
+                ARCStatHighlightCard(title: "Longest streak",
+                                     headline: "14 days",
+                                     subtitle: "Reading",
+                                     subtitleIcon: "clock.fill",
+                                     icon: "flame.fill",
+                                     accentColor: .red,
+                                     configuration: .compact)
             }
         }
     }

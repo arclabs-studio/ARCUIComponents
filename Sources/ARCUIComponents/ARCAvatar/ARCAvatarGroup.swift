@@ -46,8 +46,7 @@ import AppKit
 ///     configuration: .compact
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCAvatarGroup: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCAvatarGroup: View {
     // MARK: - Properties
 
     private let avatars: [ARCAvatar]
@@ -62,11 +61,10 @@ public struct ARCAvatarGroup: View {
     ///   - avatars: Array of ARCAvatar instances to display
     ///   - maxDisplay: Maximum number of avatars to show before "+N" (default: 4)
     ///   - configuration: Group configuration (default: .default)
-    public init(
-        avatars: [ARCAvatar],
-        maxDisplay: Int = 4,
-        configuration: ARCAvatarGroupConfiguration = .default
-    ) {
+    public init(avatars: [ARCAvatar],
+                maxDisplay: Int = 4,
+                configuration: ARCAvatarGroupConfiguration = .default)
+    {
         self.avatars = avatars
         self.maxDisplay = max(1, maxDisplay)
         self.configuration = configuration
@@ -93,8 +91,7 @@ public struct ARCAvatarGroup: View {
 
     // MARK: - Avatar with Border
 
-    @ViewBuilder
-    private func avatarWithBorder(at index: Int) -> some View {
+    @ViewBuilder private func avatarWithBorder(at index: Int) -> some View {
         let avatar = displayedAvatars[index]
         avatar
             .overlay {
@@ -123,17 +120,13 @@ public struct ARCAvatarGroup: View {
             Circle()
                 .fill(configuration.overflowBackgroundColor)
             Text("+\(overflowCount)")
-                .font(.system(
-                    size: configuration.size.fontSize * 0.9,
-                    weight: .semibold,
-                    design: .rounded
-                ))
+                .font(.system(size: configuration.size.fontSize * 0.9,
+                              weight: .semibold,
+                              design: .rounded))
                 .foregroundStyle(configuration.overflowForegroundColor)
         }
-        .frame(
-            width: configuration.size.dimension,
-            height: configuration.size.dimension
-        )
+        .frame(width: configuration.size.dimension,
+               height: configuration.size.dimension)
         .overlay {
             Circle()
                 .strokeBorder(configuration.borderColor, lineWidth: configuration.borderWidth)
@@ -166,8 +159,7 @@ public struct ARCAvatarGroup: View {
 // MARK: - ARCAvatarGroupConfiguration
 
 /// Configuration for ARCAvatarGroup appearance
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCAvatarGroupConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCAvatarGroupConfiguration: Sendable {
     // MARK: - Properties
 
     /// Avatar size for all avatars in the group
@@ -207,16 +199,15 @@ public struct ARCAvatarGroupConfiguration: Sendable {
     ///   - showOverflowCount: Show "+N" badge (default: true)
     ///   - overflowBackgroundColor: Overflow badge background (default: .gray)
     ///   - overflowForegroundColor: Overflow badge text color (default: .white)
-    public init(
-        size: ARCAvatarConfiguration.Size = .md,
-        avatarShape: ARCAvatarConfiguration.Shape = .circle,
-        overlapPercentage: CGFloat = 0.3,
-        borderColor: Color = .white,
-        borderWidth: CGFloat = 2,
-        showOverflowCount: Bool = true,
-        overflowBackgroundColor: Color = .gray,
-        overflowForegroundColor: Color = .white
-    ) {
+    public init(size: ARCAvatarConfiguration.Size = .md,
+                avatarShape: ARCAvatarConfiguration.Shape = .circle,
+                overlapPercentage: CGFloat = 0.3,
+                borderColor: Color = .white,
+                borderWidth: CGFloat = 2,
+                showOverflowCount: Bool = true,
+                overflowBackgroundColor: Color = .gray,
+                overflowForegroundColor: Color = .white)
+    {
         self.size = size
         self.avatarShape = avatarShape
         self.overlapPercentage = min(0.5, max(0, overlapPercentage))
@@ -233,21 +224,15 @@ public struct ARCAvatarGroupConfiguration: Sendable {
     public static let `default` = ARCAvatarGroupConfiguration()
 
     /// Compact configuration with smaller avatars
-    public static let compact = ARCAvatarGroupConfiguration(
-        size: .sm,
-        overlapPercentage: 0.35
-    )
+    public static let compact = ARCAvatarGroupConfiguration(size: .sm,
+                                                            overlapPercentage: 0.35)
 
     /// Spread configuration with less overlap
-    public static let spread = ARCAvatarGroupConfiguration(
-        overlapPercentage: 0.2
-    )
+    public static let spread = ARCAvatarGroupConfiguration(overlapPercentage: 0.2)
 
     /// Large avatars for prominent display
-    public static let large = ARCAvatarGroupConfiguration(
-        size: .lg,
-        overlapPercentage: 0.25
-    )
+    public static let large = ARCAvatarGroupConfiguration(size: .lg,
+                                                          overlapPercentage: 0.25)
 }
 
 // MARK: - Preview
@@ -255,25 +240,17 @@ public struct ARCAvatarGroupConfiguration: Sendable {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Avatar Group - Basic") {
     VStack(spacing: 32) {
-        ARCAvatarGroup(
-            avatars: [
-                ARCAvatar(name: "John Doe"),
-                ARCAvatar(name: "Jane Smith"),
-                ARCAvatar(name: "Bob Wilson")
-            ]
-        )
+        ARCAvatarGroup(avatars: [ARCAvatar(name: "John Doe"),
+                                 ARCAvatar(name: "Jane Smith"),
+                                 ARCAvatar(name: "Bob Wilson")])
 
-        ARCAvatarGroup(
-            avatars: [
-                ARCAvatar(name: "Alice"),
-                ARCAvatar(name: "Bob"),
-                ARCAvatar(name: "Charlie"),
-                ARCAvatar(name: "Diana"),
-                ARCAvatar(name: "Eve"),
-                ARCAvatar(name: "Frank")
-            ],
-            maxDisplay: 4
-        )
+        ARCAvatarGroup(avatars: [ARCAvatar(name: "Alice"),
+                                 ARCAvatar(name: "Bob"),
+                                 ARCAvatar(name: "Charlie"),
+                                 ARCAvatar(name: "Diana"),
+                                 ARCAvatar(name: "Eve"),
+                                 ARCAvatar(name: "Frank")],
+                       maxDisplay: 4)
     }
     .padding()
 }
@@ -283,34 +260,26 @@ public struct ARCAvatarGroupConfiguration: Sendable {
     VStack(spacing: 32) {
         VStack(alignment: .leading, spacing: 8) {
             Text("Default").font(.caption)
-            ARCAvatarGroup(
-                avatars: sampleAvatars,
-                configuration: .default
-            )
+            ARCAvatarGroup(avatars: sampleAvatars,
+                           configuration: .default)
         }
 
         VStack(alignment: .leading, spacing: 8) {
             Text("Compact").font(.caption)
-            ARCAvatarGroup(
-                avatars: sampleAvatars,
-                configuration: .compact
-            )
+            ARCAvatarGroup(avatars: sampleAvatars,
+                           configuration: .compact)
         }
 
         VStack(alignment: .leading, spacing: 8) {
             Text("Spread").font(.caption)
-            ARCAvatarGroup(
-                avatars: sampleAvatars,
-                configuration: .spread
-            )
+            ARCAvatarGroup(avatars: sampleAvatars,
+                           configuration: .spread)
         }
 
         VStack(alignment: .leading, spacing: 8) {
             Text("Large").font(.caption)
-            ARCAvatarGroup(
-                avatars: sampleAvatars,
-                configuration: .large
-            )
+            ARCAvatarGroup(avatars: sampleAvatars,
+                           configuration: .large)
         }
     }
     .padding()
@@ -318,11 +287,9 @@ public struct ARCAvatarGroupConfiguration: Sendable {
 
 @available(iOS 17.0, macOS 14.0, *)
 @MainActor private var sampleAvatars: [ARCAvatar] {
-    [
-        ARCAvatar(name: "John Doe"),
-        ARCAvatar(name: "Jane Smith"),
-        ARCAvatar(name: "Bob Wilson"),
-        ARCAvatar(name: "Alice Brown"),
-        ARCAvatar(name: "Charlie Davis")
-    ]
+    [ARCAvatar(name: "John Doe"),
+     ARCAvatar(name: "Jane Smith"),
+     ARCAvatar(name: "Bob Wilson"),
+     ARCAvatar(name: "Alice Brown"),
+     ARCAvatar(name: "Charlie Davis")]
 }

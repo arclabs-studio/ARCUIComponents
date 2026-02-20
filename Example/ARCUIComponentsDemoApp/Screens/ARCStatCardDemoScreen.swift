@@ -47,12 +47,10 @@ extension ARCStatCardDemoScreen {
 
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                 ARCStatCard(icon: "fork.knife", value: "15", label: "Restaurants")
-                ARCStatCard(
-                    icon: useStar ? "star.fill" : "heart.fill",
-                    value: "6",
-                    label: "Favorites",
-                    iconColor: useStar ? .yellow : .red
-                )
+                ARCStatCard(icon: useStar ? "star.fill" : "heart.fill",
+                            value: "6",
+                            label: "Favorites",
+                            iconColor: useStar ? .yellow : .red)
                 ARCStatCard(icon: "calendar", value: "42", label: "Total visits")
                 ARCStatCard(rating: 7.8, label: "Avg rating")
             }
@@ -83,10 +81,9 @@ extension ARCStatCardDemoScreen {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            LazyVGrid(
-                columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())],
-                spacing: 12
-            ) {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())],
+                      spacing: 12)
+            {
                 ARCStatCard(icon: "star.fill", value: "23", label: "Reviews", configuration: .compact)
                 ARCStatCard(icon: "flame.fill", value: "5", label: "Streak", configuration: .compact)
                 ARCStatCard(icon: "trophy.fill", value: "3", label: "Awards", configuration: .compact)
@@ -103,18 +100,14 @@ extension ARCStatCardDemoScreen {
                 .foregroundStyle(.secondary)
 
             HStack(spacing: 12) {
-                ARCStatCard(
-                    icon: "book.fill",
-                    value: "128",
-                    label: "Books read",
-                    configuration: .prominent
-                )
-                ARCStatCard(
-                    icon: "clock.fill",
-                    value: "340h",
-                    label: "Reading time",
-                    configuration: .prominent
-                )
+                ARCStatCard(icon: "book.fill",
+                            value: "128",
+                            label: "Books read",
+                            configuration: .prominent)
+                ARCStatCard(icon: "clock.fill",
+                            value: "340h",
+                            label: "Reading time",
+                            configuration: .prominent)
             }
         }
     }
@@ -128,18 +121,14 @@ extension ARCStatCardDemoScreen {
                 .foregroundStyle(.secondary)
 
             HStack(spacing: 12) {
-                ARCStatCard(
-                    icon: "dollarsign.circle.fill",
-                    value: "$2.4k",
-                    label: "Spent this month",
-                    iconColor: .green
-                )
-                ARCStatCard(
-                    icon: "chart.line.uptrend.xyaxis",
-                    value: "+12%",
-                    label: "Growth",
-                    iconColor: .blue
-                )
+                ARCStatCard(icon: "dollarsign.circle.fill",
+                            value: "$2.4k",
+                            label: "Spent this month",
+                            iconColor: .green)
+                ARCStatCard(icon: "chart.line.uptrend.xyaxis",
+                            value: "+12%",
+                            label: "Growth",
+                            iconColor: .blue)
             }
         }
     }

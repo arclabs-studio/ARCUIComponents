@@ -36,8 +36,7 @@ import SwiftUI
 ///
 /// - Note: Conforms to `Sendable` for Swift 6 concurrency safety
 /// - Note: Conforms to `LiquidGlassConfigurable` for unified liquid glass effect
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Header Configuration
 
     /// Title displayed in the header
@@ -238,51 +237,50 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - emptyStateIcon: SF Symbol icon for the empty state
     ///   - emptyStateActionText: Optional action button text for the empty state
     ///   - questionnaireRetakeText: Text for the retake questionnaire button
-    public init(
-        title: String = "Recomendador IA",
-        subtitle: String = "Descubre lugares personalizados según tus gustos",
-        headerIcon: String = "sparkles",
-        animateHeaderIcon: Bool = true,
-        accentColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
-        backgroundStyle: ARCBackgroundStyle = .material(.ultraThinMaterial),
-        cornerRadius: CGFloat = .arcCornerRadiusMedium,
-        shadow: ARCShadow = .subtle,
-        categoryAnimation: Animation = .arcQuick,
-        showCategoryIcons: Bool = true,
-        showRankBadges: Bool = true,
-        showAIReason: Bool = true,
-        showRating: Bool = true,
-        itemCornerRadius: CGFloat = .arcCornerRadiusMedium,
-        ratingColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
-        showTags: Bool = true,
-        showLocation: Bool = true,
-        showHighlightDetail: Bool = true,
-        showGlowEffect: Bool = true,
-        glowIntensity: AIGlowIntensity = .subtle,
-        showSparkles: Bool = true,
-        useCardStack: Bool = true,
-        cardStackDepth: Int = 3,
-        swipeThreshold: CGFloat = 0.3,
-        maxSwipeRotation: Double = 8.0,
-        peekFraction: CGFloat = 0.85,
-        adjacentCardScale: CGFloat = 0.95,
-        adjacentCardOpacity: Double = 0.85,
-        cardSpacing: CGFloat = 12,
-        cardAspectRatio: CGFloat = 0.75,
-        showCardIndicator: Bool = true,
-        bookmarkIcon: String = "bookmark",
-        bookmarkActiveIcon: String = "bookmark.fill",
-        allViewedText: String = "Has explorado todas las recomendaciones",
-        defaultMode: AIRecommenderMode = .quick,
-        questionnaireSubmitText: String = "Obtener recomendaciones",
-        showQuestionnaireProgress: Bool = true,
-        categoryToContentSpacing: CGFloat = .arcSpacingXLarge,
-        emptyStateTitle: String = "Sin recomendaciones",
-        emptyStateSubtitle: String = "Explora otras categorías para descubrir nuevas sugerencias",
-        emptyStateIcon: String = "sparkles",
-        emptyStateActionText: String? = nil,
-        questionnaireRetakeText: String = "Repetir cuestionario"
-    ) {
+    public init(title: String = "Recomendador IA",
+                subtitle: String = "Descubre lugares personalizados según tus gustos",
+                headerIcon: String = "sparkles",
+                animateHeaderIcon: Bool = true,
+                accentColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
+                backgroundStyle: ARCBackgroundStyle = .material(.ultraThinMaterial),
+                cornerRadius: CGFloat = .arcCornerRadiusMedium,
+                shadow: ARCShadow = .subtle,
+                categoryAnimation: Animation = .arcQuick,
+                showCategoryIcons: Bool = true,
+                showRankBadges: Bool = true,
+                showAIReason: Bool = true,
+                showRating: Bool = true,
+                itemCornerRadius: CGFloat = .arcCornerRadiusMedium,
+                ratingColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
+                showTags: Bool = true,
+                showLocation: Bool = true,
+                showHighlightDetail: Bool = true,
+                showGlowEffect: Bool = true,
+                glowIntensity: AIGlowIntensity = .subtle,
+                showSparkles: Bool = true,
+                useCardStack: Bool = true,
+                cardStackDepth: Int = 3,
+                swipeThreshold: CGFloat = 0.3,
+                maxSwipeRotation: Double = 8.0,
+                peekFraction: CGFloat = 0.85,
+                adjacentCardScale: CGFloat = 0.95,
+                adjacentCardOpacity: Double = 0.85,
+                cardSpacing: CGFloat = 12,
+                cardAspectRatio: CGFloat = 0.75,
+                showCardIndicator: Bool = true,
+                bookmarkIcon: String = "bookmark",
+                bookmarkActiveIcon: String = "bookmark.fill",
+                allViewedText: String = "Has explorado todas las recomendaciones",
+                defaultMode: AIRecommenderMode = .quick,
+                questionnaireSubmitText: String = "Obtener recomendaciones",
+                showQuestionnaireProgress: Bool = true,
+                categoryToContentSpacing: CGFloat = .arcSpacingXLarge,
+                emptyStateTitle: String = "Sin recomendaciones",
+                emptyStateSubtitle: String = "Explora otras categorías para descubrir nuevas sugerencias",
+                emptyStateIcon: String = "sparkles",
+                emptyStateActionText: String? = nil,
+                questionnaireRetakeText: String = "Repetir cuestionario")
+    {
         self.title = title
         self.subtitle = subtitle
         self.headerIcon = headerIcon
@@ -336,28 +334,22 @@ public struct ARCAIRecommenderConfiguration: Sendable, LiquidGlassConfigurable {
     /// Minimal configuration without ranks or AI reasons
     ///
     /// Simplified display for contexts where detailed information isn't needed.
-    public static let minimal = ARCAIRecommenderConfiguration(
-        showRankBadges: false,
-        showAIReason: false,
-        showGlowEffect: false
-    )
+    public static let minimal = ARCAIRecommenderConfiguration(showRankBadges: false,
+                                                              showAIReason: false,
+                                                              showGlowEffect: false)
 
     /// Compact configuration for limited space
     ///
     /// Hides icons and reduces visual complexity.
-    public static let compact = ARCAIRecommenderConfiguration(
-        showCategoryIcons: false,
-        showRankBadges: false,
-        itemCornerRadius: .arcCornerRadiusSmall,
-        showSparkles: false
-    )
+    public static let compact = ARCAIRecommenderConfiguration(showCategoryIcons: false,
+                                                              showRankBadges: false,
+                                                              itemCornerRadius: .arcCornerRadiusSmall,
+                                                              showSparkles: false)
 
     /// Classic vertical list layout without card stack
     ///
     /// Use this preset to display items in the traditional list format.
     /// Glow effect is enabled without sparkles for a clean look.
-    public static let list = ARCAIRecommenderConfiguration(
-        showSparkles: false,
-        useCardStack: false
-    )
+    public static let list = ARCAIRecommenderConfiguration(showSparkles: false,
+                                                           useCardStack: false)
 }

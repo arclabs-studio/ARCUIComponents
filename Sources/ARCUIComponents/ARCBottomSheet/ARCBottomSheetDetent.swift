@@ -54,8 +54,7 @@ import SwiftUI
 ///
 /// - Note: The sheet will automatically sort detents by height when determining
 ///   which one to snap to.
-@available(iOS 17.0, macOS 14.0, *)
-public enum ARCBottomSheetDetent: Hashable, Sendable {
+@available(iOS 17.0, macOS 14.0, *) public enum ARCBottomSheetDetent: Hashable, Sendable {
     /// Small detent (~15% of screen or 120pt minimum)
     ///
     /// Typically used for a collapsed state showing minimal content,
@@ -107,10 +106,10 @@ public enum ARCBottomSheetDetent: Hashable, Sendable {
             return containerHeight * 0.5
         case .large:
             return containerHeight * 0.9
-        case .fraction(let fraction):
+        case let .fraction(fraction):
             let clampedFraction = max(0.1, min(1.0, fraction))
             return containerHeight * clampedFraction
-        case .height(let height):
+        case let .height(height):
             return min(height, containerHeight * 0.95)
         }
     }
@@ -121,23 +120,22 @@ public enum ARCBottomSheetDetent: Hashable, Sendable {
     public var accessibilityDescription: String {
         switch self {
         case .small:
-            return "collapsed"
+            "collapsed"
         case .medium:
-            return "half height"
+            "half height"
         case .large:
-            return "expanded"
-        case .fraction(let fraction):
-            return "\(Int(fraction * 100)) percent"
-        case .height(let height):
-            return "\(Int(height)) points"
+            "expanded"
+        case let .fraction(fraction):
+            "\(Int(fraction * 100)) percent"
+        case let .height(height):
+            "\(Int(height)) points"
         }
     }
 }
 
 // MARK: - Comparable
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCBottomSheetDetent: Comparable {
+@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetDetent: Comparable {
     /// Compares detents by their approximate height
     ///
     /// This comparison uses a reference height of 1000 points to establish
@@ -150,20 +148,19 @@ extension ARCBottomSheetDetent: Comparable {
 
 // MARK: - Identifiable
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCBottomSheetDetent: Identifiable {
+@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetDetent: Identifiable {
     public var id: String {
         switch self {
         case .small:
-            return "small"
+            "small"
         case .medium:
-            return "medium"
+            "medium"
         case .large:
-            return "large"
-        case .fraction(let fraction):
-            return "fraction-\(fraction)"
-        case .height(let height):
-            return "height-\(height)"
+            "large"
+        case let .fraction(fraction):
+            "fraction-\(fraction)"
+        case let .height(height):
+            "height-\(height)"
         }
     }
 }

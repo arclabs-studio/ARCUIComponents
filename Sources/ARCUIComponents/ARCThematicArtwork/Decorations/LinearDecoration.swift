@@ -62,16 +62,15 @@ public struct LinearDecoration: View {
     ///   - randomizeWidths: Whether to vary line widths. Defaults to `true`.
     ///   - baseWidth: Base width proportion (0-1). Defaults to `0.5`.
     ///   - widthVariation: Random width variation range. Defaults to `0.3`.
-    public init(
-        lineCount: Int,
-        dimension: CGFloat,
-        color: Color,
-        spacing: CGFloat = 0.08,
-        startOffset: CGFloat = 0.25,
-        randomizeWidths: Bool = true,
-        baseWidth: CGFloat = 0.5,
-        widthVariation: CGFloat = 0.3
-    ) {
+    public init(lineCount: Int,
+                dimension: CGFloat,
+                color: Color,
+                spacing: CGFloat = 0.08,
+                startOffset: CGFloat = 0.25,
+                randomizeWidths: Bool = true,
+                baseWidth: CGFloat = 0.5,
+                widthVariation: CGFloat = 0.3)
+    {
         self.lineCount = lineCount
         self.dimension = dimension
         self.color = color
@@ -86,13 +85,11 @@ public struct LinearDecoration: View {
 
     public var body: some View {
         VStack(spacing: dimension * spacing) {
-            ForEach(0..<lineCount, id: \.self) { index in
+            ForEach(0 ..< lineCount, id: \.self) { index in
                 RoundedRectangle(cornerRadius: 2)
                     .fill(color)
-                    .frame(
-                        width: lineWidth(for: index),
-                        height: dimension * 0.025
-                    )
+                    .frame(width: lineWidth(for: index),
+                           height: dimension * 0.025)
             }
         }
         .offset(y: dimension * startOffset)
@@ -119,12 +116,10 @@ public struct LinearDecoration: View {
             .fill(Color.gray.opacity(0.2))
             .frame(width: 150, height: 220)
 
-        LinearDecoration(
-            lineCount: 5,
-            dimension: 150,
-            color: .gray.opacity(0.5),
-            startOffset: -0.1
-        )
+        LinearDecoration(lineCount: 5,
+                         dimension: 150,
+                         color: .gray.opacity(0.5),
+                         startOffset: -0.1)
     }
     .padding()
 }
@@ -135,15 +130,13 @@ public struct LinearDecoration: View {
             .fill(Color.gray.opacity(0.2))
             .frame(width: 150, height: 220)
 
-        LinearDecoration(
-            lineCount: 4,
-            dimension: 150,
-            color: .gray.opacity(0.5),
-            spacing: 0.1,
-            startOffset: 0,
-            randomizeWidths: false,
-            baseWidth: 0.6
-        )
+        LinearDecoration(lineCount: 4,
+                         dimension: 150,
+                         color: .gray.opacity(0.5),
+                         spacing: 0.1,
+                         startOffset: 0,
+                         randomizeWidths: false,
+                         baseWidth: 0.6)
     }
     .padding()
 }
@@ -154,13 +147,11 @@ public struct LinearDecoration: View {
             .fill(Color(red: 0.15, green: 0.15, blue: 0.18))
             .frame(width: 130, height: 200)
 
-        LinearDecoration(
-            lineCount: 6,
-            dimension: 130,
-            color: Color.gray.opacity(0.3),
-            spacing: 0.06,
-            startOffset: 0.1
-        )
+        LinearDecoration(lineCount: 6,
+                         dimension: 130,
+                         color: Color.gray.opacity(0.3),
+                         spacing: 0.06,
+                         startOffset: 0.1)
     }
     .padding()
 }

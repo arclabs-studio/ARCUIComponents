@@ -12,32 +12,26 @@ import Testing
 /// Unit tests for ARCToastType
 ///
 /// Tests icon, color, accessibilityPrefix, Equatable, and Hashable.
-@Suite("ARCToastType Tests")
-struct ARCToastTypeTests {
+@Suite("ARCToastType Tests") struct ARCToastTypeTests {
     // MARK: - Icon Tests
 
-    @Test("success_hasCheckmarkIcon")
-    func success_hasCheckmarkIcon() {
+    @Test("success_hasCheckmarkIcon") func success_hasCheckmarkIcon() {
         #expect(ARCToastType.success.icon == "checkmark.circle.fill")
     }
 
-    @Test("error_hasXmarkIcon")
-    func error_hasXmarkIcon() {
+    @Test("error_hasXmarkIcon") func error_hasXmarkIcon() {
         #expect(ARCToastType.error.icon == "xmark.circle.fill")
     }
 
-    @Test("warning_hasTriangleIcon")
-    func warning_hasTriangleIcon() {
+    @Test("warning_hasTriangleIcon") func warning_hasTriangleIcon() {
         #expect(ARCToastType.warning.icon == "exclamationmark.triangle.fill")
     }
 
-    @Test("info_hasInfoIcon")
-    func info_hasInfoIcon() {
+    @Test("info_hasInfoIcon") func info_hasInfoIcon() {
         #expect(ARCToastType.info.icon == "info.circle.fill")
     }
 
-    @Test("custom_hasCustomIcon")
-    func custom_hasCustomIcon() {
+    @Test("custom_hasCustomIcon") func custom_hasCustomIcon() {
         let sut = ARCToastType.custom(icon: "star.fill", color: .purple)
 
         #expect(sut.icon == "star.fill")
@@ -45,28 +39,23 @@ struct ARCToastTypeTests {
 
     // MARK: - Color Tests
 
-    @Test("success_hasGreenColor")
-    func success_hasGreenColor() {
+    @Test("success_hasGreenColor") func success_hasGreenColor() {
         #expect(ARCToastType.success.color == .green)
     }
 
-    @Test("error_hasRedColor")
-    func error_hasRedColor() {
+    @Test("error_hasRedColor") func error_hasRedColor() {
         #expect(ARCToastType.error.color == .red)
     }
 
-    @Test("warning_hasOrangeColor")
-    func warning_hasOrangeColor() {
+    @Test("warning_hasOrangeColor") func warning_hasOrangeColor() {
         #expect(ARCToastType.warning.color == .orange)
     }
 
-    @Test("info_hasBlueColor")
-    func info_hasBlueColor() {
+    @Test("info_hasBlueColor") func info_hasBlueColor() {
         #expect(ARCToastType.info.color == .blue)
     }
 
-    @Test("custom_hasCustomColor")
-    func custom_hasCustomColor() {
+    @Test("custom_hasCustomColor") func custom_hasCustomColor() {
         let sut = ARCToastType.custom(icon: "star", color: .purple)
 
         #expect(sut.color == .purple)
@@ -74,28 +63,23 @@ struct ARCToastTypeTests {
 
     // MARK: - Accessibility Prefix Tests
 
-    @Test("success_hasSuccessPrefix")
-    func success_hasSuccessPrefix() {
+    @Test("success_hasSuccessPrefix") func success_hasSuccessPrefix() {
         #expect(ARCToastType.success.accessibilityPrefix == "Success")
     }
 
-    @Test("error_hasErrorPrefix")
-    func error_hasErrorPrefix() {
+    @Test("error_hasErrorPrefix") func error_hasErrorPrefix() {
         #expect(ARCToastType.error.accessibilityPrefix == "Error")
     }
 
-    @Test("warning_hasWarningPrefix")
-    func warning_hasWarningPrefix() {
+    @Test("warning_hasWarningPrefix") func warning_hasWarningPrefix() {
         #expect(ARCToastType.warning.accessibilityPrefix == "Warning")
     }
 
-    @Test("info_hasInformationPrefix")
-    func info_hasInformationPrefix() {
+    @Test("info_hasInformationPrefix") func info_hasInformationPrefix() {
         #expect(ARCToastType.info.accessibilityPrefix == "Information")
     }
 
-    @Test("custom_hasNotificationPrefix")
-    func custom_hasNotificationPrefix() {
+    @Test("custom_hasNotificationPrefix") func custom_hasNotificationPrefix() {
         let sut = ARCToastType.custom(icon: "star", color: .purple)
 
         #expect(sut.accessibilityPrefix == "Notification")
@@ -103,22 +87,19 @@ struct ARCToastTypeTests {
 
     // MARK: - Equatable Tests
 
-    @Test("equatable_sameCase_areEqual")
-    func equatable_sameCase_areEqual() {
+    @Test("equatable_sameCase_areEqual") func equatable_sameCase_areEqual() {
         #expect(ARCToastType.success == ARCToastType.success)
         #expect(ARCToastType.error == ARCToastType.error)
         #expect(ARCToastType.warning == ARCToastType.warning)
         #expect(ARCToastType.info == ARCToastType.info)
     }
 
-    @Test("equatable_differentCases_areNotEqual")
-    func equatable_differentCases_areNotEqual() {
+    @Test("equatable_differentCases_areNotEqual") func equatable_differentCases_areNotEqual() {
         #expect(ARCToastType.success != ARCToastType.error)
         #expect(ARCToastType.warning != ARCToastType.info)
     }
 
-    @Test("equatable_customSameIcon_areEqual")
-    func equatable_customSameIcon_areEqual() {
+    @Test("equatable_customSameIcon_areEqual") func equatable_customSameIcon_areEqual() {
         let lhs = ARCToastType.custom(icon: "star", color: .red)
         let rhs = ARCToastType.custom(icon: "star", color: .blue)
 
@@ -126,16 +107,14 @@ struct ARCToastTypeTests {
         #expect(lhs == rhs)
     }
 
-    @Test("equatable_customDifferentIcon_areNotEqual")
-    func equatable_customDifferentIcon_areNotEqual() {
+    @Test("equatable_customDifferentIcon_areNotEqual") func equatable_customDifferentIcon_areNotEqual() {
         let lhs = ARCToastType.custom(icon: "star", color: .red)
         let rhs = ARCToastType.custom(icon: "heart", color: .red)
 
         #expect(lhs != rhs)
     }
 
-    @Test("equatable_customVsPredefined_areNotEqual")
-    func equatable_customVsPredefined_areNotEqual() {
+    @Test("equatable_customVsPredefined_areNotEqual") func equatable_customVsPredefined_areNotEqual() {
         let custom = ARCToastType.custom(icon: "checkmark.circle.fill", color: .green)
 
         #expect(custom != ARCToastType.success)
@@ -143,8 +122,7 @@ struct ARCToastTypeTests {
 
     // MARK: - Hashable Tests
 
-    @Test("hashable_sameCases_produceSameHash")
-    func hashable_sameCases_produceSameHash() {
+    @Test("hashable_sameCases_produceSameHash") func hashable_sameCases_produceSameHash() {
         var set: Set<ARCToastType> = []
         set.insert(.success)
         set.insert(.success)
@@ -152,15 +130,13 @@ struct ARCToastTypeTests {
         #expect(set.count == 1)
     }
 
-    @Test("hashable_differentCases_produceDifferentHash")
-    func hashable_differentCases_produceDifferentHash() {
+    @Test("hashable_differentCases_produceDifferentHash") func hashable_differentCases_produceDifferentHash() {
         let set: Set<ARCToastType> = [.success, .error, .warning, .info]
 
         #expect(set.count == 4)
     }
 
-    @Test("hashable_customSameIcon_produceSameHash")
-    func hashable_customSameIcon_produceSameHash() {
+    @Test("hashable_customSameIcon_produceSameHash") func hashable_customSameIcon_produceSameHash() {
         var set: Set<ARCToastType> = []
         set.insert(.custom(icon: "star", color: .red))
         set.insert(.custom(icon: "star", color: .blue))
@@ -170,10 +146,8 @@ struct ARCToastTypeTests {
 
     @Test("hashable_customDifferentIcons_produceDifferentHash")
     func hashable_customDifferentIcons_produceDifferentHash() {
-        let set: Set<ARCToastType> = [
-            .custom(icon: "star", color: .red),
-            .custom(icon: "heart", color: .red)
-        ]
+        let set: Set<ARCToastType> = [.custom(icon: "star", color: .red),
+                                      .custom(icon: "heart", color: .red)]
 
         #expect(set.count == 2)
     }

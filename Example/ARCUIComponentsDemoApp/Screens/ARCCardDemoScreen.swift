@@ -35,27 +35,24 @@ struct ARCCardDemoScreen: View {
 
 // MARK: - Private Views
 
-private extension ARCCardDemoScreen {
-    var backgroundGradient: some View {
-        LinearGradient(
-            colors: [.blue.opacity(0.1), .purple.opacity(0.05)],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
+extension ARCCardDemoScreen {
+    private var backgroundGradient: some View {
+        LinearGradient(colors: [.blue.opacity(0.1), .purple.opacity(0.05)],
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+            .ignoresSafeArea()
     }
 
-    var basicCardsSection: some View {
+    private var basicCardsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Basic Cards")
                 .font(.headline)
                 .foregroundStyle(Color.arcBrandBurgundy)
 
             HStack(spacing: 16) {
-                ARCCard(
-                    title: "Simple Card",
-                    subtitle: "With subtitle"
-                ) {
+                ARCCard(title: "Simple Card",
+                        subtitle: "With subtitle")
+                {
                     Color.arcBrandBurgundy.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -65,13 +62,12 @@ private extension ARCCardDemoScreen {
                         }
                 }
 
-                ARCCard(
-                    title: "With Icons",
-                    subtitle: "Category",
-                    secondarySubtitle: "Location",
-                    subtitleIcon: "tag.fill",
-                    secondarySubtitleIcon: "location.fill"
-                ) {
+                ARCCard(title: "With Icons",
+                        subtitle: "Category",
+                        secondarySubtitle: "Location",
+                        subtitleIcon: "tag.fill",
+                        secondarySubtitleIcon: "location.fill")
+                {
                     Color.arcBrandGold.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -84,20 +80,17 @@ private extension ARCCardDemoScreen {
         }
     }
 
-    var badgesSection: some View {
+    private var badgesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("With Badges")
                 .font(.headline)
                 .foregroundStyle(Color.arcBrandBurgundy)
 
             HStack(spacing: 16) {
-                ARCCard(
-                    title: "Material Badge",
-                    subtitle: "Blur effect",
-                    badges: [
-                        .init(text: "$9.99", position: .topTrailing, style: .material)
-                    ]
-                ) {
+                ARCCard(title: "Material Badge",
+                        subtitle: "Blur effect",
+                        badges: [.init(text: "$9.99", position: .topTrailing, style: .material)])
+                {
                     Color.blue.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -107,13 +100,10 @@ private extension ARCCardDemoScreen {
                         }
                 }
 
-                ARCCard(
-                    title: "Solid Badge",
-                    subtitle: "Color background",
-                    badges: [
-                        .init(text: "NEW", position: .topLeading, style: .solid(.arcBrandBurgundy))
-                    ]
-                ) {
+                ARCCard(title: "Solid Badge",
+                        subtitle: "Color background",
+                        badges: [.init(text: "NEW", position: .topLeading, style: .solid(.arcBrandBurgundy))])
+                {
                     Color.green.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -124,15 +114,12 @@ private extension ARCCardDemoScreen {
                 }
             }
 
-            ARCCard(
-                title: "Multiple Badges",
-                subtitle: "Different positions",
-                badges: [
-                    .init(text: "SALE", position: .topLeading, style: .solid(.red)),
-                    .init(text: "$19.99", position: .topTrailing, style: .material),
-                    .init(text: "Limited", position: .bottomTrailing, style: .solid(.arcBrandGold))
-                ]
-            ) {
+            ARCCard(title: "Multiple Badges",
+                    subtitle: "Different positions",
+                    badges: [.init(text: "SALE", position: .topLeading, style: .solid(.red)),
+                             .init(text: "$19.99", position: .topTrailing, style: .material),
+                             .init(text: "Limited", position: .bottomTrailing, style: .solid(.arcBrandGold))])
+            {
                 Color.purple.opacity(0.2)
                     .frame(height: 120)
                     .overlay {
@@ -144,18 +131,17 @@ private extension ARCCardDemoScreen {
         }
     }
 
-    var footerSection: some View {
+    private var footerSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("With Footer")
                 .font(.headline)
                 .foregroundStyle(Color.arcBrandBurgundy)
 
             HStack(spacing: 16) {
-                ARCCard(
-                    title: "Restaurant",
-                    subtitle: "Italian Cuisine",
-                    subtitleIcon: "fork.knife"
-                ) {
+                ARCCard(title: "Restaurant",
+                        subtitle: "Italian Cuisine",
+                        subtitleIcon: "fork.knife")
+                {
                     Color.orange.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -167,11 +153,10 @@ private extension ARCCardDemoScreen {
                     ARCRatingView(rating: 4.5)
                 }
 
-                ARCCard(
-                    title: "Book Title",
-                    subtitle: "Author Name",
-                    subtitleIcon: "person.fill"
-                ) {
+                ARCCard(title: "Book Title",
+                        subtitle: "Author Name",
+                        subtitleIcon: "person.fill")
+                {
                     Color.pink.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -186,7 +171,7 @@ private extension ARCCardDemoScreen {
         }
     }
 
-    var interactiveSection: some View {
+    private var interactiveSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Interactive Cards")
                 .font(.headline)
@@ -200,10 +185,9 @@ private extension ARCCardDemoScreen {
                 Button {
                     // Action
                 } label: {
-                    ARCCard(
-                        title: "Subtle Press",
-                        subtitle: "Light feedback"
-                    ) {
+                    ARCCard(title: "Subtle Press",
+                            subtitle: "Light feedback")
+                    {
                         Color.cyan.opacity(0.2)
                             .frame(height: 80)
                             .overlay {
@@ -218,10 +202,9 @@ private extension ARCCardDemoScreen {
                 Button {
                     // Action
                 } label: {
-                    ARCCard(
-                        title: "Prominent Press",
-                        subtitle: "Strong feedback"
-                    ) {
+                    ARCCard(title: "Prominent Press",
+                            subtitle: "Strong feedback")
+                    {
                         Color.indigo.opacity(0.2)
                             .frame(height: 80)
                             .overlay {
@@ -236,7 +219,7 @@ private extension ARCCardDemoScreen {
         }
     }
 
-    var configurationsSection: some View {
+    private var configurationsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Configurations")
                 .font(.headline)
@@ -245,10 +228,9 @@ private extension ARCCardDemoScreen {
             VStack(spacing: 16) {
                 HStack(spacing: 16) {
                     VStack(spacing: 4) {
-                        ARCCard(
-                            title: "Default",
-                            configuration: .default
-                        ) {
+                        ARCCard(title: "Default",
+                                configuration: .default)
+                        {
                             Color.gray.opacity(0.2).frame(height: 60)
                         }
                         Text("Default")
@@ -257,10 +239,9 @@ private extension ARCCardDemoScreen {
                     }
 
                     VStack(spacing: 4) {
-                        ARCCard(
-                            title: "Compact",
-                            configuration: .compact
-                        ) {
+                        ARCCard(title: "Compact",
+                                configuration: .compact)
+                        {
                             Color.gray.opacity(0.2).frame(height: 60)
                         }
                         Text("Compact")
@@ -271,10 +252,9 @@ private extension ARCCardDemoScreen {
 
                 HStack(spacing: 16) {
                     VStack(spacing: 4) {
-                        ARCCard(
-                            title: "Prominent",
-                            configuration: .prominent
-                        ) {
+                        ARCCard(title: "Prominent",
+                                configuration: .prominent)
+                        {
                             Color.gray.opacity(0.2).frame(height: 60)
                         }
                         Text("Prominent")
@@ -283,10 +263,9 @@ private extension ARCCardDemoScreen {
                     }
 
                     VStack(spacing: 4) {
-                        ARCCard(
-                            title: "Glassmorphic",
-                            configuration: .glassmorphic
-                        ) {
+                        ARCCard(title: "Glassmorphic",
+                                configuration: .glassmorphic)
+                        {
                             Color.gray.opacity(0.2).frame(height: 60)
                         }
                         Text("Glassmorphic")

@@ -43,11 +43,9 @@ extension ARCBarChartDemoScreen {
                 .foregroundStyle(.secondary)
                 .padding(.horizontal)
 
-            ARCBarChart(
-                data: DemoBarData.priceRanges,
-                label: \.name,
-                value: \.count
-            )
+            ARCBarChart(data: DemoBarData.priceRanges,
+                        label: \.name,
+                        value: \.count)
         }
     }
 
@@ -60,12 +58,10 @@ extension ARCBarChartDemoScreen {
                 .foregroundStyle(.secondary)
                 .padding(.horizontal)
 
-            ARCBarChart(
-                data: DemoBarData.coloredRanges,
-                label: \.name,
-                value: \.count,
-                color: { $0.color }
-            )
+            ARCBarChart(data: DemoBarData.coloredRanges,
+                        label: \.name,
+                        value: \.count,
+                        color: { $0.color })
         }
     }
 
@@ -78,12 +74,10 @@ extension ARCBarChartDemoScreen {
                 .foregroundStyle(.secondary)
                 .padding(.horizontal)
 
-            ARCBarChart(
-                data: DemoBarData.cities,
-                label: \.name,
-                value: \.count,
-                configuration: .horizontal
-            )
+            ARCBarChart(data: DemoBarData.cities,
+                        label: \.name,
+                        value: \.count,
+                        configuration: .horizontal)
         }
     }
 
@@ -111,26 +105,20 @@ private enum DemoBarData {
         let color: Color
     }
 
-    static let priceRanges: [BarItem] = [
-        BarItem(name: "Budget", count: 3),
-        BarItem(name: "Moderate", count: 7),
-        BarItem(name: "Expensive", count: 4),
-        BarItem(name: "Luxury", count: 1)
-    ]
+    static let priceRanges: [BarItem] = [BarItem(name: "Budget", count: 3),
+                                         BarItem(name: "Moderate", count: 7),
+                                         BarItem(name: "Expensive", count: 4),
+                                         BarItem(name: "Luxury", count: 1)]
 
-    static let coloredRanges: [ColoredBarItem] = [
-        ColoredBarItem(name: "Budget", count: 3, color: .green),
-        ColoredBarItem(name: "Moderate", count: 7, color: .blue),
-        ColoredBarItem(name: "Expensive", count: 4, color: .orange),
-        ColoredBarItem(name: "Luxury", count: 1, color: .red)
-    ]
+    static let coloredRanges: [ColoredBarItem] = [ColoredBarItem(name: "Budget", count: 3, color: .green),
+                                                  ColoredBarItem(name: "Moderate", count: 7, color: .blue),
+                                                  ColoredBarItem(name: "Expensive", count: 4, color: .orange),
+                                                  ColoredBarItem(name: "Luxury", count: 1, color: .red)]
 
-    static let cities: [BarItem] = [
-        BarItem(name: "Madrid", count: 8),
-        BarItem(name: "Barcelona", count: 4),
-        BarItem(name: "Valencia", count: 2),
-        BarItem(name: "Sevilla", count: 1)
-    ]
+    static let cities: [BarItem] = [BarItem(name: "Madrid", count: 8),
+                                    BarItem(name: "Barcelona", count: 4),
+                                    BarItem(name: "Valencia", count: 2),
+                                    BarItem(name: "Sevilla", count: 1)]
 }
 
 // MARK: - Previews

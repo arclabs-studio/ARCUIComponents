@@ -14,8 +14,7 @@ import SwiftUI
 ///
 /// - ``default``
 /// - ``compact``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatDashboardConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatDashboardConfiguration: Sendable {
     /// Vertical spacing between sections
     public let sectionSpacing: CGFloat
 
@@ -29,12 +28,11 @@ public struct ARCStatDashboardConfiguration: Sendable {
     public let dividerPadding: CGFloat
 
     /// Creates a dashboard configuration
-    public init(
-        sectionSpacing: CGFloat = .arcSpacingLarge,
-        topPadding: CGFloat = .arcSpacingMedium,
-        showDividers: Bool = true,
-        dividerPadding: CGFloat = .arcSpacingLarge
-    ) {
+    public init(sectionSpacing: CGFloat = .arcSpacingLarge,
+                topPadding: CGFloat = .arcSpacingMedium,
+                showDividers: Bool = true,
+                dividerPadding: CGFloat = .arcSpacingLarge)
+    {
         self.sectionSpacing = sectionSpacing
         self.topPadding = topPadding
         self.showDividers = showDividers
@@ -47,9 +45,7 @@ public struct ARCStatDashboardConfiguration: Sendable {
     public static let `default` = ARCStatDashboardConfiguration()
 
     /// Compact configuration without dividers
-    public static let compact = ARCStatDashboardConfiguration(
-        sectionSpacing: .arcSpacingMedium,
-        topPadding: .arcSpacingSmall,
-        showDividers: false
-    )
+    public static let compact = ARCStatDashboardConfiguration(sectionSpacing: .arcSpacingMedium,
+                                                              topPadding: .arcSpacingSmall,
+                                                              showDividers: false)
 }

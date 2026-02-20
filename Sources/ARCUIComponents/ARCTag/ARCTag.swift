@@ -48,8 +48,7 @@ import SwiftUI
 ///     }
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCTag: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCTag: View {
     // MARK: - Properties
 
     private let text: String
@@ -64,11 +63,10 @@ public struct ARCTag: View {
     ///   - text: The label text
     ///   - icon: Optional SF Symbol name
     ///   - configuration: Tag configuration
-    public init(
-        _ text: String,
-        icon: String? = nil,
-        configuration: ARCTagConfiguration = .default
-    ) {
+    public init(_ text: String,
+                icon: String? = nil,
+                configuration: ARCTagConfiguration = .default)
+    {
         self.text = text
         self.icon = icon
         self.configuration = configuration
@@ -105,7 +103,6 @@ public struct ARCTag: View {
 
     // MARK: - Icon View
 
-    @ViewBuilder
     private func iconView(_ systemName: String) -> some View {
         Image(systemName: systemName)
             .font(.system(size: configuration.size.iconSize))
@@ -114,7 +111,7 @@ public struct ARCTag: View {
 
     // MARK: - Text View
 
-    @ViewBuilder private var textView: some View {
+    private var textView: some View {
         Text(text)
             .font(.system(size: configuration.size.fontSize, weight: .medium))
             .foregroundStyle(computedTextColor)
@@ -169,8 +166,7 @@ public struct ARCTag: View {
 
 // MARK: - AnyInsettableShape
 
-@available(iOS 17.0, macOS 14.0, *)
-private struct AnyInsettableShape: InsettableShape, @unchecked Sendable {
+@available(iOS 17.0, macOS 14.0, *) private struct AnyInsettableShape: InsettableShape, @unchecked Sendable {
     private let _path: @Sendable (CGRect) -> Path
     private let _inset: @Sendable (CGFloat) -> AnyInsettableShape
 
@@ -190,8 +186,7 @@ private struct AnyInsettableShape: InsettableShape, @unchecked Sendable {
 
 // MARK: - Liquid Glass Background
 
-@available(iOS 17.0, macOS 14.0, *)
-private struct LiquidGlassBackground: View {
+@available(iOS 17.0, macOS 14.0, *) private struct LiquidGlassBackground: View {
     let configuration: ARCTagConfiguration
 
     var body: some View {

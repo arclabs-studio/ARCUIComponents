@@ -54,12 +54,10 @@ public struct DecorationElementView: View {
 // MARK: - Preview
 
 #Preview("Circle Decoration") {
-    let element = DecorationElement.circle(
-        color: .red,
-        diameter: 40,
-        offset: CGPoint(x: 0, y: -50),
-        opacity: 0.9
-    )
+    let element = DecorationElement.circle(color: .red,
+                                           diameter: 40,
+                                           offset: CGPoint(x: 0, y: -50),
+                                           opacity: 0.9)
 
     ZStack {
         Circle()
@@ -72,13 +70,11 @@ public struct DecorationElementView: View {
 }
 
 #Preview("Capsule Decoration") {
-    let element = DecorationElement.capsule(
-        color: .black,
-        size: CGSize(width: 20, height: 80),
-        offset: CGPoint(x: 0, y: -30),
-        rotation: .degrees(45),
-        opacity: 0.85
-    )
+    let element = DecorationElement.capsule(color: .black,
+                                            size: CGSize(width: 20, height: 80),
+                                            offset: CGPoint(x: 0, y: -30),
+                                            rotation: .degrees(45),
+                                            opacity: 0.85)
 
     ZStack {
         Circle()
@@ -97,12 +93,10 @@ public struct DecorationElementView: View {
             .frame(width: 200, height: 200)
 
         ForEach(0 ..< 6, id: \.self) { index in
-            let element = DecorationElement.circle(
-                color: index.isMultiple(of: 2) ? .red : .green,
-                diameter: 20,
-                offset: CGPoint(x: 0, y: -70),
-                opacity: 0.8
-            )
+            let element = DecorationElement.circle(color: index.isMultiple(of: 2) ? .red : .green,
+                                                   diameter: 20,
+                                                   offset: CGPoint(x: 0, y: -70),
+                                                   opacity: 0.8)
 
             DecorationElementView(element: element)
                 .rotationEffect(.degrees(Double(index) * 60))

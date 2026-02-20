@@ -62,8 +62,7 @@ import AppKit
 /// // Custom Configuration
 /// ARCAvatar(name: user.name, configuration: .profile)
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCAvatar: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCAvatar: View {
     // MARK: - Content
 
     /// Content types for avatars
@@ -101,12 +100,11 @@ public struct ARCAvatar: View {
     ///   - status: Status indicator (default: .none)
     ///   - configuration: Avatar configuration (default: .default)
     ///   - accessibilityLabel: Custom accessibility label
-    public init(
-        image: Image,
-        status: ARCAvatarStatus = .none,
-        configuration: ARCAvatarConfiguration = .default,
-        accessibilityLabel: String? = nil
-    ) {
+    public init(image: Image,
+                status: ARCAvatarStatus = .none,
+                configuration: ARCAvatarConfiguration = .default,
+                accessibilityLabel: String? = nil)
+    {
         content = .image(image)
         self.status = status
         self.configuration = configuration
@@ -121,12 +119,11 @@ public struct ARCAvatar: View {
     ///   - status: Status indicator (default: .none)
     ///   - configuration: Avatar configuration (default: .default)
     ///   - accessibilityLabel: Custom accessibility label
-    public init(
-        url: URL?,
-        status: ARCAvatarStatus = .none,
-        configuration: ARCAvatarConfiguration = .default,
-        accessibilityLabel: String? = nil
-    ) {
+    public init(url: URL?,
+                status: ARCAvatarStatus = .none,
+                configuration: ARCAvatarConfiguration = .default,
+                accessibilityLabel: String? = nil)
+    {
         content = .url(url)
         self.status = status
         self.configuration = configuration
@@ -140,11 +137,10 @@ public struct ARCAvatar: View {
     ///   - name: The full name to extract initials from
     ///   - status: Status indicator (default: .none)
     ///   - configuration: Avatar configuration (default: .default)
-    public init(
-        name: String,
-        status: ARCAvatarStatus = .none,
-        configuration: ARCAvatarConfiguration = .default
-    ) {
+    public init(name: String,
+                status: ARCAvatarStatus = .none,
+                configuration: ARCAvatarConfiguration = .default)
+    {
         content = .initials(name.initials)
         self.status = status
         self.configuration = configuration
@@ -159,12 +155,11 @@ public struct ARCAvatar: View {
     ///   - status: Status indicator (default: .none)
     ///   - configuration: Avatar configuration (default: .default)
     ///   - backgroundColor: Custom background color for initials
-    public init(
-        initials: String,
-        status: ARCAvatarStatus = .none,
-        configuration: ARCAvatarConfiguration = .default,
-        backgroundColor: Color? = nil
-    ) {
+    public init(initials: String,
+                status: ARCAvatarStatus = .none,
+                configuration: ARCAvatarConfiguration = .default,
+                backgroundColor: Color? = nil)
+    {
         content = .initials(String(initials.prefix(2)).uppercased())
         self.status = status
         self.configuration = configuration
@@ -178,11 +173,10 @@ public struct ARCAvatar: View {
     ///   - systemImage: The SF Symbol name
     ///   - status: Status indicator (default: .none)
     ///   - configuration: Avatar configuration (default: .default)
-    public init(
-        systemImage: String,
-        status: ARCAvatarStatus = .none,
-        configuration: ARCAvatarConfiguration = .default
-    ) {
+    public init(systemImage: String,
+                status: ARCAvatarStatus = .none,
+                configuration: ARCAvatarConfiguration = .default)
+    {
         content = .systemImage(systemImage)
         self.status = status
         self.configuration = configuration
@@ -195,10 +189,9 @@ public struct ARCAvatar: View {
     /// - Parameters:
     ///   - status: Status indicator (default: .none)
     ///   - configuration: Avatar configuration (default: .default)
-    public init(
-        status: ARCAvatarStatus = .none,
-        configuration: ARCAvatarConfiguration = .default
-    ) {
+    public init(status: ARCAvatarStatus = .none,
+                configuration: ARCAvatarConfiguration = .default)
+    {
         content = .placeholder
         self.status = status
         self.configuration = configuration
@@ -208,13 +201,12 @@ public struct ARCAvatar: View {
 
     // MARK: - Private Init
 
-    private init(
-        content: Content,
-        status: ARCAvatarStatus,
-        configuration: ARCAvatarConfiguration,
-        accessibilityLabel: String?,
-        initialsBackgroundColor: Color?
-    ) {
+    private init(content: Content,
+                 status: ARCAvatarStatus,
+                 configuration: ARCAvatarConfiguration,
+                 accessibilityLabel: String?,
+                 initialsBackgroundColor: Color?)
+    {
         self.content = content
         self.status = status
         self.configuration = configuration
@@ -304,7 +296,6 @@ public struct ARCAvatar: View {
         }
     }
 
-    @ViewBuilder
     private func asyncImageContent(url: URL?) -> some View {
         AsyncImage(url: url) { phase in
             switch phase {
@@ -325,22 +316,18 @@ public struct ARCAvatar: View {
         }
     }
 
-    @ViewBuilder
-    private func initialsContent(_ text: String) -> some View {
+    @ViewBuilder private func initialsContent(_ text: String) -> some View {
         let bgColor = initialsBackgroundColor ?? configuration.backgroundColor
         ZStack {
             bgColor
             Text(text)
-                .font(.system(
-                    size: configuration.size.fontSize,
-                    weight: .semibold,
-                    design: .rounded
-                ))
+                .font(.system(size: configuration.size.fontSize,
+                              weight: .semibold,
+                              design: .rounded))
                 .foregroundStyle(textColorForBackground(bgColor))
         }
     }
 
-    @ViewBuilder
     private func systemImageContent(_ name: String) -> some View {
         ZStack {
             configuration.backgroundColor
@@ -367,16 +354,12 @@ public struct ARCAvatar: View {
     private var statusBadge: some View {
         Circle()
             .fill(status.color)
-            .frame(
-                width: configuration.size.statusBadgeSize,
-                height: configuration.size.statusBadgeSize
-            )
+            .frame(width: configuration.size.statusBadgeSize,
+                   height: configuration.size.statusBadgeSize)
             .overlay {
                 Circle()
-                    .strokeBorder(
-                        statusBadgeBorderColor,
-                        lineWidth: configuration.size.statusBadgeBorderWidth
-                    )
+                    .strokeBorder(statusBadgeBorderColor,
+                                  lineWidth: configuration.size.statusBadgeBorderWidth)
             }
     }
 
@@ -405,7 +388,7 @@ public struct ARCAvatar: View {
         }
     }
 
-    private func textColorForBackground(_ color: Color) -> Color {
+    private func textColorForBackground(_: Color) -> Color {
         // Use white text for darker backgrounds, dark text for lighter backgrounds
         // This is a simplified check - in production, calculate luminance
         configuration.foregroundColor == .primary ? .white : configuration.foregroundColor
@@ -423,7 +406,7 @@ extension String {
     ///   - "María García" → "MG"
     var initials: String {
         let components = split(separator: " ")
-        let initials = components.prefix(2).compactMap { $0.first }
+        let initials = components.prefix(2).compactMap(\.first)
         return String(initials).uppercased()
     }
 
@@ -479,18 +462,12 @@ extension String {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Avatar Shapes") {
     HStack(spacing: 16) {
-        ARCAvatar(
-            name: "Circle",
-            configuration: ARCAvatarConfiguration(shape: .circle)
-        )
-        ARCAvatar(
-            name: "Square",
-            configuration: ARCAvatarConfiguration(shape: .roundedSquare(cornerRadius: 8))
-        )
-        ARCAvatar(
-            name: "Squircle",
-            configuration: ARCAvatarConfiguration(shape: .squircle)
-        )
+        ARCAvatar(name: "Circle",
+                  configuration: ARCAvatarConfiguration(shape: .circle))
+        ARCAvatar(name: "Square",
+                  configuration: ARCAvatarConfiguration(shape: .roundedSquare(cornerRadius: 8)))
+        ARCAvatar(name: "Squircle",
+                  configuration: ARCAvatarConfiguration(shape: .squircle))
     }
     .padding()
 }

@@ -17,8 +17,7 @@ import SwiftUI
 /// - Test visual appearance in Light and Dark modes
 /// - Compare different icon, color, and message combinations
 /// - Verify accessibility and Dynamic Type support
-@available(iOS 17.0, *)
-public struct ARCEmptyStateShowcase: View {
+@available(iOS 17.0, *) public struct ARCEmptyStateShowcase: View {
     // MARK: - State
 
     @State private var selectedTab: ShowcaseTab = .presets
@@ -61,10 +60,9 @@ public struct ARCEmptyStateShowcase: View {
             #if os(iOS)
                 .navigationBarTitleDisplayMode(.large)
             #endif
-                .alert(
-                    "Action Triggered",
-                    isPresented: $showAlert
-                ) {
+                .alert("Action Triggered",
+                       isPresented: $showAlert)
+                {
                     Button("OK", role: .cancel) {}
                 } message: {
                     Text(alertMessage)
@@ -77,26 +75,22 @@ public struct ARCEmptyStateShowcase: View {
     private var presetsContent: some View {
         VStack(spacing: 60) {
             // Native Rendering Section
-            SectionHeader(
-                title: "Native Rendering",
-                subtitle: "Uses ContentUnavailableView internally"
-            )
-            .padding(.horizontal)
+            SectionHeader(title: "Native Rendering",
+                          subtitle: "Uses ContentUnavailableView internally")
+                .padding(.horizontal)
 
-            PresetExample(
-                title: "No Results",
-                description: "Native - system styling"
-            ) {
+            PresetExample(title: "No Results",
+                          description: "Native - system styling")
+            {
                 ARCEmptyState(configuration: .noResults)
             }
 
             Divider()
                 .padding(.horizontal)
 
-            PresetExample(
-                title: "No Data",
-                description: "Native - system styling"
-            ) {
+            PresetExample(title: "No Data",
+                          description: "Native - system styling")
+            {
                 ARCEmptyState(configuration: .noData)
             }
 
@@ -104,16 +98,13 @@ public struct ARCEmptyStateShowcase: View {
                 .padding(.horizontal)
 
             // Custom Rendering Section
-            SectionHeader(
-                title: "Custom ARC Rendering",
-                subtitle: "Branded colors, actions, glass effects"
-            )
-            .padding(.horizontal)
+            SectionHeader(title: "Custom ARC Rendering",
+                          subtitle: "Branded colors, actions, glass effects")
+                .padding(.horizontal)
 
-            PresetExample(
-                title: "No Favorites",
-                description: "Custom - pink icon + action"
-            ) {
+            PresetExample(title: "No Favorites",
+                          description: "Custom - pink icon + action")
+            {
                 ARCEmptyState(configuration: .noFavorites) {
                     triggerAction("Browse action")
                 }
@@ -122,10 +113,9 @@ public struct ARCEmptyStateShowcase: View {
             Divider()
                 .padding(.horizontal)
 
-            PresetExample(
-                title: "Error",
-                description: "Custom - orange icon + retry"
-            ) {
+            PresetExample(title: "Error",
+                          description: "Custom - orange icon + retry")
+            {
                 ARCEmptyState(configuration: .error) {
                     triggerAction("Retry action")
                 }
@@ -134,10 +124,9 @@ public struct ARCEmptyStateShowcase: View {
             Divider()
                 .padding(.horizontal)
 
-            PresetExample(
-                title: "Offline",
-                description: "Custom - red icon + settings"
-            ) {
+            PresetExample(title: "Offline",
+                          description: "Custom - red icon + settings")
+            {
                 ARCEmptyState(configuration: .offline) {
                     triggerAction("Open Settings")
                 }
@@ -146,10 +135,9 @@ public struct ARCEmptyStateShowcase: View {
             Divider()
                 .padding(.horizontal)
 
-            PresetExample(
-                title: "Premium",
-                description: "Custom - Liquid Glass background"
-            ) {
+            PresetExample(title: "Premium",
+                          description: "Custom - Liquid Glass background")
+            {
                 ARCEmptyState(configuration: .premium) {
                     triggerAction("Explore")
                 }
@@ -161,26 +149,22 @@ public struct ARCEmptyStateShowcase: View {
 
     private var customContent: some View {
         VStack(spacing: 60) {
-            SectionHeader(
-                title: "Custom Configurations",
-                subtitle: "Custom icons, colors, and messages"
-            )
-            .padding(.horizontal)
+            SectionHeader(title: "Custom Configurations",
+                          subtitle: "Custom icons, colors, and messages")
+                .padding(.horizontal)
 
             // Custom 1: Photos
-            PresetExample(
-                title: "No Photos",
-                description: "Custom photo empty state"
-            ) {
-                ARCEmptyState(
-                    icon: "photo.on.rectangle",
-                    iconColor: .blue,
-                    title: "No Photos",
-                    message: "Take a photo or choose from your library to get started.",
-                    actionTitle: "Add Photo",
-                    showsAction: true,
-                    accentColor: .blue
-                ) {
+            PresetExample(title: "No Photos",
+                          description: "Custom photo empty state")
+            {
+                ARCEmptyState(icon: "photo.on.rectangle",
+                              iconColor: .blue,
+                              title: "No Photos",
+                              message: "Take a photo or choose from your library to get started.",
+                              actionTitle: "Add Photo",
+                              showsAction: true,
+                              accentColor: .blue)
+                {
                     triggerAction("Add Photo")
                 }
             }
@@ -189,19 +173,17 @@ public struct ARCEmptyStateShowcase: View {
                 .padding(.horizontal)
 
             // Custom 2: Messages
-            PresetExample(
-                title: "No Messages",
-                description: "Custom messaging empty state"
-            ) {
-                ARCEmptyState(
-                    icon: "message",
-                    iconColor: .green,
-                    title: "No Messages",
-                    message: "Start a conversation to see your messages here.",
-                    actionTitle: "New Message",
-                    showsAction: true,
-                    accentColor: .green
-                ) {
+            PresetExample(title: "No Messages",
+                          description: "Custom messaging empty state")
+            {
+                ARCEmptyState(icon: "message",
+                              iconColor: .green,
+                              title: "No Messages",
+                              message: "Start a conversation to see your messages here.",
+                              actionTitle: "New Message",
+                              showsAction: true,
+                              accentColor: .green)
+                {
                     triggerAction("New Message")
                 }
             }
@@ -210,19 +192,17 @@ public struct ARCEmptyStateShowcase: View {
                 .padding(.horizontal)
 
             // Custom 3: Calendar
-            PresetExample(
-                title: "No Events",
-                description: "Custom calendar empty state"
-            ) {
-                ARCEmptyState(
-                    icon: "calendar",
-                    iconColor: .red,
-                    title: "No Events Today",
-                    message: "You have no scheduled events. Enjoy your free time!",
-                    actionTitle: "Add Event",
-                    showsAction: true,
-                    accentColor: .red
-                ) {
+            PresetExample(title: "No Events",
+                          description: "Custom calendar empty state")
+            {
+                ARCEmptyState(icon: "calendar",
+                              iconColor: .red,
+                              title: "No Events Today",
+                              message: "You have no scheduled events. Enjoy your free time!",
+                              actionTitle: "Add Event",
+                              showsAction: true,
+                              accentColor: .red)
+                {
                     triggerAction("Add Event")
                 }
             }
@@ -231,19 +211,17 @@ public struct ARCEmptyStateShowcase: View {
                 .padding(.horizontal)
 
             // Custom 4: Notes
-            PresetExample(
-                title: "No Notes",
-                description: "Custom notes empty state"
-            ) {
-                ARCEmptyState(
-                    icon: "note.text",
-                    iconColor: .orange,
-                    title: "No Notes",
-                    message: "Create your first note to capture your thoughts and ideas.",
-                    actionTitle: "New Note",
-                    showsAction: true,
-                    accentColor: .orange
-                ) {
+            PresetExample(title: "No Notes",
+                          description: "Custom notes empty state")
+            {
+                ARCEmptyState(icon: "note.text",
+                              iconColor: .orange,
+                              title: "No Notes",
+                              message: "Create your first note to capture your thoughts and ideas.",
+                              actionTitle: "New Note",
+                              showsAction: true,
+                              accentColor: .orange)
+                {
                     triggerAction("New Note")
                 }
             }
@@ -254,17 +232,14 @@ public struct ARCEmptyStateShowcase: View {
 
     private var contextsContent: some View {
         VStack(spacing: 60) {
-            SectionHeader(
-                title: "In Context",
-                subtitle: "Empty states in realistic layouts"
-            )
-            .padding(.horizontal)
+            SectionHeader(title: "In Context",
+                          subtitle: "Empty states in realistic layouts")
+                .padding(.horizontal)
 
             // List Context
-            ContextExample(
-                title: "In a List",
-                description: "Empty state within a list view"
-            ) {
+            ContextExample(title: "In a List",
+                           description: "Empty state within a list view")
+            {
                 VStack(spacing: 0) {
                     // Header
                     HStack {
@@ -291,10 +266,9 @@ public struct ARCEmptyStateShowcase: View {
             }
 
             // Search Context
-            ContextExample(
-                title: "In Search",
-                description: "Empty search results"
-            ) {
+            ContextExample(title: "In Search",
+                           description: "Empty search results")
+            {
                 VStack(spacing: 0) {
                     // Search Bar
                     HStack {
@@ -335,8 +309,7 @@ public struct ARCEmptyStateShowcase: View {
 
 // MARK: - Supporting Views
 
-@available(iOS 17.0, *)
-private struct PresetExample<Content: View>: View {
+@available(iOS 17.0, *) private struct PresetExample<Content: View>: View {
     let title: String
     let description: String
     @ViewBuilder let content: () -> Content
@@ -361,8 +334,7 @@ private struct PresetExample<Content: View>: View {
     }
 }
 
-@available(iOS 17.0, *)
-private struct ContextExample<Content: View>: View {
+@available(iOS 17.0, *) private struct ContextExample<Content: View>: View {
     let title: String
     let description: String
     @ViewBuilder let content: () -> Content
@@ -386,8 +358,7 @@ private struct ContextExample<Content: View>: View {
     }
 }
 
-@available(iOS 17.0, *)
-private struct SectionHeader: View {
+@available(iOS 17.0, *) private struct SectionHeader: View {
     let title: String
     let subtitle: String
 
@@ -408,8 +379,7 @@ private struct SectionHeader: View {
 
 // MARK: - Showcase Tab
 
-@available(iOS 17.0, *)
-private enum ShowcaseTab: String, CaseIterable {
+@available(iOS 17.0, *) private enum ShowcaseTab: String, CaseIterable {
     case presets = "Presets"
     case custom = "Custom"
     case contexts = "Contexts"

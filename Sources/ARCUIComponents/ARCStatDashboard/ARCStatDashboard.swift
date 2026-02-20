@@ -28,8 +28,7 @@ import SwiftUI
 ///     cuisineSection
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatDashboard<Content: View>: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatDashboard<Content: View>: View {
     // MARK: - Properties
 
     private let configuration: ARCStatDashboardConfiguration
@@ -42,10 +41,9 @@ public struct ARCStatDashboard<Content: View>: View {
     /// - Parameters:
     ///   - configuration: Layout configuration (default: .default)
     ///   - content: Dashboard sections
-    public init(
-        configuration: ARCStatDashboardConfiguration = .default,
-        @ViewBuilder content: () -> Content
-    ) {
+    public init(configuration: ARCStatDashboardConfiguration = .default,
+                @ViewBuilder content: () -> Content)
+    {
         self.configuration = configuration
         self.content = content()
     }
@@ -82,8 +80,7 @@ public struct ARCStatDashboard<Content: View>: View {
 ///     }
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatDashboardSection<Content: View>: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatDashboardSection<Content: View>: View {
     private let dividerPadding: CGFloat
     private let content: Content
 
@@ -92,10 +89,9 @@ public struct ARCStatDashboardSection<Content: View>: View {
     /// - Parameters:
     ///   - dividerPadding: Horizontal padding for the divider (default: arcSpacingLarge)
     ///   - content: Section content
-    public init(
-        dividerPadding: CGFloat = .arcSpacingLarge,
-        @ViewBuilder content: () -> Content
-    ) {
+    public init(dividerPadding: CGFloat = .arcSpacingLarge,
+                @ViewBuilder content: () -> Content)
+    {
         self.dividerPadding = dividerPadding
         self.content = content()
     }
@@ -122,20 +118,16 @@ public struct ARCStatDashboardSection<Content: View>: View {
         ARCStatDashboardSection {
             ARCStatSectionHeader(title: "Highlights", icon: "star.fill")
             HStack(spacing: .arcSpacingMedium) {
-                ARCStatHighlightCard(
-                    title: "Best",
-                    headline: "Sushi Zen",
-                    rating: 9.5,
-                    icon: "arrow.up.circle.fill",
-                    accentColor: .green
-                )
-                ARCStatHighlightCard(
-                    title: "Lowest",
-                    headline: "Quick Burger",
-                    rating: 5.2,
-                    icon: "arrow.down.circle.fill",
-                    accentColor: .orange
-                )
+                ARCStatHighlightCard(title: "Best",
+                                     headline: "Sushi Zen",
+                                     rating: 9.5,
+                                     icon: "arrow.up.circle.fill",
+                                     accentColor: .green)
+                ARCStatHighlightCard(title: "Lowest",
+                                     headline: "Quick Burger",
+                                     rating: 5.2,
+                                     icon: "arrow.down.circle.fill",
+                                     accentColor: .orange)
             }
             .padding(.horizontal, .arcSpacingLarge)
         }

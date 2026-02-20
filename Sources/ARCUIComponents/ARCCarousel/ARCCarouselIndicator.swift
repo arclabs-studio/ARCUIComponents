@@ -14,8 +14,7 @@ import SwiftUI
 ///
 /// Supports multiple indicator styles including dots, lines, and numbers.
 /// Handles large item counts by showing a subset of indicators with scaling.
-@available(iOS 17.0, macOS 14.0, *)
-struct ARCCarouselIndicator: View {
+@available(iOS 17.0, macOS 14.0, *) struct ARCCarouselIndicator: View {
     // MARK: - Properties
 
     let totalItems: Int
@@ -26,17 +25,13 @@ struct ARCCarouselIndicator: View {
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .caption)
-    private var dotSize: CGFloat = 8
+    @ScaledMetric(relativeTo: .caption) private var dotSize: CGFloat = 8
 
-    @ScaledMetric(relativeTo: .caption)
-    private var lineWidth: CGFloat = 24
+    @ScaledMetric(relativeTo: .caption) private var lineWidth: CGFloat = 24
 
-    @ScaledMetric(relativeTo: .caption)
-    private var lineHeight: CGFloat = 4
+    @ScaledMetric(relativeTo: .caption) private var lineHeight: CGFloat = 4
 
-    @ScaledMetric(relativeTo: .caption)
-    private var spacing: CGFloat = 6
+    @ScaledMetric(relativeTo: .caption) private var spacing: CGFloat = 6
 
     // MARK: - Environment
 
@@ -44,13 +39,12 @@ struct ARCCarouselIndicator: View {
 
     // MARK: - Initialization
 
-    init(
-        totalItems: Int,
-        currentIndex: Int,
-        style: ARCCarouselConfiguration.IndicatorStyle,
-        maxVisibleDots: Int = 7,
-        accentColor: Color = .primary
-    ) {
+    init(totalItems: Int,
+         currentIndex: Int,
+         style: ARCCarouselConfiguration.IndicatorStyle,
+         maxVisibleDots: Int = 7,
+         accentColor: Color = .primary)
+    {
         self.totalItems = totalItems
         self.currentIndex = currentIndex
         self.style = style
@@ -78,7 +72,7 @@ struct ARCCarouselIndicator: View {
 
     // MARK: - Dots Indicator
 
-    @ViewBuilder private var dotsIndicator: some View {
+    private var dotsIndicator: some View {
         HStack(spacing: spacing) {
             ForEach(visibleDotIndices, id: \.self) { index in
                 Circle()
@@ -93,7 +87,7 @@ struct ARCCarouselIndicator: View {
 
     // MARK: - Lines Indicator
 
-    @ViewBuilder private var linesIndicator: some View {
+    private var linesIndicator: some View {
         HStack(spacing: spacing) {
             ForEach(0 ..< totalItems, id: \.self) { index in
                 Capsule()
@@ -108,7 +102,7 @@ struct ARCCarouselIndicator: View {
 
     // MARK: - Numbers Indicator
 
-    @ViewBuilder private var numbersIndicator: some View {
+    private var numbersIndicator: some View {
         Text("\(currentIndex + 1) / \(totalItems)")
             .font(.caption.monospacedDigit())
             .foregroundStyle(.secondary)
@@ -171,18 +165,14 @@ struct ARCCarouselIndicator: View {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Dots - Few Items") {
     VStack(spacing: 32) {
-        ARCCarouselIndicator(
-            totalItems: 5,
-            currentIndex: 2,
-            style: .dots
-        )
+        ARCCarouselIndicator(totalItems: 5,
+                             currentIndex: 2,
+                             style: .dots)
 
-        ARCCarouselIndicator(
-            totalItems: 5,
-            currentIndex: 0,
-            style: .dots,
-            accentColor: .blue
-        )
+        ARCCarouselIndicator(totalItems: 5,
+                             currentIndex: 0,
+                             style: .dots,
+                             accentColor: .blue)
     }
     .padding()
 }
@@ -190,44 +180,34 @@ struct ARCCarouselIndicator: View {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Dots - Many Items") {
     VStack(spacing: 32) {
-        ARCCarouselIndicator(
-            totalItems: 15,
-            currentIndex: 7,
-            style: .dots
-        )
+        ARCCarouselIndicator(totalItems: 15,
+                             currentIndex: 7,
+                             style: .dots)
 
-        ARCCarouselIndicator(
-            totalItems: 15,
-            currentIndex: 0,
-            style: .dots
-        )
+        ARCCarouselIndicator(totalItems: 15,
+                             currentIndex: 0,
+                             style: .dots)
 
-        ARCCarouselIndicator(
-            totalItems: 15,
-            currentIndex: 14,
-            style: .dots
-        )
+        ARCCarouselIndicator(totalItems: 15,
+                             currentIndex: 14,
+                             style: .dots)
     }
     .padding()
 }
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Lines") {
-    ARCCarouselIndicator(
-        totalItems: 4,
-        currentIndex: 1,
-        style: .lines,
-        accentColor: .orange
-    )
-    .padding()
+    ARCCarouselIndicator(totalItems: 4,
+                         currentIndex: 1,
+                         style: .lines,
+                         accentColor: .orange)
+        .padding()
 }
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Numbers") {
-    ARCCarouselIndicator(
-        totalItems: 10,
-        currentIndex: 3,
-        style: .numbers
-    )
-    .padding()
+    ARCCarouselIndicator(totalItems: 10,
+                         currentIndex: 3,
+                         style: .numbers)
+        .padding()
 }

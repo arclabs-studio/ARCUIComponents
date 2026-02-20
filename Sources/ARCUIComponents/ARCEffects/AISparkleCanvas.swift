@@ -15,8 +15,7 @@ import SwiftUI
 /// along the rounded rectangle perimeter for an organic twinkle effect.
 ///
 /// Hidden entirely when `accessibilityReduceMotion` is enabled.
-@available(iOS 17.0, macOS 14.0, *)
-struct AISparkleCanvas: View {
+@available(iOS 17.0, macOS 14.0, *) struct AISparkleCanvas: View {
     // MARK: - Properties
 
     /// Corner radius of the card shape
@@ -73,20 +72,14 @@ struct AISparkleCanvas: View {
 
         for pointIndex in 0 ..< 4 {
             let angle = Double(pointIndex) * (.pi / 2)
-            let outerPoint = CGPoint(
-                x: Double(center.x) + outerRadius * Foundation.cos(angle),
-                y: Double(center.y) + outerRadius * Foundation.sin(angle)
-            )
+            let outerPoint = CGPoint(x: Double(center.x) + outerRadius * Foundation.cos(angle),
+                                     y: Double(center.y) + outerRadius * Foundation.sin(angle))
             let midAngle1: Double = angle - .pi / 4
             let midAngle2: Double = angle + .pi / 4
-            let innerPoint1 = CGPoint(
-                x: Double(center.x) + innerRadius * Foundation.cos(midAngle1),
-                y: Double(center.y) + innerRadius * Foundation.sin(midAngle1)
-            )
-            let innerPoint2 = CGPoint(
-                x: Double(center.x) + innerRadius * Foundation.cos(midAngle2),
-                y: Double(center.y) + innerRadius * Foundation.sin(midAngle2)
-            )
+            let innerPoint1 = CGPoint(x: Double(center.x) + innerRadius * Foundation.cos(midAngle1),
+                                      y: Double(center.y) + innerRadius * Foundation.sin(midAngle1))
+            let innerPoint2 = CGPoint(x: Double(center.x) + innerRadius * Foundation.cos(midAngle2),
+                                      y: Double(center.y) + innerRadius * Foundation.sin(midAngle2))
 
             if pointIndex == 0 {
                 path.move(to: outerPoint)
@@ -99,10 +92,8 @@ struct AISparkleCanvas: View {
 
         // Close back to first inner point
         let firstInnerAngle: Double = -.pi / 4
-        let firstInnerPoint = CGPoint(
-            x: Double(center.x) + innerRadius * Foundation.cos(firstInnerAngle),
-            y: Double(center.y) + innerRadius * Foundation.sin(firstInnerAngle)
-        )
+        let firstInnerPoint = CGPoint(x: Double(center.x) + innerRadius * Foundation.cos(firstInnerAngle),
+                                      y: Double(center.y) + innerRadius * Foundation.sin(firstInnerAngle))
         path.addLine(to: firstInnerPoint)
         path.closeSubpath()
     }
@@ -179,13 +170,11 @@ private struct SparkleParticle: Identifiable {
     /// Generate a set of sparkle particles with random parameters
     static func generate(count: Int) -> [SparkleParticle] {
         (0 ..< count).map { index in
-            SparkleParticle(
-                perimeterPosition: CGFloat(index) / CGFloat(count) + CGFloat.random(in: -0.03 ... 0.03),
-                phaseOffset: Double.random(in: 0 ... 1),
-                cycleDuration: Double.random(in: 1.5 ... 3.0),
-                size: CGFloat.random(in: 4 ... 8),
-                isWhite: index % 3 == 0
-            )
+            SparkleParticle(perimeterPosition: CGFloat(index) / CGFloat(count) + CGFloat.random(in: -0.03 ... 0.03),
+                            phaseOffset: Double.random(in: 0 ... 1),
+                            cycleDuration: Double.random(in: 1.5 ... 3.0),
+                            size: CGFloat.random(in: 4 ... 8),
+                            isWhite: index % 3 == 0)
         }
     }
 }

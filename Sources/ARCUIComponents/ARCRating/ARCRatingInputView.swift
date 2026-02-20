@@ -13,8 +13,7 @@ import SwiftUI
 /// Interaction styles for ARCRatingInputView
 ///
 /// Each style provides a different way for users to select a rating.
-@available(iOS 17.0, macOS 14.0, *)
-public enum ARCRatingInputStyle: String, CaseIterable, Sendable {
+@available(iOS 17.0, macOS 14.0, *) public enum ARCRatingInputStyle: String, CaseIterable, Sendable {
     /// Slider below the circular gauge
     ///
     /// Best for: Forms, settings, precise selection
@@ -59,8 +58,7 @@ public enum ARCRatingInputStyle: String, CaseIterable, Sendable {
 /// - Adjustable trait for increment/decrement
 /// - Clear value announcements
 /// - Semantic labels
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCRatingInputView: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCRatingInputView: View {
     // MARK: - Properties
 
     /// Binding to the rating value
@@ -76,11 +74,9 @@ public struct ARCRatingInputView: View {
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .body)
-    private var gaugeSize: CGFloat = 80
+    @ScaledMetric(relativeTo: .body) private var gaugeSize: CGFloat = 80
 
-    @ScaledMetric(relativeTo: .caption)
-    private var sliderWidth: CGFloat = 200
+    @ScaledMetric(relativeTo: .caption) private var sliderWidth: CGFloat = 200
 
     // MARK: - Constants
 
@@ -95,10 +91,9 @@ public struct ARCRatingInputView: View {
     /// - Parameters:
     ///   - rating: Binding to the rating value (1.0-10.0)
     ///   - configuration: Visual and interaction configuration (default: `.slider`)
-    public init(
-        rating: Binding<Double>,
-        configuration: ARCRatingInputConfiguration = .slider
-    ) {
+    public init(rating: Binding<Double>,
+                configuration: ARCRatingInputConfiguration = .slider)
+    {
         _rating = rating
         self.configuration = configuration
     }
@@ -111,20 +106,17 @@ public struct ARCRatingInputView: View {
     ///   - showLabel: Whether to show the numeric label (default: `true`)
     ///   - showHint: Whether to show hint text for circular drag (default: `true`)
     ///   - animated: Whether to animate value changes (default: `true`)
-    public init(
-        rating: Binding<Double>,
-        style: ARCRatingInputStyle = .slider,
-        showLabel: Bool = true,
-        showHint: Bool = true,
-        animated: Bool = true
-    ) {
+    public init(rating: Binding<Double>,
+                style: ARCRatingInputStyle = .slider,
+                showLabel: Bool = true,
+                showHint: Bool = true,
+                animated: Bool = true)
+    {
         _rating = rating
-        configuration = ARCRatingInputConfiguration(
-            style: style,
-            showLabel: showLabel,
-            showHint: showHint,
-            animated: animated
-        )
+        configuration = ARCRatingInputConfiguration(style: style,
+                                                    showLabel: showLabel,
+                                                    showHint: showHint,
+                                                    animated: animated)
     }
 
     // MARK: - Body
@@ -156,9 +148,8 @@ public struct ARCRatingInputView: View {
 
 // MARK: - Slider Style
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCRatingInputView {
-    @ViewBuilder private var sliderStyleView: some View {
+@available(iOS 17.0, macOS 14.0, *) extension ARCRatingInputView {
+    private var sliderStyleView: some View {
         VStack(spacing: .arcSpacingMedium) {
             // Circular gauge display
             circularGaugeDisplay
@@ -187,9 +178,8 @@ extension ARCRatingInputView {
 
 // MARK: - Circular Drag Style
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCRatingInputView {
-    @ViewBuilder private var circularDragStyleView: some View {
+@available(iOS 17.0, macOS 14.0, *) extension ARCRatingInputView {
+    private var circularDragStyleView: some View {
         VStack(spacing: .arcSpacingSmall) {
             circularGaugeDisplay
                 .contentShape(Circle())
@@ -237,12 +227,10 @@ extension ARCRatingInputView {
         var newRating = min(max(snappedRating, minRating), maxRating)
 
         // Prevent wrap-around when crossing the 12 o'clock boundary
-        newRating = Self.applyWrapAroundClamping(
-            newRating: newRating,
-            currentRating: rating,
-            minRating: minRating,
-            maxRating: maxRating
-        )
+        newRating = Self.applyWrapAroundClamping(newRating: newRating,
+                                                 currentRating: rating,
+                                                 minRating: minRating,
+                                                 maxRating: maxRating)
 
         if configuration.animated {
             arcWithAnimation(.arcSnappy) {
@@ -257,12 +245,11 @@ extension ARCRatingInputView {
     ///
     /// If the jump between current and new rating exceeds half the range,
     /// it's treated as a boundary crossing and clamped to the nearest extreme.
-    static func applyWrapAroundClamping(
-        newRating: Double,
-        currentRating: Double,
-        minRating: Double,
-        maxRating: Double
-    ) -> Double {
+    static func applyWrapAroundClamping(newRating: Double,
+                                        currentRating: Double,
+                                        minRating: Double,
+                                        maxRating: Double) -> Double
+    {
         let ratingRange = maxRating - minRating
         let delta = newRating - currentRating
         if delta > ratingRange / 2 {
@@ -276,9 +263,8 @@ extension ARCRatingInputView {
 
 // MARK: - Circular Gauge Display
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCRatingInputView {
-    @ViewBuilder private var circularGaugeDisplay: some View {
+@available(iOS 17.0, macOS 14.0, *) extension ARCRatingInputView {
+    private var circularGaugeDisplay: some View {
         ZStack {
             // Background fill with gradient
             Circle()
@@ -286,19 +272,15 @@ extension ARCRatingInputView {
 
             // Background track
             Circle()
-                .stroke(
-                    Color.primary.opacity(0.1),
-                    style: StrokeStyle(lineWidth: 6, lineCap: .round)
-                )
+                .stroke(Color.primary.opacity(0.1),
+                        style: StrokeStyle(lineWidth: 6, lineCap: .round))
                 .padding(4)
 
             // Filled arc
             Circle()
                 .trim(from: 0, to: ratingProgress)
-                .stroke(
-                    ratingGradient,
-                    style: StrokeStyle(lineWidth: 6, lineCap: .round)
-                )
+                .stroke(ratingGradient,
+                        style: StrokeStyle(lineWidth: 6, lineCap: .round))
                 .rotationEffect(.degrees(-90))
                 .padding(4)
 
@@ -319,7 +301,7 @@ extension ARCRatingInputView {
         .animation(.arcBouncy, value: isDragging)
     }
 
-    @ViewBuilder private var dragIndicator: some View {
+    private var dragIndicator: some View {
         Circle()
             .fill(ratingColor)
             .frame(width: 12, height: 12)
@@ -331,8 +313,7 @@ extension ARCRatingInputView {
 
 // MARK: - Computed Properties
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCRatingInputView {
+@available(iOS 17.0, macOS 14.0, *) extension ARCRatingInputView {
     private var clampedRating: Double {
         min(max(rating, minRating), maxRating)
     }

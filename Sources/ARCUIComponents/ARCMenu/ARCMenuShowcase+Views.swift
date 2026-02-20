@@ -10,8 +10,7 @@ import SwiftUI
 
 // MARK: - Style Card
 
-@available(iOS 17.0, macOS 14.0, *)
-struct ShowcaseStyleCard: View {
+@available(iOS 17.0, macOS 14.0, *) struct ShowcaseStyleCard: View {
     let style: ShowcaseStyle
     let isSelected: Bool
     let action: () -> Void
@@ -21,9 +20,7 @@ struct ShowcaseStyleCard: View {
             VStack(spacing: 12) {
                 Image(systemName: style.icon)
                     .font(.title)
-                    .foregroundStyle(
-                        isSelected ? style.accentColor : Color.secondary
-                    )
+                    .foregroundStyle(isSelected ? style.accentColor : Color.secondary)
                     .frame(width: 50, height: 50)
                     .background {
                         Circle()
@@ -63,8 +60,7 @@ struct ShowcaseStyleCard: View {
 
 // MARK: - Variant Card
 
-@available(iOS 17.0, macOS 14.0, *)
-struct ShowcaseVariantCard: View {
+@available(iOS 17.0, macOS 14.0, *) struct ShowcaseVariantCard: View {
     let variant: ShowcaseVariant
     let isSelected: Bool
     let action: () -> Void
@@ -116,8 +112,7 @@ struct ShowcaseVariantCard: View {
 
 // MARK: - Option Toggle
 
-@available(iOS 17.0, macOS 14.0, *)
-struct ShowcaseOptionToggle: View {
+@available(iOS 17.0, macOS 14.0, *) struct ShowcaseOptionToggle: View {
     let title: String
     let icon: String
     @Binding var isOn: Bool
@@ -152,8 +147,7 @@ struct ShowcaseOptionToggle: View {
 
 // MARK: - Option Stepper
 
-@available(iOS 17.0, macOS 14.0, *)
-struct ShowcaseOptionStepper: View {
+@available(iOS 17.0, macOS 14.0, *) struct ShowcaseOptionStepper: View {
     let title: String
     let icon: String
     @Binding var value: Int
@@ -212,8 +206,7 @@ struct ShowcaseOptionStepper: View {
 
 // MARK: - Code Block
 
-@available(iOS 17.0, macOS 14.0, *)
-struct ShowcaseCodeBlock: View {
+@available(iOS 17.0, macOS 14.0, *) struct ShowcaseCodeBlock: View {
     let code: String
     let accentColor: Color
 
@@ -240,8 +233,7 @@ struct ShowcaseCodeBlock: View {
 
 // MARK: - Live Preview Miniature
 
-@available(iOS 17.0, macOS 14.0, *)
-struct ShowcaseLivePreviewMiniature: View {
+@available(iOS 17.0, macOS 14.0, *) struct ShowcaseLivePreviewMiniature: View {
     let style: ShowcaseStyle
     let variant: ShowcaseVariant
     let showBadge: Bool
@@ -258,50 +250,38 @@ struct ShowcaseLivePreviewMiniature: View {
         self.badgeCount = badgeCount
         self.showUserHeader = showUserHeader
 
-        _viewModel = State(initialValue: ARCMenuViewModel(
-            user: showUserHeader
-                ? ARCMenuUser(
-                    name: style.sampleUser.name,
-                    email: style.sampleUser.email,
-                    avatarImage: .initials(style.sampleUser.initials)
-                )
+        _viewModel = State(initialValue: ARCMenuViewModel(user: showUserHeader
+                ? ARCMenuUser(name: style.sampleUser.name,
+                              email: style.sampleUser.email,
+                              avatarImage: .initials(style.sampleUser.initials))
                 : nil,
-            menuItems: [
-                .Common.settings {},
-                .Common.profile {},
-                .Common.feedback {},
-                .Common.logout {}
-            ],
-            configuration: style.configuration
-        ))
+            menuItems: [.Common.settings {},
+                        .Common.profile {},
+                        .Common.feedback {},
+                        .Common.logout {}],
+            configuration: style.configuration))
     }
 
     var body: some View {
         ZStack {
             // Background gradient
-            LinearGradient(
-                colors: [
-                    style.accentColor.opacity(0.3),
-                    style.accentColor.opacity(0.1)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .frame(height: 250)
-            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            LinearGradient(colors: [style.accentColor.opacity(0.3),
+                                    style.accentColor.opacity(0.1)],
+                           startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
+                .frame(height: 250)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 
             // Menu button mock
             VStack {
                 HStack {
                     Spacer()
 
-                    ARCMenuButton(
-                        isPresented: $showMenu,
-                        viewModel: viewModel,
-                        showsBadge: showBadge,
-                        badgeCount: badgeCount
-                    )
-                    .padding(16)
+                    ARCMenuButton(isPresented: $showMenu,
+                                  viewModel: viewModel,
+                                  showsBadge: showBadge,
+                                  badgeCount: badgeCount)
+                        .padding(16)
                 }
 
                 Spacer()
@@ -318,8 +298,7 @@ struct ShowcaseLivePreviewMiniature: View {
 
 // MARK: - Gallery Card
 
-@available(iOS 17.0, macOS 14.0, *)
-struct ShowcaseGalleryCard: View {
+@available(iOS 17.0, macOS 14.0, *) struct ShowcaseGalleryCard: View {
     let style: ShowcaseStyle
 
     @State private var showMenu = false
@@ -328,19 +307,14 @@ struct ShowcaseGalleryCard: View {
     init(style: ShowcaseStyle) {
         self.style = style
 
-        _viewModel = State(initialValue: ARCMenuViewModel(
-            user: ARCMenuUser(
-                name: style.sampleUser.name,
-                email: style.sampleUser.email,
-                avatarImage: .initials(style.sampleUser.initials)
-            ),
-            menuItems: [
-                .Common.settings {},
-                .Common.profile {},
-                .Common.logout {}
-            ],
-            configuration: style.configuration
-        ))
+        _viewModel = State(initialValue: ARCMenuViewModel(user: ARCMenuUser(name: style.sampleUser.name,
+                                                                            email: style.sampleUser.email,
+                                                                            avatarImage: .initials(style.sampleUser
+                                                                                .initials)),
+                                                          menuItems: [.Common.settings {},
+                                                                      .Common.profile {},
+                                                                      .Common.logout {}],
+                                                          configuration: style.configuration))
     }
 
     var body: some View {
@@ -378,16 +352,12 @@ struct ShowcaseGalleryCard: View {
 
             // Mini screenshot mockup
             ZStack {
-                LinearGradient(
-                    colors: [
-                        style.accentColor.opacity(0.2),
-                        style.accentColor.opacity(0.05)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .frame(height: 150)
-                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                LinearGradient(colors: [style.accentColor.opacity(0.2),
+                                        style.accentColor.opacity(0.05)],
+                               startPoint: .topLeading,
+                               endPoint: .bottomTrailing)
+                    .frame(height: 150)
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
 
                 Text("Style: \(style.name)")
                     .font(.caption)

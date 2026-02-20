@@ -26,8 +26,7 @@ import SwiftUI
 /// MyCardView()
 ///     .aiGlowBorder(isActive: isFocused, cornerRadius: 16)
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-struct AIGlowBorderModifier: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *) struct AIGlowBorderModifier: ViewModifier {
     // MARK: - Properties
 
     /// Whether the glow effect is currently visible
@@ -53,19 +52,15 @@ struct AIGlowBorderModifier: ViewModifier {
     // MARK: - Shapes & Gradients
 
     private var glowGradient: AngularGradient {
-        AngularGradient(
-            gradient: Gradient(colors: [
-                accentColor,
-                accentColor.opacity(0.8),
-                Color.white.opacity(0.6),
-                accentColor.opacity(0.6),
-                Color(red: 0.85, green: 0.6, blue: 0.2),
-                accentColor.opacity(0.8),
-                accentColor
-            ]),
-            center: .center,
-            angle: reduceMotion ? .degrees(45) : rotationAngle
-        )
+        AngularGradient(gradient: Gradient(colors: [accentColor,
+                                                    accentColor.opacity(0.8),
+                                                    Color.white.opacity(0.6),
+                                                    accentColor.opacity(0.6),
+                                                    Color(red: 0.85, green: 0.6, blue: 0.2),
+                                                    accentColor.opacity(0.8),
+                                                    accentColor]),
+                        center: .center,
+                        angle: reduceMotion ? .degrees(45) : rotationAngle)
     }
 
     private var cardShape: RoundedRectangle {
@@ -105,10 +100,8 @@ struct AIGlowBorderModifier: ViewModifier {
 
             // Layer 3: Sparkle particles
             if showSparkles {
-                AISparkleCanvas(
-                    cornerRadius: cornerRadius,
-                    accentColor: accentColor
-                )
+                AISparkleCanvas(cornerRadius: cornerRadius,
+                                accentColor: accentColor)
             }
         }
         .allowsHitTesting(false)
@@ -149,8 +142,7 @@ struct AIGlowBorderModifier: ViewModifier {
 
 // MARK: - View Extension
 
-@available(iOS 17.0, macOS 14.0, *)
-extension View {
+@available(iOS 17.0, macOS 14.0, *) extension View {
     /// Applies an animated AI glow border effect
     ///
     /// Adds a rotating gradient halo around the view to visually mark it
@@ -163,19 +155,16 @@ extension View {
     ///   - intensity: Visual intensity level (default: `.subtle`)
     ///   - showSparkles: Whether to show sparkle particles (default: `true`)
     /// - Returns: View with the AI glow border applied
-    public func aiGlowBorder(
-        isActive: Bool,
-        cornerRadius: CGFloat = .arcCornerRadiusMedium,
-        accentColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
-        intensity: AIGlowIntensity = .subtle,
-        showSparkles: Bool = true
-    ) -> some View {
-        modifier(AIGlowBorderModifier(
-            isActive: isActive,
-            cornerRadius: cornerRadius,
-            accentColor: accentColor,
-            intensity: intensity,
-            showSparkles: showSparkles
-        ))
+    public func aiGlowBorder(isActive: Bool,
+                             cornerRadius: CGFloat = .arcCornerRadiusMedium,
+                             accentColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
+                             intensity: AIGlowIntensity = .subtle,
+                             showSparkles: Bool = true) -> some View
+    {
+        modifier(AIGlowBorderModifier(isActive: isActive,
+                                      cornerRadius: cornerRadius,
+                                      accentColor: accentColor,
+                                      intensity: intensity,
+                                      showSparkles: showSparkles))
     }
 }

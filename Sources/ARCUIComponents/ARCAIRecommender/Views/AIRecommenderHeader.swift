@@ -12,8 +12,7 @@ import SwiftUI
 ///
 /// Displays a large circular gradient background with the configured icon,
 /// title, and subtitle. Follows Apple Intelligence design patterns.
-@available(iOS 17.0, macOS 14.0, *)
-struct AIRecommenderHeader: View {
+@available(iOS 17.0, macOS 14.0, *) struct AIRecommenderHeader: View {
     // MARK: - Properties
 
     let configuration: ARCAIRecommenderConfiguration
@@ -43,20 +42,14 @@ struct AIRecommenderHeader: View {
 
     // MARK: - Private Views
 
-    @ViewBuilder private var iconView: some View {
+    private var iconView: some View {
         ZStack {
             // Gradient circle background
             Circle()
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            configuration.accentColor.opacity(0.3),
-                            configuration.accentColor.opacity(0.1)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .fill(LinearGradient(colors: [configuration.accentColor.opacity(0.3),
+                                              configuration.accentColor.opacity(0.1)],
+                                     startPoint: .topLeading,
+                                     endPoint: .bottomTrailing))
                 .frame(width: 48, height: 48)
 
             // Icon with optional pulse animation

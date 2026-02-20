@@ -32,8 +32,7 @@ import SwiftUI
 ///     let cuisineIcon: String
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public protocol AIRecommenderItem: Identifiable, Sendable {
+@available(iOS 17.0, macOS 14.0, *) public protocol AIRecommenderItem: Identifiable, Sendable {
     /// Unique identifier for the item
     var id: ID { get }
 
@@ -61,8 +60,7 @@ public protocol AIRecommenderItem: Identifiable, Sendable {
 
 // MARK: - Default Implementations
 
-@available(iOS 17.0, macOS 14.0, *)
-extension AIRecommenderItem {
+@available(iOS 17.0, macOS 14.0, *) extension AIRecommenderItem {
     public var subtitle: String? {
         nil
     }
@@ -109,8 +107,7 @@ extension AIRecommenderItem {
 /// // Gradient placeholder with initials
 /// .placeholder(text: "MR", colors: [.orange, .red])
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public enum AIRecommenderImageSource: Sendable, Equatable {
+@available(iOS 17.0, macOS 14.0, *) public enum AIRecommenderImageSource: Sendable, Equatable {
     /// SF Symbol icon with optional tint color
     case system(String, color: Color = .primary)
 
@@ -127,8 +124,7 @@ public enum AIRecommenderImageSource: Sendable, Equatable {
 
     /// Creates a hero image view for card stack display
     /// - Parameter height: The height of the hero image container
-    @ViewBuilder
-    public func heroImageView(height: CGFloat = 200) -> some View {
+    @ViewBuilder public func heroImageView(height: CGFloat = 200) -> some View {
         switch self {
         case let .system(name, color):
             heroSystemView(name: name, color: color, height: height)
@@ -143,11 +139,9 @@ public enum AIRecommenderImageSource: Sendable, Equatable {
 
     private func heroSystemView(name: String, color: Color, height: CGFloat) -> some View {
         ZStack {
-            LinearGradient(
-                colors: [color.opacity(0.4), color.opacity(0.15)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            LinearGradient(colors: [color.opacity(0.4), color.opacity(0.15)],
+                           startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
             Image(systemName: name)
                 .font(.system(size: 80))
                 .foregroundStyle(color.opacity(0.6))
@@ -226,8 +220,7 @@ public enum AIRecommenderImageSource: Sendable, Equatable {
 
     /// Creates the image view for this source
     /// - Parameter size: The size of the image container
-    @ViewBuilder
-    public func imageView(size: CGFloat = 60) -> some View {
+    @ViewBuilder public func imageView(size: CGFloat = 60) -> some View {
         switch self {
         case let .system(name, color):
             systemImageView(name: name, color: color, size: size)
@@ -292,13 +285,9 @@ public enum AIRecommenderImageSource: Sendable, Equatable {
     private func placeholderView(text: String?, colors: [Color], size: CGFloat) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: colors,
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .fill(LinearGradient(colors: colors,
+                                     startPoint: .topLeading,
+                                     endPoint: .bottomTrailing))
             if let text {
                 Text(text)
                     .font(.headline)

@@ -14,8 +14,7 @@ import SwiftUI
 ///
 /// - ``default``
 /// - ``horizontal``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCBarChartConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCBarChartConfiguration: Sendable {
     /// Bar chart orientation
     public enum Orientation: Sendable {
         case vertical
@@ -47,16 +46,15 @@ public struct ARCBarChartConfiguration: Sendable {
     public let horizontalPadding: CGFloat
 
     /// Creates a bar chart configuration
-    public init(
-        orientation: Orientation = .vertical,
-        defaultColor: Color = .accentColor,
-        useGradient: Bool = true,
-        cornerRadius: CGFloat = 4,
-        showAnnotations: Bool = false,
-        height: CGFloat? = nil,
-        heightPerBar: CGFloat = 40,
-        horizontalPadding: CGFloat = .arcSpacingLarge
-    ) {
+    public init(orientation: Orientation = .vertical,
+                defaultColor: Color = .accentColor,
+                useGradient: Bool = true,
+                cornerRadius: CGFloat = 4,
+                showAnnotations: Bool = false,
+                height: CGFloat? = nil,
+                heightPerBar: CGFloat = 40,
+                horizontalPadding: CGFloat = .arcSpacingLarge)
+    {
         self.orientation = orientation
         self.defaultColor = defaultColor
         self.useGradient = useGradient
@@ -70,13 +68,9 @@ public struct ARCBarChartConfiguration: Sendable {
     // MARK: - Presets
 
     /// Default vertical bar chart
-    public static let `default` = ARCBarChartConfiguration(
-        height: 160
-    )
+    public static let `default` = ARCBarChartConfiguration(height: 160)
 
     /// Horizontal bar chart with annotations
-    public static let horizontal = ARCBarChartConfiguration(
-        orientation: .horizontal,
-        showAnnotations: true
-    )
+    public static let horizontal = ARCBarChartConfiguration(orientation: .horizontal,
+                                                            showAnnotations: true)
 }

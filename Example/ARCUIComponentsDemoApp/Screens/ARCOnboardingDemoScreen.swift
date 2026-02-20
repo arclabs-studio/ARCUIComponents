@@ -12,8 +12,7 @@ import SwiftUI
 ///
 /// Shows onboarding flows with various configurations, indicator styles,
 /// and button styles. Demonstrates different onboarding experiences.
-@available(iOS 17.0, *)
-struct ARCOnboardingDemoScreen: View {
+@available(iOS 17.0, *) struct ARCOnboardingDemoScreen: View {
     // MARK: - State
 
     @State private var showOnboarding = false
@@ -48,8 +47,7 @@ struct ARCOnboardingDemoScreen: View {
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *)
-extension ARCOnboardingDemoScreen {
+@available(iOS 17.0, *) extension ARCOnboardingDemoScreen {
     // MARK: - Quick Actions Section
 
     private var quickActionsSection: some View {
@@ -77,14 +75,10 @@ extension ARCOnboardingDemoScreen {
                         .foregroundStyle(.white)
                 }
                 .padding()
-                .background(
-                    LinearGradient(
-                        colors: [.arcBrandBurgundy, .arcBrandBurgundy.opacity(0.8)],
-                        startPoint: .leading,
-                        endPoint: .trailing
-                    ),
-                    in: RoundedRectangle(cornerRadius: 16)
-                )
+                .background(LinearGradient(colors: [.arcBrandBurgundy, .arcBrandBurgundy.opacity(0.8)],
+                                           startPoint: .leading,
+                                           endPoint: .trailing),
+                            in: RoundedRectangle(cornerRadius: 16))
             }
             .buttonStyle(.plain)
         }
@@ -97,48 +91,39 @@ extension ARCOnboardingDemoScreen {
             sectionHeader("Configuration Presets", subtitle: "Pre-built onboarding styles")
 
             VStack(spacing: 12) {
-                presetRow(
-                    title: "Default",
-                    description: "Balanced settings with skip & back buttons",
-                    icon: "slider.horizontal.3",
-                    color: .blue,
-                    preset: .default
-                )
+                presetRow(title: "Default",
+                          description: "Balanced settings with skip & back buttons",
+                          icon: "slider.horizontal.3",
+                          color: .blue,
+                          preset: .default)
 
-                presetRow(
-                    title: "Minimal",
-                    description: "Clean look without navigation buttons",
-                    icon: "minus",
-                    color: .gray,
-                    preset: .minimal
-                )
+                presetRow(title: "Minimal",
+                          description: "Clean look without navigation buttons",
+                          icon: "minus",
+                          color: .gray,
+                          preset: .minimal)
 
-                presetRow(
-                    title: "Prominent",
-                    description: "Glass effects with larger images",
-                    icon: "sparkles",
-                    color: .purple,
-                    preset: .prominent
-                )
+                presetRow(title: "Prominent",
+                          description: "Glass effects with larger images",
+                          icon: "sparkles",
+                          color: .purple,
+                          preset: .prominent)
 
-                presetRow(
-                    title: "Compact",
-                    description: "Smaller layout for sheets and modals",
-                    icon: "rectangle.compress.vertical",
-                    color: .orange,
-                    preset: .compact
-                )
+                presetRow(title: "Compact",
+                          description: "Smaller layout for sheets and modals",
+                          icon: "rectangle.compress.vertical",
+                          color: .orange,
+                          preset: .compact)
             }
         }
     }
 
-    private func presetRow(
-        title: String,
-        description: String,
-        icon: String,
-        color: Color,
-        preset: ConfigPreset
-    ) -> some View {
+    private func presetRow(title: String,
+                           description: String,
+                           icon: String,
+                           color: Color,
+                           preset: ConfigPreset) -> some View
+    {
         Button {
             selectedConfig = preset
             showOnboarding = true
@@ -147,11 +132,9 @@ extension ARCOnboardingDemoScreen {
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .fill(color.gradient)
                     .frame(width: 44, height: 44)
-                    .overlay(
-                        Image(systemName: icon)
-                            .font(.body.weight(.semibold))
-                            .foregroundStyle(.white)
-                    )
+                    .overlay(Image(systemName: icon)
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.white))
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
@@ -180,38 +163,29 @@ extension ARCOnboardingDemoScreen {
             sectionHeader("Indicator Styles", subtitle: "Different ways to show progress")
 
             VStack(spacing: 12) {
-                indicatorRow(
-                    title: "Dots",
-                    description: "Traditional circular indicators",
-                    style: .dots
-                )
+                indicatorRow(title: "Dots",
+                             description: "Traditional circular indicators",
+                             style: .dots)
 
-                indicatorRow(
-                    title: "Lines",
-                    description: "Modern line-based indicators",
-                    style: .lines
-                )
+                indicatorRow(title: "Lines",
+                             description: "Modern line-based indicators",
+                             style: .lines)
 
-                indicatorRow(
-                    title: "Numbers",
-                    description: "Numeric page count (1/5)",
-                    style: .numbers
-                )
+                indicatorRow(title: "Numbers",
+                             description: "Numeric page count (1/5)",
+                             style: .numbers)
 
-                indicatorRow(
-                    title: "Progress",
-                    description: "Progress bar indicator",
-                    style: .progress
-                )
+                indicatorRow(title: "Progress",
+                             description: "Progress bar indicator",
+                             style: .progress)
             }
         }
     }
 
-    private func indicatorRow(
-        title: String,
-        description: String,
-        style: ARCOnboardingConfiguration.IndicatorStyle
-    ) -> some View {
+    private func indicatorRow(title: String,
+                              description: String,
+                              style: ARCOnboardingConfiguration.IndicatorStyle) -> some View
+    {
         Button {
             selectedConfig = .customIndicator(style)
             showOnboarding = true
@@ -235,8 +209,7 @@ extension ARCOnboardingDemoScreen {
         .buttonStyle(.plain)
     }
 
-    @ViewBuilder
-    private func indicatorPreview(style: ARCOnboardingConfiguration.IndicatorStyle) -> some View {
+    @ViewBuilder private func indicatorPreview(style: ARCOnboardingConfiguration.IndicatorStyle) -> some View {
         switch style {
         case .dots:
             HStack(spacing: 4) {
@@ -269,32 +242,25 @@ extension ARCOnboardingDemoScreen {
             sectionHeader("Button Styles", subtitle: "Navigation button appearances")
 
             VStack(spacing: 12) {
-                buttonStyleRow(
-                    title: "Filled",
-                    description: "Solid accent color buttons",
-                    style: .filled
-                )
+                buttonStyleRow(title: "Filled",
+                               description: "Solid accent color buttons",
+                               style: .filled)
 
-                buttonStyleRow(
-                    title: "Text",
-                    description: "Plain text buttons",
-                    style: .text
-                )
+                buttonStyleRow(title: "Text",
+                               description: "Plain text buttons",
+                               style: .text)
 
-                buttonStyleRow(
-                    title: "Glass",
-                    description: "Liquid glass effect buttons",
-                    style: .glass
-                )
+                buttonStyleRow(title: "Glass",
+                               description: "Liquid glass effect buttons",
+                               style: .glass)
             }
         }
     }
 
-    private func buttonStyleRow(
-        title: String,
-        description: String,
-        style: ARCOnboardingConfiguration.ButtonStyle
-    ) -> some View {
+    private func buttonStyleRow(title: String,
+                                description: String,
+                                style: ARCOnboardingConfiguration.ButtonStyle) -> some View
+    {
         Button {
             selectedConfig = .customButton(style)
             showOnboarding = true
@@ -318,8 +284,7 @@ extension ARCOnboardingDemoScreen {
         .buttonStyle(.plain)
     }
 
-    @ViewBuilder
-    private func buttonPreview(style: ARCOnboardingConfiguration.ButtonStyle) -> some View {
+    @ViewBuilder private func buttonPreview(style: ARCOnboardingConfiguration.ButtonStyle) -> some View {
         switch style {
         case .filled:
             Text("Continue")
@@ -386,12 +351,10 @@ extension ARCOnboardingDemoScreen {
 
                 // Preview button
                 Button {
-                    selectedConfig = .custom(
-                        indicator: selectedIndicator,
-                        button: selectedButtonStyle,
-                        showSkip: showSkipButton,
-                        showBack: showBackButton
-                    )
+                    selectedConfig = .custom(indicator: selectedIndicator,
+                                             button: selectedButtonStyle,
+                                             showSkip: showSkipButton,
+                                             showBack: showBackButton)
                     showOnboarding = true
                 } label: {
                     Text("Launch Custom Onboarding")
@@ -410,27 +373,23 @@ extension ARCOnboardingDemoScreen {
 
     // MARK: - Selected Onboarding View
 
-    @ViewBuilder private var selectedOnboardingView: some View {
-        ARCOnboarding(
-            pages: samplePages,
-            configuration: selectedConfig.configuration,
-            onComplete: {
-                showOnboarding = false
-            },
-            onSkip: {
-                showOnboarding = false
-            }
-        )
+    private var selectedOnboardingView: some View {
+        ARCOnboarding(pages: samplePages,
+                      configuration: selectedConfig.configuration,
+                      onComplete: {
+                          showOnboarding = false
+                      },
+                      onSkip: {
+                          showOnboarding = false
+                      })
     }
 
     // MARK: - Sample Pages
 
     private var samplePages: [ARCOnboardingPage] {
-        [
-            .systemImage("star.fill", color: .yellow, title: "Welcome", subtitle: "Discover features."),
-            .systemImage("bell.fill", color: .blue, title: "Stay Notified", subtitle: "Get reminders."),
-            .systemImage("sparkles", color: .purple, title: "You're Set!", subtitle: "Start now.")
-        ]
+        [.systemImage("star.fill", color: .yellow, title: "Welcome", subtitle: "Discover features."),
+         .systemImage("bell.fill", color: .blue, title: "Stay Notified", subtitle: "Get reminders."),
+         .systemImage("sparkles", color: .purple, title: "You're Set!", subtitle: "Start now.")]
     }
 
     // MARK: - Helpers
@@ -445,8 +404,7 @@ extension ARCOnboardingDemoScreen {
 
 // MARK: - ConfigPreset
 
-@available(iOS 17.0, *)
-extension ARCOnboardingDemoScreen {
+@available(iOS 17.0, *) extension ARCOnboardingDemoScreen {
     fileprivate enum ConfigPreset {
         case `default`
         case minimal
@@ -454,12 +412,10 @@ extension ARCOnboardingDemoScreen {
         case compact
         case customIndicator(ARCOnboardingConfiguration.IndicatorStyle)
         case customButton(ARCOnboardingConfiguration.ButtonStyle)
-        case custom(
-            indicator: ARCOnboardingConfiguration.IndicatorStyle,
-            button: ARCOnboardingConfiguration.ButtonStyle,
-            showSkip: Bool,
-            showBack: Bool
-        )
+        case custom(indicator: ARCOnboardingConfiguration.IndicatorStyle,
+                    button: ARCOnboardingConfiguration.ButtonStyle,
+                    showSkip: Bool,
+                    showBack: Bool)
 
         var configuration: ARCOnboardingConfiguration {
             switch self {
@@ -476,12 +432,10 @@ extension ARCOnboardingDemoScreen {
             case let .customButton(style):
                 ARCOnboardingConfiguration(buttonStyle: style)
             case let .custom(indicator, button, showSkip, showBack):
-                ARCOnboardingConfiguration(
-                    showSkipButton: showSkip,
-                    showBackButton: showBack,
-                    buttonStyle: button,
-                    indicatorStyle: indicator
-                )
+                ARCOnboardingConfiguration(showSkipButton: showSkip,
+                                           showBackButton: showBack,
+                                           buttonStyle: button,
+                                           indicatorStyle: indicator)
             }
         }
     }

@@ -22,15 +22,14 @@ struct ARCAIRecommenderDemoScreen: View {
     // MARK: - Body
 
     var body: some View {
-        ARCAIRecommender(
-            mode: $mode,
-            categories: AIRecommenderCategory.defaultCategories,
-            selectedCategory: $selectedCategory,
-            questions: Self.demoQuestions,
-            answers: $questionnaireAnswers,
-            items: itemsForCategory(selectedCategory),
-            configuration: .default
-        ) { category in
+        ARCAIRecommender(mode: $mode,
+                         categories: AIRecommenderCategory.defaultCategories,
+                         selectedCategory: $selectedCategory,
+                         questions: Self.demoQuestions,
+                         answers: $questionnaireAnswers,
+                         items: itemsForCategory(selectedCategory),
+                         configuration: .default)
+        { category in
             // Category changed - in a real app, fetch new data
             print("Selected category: \(category.label)")
         } onItemSelected: { item in
@@ -55,24 +54,22 @@ struct ARCAIRecommenderDemoScreen: View {
                 }
             }
         }
-        .alert(
-            "Seleccionado",
-            isPresented: $showingDetail
-        ) {
+        .alert("Seleccionado",
+               isPresented: $showingDetail)
+        {
             Button("OK") {}
         } message: {
             if let item = selectedItem {
                 Text("Has seleccionado: \(item.title)")
             }
         }
-        .alert(
-            "Respuestas recibidas",
-            isPresented: $showingAnswers
-        ) {
+        .alert("Respuestas recibidas",
+               isPresented: $showingAnswers)
+        {
             Button("OK") {}
-        } message: {
-            Text(answersReceivedMessage)
-        }
+            } message: {
+                Text(answersReceivedMessage)
+            }
     }
 
     // MARK: - Private
@@ -111,150 +108,145 @@ private struct MockRecommendation: AIRecommenderItem {
 
 extension ARCAIRecommenderDemoScreen {
     fileprivate static var favoritesItems: [MockRecommendation] {
-        [
-            MockRecommendation(
-                id: UUID(),
-                title: "La Tagliatella",
-                subtitle: "Italiano · €€",
-                rating: 8.5,
-                imageSource: .system("fork.knife", color: .orange),
-                aiReason: "Te encanta la cocina italiana"
-            ),
-            MockRecommendation(
-                id: UUID(),
-                title: "Sushi Master",
-                subtitle: "Japonés · €€€",
-                rating: 9.2,
-                imageSource: .system("fish.fill", color: .cyan),
-                aiReason: "Similar a tus favoritos"
-            ),
-            MockRecommendation(
-                id: UUID(),
-                title: "Pizzería Napoli",
-                subtitle: "Italiano · €€",
-                rating: 8.9,
-                imageSource: .system("flame.fill", color: .red),
-                aiReason: "Basado en tus preferencias"
-            )
-        ]
+        [MockRecommendation(id: UUID(),
+                            title: "La Tagliatella",
+                            subtitle: "Italiano · €€",
+                            rating: 8.5,
+                            imageSource: .system("fork.knife", color: .orange),
+                            aiReason: "Te encanta la cocina italiana"),
+         MockRecommendation(id: UUID(),
+                            title: "Sushi Master",
+                            subtitle: "Japonés · €€€",
+                            rating: 9.2,
+                            imageSource: .system("fish.fill", color: .cyan),
+                            aiReason: "Similar a tus favoritos"),
+         MockRecommendation(id: UUID(),
+                            title: "Pizzería Napoli",
+                            subtitle: "Italiano · €€",
+                            rating: 8.9,
+                            imageSource: .system("flame.fill", color: .red),
+                            aiReason: "Basado en tus preferencias")]
     }
 
     fileprivate static var trendingItems: [MockRecommendation] {
-        [
-            MockRecommendation(
-                id: UUID(),
-                title: "Burger Lab",
-                subtitle: "Americana · €€",
-                rating: 9.1,
-                imageSource: .system("flame.fill", color: .orange),
-                aiReason: "En tendencia esta semana"
-            ),
-            MockRecommendation(
-                id: UUID(),
-                title: "Taco Loco",
-                subtitle: "Mexicano · €",
-                rating: 8.7,
-                imageSource: .system("leaf.fill", color: .green),
-                aiReason: "Muy popular en tu zona"
-            )
-        ]
+        [MockRecommendation(id: UUID(),
+                            title: "Burger Lab",
+                            subtitle: "Americana · €€",
+                            rating: 9.1,
+                            imageSource: .system("flame.fill", color: .orange),
+                            aiReason: "En tendencia esta semana"),
+         MockRecommendation(id: UUID(),
+                            title: "Taco Loco",
+                            subtitle: "Mexicano · €",
+                            rating: 8.7,
+                            imageSource: .system("leaf.fill", color: .green),
+                            aiReason: "Muy popular en tu zona")]
     }
 
     fileprivate static var nearYouItems: [MockRecommendation] {
-        [
-            MockRecommendation(
-                id: UUID(),
-                title: "Café del Barrio",
-                subtitle: "Cafetería · €",
-                rating: 8.3,
-                imageSource: .system("cup.and.saucer.fill", color: .brown),
-                aiReason: "A 200m de ti"
-            ),
-            MockRecommendation(
-                id: UUID(),
-                title: "El Rincón",
-                subtitle: "Español · €€",
-                rating: 8.8,
-                imageSource: .system("mappin.and.ellipse", color: .red),
-                aiReason: "A 350m de ti"
-            )
-        ]
+        [MockRecommendation(id: UUID(),
+                            title: "Café del Barrio",
+                            subtitle: "Cafetería · €",
+                            rating: 8.3,
+                            imageSource: .system("cup.and.saucer.fill", color: .brown),
+                            aiReason: "A 200m de ti"),
+         MockRecommendation(id: UUID(),
+                            title: "El Rincón",
+                            subtitle: "Español · €€",
+                            rating: 8.8,
+                            imageSource: .system("mappin.and.ellipse", color: .red),
+                            aiReason: "A 350m de ti")]
     }
 
     fileprivate static var newItems: [MockRecommendation] {
-        [
-            MockRecommendation(
-                id: UUID(),
-                title: "Poke Paradise",
-                subtitle: "Hawaiano · €€",
-                rating: 8.0,
-                imageSource: .system("sparkles", color: .purple),
-                aiReason: "Nuevo en la zona"
-            ),
-            MockRecommendation(
-                id: UUID(),
-                title: "Thai Garden",
-                subtitle: "Tailandés · €€",
-                rating: 7.9,
-                imageSource: .system("leaf.fill", color: .green),
-                aiReason: "Abierto hace 2 semanas"
-            )
-        ]
+        [MockRecommendation(id: UUID(),
+                            title: "Poke Paradise",
+                            subtitle: "Hawaiano · €€",
+                            rating: 8.0,
+                            imageSource: .system("sparkles", color: .purple),
+                            aiReason: "Nuevo en la zona"),
+         MockRecommendation(id: UUID(),
+                            title: "Thai Garden",
+                            subtitle: "Tailandés · €€",
+                            rating: 7.9,
+                            imageSource: .system("leaf.fill", color: .green),
+                            aiReason: "Abierto hace 2 semanas")]
     }
 }
 
 // MARK: - Demo Questions
 
 extension ARCAIRecommenderDemoScreen {
-    static let demoQuestions: [AIRecommenderQuestion] = [
-        AIRecommenderQuestion(
-            id: "preferences",
-            text: "¿Qué te apetece?",
-            subtitle: "Selecciona una o varias opciones",
-            options: [
-                .init(id: "option1", label: "Opción A", icon: "star.fill", color: .orange),
-                .init(id: "option2", label: "Opción B", icon: "heart.fill", color: .pink),
-                .init(id: "option3", label: "Opción C", icon: "bolt.fill", color: .yellow),
-                .init(id: "option4", label: "Sorpréndeme", icon: "sparkles", color: .purple)
-            ],
-            inputType: .multipleChoice,
-            icon: "sparkles"
-        ),
-        AIRecommenderQuestion(
-            id: "location",
-            text: "¿Dónde te encuentras?",
-            options: [
-                .init(id: "nearby", label: "Cerca de mí", icon: "location.fill", color: .blue),
-                .init(id: "center", label: "Centro", icon: "building.2.fill", color: .gray),
-                .init(id: "anywhere", label: "Donde sea", icon: "map.fill", color: .green)
-            ],
-            inputType: .singleChoice,
-            icon: "location.fill"
-        ),
-        AIRecommenderQuestion(
-            id: "budget",
-            text: "¿Qué presupuesto tienes?",
-            options: [
-                .init(id: "low", label: "Bajo", icon: "dollarsign", color: .green),
-                .init(id: "medium", label: "Medio", icon: "dollarsign", color: .yellow),
-                .init(id: "high", label: "Alto", icon: "dollarsign", color: .orange)
-            ],
-            inputType: .singleChoice,
-            icon: "creditcard.fill"
-        ),
-        AIRecommenderQuestion(
-            id: "mood",
-            text: "¿Cómo te sientes?",
-            subtitle: "Tu estado de ánimo influye en la recomendación",
-            options: [
-                .init(id: "adventurous", label: "Aventurero", icon: "sparkles", color: .purple),
-                .init(id: "relaxed", label: "Relajado", icon: "leaf.fill", color: .green),
-                .init(id: "social", label: "Social", icon: "person.2.fill", color: .blue)
-            ],
-            inputType: .singleChoice,
-            icon: "face.smiling.fill"
-        )
-    ]
+    // swiftlint:disable:next function_body_length
+    static let demoQuestions: [AIRecommenderQuestion] = [AIRecommenderQuestion(id: "preferences",
+                                                                               text: "¿Qué te apetece?",
+                                                                               subtitle: "Selecciona una o varias opciones",
+                                                                               options: [.init(id: "option1",
+                                                                                               label: "Opción A",
+                                                                                               icon: "star.fill",
+                                                                                               color: .orange),
+                                                                                         .init(id: "option2",
+                                                                                               label: "Opción B",
+                                                                                               icon: "heart.fill",
+                                                                                               color: .pink),
+                                                                                         .init(id: "option3",
+                                                                                               label: "Opción C",
+                                                                                               icon: "bolt.fill",
+                                                                                               color: .yellow),
+                                                                                         .init(id: "option4",
+                                                                                               label: "Sorpréndeme",
+                                                                                               icon: "sparkles",
+                                                                                               color: .purple)],
+                                                                               inputType: .multipleChoice,
+                                                                               icon: "sparkles"),
+                                                         AIRecommenderQuestion(id: "location",
+                                                                               text: "¿Dónde te encuentras?",
+                                                                               options: [.init(id: "nearby",
+                                                                                               label: "Cerca de mí",
+                                                                                               icon: "location.fill",
+                                                                                               color: .blue),
+                                                                                         .init(id: "center",
+                                                                                               label: "Centro",
+                                                                                               icon: "building.2.fill",
+                                                                                               color: .gray),
+                                                                                         .init(id: "anywhere",
+                                                                                               label: "Donde sea",
+                                                                                               icon: "map.fill",
+                                                                                               color: .green)],
+                                                                               inputType: .singleChoice,
+                                                                               icon: "location.fill"),
+                                                         AIRecommenderQuestion(id: "budget",
+                                                                               text: "¿Qué presupuesto tienes?",
+                                                                               options: [.init(id: "low", label: "Bajo",
+                                                                                               icon: "dollarsign",
+                                                                                               color: .green),
+                                                                                         .init(id: "medium",
+                                                                                               label: "Medio",
+                                                                                               icon: "dollarsign",
+                                                                                               color: .yellow),
+                                                                                         .init(id: "high",
+                                                                                               label: "Alto",
+                                                                                               icon: "dollarsign",
+                                                                                               color: .orange)],
+                                                                               inputType: .singleChoice,
+                                                                               icon: "creditcard.fill"),
+                                                         AIRecommenderQuestion(id: "mood",
+                                                                               text: "¿Cómo te sientes?",
+                                                                               subtitle: "Tu estado de ánimo influye en la recomendación",
+                                                                               options: [.init(id: "adventurous",
+                                                                                               label: "Aventurero",
+                                                                                               icon: "sparkles",
+                                                                                               color: .purple),
+                                                                                         .init(id: "relaxed",
+                                                                                               label: "Relajado",
+                                                                                               icon: "leaf.fill",
+                                                                                               color: .green),
+                                                                                         .init(id: "social",
+                                                                                               label: "Social",
+                                                                                               icon: "person.2.fill",
+                                                                                               color: .blue)],
+                                                                               inputType: .singleChoice,
+                                                                               icon: "face.smiling.fill")]
 }
 
 // MARK: - Previews

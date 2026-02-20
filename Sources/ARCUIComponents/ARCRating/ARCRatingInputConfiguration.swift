@@ -25,8 +25,7 @@ import SwiftUI
 /// // Compact (no label)
 /// ARCRatingInputView(rating: $rating, configuration: .compact)
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCRatingInputConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCRatingInputConfiguration: Sendable {
     // MARK: - Properties
 
     /// Interaction style for rating selection
@@ -50,12 +49,11 @@ public struct ARCRatingInputConfiguration: Sendable {
     ///   - showLabel: Whether to show numeric label (default: `true`)
     ///   - showHint: Whether to show hint text for circular drag (default: `true`)
     ///   - animated: Whether to animate changes (default: `true`)
-    public init(
-        style: ARCRatingInputStyle = .slider,
-        showLabel: Bool = true,
-        showHint: Bool = true,
-        animated: Bool = true
-    ) {
+    public init(style: ARCRatingInputStyle = .slider,
+                showLabel: Bool = true,
+                showHint: Bool = true,
+                animated: Bool = true)
+    {
         self.style = style
         self.showLabel = showLabel
         self.showHint = showHint
@@ -71,8 +69,6 @@ public struct ARCRatingInputConfiguration: Sendable {
     public static let circularDrag = ARCRatingInputConfiguration(style: .circularDrag)
 
     /// Circular drag style without label (compact)
-    public static let compact = ARCRatingInputConfiguration(
-        style: .circularDrag,
-        showLabel: false
-    )
+    public static let compact = ARCRatingInputConfiguration(style: .circularDrag,
+                                                            showLabel: false)
 }

@@ -18,8 +18,7 @@ import SwiftUI
 /// ARCStatSectionHeader(title: "Ratings", icon: "star.fill")
 /// ARCStatSectionHeader(title: "Timeline", icon: "calendar")
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatSectionHeader: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatSectionHeader: View {
     // MARK: - Properties
 
     private let title: String
