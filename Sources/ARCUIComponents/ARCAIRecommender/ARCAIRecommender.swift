@@ -243,43 +243,37 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         .padding(.horizontal, .arcSpacingLarge)
     }
 
+}
+
+// MARK: - Private Views
+
+@available(iOS 17.0, macOS 14.0, *)
+private extension ARCAIRecommender {
     // MARK: - Quick Mode Content
 
-    @ViewBuilder private var quickModeContent: some View {
-        if configuration.useCardStack {
-            ScrollView {
-                VStack(spacing: configuration.categoryToContentSpacing) {
-                    AIRecommenderCategoryPicker(
-                        categories: categories,
-                        selectedCategory: $selectedCategory,
-                        configuration: configuration,
-                        onCategorySelected: onCategorySelected
-                    )
+    @ViewBuilder var quickModeContent: some View {
+        let spacing: CGFloat = configuration.useCardStack
+            ? configuration.categoryToContentSpacing
+            : .arcSpacingLarge
 
-                    itemsSection
-                }
-                .padding(.vertical, .arcSpacingMedium)
-            }
-        } else {
-            ScrollView {
-                VStack(spacing: .arcSpacingLarge) {
-                    AIRecommenderCategoryPicker(
-                        categories: categories,
-                        selectedCategory: $selectedCategory,
-                        configuration: configuration,
-                        onCategorySelected: onCategorySelected
-                    )
+        ScrollView {
+            VStack(spacing: spacing) {
+                AIRecommenderCategoryPicker(
+                    categories: categories,
+                    selectedCategory: $selectedCategory,
+                    configuration: configuration,
+                    onCategorySelected: onCategorySelected
+                )
 
-                    itemsSection
-                }
-                .padding(.vertical, .arcSpacingMedium)
+                itemsSection
             }
+            .padding(.vertical, .arcSpacingMedium)
         }
     }
 
     // MARK: - Questionnaire Mode Content
 
-    @ViewBuilder private var questionnaireModeContent: some View {
+    @ViewBuilder var questionnaireModeContent: some View {
         if !questionnaireItems.isEmpty {
             questionnaireResultsContent
         } else {
@@ -294,7 +288,7 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
 
     // MARK: - Questionnaire Results Content
 
-    private var questionnaireResultsContent: some View {
+    var questionnaireResultsContent: some View {
         ScrollView {
             VStack(spacing: 0) {
                 if let retake = onQuestionnaireRetake {
@@ -338,7 +332,7 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
 
     // MARK: - Items Section
 
-    @ViewBuilder private var itemsSection: some View {
+    @ViewBuilder var itemsSection: some View {
         if items.isEmpty {
             emptyStateView
         } else if configuration.useCardStack {
@@ -372,7 +366,7 @@ public struct ARCAIRecommender<Item: AIRecommenderItem>: View {
         }
     }
 
-    private var emptyStateView: some View {
+    var emptyStateView: some View {
         VStack(spacing: .arcSpacingMedium) {
             Image(systemName: configuration.emptyStateIcon)
                 .font(.system(size: 40))
