@@ -18,6 +18,7 @@ struct ARCAIRecommenderDemoScreen: View {
     @State private var selectedItem: MockRecommendation?
     @State private var showingDetail = false
     @State private var showingAnswers = false
+    @State private var hasGenerated = false
 
     // MARK: - Body
 
@@ -27,52 +28,57 @@ struct ARCAIRecommenderDemoScreen: View {
                          selectedCategory: $selectedCategory,
                          questions: Self.demoQuestions,
                          answers: $questionnaireAnswers,
-                         items: itemsForCategory(selectedCategory),
-                         configuration: .default)
-        { category in
-            // Category changed - in a real app, fetch new data
-            print("Selected category: \(category.label)")
-        } onItemSelected: { item in
-            selectedItem = item
-            showingDetail = true
-        } onQuestionnaireSubmit: { answers in
-            print("Questionnaire submitted: \(answers.toDictionary())")
-            showingAnswers = true
-        }
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("Recomendador IA")
-                    .font(.headline)
-                    .bold()
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    Button {
-                        questionnaireAnswers.reset()
-                    } label: {
-                        Label("Reiniciar respuestas", systemImage: "arrow.counterclockwise")
-                    }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                }
-            }
-        }
-        .alert("Seleccionado",
-               isPresented: $showingDetail)
-        {
-            Button("OK") {}
-        } message: {
-            if let item = selectedItem {
-                Text("Has seleccionado: \(item.title)")
-            }
-        }
-        .alert("Respuestas recibidas",
-               isPresented: $showingAnswers)
-        {
-            Button("OK") {}
-            } message: {
-                Text(answersReceivedMessage)
-            }
+                         items: hasGenerated ? itemsForCategory(selectedCategory) : [],
+                         configuration: .default,
+                         onCategorySelected: { category in
+                             hasGenerated = false
+                             print("Selected category: \(category.label)")
+                         },
+                         onItemSelected: { item in
+                             selectedItem = item
+                             showingDetail = true
+                         },
+                         onQuestionnaireSubmit: { answers in
+                             print("Questionnaire submitted: \(answers.toDictionary())")
+                             showingAnswers = true
+                         },
+                         onGenerateRecommendations: {
+                             hasGenerated = true
+                         })
+                         .toolbar {
+                             ToolbarItem(placement: .principal) {
+                                 Text("Recomendador IA")
+                                     .font(.headline)
+                                     .bold()
+                             }
+                             ToolbarItem(placement: .topBarTrailing) {
+                                 Menu {
+                                     Button {
+                                         questionnaireAnswers.reset()
+                                     } label: {
+                                         Label("Reiniciar respuestas", systemImage: "arrow.counterclockwise")
+                                     }
+                                 } label: {
+                                     Image(systemName: "ellipsis.circle")
+                                 }
+                             }
+                         }
+                         .alert("Seleccionado",
+                                isPresented: $showingDetail)
+                         {
+                             Button("OK") {}
+                         } message: {
+                             if let item = selectedItem {
+                                 Text("Has seleccionado: \(item.title)")
+                             }
+                         }
+                         .alert("Respuestas recibidas",
+                                isPresented: $showingAnswers)
+                         {
+                             Button("OK") {}
+                             } message: {
+                                 Text(answersReceivedMessage)
+                             }
     }
 
     // MARK: - Private
@@ -264,17 +270,22 @@ extension ARCAIRecommenderDemoScreen {
                                                                                icon: "location.fill"),
                                                          AIRecommenderQuestion(id: "budget",
                                                                                text: "¿Qué presupuesto tienes?",
-                                                                               options: [.init(id: "low", label: "Bajo",
-                                                                                               icon: "dollarsign",
+                                                                               options: [.init(id: "low",
+                                                                                               label: "$ Bajo",
+                                                                                               icon: nil,
                                                                                                color: .green),
                                                                                          .init(id: "medium",
-                                                                                               label: "Medio",
-                                                                                               icon: "dollarsign",
+                                                                                               label: "$$ Medio",
+                                                                                               icon: nil,
                                                                                                color: .yellow),
                                                                                          .init(id: "high",
-                                                                                               label: "Alto",
-                                                                                               icon: "dollarsign",
-                                                                                               color: .orange)],
+                                                                                               label: "$$$ Alto",
+                                                                                               icon: nil,
+                                                                                               color: .orange),
+                                                                                         .init(id: "premium",
+                                                                                               label: "$$$$ Premium",
+                                                                                               icon: nil,
+                                                                                               color: .red)],
                                                                                inputType: .singleChoice,
                                                                                icon: "creditcard.fill"),
                                                          AIRecommenderQuestion(id: "mood",
