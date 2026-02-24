@@ -24,20 +24,13 @@ import SwiftUI
             // Animated icon in gradient circle
             iconView
 
-            // Title and subtitle
-            VStack(spacing: 2) {
-                Text(configuration.title)
-                    .font(.headline)
-                    .fontWeight(.bold)
-
-                Text(configuration.subtitle)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-            }
+            // Subtitle only (title belongs in navigation bar per HIG)
+            Text(configuration.subtitle)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
         }
         .padding(.horizontal, .arcSpacingLarge)
-        .padding(.top, .arcSpacingSmall)
     }
 
     // MARK: - Private Views

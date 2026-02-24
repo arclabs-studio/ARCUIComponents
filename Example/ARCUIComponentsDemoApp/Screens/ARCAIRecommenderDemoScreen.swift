@@ -39,9 +39,12 @@ struct ARCAIRecommenderDemoScreen: View {
             print("Questionnaire submitted: \(answers.toDictionary())")
             showingAnswers = true
         }
-        .navigationTitle("Recomendaciones")
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Recomendador IA")
+                    .font(.headline)
+                    .bold()
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
                     Button {
