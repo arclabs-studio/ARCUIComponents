@@ -79,6 +79,9 @@ import SwiftUI
     /// Callback when user taps retake questionnaire
     private let onQuestionnaireRetake: (() -> Void)?
 
+    /// Callback when user taps generate recommendations in quick mode
+    private let onGenerateRecommendations: (() -> Void)?
+
     // MARK: - Private State
 
     @State private var internalMode: AIRecommenderMode = .quick
@@ -94,7 +97,8 @@ import SwiftUI
                 onCategorySelected: ((AIRecommenderCategory) -> Void)? = nil,
                 onItemSelected: ((Item) -> Void)? = nil,
                 onItemBookmarked: ((Item) -> Void)? = nil,
-                onEmptyStateAction: (() -> Void)? = nil)
+                onEmptyStateAction: (() -> Void)? = nil,
+                onGenerateRecommendations: (() -> Void)? = nil)
     {
         _mode = .constant(.quick)
         self.categories = categories
@@ -112,6 +116,7 @@ import SwiftUI
         self.onEmptyStateAction = onEmptyStateAction
         questionnaireItems = []
         onQuestionnaireRetake = nil
+        self.onGenerateRecommendations = onGenerateRecommendations
     }
 
     // MARK: - Initialization (Questionnaire Mode Only)
@@ -138,6 +143,7 @@ import SwiftUI
         onEmptyStateAction = nil
         questionnaireItems = []
         onQuestionnaireRetake = nil
+        onGenerateRecommendations = nil
     }
 
     // MARK: - Initialization (Dual Mode)
@@ -157,7 +163,8 @@ import SwiftUI
                 onItemBookmarked: ((Item) -> Void)? = nil,
                 onQuestionnaireSubmit: ((AIRecommenderAnswers) -> Void)? = nil,
                 onEmptyStateAction: (() -> Void)? = nil,
-                onQuestionnaireRetake: (() -> Void)? = nil)
+                onQuestionnaireRetake: (() -> Void)? = nil,
+                onGenerateRecommendations: (() -> Void)? = nil)
     {
         _mode = mode
         self.categories = categories
@@ -175,6 +182,7 @@ import SwiftUI
         self.onEmptyStateAction = onEmptyStateAction
         self.questionnaireItems = questionnaireItems
         self.onQuestionnaireRetake = onQuestionnaireRetake
+        self.onGenerateRecommendations = onGenerateRecommendations
     }
 
     // MARK: - Body
@@ -187,7 +195,8 @@ import SwiftUI
             // Mode switcher (if dual mode)
             if showModeSwitcher {
                 modeSwitcher
-                    .padding(.vertical, .arcSpacingSmall)
+                    .padding(.top, configuration.headerToModeSwitcherSpacing)
+                    .padding(.bottom, configuration.modeSwitcherToContentSpacing)
             }
 
             // Content based on mode
@@ -315,7 +324,9 @@ import SwiftUI
     // MARK: - Items Section
 
     @ViewBuilder private var itemsSection: some View {
-        if items.isEmpty {
+        if items.isEmpty, let generate = onGenerateRecommendations {
+            generateActionView(action: generate)
+        } else if items.isEmpty {
             emptyStateView
         } else if configuration.useCardStack {
             AIRecommenderCardStack(items: items,
@@ -379,6 +390,42 @@ import SwiftUI
         }
         .padding(.arcSpacingXLarge)
         .frame(maxWidth: .infinity)
+    }
+
+    private func generateActionView(action: @escaping () -> Void) -> some View {
+        VStack(spacing: .arcSpacingLarge) {
+            VStack(spacing: .arcSpacingSmall) {
+                Image(systemName: configuration.generateButtonIcon)
+                    .font(.system(size: 36))
+                    .foregroundStyle(configuration.accentColor.opacity(0.7))
+                    .symbolEffect(.pulse, options: .repeating)
+
+                Text(configuration.generateTitle)
+                    .font(.headline)
+                    .foregroundStyle(.primary)
+
+                Text(configuration.generateSubtitle)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            Button(action: action) {
+                HStack(spacing: .arcSpacingSmall) {
+                    Image(systemName: configuration.generateButtonIcon)
+                    Text(configuration.generateButtonText)
+                        .fontWeight(.semibold)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, .arcSpacingMedium)
+                .background(RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    .fill(configuration.accentColor))
+                .foregroundStyle(.white)
+            }
+            .padding(.horizontal, .arcSpacingLarge)
+        }
+        .padding(.arcSpacingXLarge)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
