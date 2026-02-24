@@ -12,8 +12,7 @@ import SwiftUI
 ///
 /// This view provides a visual gallery of all AI recommender styles,
 /// demonstrating different presets, categories, and use cases.
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCAIRecommenderShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCAIRecommenderShowcase: View {
     // MARK: - State
 
     @State private var selectedPreset: ShowcasePreset = .default
@@ -57,19 +56,14 @@ public struct ARCAIRecommenderShowcase: View {
 
 // MARK: - Sections
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCAIRecommenderShowcase {
+@available(iOS 17.0, macOS 14.0, *) extension ARCAIRecommenderShowcase {
     var heroSection: some View {
         VStack(spacing: .arcSpacingMedium) {
             ZStack {
                 Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [selectedPreset.accentColor, selectedPreset.accentColor.opacity(0.6)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
+                    .fill(LinearGradient(colors: [selectedPreset.accentColor, selectedPreset.accentColor.opacity(0.6)],
+                                         startPoint: .topLeading,
+                                         endPoint: .bottomTrailing))
                     .frame(width: 100, height: 100)
 
                 Image(systemName: "sparkles")
@@ -105,18 +99,14 @@ extension ARCAIRecommenderShowcase {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Display Modes", subtitle: "Quick categories or personalized questionnaire")
             VStack(spacing: .arcSpacingMedium) {
-                modeRow(
-                    mode: .quick,
-                    title: "Quick Mode",
-                    description: "Fast results using predefined categories",
-                    icon: "bolt.fill"
-                )
-                modeRow(
-                    mode: .questionnaire,
-                    title: "Questionnaire Mode",
-                    description: "Interactive survey for personalized recommendations",
-                    icon: "slider.horizontal.3"
-                )
+                modeRow(mode: .quick,
+                        title: "Quick Mode",
+                        description: "Fast results using predefined categories",
+                        icon: "bolt.fill")
+                modeRow(mode: .questionnaire,
+                        title: "Questionnaire Mode",
+                        description: "Interactive survey for personalized recommendations",
+                        icon: "slider.horizontal.3")
             }
             .padding()
             .background(cardBackground)
@@ -163,21 +153,17 @@ extension ARCAIRecommenderShowcase {
                                 .foregroundStyle(.secondary)
                         }
                     }
-                    .aiGlowBorder(
-                        isActive: glowDemoActive,
-                        cornerRadius: .arcCornerRadiusMedium,
-                        accentColor: selectedPreset.accentColor,
-                        intensity: selectedGlowIntensity,
-                        showSparkles: true
-                    )
+                    .aiGlowBorder(isActive: glowDemoActive,
+                                  cornerRadius: .arcCornerRadiusMedium,
+                                  accentColor: selectedPreset.accentColor,
+                                  intensity: selectedGlowIntensity,
+                                  showSparkles: true)
 
-                Text(
-                    "The glow effect highlights AI-generated cards with a "
-                        + "rotating gradient border and optional sparkle particles."
-                )
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                Text("The glow effect highlights AI-generated cards with a "
+                    + "rotating gradient border and optional sparkle particles.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
     }
@@ -190,14 +176,10 @@ extension ARCAIRecommenderShowcase {
                 .font(.caption.weight(.medium))
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, .arcSpacingSmall)
-                .background(
-                    Capsule().fill(
-                        selectedGlowIntensity == intensity
-                            ? selectedPreset.accentColor
-                            : Color.secondary.opacity(0.15)
-                    )
-                )
-                .foregroundStyle(selectedGlowIntensity == intensity ? .white : .primary)
+                .background(Capsule().fill(selectedGlowIntensity == intensity
+                        ? selectedPreset.accentColor
+                        : Color.secondary.opacity(0.15)))
+                    .foregroundStyle(selectedGlowIntensity == intensity ? .white : .primary)
         }
         .buttonStyle(.plain)
     }
@@ -206,50 +188,44 @@ extension ARCAIRecommenderShowcase {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Card Stack", subtitle: "Swipeable discovery cards with bookmark")
 
-            AIRecommenderCardStack(
-                items: sampleItems,
-                bookmarkedItemIDs: bookmarkedIDs,
-                configuration: selectedPreset.configuration,
-                onItemSelected: { _ in },
-                onItemBookmarked: { item in
-                    let key = AnyHashable(item.id)
-                    if bookmarkedIDs.contains(key) {
-                        bookmarkedIDs.remove(key)
-                    } else {
-                        bookmarkedIDs.insert(key)
-                    }
-                }
-            )
+            AIRecommenderCardStack(items: sampleItems,
+                                   bookmarkedItemIDs: bookmarkedIDs,
+                                   configuration: selectedPreset.configuration,
+                                   onItemSelected: { _ in },
+                                   onItemBookmarked: { item in
+                                       let key = AnyHashable(item.id)
+                                       if bookmarkedIDs.contains(key) {
+                                           bookmarkedIDs.remove(key)
+                                       } else {
+                                           bookmarkedIDs.insert(key)
+                                       }
+                                   })
         }
     }
 
     var livePreviewSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Live Preview", subtitle: "Interactive demonstration with mode switcher")
-            ARCAIRecommender(
-                mode: $selectedMode,
-                categories: AIRecommenderCategory.defaultCategories,
-                selectedCategory: $selectedCategory,
-                questions: sampleQuestions,
-                answers: $questionnaireAnswers,
-                items: sampleItems,
-                configuration: selectedPreset.configuration,
-                bookmarkedItemIDs: bookmarkedIDs,
-                onItemBookmarked: { item in
-                    let key = AnyHashable(item.id)
-                    if bookmarkedIDs.contains(key) {
-                        bookmarkedIDs.remove(key)
-                    } else {
-                        bookmarkedIDs.insert(key)
-                    }
-                }
-            )
-            .frame(height: selectedPreset.configuration.useCardStack ? 750 : 550)
-            .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusLarge))
-            .overlay(
-                RoundedRectangle(cornerRadius: .arcCornerRadiusLarge)
-                    .stroke(Color.secondary.opacity(0.2), lineWidth: 1)
-            )
+            ARCAIRecommender(mode: $selectedMode,
+                             categories: AIRecommenderCategory.defaultCategories,
+                             selectedCategory: $selectedCategory,
+                             questions: sampleQuestions,
+                             answers: $questionnaireAnswers,
+                             items: sampleItems,
+                             configuration: selectedPreset.configuration,
+                             bookmarkedItemIDs: bookmarkedIDs,
+                             onItemBookmarked: { item in
+                                 let key = AnyHashable(item.id)
+                                 if bookmarkedIDs.contains(key) {
+                                     bookmarkedIDs.remove(key)
+                                 } else {
+                                     bookmarkedIDs.insert(key)
+                                 }
+                             })
+                             .frame(height: selectedPreset.configuration.useCardStack ? 750 : 550)
+                             .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusLarge))
+                             .overlay(RoundedRectangle(cornerRadius: .arcCornerRadiusLarge)
+                                 .stroke(Color.secondary.opacity(0.2), lineWidth: 1))
         }
     }
 
@@ -292,28 +268,22 @@ extension ARCAIRecommenderShowcase {
             sectionHeader("Item Cards", subtitle: "Card variants and configurations")
             VStack(spacing: .arcSpacingMedium) {
                 cardLabel("With Rank & AI Reason")
-                AIRecommenderItemCard(
-                    item: sampleItems[0],
-                    rank: 1,
-                    configuration: selectedPreset.configuration,
-                    action: {}
-                )
+                AIRecommenderItemCard(item: sampleItems[0],
+                                      rank: 1,
+                                      configuration: selectedPreset.configuration,
+                                      action: {})
                 Divider()
                 cardLabel("Without Rank (Minimal)")
-                AIRecommenderItemCard(
-                    item: sampleItems[1],
-                    rank: nil,
-                    configuration: .minimal,
-                    action: {}
-                )
+                AIRecommenderItemCard(item: sampleItems[1],
+                                      rank: nil,
+                                      configuration: .minimal,
+                                      action: {})
                 Divider()
                 cardLabel("Compact Style")
-                AIRecommenderItemCard(
-                    item: sampleItems[2],
-                    rank: nil,
-                    configuration: .compact,
-                    action: {}
-                )
+                AIRecommenderItemCard(item: sampleItems[2],
+                                      rank: nil,
+                                      configuration: .compact,
+                                      action: {})
             }
             .padding()
             .background(cardBackground)
@@ -341,8 +311,7 @@ extension ARCAIRecommenderShowcase {
 
 // MARK: - Row Views
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCAIRecommenderShowcase {
+@available(iOS 17.0, macOS 14.0, *) extension ARCAIRecommenderShowcase {
     func presetRow(_ preset: ShowcasePreset) -> some View {
         Button {
             arcWithAnimation(.arcSpring) { selectedPreset = preset }
@@ -427,8 +396,7 @@ extension ARCAIRecommenderShowcase {
 
 // MARK: - Helpers
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCAIRecommenderShowcase {
+@available(iOS 17.0, macOS 14.0, *) extension ARCAIRecommenderShowcase {
     func sectionHeader(_ title: String, subtitle: String? = nil) -> some View {
         VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
             Text(title).font(.title2.bold())

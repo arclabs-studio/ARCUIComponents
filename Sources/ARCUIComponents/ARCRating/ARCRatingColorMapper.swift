@@ -32,8 +32,7 @@ import SwiftUI
 /// let text = ARCRatingColorMapper.formatted(8.5) // "8.5"
 /// let text2 = ARCRatingColorMapper.formatted(9.0) // "9"
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public enum ARCRatingColorMapper {
+@available(iOS 17.0, macOS 14.0, *) public enum ARCRatingColorMapper {
     /// Returns a semantic color based on the rating's percentage of the maximum
     ///
     /// - Parameters:
@@ -83,11 +82,9 @@ public enum ARCRatingColorMapper {
             [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
         }
 
-        return LinearGradient(
-            colors: colors,
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
+        return LinearGradient(colors: colors,
+                              startPoint: .topLeading,
+                              endPoint: .bottomTrailing)
     }
 
     /// Formats a rating value, showing whole numbers without decimals

@@ -46,8 +46,7 @@ import SwiftUI
 ///     color: { item in item.color }
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCBarChart<Item: Identifiable>: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCBarChart<Item: Identifiable>: View {
     // MARK: - Properties
 
     private let data: [Item]
@@ -66,13 +65,12 @@ public struct ARCBarChart<Item: Identifiable>: View {
     ///   - value: KeyPath to the numeric value for each bar
     ///   - color: Optional closure returning a color per item (nil uses default color)
     ///   - configuration: Visual configuration (default: .default)
-    public init(
-        data: [Item],
-        label: KeyPath<Item, String>,
-        value: KeyPath<Item, Int>,
-        color: ((Item) -> Color)? = nil,
-        configuration: ARCBarChartConfiguration = .default
-    ) {
+    public init(data: [Item],
+                label: KeyPath<Item, String>,
+                value: KeyPath<Item, Int>,
+                color: ((Item) -> Color)? = nil,
+                configuration: ARCBarChartConfiguration = .default)
+    {
         self.data = data
         self.label = label
         self.value = value
@@ -101,13 +99,11 @@ public struct ARCBarChart<Item: Identifiable>: View {
 
     private var verticalChart: some View {
         Chart(data) { item in
-            BarMark(
-                x: .value("Label", item[keyPath: label]),
-                y: .value("Value", item[keyPath: value])
-            )
-            .foregroundStyle(barColor(for: item))
-            .cornerRadius(configuration.cornerRadius)
-            .accessibilityLabel("\(item[keyPath: label]): \(item[keyPath: value])")
+            BarMark(x: .value("Label", item[keyPath: label]),
+                    y: .value("Value", item[keyPath: value]))
+                .foregroundStyle(barColor(for: item))
+                .cornerRadius(configuration.cornerRadius)
+                .accessibilityLabel("\(item[keyPath: label]): \(item[keyPath: value])")
         }
         .chartYAxis {
             AxisMarks(position: .leading)
@@ -116,20 +112,18 @@ public struct ARCBarChart<Item: Identifiable>: View {
 
     private var horizontalChart: some View {
         Chart(data) { item in
-            BarMark(
-                x: .value("Value", item[keyPath: value]),
-                y: .value("Label", item[keyPath: label])
-            )
-            .foregroundStyle(barColor(for: item))
-            .cornerRadius(configuration.cornerRadius)
-            .annotation(position: .trailing) {
-                if configuration.showAnnotations {
-                    Text("\(item[keyPath: value])")
-                        .font(.caption.bold())
-                        .foregroundStyle(.secondary)
+            BarMark(x: .value("Value", item[keyPath: value]),
+                    y: .value("Label", item[keyPath: label]))
+                .foregroundStyle(barColor(for: item))
+                .cornerRadius(configuration.cornerRadius)
+                .annotation(position: .trailing) {
+                    if configuration.showAnnotations {
+                        Text("\(item[keyPath: value])")
+                            .font(.caption.bold())
+                            .foregroundStyle(.secondary)
+                    }
                 }
-            }
-            .accessibilityLabel("\(item[keyPath: label]): \(item[keyPath: value])")
+                .accessibilityLabel("\(item[keyPath: label]): \(item[keyPath: value])")
         }
         .chartXAxis(.hidden)
         .chartYAxis {
@@ -163,30 +157,22 @@ private struct PreviewBarItem: Identifiable {
 }
 
 #Preview("ARCBarChart - Vertical") {
-    ARCBarChart(
-        data: [
-            PreviewBarItem(name: "Budget", count: 3),
-            PreviewBarItem(name: "Moderate", count: 7),
-            PreviewBarItem(name: "Expensive", count: 4),
-            PreviewBarItem(name: "Luxury", count: 1)
-        ],
-        label: \.name,
-        value: \.count
-    )
-    .padding()
+    ARCBarChart(data: [PreviewBarItem(name: "Budget", count: 3),
+                       PreviewBarItem(name: "Moderate", count: 7),
+                       PreviewBarItem(name: "Expensive", count: 4),
+                       PreviewBarItem(name: "Luxury", count: 1)],
+                label: \.name,
+                value: \.count)
+        .padding()
 }
 
 #Preview("ARCBarChart - Horizontal") {
-    ARCBarChart(
-        data: [
-            PreviewBarItem(name: "Madrid", count: 8),
-            PreviewBarItem(name: "Barcelona", count: 4),
-            PreviewBarItem(name: "Valencia", count: 2),
-            PreviewBarItem(name: "Sevilla", count: 1)
-        ],
-        label: \.name,
-        value: \.count,
-        configuration: .horizontal
-    )
-    .padding()
+    ARCBarChart(data: [PreviewBarItem(name: "Madrid", count: 8),
+                       PreviewBarItem(name: "Barcelona", count: 4),
+                       PreviewBarItem(name: "Valencia", count: 2),
+                       PreviewBarItem(name: "Sevilla", count: 1)],
+                label: \.name,
+                value: \.count,
+                configuration: .horizontal)
+        .padding()
 }

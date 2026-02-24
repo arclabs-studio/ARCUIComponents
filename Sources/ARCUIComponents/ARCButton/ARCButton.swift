@@ -66,8 +66,7 @@ import UIKit
 ///     deleteItem()
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCButton: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCButton: View {
     // MARK: - Content
 
     /// Content types for action buttons
@@ -114,12 +113,11 @@ public struct ARCButton: View {
     ///   - isLoading: Binding to loading state
     ///   - configuration: Button configuration
     ///   - action: Action to perform on tap
-    public init(
-        _ title: String,
-        isLoading: Binding<Bool> = .constant(false),
-        configuration: ARCButtonConfiguration = .primary,
-        action: @escaping () -> Void
-    ) {
+    public init(_ title: String,
+                isLoading: Binding<Bool> = .constant(false),
+                configuration: ARCButtonConfiguration = .primary,
+                action: @escaping () -> Void)
+    {
         content = .text(title)
         _isLoading = isLoading
         self.configuration = configuration
@@ -135,14 +133,13 @@ public struct ARCButton: View {
     ///   - isLoading: Binding to loading state
     ///   - configuration: Button configuration
     ///   - action: Action to perform on tap
-    public init(
-        _ title: String,
-        icon: String,
-        iconPosition: IconPosition = .leading,
-        isLoading: Binding<Bool> = .constant(false),
-        configuration: ARCButtonConfiguration = .primary,
-        action: @escaping () -> Void
-    ) {
+    public init(_ title: String,
+                icon: String,
+                iconPosition: IconPosition = .leading,
+                isLoading: Binding<Bool> = .constant(false),
+                configuration: ARCButtonConfiguration = .primary,
+                action: @escaping () -> Void)
+    {
         content = .textAndIcon(title, icon, iconPosition)
         _isLoading = isLoading
         self.configuration = configuration
@@ -156,12 +153,11 @@ public struct ARCButton: View {
     ///   - isLoading: Binding to loading state
     ///   - configuration: Button configuration
     ///   - action: Action to perform on tap
-    public init(
-        icon: String,
-        isLoading: Binding<Bool> = .constant(false),
-        configuration: ARCButtonConfiguration = .iconOnly,
-        action: @escaping () -> Void
-    ) {
+    public init(icon: String,
+                isLoading: Binding<Bool> = .constant(false),
+                configuration: ARCButtonConfiguration = .iconOnly,
+                action: @escaping () -> Void)
+    {
         content = .icon(icon)
         _isLoading = isLoading
         self.configuration = configuration
@@ -186,7 +182,7 @@ public struct ARCButton: View {
 
     // MARK: - Button Content
 
-    @ViewBuilder private var buttonContent: some View {
+    private var buttonContent: some View {
         HStack(spacing: 8) {
             if isLoading {
                 loadingIndicator
@@ -208,12 +204,10 @@ public struct ARCButton: View {
                     .strokeBorder(configuration.color, lineWidth: 1.5)
             }
         }
-        .shadow(
-            color: shouldShowShadow ? configuration.shadow.color : .clear,
-            radius: configuration.shadow.radius,
-            x: configuration.shadow.x,
-            y: configuration.shadow.y
-        )
+        .shadow(color: shouldShowShadow ? configuration.shadow.color : .clear,
+                radius: configuration.shadow.radius,
+                x: configuration.shadow.x,
+                y: configuration.shadow.y)
         .opacity(configuration.isDisabled ? 0.4 : 1.0)
     }
 
@@ -239,7 +233,7 @@ public struct ARCButton: View {
         }
     }
 
-    @ViewBuilder private var loadingIndicator: some View {
+    private var loadingIndicator: some View {
         ProgressView()
             .progressViewStyle(.circular)
             .tint(configuration.resolvedLoadingColor)
@@ -259,35 +253,23 @@ public struct ARCButton: View {
         }
     }
 
-    @ViewBuilder private var glassBackground: some View {
+    private var glassBackground: some View {
         RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
             .fill(.ultraThinMaterial)
             .overlay {
                 RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                Color.white.opacity(0.15),
-                                Color.white.opacity(0.05)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
+                    .fill(LinearGradient(colors: [Color.white.opacity(0.15),
+                                                  Color.white.opacity(0.05)],
+                                         startPoint: .top,
+                                         endPoint: .bottom))
             }
             .overlay {
                 RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                    .strokeBorder(
-                        LinearGradient(
-                            colors: [
-                                Color.white.opacity(0.3),
-                                Color.white.opacity(0.1)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        ),
-                        lineWidth: 0.5
-                    )
+                    .strokeBorder(LinearGradient(colors: [Color.white.opacity(0.3),
+                                                          Color.white.opacity(0.1)],
+                                                 startPoint: .top,
+                                                 endPoint: .bottom),
+                                  lineWidth: 0.5)
             }
     }
 
@@ -381,10 +363,8 @@ public struct ARCButton: View {
     VStack(spacing: 16) {
         ARCButton("Normal") {}
         ARCButton("Loading", isLoading: .constant(true)) {}
-        ARCButton(
-            "Disabled",
-            configuration: ARCButtonConfiguration(isDisabled: true)
-        ) {}
+        ARCButton("Disabled",
+                  configuration: ARCButtonConfiguration(isDisabled: true)) {}
     }
     .padding()
 }
@@ -392,20 +372,14 @@ public struct ARCButton: View {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Full Width") {
     VStack(spacing: 16) {
-        ARCButton(
-            "Continue",
-            configuration: ARCButtonConfiguration(isFullWidth: true)
-        ) {}
+        ARCButton("Continue",
+                  configuration: ARCButtonConfiguration(isFullWidth: true)) {}
 
-        ARCButton(
-            "Get Started",
-            icon: "arrow.right",
-            iconPosition: .trailing,
-            configuration: ARCButtonConfiguration(
-                size: .large,
-                isFullWidth: true
-            )
-        ) {}
+        ARCButton("Get Started",
+                  icon: "arrow.right",
+                  iconPosition: .trailing,
+                  configuration: ARCButtonConfiguration(size: .large,
+                                                        isFullWidth: true)) {}
     }
     .padding()
 }
@@ -413,12 +387,10 @@ public struct ARCButton: View {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Glass Style") {
     ZStack {
-        LinearGradient(
-            colors: [.purple, .blue, .cyan],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
+        LinearGradient(colors: [.purple, .blue, .cyan],
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+            .ignoresSafeArea()
 
         VStack(spacing: 16) {
             ARCButton("Glass Button", configuration: .glass) {}

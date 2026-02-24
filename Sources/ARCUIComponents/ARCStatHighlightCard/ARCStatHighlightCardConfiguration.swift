@@ -14,8 +14,7 @@ import SwiftUI
 ///
 /// - ``default``
 /// - ``compact``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatHighlightCardConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatHighlightCardConfiguration: Sendable {
     /// Font for the title label
     public let titleFont: Font
 
@@ -38,15 +37,14 @@ public struct ARCStatHighlightCardConfiguration: Sendable {
     public let cornerRadius: CGFloat
 
     /// Creates a highlight card configuration
-    public init(
-        titleFont: Font = .caption.bold(),
-        headlineFont: Font = .subheadline.bold(),
-        subtitleFont: Font = .subheadline,
-        subtitleIconFont: Font = .caption,
-        spacing: CGFloat = .arcSpacingSmall,
-        padding: CGFloat = .arcSpacingMedium,
-        cornerRadius: CGFloat = .arcCornerRadiusMedium
-    ) {
+    public init(titleFont: Font = .caption.bold(),
+                headlineFont: Font = .subheadline.bold(),
+                subtitleFont: Font = .subheadline,
+                subtitleIconFont: Font = .caption,
+                spacing: CGFloat = .arcSpacingSmall,
+                padding: CGFloat = .arcSpacingMedium,
+                cornerRadius: CGFloat = .arcCornerRadiusMedium)
+    {
         self.titleFont = titleFont
         self.headlineFont = headlineFont
         self.subtitleFont = subtitleFont
@@ -62,12 +60,10 @@ public struct ARCStatHighlightCardConfiguration: Sendable {
     public static let `default` = ARCStatHighlightCardConfiguration()
 
     /// Compact configuration with smaller fonts
-    public static let compact = ARCStatHighlightCardConfiguration(
-        titleFont: .caption2.bold(),
-        headlineFont: .caption.bold(),
-        subtitleFont: .caption,
-        subtitleIconFont: .caption2,
-        spacing: .arcSpacingXSmall,
-        padding: .arcSpacingSmall
-    )
+    public static let compact = ARCStatHighlightCardConfiguration(titleFont: .caption2.bold(),
+                                                                  headlineFont: .caption.bold(),
+                                                                  subtitleFont: .caption,
+                                                                  subtitleIconFont: .caption2,
+                                                                  spacing: .arcSpacingXSmall,
+                                                                  padding: .arcSpacingSmall)
 }

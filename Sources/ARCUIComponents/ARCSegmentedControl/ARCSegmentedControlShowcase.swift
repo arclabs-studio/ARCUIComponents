@@ -13,8 +13,7 @@ import SwiftUI
 ///
 /// Demonstrates all visual styles, sizes, and content types for the
 /// segmented control component.
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCSegmentedControlShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCSegmentedControlShowcase: View {
     // MARK: - State
 
     @State private var filledSelection = 0
@@ -51,8 +50,7 @@ public struct ARCSegmentedControlShowcase: View {
 
 // MARK: - Private Views
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCSegmentedControlShowcase {
+@available(iOS 17.0, macOS 14.0, *) extension ARCSegmentedControlShowcase {
     // MARK: - Styles Section
 
     private var stylesSection: some View {
@@ -61,49 +59,33 @@ extension ARCSegmentedControlShowcase {
 
             VStack(spacing: 24) {
                 styleRow("Filled (Default)", description: "iOS system style") {
-                    ARCSegmentedControl(
-                        selection: $filledSelection,
-                        segments: [
-                            .text("All", value: 0),
-                            .text("Active", value: 1),
-                            .text("Done", value: 2)
-                        ]
-                    )
+                    ARCSegmentedControl(selection: $filledSelection,
+                                        segments: [.text("All", value: 0),
+                                                   .text("Active", value: 1),
+                                                   .text("Done", value: 2)])
                 }
 
                 styleRow("Outlined", description: "Border highlight") {
-                    ARCSegmentedControl(
-                        selection: $outlinedSelection,
-                        segments: [
-                            .text("Day", value: 0),
-                            .text("Week", value: 1),
-                            .text("Month", value: 2)
-                        ],
-                        configuration: .outlined
-                    )
+                    ARCSegmentedControl(selection: $outlinedSelection,
+                                        segments: [.text("Day", value: 0),
+                                                   .text("Week", value: 1),
+                                                   .text("Month", value: 2)],
+                                        configuration: .outlined)
                 }
 
                 styleRow("Underlined", description: "Tab-style indicator") {
-                    ARCSegmentedControl(
-                        selection: $underlinedSelection,
-                        segments: [
-                            .text("Posts", value: 0),
-                            .text("Replies", value: 1),
-                            .text("Likes", value: 2)
-                        ],
-                        configuration: .underlined
-                    )
+                    ARCSegmentedControl(selection: $underlinedSelection,
+                                        segments: [.text("Posts", value: 0),
+                                                   .text("Replies", value: 1),
+                                                   .text("Likes", value: 2)],
+                                        configuration: .underlined)
                 }
 
                 styleRow("Pill", description: "Compact rounded style") {
-                    ARCSegmentedControl(
-                        selection: $pillSelection,
-                        segments: [
-                            .text("On", value: 0),
-                            .text("Off", value: 1)
-                        ],
-                        configuration: .pill
-                    )
+                    ARCSegmentedControl(selection: $pillSelection,
+                                        segments: [.text("On", value: 0),
+                                                   .text("Off", value: 1)],
+                                        configuration: .pill)
                 }
 
                 glassStyleRow
@@ -122,33 +104,26 @@ extension ARCSegmentedControlShowcase {
             }
 
             ZStack {
-                LinearGradient(
-                    colors: [.purple, .blue, .cyan],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+                LinearGradient(colors: [.purple, .blue, .cyan],
+                               startPoint: .topLeading,
+                               endPoint: .bottomTrailing)
 
-                ARCSegmentedControl(
-                    selection: $glassSelection,
-                    segments: [
-                        .text("Photos", value: 0),
-                        .text("Videos", value: 1),
-                        .text("Albums", value: 2)
-                    ],
-                    configuration: .glass
-                )
-                .padding()
+                ARCSegmentedControl(selection: $glassSelection,
+                                    segments: [.text("Photos", value: 0),
+                                               .text("Videos", value: 1),
+                                               .text("Albums", value: 2)],
+                                    configuration: .glass)
+                    .padding()
             }
             .frame(height: 100)
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 
-    private func styleRow(
-        _ title: String,
-        description: String,
-        @ViewBuilder content: () -> some View
-    ) -> some View {
+    private func styleRow(_ title: String,
+                          description: String,
+                          @ViewBuilder content: () -> some View) -> some View
+    {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -173,38 +148,26 @@ extension ARCSegmentedControlShowcase {
 
             VStack(spacing: 16) {
                 sizeRow("Small", height: "28pt") {
-                    ARCSegmentedControl(
-                        selection: $sizeSelection,
-                        segments: [
-                            .text("A", value: 0),
-                            .text("B", value: 1),
-                            .text("C", value: 2)
-                        ],
-                        configuration: .small
-                    )
+                    ARCSegmentedControl(selection: $sizeSelection,
+                                        segments: [.text("A", value: 0),
+                                                   .text("B", value: 1),
+                                                   .text("C", value: 2)],
+                                        configuration: .small)
                 }
 
                 sizeRow("Medium", height: "36pt") {
-                    ARCSegmentedControl(
-                        selection: $sizeSelection,
-                        segments: [
-                            .text("Option A", value: 0),
-                            .text("Option B", value: 1),
-                            .text("Option C", value: 2)
-                        ]
-                    )
+                    ARCSegmentedControl(selection: $sizeSelection,
+                                        segments: [.text("Option A", value: 0),
+                                                   .text("Option B", value: 1),
+                                                   .text("Option C", value: 2)])
                 }
 
                 sizeRow("Large", height: "44pt") {
-                    ARCSegmentedControl(
-                        selection: $sizeSelection,
-                        segments: [
-                            .text("First", value: 0),
-                            .text("Second", value: 1),
-                            .text("Third", value: 2)
-                        ],
-                        configuration: .large
-                    )
+                    ARCSegmentedControl(selection: $sizeSelection,
+                                        segments: [.text("First", value: 0),
+                                                   .text("Second", value: 1),
+                                                   .text("Third", value: 2)],
+                                        configuration: .large)
                 }
             }
         }
@@ -235,47 +198,36 @@ extension ARCSegmentedControlShowcase {
 
             VStack(spacing: 16) {
                 contentRow("Text Only", description: "Simple text labels") {
-                    ARCSegmentedControl(
-                        selection: $filledSelection,
-                        segments: [
-                            .text("Today", value: 0),
-                            .text("This Week", value: 1),
-                            .text("This Month", value: 2)
-                        ]
-                    )
+                    ARCSegmentedControl(selection: $filledSelection,
+                                        segments: [.text("Today", value: 0),
+                                                   .text("This Week", value: 1),
+                                                   .text("This Month", value: 2)])
                 }
 
                 contentRow("Icons Only", description: "SF Symbols") {
-                    ARCSegmentedControl(
-                        selection: $iconSelection,
-                        segments: [
-                            .icon("list.bullet", value: 0, accessibilityLabel: "List view"),
-                            .icon("square.grid.2x2", value: 1, accessibilityLabel: "Grid view"),
-                            .icon("rectangle.grid.1x2", value: 2, accessibilityLabel: "Gallery view")
-                        ],
-                        configuration: .pill
-                    )
+                    ARCSegmentedControl(selection: $iconSelection,
+                                        segments: [.icon("list.bullet", value: 0, accessibilityLabel: "List view"),
+                                                   .icon("square.grid.2x2", value: 1, accessibilityLabel: "Grid view"),
+                                                   .icon("rectangle.grid.1x2",
+                                                         value: 2,
+                                                         accessibilityLabel: "Gallery view")],
+                                        configuration: .pill)
                 }
 
                 contentRow("Text + Icon", description: "Combined content") {
-                    ARCSegmentedControl(
-                        selection: $mixedSelection,
-                        segments: [
-                            .textAndIcon("Home", icon: "house.fill", value: 0),
-                            .textAndIcon("Search", icon: "magnifyingglass", value: 1),
-                            .textAndIcon("Profile", icon: "person.fill", value: 2)
-                        ]
-                    )
+                    ARCSegmentedControl(selection: $mixedSelection,
+                                        segments: [.textAndIcon("Home", icon: "house.fill", value: 0),
+                                                   .textAndIcon("Search", icon: "magnifyingglass", value: 1),
+                                                   .textAndIcon("Profile", icon: "person.fill", value: 2)])
                 }
             }
         }
     }
 
-    private func contentRow(
-        _ title: String,
-        description: String,
-        @ViewBuilder content: () -> some View
-    ) -> some View {
+    private func contentRow(_ title: String,
+                            description: String,
+                            @ViewBuilder content: () -> some View) -> some View
+    {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -301,60 +253,36 @@ extension ARCSegmentedControlShowcase {
             VStack(spacing: 16) {
                 customRow("Custom Colors") {
                     VStack(spacing: 12) {
-                        ARCSegmentedControl(
-                            selection: $filledSelection,
-                            segments: [
-                                .text("Red", value: 0),
-                                .text("Blue", value: 1),
-                                .text("Green", value: 2)
-                            ],
-                            configuration: ARCSegmentedControlConfiguration(
-                                selectedColor: .red,
-                                selectedTextColor: .white
-                            )
-                        )
+                        ARCSegmentedControl(selection: $filledSelection,
+                                            segments: [.text("Red", value: 0),
+                                                       .text("Blue", value: 1),
+                                                       .text("Green", value: 2)],
+                                            configuration: ARCSegmentedControlConfiguration(selectedColor: .red,
+                                                                                            selectedTextColor: .white))
 
-                        ARCSegmentedControl(
-                            selection: $outlinedSelection,
-                            segments: [
-                                .text("Purple", value: 0),
-                                .text("Orange", value: 1)
-                            ],
-                            configuration: ARCSegmentedControlConfiguration(
-                                style: .outlined,
-                                selectedColor: .purple,
-                                selectedTextColor: .purple
-                            )
-                        )
+                        ARCSegmentedControl(selection: $outlinedSelection,
+                                            segments: [.text("Purple", value: 0),
+                                                       .text("Orange", value: 1)],
+                                            configuration: ARCSegmentedControlConfiguration(style: .outlined,
+                                                                                            selectedColor: .purple,
+                                                                                            selectedTextColor: .purple))
                     }
                 }
 
                 customRow("Wide Segments") {
-                    ARCSegmentedControl(
-                        selection: $filledSelection,
-                        segments: [
-                            .text("Yes", value: 0),
-                            .text("No", value: 1)
-                        ],
-                        configuration: ARCSegmentedControlConfiguration(
-                            size: .large,
-                            cornerRadius: 22
-                        )
-                    )
+                    ARCSegmentedControl(selection: $filledSelection,
+                                        segments: [.text("Yes", value: 0),
+                                                   .text("No", value: 1)],
+                                        configuration: ARCSegmentedControlConfiguration(size: .large,
+                                                                                        cornerRadius: 22))
                 }
 
                 customRow("No Animation") {
-                    ARCSegmentedControl(
-                        selection: $filledSelection,
-                        segments: [
-                            .text("Instant", value: 0),
-                            .text("Switch", value: 1)
-                        ],
-                        configuration: ARCSegmentedControlConfiguration(
-                            animated: false,
-                            hapticFeedback: false
-                        )
-                    )
+                    ARCSegmentedControl(selection: $filledSelection,
+                                        segments: [.text("Instant", value: 0),
+                                                   .text("Switch", value: 1)],
+                                        configuration: ARCSegmentedControlConfiguration(animated: false,
+                                                                                        hapticFeedback: false))
                 }
             }
         }

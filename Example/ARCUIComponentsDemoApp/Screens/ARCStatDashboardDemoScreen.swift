@@ -47,21 +47,17 @@ extension ARCStatDashboardDemoScreen {
             ARCStatSectionHeader(title: "Highlights", icon: "star.fill")
 
             HStack(spacing: 12) {
-                ARCStatHighlightCard(
-                    title: "Best rated",
-                    headline: "Sushi Nakazawa",
-                    rating: 9.5,
-                    icon: "arrow.up.circle.fill",
-                    accentColor: .green
-                )
-                ARCStatHighlightCard(
-                    title: "Most visited",
-                    headline: "Cafe Central",
-                    subtitle: "12 visits",
-                    subtitleIcon: "arrow.counterclockwise",
-                    icon: "flame.fill",
-                    accentColor: .orange
-                )
+                ARCStatHighlightCard(title: "Best rated",
+                                     headline: "Sushi Nakazawa",
+                                     rating: 9.5,
+                                     icon: "arrow.up.circle.fill",
+                                     accentColor: .green)
+                ARCStatHighlightCard(title: "Most visited",
+                                     headline: "Cafe Central",
+                                     subtitle: "12 visits",
+                                     subtitleIcon: "arrow.counterclockwise",
+                                     icon: "flame.fill",
+                                     accentColor: .orange)
             }
             .padding(.horizontal)
         }
@@ -71,12 +67,10 @@ extension ARCStatDashboardDemoScreen {
         ARCStatDashboardSection {
             ARCStatSectionHeader(title: "Cuisines", icon: "fork.knife")
 
-            ARCDonutChart(
-                data: DemoDashboardData.cuisines,
-                value: \.count,
-                label: \.name,
-                icon: \.icon
-            )
+            ARCDonutChart(data: DemoDashboardData.cuisines,
+                          value: \.count,
+                          label: \.name,
+                          icon: \.icon)
         }
     }
 
@@ -84,11 +78,9 @@ extension ARCStatDashboardDemoScreen {
         ARCStatDashboardSection {
             ARCStatSectionHeader(title: "Monthly Visits", icon: "calendar")
 
-            ARCTimelineChart(
-                data: DemoDashboardData.monthlyVisits,
-                date: \.date,
-                value: \.count
-            )
+            ARCTimelineChart(data: DemoDashboardData.monthlyVisits,
+                             date: \.date,
+                             value: \.count)
         }
     }
 
@@ -96,12 +88,10 @@ extension ARCStatDashboardDemoScreen {
         ARCStatDashboardSection {
             ARCStatSectionHeader(title: "Cities", icon: "map.fill")
 
-            ARCBarChart(
-                data: DemoDashboardData.cities,
-                label: \.name,
-                value: \.count,
-                configuration: .horizontal
-            )
+            ARCBarChart(data: DemoDashboardData.cities,
+                        label: \.name,
+                        value: \.count,
+                        configuration: .horizontal)
         }
     }
 }
@@ -128,27 +118,21 @@ private enum DemoDashboardData {
         let count: Int
     }
 
-    static let cuisines: [CuisineItem] = [
-        CuisineItem(name: "Japanese", count: 5, icon: "fork.knife"),
-        CuisineItem(name: "Italian", count: 4, icon: "fork.knife"),
-        CuisineItem(name: "Mexican", count: 3, icon: "fork.knife"),
-        CuisineItem(name: "Spanish", count: 2, icon: "fork.knife"),
-        CuisineItem(name: "Chinese", count: 1, icon: "fork.knife")
-    ]
+    static let cuisines: [CuisineItem] = [CuisineItem(name: "Japanese", count: 5, icon: "fork.knife"),
+                                          CuisineItem(name: "Italian", count: 4, icon: "fork.knife"),
+                                          CuisineItem(name: "Mexican", count: 3, icon: "fork.knife"),
+                                          CuisineItem(name: "Spanish", count: 2, icon: "fork.knife"),
+                                          CuisineItem(name: "Chinese", count: 1, icon: "fork.knife")]
 
     static let monthlyVisits: [TimelineItem] = (0 ..< 12).map { offset in
-        TimelineItem(
-            date: Calendar.current.date(byAdding: .month, value: -11 + offset, to: Date()) ?? Date(),
-            count: [2, 3, 1, 4, 2, 5, 3, 6, 4, 3, 5, 4][offset]
-        )
+        TimelineItem(date: Calendar.current.date(byAdding: .month, value: -11 + offset, to: Date()) ?? Date(),
+                     count: [2, 3, 1, 4, 2, 5, 3, 6, 4, 3, 5, 4][offset])
     }
 
-    static let cities: [CityItem] = [
-        CityItem(name: "Madrid", count: 8),
-        CityItem(name: "Barcelona", count: 4),
-        CityItem(name: "Valencia", count: 2),
-        CityItem(name: "Sevilla", count: 1)
-    ]
+    static let cities: [CityItem] = [CityItem(name: "Madrid", count: 8),
+                                     CityItem(name: "Barcelona", count: 4),
+                                     CityItem(name: "Valencia", count: 2),
+                                     CityItem(name: "Sevilla", count: 1)]
 }
 
 // MARK: - Previews

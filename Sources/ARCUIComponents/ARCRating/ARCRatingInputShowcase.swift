@@ -12,8 +12,7 @@ import SwiftUI
 ///
 /// This view provides an interactive gallery of all rating input styles,
 /// demonstrating slider and circular drag interactions.
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCRatingInputShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCRatingInputShowcase: View {
     // MARK: - State
 
     @State private var sliderRating: Double = 5.0
@@ -49,41 +48,30 @@ public struct ARCRatingInputShowcase: View {
 
     // MARK: - Overview Section
 
-    @ViewBuilder private var overviewSection: some View {
+    private var overviewSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            sectionHeader(
-                "Overview",
-                subtitle: "Interactive rating selection from 1 to 10 with 0.5 steps"
-            )
+            sectionHeader("Overview",
+                          subtitle: "Interactive rating selection from 1 to 10 with 0.5 steps")
 
             VStack(spacing: .arcSpacingMedium) {
-                featureRow(
-                    icon: "slider.horizontal.3",
-                    title: "Two Interaction Styles",
-                    description: "Slider or circular drag"
-                )
-                featureRow(
-                    icon: "number",
-                    title: "1-10 Scale",
-                    description: "With 0.5 increments (19 values)"
-                )
-                featureRow(
-                    icon: "paintpalette",
-                    title: "Semantic Colors",
-                    description: "Colors change based on rating"
-                )
-                featureRow(
-                    icon: "accessibility",
-                    title: "Accessible",
-                    description: "Full VoiceOver support"
-                )
+                featureRow(icon: "slider.horizontal.3",
+                           title: "Two Interaction Styles",
+                           description: "Slider or circular drag")
+                featureRow(icon: "number",
+                           title: "1-10 Scale",
+                           description: "With 0.5 increments (19 values)")
+                featureRow(icon: "paintpalette",
+                           title: "Semantic Colors",
+                           description: "Colors change based on rating")
+                featureRow(icon: "accessibility",
+                           title: "Accessible",
+                           description: "Full VoiceOver support")
             }
             .padding()
             .background(cardBackground)
         }
     }
 
-    @ViewBuilder
     private func featureRow(icon: String, title: String, description: String) -> some View {
         HStack(spacing: .arcSpacingMedium) {
             Image(systemName: icon)
@@ -105,12 +93,10 @@ public struct ARCRatingInputShowcase: View {
 
     // MARK: - Slider Style Section
 
-    @ViewBuilder private var sliderStyleSection: some View {
+    private var sliderStyleSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            sectionHeader(
-                "Slider Style",
-                subtitle: "Horizontal slider below the gauge"
-            )
+            sectionHeader("Slider Style",
+                          subtitle: "Horizontal slider below the gauge")
 
             VStack(spacing: .arcSpacingLarge) {
                 ARCRatingInputView(rating: $sliderRating, style: .slider)
@@ -130,12 +116,10 @@ public struct ARCRatingInputShowcase: View {
 
     // MARK: - Circular Drag Style Section
 
-    @ViewBuilder private var circularDragStyleSection: some View {
+    private var circularDragStyleSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            sectionHeader(
-                "Circular Drag Style",
-                subtitle: "Drag around the gauge to select"
-            )
+            sectionHeader("Circular Drag Style",
+                          subtitle: "Drag around the gauge to select")
 
             VStack(spacing: .arcSpacingLarge) {
                 ARCRatingInputView(rating: $circularRating, style: .circularDrag)
@@ -160,12 +144,10 @@ public struct ARCRatingInputShowcase: View {
 
     // MARK: - Comparison Section
 
-    @ViewBuilder private var comparisonSection: some View {
+    private var comparisonSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            sectionHeader(
-                "Style Comparison",
-                subtitle: "Choose the best style for your use case"
-            )
+            sectionHeader("Style Comparison",
+                          subtitle: "Choose the best style for your use case")
 
             HStack(spacing: .arcSpacingXLarge) {
                 VStack(spacing: .arcSpacingMedium) {
@@ -200,12 +182,10 @@ public struct ARCRatingInputShowcase: View {
 
     // MARK: - Form Example Section
 
-    @ViewBuilder private var formExampleSection: some View {
+    private var formExampleSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            sectionHeader(
-                "Form Example",
-                subtitle: "Rating multiple items"
-            )
+            sectionHeader("Form Example",
+                          subtitle: "Rating multiple items")
 
             VStack(spacing: 0) {
                 formRow(title: "Food Quality", rating: $formRatings[0])
@@ -231,7 +211,6 @@ public struct ARCRatingInputShowcase: View {
         }
     }
 
-    @ViewBuilder
     private func formRow(title: String, rating: Binding<Double>) -> some View {
         HStack {
             Text(title)
@@ -239,11 +218,9 @@ public struct ARCRatingInputShowcase: View {
 
             Spacer()
 
-            ARCRatingInputView(
-                rating: rating,
-                configuration: .compact
-            )
-            .scaleEffect(0.7)
+            ARCRatingInputView(rating: rating,
+                               configuration: .compact)
+                .scaleEffect(0.7)
 
             Text(String(format: "%.1f", rating.wrappedValue))
                 .font(.subheadline.monospacedDigit())
@@ -256,29 +233,24 @@ public struct ARCRatingInputShowcase: View {
 
     // MARK: - Steps Visualization Section
 
-    @ViewBuilder private var stepsVisualizationSection: some View {
+    private var stepsVisualizationSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            sectionHeader(
-                "Available Values",
-                subtitle: "19 possible ratings from 1 to 10"
-            )
+            sectionHeader("Available Values",
+                          subtitle: "19 possible ratings from 1 to 10")
 
-            LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: .arcSpacingSmall) {
+            LazyVGrid(columns: [GridItem(.flexible()),
+                                GridItem(.flexible()),
+                                GridItem(.flexible()),
+                                GridItem(.flexible()),
+                                GridItem(.flexible())], spacing: .arcSpacingSmall)
+            {
                 ForEach(availableRatings, id: \.self) { rating in
                     Text(formatRating(rating))
                         .font(.system(.caption, design: .monospaced))
                         .padding(.vertical, 6)
                         .padding(.horizontal, 8)
-                        .background(
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(colorForRating(rating).opacity(0.2))
-                        )
+                        .background(RoundedRectangle(cornerRadius: 6)
+                            .fill(colorForRating(rating).opacity(0.2)))
                         .foregroundStyle(colorForRating(rating))
                 }
             }
@@ -301,7 +273,6 @@ public struct ARCRatingInputShowcase: View {
         ARCRatingColorMapper.color(for: rating)
     }
 
-    @ViewBuilder
     private func sectionHeader(_ title: String, subtitle: String? = nil) -> some View {
         VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
             Text(title)

@@ -30,8 +30,7 @@ import Foundation
 ///     label: "Por Cocina"
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public enum AIRecommenderCategory: Identifiable, Sendable, Equatable, Hashable {
+@available(iOS 17.0, macOS 14.0, *) public enum AIRecommenderCategory: Identifiable, Sendable, Equatable, Hashable {
     // MARK: - Predefined Categories
 
     /// Recommendations based on user's favorites and preferences
@@ -137,8 +136,7 @@ public enum AIRecommenderCategory: Identifiable, Sendable, Equatable, Hashable {
 
 // MARK: - Default Categories
 
-@available(iOS 17.0, macOS 14.0, *)
-extension AIRecommenderCategory {
+@available(iOS 17.0, macOS 14.0, *) extension AIRecommenderCategory {
     /// Default set of categories for most apps
     public static var defaultCategories: [AIRecommenderCategory] {
         [.favorites, .nearYou, .trending, .new]

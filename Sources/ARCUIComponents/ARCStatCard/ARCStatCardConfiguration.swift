@@ -26,8 +26,7 @@ import SwiftUI
 /// ```swift
 /// ARCStatCard(icon: "star.fill", value: "42", label: "Total", configuration: .compact)
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatCardConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatCardConfiguration: Sendable {
     /// Color for the icon
     public let iconColor: Color
 
@@ -63,16 +62,15 @@ public struct ARCStatCardConfiguration: Sendable {
     ///   - padding: Content padding (default: medium)
     ///   - cornerRadius: Corner radius (default: medium)
     ///   - ratingStyle: Style for ARCRatingView (default: .circularGauge)
-    public init(
-        iconColor: Color = .accentColor,
-        valueFont: Font = .title.bold(),
-        labelFont: Font = .caption,
-        iconFont: Font = .title2,
-        spacing: CGFloat = .arcSpacingSmall,
-        padding: CGFloat = .arcSpacingMedium,
-        cornerRadius: CGFloat = .arcCornerRadiusMedium,
-        ratingStyle: ARCRatingStyle = .circularGauge
-    ) {
+    public init(iconColor: Color = .accentColor,
+                valueFont: Font = .title.bold(),
+                labelFont: Font = .caption,
+                iconFont: Font = .title2,
+                spacing: CGFloat = .arcSpacingSmall,
+                padding: CGFloat = .arcSpacingMedium,
+                cornerRadius: CGFloat = .arcCornerRadiusMedium,
+                ratingStyle: ARCRatingStyle = .circularGauge)
+    {
         self.iconColor = iconColor
         self.valueFont = valueFont
         self.labelFont = labelFont
@@ -89,20 +87,16 @@ public struct ARCStatCardConfiguration: Sendable {
     public static let `default` = ARCStatCardConfiguration()
 
     /// Compact configuration with smaller fonts and less padding
-    public static let compact = ARCStatCardConfiguration(
-        valueFont: .title2.bold(),
-        labelFont: .caption2,
-        iconFont: .title3,
-        spacing: .arcSpacingXSmall,
-        padding: .arcSpacingSmall,
-        ratingStyle: .compactInline
-    )
+    public static let compact = ARCStatCardConfiguration(valueFont: .title2.bold(),
+                                                         labelFont: .caption2,
+                                                         iconFont: .title3,
+                                                         spacing: .arcSpacingXSmall,
+                                                         padding: .arcSpacingSmall,
+                                                         ratingStyle: .compactInline)
 
     /// Prominent configuration with larger icon and font
-    public static let prominent = ARCStatCardConfiguration(
-        valueFont: .largeTitle.bold(),
-        iconFont: .title,
-        spacing: .arcSpacingMedium,
-        padding: .arcSpacingLarge
-    )
+    public static let prominent = ARCStatCardConfiguration(valueFont: .largeTitle.bold(),
+                                                           iconFont: .title,
+                                                           spacing: .arcSpacingMedium,
+                                                           padding: .arcSpacingLarge)
 }

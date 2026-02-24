@@ -58,8 +58,7 @@ import SwiftUI
 ///     configuration: .thick
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCLinearProgress: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCLinearProgress: View {
     // MARK: - Properties
 
     private let progress: Double?
@@ -93,9 +92,7 @@ public struct ARCLinearProgress: View {
     /// without a known completion percentage.
     ///
     /// - Parameter configuration: Visual configuration (default: .default)
-    public init(
-        configuration: ARCLinearProgressConfiguration = .default
-    ) {
+    public init(configuration: ARCLinearProgressConfiguration = .default) {
         progress = nil
         self.configuration = configuration
     }
@@ -107,10 +104,9 @@ public struct ARCLinearProgress: View {
     /// - Parameters:
     ///   - progress: Progress value from 0.0 (empty) to 1.0 (complete)
     ///   - configuration: Visual configuration (default: .default)
-    public init(
-        progress: Double,
-        configuration: ARCLinearProgressConfiguration = .default
-    ) {
+    public init(progress: Double,
+                configuration: ARCLinearProgressConfiguration = .default)
+    {
         self.progress = progress
         self.configuration = configuration
     }
@@ -132,7 +128,7 @@ public struct ARCLinearProgress: View {
 
     // MARK: - Progress Bar
 
-    @ViewBuilder private var progressBar: some View {
+    private var progressBar: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 // Track (background)
@@ -148,30 +144,25 @@ public struct ARCLinearProgress: View {
         }
         .frame(height: configuration.height)
         .clipShape(RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous))
-        .shadow(
-            color: configuration.shadow.color,
-            radius: configuration.shadow.radius,
-            x: configuration.shadow.x,
-            y: configuration.shadow.y
-        )
+        .shadow(color: configuration.shadow.color,
+                radius: configuration.shadow.radius,
+                x: configuration.shadow.x,
+                y: configuration.shadow.y)
     }
 
-    @ViewBuilder private var trackView: some View {
+    private var trackView: some View {
         RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
             .fill(configuration.trackColor)
     }
 
-    @ViewBuilder
     private func determinateProgressView(width: CGFloat) -> some View {
         RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
             .fill(configuration.progressColor)
             .frame(width: width * animatedProgress)
-            .animation(
-                configuration.animated && !reduceMotion
-                    ? .easeInOut(duration: configuration.animationDuration)
-                    : .none,
-                value: animatedProgress
-            )
+            .animation(configuration.animated && !reduceMotion
+                ? .easeInOut(duration: configuration.animationDuration)
+                : .none,
+                value: animatedProgress)
             .onAppear {
                 animatedProgress = clampedProgress
             }
@@ -180,22 +171,15 @@ public struct ARCLinearProgress: View {
             }
     }
 
-    @ViewBuilder
-    private func indeterminateProgressView(width: CGFloat) -> some View {
+    @ViewBuilder private func indeterminateProgressView(width: CGFloat) -> some View {
         let shimmerWidth = width * 0.3
 
         RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-            .fill(
-                LinearGradient(
-                    colors: [
-                        configuration.progressColor.opacity(0),
-                        configuration.progressColor,
-                        configuration.progressColor.opacity(0)
-                    ],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-            )
+            .fill(LinearGradient(colors: [configuration.progressColor.opacity(0),
+                                          configuration.progressColor,
+                                          configuration.progressColor.opacity(0)],
+                                 startPoint: .leading,
+                                 endPoint: .trailing))
             .frame(width: shimmerWidth)
             .offset(x: indeterminateOffset * (width + shimmerWidth))
             .onAppear {
@@ -203,10 +187,9 @@ public struct ARCLinearProgress: View {
                     indeterminateOffset = 0
                     return
                 }
-                withAnimation(
-                    .linear(duration: 1.5)
-                        .repeatForever(autoreverses: false)
-                ) {
+                withAnimation(.linear(duration: 1.5)
+                    .repeatForever(autoreverses: false))
+                {
                     indeterminateOffset = 1.0
                 }
             }
@@ -214,16 +197,14 @@ public struct ARCLinearProgress: View {
 
     // MARK: - Percentage Label
 
-    @ViewBuilder private var percentageLabel: some View {
+    private var percentageLabel: some View {
         Text("\(Int(clampedProgress * 100))%")
             .font(configuration.percentageFont)
             .foregroundStyle(.secondary)
             .monospacedDigit()
             .contentTransition(.numericText())
-            .animation(
-                configuration.animated ? .easeInOut(duration: configuration.animationDuration) : .none,
-                value: clampedProgress
-            )
+            .animation(configuration.animated ? .easeInOut(duration: configuration.animationDuration) : .none,
+                       value: clampedProgress)
     }
 
     // MARK: - Accessibility
@@ -296,26 +277,14 @@ public struct ARCLinearProgress: View {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Custom Colors") {
     VStack(spacing: 24) {
-        ARCLinearProgress(
-            progress: 0.6,
-            configuration: ARCLinearProgressConfiguration(
-                progressColor: .green
-            )
-        )
+        ARCLinearProgress(progress: 0.6,
+                          configuration: ARCLinearProgressConfiguration(progressColor: .green))
 
-        ARCLinearProgress(
-            progress: 0.6,
-            configuration: ARCLinearProgressConfiguration(
-                progressColor: .orange
-            )
-        )
+        ARCLinearProgress(progress: 0.6,
+                          configuration: ARCLinearProgressConfiguration(progressColor: .orange))
 
-        ARCLinearProgress(
-            progress: 0.6,
-            configuration: ARCLinearProgressConfiguration(
-                progressColor: .red
-            )
-        )
+        ARCLinearProgress(progress: 0.6,
+                          configuration: ARCLinearProgressConfiguration(progressColor: .red))
     }
     .padding()
 }
@@ -323,12 +292,10 @@ public struct ARCLinearProgress: View {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Glass Style") {
     ZStack {
-        LinearGradient(
-            colors: [.purple, .blue, .cyan],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
+        LinearGradient(colors: [.purple, .blue, .cyan],
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+            .ignoresSafeArea()
 
         VStack(spacing: 24) {
             ARCLinearProgress(configuration: .glass)

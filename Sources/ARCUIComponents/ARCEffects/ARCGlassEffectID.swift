@@ -9,8 +9,7 @@ import SwiftUI
 
 // MARK: - Glass Effect ID Extension
 
-@available(iOS 17.0, macOS 14.0, *)
-public extension View {
+@available(iOS 17.0, macOS 14.0, *) extension View {
     /// Assigns a glass effect ID for morphing animations
     ///
     /// On iOS 26+, this enables morphing animations between glass effects
@@ -51,14 +50,12 @@ public extension View {
     /// - Note: This modifier only affects glass effects applied via
     ///   ``SwiftUI/View/liquidGlass(configuration:isInteractive:)`` or
     ///   the native `.glassEffect()` modifier.
-    @ViewBuilder
-    func arcGlassEffectID<ID: Hashable & Sendable>(
-        _ id: ID,
-        in namespace: Namespace.ID
-    ) -> some View {
+    @ViewBuilder public func arcGlassEffectID<ID: Hashable & Sendable>(_ id: ID,
+                                                                       in namespace: Namespace.ID) -> some View
+    {
         #if compiler(>=6.2)
         if #available(iOS 26.0, macOS 26.0, *) {
-            self.glassEffectID(id, in: namespace)
+            glassEffectID(id, in: namespace)
         } else {
             self
         }
@@ -95,14 +92,12 @@ public extension View {
     ///   - id: The shared identifier for all effects that should combine.
     ///   - namespace: The namespace that groups related glass effects together.
     /// - Returns: The view with union applied (iOS 26+) or unchanged (iOS 17-25).
-    @ViewBuilder
-    func arcGlassEffectUnion<ID: Hashable & Sendable>(
-        id: ID,
-        in namespace: Namespace.ID
-    ) -> some View {
+    @ViewBuilder public func arcGlassEffectUnion<ID: Hashable & Sendable>(id: ID,
+                                                                          in namespace: Namespace.ID) -> some View
+    {
         #if compiler(>=6.2)
         if #available(iOS 26.0, macOS 26.0, *) {
-            self.glassEffectUnion(id: id, namespace: namespace)
+            glassEffectUnion(id: id, namespace: namespace)
         } else {
             self
         }

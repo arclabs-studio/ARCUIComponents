@@ -9,17 +9,20 @@ import SwiftUI
 
 // MARK: - ShowcaseStyle
 
-@available(iOS 17.0, macOS 14.0, *)
-enum ShowcaseStyle: String, CaseIterable, Identifiable {
+@available(iOS 17.0, macOS 14.0, *) enum ShowcaseStyle: String, CaseIterable, Identifiable {
     case `default` = "Default"
     case green = "Green"
     case orange = "Orange"
     case purple = "Purple"
     case trailingPanel = "Trailing Panel"
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
-    var name: String { rawValue }
+    var name: String {
+        rawValue
+    }
 
     var configName: String {
         switch self {
@@ -85,16 +88,19 @@ enum ShowcaseStyle: String, CaseIterable, Identifiable {
 
 // MARK: - ShowcaseVariant
 
-@available(iOS 17.0, macOS 14.0, *)
-enum ShowcaseVariant: String, CaseIterable, Identifiable {
+@available(iOS 17.0, macOS 14.0, *) enum ShowcaseVariant: String, CaseIterable, Identifiable {
     case full = "Full"
     case compact = "Compact"
     case minimal = "Minimal"
     case custom = "Custom"
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
-    var name: String { rawValue }
+    var name: String {
+        rawValue
+    }
 
     var description: String {
         switch self {

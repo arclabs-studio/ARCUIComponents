@@ -11,8 +11,7 @@ import SwiftUI
 /// Demo screen for ARCAvatar component.
 ///
 /// Shows avatars with various content types, sizes, shapes, and status indicators.
-@available(iOS 17.0, *)
-struct ARCAvatarDemoScreen: View {
+@available(iOS 17.0, *) struct ARCAvatarDemoScreen: View {
     // MARK: - State
 
     @State private var selectedStatus: ARCAvatarStatus = .online
@@ -43,8 +42,7 @@ struct ARCAvatarDemoScreen: View {
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *)
-extension ARCAvatarDemoScreen {
+@available(iOS 17.0, *) extension ARCAvatarDemoScreen {
     // MARK: - Content Types Section
 
     private var contentTypesSection: some View {
@@ -96,11 +94,10 @@ extension ARCAvatarDemoScreen {
         }
     }
 
-    private func contentRow(
-        _ title: String,
-        description: String,
-        @ViewBuilder content: () -> some View
-    ) -> some View {
+    private func contentRow(_ title: String,
+                            description: String,
+                            @ViewBuilder content: () -> some View) -> some View
+    {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -166,11 +163,10 @@ extension ARCAvatarDemoScreen {
         }
     }
 
-    private func sizeExample(
-        _ size: ARCAvatarConfiguration.Size,
-        _ label: String,
-        _ dimension: String
-    ) -> some View {
+    private func sizeExample(_ size: ARCAvatarConfiguration.Size,
+                             _ label: String,
+                             _ dimension: String) -> some View
+    {
         VStack(spacing: 4) {
             ARCAvatar(name: label, configuration: ARCAvatarConfiguration(size: size))
             Text(label).font(.caption2).foregroundStyle(.secondary)
@@ -243,38 +239,26 @@ extension ARCAvatarDemoScreen {
 
                 HStack(spacing: 24) {
                     VStack(spacing: 4) {
-                        ARCAvatar(
-                            name: "BR",
-                            status: .online,
-                            configuration: ARCAvatarConfiguration(
-                                size: .lg,
-                                statusBadgePosition: .bottomTrailing
-                            )
-                        )
+                        ARCAvatar(name: "BR",
+                                  status: .online,
+                                  configuration: ARCAvatarConfiguration(size: .lg,
+                                                                        statusBadgePosition: .bottomTrailing))
                         Text("Bottom Trailing").font(.caption2).foregroundStyle(.secondary)
                     }
 
                     VStack(spacing: 4) {
-                        ARCAvatar(
-                            name: "TR",
-                            status: .online,
-                            configuration: ARCAvatarConfiguration(
-                                size: .lg,
-                                statusBadgePosition: .topTrailing
-                            )
-                        )
+                        ARCAvatar(name: "TR",
+                                  status: .online,
+                                  configuration: ARCAvatarConfiguration(size: .lg,
+                                                                        statusBadgePosition: .topTrailing))
                         Text("Top Trailing").font(.caption2).foregroundStyle(.secondary)
                     }
 
                     VStack(spacing: 4) {
-                        ARCAvatar(
-                            name: "BL",
-                            status: .online,
-                            configuration: ARCAvatarConfiguration(
-                                size: .lg,
-                                statusBadgePosition: .bottomLeading
-                            )
-                        )
+                        ARCAvatar(name: "BL",
+                                  status: .online,
+                                  configuration: ARCAvatarConfiguration(size: .lg,
+                                                                        statusBadgePosition: .bottomLeading))
                         Text("Bottom Leading").font(.caption2).foregroundStyle(.secondary)
                     }
                 }
@@ -294,45 +278,33 @@ extension ARCAvatarDemoScreen {
             VStack(alignment: .leading, spacing: 20) {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Default (3 members)").font(.subheadline)
-                    ARCAvatarGroup(
-                        avatars: [
-                            ARCAvatar(name: "Alice Brown"),
-                            ARCAvatar(name: "Bob Smith"),
-                            ARCAvatar(name: "Carol White")
-                        ]
-                    )
+                    ARCAvatarGroup(avatars: [ARCAvatar(name: "Alice Brown"),
+                                             ARCAvatar(name: "Bob Smith"),
+                                             ARCAvatar(name: "Carol White")])
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Overflow (6 members, max 4)").font(.subheadline)
-                    ARCAvatarGroup(
-                        avatars: [
-                            ARCAvatar(name: "Alice"),
-                            ARCAvatar(name: "Bob"),
-                            ARCAvatar(name: "Carol"),
-                            ARCAvatar(name: "David"),
-                            ARCAvatar(name: "Eve"),
-                            ARCAvatar(name: "Frank")
-                        ],
-                        maxDisplay: 4
-                    )
+                    ARCAvatarGroup(avatars: [ARCAvatar(name: "Alice"),
+                                             ARCAvatar(name: "Bob"),
+                                             ARCAvatar(name: "Carol"),
+                                             ARCAvatar(name: "David"),
+                                             ARCAvatar(name: "Eve"),
+                                             ARCAvatar(name: "Frank")],
+                                   maxDisplay: 4)
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Compact Style").font(.subheadline)
-                    ARCAvatarGroup(
-                        avatars: sampleAvatars,
-                        configuration: .compact
-                    )
+                    ARCAvatarGroup(avatars: sampleAvatars,
+                                   configuration: .compact)
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Large Style").font(.subheadline)
-                    ARCAvatarGroup(
-                        avatars: sampleAvatars,
-                        maxDisplay: 3,
-                        configuration: .large
-                    )
+                    ARCAvatarGroup(avatars: sampleAvatars,
+                                   maxDisplay: 3,
+                                   configuration: .large)
                 }
             }
             .padding()
@@ -349,11 +321,9 @@ extension ARCAvatarDemoScreen {
             VStack(spacing: 0) {
                 ForEach(sampleUsers, id: \.name) { user in
                     HStack(spacing: 12) {
-                        ARCAvatar(
-                            name: user.name,
-                            status: user.status,
-                            configuration: .listItem
-                        )
+                        ARCAvatar(name: user.name,
+                                  status: user.status,
+                                  configuration: .listItem)
 
                         VStack(alignment: .leading, spacing: 2) {
                             Text(user.name)
@@ -388,11 +358,9 @@ extension ARCAvatarDemoScreen {
             sectionHeader("Profile Header", subtitle: "Large avatar for profile screens")
 
             VStack(spacing: 16) {
-                ARCAvatar(
-                    name: "John Appleseed",
-                    status: .online,
-                    configuration: .profile
-                )
+                ARCAvatar(name: "John Appleseed",
+                          status: .online,
+                          configuration: .profile)
 
                 Text("John Appleseed")
                     .font(.title2)
@@ -448,22 +416,18 @@ extension ARCAvatarDemoScreen {
     }
 
     private var sampleAvatars: [ARCAvatar] {
-        [
-            ARCAvatar(name: "Alice Brown"),
-            ARCAvatar(name: "Bob Smith"),
-            ARCAvatar(name: "Carol White"),
-            ARCAvatar(name: "David Green"),
-            ARCAvatar(name: "Eve Black")
-        ]
+        [ARCAvatar(name: "Alice Brown"),
+         ARCAvatar(name: "Bob Smith"),
+         ARCAvatar(name: "Carol White"),
+         ARCAvatar(name: "David Green"),
+         ARCAvatar(name: "Eve Black")]
     }
 
     private var sampleUsers: [DemoUser] {
-        [
-            DemoUser(name: "Alice Brown", email: "alice@example.com", status: .online),
-            DemoUser(name: "Bob Smith", email: "bob@example.com", status: .busy),
-            DemoUser(name: "Carol White", email: "carol@example.com", status: .away),
-            DemoUser(name: "David Green", email: "david@example.com", status: .offline)
-        ]
+        [DemoUser(name: "Alice Brown", email: "alice@example.com", status: .online),
+         DemoUser(name: "Bob Smith", email: "bob@example.com", status: .busy),
+         DemoUser(name: "Carol White", email: "carol@example.com", status: .away),
+         DemoUser(name: "David Green", email: "david@example.com", status: .offline)]
     }
 }
 

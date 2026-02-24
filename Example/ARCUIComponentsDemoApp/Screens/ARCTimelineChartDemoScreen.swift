@@ -42,11 +42,9 @@ extension ARCTimelineChartDemoScreen {
                 .foregroundStyle(.secondary)
                 .padding(.horizontal)
 
-            ARCTimelineChart(
-                data: DemoTimelineData.monthlyVisits,
-                date: \.date,
-                value: \.count
-            )
+            ARCTimelineChart(data: DemoTimelineData.monthlyVisits,
+                             date: \.date,
+                             value: \.count)
         }
     }
 
@@ -59,12 +57,10 @@ extension ARCTimelineChartDemoScreen {
                 .foregroundStyle(.secondary)
                 .padding(.horizontal)
 
-            ARCTimelineChart(
-                data: DemoTimelineData.monthlyVisits,
-                date: \.date,
-                value: \.count,
-                configuration: .compact
-            )
+            ARCTimelineChart(data: DemoTimelineData.monthlyVisits,
+                             date: \.date,
+                             value: \.count,
+                             configuration: .compact)
         }
     }
 
@@ -86,10 +82,8 @@ private enum DemoTimelineData {
     }
 
     static let monthlyVisits: [TimelineItem] = (0 ..< 12).map { offset in
-        TimelineItem(
-            date: Calendar.current.date(byAdding: .month, value: -11 + offset, to: Date()) ?? Date(),
-            count: [2, 3, 1, 4, 2, 5, 3, 6, 4, 3, 5, 4][offset]
-        )
+        TimelineItem(date: Calendar.current.date(byAdding: .month, value: -11 + offset, to: Date()) ?? Date(),
+                     count: [2, 3, 1, 4, 2, 5, 3, 6, 4, 3, 5, 4][offset])
     }
 }
 

@@ -56,8 +56,7 @@ import SwiftUI
 /// )
 /// ARCSkeletonView(configuration: config)
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCSkeletonConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCSkeletonConfiguration: Sendable {
     // MARK: - Shape
 
     /// Shape options for skeleton views
@@ -127,15 +126,14 @@ public struct ARCSkeletonConfiguration: Sendable {
     ///   - animationDuration: Duration of shimmer cycle (default: 1.5 seconds)
     ///   - animationDelay: Delay before animation starts (default: 0)
     ///   - shimmerEnabled: Whether shimmer is enabled (default: true)
-    public init(
-        shape: Shape = .roundedRectangle(cornerRadius: .arcCornerRadiusSmall),
-        size: Size = .flexible(minWidth: nil, maxWidth: nil, height: 16),
-        baseColor: Color = Color.gray.opacity(0.2),
-        highlightColor: Color = Color.gray.opacity(0.1),
-        animationDuration: Double = 1.5,
-        animationDelay: Double = 0,
-        shimmerEnabled: Bool = true
-    ) {
+    public init(shape: Shape = .roundedRectangle(cornerRadius: .arcCornerRadiusSmall),
+                size: Size = .flexible(minWidth: nil, maxWidth: nil, height: 16),
+                baseColor: Color = Color.gray.opacity(0.2),
+                highlightColor: Color = Color.gray.opacity(0.1),
+                animationDuration: Double = 1.5,
+                animationDelay: Double = 0,
+                shimmerEnabled: Bool = true)
+    {
         self.shape = shape
         self.size = size
         self.baseColor = baseColor
@@ -155,80 +153,61 @@ public struct ARCSkeletonConfiguration: Sendable {
     /// Text line skeleton
     ///
     /// Standard height for body text placeholders.
-    public static let text = ARCSkeletonConfiguration(
-        shape: .roundedRectangle(cornerRadius: 4),
-        size: .flexible(minWidth: nil, maxWidth: nil, height: 16)
-    )
+    public static let text = ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: 4),
+                                                      size: .flexible(minWidth: nil, maxWidth: nil, height: 16))
 
     /// Small text line skeleton
     ///
     /// Smaller height for caption or secondary text.
-    public static let textSmall = ARCSkeletonConfiguration(
-        shape: .roundedRectangle(cornerRadius: 4),
-        size: .flexible(minWidth: nil, maxWidth: nil, height: 12)
-    )
+    public static let textSmall = ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: 4),
+                                                           size: .flexible(minWidth: nil, maxWidth: nil, height: 12))
 
     /// Large text line skeleton
     ///
     /// Larger height for headlines or titles.
-    public static let textLarge = ARCSkeletonConfiguration(
-        shape: .roundedRectangle(cornerRadius: 4),
-        size: .flexible(minWidth: nil, maxWidth: nil, height: 20)
-    )
+    public static let textLarge = ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: 4),
+                                                           size: .flexible(minWidth: nil, maxWidth: nil, height: 20))
 
     /// Avatar skeleton (medium size)
     ///
     /// Circular placeholder for user avatars.
-    public static let avatar = ARCSkeletonConfiguration(
-        shape: .circle,
-        size: .fixed(width: 44, height: 44)
-    )
+    public static let avatar = ARCSkeletonConfiguration(shape: .circle,
+                                                        size: .fixed(width: 44, height: 44))
 
     /// Small avatar skeleton
     ///
     /// Smaller circular placeholder for compact layouts.
-    public static let avatarSmall = ARCSkeletonConfiguration(
-        shape: .circle,
-        size: .fixed(width: 32, height: 32)
-    )
+    public static let avatarSmall = ARCSkeletonConfiguration(shape: .circle,
+                                                             size: .fixed(width: 32, height: 32))
 
     /// Large avatar skeleton
     ///
     /// Larger circular placeholder for profile headers.
-    public static let avatarLarge = ARCSkeletonConfiguration(
-        shape: .circle,
-        size: .fixed(width: 64, height: 64)
-    )
+    public static let avatarLarge = ARCSkeletonConfiguration(shape: .circle,
+                                                             size: .fixed(width: 64, height: 64))
 
     /// Image placeholder skeleton
     ///
     /// Rounded rectangle for image content areas.
-    public static let image = ARCSkeletonConfiguration(
-        shape: .roundedRectangle(cornerRadius: .arcCornerRadiusMedium),
-        size: .aspectRatio(16 / 9, height: 180)
-    )
+    public static let image = ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: .arcCornerRadiusMedium),
+                                                       size: .aspectRatio(16 / 9, height: 180))
 
     /// Square image placeholder
     ///
     /// Square aspect ratio for thumbnails or album art.
-    public static let imageSquare = ARCSkeletonConfiguration(
-        shape: .roundedRectangle(cornerRadius: .arcCornerRadiusMedium),
-        size: .fixed(width: 120, height: 120)
-    )
+    public static let imageSquare =
+        ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: .arcCornerRadiusMedium),
+                                 size: .fixed(width: 120, height: 120))
 
     /// Button placeholder skeleton
     ///
     /// Capsule-shaped placeholder for buttons.
-    public static let button = ARCSkeletonConfiguration(
-        shape: .capsule,
-        size: .fixed(width: 120, height: 44)
-    )
+    public static let button = ARCSkeletonConfiguration(shape: .capsule,
+                                                        size: .fixed(width: 120, height: 44))
 
     /// Icon placeholder skeleton
     ///
     /// Small rounded square for icon placeholders.
-    public static let icon = ARCSkeletonConfiguration(
-        shape: .roundedRectangle(cornerRadius: .arcCornerRadiusSmall),
-        size: .fixed(width: 24, height: 24)
-    )
+    public static let icon = ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: .arcCornerRadiusSmall),
+                                                      size: .fixed(width: 24, height: 24))
 }

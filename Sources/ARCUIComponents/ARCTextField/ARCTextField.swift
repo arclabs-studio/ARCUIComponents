@@ -17,8 +17,7 @@ import UIKit
 ///
 /// Provides outlined, filled, underlined, and glass styles with animated floating labels,
 /// built-in validation with error states, leading/trailing icons, clear button, and character counting.
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCTextField: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCTextField: View {
     // MARK: - ValidationState
 
     /// Current validation state of the text field
@@ -61,12 +60,11 @@ public struct ARCTextField: View {
     ///   - text: Binding to the text value
     ///   - configuration: Text field configuration (default: .default)
     ///   - onSubmit: Action to perform on submit
-    public init(
-        _ placeholder: String,
-        text: Binding<String>,
-        configuration: ARCTextFieldConfiguration = .default,
-        onSubmit: (() -> Void)? = nil
-    ) {
+    public init(_ placeholder: String,
+                text: Binding<String>,
+                configuration: ARCTextFieldConfiguration = .default,
+                onSubmit: (() -> Void)? = nil)
+    {
         self.placeholder = placeholder
         _text = text
         self.configuration = configuration
@@ -88,7 +86,7 @@ public struct ARCTextField: View {
 
     // MARK: - Field Container
 
-    @ViewBuilder var fieldContainer: some View {
+    var fieldContainer: some View {
         ZStack(alignment: .leading) {
             backgroundView
             fieldContent

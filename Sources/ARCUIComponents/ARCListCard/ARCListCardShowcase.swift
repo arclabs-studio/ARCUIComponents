@@ -18,8 +18,7 @@ import SwiftUI
 /// - See cards with different content combinations
 /// - Verify accessibility and Dynamic Type support
 /// - View realistic usage scenarios
-@available(iOS 17.0, *)
-public struct ARCListCardShowcase: View {
+@available(iOS 17.0, *) public struct ARCListCardShowcase: View {
     // MARK: - State
 
     @State private var selectedTab: ShowcaseTab = .styles
@@ -63,10 +62,9 @@ public struct ARCListCardShowcase: View {
             #if os(iOS)
                 .navigationBarTitleDisplayMode(.large)
             #endif
-                .sheet(item: Binding(
-                    get: { selectedItem.map { ItemWrapper(id: $0) } },
-                    set: { selectedItem = $0?.id }
-                )) { item in
+                .sheet(item: Binding(get: { selectedItem.map { ItemWrapper(id: $0) } },
+                                     set: { selectedItem = $0?.id }))
+                { item in
                     DetailSheet(item: item.id)
                 }
         }
@@ -74,75 +72,59 @@ public struct ARCListCardShowcase: View {
 
     // MARK: - Background
 
-    @ViewBuilder private var showcaseBackground: some View {
-        LinearGradient(
-            colors: [.blue.opacity(0.15), .purple.opacity(0.1), .pink.opacity(0.05)],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
+    private var showcaseBackground: some View {
+        LinearGradient(colors: [.blue.opacity(0.15), .purple.opacity(0.1), .pink.opacity(0.05)],
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+            .ignoresSafeArea()
     }
 
     // MARK: - Styles Content
 
     private var stylesContent: some View {
         VStack(spacing: 40) {
-            SectionHeader(
-                title: "Configurations",
-                subtitle: "Different visual treatments"
-            )
-            .padding(.horizontal)
+            SectionHeader(title: "Configurations",
+                          subtitle: "Different visual treatments")
+                .padding(.horizontal)
 
             // Default
-            StyleSection(
-                title: "Default",
-                description: "Translucent background with subtle shadow"
-            ) {
-                ARCListCard(
-                    configuration: .default,
-                    image: .system("star.fill", color: .yellow),
-                    title: "Default Configuration",
-                    subtitle: "Standard translucent style"
-                )
+            StyleSection(title: "Default",
+                         description: "Translucent background with subtle shadow")
+            {
+                ARCListCard(configuration: .default,
+                            image: .system("star.fill", color: .yellow),
+                            title: "Default Configuration",
+                            subtitle: "Standard translucent style")
             }
 
             // Prominent
-            StyleSection(
-                title: "Prominent",
-                description: "Liquid glass effect with enhanced depth"
-            ) {
-                ARCListCard(
-                    configuration: .prominent,
-                    image: .system("sparkles", color: .blue),
-                    title: "Prominent Configuration",
-                    subtitle: "Premium liquid glass effect"
-                )
+            StyleSection(title: "Prominent",
+                         description: "Liquid glass effect with enhanced depth")
+            {
+                ARCListCard(configuration: .prominent,
+                            image: .system("sparkles", color: .blue),
+                            title: "Prominent Configuration",
+                            subtitle: "Premium liquid glass effect")
             }
 
             // Glassmorphic
-            StyleSection(
-                title: "Glassmorphic",
-                description: "Apple Music-inspired styling"
-            ) {
-                ARCListCard(
-                    configuration: .glassmorphic,
-                    image: .system("music.note", color: .pink),
-                    title: "Glassmorphic Configuration",
-                    subtitle: "Music app aesthetic"
-                )
+            StyleSection(title: "Glassmorphic",
+                         description: "Apple Music-inspired styling")
+            {
+                ARCListCard(configuration: .glassmorphic,
+                            image: .system("music.note", color: .pink),
+                            title: "Glassmorphic Configuration",
+                            subtitle: "Music app aesthetic")
             }
 
             // Subtle
-            StyleSection(
-                title: "Subtle",
-                description: "Minimal styling with separator"
-            ) {
-                ARCListCard(
-                    configuration: .subtle,
-                    image: .system("doc.fill", color: .gray),
-                    title: "Subtle Configuration",
-                    subtitle: "Minimal visual treatment"
-                )
+            StyleSection(title: "Subtle",
+                         description: "Minimal styling with separator")
+            {
+                ARCListCard(configuration: .subtle,
+                            image: .system("doc.fill", color: .gray),
+                            title: "Subtle Configuration",
+                            subtitle: "Minimal visual treatment")
             }
         }
     }
@@ -151,67 +133,51 @@ public struct ARCListCardShowcase: View {
 
     private var contentContent: some View {
         VStack(spacing: 40) {
-            SectionHeader(
-                title: "Content Variations",
-                subtitle: "Different content combinations"
-            )
-            .padding(.horizontal)
+            SectionHeader(title: "Content Variations",
+                          subtitle: "Different content combinations")
+                .padding(.horizontal)
 
             // Title only
-            ContentSection(
-                title: "Title Only",
-                description: "Minimal card with just a title"
-            ) {
-                ARCListCard(
-                    title: "Simple Title"
-                )
+            ContentSection(title: "Title Only",
+                           description: "Minimal card with just a title")
+            {
+                ARCListCard(title: "Simple Title")
             }
 
             // Title and subtitle
-            ContentSection(
-                title: "Title & Subtitle",
-                description: "Card with supporting text"
-            ) {
-                ARCListCard(
-                    title: "Main Title",
-                    subtitle: "Supporting subtitle text"
-                )
+            ContentSection(title: "Title & Subtitle",
+                           description: "Card with supporting text")
+            {
+                ARCListCard(title: "Main Title",
+                            subtitle: "Supporting subtitle text")
             }
 
             // With image
-            ContentSection(
-                title: "With Image",
-                description: "Card with leading image"
-            ) {
-                ARCListCard(
-                    image: .system("photo.fill", color: .blue),
-                    title: "Title with Image",
-                    subtitle: "And a subtitle"
-                )
+            ContentSection(title: "With Image",
+                           description: "Card with leading image")
+            {
+                ARCListCard(image: .system("photo.fill", color: .blue),
+                            title: "Title with Image",
+                            subtitle: "And a subtitle")
             }
 
             // With accessories
-            ContentSection(
-                title: "With Accessories",
-                description: "Card with trailing elements"
-            ) {
-                ARCListCard(
-                    image: .system("music.note", color: .pink),
-                    title: "Song Title",
-                    subtitle: "Artist Name",
-                    accessories: {
-                        HStack(spacing: 8) {
-                            ARCFavoriteButton(
-                                isFavorite: binding(for: "accessory-demo"),
-                                size: .medium
-                            )
+            ContentSection(title: "With Accessories",
+                           description: "Card with trailing elements")
+            {
+                ARCListCard(image: .system("music.note", color: .pink),
+                            title: "Song Title",
+                            subtitle: "Artist Name",
+                            accessories: {
+                                HStack(spacing: 8) {
+                                    ARCFavoriteButton(isFavorite: binding(for: "accessory-demo"),
+                                                      size: .medium)
 
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundStyle(.tertiary)
-                        }
-                    }
-                )
+                                    Image(systemName: "chevron.right")
+                                        .font(.caption)
+                                        .foregroundStyle(.tertiary)
+                                }
+                            })
             }
         }
     }
@@ -220,31 +186,25 @@ public struct ARCListCardShowcase: View {
 
     private var appsContent: some View {
         VStack(spacing: 40) {
-            SectionHeader(
-                title: "App Examples",
-                subtitle: "Realistic app scenarios"
-            )
-            .padding(.horizontal)
+            SectionHeader(title: "App Examples",
+                          subtitle: "Realistic app scenarios")
+                .padding(.horizontal)
 
             // Music App
             AppSection(title: "Music App", description: "Song list with favorites") {
                 VStack(spacing: 12) {
                     ForEach(musicItems, id: \.id) { item in
-                        ARCListCard(
-                            configuration: .glassmorphic,
-                            image: .system("music.note", color: .pink),
-                            title: item.title,
-                            subtitle: item.subtitle,
-                            accessories: {
-                                ARCFavoriteButton(
-                                    isFavorite: binding(for: item.id),
-                                    size: .medium
-                                )
-                            },
-                            action: {
-                                selectedItem = item.id
-                            }
-                        )
+                        ARCListCard(configuration: .glassmorphic,
+                                    image: .system("music.note", color: .pink),
+                                    title: item.title,
+                                    subtitle: item.subtitle,
+                                    accessories: {
+                                        ARCFavoriteButton(isFavorite: binding(for: item.id),
+                                                          size: .medium)
+                                    },
+                                    action: {
+                                        selectedItem = item.id
+                                    })
                     }
                 }
             }
@@ -253,20 +213,18 @@ public struct ARCListCardShowcase: View {
             AppSection(title: "Books App", description: "Reading list") {
                 VStack(spacing: 12) {
                     ForEach(bookItems, id: \.id) { item in
-                        ARCListCard(
-                            configuration: .prominent,
-                            image: .system("book.fill", color: .orange),
-                            title: item.title,
-                            subtitle: item.subtitle,
-                            accessories: {
-                                Image(systemName: "chevron.right")
-                                    .font(.caption.weight(.semibold))
-                                    .foregroundStyle(.tertiary)
-                            },
-                            action: {
-                                selectedItem = item.id
-                            }
-                        )
+                        ARCListCard(configuration: .prominent,
+                                    image: .system("book.fill", color: .orange),
+                                    title: item.title,
+                                    subtitle: item.subtitle,
+                                    accessories: {
+                                        Image(systemName: "chevron.right")
+                                            .font(.caption.weight(.semibold))
+                                            .foregroundStyle(.tertiary)
+                                    },
+                                    action: {
+                                        selectedItem = item.id
+                                    })
                     }
                 }
             }
@@ -275,12 +233,11 @@ public struct ARCListCardShowcase: View {
             AppSection(title: "Podcasts App", description: "Episode list") {
                 VStack(spacing: 12) {
                     ForEach(podcastItems, id: \.id) { item in
-                        ARCListCard(
-                            configuration: .default,
-                            image: .system("mic.fill", color: .purple),
-                            title: item.title,
-                            subtitle: item.subtitle
-                        ) {
+                        ARCListCard(configuration: .default,
+                                    image: .system("mic.fill", color: .purple),
+                                    title: item.title,
+                                    subtitle: item.subtitle)
+                        {
                             selectedItem = item.id
                         }
                     }
@@ -292,23 +249,20 @@ public struct ARCListCardShowcase: View {
     // MARK: - Helper Methods
 
     private func binding(for key: String) -> Binding<Bool> {
-        Binding(
-            get: { favorites.contains(key) },
-            set: { isFav in
-                if isFav {
-                    favorites.insert(key)
-                } else {
-                    favorites.remove(key)
-                }
-            }
-        )
+        Binding(get: { favorites.contains(key) },
+                set: { isFav in
+                    if isFav {
+                        favorites.insert(key)
+                    } else {
+                        favorites.remove(key)
+                    }
+                })
     }
 }
 
 // MARK: - Supporting Views
 
-@available(iOS 17.0, *)
-private struct StyleSection<Content: View>: View {
+@available(iOS 17.0, *) private struct StyleSection<Content: View>: View {
     let title: String
     let description: String
     @ViewBuilder let content: () -> Content
@@ -332,8 +286,7 @@ private struct StyleSection<Content: View>: View {
     }
 }
 
-@available(iOS 17.0, *)
-private struct ContentSection<Content: View>: View {
+@available(iOS 17.0, *) private struct ContentSection<Content: View>: View {
     let title: String
     let description: String
     @ViewBuilder let content: () -> Content
@@ -357,8 +310,7 @@ private struct ContentSection<Content: View>: View {
     }
 }
 
-@available(iOS 17.0, *)
-private struct AppSection<Content: View>: View {
+@available(iOS 17.0, *) private struct AppSection<Content: View>: View {
     let title: String
     let description: String
     @ViewBuilder let content: () -> Content
@@ -381,8 +333,7 @@ private struct AppSection<Content: View>: View {
     }
 }
 
-@available(iOS 17.0, *)
-private struct SectionHeader: View {
+@available(iOS 17.0, *) private struct SectionHeader: View {
     let title: String
     let subtitle: String
 
@@ -401,8 +352,7 @@ private struct SectionHeader: View {
     }
 }
 
-@available(iOS 17.0, *)
-private struct DetailSheet: View {
+@available(iOS 17.0, *) private struct DetailSheet: View {
     let item: String
     @Environment(\.dismiss) private var dismiss
 
@@ -444,43 +394,34 @@ private struct DetailSheet: View {
 
 // MARK: - Sample Data
 
-@available(iOS 17.0, *)
-private struct ItemWrapper: Identifiable {
+@available(iOS 17.0, *) private struct ItemWrapper: Identifiable {
     let id: String
 }
 
-@available(iOS 17.0, *)
-private struct SampleItem: Identifiable {
+@available(iOS 17.0, *) private struct SampleItem: Identifiable {
     let id: String
     let title: String
     let subtitle: String
 }
 
 @available(iOS 17.0, *)
-private let musicItems = [
-    SampleItem(id: "song1", title: "Summer Nights", subtitle: "The Vibes • 2024"),
-    SampleItem(id: "song2", title: "City Lights", subtitle: "Urban Sound • 2024"),
-    SampleItem(id: "song3", title: "Ocean Waves", subtitle: "Nature Sounds • 2023")
-]
+private let musicItems = [SampleItem(id: "song1", title: "Summer Nights", subtitle: "The Vibes • 2024"),
+                          SampleItem(id: "song2", title: "City Lights", subtitle: "Urban Sound • 2024"),
+                          SampleItem(id: "song3", title: "Ocean Waves", subtitle: "Nature Sounds • 2023")]
 
 @available(iOS 17.0, *)
-private let bookItems = [
-    SampleItem(id: "book1", title: "Swift Programming", subtitle: "By Apple • Programming"),
-    SampleItem(id: "book2", title: "Design Patterns", subtitle: "By Gang of Four • Software"),
-    SampleItem(id: "book3", title: "Clean Code", subtitle: "By Robert Martin • Development")
-]
+private let bookItems = [SampleItem(id: "book1", title: "Swift Programming", subtitle: "By Apple • Programming"),
+                         SampleItem(id: "book2", title: "Design Patterns", subtitle: "By Gang of Four • Software"),
+                         SampleItem(id: "book3", title: "Clean Code", subtitle: "By Robert Martin • Development")]
 
 @available(iOS 17.0, *)
-private let podcastItems = [
-    SampleItem(id: "pod1", title: "Tech Talk Daily", subtitle: "Episode 142 • 45 min"),
-    SampleItem(id: "pod2", title: "Design Matters", subtitle: "Episode 89 • 32 min"),
-    SampleItem(id: "pod3", title: "Code Review", subtitle: "Episode 201 • 1 hr 5 min")
-]
+private let podcastItems = [SampleItem(id: "pod1", title: "Tech Talk Daily", subtitle: "Episode 142 • 45 min"),
+                            SampleItem(id: "pod2", title: "Design Matters", subtitle: "Episode 89 • 32 min"),
+                            SampleItem(id: "pod3", title: "Code Review", subtitle: "Episode 201 • 1 hr 5 min")]
 
 // MARK: - Showcase Tab
 
-@available(iOS 17.0, *)
-private enum ShowcaseTab: String, CaseIterable {
+@available(iOS 17.0, *) private enum ShowcaseTab: String, CaseIterable {
     case styles = "Styles"
     case content = "Content"
     case apps = "Apps"

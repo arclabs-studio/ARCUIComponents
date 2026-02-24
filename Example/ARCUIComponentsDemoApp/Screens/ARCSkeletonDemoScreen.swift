@@ -12,8 +12,7 @@ import SwiftUI
 ///
 /// Shows skeleton loading configurations for common scenarios with
 /// interactive shimmer toggle and real-world layout examples.
-@available(iOS 17.0, *)
-struct ARCSkeletonDemoScreen: View {
+@available(iOS 17.0, *) struct ARCSkeletonDemoScreen: View {
     // MARK: Properties
 
     @State private var isAnimating = true
@@ -43,8 +42,7 @@ struct ARCSkeletonDemoScreen: View {
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *)
-extension ARCSkeletonDemoScreen {
+@available(iOS 17.0, *) extension ARCSkeletonDemoScreen {
     private var controlsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Controls")
@@ -58,10 +56,8 @@ extension ARCSkeletonDemoScreen {
                 .tint(Color.arcBrandBurgundy)
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.arcBrandBlack.opacity(0.05))
-        )
+        .background(RoundedRectangle(cornerRadius: 12)
+            .fill(Color.arcBrandBlack.opacity(0.05)))
     }
 
     private var demoSelector: some View {
@@ -79,7 +75,7 @@ extension ARCSkeletonDemoScreen {
         }
     }
 
-    @ViewBuilder private var selectedDemoView: some View {
+    private var selectedDemoView: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Preview")
                 .font(.headline)
@@ -117,10 +113,8 @@ extension ARCSkeletonDemoScreen {
                         Spacer()
                     }
                     .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.arcBrandBlack.opacity(0.05))
-                    )
+                    .background(RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.arcBrandBlack.opacity(0.05)))
                 } else {
                     HStack(spacing: 12) {
                         Image(systemName: "person.crop.circle.fill")
@@ -138,33 +132,27 @@ extension ARCSkeletonDemoScreen {
                         Spacer()
                     }
                     .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.arcBrandBlack.opacity(0.05))
-                    )
+                    .background(RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.arcBrandBlack.opacity(0.05)))
                 }
             }
         }
     }
 
     private var gridDemo: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ], spacing: 16) {
+        LazyVGrid(columns: [GridItem(.flexible()),
+                            GridItem(.flexible())], spacing: 16)
+        {
             ForEach(0 ..< 4, id: \.self) { _ in
                 if isLoading {
-                    ARCSkeletonCard(
-                        imageHeight: 100,
-                        subtitleLines: 1,
-                        showFooter: true
-                    )
+                    ARCSkeletonCard(imageHeight: 100,
+                                    subtitleLines: 1,
+                                    showFooter: true)
                 } else {
-                    ARCCard(
-                        title: "Item Title",
-                        subtitle: "Description",
-                        subtitleIcon: "tag.fill"
-                    ) {
+                    ARCCard(title: "Item Title",
+                            subtitle: "Description",
+                            subtitleIcon: "tag.fill")
+                    {
                         Color.arcBrandGold.opacity(0.2)
                             .frame(height: 100)
                             .overlay {
@@ -203,21 +191,17 @@ extension ARCSkeletonDemoScreen {
                         VStack(spacing: 4) {
                             ARCSkeletonView(configuration: skeletonConfig(.textLarge, delay: Double(index) * 0.05))
                                 .frame(width: 40)
-                            ARCSkeletonView(configuration: skeletonConfig(
-                                .textSmall,
-                                delay: Double(index) * 0.05 + 0.05
-                            ))
-                            .frame(width: 60)
+                            ARCSkeletonView(configuration: skeletonConfig(.textSmall,
+                                                                          delay: Double(index) * 0.05 + 0.05))
+                                .frame(width: 60)
                         }
                     }
                 }
 
                 // Bio
-                ARCSkeletonText(
-                    lineCount: 3,
-                    lastLineWidth: 0.7,
-                    configuration: skeletonConfig(.text, delay: 0.2)
-                )
+                ARCSkeletonText(lineCount: 3,
+                                lastLineWidth: 0.7,
+                                configuration: skeletonConfig(.text, delay: 0.2))
             } else {
                 // Loaded profile
                 HStack(spacing: 16) {
@@ -248,10 +232,8 @@ extension ARCSkeletonDemoScreen {
             }
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color.arcBrandBlack.opacity(0.05))
-        )
+        .background(RoundedRectangle(cornerRadius: 16)
+            .fill(Color.arcBrandBlack.opacity(0.05)))
     }
 
     private var articleDemo: some View {
@@ -278,21 +260,15 @@ extension ARCSkeletonDemoScreen {
                 Divider()
 
                 // Article body
-                ARCSkeletonText(
-                    lineCount: 5,
-                    lastLineWidth: 0.5,
-                    configuration: skeletonConfig(.text, delay: 0.35)
-                )
+                ARCSkeletonText(lineCount: 5,
+                                lastLineWidth: 0.5,
+                                configuration: skeletonConfig(.text, delay: 0.35))
             } else {
                 // Loaded article
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(
-                        LinearGradient(
-                            colors: [Color.arcBrandBurgundy.opacity(0.3), Color.arcBrandGold.opacity(0.3)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
+                    .fill(LinearGradient(colors: [Color.arcBrandBurgundy.opacity(0.3), Color.arcBrandGold.opacity(0.3)],
+                                         startPoint: .topLeading,
+                                         endPoint: .bottomTrailing))
                     .frame(height: 180)
                     .overlay {
                         Image(systemName: "newspaper.fill")
@@ -320,22 +296,18 @@ extension ARCSkeletonDemoScreen {
 
                 Divider()
 
-                Text(
-                    """
-                    Skeleton loading views provide visual feedback during content loading, \
-                    improving perceived performance and user experience. In this article, \
-                    we'll explore how to create beautiful skeleton animations...
-                    """
-                )
+                Text("""
+                Skeleton loading views provide visual feedback during content loading, \
+                improving perceived performance and user experience. In this article, \
+                we'll explore how to create beautiful skeleton animations...
+                """)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
             }
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color.arcBrandBlack.opacity(0.05))
-        )
+        .background(RoundedRectangle(cornerRadius: 16)
+            .fill(Color.arcBrandBlack.opacity(0.05)))
     }
 
     // MARK: - Sections
@@ -381,11 +353,9 @@ extension ARCSkeletonDemoScreen {
                 ARCSkeletonView(configuration: skeletonConfig(.text))
 
                 Text("Multiple Lines").font(.caption).foregroundStyle(.secondary)
-                ARCSkeletonText(
-                    lineCount: 3,
-                    lastLineWidth: 0.6,
-                    configuration: skeletonConfig(.text)
-                )
+                ARCSkeletonText(lineCount: 3,
+                                lastLineWidth: 0.6,
+                                configuration: skeletonConfig(.text))
             }
         }
     }
@@ -409,15 +379,13 @@ extension ARCSkeletonDemoScreen {
     // MARK: - Helpers
 
     private func skeletonConfig(_ base: ARCSkeletonConfiguration, delay: Double = 0) -> ARCSkeletonConfiguration {
-        ARCSkeletonConfiguration(
-            shape: base.shape,
-            size: base.size,
-            baseColor: base.baseColor,
-            highlightColor: base.highlightColor,
-            animationDuration: base.animationDuration,
-            animationDelay: delay,
-            shimmerEnabled: isAnimating
-        )
+        ARCSkeletonConfiguration(shape: base.shape,
+                                 size: base.size,
+                                 baseColor: base.baseColor,
+                                 highlightColor: base.highlightColor,
+                                 animationDuration: base.animationDuration,
+                                 animationDelay: delay,
+                                 shimmerEnabled: isAnimating)
     }
 
     private func statView(value: String, label: String) -> some View {
@@ -433,14 +401,15 @@ extension ARCSkeletonDemoScreen {
 
 // MARK: - Supporting Types
 
-@available(iOS 17.0, *)
-private enum SkeletonDemo: String, CaseIterable, Identifiable {
+@available(iOS 17.0, *) private enum SkeletonDemo: String, CaseIterable, Identifiable {
     case listRow
     case grid
     case profile
     case article
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     var name: String {
         switch self {

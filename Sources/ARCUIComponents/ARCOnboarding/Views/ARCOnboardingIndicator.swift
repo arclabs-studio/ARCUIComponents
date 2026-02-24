@@ -14,8 +14,7 @@ import SwiftUI
 ///
 /// This view displays progress indicators for the onboarding flow,
 /// supporting multiple visual styles (dots, lines, numbers, progress).
-@available(iOS 17.0, macOS 14.0, *)
-struct ARCOnboardingIndicator: View {
+@available(iOS 17.0, macOS 14.0, *) struct ARCOnboardingIndicator: View {
     // MARK: - Properties
 
     let totalPages: Int
@@ -29,17 +28,13 @@ struct ARCOnboardingIndicator: View {
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .caption)
-    private var dotSize: CGFloat = 8
+    @ScaledMetric(relativeTo: .caption) private var dotSize: CGFloat = 8
 
-    @ScaledMetric(relativeTo: .caption)
-    private var lineWidth: CGFloat = 24
+    @ScaledMetric(relativeTo: .caption) private var lineWidth: CGFloat = 24
 
-    @ScaledMetric(relativeTo: .caption)
-    private var lineHeight: CGFloat = 4
+    @ScaledMetric(relativeTo: .caption) private var lineHeight: CGFloat = 4
 
-    @ScaledMetric(relativeTo: .caption)
-    private var spacing: CGFloat = 8
+    @ScaledMetric(relativeTo: .caption) private var spacing: CGFloat = 8
 
     // MARK: - Body
 
@@ -63,15 +58,13 @@ struct ARCOnboardingIndicator: View {
 
     // MARK: - Dots Indicator
 
-    @ViewBuilder private var dotsIndicator: some View {
+    private var dotsIndicator: some View {
         HStack(spacing: spacing) {
             ForEach(0 ..< totalPages, id: \.self) { index in
                 Circle()
                     .fill(index == currentPage ? accentColor : accentColor.opacity(0.3))
-                    .frame(
-                        width: index == currentPage ? dotSize * 1.25 : dotSize,
-                        height: index == currentPage ? dotSize * 1.25 : dotSize
-                    )
+                    .frame(width: index == currentPage ? dotSize * 1.25 : dotSize,
+                           height: index == currentPage ? dotSize * 1.25 : dotSize)
                     .arcAnimationIfAllowed(.arcSpring, value: currentPage)
             }
         }
@@ -79,15 +72,13 @@ struct ARCOnboardingIndicator: View {
 
     // MARK: - Lines Indicator
 
-    @ViewBuilder private var linesIndicator: some View {
+    private var linesIndicator: some View {
         HStack(spacing: spacing / 2) {
             ForEach(0 ..< totalPages, id: \.self) { index in
                 Capsule()
                     .fill(index == currentPage ? accentColor : accentColor.opacity(0.3))
-                    .frame(
-                        width: index == currentPage ? lineWidth * 1.5 : lineWidth,
-                        height: lineHeight
-                    )
+                    .frame(width: index == currentPage ? lineWidth * 1.5 : lineWidth,
+                           height: lineHeight)
                     .arcAnimationIfAllowed(.arcSpring, value: currentPage)
             }
         }
@@ -95,7 +86,7 @@ struct ARCOnboardingIndicator: View {
 
     // MARK: - Numbers Indicator
 
-    @ViewBuilder private var numbersIndicator: some View {
+    private var numbersIndicator: some View {
         Text("\(currentPage + 1) / \(totalPages)")
             .font(.subheadline.weight(.medium))
             .foregroundStyle(.secondary)
@@ -104,7 +95,7 @@ struct ARCOnboardingIndicator: View {
 
     // MARK: - Progress Indicator
 
-    @ViewBuilder private var progressIndicator: some View {
+    private var progressIndicator: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
                 Capsule()
@@ -113,10 +104,8 @@ struct ARCOnboardingIndicator: View {
 
                 Capsule()
                     .fill(accentColor)
-                    .frame(
-                        width: progressWidth(totalWidth: geometry.size.width),
-                        height: lineHeight
-                    )
+                    .frame(width: progressWidth(totalWidth: geometry.size.width),
+                           height: lineHeight)
                     .arcAnimationIfAllowed(.arcGentle, value: currentPage)
             }
         }
@@ -152,48 +141,40 @@ struct ARCOnboardingIndicator: View {
                 Text("Dots")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                ARCOnboardingIndicator(
-                    totalPages: 5,
-                    currentPage: 2,
-                    style: .dots,
-                    accentColor: .blue
-                )
+                ARCOnboardingIndicator(totalPages: 5,
+                                       currentPage: 2,
+                                       style: .dots,
+                                       accentColor: .blue)
             }
 
             VStack(spacing: 8) {
                 Text("Lines")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                ARCOnboardingIndicator(
-                    totalPages: 5,
-                    currentPage: 2,
-                    style: .lines,
-                    accentColor: .blue
-                )
+                ARCOnboardingIndicator(totalPages: 5,
+                                       currentPage: 2,
+                                       style: .lines,
+                                       accentColor: .blue)
             }
 
             VStack(spacing: 8) {
                 Text("Numbers")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                ARCOnboardingIndicator(
-                    totalPages: 5,
-                    currentPage: 2,
-                    style: .numbers,
-                    accentColor: .blue
-                )
+                ARCOnboardingIndicator(totalPages: 5,
+                                       currentPage: 2,
+                                       style: .numbers,
+                                       accentColor: .blue)
             }
 
             VStack(spacing: 8) {
                 Text("Progress")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                ARCOnboardingIndicator(
-                    totalPages: 5,
-                    currentPage: 2,
-                    style: .progress,
-                    accentColor: .blue
-                )
+                ARCOnboardingIndicator(totalPages: 5,
+                                       currentPage: 2,
+                                       style: .progress,
+                                       accentColor: .blue)
             }
         }
     }
@@ -204,12 +185,10 @@ struct ARCOnboardingIndicator: View {
 #Preview("All Pages - Dots") {
     VStack(spacing: 20) {
         ForEach(0 ..< 5) { page in
-            ARCOnboardingIndicator(
-                totalPages: 5,
-                currentPage: page,
-                style: .dots,
-                accentColor: .purple
-            )
+            ARCOnboardingIndicator(totalPages: 5,
+                                   currentPage: page,
+                                   style: .dots,
+                                   accentColor: .purple)
         }
     }
     .padding()

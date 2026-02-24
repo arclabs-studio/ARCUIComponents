@@ -64,8 +64,7 @@ import SwiftUI
 ///     ContentCard(item: item)
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCCarouselConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCCarouselConfiguration: Sendable {
     // MARK: - Size & Layout Properties
 
     /// The size configuration for carousel items
@@ -141,23 +140,22 @@ public struct ARCCarouselConfiguration: Sendable {
     ///   - showShadows: Whether to show item shadows (default: false)
     ///   - scaleEffect: Scale effect for non-centered items (default: nil)
     ///   - itemCornerRadius: Corner radius for items (default: 16)
-    public init(
-        itemSize: ItemSize = .fractional(0.85),
-        itemSpacing: CGFloat = 16,
-        contentInsets: EdgeInsets = EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16),
-        snapBehavior: SnapBehavior = .item,
-        scrollDirection: Axis.Set = .horizontal,
-        loopEnabled: Bool = false,
-        autoScrollEnabled: Bool = false,
-        autoScrollInterval: TimeInterval = 4,
-        pauseOnInteraction: Bool = true,
-        indicatorStyle: IndicatorStyle = .dots,
-        indicatorPosition: IndicatorPosition = .bottom(offset: 16),
-        maxVisibleDots: Int = 7,
-        showShadows: Bool = false,
-        scaleEffect: ScaleEffect? = nil,
-        itemCornerRadius: CGFloat = 16
-    ) {
+    public init(itemSize: ItemSize = .fractional(0.85),
+                itemSpacing: CGFloat = 16,
+                contentInsets: EdgeInsets = EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16),
+                snapBehavior: SnapBehavior = .item,
+                scrollDirection: Axis.Set = .horizontal,
+                loopEnabled: Bool = false,
+                autoScrollEnabled: Bool = false,
+                autoScrollInterval: TimeInterval = 4,
+                pauseOnInteraction: Bool = true,
+                indicatorStyle: IndicatorStyle = .dots,
+                indicatorPosition: IndicatorPosition = .bottom(offset: 16),
+                maxVisibleDots: Int = 7,
+                showShadows: Bool = false,
+                scaleEffect: ScaleEffect? = nil,
+                itemCornerRadius: CGFloat = 16)
+    {
         self.itemSize = itemSize
         self.itemSpacing = itemSpacing
         self.contentInsets = contentInsets
@@ -178,8 +176,7 @@ public struct ARCCarouselConfiguration: Sendable {
 
 // MARK: - ItemSize
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCCarouselConfiguration {
+@available(iOS 17.0, macOS 14.0, *) extension ARCCarouselConfiguration {
     /// Defines how carousel items are sized
     public enum ItemSize: Sendable, Equatable {
         /// One item fills the entire width
@@ -198,8 +195,7 @@ extension ARCCarouselConfiguration {
 
 // MARK: - SnapBehavior
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCCarouselConfiguration {
+@available(iOS 17.0, macOS 14.0, *) extension ARCCarouselConfiguration {
     /// Defines how the carousel snaps when scrolling ends
     public enum SnapBehavior: Sendable, Equatable {
         /// Free scroll without snapping
@@ -215,8 +211,7 @@ extension ARCCarouselConfiguration {
 
 // MARK: - IndicatorStyle
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCCarouselConfiguration {
+@available(iOS 17.0, macOS 14.0, *) extension ARCCarouselConfiguration {
     /// The visual style for page indicators
     public enum IndicatorStyle: Sendable, Equatable {
         /// No indicators shown
@@ -235,8 +230,7 @@ extension ARCCarouselConfiguration {
 
 // MARK: - IndicatorPosition
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCCarouselConfiguration {
+@available(iOS 17.0, macOS 14.0, *) extension ARCCarouselConfiguration {
     /// The position of page indicators
     public enum IndicatorPosition: Sendable, Equatable {
         /// Below the carousel with specified offset
@@ -262,8 +256,7 @@ extension ARCCarouselConfiguration {
 
 // MARK: - ScaleEffect
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCCarouselConfiguration {
+@available(iOS 17.0, macOS 14.0, *) extension ARCCarouselConfiguration {
     /// Configuration for scale effect on carousel items
     public struct ScaleEffect: Sendable, Equatable {
         /// Scale factor for the centered/focused item (typically 1.0)
@@ -281,11 +274,10 @@ extension ARCCarouselConfiguration {
         ///   - centered: Scale for centered item (default: 1.0)
         ///   - adjacent: Scale for adjacent items (default: 0.9)
         ///   - animation: Animation for scale changes (default: spring)
-        public init(
-            centered: CGFloat = 1.0,
-            adjacent: CGFloat = 0.9,
-            animation: Animation = .spring(response: 0.3, dampingFraction: 0.8)
-        ) {
+        public init(centered: CGFloat = 1.0,
+                    adjacent: CGFloat = 0.9,
+                    animation: Animation = .spring(response: 0.3, dampingFraction: 0.8))
+        {
             self.centered = centered
             self.adjacent = adjacent
             self.animation = animation
@@ -305,8 +297,7 @@ extension ARCCarouselConfiguration {
 
 // MARK: - Presets
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCCarouselConfiguration {
+@available(iOS 17.0, macOS 14.0, *) extension ARCCarouselConfiguration {
     /// Default carousel configuration
     ///
     /// Features:
@@ -322,16 +313,14 @@ extension ARCCarouselConfiguration {
     /// - Auto-scroll enabled
     /// - Dot indicators
     /// - Subtle scale effect
-    public static let featured = ARCCarouselConfiguration(
-        itemSize: .fractional(0.9),
-        itemSpacing: 12,
-        autoScrollEnabled: true,
-        autoScrollInterval: 5,
-        indicatorStyle: .dots,
-        indicatorPosition: .overlay(alignment: .bottom),
-        showShadows: true,
-        scaleEffect: .default
-    )
+    public static let featured = ARCCarouselConfiguration(itemSize: .fractional(0.9),
+                                                          itemSpacing: 12,
+                                                          autoScrollEnabled: true,
+                                                          autoScrollInterval: 5,
+                                                          indicatorStyle: .dots,
+                                                          indicatorPosition: .overlay(alignment: .bottom),
+                                                          showShadows: true,
+                                                          scaleEffect: .default)
 
     /// Gallery-style carousel with scale effect
     ///
@@ -339,12 +328,10 @@ extension ARCCarouselConfiguration {
     /// - 75% width items for more visible peek
     /// - Prominent scale effect
     /// - No indicators
-    public static let gallery = ARCCarouselConfiguration(
-        itemSize: .fractional(0.75),
-        itemSpacing: 20,
-        indicatorStyle: .none,
-        scaleEffect: .prominent
-    )
+    public static let gallery = ARCCarouselConfiguration(itemSize: .fractional(0.75),
+                                                         itemSpacing: 20,
+                                                         indicatorStyle: .none,
+                                                         scaleEffect: .prominent)
 
     /// Card carousel with fixed-width items
     ///
@@ -353,13 +340,11 @@ extension ARCCarouselConfiguration {
     /// - Multiple visible items
     /// - No indicators
     /// - Shadows enabled
-    public static let cards = ARCCarouselConfiguration(
-        itemSize: .fixed(280),
-        itemSpacing: 16,
-        indicatorStyle: .none,
-        showShadows: true,
-        itemCornerRadius: 20
-    )
+    public static let cards = ARCCarouselConfiguration(itemSize: .fixed(280),
+                                                       itemSpacing: 16,
+                                                       indicatorStyle: .none,
+                                                       showShadows: true,
+                                                       itemCornerRadius: 20)
 
     /// Stories-style carousel (like Instagram)
     ///
@@ -367,14 +352,15 @@ extension ARCCarouselConfiguration {
     /// - Small fixed-width items
     /// - No snapping
     /// - No indicators
-    public static let stories = ARCCarouselConfiguration(
-        itemSize: .fixed(80),
-        itemSpacing: 12,
-        contentInsets: EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16),
-        snapBehavior: .none,
-        indicatorStyle: .none,
-        itemCornerRadius: 40
-    )
+    public static let stories = ARCCarouselConfiguration(itemSize: .fixed(80),
+                                                         itemSpacing: 12,
+                                                         contentInsets: EdgeInsets(top: 0,
+                                                                                   leading: 16,
+                                                                                   bottom: 0,
+                                                                                   trailing: 16),
+                                                         snapBehavior: .none,
+                                                         indicatorStyle: .none,
+                                                         itemCornerRadius: 40)
 
     /// Full-width paging carousel
     ///
@@ -382,11 +368,12 @@ extension ARCCarouselConfiguration {
     /// - Full width items
     /// - Page snapping
     /// - Line indicators at top
-    public static let paging = ARCCarouselConfiguration(
-        itemSize: .fullWidth,
-        itemSpacing: 0,
-        contentInsets: .init(top: 0, leading: 0, bottom: 0, trailing: 0),
-        indicatorStyle: .lines,
-        indicatorPosition: .top(offset: 8)
-    )
+    public static let paging = ARCCarouselConfiguration(itemSize: .fullWidth,
+                                                        itemSpacing: 0,
+                                                        contentInsets: .init(top: 0,
+                                                                             leading: 0,
+                                                                             bottom: 0,
+                                                                             trailing: 0),
+                                                        indicatorStyle: .lines,
+                                                        indicatorPosition: .top(offset: 8))
 }

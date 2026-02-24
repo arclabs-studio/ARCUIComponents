@@ -46,8 +46,7 @@ import UIKit
 /// - ``search``
 /// - ``multiline``
 /// - ``glass``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCTextFieldConfiguration: LiquidGlassConfigurable, Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCTextFieldConfiguration: LiquidGlassConfigurable, Sendable {
     // MARK: - Style
 
     /// Visual styles for text fields
@@ -226,36 +225,35 @@ public struct ARCTextFieldConfiguration: LiquidGlassConfigurable, Sendable {
     // MARK: - Initialization
 
     /// Creates a text field configuration with the specified options
-    public init(
-        style: Style = .outlined,
-        inputType: InputType = .text,
-        label: String? = nil,
-        leadingIcon: String? = nil,
-        trailingIcon: String? = nil,
-        helperText: String? = nil,
-        validation: ARCTextFieldValidation? = nil,
-        validateOnChange: Bool = false,
-        validateOnSubmit: Bool = true,
-        showValidationIcon: Bool = true,
-        characterLimit: Int? = nil,
-        showCharacterCount: Bool = false,
-        autocapitalization: AutocapitalizationType = .sentences,
-        autocorrection: Bool = true,
-        submitLabel: SubmitLabel = .done,
-        clearButton: ClearButtonMode = .whileEditing,
-        borderColor: Color = .secondary.opacity(0.3),
-        focusedBorderColor: Color = .accentColor,
-        errorBorderColor: Color = .red,
-        successBorderColor: Color = .green,
-        backgroundColor: Color = .clear,
-        accentColor: Color = .accentColor,
-        cornerRadius: CGFloat = 12,
-        shadow: ARCShadow = .none,
-        height: CGFloat = 56,
-        horizontalPadding: CGFloat = 16,
-        borderWidth: CGFloat = 1,
-        focusedBorderWidth: CGFloat = 2
-    ) {
+    public init(style: Style = .outlined,
+                inputType: InputType = .text,
+                label: String? = nil,
+                leadingIcon: String? = nil,
+                trailingIcon: String? = nil,
+                helperText: String? = nil,
+                validation: ARCTextFieldValidation? = nil,
+                validateOnChange: Bool = false,
+                validateOnSubmit: Bool = true,
+                showValidationIcon: Bool = true,
+                characterLimit: Int? = nil,
+                showCharacterCount: Bool = false,
+                autocapitalization: AutocapitalizationType = .sentences,
+                autocorrection: Bool = true,
+                submitLabel: SubmitLabel = .done,
+                clearButton: ClearButtonMode = .whileEditing,
+                borderColor: Color = .secondary.opacity(0.3),
+                focusedBorderColor: Color = .accentColor,
+                errorBorderColor: Color = .red,
+                successBorderColor: Color = .green,
+                backgroundColor: Color = .clear,
+                accentColor: Color = .accentColor,
+                cornerRadius: CGFloat = 12,
+                shadow: ARCShadow = .none,
+                height: CGFloat = 56,
+                horizontalPadding: CGFloat = 16,
+                borderWidth: CGFloat = 1,
+                focusedBorderWidth: CGFloat = 2)
+    {
         self.style = style
         self.inputType = inputType
         self.label = label
@@ -290,8 +288,7 @@ public struct ARCTextFieldConfiguration: LiquidGlassConfigurable, Sendable {
 
 // MARK: - Presets
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCTextFieldConfiguration {
+@available(iOS 17.0, macOS 14.0, *) extension ARCTextFieldConfiguration {
     /// Default text field configuration
     public static var `default`: ARCTextFieldConfiguration {
         ARCTextFieldConfiguration()
@@ -299,113 +296,94 @@ extension ARCTextFieldConfiguration {
 
     /// Email input configuration
     public static var email: ARCTextFieldConfiguration {
-        ARCTextFieldConfiguration(
-            inputType: InputType.email,
-            label: "Email",
-            leadingIcon: "envelope",
-            validation: ARCTextFieldValidation.email,
-            validateOnSubmit: true,
-            autocapitalization: AutocapitalizationType.never,
-            autocorrection: false,
-            submitLabel: .next
-        )
+        ARCTextFieldConfiguration(inputType: InputType.email,
+                                  label: "Email",
+                                  leadingIcon: "envelope",
+                                  validation: ARCTextFieldValidation.email,
+                                  validateOnSubmit: true,
+                                  autocapitalization: AutocapitalizationType.never,
+                                  autocorrection: false,
+                                  submitLabel: .next)
     }
 
     /// Password input configuration
     public static var password: ARCTextFieldConfiguration {
-        ARCTextFieldConfiguration(
-            inputType: InputType.password,
-            label: "Password",
-            leadingIcon: "lock",
-            validation: ARCTextFieldValidation.password,
-            validateOnSubmit: true,
-            showValidationIcon: false,
-            autocapitalization: AutocapitalizationType.never,
-            autocorrection: false,
-            clearButton: ClearButtonMode.never
-        )
+        ARCTextFieldConfiguration(inputType: InputType.password,
+                                  label: "Password",
+                                  leadingIcon: "lock",
+                                  validation: ARCTextFieldValidation.password,
+                                  validateOnSubmit: true,
+                                  showValidationIcon: false,
+                                  autocapitalization: AutocapitalizationType.never,
+                                  autocorrection: false,
+                                  clearButton: ClearButtonMode.never)
     }
 
     /// Search input configuration
     public static var search: ARCTextFieldConfiguration {
-        ARCTextFieldConfiguration(
-            style: Style.filled,
-            leadingIcon: "magnifyingglass",
-            autocapitalization: AutocapitalizationType.never,
-            submitLabel: .search,
-            clearButton: ClearButtonMode.whileEditing,
-            backgroundColor: Color.gray.opacity(0.15),
-            cornerRadius: 10
-        )
+        ARCTextFieldConfiguration(style: Style.filled,
+                                  leadingIcon: "magnifyingglass",
+                                  autocapitalization: AutocapitalizationType.never,
+                                  submitLabel: .search,
+                                  clearButton: ClearButtonMode.whileEditing,
+                                  backgroundColor: Color.gray.opacity(0.15),
+                                  cornerRadius: 10)
     }
 
     /// Multiline text configuration
     public static var multiline: ARCTextFieldConfiguration {
-        ARCTextFieldConfiguration(
-            inputType: InputType.multiline(lineLimit: 5),
-            characterLimit: 500,
-            showCharacterCount: true,
-            submitLabel: .return,
-            height: 120
-        )
+        ARCTextFieldConfiguration(inputType: InputType.multiline(lineLimit: 5),
+                                  characterLimit: 500,
+                                  showCharacterCount: true,
+                                  submitLabel: .return,
+                                  height: 120)
     }
 
     /// Glass style configuration
     public static var glass: ARCTextFieldConfiguration {
-        ARCTextFieldConfiguration(
-            style: Style.glass,
-            shadow: ARCShadow.subtle
-        )
+        ARCTextFieldConfiguration(style: Style.glass,
+                                  shadow: ARCShadow.subtle)
     }
 
     /// Phone number input configuration
     public static var phone: ARCTextFieldConfiguration {
-        ARCTextFieldConfiguration(
-            inputType: InputType.phone,
-            label: "Phone",
-            leadingIcon: "phone",
-            validation: ARCTextFieldValidation.phoneNumber,
-            autocapitalization: AutocapitalizationType.never,
-            autocorrection: false,
-            submitLabel: .next
-        )
+        ARCTextFieldConfiguration(inputType: InputType.phone,
+                                  label: "Phone",
+                                  leadingIcon: "phone",
+                                  validation: ARCTextFieldValidation.phoneNumber,
+                                  autocapitalization: AutocapitalizationType.never,
+                                  autocorrection: false,
+                                  submitLabel: .next)
     }
 
     /// URL input configuration
     public static var url: ARCTextFieldConfiguration {
-        ARCTextFieldConfiguration(
-            inputType: InputType.url,
-            label: "URL",
-            leadingIcon: "link",
-            validation: ARCTextFieldValidation.urlValidation,
-            autocapitalization: AutocapitalizationType.never,
-            autocorrection: false,
-            submitLabel: .go
-        )
+        ARCTextFieldConfiguration(inputType: InputType.url,
+                                  label: "URL",
+                                  leadingIcon: "link",
+                                  validation: ARCTextFieldValidation.urlValidation,
+                                  autocapitalization: AutocapitalizationType.never,
+                                  autocorrection: false,
+                                  submitLabel: .go)
     }
 
     /// Underlined style configuration
     public static var underlined: ARCTextFieldConfiguration {
-        ARCTextFieldConfiguration(
-            style: Style.underlined,
-            cornerRadius: 0
-        )
+        ARCTextFieldConfiguration(style: Style.underlined,
+                                  cornerRadius: 0)
     }
 
     /// Filled style configuration
     public static var filled: ARCTextFieldConfiguration {
-        ARCTextFieldConfiguration(
-            style: Style.filled,
-            backgroundColor: Color.gray.opacity(0.15),
-            cornerRadius: 10
-        )
+        ARCTextFieldConfiguration(style: Style.filled,
+                                  backgroundColor: Color.gray.opacity(0.15),
+                                  cornerRadius: 10)
     }
 }
 
 // MARK: - Helper Extensions
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCTextFieldConfiguration {
+@available(iOS 17.0, macOS 14.0, *) extension ARCTextFieldConfiguration {
     /// Returns whether this configuration is for multiline input
     public var isMultiline: Bool {
         if case .multiline = inputType {

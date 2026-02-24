@@ -13,8 +13,7 @@ import SwiftUI
 ///
 /// This modifier provides a convenient way to present a bottom sheet over
 /// existing content, with optional background dimming and dismissal callbacks.
-@available(iOS 17.0, macOS 14.0, *)
-struct ARCBottomSheetModifier<SheetContent: View>: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *) struct ARCBottomSheetModifier<SheetContent: View>: ViewModifier {
     // MARK: - Properties
 
     @Binding var isPresented: Bool
@@ -38,27 +37,23 @@ struct ARCBottomSheetModifier<SheetContent: View>: ViewModifier {
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
-            .animation(
-                reduceMotion ? .none : configuration.animation,
-                value: isPresented
-            )
+            .animation(reduceMotion ? .none : configuration.animation,
+                       value: isPresented)
     }
 
     // MARK: - Sheet Overlay
 
-    @ViewBuilder private var sheetOverlay: some View {
+    private var sheetOverlay: some View {
         GeometryReader { _ in
             ZStack(alignment: .bottom) {
                 if configuration.dimBackground {
                     dimmedBackground
                 }
 
-                ARCBottomSheet(
-                    selectedDetent: $selectedDetent,
-                    detents: detents,
-                    configuration: configuration,
-                    content: sheetContent
-                )
+                ARCBottomSheet(selectedDetent: $selectedDetent,
+                               detents: detents,
+                               configuration: configuration,
+                               content: sheetContent)
             }
             .ignoresSafeArea(.container, edges: .bottom)
         }
@@ -66,7 +61,7 @@ struct ARCBottomSheetModifier<SheetContent: View>: ViewModifier {
 
     // MARK: - Dimmed Background
 
-    @ViewBuilder private var dimmedBackground: some View {
+    private var dimmedBackground: some View {
         Color.black
             .opacity(configuration.dimOpacity)
             .ignoresSafeArea()
@@ -94,8 +89,7 @@ struct ARCBottomSheetModifier<SheetContent: View>: ViewModifier {
 ///
 /// Use this for sheets like Apple Maps that stay on screen and cannot be dismissed,
 /// only resized between detents.
-@available(iOS 17.0, macOS 14.0, *)
-struct ARCPersistentSheetModifier<SheetContent: View>: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *) struct ARCPersistentSheetModifier<SheetContent: View>: ViewModifier {
     // MARK: - Properties
 
     @Binding var selectedDetent: ARCBottomSheetDetent
@@ -108,21 +102,18 @@ struct ARCPersistentSheetModifier<SheetContent: View>: ViewModifier {
     func body(content: Content) -> some View {
         content
             .overlay(alignment: .bottom) {
-                ARCBottomSheet(
-                    selectedDetent: $selectedDetent,
-                    detents: detents,
-                    configuration: configuration,
-                    content: sheetContent
-                )
-                .ignoresSafeArea(.container, edges: .bottom)
+                ARCBottomSheet(selectedDetent: $selectedDetent,
+                               detents: detents,
+                               configuration: configuration,
+                               content: sheetContent)
+                    .ignoresSafeArea(.container, edges: .bottom)
             }
     }
 }
 
 // MARK: - View Extension
 
-@available(iOS 17.0, macOS 14.0, *)
-extension View {
+@available(iOS 17.0, macOS 14.0, *) extension View {
     /// Presents a bottom sheet overlay when a binding to a Boolean value is true
     ///
     /// Use this modifier to present a dismissable bottom sheet that slides up from
@@ -159,22 +150,19 @@ extension View {
     ///   - onDismiss: Closure called when the sheet is dismissed
     ///   - content: The content to display inside the sheet
     /// - Returns: A view with the bottom sheet modifier applied
-    public func arcBottomSheet(
-        isPresented: Binding<Bool>,
-        detents: Set<ARCBottomSheetDetent> = [.medium, .large],
-        selectedDetent: Binding<ARCBottomSheetDetent>,
-        configuration: ARCBottomSheetConfiguration = .default,
-        onDismiss: (() -> Void)? = nil,
-        @ViewBuilder content: @escaping () -> some View
-    ) -> some View {
-        modifier(ARCBottomSheetModifier(
-            isPresented: isPresented,
-            detents: detents,
-            selectedDetent: selectedDetent,
-            configuration: configuration,
-            onDismiss: onDismiss,
-            sheetContent: content
-        ))
+    public func arcBottomSheet(isPresented: Binding<Bool>,
+                               detents: Set<ARCBottomSheetDetent> = [.medium, .large],
+                               selectedDetent: Binding<ARCBottomSheetDetent>,
+                               configuration: ARCBottomSheetConfiguration = .default,
+                               onDismiss: (() -> Void)? = nil,
+                               @ViewBuilder content: @escaping () -> some View) -> some View
+    {
+        modifier(ARCBottomSheetModifier(isPresented: isPresented,
+                                        detents: detents,
+                                        selectedDetent: selectedDetent,
+                                        configuration: configuration,
+                                        onDismiss: onDismiss,
+                                        sheetContent: content))
     }
 
     /// Presents a persistent bottom sheet that cannot be dismissed
@@ -208,18 +196,15 @@ extension View {
     ///   - configuration: Configuration options for appearance and behavior (default: .persistent)
     ///   - content: The content to display inside the sheet
     /// - Returns: A view with the persistent sheet modifier applied
-    public func arcPersistentSheet(
-        selectedDetent: Binding<ARCBottomSheetDetent>,
-        detents: Set<ARCBottomSheetDetent>,
-        configuration: ARCBottomSheetConfiguration = .persistent,
-        @ViewBuilder content: @escaping () -> some View
-    ) -> some View {
-        modifier(ARCPersistentSheetModifier(
-            selectedDetent: selectedDetent,
-            detents: detents,
-            configuration: configuration,
-            sheetContent: content
-        ))
+    public func arcPersistentSheet(selectedDetent: Binding<ARCBottomSheetDetent>,
+                                   detents: Set<ARCBottomSheetDetent>,
+                                   configuration: ARCBottomSheetConfiguration = .persistent,
+                                   @ViewBuilder content: @escaping () -> some View) -> some View
+    {
+        modifier(ARCPersistentSheetModifier(selectedDetent: selectedDetent,
+                                            detents: detents,
+                                            configuration: configuration,
+                                            sheetContent: content))
     }
 }
 
@@ -242,35 +227,29 @@ extension View {
                     .foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(
-                LinearGradient(
-                    colors: [.blue.opacity(0.3), .purple.opacity(0.3)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-            .arcBottomSheet(
-                isPresented: $showSheet,
-                detents: [.small, .medium, .large],
-                selectedDetent: $detent,
-                configuration: .modal,
-                onDismiss: { print("Sheet dismissed") },
-                content: {
-                    VStack(spacing: 16) {
-                        Text("Modal Sheet").font(.headline)
-                        Text("Tap outside or drag down to dismiss")
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                        Button {
-                            showSheet = false
-                        } label: {
-                            Label("Close", systemImage: "xmark.circle.fill")
-                        }
-                        .buttonStyle(.bordered)
-                    }
-                    .padding()
-                }
-            )
+            .background(LinearGradient(colors: [.blue.opacity(0.3), .purple.opacity(0.3)],
+                                       startPoint: .topLeading,
+                                       endPoint: .bottomTrailing))
+            .arcBottomSheet(isPresented: $showSheet,
+                            detents: [.small, .medium, .large],
+                            selectedDetent: $detent,
+                            configuration: .modal,
+                            onDismiss: { print("Sheet dismissed") },
+                            content: {
+                                VStack(spacing: 16) {
+                                    Text("Modal Sheet").font(.headline)
+                                    Text("Tap outside or drag down to dismiss")
+                                        .foregroundStyle(.secondary)
+                                        .multilineTextAlignment(.center)
+                                    Button {
+                                        showSheet = false
+                                    } label: {
+                                        Label("Close", systemImage: "xmark.circle.fill")
+                                    }
+                                    .buttonStyle(.bordered)
+                                }
+                                .padding()
+                            })
         }
     }
 
@@ -284,12 +263,10 @@ extension View {
 
         var body: some View {
             ZStack {
-                LinearGradient(
-                    colors: [.green.opacity(0.3), .blue.opacity(0.3)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
+                LinearGradient(colors: [.green.opacity(0.3), .blue.opacity(0.3)],
+                               startPoint: .topLeading,
+                               endPoint: .bottomTrailing)
+                    .ignoresSafeArea()
 
                 VStack {
                     Text("Map View")
@@ -301,11 +278,10 @@ extension View {
                         .foregroundStyle(.secondary.opacity(0.5))
                 }
             }
-            .arcPersistentSheet(
-                selectedDetent: $detent,
-                detents: [.small, .medium, .large],
-                configuration: .drawer
-            ) {
+            .arcPersistentSheet(selectedDetent: $detent,
+                                detents: [.small, .medium, .large],
+                                configuration: .drawer)
+            {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
                         Image(systemName: "magnifyingglass")

@@ -61,8 +61,7 @@ import Foundation
 ///     mode: .all
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCTextFieldValidation: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCTextFieldValidation: Sendable {
     // MARK: - ValidationMode
 
     /// Mode for combining multiple validation rules
@@ -89,10 +88,9 @@ public struct ARCTextFieldValidation: Sendable {
         /// - Parameters:
         ///   - errorMessage: The error message to display when validation fails
         ///   - validate: A closure that returns true if the input is valid
-        public init(
-            errorMessage: String,
-            validate: @escaping @Sendable (String) -> Bool
-        ) {
+        public init(errorMessage: String,
+                    validate: @escaping @Sendable (String) -> Bool)
+        {
             self.errorMessage = errorMessage
             self.validate = validate
         }
@@ -113,10 +111,9 @@ public struct ARCTextFieldValidation: Sendable {
     /// - Parameters:
     ///   - rules: The validation rules to apply
     ///   - mode: How to combine multiple rules (default: .all)
-    public init(
-        rules: [ValidationRule],
-        mode: ValidationMode = .all
-    ) {
+    public init(rules: [ValidationRule],
+                mode: ValidationMode = .all)
+    {
         self.rules = rules
         self.mode = mode
     }
@@ -154,8 +151,7 @@ public struct ARCTextFieldValidation: Sendable {
 
 // MARK: - Built-in Rules
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCTextFieldValidation {
+@available(iOS 17.0, macOS 14.0, *) extension ARCTextFieldValidation {
     /// Creates a rule requiring the field to have a non-empty value
     ///
     /// - Parameter message: The error message (default: "This field is required")
@@ -223,10 +219,9 @@ extension ARCTextFieldValidation {
     ///   - validate: Custom validation function
     ///   - message: The error message when validation fails
     /// - Returns: A validation rule
-    public static func custom(
-        _ validate: @escaping @Sendable (String) -> Bool,
-        message: String
-    ) -> ValidationRule {
+    public static func custom(_ validate: @escaping @Sendable (String) -> Bool,
+                              message: String) -> ValidationRule
+    {
         ValidationRule(errorMessage: message, validate: validate)
     }
 
@@ -301,101 +296,75 @@ extension ARCTextFieldValidation {
 
 // MARK: - Presets
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCTextFieldValidation {
+@available(iOS 17.0, macOS 14.0, *) extension ARCTextFieldValidation {
     /// Email validation preset
     ///
     /// Validates that the input is a properly formatted email address.
     public static var email: ARCTextFieldValidation {
-        ARCTextFieldValidation(
-            rules: [
-                required("Email is required"),
-                Self.email()
-            ],
-            mode: .all
-        )
+        ARCTextFieldValidation(rules: [required("Email is required"),
+                                       Self.email()],
+                               mode: .all)
     }
 
     /// Password validation preset
     ///
     /// Requires minimum 8 characters with at least one letter and one number.
     public static var password: ARCTextFieldValidation {
-        ARCTextFieldValidation(
-            rules: [
-                required("Password is required"),
-                minLength(8, message: "Password must be at least 8 characters"),
-                containsDigit("Password must contain at least one number"),
-                regex("[A-Za-z]", message: "Password must contain at least one letter")
-            ],
-            mode: .all
-        )
+        ARCTextFieldValidation(rules: [required("Password is required"),
+                                       minLength(8, message: "Password must be at least 8 characters"),
+                                       containsDigit("Password must contain at least one number"),
+                                       regex("[A-Za-z]", message: "Password must contain at least one letter")],
+                               mode: .all)
     }
 
     /// Strong password validation preset
     ///
     /// Requires minimum 8 characters with uppercase, lowercase, digit, and special character.
     public static var strongPassword: ARCTextFieldValidation {
-        ARCTextFieldValidation(
-            rules: [
-                required("Password is required"),
-                minLength(8, message: "Password must be at least 8 characters"),
-                containsUppercase(),
-                containsLowercase(),
-                containsDigit(),
-                containsSpecialCharacter()
-            ],
-            mode: .all
-        )
+        ARCTextFieldValidation(rules: [required("Password is required"),
+                                       minLength(8, message: "Password must be at least 8 characters"),
+                                       containsUppercase(),
+                                       containsLowercase(),
+                                       containsDigit(),
+                                       containsSpecialCharacter()],
+                               mode: .all)
     }
 
     /// Required field validation preset
     ///
     /// Simply validates that the field is not empty.
     public static var required: ARCTextFieldValidation {
-        ARCTextFieldValidation(
-            rules: [Self.required()],
-            mode: .all
-        )
+        ARCTextFieldValidation(rules: [Self.required()],
+                               mode: .all)
     }
 
     /// Username validation preset
     ///
     /// Requires 3-20 characters, alphanumeric and underscores only.
     public static var username: ARCTextFieldValidation {
-        ARCTextFieldValidation(
-            rules: [
-                required("Username is required"),
-                minLength(3, message: "Username must be at least 3 characters"),
-                maxLength(20, message: "Username must be no more than 20 characters"),
-                regex("^[a-zA-Z0-9_]+$", message: "Only letters, numbers, and underscores allowed")
-            ],
-            mode: .all
-        )
+        ARCTextFieldValidation(rules: [required("Username is required"),
+                                       minLength(3, message: "Username must be at least 3 characters"),
+                                       maxLength(20, message: "Username must be no more than 20 characters"),
+                                       regex("^[a-zA-Z0-9_]+$",
+                                             message: "Only letters, numbers, and underscores allowed")],
+                               mode: .all)
     }
 
     /// Phone number validation preset
     ///
     /// Validates phone number format (10-15 digits).
     public static var phoneNumber: ARCTextFieldValidation {
-        ARCTextFieldValidation(
-            rules: [
-                required("Phone number is required"),
-                phone()
-            ],
-            mode: .all
-        )
+        ARCTextFieldValidation(rules: [required("Phone number is required"),
+                                       phone()],
+                               mode: .all)
     }
 
     /// URL validation preset
     ///
     /// Validates URL format with scheme and host.
     public static var urlValidation: ARCTextFieldValidation {
-        ARCTextFieldValidation(
-            rules: [
-                required("URL is required"),
-                url()
-            ],
-            mode: .all
-        )
+        ARCTextFieldValidation(rules: [required("URL is required"),
+                                       url()],
+                               mode: .all)
     }
 }

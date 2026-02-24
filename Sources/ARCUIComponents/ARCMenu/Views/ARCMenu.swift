@@ -87,7 +87,7 @@ public struct ARCMenu: View {
 
     // MARK: - Trailing Panel (Custom Implementation)
 
-    @ViewBuilder private var trailingPanelOverlay: some View {
+    private var trailingPanelOverlay: some View {
         GeometryReader { geometry in
             ZStack(alignment: .trailing) {
                 // Backdrop (Button for VoiceOver accessibility)
@@ -115,7 +115,6 @@ public struct ARCMenu: View {
         }
     }
 
-    @ViewBuilder
     private func trailingPanelContent(geometry: GeometryProxy) -> some View {
         VStack(spacing: 0) {
             // Header with close button
@@ -175,21 +174,19 @@ public struct ARCMenu: View {
         }
     }
 
-    @ViewBuilder private var menuItemsSection: some View {
+    private var menuItemsSection: some View {
         VStack(spacing: 0) {
             ForEach(viewModel.menuItems) { item in
-                ARCMenuItemRow(
-                    item: item,
-                    configuration: viewModel.configuration,
-                    action: {
-                        dismissWithHaptic()
-                        // Execute action after dismiss animation
-                        Task {
-                            try? await Task.sleep(for: .milliseconds(300))
-                            item.action()
-                        }
-                    }
-                )
+                ARCMenuItemRow(item: item,
+                               configuration: viewModel.configuration,
+                               action: {
+                                   dismissWithHaptic()
+                                   // Execute action after dismiss animation
+                                   Task {
+                                       try? await Task.sleep(for: .milliseconds(300))
+                                       item.action()
+                                   }
+                               })
                 if item.id != viewModel.menuItems.last?.id {
                     Divider()
                         .padding(.leading, 56)
@@ -213,7 +210,7 @@ public struct ARCMenu: View {
 
     // MARK: - Panel Header
 
-    @ViewBuilder private var panelHeader: some View {
+    private var panelHeader: some View {
         HStack {
             if let title = viewModel.configuration.sheetTitle {
                 Text(title)
@@ -275,23 +272,19 @@ struct ARCMenuSheetContent: View {
                 .padding(viewModel.configuration.contentInsets)
             }
         }
-        .presentationDetents(
-            viewModel.configuration.detents,
-            selection: .constant(viewModel.configuration.selectedDetent ?? .medium)
-        )
+        .presentationDetents(viewModel.configuration.detents,
+                             selection: .constant(viewModel.configuration.selectedDetent ?? .medium))
         .presentationDragIndicator(viewModel.configuration.showsGrabber ? .visible : .hidden)
         .presentationCornerRadius(32)
         .presentationBackground {
             materialBackground
         }
-        .presentationBackgroundInteraction(
-            viewModel.configuration.allowsBackgroundInteraction
-                ? .enabled(upThrough: .medium)
-                : .disabled
-        )
-        .onAppear {
-            viewModel.configuration.hapticFeedback.perform()
-        }
+        .presentationBackgroundInteraction(viewModel.configuration.allowsBackgroundInteraction
+            ? .enabled(upThrough: .medium)
+            : .disabled)
+            .onAppear {
+                viewModel.configuration.hapticFeedback.perform()
+            }
     }
 
     // MARK: - Background
@@ -359,22 +352,20 @@ struct ARCMenuSheetContent: View {
         }
     }
 
-    @ViewBuilder private var menuItemsSection: some View {
+    private var menuItemsSection: some View {
         VStack(spacing: 0) {
             ForEach(viewModel.menuItems) { item in
-                ARCMenuItemRow(
-                    item: item,
-                    configuration: viewModel.configuration,
-                    action: {
-                        viewModel.configuration.hapticFeedback.perform()
-                        isPresented = false
-                        // Execute action after dismiss animation
-                        Task {
-                            try? await Task.sleep(for: .milliseconds(300))
-                            item.action()
-                        }
-                    }
-                )
+                ARCMenuItemRow(item: item,
+                               configuration: viewModel.configuration,
+                               action: {
+                                   viewModel.configuration.hapticFeedback.perform()
+                                   isPresented = false
+                                   // Execute action after dismiss animation
+                                   Task {
+                                       try? await Task.sleep(for: .milliseconds(300))
+                                       item.action()
+                                   }
+                               })
                 if item.id != viewModel.menuItems.last?.id {
                     Divider()
                         .padding(.leading, 56)
@@ -430,16 +421,14 @@ struct ARCMenuLegacyModifier: ViewModifier {
     @Bindable var viewModel: ARCMenuViewModel
 
     func body(content: Content) -> some View {
-        let binding = Binding<Bool>(
-            get: { viewModel.isPresented },
-            set: { newValue in
-                if newValue {
-                    viewModel.present()
-                } else {
-                    viewModel.dismiss()
-                }
-            }
-        )
+        let binding = Binding<Bool>(get: { viewModel.isPresented },
+                                    set: { newValue in
+                                        if newValue {
+                                            viewModel.present()
+                                        } else {
+                                            viewModel.dismiss()
+                                        }
+                                    })
 
         switch viewModel.configuration.presentationStyle {
         case .bottomSheet:

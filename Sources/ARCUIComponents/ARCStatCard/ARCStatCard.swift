@@ -34,8 +34,7 @@ import SwiftUI
 /// // Rating style with ARCRatingView
 /// ARCStatCard(rating: 7.8, label: "Average rating")
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatCard: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatCard: View {
     // MARK: - Properties
 
     private let icon: String?
@@ -55,13 +54,12 @@ public struct ARCStatCard: View {
     ///   - label: Descriptive label for the metric
     ///   - iconColor: Override color for the icon (nil uses configuration's iconColor)
     ///   - configuration: Visual configuration (default: .default)
-    public init(
-        icon: String,
-        value: String,
-        label: String,
-        iconColor: Color? = nil,
-        configuration: ARCStatCardConfiguration = .default
-    ) {
+    public init(icon: String,
+                value: String,
+                label: String,
+                iconColor: Color? = nil,
+                configuration: ARCStatCardConfiguration = .default)
+    {
         self.icon = icon
         self.value = value
         rating = nil
@@ -80,11 +78,10 @@ public struct ARCStatCard: View {
     ///   - rating: The rating value to display (1-10 scale)
     ///   - label: Descriptive label for the rating
     ///   - configuration: Visual configuration (default: .default)
-    public init(
-        rating: Double,
-        label: String,
-        configuration: ARCStatCardConfiguration = .default
-    ) {
+    public init(rating: Double,
+                label: String,
+                configuration: ARCStatCardConfiguration = .default)
+    {
         icon = nil
         value = nil
         self.rating = rating

@@ -59,8 +59,7 @@ import SwiftUI
 ///     subtitle: "Start exploring now"
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCOnboardingPage: Identifiable, Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCOnboardingPage: Identifiable, Sendable {
     // MARK: - Properties
 
     /// Unique identifier for the page
@@ -97,13 +96,12 @@ public struct ARCOnboardingPage: Identifiable, Sendable {
     ///   - title: The main title text
     ///   - subtitle: The subtitle or description text
     ///   - accentColor: Optional accent color override
-    public init(
-        image: ImageType,
-        imageColor: Color? = nil,
-        title: String,
-        subtitle: String,
-        accentColor: Color? = nil
-    ) {
+    public init(image: ImageType,
+                imageColor: Color? = nil,
+                title: String,
+                subtitle: String,
+                accentColor: Color? = nil)
+    {
         id = UUID()
         self.image = image
         self.imageColor = imageColor
@@ -115,8 +113,7 @@ public struct ARCOnboardingPage: Identifiable, Sendable {
 
 // MARK: - ImageType
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCOnboardingPage {
+@available(iOS 17.0, macOS 14.0, *) extension ARCOnboardingPage {
     /// The type of visual content to display on an onboarding page
     ///
     /// Supports multiple image sources for maximum flexibility:
@@ -149,8 +146,7 @@ extension ARCOnboardingPage {
 
 // MARK: - Convenience Initializers
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCOnboardingPage {
+@available(iOS 17.0, macOS 14.0, *) extension ARCOnboardingPage {
     /// Creates an onboarding page with an SF Symbol image
     ///
     /// This convenience initializer provides a quick way to create pages
@@ -173,18 +169,15 @@ extension ARCOnboardingPage {
     ///     subtitle: "Get alerts when it matters"
     /// )
     /// ```
-    public static func systemImage(
-        _ name: String,
-        color: Color = .accentColor,
-        title: String,
-        subtitle: String
-    ) -> Self {
-        ARCOnboardingPage(
-            image: .systemImage(name),
-            imageColor: color,
-            title: title,
-            subtitle: subtitle
-        )
+    public static func systemImage(_ name: String,
+                                   color: Color = .accentColor,
+                                   title: String,
+                                   subtitle: String) -> Self
+    {
+        ARCOnboardingPage(image: .systemImage(name),
+                          imageColor: color,
+                          title: title,
+                          subtitle: subtitle)
     }
 
     /// Creates an onboarding page with an asset catalog image
@@ -207,16 +200,13 @@ extension ARCOnboardingPage {
     ///     subtitle: "Let's get you started"
     /// )
     /// ```
-    public static func assetImage(
-        _ name: String,
-        title: String,
-        subtitle: String
-    ) -> Self {
-        ARCOnboardingPage(
-            image: .assetImage(name),
-            title: title,
-            subtitle: subtitle
-        )
+    public static func assetImage(_ name: String,
+                                  title: String,
+                                  subtitle: String) -> Self
+    {
+        ARCOnboardingPage(image: .assetImage(name),
+                          title: title,
+                          subtitle: subtitle)
     }
 
     /// Creates an onboarding page with a remote image URL
@@ -236,15 +226,12 @@ extension ARCOnboardingPage {
     ///     subtitle: "Access your data anywhere"
     /// )
     /// ```
-    public static func remoteImage(
-        _ url: URL,
-        title: String,
-        subtitle: String
-    ) -> Self {
-        ARCOnboardingPage(
-            image: .url(url),
-            title: title,
-            subtitle: subtitle
-        )
+    public static func remoteImage(_ url: URL,
+                                   title: String,
+                                   subtitle: String) -> Self
+    {
+        ARCOnboardingPage(image: .url(url),
+                          title: title,
+                          subtitle: subtitle)
     }
 }

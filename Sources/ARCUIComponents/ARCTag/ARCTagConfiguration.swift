@@ -35,8 +35,7 @@ import SwiftUI
 /// - ``category``
 /// - ``status``
 /// - ``glass``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCTagConfiguration: Sendable, LiquidGlassConfigurable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCTagConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Size
 
     /// Size variants for tags
@@ -169,17 +168,16 @@ public struct ARCTagConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - backgroundStyle: Background style (default: .translucent)
     ///   - cornerRadius: Corner radius (default: 0 for capsule)
     ///   - shadow: Shadow configuration (default: .none)
-    public init(
-        size: Size = .medium,
-        style: Style = .subtle,
-        color: Color = .blue,
-        textColor: Color? = nil,
-        iconPosition: IconPosition = .leading,
-        accentColor: Color = .blue,
-        backgroundStyle: ARCBackgroundStyle = .translucent,
-        cornerRadius: CGFloat = 0, // 0 means capsule
-        shadow: ARCShadow = .none
-    ) {
+    public init(size: Size = .medium,
+                style: Style = .subtle,
+                color: Color = .blue,
+                textColor: Color? = nil,
+                iconPosition: IconPosition = .leading,
+                accentColor: Color = .blue,
+                backgroundStyle: ARCBackgroundStyle = .translucent,
+                cornerRadius: CGFloat = 0, // 0 means capsule
+                shadow: ARCShadow = .none)
+    {
         self.size = size
         self.style = style
         self.color = color
@@ -197,26 +195,18 @@ public struct ARCTagConfiguration: Sendable, LiquidGlassConfigurable {
     public static let `default` = ARCTagConfiguration()
 
     /// Category tag (e.g., genres, types)
-    public static let category = ARCTagConfiguration(
-        style: .subtle,
-        color: .secondary
-    )
+    public static let category = ARCTagConfiguration(style: .subtle,
+                                                     color: .secondary)
 
     /// Status tag (e.g., Open, Closed)
-    public static let status = ARCTagConfiguration(
-        style: .filled,
-        color: .green
-    )
+    public static let status = ARCTagConfiguration(style: .filled,
+                                                   color: .green)
 
     /// Glass effect tag
-    public static let glass = ARCTagConfiguration(
-        style: .glass,
-        backgroundStyle: .liquidGlass,
-        shadow: .subtle
-    )
+    public static let glass = ARCTagConfiguration(style: .glass,
+                                                  backgroundStyle: .liquidGlass,
+                                                  shadow: .subtle)
 
     /// Outlined tag
-    public static let outlined = ARCTagConfiguration(
-        style: .outlined
-    )
+    public static let outlined = ARCTagConfiguration(style: .outlined)
 }

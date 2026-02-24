@@ -14,8 +14,7 @@ import SwiftUI
 ///
 /// - ``default``
 /// - ``compact``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCDonutChartConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCDonutChartConfiguration: Sendable {
     /// Color palette for chart sectors (cycles through if more items than colors)
     public let colors: [Color]
 
@@ -41,16 +40,15 @@ public struct ARCDonutChartConfiguration: Sendable {
     public let horizontalPadding: CGFloat
 
     /// Creates a donut chart configuration
-    public init(
-        colors: [Color] = [.accentColor, .blue, .orange, .red, .green, .purple, .gray],
-        innerRadiusRatio: CGFloat = 0.6,
-        angularInset: CGFloat = 2,
-        cornerRadius: CGFloat = 4,
-        showLegend: Bool = true,
-        maxSectors: Int = 7,
-        height: CGFloat = 200,
-        horizontalPadding: CGFloat = .arcSpacingLarge
-    ) {
+    public init(colors: [Color] = [.accentColor, .blue, .orange, .red, .green, .purple, .gray],
+                innerRadiusRatio: CGFloat = 0.6,
+                angularInset: CGFloat = 2,
+                cornerRadius: CGFloat = 4,
+                showLegend: Bool = true,
+                maxSectors: Int = 7,
+                height: CGFloat = 200,
+                horizontalPadding: CGFloat = .arcSpacingLarge)
+    {
         self.colors = colors
         self.innerRadiusRatio = innerRadiusRatio
         self.angularInset = angularInset
@@ -67,8 +65,6 @@ public struct ARCDonutChartConfiguration: Sendable {
     public static let `default` = ARCDonutChartConfiguration()
 
     /// Compact configuration without legend
-    public static let compact = ARCDonutChartConfiguration(
-        showLegend: false,
-        height: 150
-    )
+    public static let compact = ARCDonutChartConfiguration(showLegend: false,
+                                                           height: 150)
 }

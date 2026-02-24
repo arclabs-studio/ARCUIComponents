@@ -36,8 +36,7 @@ import SwiftUI
 ///     icon: \.icon
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCDonutChart<Item: Identifiable>: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCDonutChart<Item: Identifiable>: View {
     // MARK: - Properties
 
     private let data: [Item]
@@ -56,13 +55,12 @@ public struct ARCDonutChart<Item: Identifiable>: View {
     ///   - label: KeyPath to the display label for each sector
     ///   - icon: Optional KeyPath to an SF Symbol name per item
     ///   - configuration: Visual configuration (default: .default)
-    public init(
-        data: [Item],
-        value: KeyPath<Item, Int>,
-        label: KeyPath<Item, String>,
-        icon: KeyPath<Item, String>? = nil,
-        configuration: ARCDonutChartConfiguration = .default
-    ) {
+    public init(data: [Item],
+                value: KeyPath<Item, Int>,
+                label: KeyPath<Item, String>,
+                icon: KeyPath<Item, String>? = nil,
+                configuration: ARCDonutChartConfiguration = .default)
+    {
         self.data = data
         self.value = value
         self.label = label
@@ -75,14 +73,12 @@ public struct ARCDonutChart<Item: Identifiable>: View {
     public var body: some View {
         VStack(spacing: .arcSpacingMedium) {
             Chart(data) { item in
-                SectorMark(
-                    angle: .value("Value", item[keyPath: value]),
-                    innerRadius: .ratio(configuration.innerRadiusRatio),
-                    angularInset: configuration.angularInset
-                )
-                .cornerRadius(configuration.cornerRadius)
-                .foregroundStyle(colorForItem(item))
-                .accessibilityLabel("\(item[keyPath: label]): \(item[keyPath: value])")
+                SectorMark(angle: .value("Value", item[keyPath: value]),
+                           innerRadius: .ratio(configuration.innerRadiusRatio),
+                           angularInset: configuration.angularInset)
+                    .cornerRadius(configuration.cornerRadius)
+                    .foregroundStyle(colorForItem(item))
+                    .accessibilityLabel("\(item[keyPath: label]): \(item[keyPath: value])")
             }
             .frame(height: configuration.height)
             .padding(.horizontal, configuration.horizontalPadding)
@@ -150,17 +146,13 @@ private struct PreviewItem: Identifiable {
 }
 
 #Preview("ARCDonutChart") {
-    ARCDonutChart(
-        data: [
-            PreviewItem(name: "Japanese", count: 5, icon: "fork.knife"),
-            PreviewItem(name: "Italian", count: 4, icon: "fork.knife"),
-            PreviewItem(name: "Mexican", count: 3, icon: "fork.knife"),
-            PreviewItem(name: "Spanish", count: 2, icon: "fork.knife"),
-            PreviewItem(name: "Chinese", count: 1, icon: "fork.knife")
-        ],
-        value: \.count,
-        label: \.name,
-        icon: \.icon
-    )
-    .padding()
+    ARCDonutChart(data: [PreviewItem(name: "Japanese", count: 5, icon: "fork.knife"),
+                         PreviewItem(name: "Italian", count: 4, icon: "fork.knife"),
+                         PreviewItem(name: "Mexican", count: 3, icon: "fork.knife"),
+                         PreviewItem(name: "Spanish", count: 2, icon: "fork.knife"),
+                         PreviewItem(name: "Chinese", count: 1, icon: "fork.knife")],
+                  value: \.count,
+                  label: \.name,
+                  icon: \.icon)
+        .padding()
 }

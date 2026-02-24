@@ -28,8 +28,7 @@ import SwiftUI
 ///     // ...
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatGrid<Content: View>: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatGrid<Content: View>: View {
     // MARK: - Properties
 
     private let columns: Int
@@ -44,11 +43,10 @@ public struct ARCStatGrid<Content: View>: View {
     ///   - columns: Number of columns (default: 2)
     ///   - spacing: Spacing between items (default: arcSpacingMedium)
     ///   - content: Grid content (typically ARCStatCard instances)
-    public init(
-        columns: Int = 2,
-        spacing: CGFloat = .arcSpacingMedium,
-        @ViewBuilder content: () -> Content
-    ) {
+    public init(columns: Int = 2,
+                spacing: CGFloat = .arcSpacingMedium,
+                @ViewBuilder content: () -> Content)
+    {
         self.columns = columns
         self.spacing = spacing
         self.content = content()
@@ -57,10 +55,9 @@ public struct ARCStatGrid<Content: View>: View {
     // MARK: - Body
 
     public var body: some View {
-        LazyVGrid(
-            columns: Array(repeating: GridItem(.flexible()), count: columns),
-            spacing: spacing
-        ) {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: columns),
+                  spacing: spacing)
+        {
             content
         }
         .padding(.horizontal, .arcSpacingLarge)

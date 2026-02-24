@@ -67,8 +67,7 @@ import SwiftUI
 ///     ])
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStepIndicator: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStepIndicator: View {
     // MARK: - Properties
 
     private let totalSteps: Int
@@ -87,11 +86,10 @@ public struct ARCStepIndicator: View {
     ///   - totalSteps: Total number of steps in the process
     ///   - currentStep: Current active step (1-indexed)
     ///   - configuration: Visual configuration (default: .default)
-    public init(
-        totalSteps: Int,
-        currentStep: Int,
-        configuration: ARCStepIndicatorConfiguration = .default
-    ) {
+    public init(totalSteps: Int,
+                currentStep: Int,
+                configuration: ARCStepIndicatorConfiguration = .default)
+    {
         self.totalSteps = max(1, totalSteps)
         self.currentStep = min(max(1, currentStep), totalSteps)
         self.configuration = configuration
@@ -116,7 +114,7 @@ public struct ARCStepIndicator: View {
 
     // MARK: - Horizontal Layout
 
-    @ViewBuilder private var horizontalLayout: some View {
+    private var horizontalLayout: some View {
         HStack(spacing: 0) {
             ForEach(1 ... totalSteps, id: \.self) { step in
                 stepView(for: step)
@@ -130,7 +128,7 @@ public struct ARCStepIndicator: View {
 
     // MARK: - Vertical Layout
 
-    @ViewBuilder private var verticalLayout: some View {
+    private var verticalLayout: some View {
         VStack(alignment: .leading, spacing: 0) {
             ForEach(1 ... totalSteps, id: \.self) { step in
                 HStack(alignment: .top, spacing: 12) {
@@ -152,8 +150,7 @@ public struct ARCStepIndicator: View {
 
     // MARK: - Step View
 
-    @ViewBuilder
-    private func stepView(for step: Int) -> some View {
+    @ViewBuilder private func stepView(for step: Int) -> some View {
         let state = stepState(for: step)
 
         ZStack {
@@ -165,16 +162,13 @@ public struct ARCStepIndicator: View {
             // Content
             stepContent(for: step, state: state)
         }
-        .animation(
-            configuration.animated && !reduceMotion
-                ? .easeInOut(duration: configuration.animationDuration)
-                : .none,
-            value: currentStep
-        )
+        .animation(configuration.animated && !reduceMotion
+            ? .easeInOut(duration: configuration.animationDuration)
+            : .none,
+            value: currentStep)
     }
 
-    @ViewBuilder
-    private func stepContent(for step: Int, state: StepState) -> some View {
+    @ViewBuilder private func stepContent(for step: Int, state: StepState) -> some View {
         switch configuration.style {
         case .numbered:
             numberedContent(for: step, state: state)
@@ -190,8 +184,7 @@ public struct ARCStepIndicator: View {
         }
     }
 
-    @ViewBuilder
-    private func numberedContent(for step: Int, state: StepState) -> some View {
+    @ViewBuilder private func numberedContent(for step: Int, state: StepState) -> some View {
         if state == .completed, configuration.showCheckmarkAnimation {
             Image(systemName: "checkmark")
                 .font(.system(size: configuration.stepSize * 0.4, weight: .bold))
@@ -203,27 +196,21 @@ public struct ARCStepIndicator: View {
         }
     }
 
-    @ViewBuilder
-    private func dotsContent(state: StepState) -> some View {
+    @ViewBuilder private func dotsContent(state: StepState) -> some View {
         if state == .completed {
             Circle()
                 .fill(.white)
-                .frame(
-                    width: configuration.stepSize * 0.4,
-                    height: configuration.stepSize * 0.4
-                )
+                .frame(width: configuration.stepSize * 0.4,
+                       height: configuration.stepSize * 0.4)
         } else if state == .current {
             Circle()
                 .fill(.white)
-                .frame(
-                    width: configuration.stepSize * 0.5,
-                    height: configuration.stepSize * 0.5
-                )
+                .frame(width: configuration.stepSize * 0.5,
+                       height: configuration.stepSize * 0.5)
         }
     }
 
-    @ViewBuilder
-    private func iconsContent(for step: Int, icons: [String], state: StepState) -> some View {
+    @ViewBuilder private func iconsContent(for step: Int, icons: [String], state: StepState) -> some View {
         let iconIndex = step - 1
         let iconName: String = {
             if state == .completed, configuration.showCheckmarkAnimation {
@@ -242,8 +229,7 @@ public struct ARCStepIndicator: View {
 
     // MARK: - Vertical Label
 
-    @ViewBuilder
-    private func verticalLabel(for step: Int) -> some View {
+    @ViewBuilder private func verticalLabel(for step: Int) -> some View {
         let labelIndex = step - 1
         let state = stepState(for: step)
 
@@ -260,8 +246,7 @@ public struct ARCStepIndicator: View {
 
     // MARK: - Connector View
 
-    @ViewBuilder
-    private func connectorView(after step: Int, isHorizontal: Bool) -> some View {
+    @ViewBuilder private func connectorView(after step: Int, isHorizontal: Bool) -> some View {
         let isCompleted = step < currentStep
 
         Group {
@@ -275,12 +260,10 @@ public struct ARCStepIndicator: View {
                     .frame(width: configuration.connectorThickness, height: configuration.connectorLength)
             }
         }
-        .animation(
-            configuration.animated && !reduceMotion
-                ? .easeInOut(duration: configuration.animationDuration)
-                : .none,
-            value: currentStep
-        )
+        .animation(configuration.animated && !reduceMotion
+            ? .easeInOut(duration: configuration.animationDuration)
+            : .none,
+            value: currentStep)
     }
 
     // MARK: - Step State
@@ -307,8 +290,7 @@ public struct ARCStepIndicator: View {
 
 // MARK: - StepState
 
-@available(iOS 17.0, macOS 14.0, *)
-private enum StepState {
+@available(iOS 17.0, macOS 14.0, *) private enum StepState {
     case completed
     case current
     case pending
@@ -351,57 +333,41 @@ private enum StepState {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("With Icons") {
     VStack(spacing: 40) {
-        ARCStepIndicator(
-            totalSteps: 4,
-            currentStep: 2,
-            configuration: .withIcons([
-                "cart.fill",
-                "truck.box.fill",
-                "creditcard.fill",
-                "checkmark.seal.fill"
-            ])
-        )
+        ARCStepIndicator(totalSteps: 4,
+                         currentStep: 2,
+                         configuration: .withIcons(["cart.fill",
+                                                    "truck.box.fill",
+                                                    "creditcard.fill",
+                                                    "checkmark.seal.fill"]))
     }
     .padding()
 }
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Vertical with Labels") {
-    ARCStepIndicator(
-        totalSteps: 4,
-        currentStep: 2,
-        configuration: .detailed(labels: [
-            "Account Details",
-            "Shipping Address",
-            "Payment Method",
-            "Review Order"
-        ])
-    )
-    .padding()
+    ARCStepIndicator(totalSteps: 4,
+                     currentStep: 2,
+                     configuration: .detailed(labels: ["Account Details",
+                                                       "Shipping Address",
+                                                       "Payment Method",
+                                                       "Review Order"]))
+        .padding()
 }
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Custom Colors") {
     VStack(spacing: 40) {
-        ARCStepIndicator(
-            totalSteps: 4,
-            currentStep: 2,
-            configuration: ARCStepIndicatorConfiguration(
-                completedColor: .green,
-                currentColor: .blue,
-                pendingColor: Color.gray.opacity(0.3)
-            )
-        )
+        ARCStepIndicator(totalSteps: 4,
+                         currentStep: 2,
+                         configuration: ARCStepIndicatorConfiguration(completedColor: .green,
+                                                                      currentColor: .blue,
+                                                                      pendingColor: Color.gray.opacity(0.3)))
 
-        ARCStepIndicator(
-            totalSteps: 4,
-            currentStep: 3,
-            configuration: ARCStepIndicatorConfiguration(
-                completedColor: .orange,
-                currentColor: .orange,
-                pendingColor: Color.orange.opacity(0.2)
-            )
-        )
+        ARCStepIndicator(totalSteps: 4,
+                         currentStep: 3,
+                         configuration: ARCStepIndicatorConfiguration(completedColor: .orange,
+                                                                      currentColor: .orange,
+                                                                      pendingColor: Color.orange.opacity(0.2)))
     }
     .padding()
 }

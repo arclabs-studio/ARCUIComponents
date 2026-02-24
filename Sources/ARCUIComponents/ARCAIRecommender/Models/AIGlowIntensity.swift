@@ -19,8 +19,7 @@ import SwiftUI
 /// - **Crisp stroke**: A thin rotating gradient border for edge definition
 ///
 /// - Note: Conforms to `Sendable` for Swift 6 concurrency safety
-@available(iOS 17.0, macOS 14.0, *)
-public enum AIGlowIntensity: Sendable, Hashable {
+@available(iOS 17.0, macOS 14.0, *) public enum AIGlowIntensity: Sendable, Hashable {
     /// Subtle glow — noticeable ambient light, premium feel
     case subtle
 

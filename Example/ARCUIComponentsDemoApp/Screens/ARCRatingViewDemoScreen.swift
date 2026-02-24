@@ -39,31 +39,25 @@ struct ARCRatingViewDemoScreen: View {
 
 // MARK: - Sections
 
-private extension ARCRatingViewDemoScreen {
+extension ARCRatingViewDemoScreen {
     // MARK: - Styles Section
 
-    var stylesSection: some View {
+    private var stylesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionHeader("Styles", description: "3 visual styles for different contexts")
 
             VStack(spacing: 20) {
-                styleRow(
-                    title: "Circular Gauge",
-                    description: "Default - Cards, featured content",
-                    style: .circularGauge
-                )
+                styleRow(title: "Circular Gauge",
+                         description: "Default - Cards, featured content",
+                         style: .circularGauge)
 
-                styleRow(
-                    title: "Compact Inline",
-                    description: "Lists, table rows",
-                    style: .compactInline
-                )
+                styleRow(title: "Compact Inline",
+                         description: "Lists, table rows",
+                         style: .compactInline)
 
-                styleRow(
-                    title: "Minimal",
-                    description: "Badges, inline text",
-                    style: .minimal
-                )
+                styleRow(title: "Minimal",
+                         description: "Badges, inline text",
+                         style: .minimal)
             }
             .padding()
             .background(.ultraThinMaterial)
@@ -71,7 +65,7 @@ private extension ARCRatingViewDemoScreen {
         }
     }
 
-    func styleRow(title: String, description: String, style: ARCRatingStyle) -> some View {
+    private func styleRow(title: String, description: String, style: ARCRatingStyle) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -87,25 +81,22 @@ private extension ARCRatingViewDemoScreen {
 
     // MARK: - Color Scale Section
 
-    var colorScaleSection: some View {
+    private var colorScaleSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionHeader("Color Scale", description: "Semantic colors from 1 to 10")
 
-            LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: 16) {
-                ForEach(1...10, id: \.self) { rating in
+            LazyVGrid(columns: [GridItem(.flexible()),
+                                GridItem(.flexible()),
+                                GridItem(.flexible()),
+                                GridItem(.flexible()),
+                                GridItem(.flexible())], spacing: 16)
+            {
+                ForEach(1 ... 10, id: \.self) { rating in
                     VStack(spacing: 4) {
-                        ARCRatingView(
-                            rating: Double(rating),
-                            style: .circularGauge,
-                            animated: false
-                        )
-                        .scaleEffect(0.7)
+                        ARCRatingView(rating: Double(rating),
+                                      style: .circularGauge,
+                                      animated: false)
+                            .scaleEffect(0.7)
 
                         Text("\(rating)")
                             .font(.caption2)
@@ -121,7 +112,7 @@ private extension ARCRatingViewDemoScreen {
 
     // MARK: - Interactive Section
 
-    var interactiveSection: some View {
+    private var interactiveSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionHeader("Interactive", description: "Drag to see animated transitions")
 
@@ -136,7 +127,7 @@ private extension ARCRatingViewDemoScreen {
                     Spacer()
                 }
 
-                Slider(value: $interactiveRating, in: 1...10, step: 0.5)
+                Slider(value: $interactiveRating, in: 1 ... 10, step: 0.5)
                     .tint(.green)
 
                 Text("Rating: \(String(format: "%.1f", interactiveRating))")
@@ -152,7 +143,7 @@ private extension ARCRatingViewDemoScreen {
 
     // MARK: - Presets Section
 
-    var presetsSection: some View {
+    private var presetsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionHeader("Configuration Presets", description: "Ready-to-use configurations")
 
@@ -167,7 +158,7 @@ private extension ARCRatingViewDemoScreen {
         }
     }
 
-    func presetRow(title: String, config: ARCRatingViewConfiguration) -> some View {
+    private func presetRow(title: String, config: ARCRatingViewConfiguration) -> some View {
         HStack {
             Text(title)
                 .font(.subheadline.monospaced())
@@ -179,7 +170,7 @@ private extension ARCRatingViewDemoScreen {
 
     // MARK: - Usage Examples Section
 
-    var usageExamplesSection: some View {
+    private var usageExamplesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionHeader("Usage Examples", description: "Real-world integration patterns")
 
@@ -239,7 +230,7 @@ private extension ARCRatingViewDemoScreen {
         }
     }
 
-    func listRow(name: String, rating: Double) -> some View {
+    private func listRow(name: String, rating: Double) -> some View {
         HStack {
             Text(name)
                 .font(.subheadline)
@@ -252,19 +243,15 @@ private extension ARCRatingViewDemoScreen {
 
     // MARK: - Overlay Section
 
-    var overlaySection: some View {
+    private var overlaySection: some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionHeader("Rating Overlay", description: "View modifier for easy integration")
 
             HStack(spacing: 16) {
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(
-                        LinearGradient(
-                            colors: [.blue.opacity(0.3), .purple.opacity(0.2)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
+                    .fill(LinearGradient(colors: [.blue.opacity(0.3), .purple.opacity(0.2)],
+                                         startPoint: .topLeading,
+                                         endPoint: .bottomTrailing))
                     .frame(width: 120, height: 80)
                     .overlay {
                         Image(systemName: "photo")
@@ -289,7 +276,7 @@ private extension ARCRatingViewDemoScreen {
 
     // MARK: - Helpers
 
-    func sectionHeader(_ title: String, description: String) -> some View {
+    private func sectionHeader(_ title: String, description: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title)
                 .font(.headline)

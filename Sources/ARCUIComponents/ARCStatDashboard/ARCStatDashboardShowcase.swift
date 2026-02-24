@@ -9,8 +9,7 @@ import ARCDesignSystem
 import SwiftUI
 
 /// Showcase demonstrating ARCStatDashboard as a complete dashboard layout
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatDashboardShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatDashboardShowcase: View {
     public init() {}
 
     public var body: some View {
@@ -28,20 +27,16 @@ public struct ARCStatDashboardShowcase: View {
                 ARCStatSectionHeader(title: "Highlights", icon: "star.fill")
 
                 HStack(spacing: .arcSpacingMedium) {
-                    ARCStatHighlightCard(
-                        title: "Best rated",
-                        headline: "Sushi Zen",
-                        rating: 9.5,
-                        icon: "arrow.up.circle.fill",
-                        accentColor: .green
-                    )
-                    ARCStatHighlightCard(
-                        title: "Lowest rated",
-                        headline: "Quick Burger",
-                        rating: 5.2,
-                        icon: "arrow.down.circle.fill",
-                        accentColor: .orange
-                    )
+                    ARCStatHighlightCard(title: "Best rated",
+                                         headline: "Sushi Zen",
+                                         rating: 9.5,
+                                         icon: "arrow.up.circle.fill",
+                                         accentColor: .green)
+                    ARCStatHighlightCard(title: "Lowest rated",
+                                         headline: "Quick Burger",
+                                         rating: 5.2,
+                                         icon: "arrow.down.circle.fill",
+                                         accentColor: .orange)
                 }
                 .padding(.horizontal, .arcSpacingLarge)
 
@@ -55,35 +50,29 @@ public struct ARCStatDashboardShowcase: View {
             ARCStatDashboardSection {
                 ARCStatSectionHeader(title: "Distribution", icon: "chart.pie.fill")
 
-                ARCDonutChart(
-                    data: ShowcaseDashboardData.cuisines,
-                    value: \.count,
-                    label: \.name,
-                    icon: \.icon
-                )
+                ARCDonutChart(data: ShowcaseDashboardData.cuisines,
+                              value: \.count,
+                              label: \.name,
+                              icon: \.icon)
             }
 
             // Section 4: Timeline
             ARCStatDashboardSection {
                 ARCStatSectionHeader(title: "Timeline", icon: "calendar")
 
-                ARCTimelineChart(
-                    data: ShowcaseDashboardData.monthlyVisits,
-                    date: \.date,
-                    value: \.count
-                )
+                ARCTimelineChart(data: ShowcaseDashboardData.monthlyVisits,
+                                 date: \.date,
+                                 value: \.count)
             }
 
             // Section 5: Bar Chart
             ARCStatDashboardSection {
                 ARCStatSectionHeader(title: "Geography", icon: "map.fill")
 
-                ARCBarChart(
-                    data: ShowcaseDashboardData.cities,
-                    label: \.name,
-                    value: \.count,
-                    configuration: .horizontal
-                )
+                ARCBarChart(data: ShowcaseDashboardData.cities,
+                            label: \.name,
+                            value: \.count,
+                            configuration: .horizontal)
             }
 
             Spacer(minLength: .arcSpacingXLarge)
@@ -97,8 +86,7 @@ public struct ARCStatDashboardShowcase: View {
 
 // MARK: - Showcase Data
 
-@available(iOS 17.0, macOS 14.0, *)
-private enum ShowcaseDashboardData {
+@available(iOS 17.0, macOS 14.0, *) private enum ShowcaseDashboardData {
     struct ChartItem: Identifiable {
         let id = UUID()
         let name: String
@@ -118,26 +106,20 @@ private enum ShowcaseDashboardData {
         let count: Int
     }
 
-    static let cuisines: [ChartItem] = [
-        ChartItem("Japanese", 5, "fork.knife"),
-        ChartItem("Italian", 4, "fork.knife"),
-        ChartItem("Mexican", 3, "fork.knife"),
-        ChartItem("Spanish", 2, "fork.knife"),
-        ChartItem("Chinese", 1, "fork.knife")
-    ]
+    static let cuisines: [ChartItem] = [ChartItem("Japanese", 5, "fork.knife"),
+                                        ChartItem("Italian", 4, "fork.knife"),
+                                        ChartItem("Mexican", 3, "fork.knife"),
+                                        ChartItem("Spanish", 2, "fork.knife"),
+                                        ChartItem("Chinese", 1, "fork.knife")]
 
-    static let cities: [ChartItem] = [
-        ChartItem("Madrid", 8),
-        ChartItem("Barcelona", 4),
-        ChartItem("Valencia", 2),
-        ChartItem("Sevilla", 1)
-    ]
+    static let cities: [ChartItem] = [ChartItem("Madrid", 8),
+                                      ChartItem("Barcelona", 4),
+                                      ChartItem("Valencia", 2),
+                                      ChartItem("Sevilla", 1)]
 
     static let monthlyVisits: [TimelineItem] = (0 ..< 12).map { offset in
-        TimelineItem(
-            date: Calendar.current.date(byAdding: .month, value: -11 + offset, to: Date()) ?? Date(),
-            count: [2, 3, 1, 4, 2, 5, 3, 6, 4, 3, 5, 4][offset]
-        )
+        TimelineItem(date: Calendar.current.date(byAdding: .month, value: -11 + offset, to: Date()) ?? Date(),
+                     count: [2, 3, 1, 4, 2, 5, 3, 6, 4, 3, 5, 4][offset])
     }
 }
 

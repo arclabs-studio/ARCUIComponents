@@ -9,8 +9,7 @@ import ARCDesignSystem
 import SwiftUI
 
 /// Showcase demonstrating ARCStatGrid layout variations
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStatGridShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStatGridShowcase: View {
     public init() {}
 
     public var body: some View {
@@ -50,13 +49,11 @@ public struct ARCStatGridShowcase: View {
 
             ARCStatGrid(columns: 3) {
                 ARCStatCard(rating: 7.8, label: "Avg", configuration: .compact)
-                ARCStatCard(
-                    icon: "flame.fill",
-                    value: "4",
-                    label: "Streak",
-                    iconColor: .orange,
-                    configuration: .compact
-                )
+                ARCStatCard(icon: "flame.fill",
+                            value: "4",
+                            label: "Streak",
+                            iconColor: .orange,
+                            configuration: .compact)
                 ARCStatCard(rating: 9.5, label: "Best", configuration: .compact)
             }
         }

@@ -11,8 +11,7 @@ import SwiftUI
 // MARK: - ARCTagShowcase
 
 /// A comprehensive showcase of all ARCTag configurations
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCTagShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCTagShowcase: View {
     // MARK: - Body
 
     public init() {}
@@ -40,9 +39,8 @@ public struct ARCTagShowcase: View {
 
 // MARK: - Sections
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCTagShowcase {
-    @ViewBuilder private var stylesSection: some View {
+@available(iOS 17.0, macOS 14.0, *) extension ARCTagShowcase {
+    private var stylesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Styles")
 
@@ -70,7 +68,7 @@ extension ARCTagShowcase {
         }
     }
 
-    @ViewBuilder private var sizesSection: some View {
+    private var sizesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Sizes")
 
@@ -95,7 +93,7 @@ extension ARCTagShowcase {
         }
     }
 
-    @ViewBuilder private var iconsSection: some View {
+    private var iconsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("With Icons")
 
@@ -109,18 +107,16 @@ extension ARCTagShowcase {
 
                 row("Trailing") {
                     HStack(spacing: 8) {
-                        ARCTag(
-                            "Verified",
-                            icon: "checkmark.seal.fill",
-                            configuration: .init(color: .blue, iconPosition: .trailing)
-                        )
+                        ARCTag("Verified",
+                               icon: "checkmark.seal.fill",
+                               configuration: .init(color: .blue, iconPosition: .trailing))
                     }
                 }
             }
         }
     }
 
-    @ViewBuilder private var colorsSection: some View {
+    private var colorsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Colors")
 
@@ -146,7 +142,7 @@ extension ARCTagShowcase {
         }
     }
 
-    @ViewBuilder private var brandColorsSection: some View {
+    private var brandColorsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("ARC Brand Colors")
 
@@ -180,23 +176,19 @@ extension ARCTagShowcase {
 
                 row("With Icons") {
                     HStack(spacing: 8) {
-                        ARCTag(
-                            "ARC Labs",
-                            icon: "star.fill",
-                            configuration: .init(style: .filled, color: .arcBrandBurgundy)
-                        )
-                        ARCTag(
-                            "Premium",
-                            icon: "crown.fill",
-                            configuration: .init(style: .filled, color: .arcBrandGold)
-                        )
+                        ARCTag("ARC Labs",
+                               icon: "star.fill",
+                               configuration: .init(style: .filled, color: .arcBrandBurgundy))
+                        ARCTag("Premium",
+                               icon: "crown.fill",
+                               configuration: .init(style: .filled, color: .arcBrandGold))
                     }
                 }
             }
         }
     }
 
-    @ViewBuilder private var realWorldSection: some View {
+    private var realWorldSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Real World Examples")
 
@@ -262,14 +254,12 @@ extension ARCTagShowcase {
 
     // MARK: - Helpers
 
-    @ViewBuilder
     private func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.headline)
             .foregroundStyle(.primary)
     }
 
-    @ViewBuilder
     private func row(_ label: String, @ViewBuilder content: () -> some View) -> some View {
         HStack {
             Text(label)
@@ -288,8 +278,7 @@ extension ARCTagShowcase {
 
 // MARK: - FlowLayout for Showcase
 
-@available(iOS 17.0, macOS 14.0, *)
-private struct FlowLayoutShowcase: Layout {
+@available(iOS 17.0, macOS 14.0, *) private struct FlowLayoutShowcase: Layout {
     var spacing: CGFloat = 8
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
@@ -301,10 +290,8 @@ private struct FlowLayoutShowcase: Layout {
         let result = arrange(proposal: proposal, subviews: subviews)
 
         for (index, position) in result.positions.enumerated() {
-            subviews[index].place(
-                at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
-                proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified))
-            )
+            subviews[index].place(at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
+                                  proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified)))
         }
     }
 

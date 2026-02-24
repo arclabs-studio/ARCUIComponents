@@ -57,23 +57,29 @@ struct ARCMenuDemoScreen: View {
     /// Menu view model with user data, items, and configuration
     ///
     /// The ViewModel now only holds data, not presentation state.
-    @State private var menuViewModel = ARCMenuViewModel.withDefaultItems(
-        user: ARCMenuUser(
-            name: "ARC Labs",
-            email: "hello@arclabs.studio",
-            subtitle: "Premium Member",
-            avatarImage: .imageName("ARC_Icon")
-        ),
-        configuration: ARCMenuConfiguration(sheetTitle: "Cuenta"),
-        actions: ARCMenuActions(
-            onProfile: { print("Profile tapped") },
-            onSettings: { print("Settings tapped") },
-            onFeedback: { print("Feedback tapped") },
-            onSubscriptions: { print("Subscriptions tapped") },
-            onAbout: { print("About tapped") },
-            onLogout: { print("Logout tapped") }
-        )
-    )
+    @State private var menuViewModel = ARCMenuViewModel.withDefaultItems(user: ARCMenuUser(name: "ARC Labs",
+                                                                                           email: "hello@arclabs.studio",
+                                                                                           subtitle: "Premium Member",
+                                                                                           avatarImage: .imageName("ARC_Icon")),
+                                                                         configuration: ARCMenuConfiguration(sheetTitle: "Cuenta"),
+                                                                         actions: ARCMenuActions(onProfile: {
+                                                                                                     print("Profile tapped")
+                                                                                                 },
+                                                                                                 onSettings: {
+                                                                                                     print("Settings tapped")
+                                                                                                 },
+                                                                                                 onFeedback: {
+                                                                                                     print("Feedback tapped")
+                                                                                                 },
+                                                                                                 onSubscriptions: {
+                                                                                                     print("Subscriptions tapped")
+                                                                                                 },
+                                                                                                 onAbout: {
+                                                                                                     print("About tapped")
+                                                                                                 },
+                                                                                                 onLogout: {
+                                                                                                     print("Logout tapped")
+                                                                                                 }))
 
     @State private var selectedPresentationStyle: PresentationStyleOption = .bottomSheet
     @State private var selectedTheme: MenuThemeOption = .arcBrand
@@ -95,21 +101,17 @@ struct ARCMenuDemoScreen: View {
                 #if os(iOS)
                 ToolbarItem(placement: .topBarTrailing) {
                     // NEW: Using ARCMenuButton with isPresented binding
-                    ARCMenuButton(
-                        isPresented: $showMenu,
-                        viewModel: menuViewModel,
-                        showsBadge: showBadge,
-                        badgeCount: badgeCount
-                    )
+                    ARCMenuButton(isPresented: $showMenu,
+                                  viewModel: menuViewModel,
+                                  showsBadge: showBadge,
+                                  badgeCount: badgeCount)
                 }
                 #else
                 ToolbarItem(placement: .automatic) {
-                    ARCMenuButton(
-                        isPresented: $showMenu,
-                        viewModel: menuViewModel,
-                        showsBadge: showBadge,
-                        badgeCount: badgeCount
-                    )
+                    ARCMenuButton(isPresented: $showMenu,
+                                  viewModel: menuViewModel,
+                                  showsBadge: showBadge,
+                                  badgeCount: badgeCount)
                 }
                 #endif
             }
@@ -126,13 +128,13 @@ struct ARCMenuDemoScreen: View {
     // MARK: - Private Methods
 
     private func updateConfiguration() {
-        menuViewModel.configuration = ARCMenuConfiguration(
-            presentationStyle: selectedPresentationStyle.style,
-            accentColor: selectedTheme.accentColor,
-            showsGrabber: selectedPresentationStyle == .bottomSheet,
-            showsCloseButton: selectedPresentationStyle == .bottomSheet,
-            sheetTitle: selectedPresentationStyle == .bottomSheet ? "Cuenta" : nil
-        )
+        menuViewModel.configuration = ARCMenuConfiguration(presentationStyle: selectedPresentationStyle.style,
+                                                           accentColor: selectedTheme.accentColor,
+                                                           showsGrabber: selectedPresentationStyle == .bottomSheet,
+                                                           showsCloseButton: selectedPresentationStyle == .bottomSheet,
+                                                           sheetTitle: selectedPresentationStyle == .bottomSheet
+                                                               ? "Cuenta"
+                                                               : nil)
     }
 }
 
@@ -140,12 +142,10 @@ struct ARCMenuDemoScreen: View {
 
 extension ARCMenuDemoScreen {
     private var backgroundGradient: some View {
-        LinearGradient(
-            colors: selectedTheme.gradientColors,
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
+        LinearGradient(colors: selectedTheme.gradientColors,
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+            .ignoresSafeArea()
     }
 
     private var contentView: some View {
@@ -190,18 +190,12 @@ extension ARCMenuDemoScreen {
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                CodeSnippetRow(
-                    label: "State",
-                    code: "@State var showMenu = false"
-                )
-                CodeSnippetRow(
-                    label: "Button",
-                    code: "ARCMenuButton(isPresented: $showMenu, ...)"
-                )
-                CodeSnippetRow(
-                    label: "Modifier",
-                    code: ".arcMenu(isPresented: $showMenu, ...)"
-                )
+                CodeSnippetRow(label: "State",
+                               code: "@State var showMenu = false")
+                CodeSnippetRow(label: "Button",
+                               code: "ARCMenuButton(isPresented: $showMenu, ...)")
+                CodeSnippetRow(label: "Modifier",
+                               code: ".arcMenu(isPresented: $showMenu, ...)")
             }
 
             Text("External binding = SwiftUI native sheet presentation")
@@ -332,7 +326,9 @@ private enum PresentationStyleOption: String, CaseIterable, Identifiable {
     case bottomSheet
     case trailingPanel
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     var name: String {
         switch self {
@@ -374,20 +370,16 @@ private enum PresentationStyleOption: String, CaseIterable, Identifiable {
     var features: [(icon: String, text: String)] {
         switch self {
         case .bottomSheet:
-            [
-                ("arrow.up.doc", "Native SwiftUI .sheet() presentation"),
-                ("hand.draw", "Swipe down to dismiss"),
-                ("minus.rectangle", "Grabber handle"),
-                ("xmark.circle", "Close button"),
-                ("sparkles", "iOS 26+ Liquid Glass ready")
-            ]
+            [("arrow.up.doc", "Native SwiftUI .sheet() presentation"),
+             ("hand.draw", "Swipe down to dismiss"),
+             ("minus.rectangle", "Grabber handle"),
+             ("xmark.circle", "Close button"),
+             ("sparkles", "iOS 26+ Liquid Glass ready")]
         case .trailingPanel:
-            [
-                ("arrow.right.doc", "Slides in from right"),
-                ("hand.draw", "Swipe right to dismiss"),
-                ("person.crop.circle", "User profile header"),
-                ("paintbrush", "Material background")
-            ]
+            [("arrow.right.doc", "Slides in from right"),
+             ("hand.draw", "Swipe right to dismiss"),
+             ("person.crop.circle", "User profile header"),
+             ("paintbrush", "Material background")]
         }
     }
 }
@@ -398,7 +390,9 @@ private enum MenuThemeOption: String, CaseIterable, Identifiable {
     case premium
     case dark
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     var name: String {
         switch self {

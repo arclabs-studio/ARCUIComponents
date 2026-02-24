@@ -9,8 +9,7 @@ import ARCDesignSystem
 import SwiftUI
 
 /// Showcase demonstrating ARCTimelineChart in various configurations
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCTimelineChartShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCTimelineChartShowcase: View {
     public init() {}
 
     public var body: some View {
@@ -31,11 +30,9 @@ public struct ARCTimelineChartShowcase: View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Default (with gradient)")
 
-            ARCTimelineChart(
-                data: ShowcaseTimelineData.monthlyVisits,
-                date: \.date,
-                value: \.count
-            )
+            ARCTimelineChart(data: ShowcaseTimelineData.monthlyVisits,
+                             date: \.date,
+                             value: \.count)
         }
     }
 
@@ -43,12 +40,10 @@ public struct ARCTimelineChartShowcase: View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Compact (no gradient)")
 
-            ARCTimelineChart(
-                data: ShowcaseTimelineData.monthlyVisits,
-                date: \.date,
-                value: \.count,
-                configuration: .compact
-            )
+            ARCTimelineChart(data: ShowcaseTimelineData.monthlyVisits,
+                             date: \.date,
+                             value: \.count,
+                             configuration: .compact)
         }
     }
 
@@ -63,8 +58,7 @@ public struct ARCTimelineChartShowcase: View {
 
 // MARK: - Showcase Data
 
-@available(iOS 17.0, macOS 14.0, *)
-private enum ShowcaseTimelineData {
+@available(iOS 17.0, macOS 14.0, *) private enum ShowcaseTimelineData {
     struct TimelineItem: Identifiable {
         let id = UUID()
         let date: Date
@@ -72,10 +66,8 @@ private enum ShowcaseTimelineData {
     }
 
     static let monthlyVisits: [TimelineItem] = (0 ..< 12).map { offset in
-        TimelineItem(
-            date: Calendar.current.date(byAdding: .month, value: -11 + offset, to: Date()) ?? Date(),
-            count: [2, 3, 1, 4, 2, 5, 3, 6, 4, 3, 5, 4][offset]
-        )
+        TimelineItem(date: Calendar.current.date(byAdding: .month, value: -11 + offset, to: Date()) ?? Date(),
+                     count: [2, 3, 1, 4, 2, 5, 3, 6, 4, 3, 5, 4][offset])
     }
 }
 
