@@ -56,9 +56,11 @@ import SwiftUI
                                        value: hasAppeared)
                     }
                 }
+                .padding(.top, .arcSpacingSmall)
                 .padding(.horizontal, .arcSpacingLarge)
                 .padding(.bottom, 100) // Space for submit button
             }
+            .clipped()
 
             // Submit button
             submitButton
