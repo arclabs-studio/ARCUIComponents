@@ -274,7 +274,7 @@ import SwiftUI
                 defaultMode: AIRecommenderMode = .quick,
                 questionnaireSubmitText: String = "Obtener recomendaciones",
                 showQuestionnaireProgress: Bool = true,
-                categoryToContentSpacing: CGFloat = .arcSpacingXLarge,
+                categoryToContentSpacing: CGFloat = .arcSpacingMedium,
                 emptyStateTitle: String = "Sin recomendaciones",
                 emptyStateSubtitle: String = "Explora otras categorías para descubrir nuevas sugerencias",
                 emptyStateIcon: String = "sparkles",

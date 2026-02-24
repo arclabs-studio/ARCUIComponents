@@ -183,7 +183,6 @@ import SwiftUI
         VStack(spacing: 0) {
             // Header (always shown)
             AIRecommenderHeader(configuration: configuration)
-                .padding(.top, .arcSpacingSmall)
 
             // Mode switcher (if dual mode)
             if showModeSwitcher {
@@ -247,17 +246,16 @@ import SwiftUI
             ? configuration.categoryToContentSpacing
             : .arcSpacingLarge
 
-        ScrollView {
-            VStack(spacing: spacing) {
-                AIRecommenderCategoryPicker(categories: categories,
-                                            selectedCategory: $selectedCategory,
-                                            configuration: configuration,
-                                            onCategorySelected: onCategorySelected)
+        VStack(spacing: spacing) {
+            AIRecommenderCategoryPicker(categories: categories,
+                                        selectedCategory: $selectedCategory,
+                                        configuration: configuration,
+                                        onCategorySelected: onCategorySelected)
 
-                itemsSection
-            }
-            .padding(.vertical, .arcSpacingMedium)
+            itemsSection
+                .frame(maxHeight: .infinity)
         }
+        .padding(.vertical, .arcSpacingSmall)
     }
 
     // MARK: - Questionnaire Mode Content

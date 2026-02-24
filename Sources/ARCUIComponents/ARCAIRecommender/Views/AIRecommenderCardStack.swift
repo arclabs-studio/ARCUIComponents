@@ -98,7 +98,6 @@ import SwiftUI
                 }
             }
         }
-        .aspectRatio(configuration.cardAspectRatio, contentMode: .fit)
         .padding(.vertical, configuration.showGlowEffect ? configuration.glowIntensity.haloExpand : 0)
     }
 
