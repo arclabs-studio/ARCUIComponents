@@ -188,7 +188,7 @@ import SwiftUI
     // MARK: - Body
 
     public var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: .arcSpacingSmall) {
             // Header (always shown)
             AIRecommenderHeader(configuration: configuration)
 
@@ -393,7 +393,7 @@ import SwiftUI
     }
 
     private func generateActionView(action: @escaping () -> Void) -> some View {
-        VStack(spacing: .arcSpacingLarge) {
+        VStack(spacing: .arcSpacingXXLarge) {
             VStack(spacing: .arcSpacingSmall) {
                 Image(systemName: configuration.generateButtonIcon)
                     .font(.system(size: 36))
