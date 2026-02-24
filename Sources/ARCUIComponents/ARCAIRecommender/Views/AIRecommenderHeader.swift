@@ -43,17 +43,18 @@ import SwiftUI
                                               configuration.accentColor.opacity(0.1)],
                                      startPoint: .topLeading,
                                      endPoint: .bottomTrailing))
-                .frame(width: 36, height: 36)
+                .frame(width: configuration.headerIconCircleSize,
+                       height: configuration.headerIconCircleSize)
 
             // Icon with optional pulse animation
             if configuration.animateHeaderIcon {
                 Image(systemName: configuration.headerIcon)
-                    .font(.callout)
+                    .font(configuration.headerIconFont)
                     .foregroundStyle(configuration.accentColor)
                     .symbolEffect(.pulse, options: .repeating)
             } else {
                 Image(systemName: configuration.headerIcon)
-                    .font(.callout)
+                    .font(configuration.headerIconFont)
                     .foregroundStyle(configuration.accentColor)
             }
         }
