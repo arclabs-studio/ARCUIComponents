@@ -97,7 +97,11 @@ import SwiftUI
                            configuration: configuration)
                 {
                     arcWithAnimation(configuration.categoryAnimation) {
-                        answers.selectSingle(option.id, for: question.id)
+                        if answers.isSelected(option.id, for: question.id) {
+                            answers.clearSelections(for: question.id)
+                        } else {
+                            answers.selectSingle(option.id, for: question.id)
+                        }
                     }
                 }
             }
