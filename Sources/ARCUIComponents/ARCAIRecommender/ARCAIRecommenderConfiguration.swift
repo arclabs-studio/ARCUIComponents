@@ -229,7 +229,7 @@ import SwiftUI
                 subtitle: String = "Descubre lugares personalizados según tus gustos",
                 headerIcon: String = "sparkles",
                 animateHeaderIcon: Bool = true,
-                headerIconCircleSize: CGFloat = 72,
+                headerIconCircleSize: CGFloat = 100,
                 headerIconFont: Font = .title2,
                 accentColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
                 backgroundStyle: ARCBackgroundStyle = .material(.ultraThinMaterial),

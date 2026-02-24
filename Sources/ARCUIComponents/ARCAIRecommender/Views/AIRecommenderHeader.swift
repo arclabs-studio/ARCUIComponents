@@ -20,7 +20,7 @@ import SwiftUI
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: .arcSpacingXSmall) {
+        VStack(spacing: .arcSpacingLarge) {
             // Animated icon in gradient circle
             iconView
 
@@ -48,16 +48,18 @@ import SwiftUI
 
             // Icon with optional pulse animation
             if configuration.animateHeaderIcon {
-                Image(systemName: configuration.headerIcon)
-                    .font(configuration.headerIconFont)
-                    .foregroundStyle(configuration.accentColor)
+                imageView
                     .symbolEffect(.pulse, options: .repeating)
             } else {
-                Image(systemName: configuration.headerIcon)
-                    .font(configuration.headerIconFont)
-                    .foregroundStyle(configuration.accentColor)
+                imageView
             }
         }
+    }
+
+    private var imageView: some View {
+        Image(systemName: configuration.headerIcon)
+            .font(configuration.headerIconFont)
+            .foregroundStyle(configuration.accentColor)
     }
 }
 
