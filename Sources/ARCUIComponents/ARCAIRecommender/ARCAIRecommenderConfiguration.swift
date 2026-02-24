@@ -256,7 +256,7 @@ import SwiftUI
                 showLocation: Bool = true,
                 showHighlightDetail: Bool = true,
                 showGlowEffect: Bool = true,
-                glowIntensity: AIGlowIntensity = .subtle,
+                glowIntensity: AIGlowIntensity = .standard,
                 showSparkles: Bool = true,
                 useCardStack: Bool = true,
                 cardStackDepth: Int = 3,

@@ -183,12 +183,12 @@ import SwiftUI
         VStack(spacing: 0) {
             // Header (always shown)
             AIRecommenderHeader(configuration: configuration)
-                .padding(.top, .arcSpacingMedium)
+                .padding(.top, .arcSpacingSmall)
 
             // Mode switcher (if dual mode)
             if showModeSwitcher {
                 modeSwitcher
-                    .padding(.vertical, .arcSpacingMedium)
+                    .padding(.vertical, .arcSpacingSmall)
             }
 
             // Content based on mode

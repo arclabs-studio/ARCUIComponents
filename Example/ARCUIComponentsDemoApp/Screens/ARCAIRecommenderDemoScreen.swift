@@ -102,6 +102,8 @@ private struct MockRecommendation: AIRecommenderItem {
     let rating: Double?
     let imageSource: AIRecommenderImageSource?
     let aiReason: String?
+    let location: String?
+    let highlightDetail: String?
 }
 
 // MARK: - Sample Data
@@ -109,23 +111,29 @@ private struct MockRecommendation: AIRecommenderItem {
 extension ARCAIRecommenderDemoScreen {
     fileprivate static var favoritesItems: [MockRecommendation] {
         [MockRecommendation(id: UUID(),
+                            title: "Mercado Nishiki",
+                            subtitle: "Japonesa · $",
+                            rating: 9.1,
+                            imageSource: .system("fish.fill", color: .cyan),
+                            aiReason: "Tu opcion perfecta",
+                            location: "Malasana, Madrid \u{00B7} 0.3 km",
+                            highlightDetail: "Omakase del chef"),
+         MockRecommendation(id: UUID(),
                             title: "La Tagliatella",
                             subtitle: "Italiano · €€",
                             rating: 8.5,
                             imageSource: .system("fork.knife", color: .orange),
-                            aiReason: "Te encanta la cocina italiana"),
+                            aiReason: "Te encanta la cocina italiana",
+                            location: "Centro, Madrid \u{00B7} 0.5 km",
+                            highlightDetail: "Pasta Carbonara"),
          MockRecommendation(id: UUID(),
-                            title: "Sushi Master",
-                            subtitle: "Japonés · €€€",
-                            rating: 9.2,
-                            imageSource: .system("fish.fill", color: .cyan),
-                            aiReason: "Similar a tus favoritos"),
-         MockRecommendation(id: UUID(),
-                            title: "Pizzería Napoli",
+                            title: "Pizzeria Napoli",
                             subtitle: "Italiano · €€",
                             rating: 8.9,
                             imageSource: .system("flame.fill", color: .red),
-                            aiReason: "Basado en tus preferencias")]
+                            aiReason: "Basado en tus preferencias",
+                            location: "Chamberi, Madrid \u{00B7} 1.1 km",
+                            highlightDetail: "Pizza Margherita")]
     }
 
     fileprivate static var trendingItems: [MockRecommendation] {
@@ -134,28 +142,52 @@ extension ARCAIRecommenderDemoScreen {
                             subtitle: "Americana · €€",
                             rating: 9.1,
                             imageSource: .system("flame.fill", color: .orange),
-                            aiReason: "En tendencia esta semana"),
+                            aiReason: "En tendencia esta semana",
+                            location: "Chueca, Madrid \u{00B7} 0.7 km",
+                            highlightDetail: "Smash Burger doble"),
          MockRecommendation(id: UUID(),
                             title: "Taco Loco",
                             subtitle: "Mexicano · €",
                             rating: 8.7,
                             imageSource: .system("leaf.fill", color: .green),
-                            aiReason: "Muy popular en tu zona")]
+                            aiReason: "Muy popular en tu zona",
+                            location: "Lavapies, Madrid \u{00B7} 0.4 km",
+                            highlightDetail: "Tacos al Pastor"),
+         MockRecommendation(id: UUID(),
+                            title: "Ramen Ichiban",
+                            subtitle: "Japones · €€",
+                            rating: 8.8,
+                            imageSource: .system("cup.and.saucer.fill", color: .brown),
+                            aiReason: "Subiendo en popularidad",
+                            location: "Sol, Madrid \u{00B7} 0.9 km",
+                            highlightDetail: "Tonkotsu Ramen")]
     }
 
     fileprivate static var nearYouItems: [MockRecommendation] {
         [MockRecommendation(id: UUID(),
-                            title: "Café del Barrio",
-                            subtitle: "Cafetería · €",
+                            title: "Cafe del Barrio",
+                            subtitle: "Cafeteria · €",
                             rating: 8.3,
                             imageSource: .system("cup.and.saucer.fill", color: .brown),
-                            aiReason: "A 200m de ti"),
+                            aiReason: "A 200m de ti",
+                            location: "Tu barrio \u{00B7} 0.2 km",
+                            highlightDetail: "Tostada con tomate"),
          MockRecommendation(id: UUID(),
-                            title: "El Rincón",
-                            subtitle: "Español · €€",
+                            title: "El Rincon Castizo",
+                            subtitle: "Espanol · €€",
                             rating: 8.8,
                             imageSource: .system("mappin.and.ellipse", color: .red),
-                            aiReason: "A 350m de ti")]
+                            aiReason: "El mejor valorado cerca de ti",
+                            location: "Tu barrio \u{00B7} 0.35 km",
+                            highlightDetail: "Croquetas caseras"),
+         MockRecommendation(id: UUID(),
+                            title: "Wok & Roll",
+                            subtitle: "Asiatico · €€",
+                            rating: 8.1,
+                            imageSource: .system("wok.fill", color: .orange),
+                            aiReason: "Nuevo descubrimiento en tu barrio",
+                            location: "Tu barrio \u{00B7} 0.5 km",
+                            highlightDetail: nil)]
     }
 
     fileprivate static var newItems: [MockRecommendation] {
@@ -163,14 +195,26 @@ extension ARCAIRecommenderDemoScreen {
                             title: "Poke Paradise",
                             subtitle: "Hawaiano · €€",
                             rating: 8.0,
-                            imageSource: .system("sparkles", color: .purple),
-                            aiReason: "Nuevo en la zona"),
+                            imageSource: .system("leaf.fill", color: .purple),
+                            aiReason: "Nuevo en la zona",
+                            location: "Arguelles, Madrid \u{00B7} 1.3 km",
+                            highlightDetail: "Poke de salmon"),
          MockRecommendation(id: UUID(),
                             title: "Thai Garden",
-                            subtitle: "Tailandés · €€",
+                            subtitle: "Tailandes · €€",
                             rating: 7.9,
                             imageSource: .system("leaf.fill", color: .green),
-                            aiReason: "Abierto hace 2 semanas")]
+                            aiReason: "Abierto hace 2 semanas",
+                            location: "Retiro, Madrid \u{00B7} 1.8 km",
+                            highlightDetail: "Pad Thai"),
+         MockRecommendation(id: UUID(),
+                            title: "Brunch & Co",
+                            subtitle: "Internacional · €€€",
+                            rating: 8.4,
+                            imageSource: .system("sun.max.fill", color: .yellow),
+                            aiReason: "Perfecto para tu estilo",
+                            location: "Salamanca, Madrid \u{00B7} 2.0 km",
+                            highlightDetail: "Eggs Benedict")]
     }
 }
 

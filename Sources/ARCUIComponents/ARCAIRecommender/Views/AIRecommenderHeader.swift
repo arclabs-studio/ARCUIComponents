@@ -50,17 +50,17 @@ import SwiftUI
                                               configuration.accentColor.opacity(0.1)],
                                      startPoint: .topLeading,
                                      endPoint: .bottomTrailing))
-                .frame(width: 48, height: 48)
+                .frame(width: 36, height: 36)
 
             // Icon with optional pulse animation
             if configuration.animateHeaderIcon {
                 Image(systemName: configuration.headerIcon)
-                    .font(.title3)
+                    .font(.callout)
                     .foregroundStyle(configuration.accentColor)
                     .symbolEffect(.pulse, options: .repeating)
             } else {
                 Image(systemName: configuration.headerIcon)
-                    .font(.title3)
+                    .font(.callout)
                     .foregroundStyle(configuration.accentColor)
             }
         }

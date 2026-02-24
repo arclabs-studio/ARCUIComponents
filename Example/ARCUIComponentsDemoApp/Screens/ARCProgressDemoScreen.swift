@@ -416,13 +416,12 @@ extension ARCProgressDemoScreen {
     func startDownload() {
         isDownloading = true
         downloadProgress = 0
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
-            if downloadProgress < 1.0 {
+        Task {
+            while downloadProgress < 1.0 {
+                try? await Task.sleep(for: .milliseconds(100))
                 downloadProgress += 0.02
-            } else {
-                timer.invalidate()
-                isDownloading = false
             }
+            isDownloading = false
         }
     }
 
@@ -433,11 +432,10 @@ extension ARCProgressDemoScreen {
 
     func startUpload() {
         uploadProgress = 0
-        Timer.scheduledTimer(withTimeInterval: 0.08, repeats: true) { timer in
-            if uploadProgress < 1.0 {
+        Task {
+            while uploadProgress < 1.0 {
+                try? await Task.sleep(for: .milliseconds(80))
                 uploadProgress += 0.015
-            } else {
-                timer.invalidate()
             }
         }
     }
