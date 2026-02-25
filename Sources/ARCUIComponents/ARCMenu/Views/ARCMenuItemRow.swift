@@ -100,12 +100,31 @@ public struct ARCMenuItemRow: View {
                         .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundStyle(.tertiary)
+                        .accessibilityHidden(true)
                 }
             }
             .modifier(ARCMenuItemRowStyleModifier(context: context, isPressed: isPressed))
         }
         .buttonStyle(.plain)
         .modifier(ARCMenuItemRowGestureModifier(context: context, isPressed: $isPressed))
+        .accessibilityLabel(accessibilityLabel)
+        .accessibilityHint(item.showsDisclosure ? String(localized: "Opens a new screen") : "")
+    }
+
+    // MARK: - Accessibility
+
+    private var accessibilityLabel: String {
+        var components = [item.title]
+        if let subtitle = item.subtitle {
+            components.append(subtitle)
+        }
+        if let badge = item.badge {
+            components.append(badge)
+        }
+        if item.isDestructive {
+            components.append(String(localized: "Destructive action"))
+        }
+        return components.joined(separator: ", ")
     }
 
     // MARK: - Icon View

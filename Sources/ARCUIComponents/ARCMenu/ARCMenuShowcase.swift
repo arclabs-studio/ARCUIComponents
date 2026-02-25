@@ -416,8 +416,8 @@ import AppKit
  // Image from assets
  .avatarImage(.imageName("avatar"))
 
- // Remote URL
- .avatarImage(.url(URL(string: "https://...")!))
+ // Remote URL (use guard/if-let in production)
+ .avatarImage(.url(URL(string: "https://example.com/avatar.jpg")))
 
  // Initials with gradient
  .avatarImage(.initials("AB"))

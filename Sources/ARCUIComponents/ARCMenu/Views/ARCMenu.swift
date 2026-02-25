@@ -150,7 +150,7 @@ public struct ARCMenu: View {
                 if value.translation.width > 100 {
                     dismissWithHaptic()
                 } else {
-                    withAnimation(.arcSpring) {
+                    arcWithAnimation(.arcSpring) {
                         viewModel.dragOffset = 0
                     }
                 }
@@ -285,12 +285,13 @@ public struct ARCMenu: View {
             dismissWithHaptic()
         } label: {
             Image(systemName: "xmark")
-                .font(.system(size: 12, weight: .bold))
+                .font(.caption2.weight(.bold))
                 .foregroundStyle(.secondary)
                 .frame(width: 30, height: 30)
                 .background(.ultraThinMaterial, in: Circle())
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(String(localized: "Close menu"))
     }
 
     // MARK: - Helpers

@@ -184,8 +184,8 @@ public struct ARCMenuButton: View {
                     .foregroundStyle(.white)
             } else {
                 Text("99+")
-                    .font(.system(size: 8))
-                    .fontWeight(.bold)
+                    .font(.caption2.weight(.bold))
+                    .minimumScaleFactor(0.6)
                     .foregroundStyle(.white)
             }
         }
