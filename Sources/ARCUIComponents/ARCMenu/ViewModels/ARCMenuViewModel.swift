@@ -177,10 +177,10 @@ extension ARCMenuViewModel {
                                                  onLogout: onLogout))
     }
 
+    // swiftlint:disable line_length
     /// Creates a view model with common menu items (legacy)
     ///
     /// - Note: Deprecated in favor of `withDefaultItems`
-    // swiftlint:disable line_length
     @available(*, deprecated, renamed: "withDefaultItems") public static func standard(user: ARCMenuUser?,
                                                                                        configuration: ARCMenuConfiguration =
                                                                                            .default,
