@@ -24,6 +24,8 @@ disabled_rules:
   - sorted_imports       # Conflicts with @testable imports preference (should be last)
   - attributes           # SwiftFormat handles this (always same line in ARC Labs)
   - opening_brace        # SwiftFormat handles brace placement (conflicts with --wraparguments)
+  - switch_case_alignment           # False positive with switch expressions (SwiftFormat conflict)
+  - superfluous_disable_command     # Version mismatch between local (0.49.1) and CI (0.63.2)
 
 # Opt-in rules (explicitly enabled per ARCKnowledge)
 opt_in_rules:

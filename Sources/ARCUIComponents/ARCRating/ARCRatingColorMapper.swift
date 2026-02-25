@@ -67,7 +67,6 @@ import SwiftUI
     public static func gradient(for rating: Double, maxRating: Double = 10.0) -> LinearGradient {
         let normalized = maxRating > 0 ? rating / maxRating : 0
 
-        // swiftlint:disable switch_case_alignment
         let colors: [Color] = switch normalized {
         case 0 ..< 0.3:
             [.red, .orange]
@@ -82,7 +81,6 @@ import SwiftUI
         default:
             [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
         }
-        // swiftlint:enable switch_case_alignment
 
         return LinearGradient(colors: colors,
                               startPoint: .topLeading,
