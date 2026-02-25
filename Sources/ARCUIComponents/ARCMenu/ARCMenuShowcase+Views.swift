@@ -250,16 +250,24 @@ import SwiftUI
         self.badgeCount = badgeCount
         self.showUserHeader = showUserHeader
 
-        _viewModel = State(initialValue: ARCMenuViewModel(user: showUserHeader
-                ? ARCMenuUser(name: style.sampleUser.name,
-                              email: style.sampleUser.email,
-                              avatarImage: .initials(style.sampleUser.initials))
-                : nil,
-            menuItems: [.Common.settings {},
-                        .Common.profile {},
-                        .Common.feedback {},
-                        .Common.logout {}],
-            configuration: style.configuration))
+        let user = showUserHeader
+            ? ARCMenuUser(name: style.sampleUser.name,
+                          email: style.sampleUser.email,
+                          avatarImage: .initials(style.sampleUser.initials))
+            : nil
+
+        if style.isSectioned {
+            _viewModel = State(initialValue: ARCMenuViewModel(user: user,
+                                                              sections: style.sampleSections,
+                                                              configuration: style.configuration))
+        } else {
+            _viewModel = State(initialValue: ARCMenuViewModel(user: user,
+                                                              menuItems: [.Common.settings {},
+                                                                          .Common.profile {},
+                                                                          .Common.feedback {},
+                                                                          .Common.logout {}],
+                                                              configuration: style.configuration))
+        }
     }
 
     var body: some View {
@@ -307,14 +315,21 @@ import SwiftUI
     init(style: ShowcaseStyle) {
         self.style = style
 
-        _viewModel = State(initialValue: ARCMenuViewModel(user: ARCMenuUser(name: style.sampleUser.name,
-                                                                            email: style.sampleUser.email,
-                                                                            avatarImage: .initials(style.sampleUser
-                                                                                .initials)),
-                                                          menuItems: [.Common.settings {},
-                                                                      .Common.profile {},
-                                                                      .Common.logout {}],
-                                                          configuration: style.configuration))
+        let user = ARCMenuUser(name: style.sampleUser.name,
+                               email: style.sampleUser.email,
+                               avatarImage: .initials(style.sampleUser.initials))
+
+        if style.isSectioned {
+            _viewModel = State(initialValue: ARCMenuViewModel(user: user,
+                                                              sections: style.sampleSections,
+                                                              configuration: style.configuration))
+        } else {
+            _viewModel = State(initialValue: ARCMenuViewModel(user: user,
+                                                              menuItems: [.Common.settings {},
+                                                                          .Common.profile {},
+                                                                          .Common.logout {}],
+                                                              configuration: style.configuration))
+        }
     }
 
     var body: some View {

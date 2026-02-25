@@ -159,22 +159,33 @@ public struct ARCMenu: View {
 
     // MARK: - Shared Content
 
-    private var menuContentStack: some View {
+    @ViewBuilder private var menuContentStack: some View {
+        switch viewModel.configuration.layoutStyle {
+        case .flat:
+            flatContentStack
+        case .grouped:
+            groupedContentStack
+        }
+    }
+
+    // MARK: - Flat Layout (Trailing Panel)
+
+    private var flatContentStack: some View {
         VStack(spacing: viewModel.configuration.sectionSpacing) {
-            userHeaderSection
-            menuItemsSection
-            versionSection
+            flatUserHeaderSection
+            flatMenuItemsSection
+            flatVersionSection
         }
         .padding(viewModel.configuration.contentInsets)
     }
 
-    @ViewBuilder private var userHeaderSection: some View {
+    @ViewBuilder private var flatUserHeaderSection: some View {
         if let user = viewModel.user {
             ARCMenuUserHeader(user: user, configuration: viewModel.configuration, onTap: nil)
         }
     }
 
-    private var menuItemsSection: some View {
+    private var flatMenuItemsSection: some View {
         VStack(spacing: 0) {
             ForEach(viewModel.menuItems) { item in
                 ARCMenuItemRow(item: item,
@@ -199,13 +210,54 @@ public struct ARCMenu: View {
         }
     }
 
-    @ViewBuilder private var versionSection: some View {
+    @ViewBuilder private var flatVersionSection: some View {
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             Text("Version \(version)")
                 .font(.caption2)
                 .foregroundStyle(.tertiary)
                 .padding(.top, .arcSpacingSmall)
         }
+    }
+
+    // MARK: - Grouped Layout (Trailing Panel)
+
+    @ViewBuilder private var groupedContentStack: some View {
+        Form {
+            if let user = viewModel.user {
+                Section {
+                    ARCMenuUserHeader(user: user, configuration: viewModel.configuration, onTap: nil)
+                }
+            }
+
+            ForEach(viewModel.sections) { section in
+                Section {
+                    ForEach(section.items) { item in
+                        ARCMenuItemRow(item: item,
+                                       configuration: viewModel.configuration,
+                                       context: .form,
+                                       action: {
+                                           dismissWithHaptic()
+                                           Task {
+                                               try? await Task.sleep(for: .milliseconds(300))
+                                               item.action()
+                                           }
+                                       })
+                    }
+                } header: {
+                    if let title = section.title {
+                        Text(title)
+                    }
+                } footer: {
+                    if let footer = section.footer {
+                        Text(footer)
+                    }
+                }
+            }
+        }
+        #if os(iOS)
+        .formStyle(.grouped)
+        #endif
+        .scrollContentBackground(.hidden)
     }
 
     // MARK: - Panel Header
@@ -247,144 +299,6 @@ public struct ARCMenu: View {
         viewModel.configuration.hapticFeedback.perform()
         isPresented = false
         viewModel.dragOffset = 0
-    }
-}
-
-// MARK: - Sheet Content View
-
-/// Internal view for sheet content with native presentation modifiers
-struct ARCMenuSheetContent: View {
-    @Binding var isPresented: Bool
-    @Bindable var viewModel: ARCMenuViewModel
-
-    var body: some View {
-        VStack(spacing: 0) {
-            // Header
-            sheetHeader
-
-            // Scrollable content
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: viewModel.configuration.sectionSpacing) {
-                    userHeaderSection
-                    menuItemsSection
-                    versionSection
-                }
-                .padding(viewModel.configuration.contentInsets)
-            }
-        }
-        .presentationDetents(viewModel.configuration.detents,
-                             selection: .constant(viewModel.configuration.selectedDetent ?? .medium))
-        .presentationDragIndicator(viewModel.configuration.showsGrabber ? .visible : .hidden)
-        .presentationCornerRadius(32)
-        .presentationBackground {
-            materialBackground
-        }
-        .presentationBackgroundInteraction(viewModel.configuration.allowsBackgroundInteraction
-            ? .enabled(upThrough: .medium)
-            : .disabled)
-            .onAppear {
-                viewModel.configuration.hapticFeedback.perform()
-            }
-    }
-
-    // MARK: - Background
-
-    @ViewBuilder private var materialBackground: some View {
-        if #available(iOS 26.0, *) {
-            // Use Liquid Glass on iOS 26+
-            Rectangle()
-                .fill(.ultraThinMaterial)
-            // TODO: Replace with .glassEffect() when iOS 26 SDK is available
-            // .glassEffect(.regular)
-        } else {
-            // Fall back to Material on earlier versions
-            Rectangle()
-                .fill(.ultraThinMaterial)
-        }
-    }
-
-    // MARK: - Header
-
-    @ViewBuilder private var sheetHeader: some View {
-        if viewModel.configuration.showsCloseButton || viewModel.configuration.sheetTitle != nil {
-            HStack {
-                // Close button (leading position like Apple Music)
-                if viewModel.configuration.showsCloseButton {
-                    Button {
-                        viewModel.configuration.hapticFeedback.perform()
-                        isPresented = false
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 12, weight: .bold))
-                            .foregroundStyle(.secondary)
-                            .frame(width: 30, height: 30)
-                            .background(.ultraThinMaterial, in: Circle())
-                    }
-                    .buttonStyle(.plain)
-                } else {
-                    Spacer().frame(width: 30)
-                }
-
-                Spacer()
-
-                // Title
-                if let title = viewModel.configuration.sheetTitle {
-                    Text(title)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                }
-
-                Spacer()
-
-                // Placeholder for symmetry
-                Spacer().frame(width: 30)
-            }
-            .padding(.horizontal, .arcSpacingMedium)
-            .padding(.vertical, .arcSpacingSmall)
-        }
-    }
-
-    // MARK: - Sections
-
-    @ViewBuilder private var userHeaderSection: some View {
-        if let user = viewModel.user {
-            ARCMenuUserHeader(user: user, configuration: viewModel.configuration, onTap: nil)
-        }
-    }
-
-    private var menuItemsSection: some View {
-        VStack(spacing: 0) {
-            ForEach(viewModel.menuItems) { item in
-                ARCMenuItemRow(item: item,
-                               configuration: viewModel.configuration,
-                               action: {
-                                   viewModel.configuration.hapticFeedback.perform()
-                                   isPresented = false
-                                   // Execute action after dismiss animation
-                                   Task {
-                                       try? await Task.sleep(for: .milliseconds(300))
-                                       item.action()
-                                   }
-                               })
-                if item.id != viewModel.menuItems.last?.id {
-                    Divider()
-                        .padding(.leading, 56)
-                }
-            }
-        }
-        .background {
-            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                .fill(.ultraThinMaterial)
-        }
-    }
-
-    @ViewBuilder private var versionSection: some View {
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            Text("Version \(version)")
-                .font(.caption2)
-                .foregroundStyle(.tertiary)
-                .padding(.top, .arcSpacingSmall)
-        }
     }
 }
 

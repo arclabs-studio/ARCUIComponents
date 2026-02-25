@@ -48,15 +48,18 @@ import UIKit
     /// Menu user information
     public var user: ARCMenuUser?
 
-    /// Menu items to display
+    /// Menu items to display (flat layout)
     public var menuItems: [ARCMenuItem]
+
+    /// Menu sections to display (grouped layout)
+    public var sections: [ARCMenuSection]
 
     /// Menu configuration
     public var configuration: ARCMenuConfiguration
 
     // MARK: - Initialization
 
-    /// Creates a new ARCMenu view model
+    /// Creates a new ARCMenu view model for flat layout
     ///
     /// - Parameters:
     ///   - user: User information to display in header
@@ -68,6 +71,23 @@ import UIKit
     {
         self.user = user
         self.menuItems = menuItems
+        sections = []
+        self.configuration = configuration
+    }
+
+    /// Creates a new ARCMenu view model for grouped/sectioned layout
+    ///
+    /// - Parameters:
+    ///   - user: User information to display in header
+    ///   - sections: Sections to show in the menu
+    ///   - configuration: Menu configuration (defaults to `.sectioned`)
+    public init(user: ARCMenuUser? = nil,
+                sections: [ARCMenuSection],
+                configuration: ARCMenuConfiguration = .sectioned)
+    {
+        self.user = user
+        menuItems = []
+        self.sections = sections
         self.configuration = configuration
     }
 
@@ -160,6 +180,7 @@ extension ARCMenuViewModel {
     /// Creates a view model with common menu items (legacy)
     ///
     /// - Note: Deprecated in favor of `withDefaultItems`
+    // swiftlint:disable line_length
     @available(*, deprecated, renamed: "withDefaultItems") public static func standard(user: ARCMenuUser?,
                                                                                        configuration: ARCMenuConfiguration =
                                                                                            .default,
@@ -178,6 +199,7 @@ extension ARCMenuViewModel {
                                                                                            -> Void)? = nil)
         -> ARCMenuViewModel
     {
+        // swiftlint:enable line_length
         var items: [ARCMenuItem] = []
 
         if let onProfile {

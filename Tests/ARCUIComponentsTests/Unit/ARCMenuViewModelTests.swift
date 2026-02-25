@@ -90,6 +90,51 @@ import Testing
         #expect(viewModel.configuration.accentColor == .purple)
     }
 
+    // MARK: - Sections Init Tests
+
+    @Test("init_withSections_setsSectionsCorrectly") func init_withSections_setsSectionsCorrectly() {
+        let sections = [ARCMenuSection(title: "Data", items: [.Common.settings(action: {})]),
+                        ARCMenuSection(title: "Support", items: [.Common.feedback(action: {})])]
+
+        let viewModel = ARCMenuViewModel(sections: sections)
+
+        #expect(viewModel.sections.count == 2)
+        #expect(viewModel.menuItems.isEmpty)
+    }
+
+    @Test("init_withSections_defaultsToSectionedConfiguration")
+    func init_withSections_defaultsToSectionedConfiguration() {
+        let sections = [ARCMenuSection(items: [.Common.settings(action: {})])]
+
+        let viewModel = ARCMenuViewModel(sections: sections)
+
+        if case .grouped = viewModel.configuration.layoutStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected grouped layout style for sections init")
+        }
+    }
+
+    @Test("init_withMenuItems_defaultsToFlatLayout") func init_withMenuItems_defaultsToFlatLayout() {
+        let viewModel = ARCMenuViewModel(menuItems: [.Common.settings(action: {})])
+
+        if case .flat = viewModel.configuration.layoutStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected flat layout style for menuItems init")
+        }
+        #expect(viewModel.sections.isEmpty)
+    }
+
+    @Test("sections_canBeUpdated") func sections_canBeUpdated() {
+        let viewModel = ARCMenuViewModel()
+        let sections = [ARCMenuSection(title: "New", items: [])]
+
+        viewModel.sections = sections
+
+        #expect(viewModel.sections.count == 1)
+    }
+
     // MARK: - withDefaultItems Factory Tests
 
     @Test("withDefaultItems_createsAllDefaultMenuItems") func withDefaultItems_createsAllDefaultMenuItems() {

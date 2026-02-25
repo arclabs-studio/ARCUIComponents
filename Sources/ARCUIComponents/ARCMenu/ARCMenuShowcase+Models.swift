@@ -14,6 +14,7 @@ import SwiftUI
     case green = "Green"
     case orange = "Orange"
     case purple = "Purple"
+    case sectioned = "Sectioned"
     case trailingPanel = "Trailing Panel"
 
     var id: String {
@@ -30,6 +31,7 @@ import SwiftUI
         case .green: "ARCMenuConfiguration(accentColor: .green)"
         case .orange: "ARCMenuConfiguration(accentColor: .orange)"
         case .purple: "ARCMenuConfiguration(accentColor: .purple)"
+        case .sectioned: "sectioned"
         case .trailingPanel: "trailingPanel"
         }
     }
@@ -40,6 +42,7 @@ import SwiftUI
         case .green: .green
         case .orange: .orange
         case .purple: .purple
+        case .sectioned: .blue
         case .trailingPanel: .arcBrandGold
         }
     }
@@ -50,8 +53,14 @@ import SwiftUI
         case .green: ARCMenuConfiguration(accentColor: .green)
         case .orange: ARCMenuConfiguration(accentColor: .orange)
         case .purple: ARCMenuConfiguration(accentColor: .purple)
+        case .sectioned: .sectioned
         case .trailingPanel: .trailingPanel
         }
+    }
+
+    /// Whether this style uses sections instead of flat items
+    var isSectioned: Bool {
+        self == .sectioned
     }
 
     var description: String {
@@ -60,6 +69,7 @@ import SwiftUI
         case .green: "Health & Fitness apps"
         case .orange: "Subscription services"
         case .purple: "Dark theme apps"
+        case .sectioned: "Form with grouped sections"
         case .trailingPanel: "Drawer style (iPad/Mac)"
         }
     }
@@ -70,6 +80,7 @@ import SwiftUI
         case .green: "figure.run"
         case .orange: "crown.fill"
         case .purple: "moon.stars.fill"
+        case .sectioned: "list.bullet.rectangle"
         case .trailingPanel: "sidebar.trailing"
         }
     }
@@ -81,8 +92,18 @@ import SwiftUI
         case .green: ("Athlete Pro", "athlete@fit.app", "AP")
         case .orange: ("Gold Member", "gold@premium.app", "GM")
         case .purple: ("Night User", "night@dark.app", "NU")
+        case .sectioned: ("Section User", "sections@app.com", "SU")
         case .trailingPanel: ("Panel User", "user@app.com", "PU")
         }
+    }
+
+    /// Sample sections for the sectioned style
+    var sampleSections: [ARCMenuSection] {
+        [ARCMenuSection(title: "Data", items: [.Common.settings(action: {}),
+                                               .Common.notifications(action: {})]),
+         ARCMenuSection(title: "Support", items: [.Common.feedback(action: {}),
+                                                  .Common.about(action: {})]),
+         ARCMenuSection(items: [.Common.logout(action: {})])]
     }
 }
 

@@ -79,6 +79,40 @@ import Testing
         #expect(config.allowsBackgroundInteraction == false)
     }
 
+    @Test("default_hasFlatLayoutStyle") func default_hasFlatLayoutStyle() {
+        let config = ARCMenuConfiguration.default
+
+        if case .flat = config.layoutStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected flat layout style")
+        }
+    }
+
+    // MARK: - Sectioned Configuration Tests
+
+    @Test("sectioned_hasGroupedLayoutStyle") func sectioned_hasGroupedLayoutStyle() {
+        let config = ARCMenuConfiguration.sectioned
+
+        if case .grouped = config.layoutStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected grouped layout style")
+        }
+    }
+
+    @Test("sectioned_hasBottomSheetPresentationStyle") func sectioned_hasBottomSheetPresentationStyle() {
+        let config = ARCMenuConfiguration.sectioned
+
+        #expect(config.presentationStyle == .bottomSheet)
+    }
+
+    @Test("sectioned_showsGrabber") func sectioned_showsGrabber() {
+        let config = ARCMenuConfiguration.sectioned
+
+        #expect(config.showsGrabber == true)
+    }
+
     // MARK: - Trailing Panel Configuration Tests
 
     @Test("trailingPanel_hasTrailingPanelPresentationStyle") func trailingPanel_hasTrailingPanelPresentationStyle() {
@@ -153,6 +187,26 @@ import Testing
         let config = ARCMenuConfiguration(accentColor: .red)
 
         #expect(config.accentColor == .red)
+    }
+
+    @Test("init_withGroupedLayoutStyle_setsCorrectStyle") func init_withGroupedLayoutStyle_setsCorrectStyle() {
+        let config = ARCMenuConfiguration(layoutStyle: .grouped)
+
+        if case .grouped = config.layoutStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected grouped layout style")
+        }
+    }
+
+    @Test("init_withDefaultLayoutStyle_usesFlatLayout") func init_withDefaultLayoutStyle_usesFlatLayout() {
+        let config = ARCMenuConfiguration()
+
+        if case .flat = config.layoutStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected flat layout style as default")
+        }
     }
 }
 

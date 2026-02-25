@@ -8,6 +8,18 @@
 import ARCDesignSystem
 import SwiftUI
 
+/// Context for how an ARCMenuItemRow is rendered
+///
+/// Controls padding and animation behavior based on where the row is used:
+/// - `.standalone`: Full padding + press scale animation (VStack/ScrollView)
+/// - `.form`: No explicit padding or press animation (Form provides them)
+public enum ARCMenuItemRowContext: Sendable {
+    /// Used in VStack or ScrollView with manual padding and press animation
+    case standalone
+    /// Used inside a Form where the system provides padding and row highlighting
+    case form
+}
+
 /// Menu item row for ARCMenu
 ///
 /// Displays individual menu items following Apple's Human Interface Guidelines.
@@ -17,19 +29,40 @@ import SwiftUI
 /// - Badges (for notifications, counts, "New" labels)
 /// - Disclosure indicators (chevrons)
 /// - Destructive actions (red tint)
-/// - Press animations with haptic feedback
-struct ARCMenuItemRow: View {
+/// - Press animations with haptic feedback (standalone context only)
+public struct ARCMenuItemRow: View {
     // MARK: - Properties
 
     let item: ARCMenuItem
     let configuration: ARCMenuConfiguration
+    let context: ARCMenuItemRowContext
     let action: () -> Void
 
     @State private var isPressed = false
 
+    // MARK: - Initialization
+
+    /// Creates a new menu item row
+    ///
+    /// - Parameters:
+    ///   - item: The menu item to display
+    ///   - configuration: Menu configuration for styling
+    ///   - context: Rendering context (default: `.standalone`)
+    ///   - action: Action to perform when tapped
+    public init(item: ARCMenuItem,
+                configuration: ARCMenuConfiguration,
+                context: ARCMenuItemRowContext = .standalone,
+                action: @escaping () -> Void)
+    {
+        self.item = item
+        self.configuration = configuration
+        self.context = context
+        self.action = action
+    }
+
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         Button {
             action()
         } label: {
@@ -69,27 +102,10 @@ struct ARCMenuItemRow: View {
                         .foregroundStyle(.tertiary)
                 }
             }
-            .padding(.vertical, .arcSpacingMedium)
-            .padding(.horizontal, .arcSpacingLarge)
-            .background {
-                if isPressed {
-                    RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous)
-                        .fill(Color.primary.opacity(0.05))
-                }
-            }
-            .scaleEffect(isPressed ? 0.98 : 1.0)
-            .arcAnimation(.arcSnappy, value: isPressed)
+            .modifier(ARCMenuItemRowStyleModifier(context: context, isPressed: isPressed))
         }
         .buttonStyle(.plain)
-        .simultaneousGesture(DragGesture(minimumDistance: 0)
-            .onChanged { _ in
-                if !isPressed {
-                    isPressed = true
-                }
-            }
-            .onEnded { _ in
-                isPressed = false
-            })
+        .modifier(ARCMenuItemRowGestureModifier(context: context, isPressed: $isPressed))
     }
 
     // MARK: - Icon View
@@ -116,6 +132,60 @@ struct ARCMenuItemRow: View {
                                          endPoint: .bottomTrailing))
             }
             .shadow(color: configuration.accentColor.opacity(0.3), radius: 4, x: 0, y: 2)
+    }
+}
+
+// MARK: - Style Modifier
+
+/// Applies padding and press animation based on row context
+private struct ARCMenuItemRowStyleModifier: ViewModifier {
+    let context: ARCMenuItemRowContext
+    let isPressed: Bool
+
+    func body(content: Content) -> some View {
+        switch context {
+        case .standalone:
+            content
+                .padding(.vertical, .arcSpacingMedium)
+                .padding(.horizontal, .arcSpacingLarge)
+                .background {
+                    if isPressed {
+                        RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous)
+                            .fill(Color.primary.opacity(0.05))
+                    }
+                }
+                .scaleEffect(isPressed ? 0.98 : 1.0)
+                .arcAnimation(.arcSnappy, value: isPressed)
+        case .form:
+            // Form provides its own padding and row highlighting
+            content
+        }
+    }
+}
+
+// MARK: - Gesture Modifier
+
+/// Applies press gesture tracking for standalone context
+private struct ARCMenuItemRowGestureModifier: ViewModifier {
+    let context: ARCMenuItemRowContext
+    @Binding var isPressed: Bool
+
+    func body(content: Content) -> some View {
+        switch context {
+        case .standalone:
+            content
+                .simultaneousGesture(DragGesture(minimumDistance: 0)
+                    .onChanged { _ in
+                        if !isPressed {
+                            isPressed = true
+                        }
+                    }
+                    .onEnded { _ in
+                        isPressed = false
+                    })
+        case .form:
+            content
+        }
     }
 }
 

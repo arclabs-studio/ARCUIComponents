@@ -23,7 +23,7 @@ import UIKit
 /// - Optional email or subtitle
 /// - Tap gesture for profile navigation
 /// - Smooth hover/press animations
-struct ARCMenuUserHeader: View {
+public struct ARCMenuUserHeader: View {
     // MARK: - Properties
 
     let user: ARCMenuUser
@@ -34,9 +34,15 @@ struct ARCMenuUserHeader: View {
 
     // MARK: - Initialization
 
-    init(user: ARCMenuUser,
-         configuration: ARCMenuConfiguration,
-         onTap: (() -> Void)? = nil)
+    /// Creates a new user header
+    ///
+    /// - Parameters:
+    ///   - user: User information to display
+    ///   - configuration: Menu configuration for styling
+    ///   - onTap: Optional tap action for the header
+    public init(user: ARCMenuUser,
+                configuration: ARCMenuConfiguration,
+                onTap: (() -> Void)? = nil)
     {
         self.user = user
         self.configuration = configuration
@@ -45,7 +51,7 @@ struct ARCMenuUserHeader: View {
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         Button {
             onTap?()
             #if os(iOS)
