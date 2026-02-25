@@ -10,77 +10,22 @@ import SwiftUI
 
 /// Demo screen for ARCMenu component.
 ///
-/// Demonstrates the **recommended pattern** for ARCMenu integration:
+/// Demonstrates both **flat** and **sectioned** menu layouts, plus
+/// presentation style and theme customization.
 ///
 /// ## Key Concepts
 ///
-/// 1. **External Binding Pattern** (`@State var showMenu`)
-///    - Presentation state lives in the View layer (SwiftUI standard)
-///    - ViewModel holds data only (user, items, configuration)
-///
-/// 2. **ARCMenuButton with Binding**
-///    - Use `ARCMenuButton(isPresented: $showMenu, viewModel:)`
-///    - Or use `.arcMenuToolbarButton(isPresented:viewModel:)` modifier
-///
-/// 3. **Architecture Agnostic**
-///    - Works with plain SwiftUI, Coordinators, TCA, or any pattern
-///    - Only requirement: a `Binding<Bool>` for presentation
-///
-/// ## Usage Example
-///
-/// ```swift
-/// struct MyView: View {
-///     @State private var showMenu = false
-///     @State private var menuViewModel = ARCMenuViewModel(...)
-///
-///     var body: some View {
-///         NavigationStack {
-///             ContentView()
-///                 .arcMenuToolbarButton(
-///                     isPresented: $showMenu,
-///                     viewModel: menuViewModel
-///                 )
-///         }
-///         .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
-///     }
-/// }
-/// ```
+/// 1. **Flat Layout** — Simple VStack with dividers (default)
+/// 2. **Sectioned Layout** — Native Form with grouped sections (new)
+/// 3. **External Binding** — `@State var showMenu` controls presentation
+/// 4. **Architecture Agnostic** — Works with any SwiftUI pattern
 struct ARCMenuDemoScreen: View {
     // MARK: - Properties
 
-    /// Controls menu presentation via native SwiftUI sheet
-    ///
-    /// This is the **key** to the new pattern - an external `@State`
-    /// that both the button and the menu modifier share.
     @State private var showMenu = false
+    @State private var menuViewModel = makeFlatViewModel()
 
-    /// Menu view model with user data, items, and configuration
-    ///
-    /// The ViewModel now only holds data, not presentation state.
-    @State private var menuViewModel = ARCMenuViewModel.withDefaultItems(user: ARCMenuUser(name: "ARC Labs",
-                                                                                           email: "hello@arclabs.studio",
-                                                                                           subtitle: "Premium Member",
-                                                                                           avatarImage: .imageName("ARC_Icon")),
-                                                                         configuration: ARCMenuConfiguration(sheetTitle: "Cuenta"),
-                                                                         actions: ARCMenuActions(onProfile: {
-                                                                                                     print("Profile tapped")
-                                                                                                 },
-                                                                                                 onSettings: {
-                                                                                                     print("Settings tapped")
-                                                                                                 },
-                                                                                                 onFeedback: {
-                                                                                                     print("Feedback tapped")
-                                                                                                 },
-                                                                                                 onSubscriptions: {
-                                                                                                     print("Subscriptions tapped")
-                                                                                                 },
-                                                                                                 onAbout: {
-                                                                                                     print("About tapped")
-                                                                                                 },
-                                                                                                 onLogout: {
-                                                                                                     print("Logout tapped")
-                                                                                                 }))
-
+    @State private var selectedLayout: MenuLayoutOption = .flat
     @State private var selectedPresentationStyle: PresentationStyleOption = .bottomSheet
     @State private var selectedTheme: MenuThemeOption = .arcBrand
     @State private var showBadge = true
@@ -97,44 +42,78 @@ struct ARCMenuDemoScreen: View {
         #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
-            .toolbar {
-                #if os(iOS)
-                ToolbarItem(placement: .topBarTrailing) {
-                    // NEW: Using ARCMenuButton with isPresented binding
-                    ARCMenuButton(isPresented: $showMenu,
+            .arcMenuToolbarButton(isPresented: $showMenu,
                                   viewModel: menuViewModel,
                                   showsBadge: showBadge,
                                   badgeCount: badgeCount)
-                }
-                #else
-                ToolbarItem(placement: .automatic) {
-                    ARCMenuButton(isPresented: $showMenu,
-                                  viewModel: menuViewModel,
-                                  showsBadge: showBadge,
-                                  badgeCount: badgeCount)
-                }
-                #endif
-            }
-            // NEW: Using arcMenu with isPresented binding
             .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
-            .onChange(of: selectedPresentationStyle) { _, _ in
-                updateConfiguration()
-            }
-            .onChange(of: selectedTheme) { _, _ in
-                updateConfiguration()
-            }
+            .onChange(of: selectedLayout) { _, _ in rebuildViewModel() }
+            .onChange(of: selectedPresentationStyle) { _, _ in rebuildViewModel() }
+            .onChange(of: selectedTheme) { _, _ in rebuildViewModel() }
     }
 
-    // MARK: - Private Methods
+    // MARK: - ViewModel Builders
 
-    private func updateConfiguration() {
-        menuViewModel.configuration = ARCMenuConfiguration(presentationStyle: selectedPresentationStyle.style,
-                                                           accentColor: selectedTheme.accentColor,
-                                                           showsGrabber: selectedPresentationStyle == .bottomSheet,
-                                                           showsCloseButton: selectedPresentationStyle == .bottomSheet,
-                                                           sheetTitle: selectedPresentationStyle == .bottomSheet
-                                                               ? "Cuenta"
-                                                               : nil)
+    private static let demoUser = ARCMenuUser(name: "ARC Labs",
+                                              email: "hello@arclabs.studio",
+                                              subtitle: "Premium Member",
+                                              avatarImage: .imageName("ARC_Icon"))
+
+    private static func makeFlatViewModel() -> ARCMenuViewModel {
+        ARCMenuViewModel.withDefaultItems(user: demoUser,
+                                          configuration: ARCMenuConfiguration(sheetTitle: "Account"),
+                                          actions: ARCMenuActions(onProfile: { print("Profile") },
+                                                                  onSettings: { print("Settings") },
+                                                                  onFeedback: { print("Feedback") },
+                                                                  onSubscriptions: { print("Subscriptions") },
+                                                                  onAbout: { print("About") },
+                                                                  onLogout: { print("Logout") }))
+    }
+
+    private static func makeSectionedViewModel(accentColor: Color = .arcBrandGold,
+                                               presentationStyle: ARCMenuPresentationStyle = .bottomSheet)
+        -> ARCMenuViewModel
+    {
+        ARCMenuViewModel(user: demoUser,
+                         sections: [ARCMenuSection(title: "Account",
+                                                   items: [.Common.profile { print("Profile") },
+                                                           .Common.settings { print("Settings") }]),
+                                    ARCMenuSection(title: "Preferences",
+                                                   items: [.Common.notifications(badge: "3") { print("Notifications") },
+                                                           .Common.privacy { print("Privacy") }]),
+                                    ARCMenuSection(title: "Support",
+                                                   footer: "We'd love to hear from you",
+                                                   items: [.Common.feedback { print("Feedback") },
+                                                           .Common.help { print("Help") },
+                                                           .Common.about { print("About") }]),
+                                    ARCMenuSection(items: [.Common.logout { print("Logout") }])],
+                         configuration: ARCMenuConfiguration(presentationStyle: presentationStyle,
+                                                             accentColor: accentColor,
+                                                             showsGrabber: presentationStyle == .bottomSheet,
+                                                             showsCloseButton: true,
+                                                             sheetTitle: "Account",
+                                                             layoutStyle: .grouped,
+                                                             contentInteraction: .scrolls))
+    }
+
+    private func rebuildViewModel() {
+        let accent = selectedTheme.accentColor
+        let presentation = selectedPresentationStyle.style
+
+        switch selectedLayout {
+        case .flat:
+            menuViewModel = Self.makeFlatViewModel()
+            menuViewModel.configuration = ARCMenuConfiguration(presentationStyle: presentation,
+                                                               accentColor: accent,
+                                                               showsGrabber: presentation == .bottomSheet,
+                                                               showsCloseButton: true,
+                                                               sheetTitle: presentation == .bottomSheet
+                                                                   ? "Account"
+                                                                   : nil)
+        case .sectioned:
+            menuViewModel = Self.makeSectionedViewModel(accentColor: accent,
+                                                        presentationStyle: presentation)
+        }
     }
 }
 
@@ -152,10 +131,11 @@ extension ARCMenuDemoScreen {
         ScrollView {
             VStack(spacing: 24) {
                 headerSection
-                apiPatternCard
+                layoutPicker
                 presentationStylePicker
                 themePicker
                 badgeOptions
+                codeExampleCard
                 featuresCard
             }
             .padding(.top, 20)
@@ -180,32 +160,24 @@ extension ARCMenuDemoScreen {
         }
     }
 
-    private var apiPatternCard: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Image(systemName: "checkmark.seal.fill")
-                    .foregroundStyle(.green)
-                Text("v1.9.1 Pattern")
-                    .font(.headline)
-            }
+    // MARK: - Pickers
 
-            VStack(alignment: .leading, spacing: 8) {
-                CodeSnippetRow(label: "State",
-                               code: "@State var showMenu = false")
-                CodeSnippetRow(label: "Button",
-                               code: "ARCMenuButton(isPresented: $showMenu, ...)")
-                CodeSnippetRow(label: "Modifier",
-                               code: ".arcMenu(isPresented: $showMenu, ...)")
-            }
-
-            Text("External binding = SwiftUI native sheet presentation")
+    private var layoutPicker: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Layout Style")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white.opacity(0.7))
+                .padding(.horizontal, 4)
+
+            Picker("Layout", selection: $selectedLayout) {
+                ForEach(MenuLayoutOption.allCases) { layout in
+                    Text(layout.name).tag(layout)
+                }
+            }
+            .pickerStyle(.segmented)
         }
-        .padding()
-        .background(.ultraThinMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .padding(.horizontal)
+        .padding(.horizontal, 32)
     }
 
     private var presentationStylePicker: some View {
@@ -268,17 +240,44 @@ extension ARCMenuDemoScreen {
         .padding(.horizontal, 32)
     }
 
+    // MARK: - Info Cards
+
+    private var codeExampleCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(systemName: selectedLayout.icon)
+                    .foregroundStyle(selectedTheme.accentColor)
+                Text(selectedLayout.cardTitle)
+                    .font(.headline)
+            }
+
+            VStack(alignment: .leading, spacing: 8) {
+                ForEach(selectedLayout.codeSnippets, id: \.label) { snippet in
+                    CodeSnippetRow(label: snippet.label, code: snippet.code)
+                }
+            }
+
+            Text(selectedLayout.cardDescription)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding()
+        .background(.ultraThinMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .padding(.horizontal)
+    }
+
     private var featuresCard: some View {
         VStack(spacing: 16) {
-            Image(systemName: selectedPresentationStyle.icon)
+            Image(systemName: selectedLayout.featureIcon)
                 .font(.system(size: 40))
-                .foregroundStyle(Color.arcBrandGold)
+                .foregroundStyle(selectedTheme.accentColor)
 
-            Text(selectedPresentationStyle.title)
+            Text(selectedLayout.featureTitle)
                 .font(.headline)
                 .foregroundStyle(.primary)
 
-            Text(selectedPresentationStyle.description)
+            Text(selectedLayout.featureDescription)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -287,8 +286,10 @@ extension ARCMenuDemoScreen {
                 .padding(.vertical, 4)
 
             VStack(alignment: .leading, spacing: 8) {
-                ForEach(selectedPresentationStyle.features, id: \.text) { feature in
-                    FeatureRowView(icon: feature.icon, text: feature.text)
+                ForEach(selectedLayout.features, id: \.text) { feature in
+                    FeatureRowView(icon: feature.icon,
+                                   text: feature.text,
+                                   accentColor: selectedTheme.accentColor)
                 }
             }
         }
@@ -320,7 +321,113 @@ private struct CodeSnippetRow: View {
     }
 }
 
-// MARK: - Supporting Types
+private struct FeatureRowView: View {
+    let icon: String
+    let text: String
+    var accentColor: Color = .arcBrandGold
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .frame(width: 24)
+                .foregroundStyle(accentColor)
+
+            Text(text)
+                .foregroundStyle(.primary.opacity(0.9))
+        }
+    }
+}
+
+// MARK: - Menu Layout Option
+
+private enum MenuLayoutOption: String, CaseIterable, Identifiable {
+    case flat = "Flat"
+    case sectioned = "Sectioned"
+
+    var id: String {
+        rawValue
+    }
+
+    var name: String {
+        rawValue
+    }
+
+    var icon: String {
+        switch self {
+        case .flat: "list.bullet"
+        case .sectioned: "list.bullet.indent"
+        }
+    }
+
+    var cardTitle: String {
+        switch self {
+        case .flat: "Flat Layout (Default)"
+        case .sectioned: "Sectioned Layout (New)"
+        }
+    }
+
+    var cardDescription: String {
+        switch self {
+        case .flat: "VStack with dividers — use ARCMenuViewModel(menuItems:)"
+        case .sectioned: "Native Form with sections — use ARCMenuViewModel(sections:)"
+        }
+    }
+
+    var codeSnippets: [(label: String, code: String)] {
+        switch self {
+        case .flat:
+            [("Init", "ARCMenuViewModel(menuItems: [...])"),
+             ("Config", ".default"),
+             ("Layout", ".flat (VStack + dividers)")]
+        case .sectioned:
+            [("Init", "ARCMenuViewModel(sections: [...])"),
+             ("Config", ".sectioned"),
+             ("Layout", ".grouped (Form + sections)")]
+        }
+    }
+
+    var featureIcon: String {
+        switch self {
+        case .flat: "rectangle.bottomhalf.inset.filled"
+        case .sectioned: "list.bullet.rectangle"
+        }
+    }
+
+    var featureTitle: String {
+        switch self {
+        case .flat: "Flat Menu"
+        case .sectioned: "Sectioned Menu"
+        }
+    }
+
+    var featureDescription: String {
+        switch self {
+        case .flat:
+            "Simple list of items with dividers. Best for short, uniform menus."
+        case .sectioned:
+            "Items grouped into titled sections using native Form. Best for menus with distinct categories."
+        }
+    }
+
+    var features: [(icon: String, text: String)] {
+        switch self {
+        case .flat:
+            [("list.bullet", "VStack with dividers"),
+             ("arrow.up.doc", "Native .sheet() presentation"),
+             ("hand.draw", "Swipe down to dismiss"),
+             ("person.circle", "User profile header"),
+             ("sparkles", "iOS 26+ Liquid Glass ready")]
+        case .sectioned:
+            [("list.bullet.indent", "Sections with title & footer"),
+             ("rectangle.on.rectangle", "Native Form + .grouped style"),
+             ("scroll", "Scrollable within medium detent"),
+             ("tag", "Badge and destructive support"),
+             ("accessibility", "Full VoiceOver support")]
+        }
+    }
+}
+
+// MARK: - Presentation Style Option
 
 private enum PresentationStyleOption: String, CaseIterable, Identifiable {
     case bottomSheet
@@ -343,46 +450,9 @@ private enum PresentationStyleOption: String, CaseIterable, Identifiable {
         case .trailingPanel: .trailingPanel
         }
     }
-
-    var icon: String {
-        switch self {
-        case .bottomSheet: "rectangle.bottomhalf.inset.filled"
-        case .trailingPanel: "rectangle.righthalf.inset.filled"
-        }
-    }
-
-    var title: String {
-        switch self {
-        case .bottomSheet: "Bottom Sheet (Apple Standard)"
-        case .trailingPanel: "Trailing Panel (Drawer)"
-        }
-    }
-
-    var description: String {
-        switch self {
-        case .bottomSheet:
-            "Slides up from the bottom like Apple Music, Apple TV, and Slack. Includes grabber and close button."
-        case .trailingPanel:
-            "Slides in from the right edge like a drawer. Great for iPad or desktop layouts."
-        }
-    }
-
-    var features: [(icon: String, text: String)] {
-        switch self {
-        case .bottomSheet:
-            [("arrow.up.doc", "Native SwiftUI .sheet() presentation"),
-             ("hand.draw", "Swipe down to dismiss"),
-             ("minus.rectangle", "Grabber handle"),
-             ("xmark.circle", "Close button"),
-             ("sparkles", "iOS 26+ Liquid Glass ready")]
-        case .trailingPanel:
-            [("arrow.right.doc", "Slides in from right"),
-             ("hand.draw", "Swipe right to dismiss"),
-             ("person.crop.circle", "User profile header"),
-             ("paintbrush", "Material background")]
-        }
-    }
 }
+
+// MARK: - Menu Theme Option
 
 private enum MenuThemeOption: String, CaseIterable, Identifiable {
     case arcBrand
@@ -418,22 +488,6 @@ private enum MenuThemeOption: String, CaseIterable, Identifiable {
         case .fitness: [.green, .mint]
         case .premium: [Color.arcBrandGold, Color.arcBrandBurgundy]
         case .dark: [.gray, Color.arcBrandBlack]
-        }
-    }
-}
-
-private struct FeatureRowView: View {
-    let icon: String
-    let text: String
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: icon)
-                .frame(width: 24)
-                .foregroundStyle(Color.arcBrandGold)
-
-            Text(text)
-                .foregroundStyle(.primary.opacity(0.9))
         }
     }
 }
