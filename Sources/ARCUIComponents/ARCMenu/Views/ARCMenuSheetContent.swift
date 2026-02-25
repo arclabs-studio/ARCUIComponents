@@ -166,12 +166,13 @@ struct ARCMenuSheetContent: View {
                         isPresented = false
                     } label: {
                         Image(systemName: "xmark")
-                            .font(.system(size: 12, weight: .bold))
+                            .font(.caption2.weight(.bold))
                             .foregroundStyle(.secondary)
                             .frame(width: 30, height: 30)
                             .background(.ultraThinMaterial, in: Circle())
                     }
                     .buttonStyle(.plain)
+                    .accessibilityLabel(String(localized: "Close menu"))
                 } else {
                     Spacer().frame(width: 30)
                 }
