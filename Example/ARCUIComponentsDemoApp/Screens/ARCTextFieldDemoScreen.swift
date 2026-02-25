@@ -232,8 +232,7 @@ import SwiftUI
 
                 let confirmConfig = ARCTextFieldConfiguration(label: "Confirm Password",
                                                               leadingIcon: "lock.rotation",
-                                                              validation: ARCTextFieldValidation(rules: [.required("Please confirm your password")],
-                                                                                                 mode: .all),
+                                                              validation: .required,
                                                               validateOnSubmit: true,
                                                               submitLabel: .done)
                 ARCSecureField("Confirm Password",
