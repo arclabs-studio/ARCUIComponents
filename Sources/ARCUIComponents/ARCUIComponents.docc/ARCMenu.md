@@ -152,6 +152,70 @@ let config = ARCMenuConfiguration(
 - Swipe right to dismiss
 - Backdrop tap to dismiss
 
+## Layout Styles
+
+ARCMenu supports two content layouts: **flat** (default) and **grouped** (sectioned).
+
+### Flat Layout (Default)
+
+Items are displayed in a simple VStack with dividers. Best for short, uniform menus.
+
+```swift
+let viewModel = ARCMenuViewModel(
+    user: user,
+    menuItems: [
+        .Common.profile { },
+        .Common.settings { },
+        .Common.logout { }
+    ]
+)
+```
+
+### Grouped Layout (Sections)
+
+Items are organized into sections using a native `Form` with `.grouped` style. Best for menus with distinct categories.
+
+```swift
+let viewModel = ARCMenuViewModel(
+    user: user,
+    sections: [
+        ARCMenuSection(title: "Account", items: [
+            .Common.profile { },
+            .Common.settings { }
+        ]),
+        ARCMenuSection(title: "Support", footer: "We'd love to hear from you", items: [
+            .Common.feedback { },
+            .Common.about { }
+        ]),
+        ARCMenuSection(items: [
+            .Common.logout { }
+        ])
+    ]
+)
+// Uses .sectioned configuration by default
+```
+
+**Key points:**
+- Use the `ARCMenuViewModel(sections:)` initializer — it defaults to `.sectioned` configuration
+- Sections support optional `title` and `footer`
+- Destructive items (e.g., Logout) belong in a separate section without title
+- The `.sectioned` preset enables `.scrolls` content interaction so the Form scrolls within the medium detent
+
+### Sheet Style Modifier
+
+Apply ARCMenu's sheet appearance to any sheet content without using the full menu:
+
+```swift
+.sheet(isPresented: $showSheet) {
+    MyCustomView()
+        .arcMenuSheetStyle()  // Applies detents, material, corner radius
+
+    // Or with sectioned configuration:
+    MyFormView()
+        .arcMenuSheetStyle(configuration: .sectioned)
+}
+```
+
 ## Customization
 
 ### Configuration Presets
@@ -160,14 +224,9 @@ ARCMenu includes built-in configuration presets:
 
 | Preset | Description |
 |--------|-------------|
-| `.default` | Bottom sheet with blue accent |
+| `.default` | Bottom sheet with flat layout |
+| `.sectioned` | Bottom sheet with grouped Form sections |
 | `.trailingPanel` | Drawer-style from trailing edge |
-| `.fitness` | Health apps with green accent |
-| `.premium` | Subscription services with gold accent |
-| `.dark` | Dark theme with purple accent |
-| `.minimal` | Subtle and clean with gray accent |
-| `.prominent` | Bold category-style icons |
-| `.restaurant` | Food apps with amber accent |
 
 ```swift
 let viewModel = ARCMenuViewModel(
@@ -269,20 +328,22 @@ ARCMenu follows Clean Architecture principles:
 ARCMenu/
 ├── Models/
 │   ├── ARCMenuUser              # User representation
-│   ├── ARCMenuItem              # Menu item model
+│   ├── ARCMenuItem              # Menu item model + Common factory
+│   ├── ARCMenuSection           # Grouped section model
 │   ├── ARCMenuActions           # Action handlers struct
 │   ├── ARCMenuConfiguration     # Configuration & theming
-│   ├── ARCMenuPresentationStyle # Presentation style enum
+│   ├── ARCMenuLayoutStyle       # Flat vs grouped layout
+│   ├── ARCMenuPresentationStyle # Bottom sheet vs trailing panel
 │   └── ARCMenuIconStyle         # Icon style (subtle/prominent)
 ├── ViewModels/
 │   └── ARCMenuViewModel         # Data and configuration
 └── Views/
-    ├── ARCMenu                  # Main container
-    ├── ARCMenuSheetContent      # Sheet content view
-    ├── ARCMenuButton            # Trigger button
+    ├── ARCMenu                  # Main container + modifiers
+    ├── ARCMenuSheetContent      # Sheet content (flat + grouped)
+    ├── ARCMenuSheetModifier     # Reusable sheet styling
+    ├── ARCMenuButton            # Trigger button + toolbar
     ├── ARCMenuUserHeader        # User profile section
-    ├── ARCMenuItemRow           # Individual item
-    └── ARCMenuModifier          # View modifier
+    └── ARCMenuItemRow           # Individual item row
 ```
 
 ## Topics
@@ -297,7 +358,9 @@ ARCMenu/
 
 - ``ARCMenuUser``
 - ``ARCMenuItem``
+- ``ARCMenuSection``
 - ``ARCMenuConfiguration``
+- ``ARCMenuLayoutStyle``
 - ``ARCMenuPresentationStyle``
 
 ### Customization
@@ -305,6 +368,7 @@ ARCMenu/
 - ``ARCMenuUserImage``
 - ``ARCMenuIcon``
 - ``ARCMenuHapticStyle``
+- ``ARCMenuSheetModifier``
 
 ### Components
 
