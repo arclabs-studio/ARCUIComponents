@@ -30,6 +30,7 @@ import SwiftUI
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
+        .padding(.top, configuration.headerTopPadding)
         .padding(.horizontal, .arcSpacingLarge)
     }
 

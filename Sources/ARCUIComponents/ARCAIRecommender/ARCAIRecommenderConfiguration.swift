@@ -54,6 +54,9 @@ import SwiftUI
     /// Size of the circular gradient background behind the header icon
     public let headerIconCircleSize: CGFloat
 
+    /// Top padding above the header icon (controls distance from navigation bar)
+    public let headerTopPadding: CGFloat
+
     /// Font for the header icon SF Symbol
     public let headerIconFont: Font
 
@@ -230,6 +233,7 @@ import SwiftUI
                 headerIcon: String = "sparkles",
                 animateHeaderIcon: Bool = true,
                 headerIconCircleSize: CGFloat = 100,
+                headerTopPadding: CGFloat = 0,
                 headerIconFont: Font = .title2,
                 accentColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
                 backgroundStyle: ARCBackgroundStyle = .material(.ultraThinMaterial),
@@ -284,6 +288,7 @@ import SwiftUI
         self.headerIcon = headerIcon
         self.animateHeaderIcon = animateHeaderIcon
         self.headerIconCircleSize = headerIconCircleSize
+        self.headerTopPadding = headerTopPadding
         self.headerIconFont = headerIconFont
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
