@@ -52,15 +52,20 @@ struct ARCAIRecommenderDemoScreen: View {
                                      .bold()
                              }
                              ToolbarItem(placement: .topBarTrailing) {
-                                 Menu {
-                                     Button {
-                                         questionnaireAnswers.reset()
-                                     } label: {
-                                         Label("Reiniciar respuestas", systemImage: "arrow.counterclockwise")
-                                     }
+                                 Button {
+                                     questionnaireAnswers.reset()
                                  } label: {
-                                     Image(systemName: "ellipsis.circle")
+                                     Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                                         .font(.body.weight(.semibold))
+                                         .foregroundStyle(.white)
+                                         .frame(width: 38, height: 38)
+                                         .background(Circle()
+                                             .fill(.ultraThinMaterial)
+                                             .overlay(Circle()
+                                                 .strokeBorder(.white.opacity(0.2), lineWidth: 1)))
+                                         .clipShape(Circle())
                                  }
+                                 .accessibilityLabel("Reiniciar respuestas")
                              }
                          }
                          .alert("Seleccionado",

@@ -287,14 +287,18 @@ import SwiftUI
             VStack(spacing: 0) {
                 if let retake = onQuestionnaireRetake {
                     Button(action: retake) {
-                        HStack(spacing: .arcSpacingSmall) {
-                            Image(systemName: "arrow.counterclockwise")
-                            Text(configuration.questionnaireRetakeText)
-                        }
-                        .font(.subheadline.weight(.medium))
-                        .foregroundStyle(configuration.accentColor)
+                        Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                            .font(.title3.weight(.semibold))
+                            .foregroundStyle(.white)
+                            .frame(width: 52, height: 52)
+                            .background(Circle()
+                                .fill(.ultraThinMaterial)
+                                .overlay(Circle()
+                                    .strokeBorder(.white.opacity(0.2), lineWidth: 1)))
+                            .clipShape(Circle())
                     }
                     .padding(.vertical, .arcSpacingSmall)
+                    .accessibilityLabel(configuration.questionnaireRetakeText)
                 }
 
                 if configuration.useCardStack {
