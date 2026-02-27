@@ -80,7 +80,7 @@ import SwiftUI
                                           accentColor: configuration.accentColor,
                                           intensity: configuration.glowIntensity,
                                           showSparkles: configuration.showSparkles)
-                            .frame(width: cardWidth)
+                            .frame(width: cardWidth, height: geometry.size.height)
                             .scaleEffect(scaleForIndex(index))
                             .opacity(opacityForIndex(index))
                             .id(index)

@@ -157,7 +157,7 @@ import SwiftUI
                     .font(.callout)
                     .italic()
                     .foregroundStyle(.secondary)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(3)
             }
             .padding(.vertical, .arcSpacingXSmall)
         }
