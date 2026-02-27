@@ -20,24 +20,18 @@ import SwiftUI
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: .arcSpacingXSmall) {
+        VStack(spacing: .arcSpacingLarge) {
             // Animated icon in gradient circle
             iconView
 
-            // Title and subtitle
-            VStack(spacing: 2) {
-                Text(configuration.title)
-                    .font(.headline)
-                    .fontWeight(.bold)
-
-                Text(configuration.subtitle)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-            }
+            // Subtitle only (title belongs in navigation bar per HIG)
+            Text(configuration.subtitle)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
         }
+        .padding(.top, configuration.headerTopPadding)
         .padding(.horizontal, .arcSpacingLarge)
-        .padding(.top, .arcSpacingSmall)
     }
 
     // MARK: - Private Views
@@ -50,20 +44,23 @@ import SwiftUI
                                               configuration.accentColor.opacity(0.1)],
                                      startPoint: .topLeading,
                                      endPoint: .bottomTrailing))
-                .frame(width: 48, height: 48)
+                .frame(width: configuration.headerIconCircleSize,
+                       height: configuration.headerIconCircleSize)
 
             // Icon with optional pulse animation
             if configuration.animateHeaderIcon {
-                Image(systemName: configuration.headerIcon)
-                    .font(.title3)
-                    .foregroundStyle(configuration.accentColor)
+                imageView
                     .symbolEffect(.pulse, options: .repeating)
             } else {
-                Image(systemName: configuration.headerIcon)
-                    .font(.title3)
-                    .foregroundStyle(configuration.accentColor)
+                imageView
             }
         }
+    }
+
+    private var imageView: some View {
+        Image(systemName: configuration.headerIcon)
+            .font(configuration.headerIconFont)
+            .foregroundStyle(configuration.accentColor)
     }
 }
 

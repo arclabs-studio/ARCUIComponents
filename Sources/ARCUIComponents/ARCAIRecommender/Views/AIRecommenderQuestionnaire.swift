@@ -56,9 +56,11 @@ import SwiftUI
                                        value: hasAppeared)
                     }
                 }
+                .padding(.top, configuration.progressToQuestionsSpacing)
                 .padding(.horizontal, .arcSpacingLarge)
                 .padding(.bottom, 100) // Space for submit button
             }
+            .clipped()
 
             // Submit button
             submitButton
@@ -200,17 +202,21 @@ private let previewQuestions: [AIRecommenderQuestion] = [AIRecommenderQuestion(i
                                                          AIRecommenderQuestion(id: "budget",
                                                                                text: "¿Qué presupuesto tienes?",
                                                                                options: [.init(id: "low",
-                                                                                               label: "Bajo",
-                                                                                               icon: "dollarsign",
+                                                                                               label: "$ Bajo",
+                                                                                               icon: nil,
                                                                                                color: .green),
                                                                                          .init(id: "medium",
-                                                                                               label: "Medio",
-                                                                                               icon: "dollarsign",
+                                                                                               label: "$$ Medio",
+                                                                                               icon: nil,
                                                                                                color: .yellow),
                                                                                          .init(id: "high",
-                                                                                               label: "Alto",
-                                                                                               icon: "dollarsign",
-                                                                                               color: .orange)],
+                                                                                               label: "$$$ Alto",
+                                                                                               icon: nil,
+                                                                                               color: .orange),
+                                                                                         .init(id: "premium",
+                                                                                               label: "$$$$ Premium",
+                                                                                               icon: nil,
+                                                                                               color: .red)],
                                                                                inputType: .singleChoice,
                                                                                icon: "creditcard.fill"),
                                                          AIRecommenderQuestion(id: "mood",

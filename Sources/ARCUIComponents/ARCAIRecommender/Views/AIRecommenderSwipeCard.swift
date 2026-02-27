@@ -28,7 +28,7 @@ import SwiftUI
     @ScaledMetric(relativeTo: .title2) private var titleSize: CGFloat = 22
     @ScaledMetric(relativeTo: .body) private var bookmarkHeight: CGFloat = 48
     @ScaledMetric(relativeTo: .body) private var quoteBarWidth: CGFloat = 3
-    @ScaledMetric(relativeTo: .body) private var heroHeight: CGFloat = 180
+    @ScaledMetric(relativeTo: .body) private var heroHeight: CGFloat = 140
 
     // MARK: - Body
 

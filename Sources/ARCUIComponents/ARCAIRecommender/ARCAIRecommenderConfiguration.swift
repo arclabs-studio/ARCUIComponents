@@ -51,6 +51,15 @@ import SwiftUI
     /// Whether to animate the header icon with pulse effect
     public let animateHeaderIcon: Bool
 
+    /// Size of the circular gradient background behind the header icon
+    public let headerIconCircleSize: CGFloat
+
+    /// Top padding above the header icon (controls distance from navigation bar)
+    public let headerTopPadding: CGFloat
+
+    /// Font for the header icon SF Symbol
+    public let headerIconFont: Font
+
     // MARK: - Visual Customization (LiquidGlassConfigurable)
 
     /// Primary accent color for the component
@@ -169,6 +178,15 @@ import SwiftUI
 
     // MARK: - Spacing Configuration
 
+    /// Spacing between header and mode switcher
+    public let headerToModeSwitcherSpacing: CGFloat
+
+    /// Spacing between mode switcher and content area
+    public let modeSwitcherToContentSpacing: CGFloat
+
+    /// Spacing between progress indicator and question cards in questionnaire
+    public let progressToQuestionsSpacing: CGFloat
+
     /// Spacing between category picker and content in quick mode
     public let categoryToContentSpacing: CGFloat
 
@@ -191,56 +209,32 @@ import SwiftUI
     /// Text for the retake questionnaire button
     public let questionnaireRetakeText: String
 
+    // MARK: - Generate Action Configuration
+
+    /// Title displayed in the generate CTA (quick mode, before generating)
+    public let generateTitle: String
+
+    /// Subtitle displayed in the generate CTA
+    public let generateSubtitle: String
+
+    /// Button text for the generate action
+    public let generateButtonText: String
+
+    /// SF Symbol icon for the generate button
+    public let generateButtonIcon: String
+
     // MARK: - Initialization
 
-    /// Creates a new AI recommender configuration
-    /// - Parameters:
-    ///   - title: Title displayed in the header
-    ///   - subtitle: Subtitle displayed below the title
-    ///   - headerIcon: SF Symbol icon for the hero section
-    ///   - animateHeaderIcon: Whether to animate the header icon
-    ///   - accentColor: Primary accent color
-    ///   - backgroundStyle: Background style for liquid glass effect
-    ///   - cornerRadius: Corner radius for containers
-    ///   - shadow: Shadow configuration
-    ///   - categoryAnimation: Animation for category selection
-    ///   - showCategoryIcons: Whether to show icons in category pills
-    ///   - showRankBadges: Whether to show rank badges
-    ///   - showAIReason: Whether to show AI reason text
-    ///   - showRating: Whether to show rating
-    ///   - itemCornerRadius: Corner radius for item cards
-    ///   - ratingColor: Color for rating display
-    ///   - showTags: Whether to show subtitle tags
-    ///   - showLocation: Whether to show location row
-    ///   - showHighlightDetail: Whether to show highlight detail row
-    ///   - showGlowEffect: Whether to show the animated AI glow border
-    ///   - glowIntensity: Intensity level for the glow effect
-    ///   - showSparkles: Whether to show sparkle particles
-    ///   - useCardStack: Whether to use swipeable card stack layout
-    ///   - cardStackDepth: Number of visible background cards
-    ///   - swipeThreshold: Fraction of width to trigger navigation
-    ///   - maxSwipeRotation: Max rotation during drag (degrees)
-    ///   - peekFraction: Fraction of width for centered card
-    ///   - adjacentCardScale: Scale for non-centered cards
-    ///   - adjacentCardOpacity: Opacity for non-centered cards
-    ///   - cardSpacing: Spacing between cards in carousel
-    ///   - showCardIndicator: Whether to show position indicator
-    ///   - bookmarkIcon: SF Symbol for inactive bookmark
-    ///   - bookmarkActiveIcon: SF Symbol for active bookmark
-    ///   - allViewedText: Text when all cards have been viewed
-    ///   - defaultMode: Default mode when using dual mode
-    ///   - questionnaireSubmitText: Text for the questionnaire submit button
-    ///   - showQuestionnaireProgress: Whether to show progress dots in questionnaire
-    ///   - categoryToContentSpacing: Spacing between category picker and content
-    ///   - emptyStateTitle: Title for the empty state
-    ///   - emptyStateSubtitle: Subtitle for the empty state
-    ///   - emptyStateIcon: SF Symbol icon for the empty state
-    ///   - emptyStateActionText: Optional action button text for the empty state
-    ///   - questionnaireRetakeText: Text for the retake questionnaire button
+    // swiftlint:disable function_body_length
+    /// Creates a new AI recommender configuration with all customization options.
+    /// All parameters have sensible defaults — use `.default` for the standard preset.
     public init(title: String = "Recomendador IA",
                 subtitle: String = "Descubre lugares personalizados según tus gustos",
                 headerIcon: String = "sparkles",
                 animateHeaderIcon: Bool = true,
+                headerIconCircleSize: CGFloat = 100,
+                headerTopPadding: CGFloat = 0,
+                headerIconFont: Font = .title2,
                 accentColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
                 backgroundStyle: ARCBackgroundStyle = .material(.ultraThinMaterial),
                 cornerRadius: CGFloat = .arcCornerRadiusMedium,
@@ -256,7 +250,7 @@ import SwiftUI
                 showLocation: Bool = true,
                 showHighlightDetail: Bool = true,
                 showGlowEffect: Bool = true,
-                glowIntensity: AIGlowIntensity = .subtle,
+                glowIntensity: AIGlowIntensity = .standard,
                 showSparkles: Bool = true,
                 useCardStack: Bool = true,
                 cardStackDepth: Int = 3,
@@ -274,17 +268,28 @@ import SwiftUI
                 defaultMode: AIRecommenderMode = .quick,
                 questionnaireSubmitText: String = "Obtener recomendaciones",
                 showQuestionnaireProgress: Bool = true,
-                categoryToContentSpacing: CGFloat = .arcSpacingXLarge,
+                headerToModeSwitcherSpacing: CGFloat = .arcSpacingLarge,
+                modeSwitcherToContentSpacing: CGFloat = .arcSpacingMedium,
+                progressToQuestionsSpacing: CGFloat = .arcSpacingMedium,
+                categoryToContentSpacing: CGFloat = .arcSpacingMedium,
                 emptyStateTitle: String = "Sin recomendaciones",
                 emptyStateSubtitle: String = "Explora otras categorías para descubrir nuevas sugerencias",
                 emptyStateIcon: String = "sparkles",
                 emptyStateActionText: String? = nil,
-                questionnaireRetakeText: String = "Repetir cuestionario")
+                questionnaireRetakeText: String = "Repetir cuestionario",
+                generateTitle: String = "Genera tus recomendaciones",
+                generateSubtitle: String = "Selecciona una categoría y pulsa para descubrir"
+                    + " sugerencias personalizadas con IA",
+                generateButtonText: String = "Generar recomendaciones",
+                generateButtonIcon: String = "sparkles")
     {
         self.title = title
         self.subtitle = subtitle
         self.headerIcon = headerIcon
         self.animateHeaderIcon = animateHeaderIcon
+        self.headerIconCircleSize = headerIconCircleSize
+        self.headerTopPadding = headerTopPadding
+        self.headerIconFont = headerIconFont
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
         self.cornerRadius = cornerRadius
@@ -318,13 +323,22 @@ import SwiftUI
         self.defaultMode = defaultMode
         self.questionnaireSubmitText = questionnaireSubmitText
         self.showQuestionnaireProgress = showQuestionnaireProgress
+        self.headerToModeSwitcherSpacing = headerToModeSwitcherSpacing
+        self.modeSwitcherToContentSpacing = modeSwitcherToContentSpacing
+        self.progressToQuestionsSpacing = progressToQuestionsSpacing
         self.categoryToContentSpacing = categoryToContentSpacing
         self.emptyStateTitle = emptyStateTitle
         self.emptyStateSubtitle = emptyStateSubtitle
         self.emptyStateIcon = emptyStateIcon
         self.emptyStateActionText = emptyStateActionText
         self.questionnaireRetakeText = questionnaireRetakeText
+        self.generateTitle = generateTitle
+        self.generateSubtitle = generateSubtitle
+        self.generateButtonText = generateButtonText
+        self.generateButtonIcon = generateButtonIcon
     }
+
+    // swiftlint:enable function_body_length
 
     // MARK: - Presets
 
