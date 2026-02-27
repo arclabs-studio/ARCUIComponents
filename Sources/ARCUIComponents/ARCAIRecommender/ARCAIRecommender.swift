@@ -282,32 +282,26 @@ import SwiftUI
 
     // MARK: - Questionnaire Results Content
 
-    private var questionnaireResultsContent: some View {
-        ScrollView {
+    @ViewBuilder private var questionnaireResultsContent: some View {
+        if configuration.useCardStack {
+            // Card stack uses GeometryReader — must NOT be inside ScrollView
             VStack(spacing: 0) {
-                if let retake = onQuestionnaireRetake {
-                    Button(action: retake) {
-                        Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
-                            .font(.title3.weight(.semibold))
-                            .foregroundStyle(.white)
-                            .frame(width: 52, height: 52)
-                            .background(Circle()
-                                .fill(.ultraThinMaterial)
-                                .overlay(Circle()
-                                    .strokeBorder(.white.opacity(0.2), lineWidth: 1)))
-                            .clipShape(Circle())
-                    }
-                    .padding(.vertical, .arcSpacingSmall)
-                    .accessibilityLabel(configuration.questionnaireRetakeText)
-                }
+                questionnaireRetakeButton
 
-                if configuration.useCardStack {
-                    AIRecommenderCardStack(items: questionnaireItems,
-                                           bookmarkedItemIDs: bookmarkedItemIDs,
-                                           configuration: configuration,
-                                           onItemSelected: onItemSelected,
-                                           onItemBookmarked: onItemBookmarked)
-                } else {
+                AIRecommenderCardStack(items: questionnaireItems,
+                                       bookmarkedItemIDs: bookmarkedItemIDs,
+                                       configuration: configuration,
+                                       onItemSelected: onItemSelected,
+                                       onItemBookmarked: onItemBookmarked)
+                    .frame(maxHeight: .infinity)
+            }
+            .padding(.vertical, .arcSpacingMedium)
+        } else {
+            // List layout needs vertical scrolling
+            ScrollView {
+                VStack(spacing: 0) {
+                    questionnaireRetakeButton
+
                     LazyVStack(spacing: .arcSpacingMedium) {
                         ForEach(Array(questionnaireItems.enumerated()), id: \.element.id) { index, item in
                             AIRecommenderItemCard(item: item,
@@ -320,8 +314,26 @@ import SwiftUI
                     }
                     .padding(.horizontal, .arcSpacingLarge)
                 }
+                .padding(.vertical, .arcSpacingMedium)
             }
-            .padding(.vertical, .arcSpacingMedium)
+        }
+    }
+
+    @ViewBuilder private var questionnaireRetakeButton: some View {
+        if let retake = onQuestionnaireRetake {
+            Button(action: retake) {
+                Image(systemName: "arrow.trianglehead.2.clockwise.rotate.90")
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .frame(width: 52, height: 52)
+                    .background(Circle()
+                        .fill(.ultraThinMaterial)
+                        .overlay(Circle()
+                            .strokeBorder(.white.opacity(0.2), lineWidth: 1)))
+                    .clipShape(Circle())
+            }
+            .padding(.vertical, .arcSpacingSmall)
+            .accessibilityLabel(configuration.questionnaireRetakeText)
         }
     }
 
