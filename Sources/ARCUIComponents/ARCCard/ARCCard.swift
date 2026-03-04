@@ -129,8 +129,7 @@ import SwiftUI
                 badges: [Badge] = [],
                 configuration: ARCCardConfiguration = .default,
                 @ViewBuilder image: () -> ImageContent,
-                @ViewBuilder footer: () -> FooterContent)
-    {
+                @ViewBuilder footer: () -> FooterContent) {
         self.title = title
         self.subtitle = subtitle
         self.secondarySubtitle = secondarySubtitle
@@ -288,8 +287,7 @@ import SwiftUI
                 secondarySubtitleIcon: String? = nil,
                 badges: [Badge] = [],
                 configuration: ARCCardConfiguration = .default,
-                @ViewBuilder image: () -> ImageContent)
-    {
+                @ViewBuilder image: () -> ImageContent) {
         self.title = title
         self.subtitle = subtitle
         self.secondarySubtitle = secondarySubtitle
@@ -324,8 +322,7 @@ import SwiftUI
         ///   - style: Visual style
         public init(text: String,
                     position: BadgePosition,
-                    style: BadgeStyle = .material)
-        {
+                    style: BadgeStyle = .material) {
             self.text = text
             self.position = position
             self.style = style
@@ -366,8 +363,7 @@ import SwiftUI
             subtitle: "Italian Cuisine",
             secondarySubtitle: "Downtown Area",
             subtitleIcon: "fork.knife",
-            secondarySubtitleIcon: "location.fill")
-    {
+            secondarySubtitleIcon: "location.fill") {
         LinearGradient(colors: [.orange.opacity(0.3), .red.opacity(0.2)],
                        startPoint: .topLeading,
                        endPoint: .bottomTrailing)
@@ -395,8 +391,7 @@ import SwiftUI
             subtitle: "Author Name",
             subtitleIcon: "person.fill",
             badges: [.init(text: "$12.99", position: .topTrailing, style: .material),
-                     .init(text: "NEW", position: .topLeading, style: .solid(.blue))])
-    {
+                     .init(text: "NEW", position: .topLeading, style: .solid(.blue))]) {
         LinearGradient(colors: [.blue.opacity(0.3), .purple.opacity(0.2)],
                        startPoint: .topLeading,
                        endPoint: .bottomTrailing)
@@ -420,13 +415,11 @@ import SwiftUI
                  ("Taco Shop", "Mexican", "leaf.fill", Color.green)]
 
     LazyVGrid(columns: [GridItem(.flexible()),
-                        GridItem(.flexible())], spacing: .arcSpacingLarge)
-    {
+                        GridItem(.flexible())], spacing: .arcSpacingLarge) {
         ForEach(items, id: \.0) { item in
             ARCCard(title: item.0,
                     subtitle: item.1,
-                    subtitleIcon: item.2)
-            {
+                    subtitleIcon: item.2) {
                 item.3.opacity(0.2)
                     .frame(height: 100)
                     .overlay {
@@ -447,8 +440,7 @@ import SwiftUI
         print("Card tapped")
     } label: {
         ARCCard(title: "Tap Me",
-                subtitle: "Interactive card with press effect")
-        {
+                subtitle: "Interactive card with press effect") {
             Color.blue.opacity(0.2)
                 .frame(height: 120)
                 .overlay {
@@ -467,8 +459,7 @@ import SwiftUI
     ARCCard(title: "Dark Mode Card",
             subtitle: "Looks great in dark",
             subtitleIcon: "moon.fill",
-            badges: [.init(text: "DARK", position: .topTrailing, style: .material)])
-    {
+            badges: [.init(text: "DARK", position: .topTrailing, style: .material)]) {
         Color.indigo.opacity(0.3)
             .frame(height: 120)
             .overlay {
@@ -492,8 +483,7 @@ import SwiftUI
 
         ARCCard(title: "Default Config",
                 subtitle: "Standard spacing",
-                configuration: .default)
-        {
+                configuration: .default) {
             Color.green.opacity(0.2).frame(height: 80)
         }
         .frame(width: 180)
@@ -504,8 +494,7 @@ import SwiftUI
 
         ARCCard(title: "Compact Config",
                 subtitle: "Smaller spacing",
-                configuration: .compact)
-        {
+                configuration: .compact) {
             Color.blue.opacity(0.2).frame(height: 80)
         }
         .frame(width: 180)
@@ -516,8 +505,7 @@ import SwiftUI
 
         ARCCard(title: "Prominent Config",
                 subtitle: "Larger radius & shadow",
-                configuration: .prominent)
-        {
+                configuration: .prominent) {
             Color.purple.opacity(0.2).frame(height: 80)
         }
         .frame(width: 180)

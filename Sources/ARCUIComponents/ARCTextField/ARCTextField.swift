@@ -63,8 +63,7 @@ import UIKit
     public init(_ placeholder: String,
                 text: Binding<String>,
                 configuration: ARCTextFieldConfiguration = .default,
-                onSubmit: (() -> Void)? = nil)
-    {
+                onSubmit: (() -> Void)? = nil) {
         self.placeholder = placeholder
         _text = text
         self.configuration = configuration

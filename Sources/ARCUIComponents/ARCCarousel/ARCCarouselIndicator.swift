@@ -43,8 +43,7 @@ import SwiftUI
          currentIndex: Int,
          style: ARCCarouselConfiguration.IndicatorStyle,
          maxVisibleDots: Int = 7,
-         accentColor: Color = .primary)
-    {
+         accentColor: Color = .primary) {
         self.totalItems = totalItems
         self.currentIndex = currentIndex
         self.style = style

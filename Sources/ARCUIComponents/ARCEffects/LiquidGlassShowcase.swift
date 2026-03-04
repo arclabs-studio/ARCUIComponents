@@ -150,8 +150,7 @@ import SwiftUI
                           subtitle: "Different accent colors")
 
             LazyVGrid(columns: [GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: .arcSpacingLarge)
-            {
+                                GridItem(.flexible())], spacing: .arcSpacingLarge) {
                 ForEach(ColorVariation.allCases, id: \.self) { variation in
                     SmallExampleCard(configuration: LiquidGlassConfiguration(accentColor: variation.color,
                                                                              backgroundStyle: .liquidGlass,

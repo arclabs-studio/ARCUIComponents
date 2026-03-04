@@ -103,8 +103,7 @@ import SwiftUI
     ///   - rating: The rating value to display
     ///   - configuration: Visual configuration (default: `.circularGauge`)
     public init(rating: Double,
-                configuration: ARCRatingViewConfiguration = .circularGauge)
-    {
+                configuration: ARCRatingViewConfiguration = .circularGauge) {
         self.rating = rating
         self.configuration = configuration
     }
@@ -119,8 +118,7 @@ import SwiftUI
     public init(rating: Double,
                 style: ARCRatingStyle = .circularGauge,
                 maxRating: Double = 10.0,
-                animated: Bool = true)
-    {
+                animated: Bool = true) {
         self.rating = rating
         configuration = ARCRatingViewConfiguration(style: style,
                                                    maxRating: maxRating,
@@ -294,8 +292,7 @@ import SwiftUI
 #Preview("Circular Gauge - All Ratings") {
     LazyVGrid(columns: [GridItem(.flexible()),
                         GridItem(.flexible()),
-                        GridItem(.flexible())], spacing: .arcSpacingLarge)
-    {
+                        GridItem(.flexible())], spacing: .arcSpacingLarge) {
         ForEach([2.0, 4.0, 5.5, 7.0, 8.5, 10.0], id: \.self) { rating in
             ARCRatingView(rating: rating)
         }

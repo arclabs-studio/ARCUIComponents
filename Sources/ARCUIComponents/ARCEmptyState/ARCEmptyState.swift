@@ -62,8 +62,7 @@ import SwiftUI
     ///   - configuration: Visual and content configuration
     ///   - action: Action when the button is tapped (requires `showsAction: true`)
     public init(configuration: ARCEmptyStateConfiguration,
-                action: (() -> Void)? = nil)
-    {
+                action: (() -> Void)? = nil) {
         self.configuration = configuration
         self.action = action
     }
@@ -86,8 +85,7 @@ import SwiftUI
                 actionTitle: String = "Get Started",
                 showsAction: Bool = false,
                 accentColor: Color = .blue,
-                action: (() -> Void)? = nil)
-    {
+                action: (() -> Void)? = nil) {
         configuration = ARCEmptyStateConfiguration(icon: icon,
                                                    iconColor: iconColor,
                                                    title: title,

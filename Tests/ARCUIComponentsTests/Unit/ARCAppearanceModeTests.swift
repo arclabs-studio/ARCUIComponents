@@ -9,7 +9,8 @@ import SwiftUI
 import Testing
 @testable import ARCUIComponents
 
-@Suite("ARCAppearanceMode Tests") struct ARCAppearanceModeTests {
+@Suite("ARCAppearanceMode Tests")
+struct ARCAppearanceModeTests {
     // MARK: - Cases
 
     @Test("All cases exist") func allCasesExist() {

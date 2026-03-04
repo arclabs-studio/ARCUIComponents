@@ -114,8 +114,7 @@ import SwiftUI
                 spacing: CGFloat = .arcSpacingLarge,
                 backgroundStyle: ARCBackgroundStyle = .translucent,
                 cornerRadius: CGFloat = .arcCornerRadiusLarge,
-                shadow: ARCShadow = .subtle)
-    {
+                shadow: ARCShadow = .subtle) {
         self.icon = icon
         self.iconColor = iconColor
         self.title = title

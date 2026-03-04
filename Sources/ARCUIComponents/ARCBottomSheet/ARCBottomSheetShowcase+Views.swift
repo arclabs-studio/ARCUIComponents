@@ -242,8 +242,7 @@ import SwiftUI
 
             ARCBottomSheet(selectedDetent: $currentDetent,
                            detents: [.small, .medium, .large],
-                           configuration: selectedConfig.configuration)
-            {
+                           configuration: selectedConfig.configuration) {
                 sheetContent
             }
             .ignoresSafeArea(.container, edges: .bottom)

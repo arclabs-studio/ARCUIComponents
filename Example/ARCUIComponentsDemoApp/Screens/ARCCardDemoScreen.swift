@@ -51,8 +51,7 @@ extension ARCCardDemoScreen {
 
             HStack(spacing: 16) {
                 ARCCard(title: "Simple Card",
-                        subtitle: "With subtitle")
-                {
+                        subtitle: "With subtitle") {
                     Color.arcBrandBurgundy.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -66,8 +65,7 @@ extension ARCCardDemoScreen {
                         subtitle: "Category",
                         secondarySubtitle: "Location",
                         subtitleIcon: "tag.fill",
-                        secondarySubtitleIcon: "location.fill")
-                {
+                        secondarySubtitleIcon: "location.fill") {
                     Color.arcBrandGold.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -89,8 +87,7 @@ extension ARCCardDemoScreen {
             HStack(spacing: 16) {
                 ARCCard(title: "Material Badge",
                         subtitle: "Blur effect",
-                        badges: [.init(text: "$9.99", position: .topTrailing, style: .material)])
-                {
+                        badges: [.init(text: "$9.99", position: .topTrailing, style: .material)]) {
                     Color.blue.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -102,8 +99,7 @@ extension ARCCardDemoScreen {
 
                 ARCCard(title: "Solid Badge",
                         subtitle: "Color background",
-                        badges: [.init(text: "NEW", position: .topLeading, style: .solid(.arcBrandBurgundy))])
-                {
+                        badges: [.init(text: "NEW", position: .topLeading, style: .solid(.arcBrandBurgundy))]) {
                     Color.green.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -118,8 +114,7 @@ extension ARCCardDemoScreen {
                     subtitle: "Different positions",
                     badges: [.init(text: "SALE", position: .topLeading, style: .solid(.red)),
                              .init(text: "$19.99", position: .topTrailing, style: .material),
-                             .init(text: "Limited", position: .bottomTrailing, style: .solid(.arcBrandGold))])
-            {
+                             .init(text: "Limited", position: .bottomTrailing, style: .solid(.arcBrandGold))]) {
                 Color.purple.opacity(0.2)
                     .frame(height: 120)
                     .overlay {
@@ -140,8 +135,7 @@ extension ARCCardDemoScreen {
             HStack(spacing: 16) {
                 ARCCard(title: "Restaurant",
                         subtitle: "Italian Cuisine",
-                        subtitleIcon: "fork.knife")
-                {
+                        subtitleIcon: "fork.knife") {
                     Color.orange.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -155,8 +149,7 @@ extension ARCCardDemoScreen {
 
                 ARCCard(title: "Book Title",
                         subtitle: "Author Name",
-                        subtitleIcon: "person.fill")
-                {
+                        subtitleIcon: "person.fill") {
                     Color.pink.opacity(0.2)
                         .frame(height: 100)
                         .overlay {
@@ -186,8 +179,7 @@ extension ARCCardDemoScreen {
                     // Action
                 } label: {
                     ARCCard(title: "Subtle Press",
-                            subtitle: "Light feedback")
-                    {
+                            subtitle: "Light feedback") {
                         Color.cyan.opacity(0.2)
                             .frame(height: 80)
                             .overlay {
@@ -203,8 +195,7 @@ extension ARCCardDemoScreen {
                     // Action
                 } label: {
                     ARCCard(title: "Prominent Press",
-                            subtitle: "Strong feedback")
-                    {
+                            subtitle: "Strong feedback") {
                         Color.indigo.opacity(0.2)
                             .frame(height: 80)
                             .overlay {
@@ -229,8 +220,7 @@ extension ARCCardDemoScreen {
                 HStack(spacing: 16) {
                     VStack(spacing: 4) {
                         ARCCard(title: "Default",
-                                configuration: .default)
-                        {
+                                configuration: .default) {
                             Color.gray.opacity(0.2).frame(height: 60)
                         }
                         Text("Default")
@@ -240,8 +230,7 @@ extension ARCCardDemoScreen {
 
                     VStack(spacing: 4) {
                         ARCCard(title: "Compact",
-                                configuration: .compact)
-                        {
+                                configuration: .compact) {
                             Color.gray.opacity(0.2).frame(height: 60)
                         }
                         Text("Compact")
@@ -253,8 +242,7 @@ extension ARCCardDemoScreen {
                 HStack(spacing: 16) {
                     VStack(spacing: 4) {
                         ARCCard(title: "Prominent",
-                                configuration: .prominent)
-                        {
+                                configuration: .prominent) {
                             Color.gray.opacity(0.2).frame(height: 60)
                         }
                         Text("Prominent")
@@ -264,8 +252,7 @@ extension ARCCardDemoScreen {
 
                     VStack(spacing: 4) {
                         ARCCard(title: "Glassmorphic",
-                                configuration: .glassmorphic)
-                        {
+                                configuration: .glassmorphic) {
                             Color.gray.opacity(0.2).frame(height: 60)
                         }
                         Text("Glassmorphic")

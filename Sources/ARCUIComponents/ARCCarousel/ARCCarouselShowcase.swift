@@ -210,8 +210,7 @@ import SwiftUI
 
     private func showcaseSection(title: String,
                                  subtitle: String,
-                                 @ViewBuilder content: () -> some View) -> some View
-    {
+                                 @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionHeader(title: title, subtitle: subtitle)
             content()

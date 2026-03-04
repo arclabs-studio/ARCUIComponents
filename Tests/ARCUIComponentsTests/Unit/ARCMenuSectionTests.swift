@@ -9,7 +9,8 @@ import Testing
 @testable import ARCUIComponents
 
 /// Unit tests for ARCMenuSection
-@Suite("ARCMenuSection Tests") struct ARCMenuSectionTests {
+@Suite("ARCMenuSection Tests")
+struct ARCMenuSectionTests {
     // MARK: - Initialization Tests
 
     @Test("init_withItems_setsItemsCorrectly") func init_withItems_setsItemsCorrectly() {
@@ -74,7 +75,8 @@ import Testing
 
 // MARK: - ARCMenuLayoutStyle Tests
 
-@Suite("ARCMenuLayoutStyle Tests") struct ARCMenuLayoutStyleTests {
+@Suite("ARCMenuLayoutStyle Tests")
+struct ARCMenuLayoutStyleTests {
     @Test("flat_isValidCase") func flat_isValidCase() {
         let style = ARCMenuLayoutStyle.flat
 

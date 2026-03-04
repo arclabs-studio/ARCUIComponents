@@ -46,8 +46,7 @@ public struct ARCMenuItem: Identifiable, Sendable {
                 badge: String? = nil,
                 isDestructive: Bool = false,
                 showsDisclosure: Bool = false,
-                action: @escaping @Sendable () -> Void)
-    {
+                action: @escaping @Sendable () -> Void) {
         self.id = id
         self.title = title
         self.subtitle = subtitle
@@ -257,8 +256,7 @@ extension ARCMenuItem {
                                     onFeedback: @escaping @Sendable () -> Void,
                                     onSubscriptions: @escaping @Sendable () -> Void,
                                     onAbout: @escaping @Sendable () -> Void,
-                                    onLogout: @escaping @Sendable () -> Void) -> [ARCMenuItem]
-    {
+                                    onLogout: @escaping @Sendable () -> Void) -> [ARCMenuItem] {
         defaultItems(actions: ARCMenuActions(onProfile: onProfile,
                                              onSettings: onSettings,
                                              onFeedback: onFeedback,

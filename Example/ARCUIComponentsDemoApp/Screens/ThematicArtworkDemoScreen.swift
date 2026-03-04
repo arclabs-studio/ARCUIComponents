@@ -160,8 +160,7 @@ extension ThematicArtworkDemoScreen {
             VStack(spacing: 16) {
                 useCaseCard(title: "Loading State",
                             description: "Use as a themed loading indicator",
-                            icon: "hourglass")
-                {
+                            icon: "hourglass") {
                     HStack(spacing: 16) {
                         ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
                             ARCThemedLoaderView(type: artwork, size: 40)
@@ -171,8 +170,7 @@ extension ThematicArtworkDemoScreen {
 
                 useCaseCard(title: "Placeholder",
                             description: "Use as image placeholder while content loads",
-                            icon: "photo")
-                {
+                            icon: "photo") {
                     HStack(spacing: 12) {
                         ForEach(ExampleArtwork.allCases, id: \.self) { artwork in
                             ARCThemedArtworkView(type: artwork)
@@ -183,8 +181,7 @@ extension ThematicArtworkDemoScreen {
 
                 useCaseCard(title: "Empty State",
                             description: "Use to illustrate empty categories",
-                            icon: "tray")
-                {
+                            icon: "tray") {
                     VStack(spacing: 8) {
                         ARCThemedArtworkView(type: ExampleArtwork.circles)
                             .frame(width: 80, height: 80)
@@ -230,8 +227,7 @@ extension ThematicArtworkDemoScreen {
     private func useCaseCard(title: String,
                              description: String,
                              icon: String,
-                             @ViewBuilder content: () -> some View) -> some View
-    {
+                             @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 8) {
                 Image(systemName: icon)

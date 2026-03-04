@@ -15,7 +15,8 @@ import Testing
 /// `applyWrapAroundClamping` function detects these jumps and clamps
 /// to the nearest boundary instead.
 @Suite("ARCRatingInputView Wrap-Around Tests")
-@MainActor struct ARCRatingInputWrapAroundTests {
+@MainActor
+struct ARCRatingInputWrapAroundTests {
     // MARK: - Constants
 
     private let minRating: Double = 1.0
@@ -24,8 +25,7 @@ import Testing
     // MARK: - SUT
 
     private func makeSUT(newRating: Double,
-                         currentRating: Double) -> Double
-    {
+                         currentRating: Double) -> Double {
         ARCRatingInputView.applyWrapAroundClamping(newRating: newRating,
                                                    currentRating: currentRating,
                                                    minRating: minRating,

@@ -132,8 +132,7 @@ import SwiftUI
                 highlightColor: Color = Color.gray.opacity(0.1),
                 animationDuration: Double = 1.5,
                 animationDelay: Double = 0,
-                shimmerEnabled: Bool = true)
-    {
+                shimmerEnabled: Bool = true) {
         self.shape = shape
         self.size = size
         self.baseColor = baseColor

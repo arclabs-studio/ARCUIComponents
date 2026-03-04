@@ -64,8 +64,7 @@ public struct ArtworkTheme: Sendable {
                 secondaryColor: Color,
                 accentColors: [Color] = [],
                 backgroundColor: Color = .black,
-                shadowColor: Color = Color.black.opacity(0.2))
-    {
+                shadowColor: Color = Color.black.opacity(0.2)) {
         self.primaryColor = primaryColor
         self.secondaryColor = secondaryColor
         self.accentColors = accentColors

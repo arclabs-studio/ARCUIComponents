@@ -90,8 +90,7 @@ import SwiftUI
                 titleLines: Int = 1,
                 subtitleLines: Int = 1,
                 showFooter: Bool = true,
-                configuration: ARCCardConfiguration = .default)
-    {
+                configuration: ARCCardConfiguration = .default) {
         self.showImage = showImage
         self.imageHeight = imageHeight
         self.titleLines = max(1, titleLines)
@@ -292,8 +291,7 @@ import SwiftUI
 
 #Preview("Grid Layout") {
     LazyVGrid(columns: [GridItem(.flexible()),
-                        GridItem(.flexible())], spacing: .arcSpacingLarge)
-    {
+                        GridItem(.flexible())], spacing: .arcSpacingLarge) {
         ForEach(0 ..< 4, id: \.self) { _ in
             ARCSkeletonCard(imageHeight: 100)
         }
@@ -337,8 +335,7 @@ import SwiftUI
                 } else {
                     ARCCard(title: "Restaurant Name",
                             subtitle: "Italian Cuisine",
-                            subtitleIcon: "fork.knife")
-                    {
+                            subtitleIcon: "fork.knife") {
                         LinearGradient(colors: [.orange.opacity(0.3), .red.opacity(0.2)],
                                        startPoint: .topLeading,
                                        endPoint: .bottomTrailing)

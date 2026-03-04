@@ -160,8 +160,7 @@ import SwiftUI
                 accentColor: Color = .blue,
                 backgroundStyle: ARCBackgroundStyle = .material(.regularMaterial),
                 cornerRadius: CGFloat = .arcCornerRadiusSmall,
-                shadow: ARCShadow = .default)
-    {
+                shadow: ARCShadow = .default) {
         self.position = position
         self.duration = duration
         self.showIcon = showIcon

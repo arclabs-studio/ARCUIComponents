@@ -68,8 +68,7 @@ import SwiftUI
     public func arcBadge(count: Int,
                          configuration: ARCBadgeConfiguration = .default,
                          alignment: Alignment = .topTrailing,
-                         offset: CGPoint = CGPoint(x: 8, y: -8)) -> some View
-    {
+                         offset: CGPoint = CGPoint(x: 8, y: -8)) -> some View {
         modifier(BadgeModifier(content: .count(count),
                                configuration: configuration,
                                alignment: alignment,
@@ -96,8 +95,7 @@ import SwiftUI
     public func arcBadge(text: String,
                          configuration: ARCBadgeConfiguration = .default,
                          alignment: Alignment = .topTrailing,
-                         offset: CGPoint = CGPoint(x: 12, y: -8)) -> some View
-    {
+                         offset: CGPoint = CGPoint(x: 12, y: -8)) -> some View {
         modifier(BadgeModifier(content: .text(text),
                                configuration: configuration,
                                alignment: alignment,
@@ -122,8 +120,7 @@ import SwiftUI
     /// ```
     public func arcBadgeDot(configuration: ARCBadgeConfiguration = .dot,
                             alignment: Alignment = .topTrailing,
-                            offset: CGPoint = CGPoint(x: 4, y: -4)) -> some View
-    {
+                            offset: CGPoint = CGPoint(x: 4, y: -4)) -> some View {
         modifier(BadgeModifier(content: .dot,
                                configuration: configuration,
                                alignment: alignment,

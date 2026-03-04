@@ -75,7 +75,8 @@ import SwiftUI
 /// ```
 @available(iOS 17.0, macOS 14.0, *)
 @Observable
-@MainActor public final class ARCToastManager {
+@MainActor
+public final class ARCToastManager {
     // MARK: - Singleton
 
     /// Shared instance for global toast management
@@ -116,8 +117,7 @@ import SwiftUI
     public func show(_ message: String,
                      type: ARCToastType = .info,
                      action: ARCToastAction? = nil,
-                     configuration: ARCToastConfiguration = .default)
-    {
+                     configuration: ARCToastConfiguration = .default) {
         let item = ToastItem(message: message,
                              type: type,
                              action: action,

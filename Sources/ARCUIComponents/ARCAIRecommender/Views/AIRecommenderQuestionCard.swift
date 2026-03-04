@@ -94,8 +94,7 @@ import SwiftUI
             ForEach(question.options) { option in
                 OptionChip(option: option,
                            isSelected: answers.isSelected(option.id, for: question.id),
-                           configuration: configuration)
-                {
+                           configuration: configuration) {
                     arcWithAnimation(configuration.categoryAnimation) {
                         if answers.isSelected(option.id, for: question.id) {
                             answers.clearSelections(for: question.id)
@@ -115,8 +114,7 @@ import SwiftUI
             ForEach(question.options) { option in
                 OptionChip(option: option,
                            isSelected: answers.isSelected(option.id, for: question.id),
-                           configuration: configuration)
-                {
+                           configuration: configuration) {
                     arcWithAnimation(configuration.categoryAnimation) {
                         answers.toggleSelection(option.id, for: question.id)
                     }
@@ -164,8 +162,7 @@ import SwiftUI
 
             // Middle option label if exists
             if question.options.count > 2,
-               let middle = question.options[safe: question.options.count / 2]
-            {
+               let middle = question.options[safe: question.options.count / 2] {
                 Text(middle.label)
                     .font(.caption)
                     .foregroundStyle((sliderValue >= 0.33 && sliderValue <= 0.66)
@@ -238,8 +235,7 @@ import SwiftUI
     }
 
     private func arrangeSubviews(proposal: ProposedViewSize,
-                                 subviews: Subviews) -> (size: CGSize, placements: [ViewPlacement])
-    {
+                                 subviews: Subviews) -> (size: CGSize, placements: [ViewPlacement]) {
         let maxWidth = proposal.width ?? .infinity
         var placements: [ViewPlacement] = []
         var currentX: CGFloat = 0

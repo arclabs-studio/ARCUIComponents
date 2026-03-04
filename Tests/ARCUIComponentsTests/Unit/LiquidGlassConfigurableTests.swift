@@ -16,7 +16,8 @@ import Testing
 ///
 /// Note: ARCMenuConfiguration no longer conforms to LiquidGlassConfigurable
 /// as it uses native SwiftUI Material backgrounds.
-@Suite("LiquidGlassConfigurable Protocol Tests") struct LiquidGlassConfigurableTests {
+@Suite("LiquidGlassConfigurable Protocol Tests")
+struct LiquidGlassConfigurableTests {
     // MARK: - ARCListCardConfiguration Conformance Tests
 
     @Test("ARCListCardConfiguration_conformsToProtocol_hasAllRequiredProperties")
@@ -152,7 +153,8 @@ import Testing
 
 // MARK: - Background Style Combination Tests
 
-@Suite("LiquidGlass Background Style Tests") struct LiquidGlassBackgroundStyleTests {
+@Suite("LiquidGlass Background Style Tests")
+struct LiquidGlassBackgroundStyleTests {
     @Test("liquidGlass_canBeUsedInListCardConfiguration") func liquidGlass_canBeUsedInListCardConfiguration() {
         let config = ARCListCardConfiguration(backgroundStyle: .liquidGlass)
 

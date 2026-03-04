@@ -63,8 +63,7 @@ public struct ARCMenuSection: Identifiable, Sendable {
     public init(id: UUID = UUID(),
                 title: String? = nil,
                 footer: String? = nil,
-                items: [ARCMenuItem])
-    {
+                items: [ARCMenuItem]) {
         self.id = id
         self.title = title
         self.footer = footer

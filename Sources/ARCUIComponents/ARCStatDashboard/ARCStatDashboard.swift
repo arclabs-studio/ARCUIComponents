@@ -42,8 +42,7 @@ import SwiftUI
     ///   - configuration: Layout configuration (default: .default)
     ///   - content: Dashboard sections
     public init(configuration: ARCStatDashboardConfiguration = .default,
-                @ViewBuilder content: () -> Content)
-    {
+                @ViewBuilder content: () -> Content) {
         self.configuration = configuration
         self.content = content()
     }
@@ -90,8 +89,7 @@ import SwiftUI
     ///   - dividerPadding: Horizontal padding for the divider (default: arcSpacingLarge)
     ///   - content: Section content
     public init(dividerPadding: CGFloat = .arcSpacingLarge,
-                @ViewBuilder content: () -> Content)
-    {
+                @ViewBuilder content: () -> Content) {
         self.dividerPadding = dividerPadding
         self.content = content()
     }

@@ -13,7 +13,8 @@ import Testing
 ///
 /// Validates that the shared color mapping, gradient mapping, and
 /// formatting logic works correctly at all boundary thresholds.
-@Suite("ARCRatingColorMapper Tests") struct ARCRatingColorMapperTests {
+@Suite("ARCRatingColorMapper Tests")
+struct ARCRatingColorMapperTests {
     // MARK: - Color Tests
 
     @Test("color_forLowRating_returnsRed") func color_forLowRating_returnsRed() {

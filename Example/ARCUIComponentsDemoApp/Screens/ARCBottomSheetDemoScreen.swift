@@ -153,8 +153,7 @@ import SwiftUI
                            description: String,
                            icon: String,
                            color: Color,
-                           preset: ConfigPreset) -> some View
-    {
+                           preset: ConfigPreset) -> some View {
         Button {
             selectedConfig = preset
             currentDetent = .medium
@@ -220,8 +219,7 @@ import SwiftUI
 
     private func detentRow(title: String,
                            description: String,
-                           detent: ARCBottomSheetDetent) -> some View
-    {
+                           detent: ARCBottomSheetDetent) -> some View {
         Button {
             selectedConfig = .default
             currentDetent = detent
@@ -428,8 +426,7 @@ import SwiftUI
         }
         .arcPersistentSheet(selectedDetent: $currentDetent,
                             detents: [.small, .medium, .large],
-                            configuration: .drawer)
-        {
+                            configuration: .drawer) {
             VStack(alignment: .leading, spacing: 16) {
                 // Search bar
                 HStack {
@@ -465,8 +462,8 @@ import SwiftUI
             .padding()
         }
         .onAppear {
-                currentDetent = .small
-            }
+            currentDetent = .small
+        }
     }
 
     // MARK: - Helpers

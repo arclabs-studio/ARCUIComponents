@@ -11,7 +11,8 @@ import Testing
 /// Unit tests for ARCRatingInputConfiguration
 ///
 /// Tests cover presets and custom initialization.
-@Suite("ARCRatingInputConfiguration Tests") struct ARCRatingInputConfigurationTests {
+@Suite("ARCRatingInputConfiguration Tests")
+struct ARCRatingInputConfigurationTests {
     // MARK: - Preset Tests: Slider
 
     @Test("slider_hasSliderStyle") func slider_hasSliderStyle() {
@@ -119,7 +120,8 @@ import Testing
 
 // MARK: - ARCRatingInputStyle Tests
 
-@Suite("ARCRatingInputStyle Tests") struct ARCRatingInputStyleTests {
+@Suite("ARCRatingInputStyle Tests")
+struct ARCRatingInputStyleTests {
     @Test("allCases_containsSlider") func allCases_containsSlider() {
         #expect(ARCRatingInputStyle.allCases.contains(.slider))
     }

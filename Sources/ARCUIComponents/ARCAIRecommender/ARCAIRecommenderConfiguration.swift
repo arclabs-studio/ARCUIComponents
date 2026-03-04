@@ -281,8 +281,7 @@ import SwiftUI
                 generateSubtitle: String = "Selecciona una categoría y pulsa para descubrir"
                     + " sugerencias personalizadas con IA",
                 generateButtonText: String = "Generar recomendaciones",
-                generateButtonIcon: String = "sparkles")
-    {
+                generateButtonIcon: String = "sparkles") {
         self.title = title
         self.subtitle = subtitle
         self.headerIcon = headerIcon

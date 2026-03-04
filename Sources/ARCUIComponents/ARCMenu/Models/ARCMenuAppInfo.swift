@@ -70,8 +70,7 @@ public struct ARCMenuAppInfo: Sendable {
                 feedbackEmail: String,
                 privacyURL: URL? = nil,
                 termsURL: URL? = nil,
-                studioName: String = "ARC Labs Studio")
-    {
+                studioName: String = "ARC Labs Studio") {
         self.appName = appName
         self.appIcon = appIcon
         self.appSubtitle = appSubtitle

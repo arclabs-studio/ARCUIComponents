@@ -24,7 +24,8 @@ private struct MockCardItem: AIRecommenderItem {
 
 // MARK: - Configuration Tests
 
-@Suite("ARCAIRecommenderConfiguration Card Stack Tests") struct ARCAIRecommenderCardStackConfigurationTests {
+@Suite("ARCAIRecommenderConfiguration Card Stack Tests")
+struct ARCAIRecommenderCardStackConfigurationTests {
     @Test("default_preset_enablesCardStack") func default_preset_enablesCardStack() {
         let config = ARCAIRecommenderConfiguration.default
 
@@ -197,7 +198,8 @@ private struct MockCardItem: AIRecommenderItem {
 
 // MARK: - Protocol Extension Tests
 
-@Suite("AIRecommenderItem Protocol Extension Tests") struct AIRecommenderItemProtocolTests {
+@Suite("AIRecommenderItem Protocol Extension Tests")
+struct AIRecommenderItemProtocolTests {
     @Test("defaultImplementation_location_returnsNil") func defaultImplementation_location_returnsNil() {
         struct MinimalItem: AIRecommenderItem {
             let id: UUID
@@ -240,7 +242,8 @@ private struct MockCardItem: AIRecommenderItem {
 
 // MARK: - Image Source Hero View Tests
 
-@Suite("AIRecommenderImageSource Hero View Tests") struct AIRecommenderImageSourceHeroTests {
+@Suite("AIRecommenderImageSource Hero View Tests")
+struct AIRecommenderImageSourceHeroTests {
     @Test("system_imageSource_createsHeroView") func system_imageSource_createsHeroView() {
         let source = AIRecommenderImageSource.system("fork.knife", color: .orange)
 

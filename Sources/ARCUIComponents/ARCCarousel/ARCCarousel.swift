@@ -98,8 +98,7 @@ where Data.Element: Identifiable {
     public init(_ data: Data,
                 currentIndex: Binding<Int> = .constant(0),
                 configuration: ARCCarouselConfiguration = .default,
-                @ViewBuilder content: @escaping (Data.Element) -> Content)
-    {
+                @ViewBuilder content: @escaping (Data.Element) -> Content) {
         self.data = data
         _currentIndex = currentIndex
         self.configuration = configuration
@@ -314,8 +313,7 @@ where Data.Element: Identifiable {
         stopAutoScroll()
 
         autoScrollTimer = Timer.scheduledTimer(withTimeInterval: configuration.autoScrollInterval,
-                                               repeats: true)
-        { [self] _ in
+                                               repeats: true) { [self] _ in
             Task { @MainActor in
                 guard !isDragging else { return }
 

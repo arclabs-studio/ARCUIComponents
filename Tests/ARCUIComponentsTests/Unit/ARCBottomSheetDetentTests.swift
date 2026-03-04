@@ -12,7 +12,8 @@ import Testing
 ///
 /// Tests height calculations, accessibility descriptions,
 /// Comparable ordering, and Identifiable conformance.
-@Suite("ARCBottomSheetDetent Tests") struct ARCBottomSheetDetentTests {
+@Suite("ARCBottomSheetDetent Tests")
+struct ARCBottomSheetDetentTests {
     // MARK: - Constants
 
     private let containerHeight: CGFloat = 1000

@@ -88,8 +88,7 @@ import SwiftUI
     public init(color: Color,
                 radius: CGFloat,
                 x: CGFloat,
-                y: CGFloat)
-    {
+                y: CGFloat) {
         self.color = color
         self.radius = radius
         self.x = x

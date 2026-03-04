@@ -124,8 +124,7 @@ import SwiftUI
                 percentageFont: Font = .caption,
                 animated: Bool = true,
                 animationDuration: Double = 0.3,
-                shadow: ARCShadow = .none)
-    {
+                shadow: ARCShadow = .none) {
         self.style = style
         self.height = height
         self.trackColor = trackColor

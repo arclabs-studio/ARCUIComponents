@@ -105,8 +105,7 @@ import SwiftUI
     ///   - progress: Progress value from 0.0 (empty) to 1.0 (complete)
     ///   - configuration: Visual configuration (default: .default)
     public init(progress: Double,
-                configuration: ARCLinearProgressConfiguration = .default)
-    {
+                configuration: ARCLinearProgressConfiguration = .default) {
         self.progress = progress
         self.configuration = configuration
     }
@@ -188,10 +187,9 @@ import SwiftUI
                     return
                 }
                 withAnimation(.linear(duration: 1.5)
-                    .repeatForever(autoreverses: false))
-                {
-                    indeterminateOffset = 1.0
-                }
+                    .repeatForever(autoreverses: false)) {
+                        indeterminateOffset = 1.0
+                    }
             }
     }
 

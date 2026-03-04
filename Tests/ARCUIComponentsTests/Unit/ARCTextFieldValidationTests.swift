@@ -10,14 +10,14 @@ import Testing
 
 // MARK: - Validation Mode Tests
 
-@Suite("ARCTextFieldValidation Tests") struct ARCTextFieldValidationTests {
+@Suite("ARCTextFieldValidation Tests")
+struct ARCTextFieldValidationTests {
     // MARK: - SUT
 
     private typealias Validation = ARCTextFieldValidation
 
     private func makeSUT(rules: [Validation.ValidationRule],
-                         mode: Validation.ValidationMode = .all) -> ARCTextFieldValidation
-    {
+                         mode: Validation.ValidationMode = .all) -> ARCTextFieldValidation {
         ARCTextFieldValidation(rules: rules, mode: mode)
     }
 

@@ -82,8 +82,7 @@ import SwiftUI
                 lineSpacing: CGFloat = 8,
                 lastLineWidth: CGFloat = 0.7,
                 staggerDelay: Double = 0.05,
-                configuration: ARCSkeletonConfiguration = .text)
-    {
+                configuration: ARCSkeletonConfiguration = .text) {
         self.lineCount = max(1, lineCount)
         self.lineHeight = lineHeight
         self.lineSpacing = lineSpacing

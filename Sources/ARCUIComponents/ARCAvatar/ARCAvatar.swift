@@ -103,8 +103,7 @@ import AppKit
     public init(image: Image,
                 status: ARCAvatarStatus = .none,
                 configuration: ARCAvatarConfiguration = .default,
-                accessibilityLabel: String? = nil)
-    {
+                accessibilityLabel: String? = nil) {
         content = .image(image)
         self.status = status
         self.configuration = configuration
@@ -122,8 +121,7 @@ import AppKit
     public init(url: URL?,
                 status: ARCAvatarStatus = .none,
                 configuration: ARCAvatarConfiguration = .default,
-                accessibilityLabel: String? = nil)
-    {
+                accessibilityLabel: String? = nil) {
         content = .url(url)
         self.status = status
         self.configuration = configuration
@@ -139,8 +137,7 @@ import AppKit
     ///   - configuration: Avatar configuration (default: .default)
     public init(name: String,
                 status: ARCAvatarStatus = .none,
-                configuration: ARCAvatarConfiguration = .default)
-    {
+                configuration: ARCAvatarConfiguration = .default) {
         content = .initials(name.initials)
         self.status = status
         self.configuration = configuration
@@ -158,8 +155,7 @@ import AppKit
     public init(initials: String,
                 status: ARCAvatarStatus = .none,
                 configuration: ARCAvatarConfiguration = .default,
-                backgroundColor: Color? = nil)
-    {
+                backgroundColor: Color? = nil) {
         content = .initials(String(initials.prefix(2)).uppercased())
         self.status = status
         self.configuration = configuration
@@ -175,8 +171,7 @@ import AppKit
     ///   - configuration: Avatar configuration (default: .default)
     public init(systemImage: String,
                 status: ARCAvatarStatus = .none,
-                configuration: ARCAvatarConfiguration = .default)
-    {
+                configuration: ARCAvatarConfiguration = .default) {
         content = .systemImage(systemImage)
         self.status = status
         self.configuration = configuration
@@ -190,8 +185,7 @@ import AppKit
     ///   - status: Status indicator (default: .none)
     ///   - configuration: Avatar configuration (default: .default)
     public init(status: ARCAvatarStatus = .none,
-                configuration: ARCAvatarConfiguration = .default)
-    {
+                configuration: ARCAvatarConfiguration = .default) {
         content = .placeholder
         self.status = status
         self.configuration = configuration
@@ -205,8 +199,7 @@ import AppKit
                  status: ARCAvatarStatus,
                  configuration: ARCAvatarConfiguration,
                  accessibilityLabel: String?,
-                 initialsBackgroundColor: Color?)
-    {
+                 initialsBackgroundColor: Color?) {
         self.content = content
         self.status = status
         self.configuration = configuration

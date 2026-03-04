@@ -12,7 +12,8 @@ import Testing
 /// Unit tests for ARCToastType
 ///
 /// Tests icon, color, accessibilityPrefix, Equatable, and Hashable.
-@Suite("ARCToastType Tests") struct ARCToastTypeTests {
+@Suite("ARCToastType Tests")
+struct ARCToastTypeTests {
     // MARK: - Icon Tests
 
     @Test("success_hasCheckmarkIcon") func success_hasCheckmarkIcon() {

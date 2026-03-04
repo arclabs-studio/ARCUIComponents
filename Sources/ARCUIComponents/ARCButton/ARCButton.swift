@@ -116,8 +116,7 @@ import UIKit
     public init(_ title: String,
                 isLoading: Binding<Bool> = .constant(false),
                 configuration: ARCButtonConfiguration = .primary,
-                action: @escaping () -> Void)
-    {
+                action: @escaping () -> Void) {
         content = .text(title)
         _isLoading = isLoading
         self.configuration = configuration
@@ -138,8 +137,7 @@ import UIKit
                 iconPosition: IconPosition = .leading,
                 isLoading: Binding<Bool> = .constant(false),
                 configuration: ARCButtonConfiguration = .primary,
-                action: @escaping () -> Void)
-    {
+                action: @escaping () -> Void) {
         content = .textAndIcon(title, icon, iconPosition)
         _isLoading = isLoading
         self.configuration = configuration
@@ -156,8 +154,7 @@ import UIKit
     public init(icon: String,
                 isLoading: Binding<Bool> = .constant(false),
                 configuration: ARCButtonConfiguration = .iconOnly,
-                action: @escaping () -> Void)
-    {
+                action: @escaping () -> Void) {
         content = .icon(icon)
         _isLoading = isLoading
         self.configuration = configuration

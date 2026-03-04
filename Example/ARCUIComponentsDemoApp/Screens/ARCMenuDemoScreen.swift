@@ -72,8 +72,7 @@ struct ARCMenuDemoScreen: View {
 
     private static func makeSectionedViewModel(accentColor: Color = .arcBrandGold,
                                                presentationStyle: ARCMenuPresentationStyle = .bottomSheet)
-        -> ARCMenuViewModel
-    {
+    -> ARCMenuViewModel {
         ARCMenuViewModel(user: demoUser,
                          sections: [ARCMenuSection(title: "Account",
                                                    items: [.Common.profile { print("Profile") },

@@ -81,8 +81,7 @@ private struct CirclesArtworkContent: View {
 
             CircularDecoration(count: 8,
                                radius: 0.3,
-                               dimension: dimension)
-            { index, dim in
+                               dimension: dimension) { index, dim in
                 let color = index.isMultiple(of: 2)
                     ? theme.secondaryColor
                     : theme.accentColors.first ?? theme.secondaryColor

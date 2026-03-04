@@ -159,8 +159,7 @@ import SwiftUI
                              cornerRadius: CGFloat = .arcCornerRadiusMedium,
                              accentColor: Color = Color(red: 0.95, green: 0.75, blue: 0.3),
                              intensity: AIGlowIntensity = .subtle,
-                             showSparkles: Bool = true) -> some View
-    {
+                             showSparkles: Bool = true) -> some View {
         modifier(AIGlowBorderModifier(isActive: isActive,
                                       cornerRadius: cornerRadius,
                                       accentColor: accentColor,

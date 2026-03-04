@@ -96,8 +96,7 @@ import SwiftUI
 
     private func contentRow(_ title: String,
                             description: String,
-                            @ViewBuilder content: () -> some View) -> some View
-    {
+                            @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -165,8 +164,7 @@ import SwiftUI
 
     private func sizeExample(_ size: ARCAvatarConfiguration.Size,
                              _ label: String,
-                             _ dimension: String) -> some View
-    {
+                             _ dimension: String) -> some View {
         VStack(spacing: 4) {
             ARCAvatar(name: label, configuration: ARCAvatarConfiguration(size: size))
             Text(label).font(.caption2).foregroundStyle(.secondary)

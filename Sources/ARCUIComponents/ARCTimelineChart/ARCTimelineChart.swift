@@ -54,8 +54,7 @@ import SwiftUI
     public init(data: [Item],
                 date: KeyPath<Item, Date>,
                 value: KeyPath<Item, Int>,
-                configuration: ARCTimelineChartConfiguration = .default)
-    {
+                configuration: ARCTimelineChartConfiguration = .default) {
         self.data = data
         self.date = date
         self.value = value

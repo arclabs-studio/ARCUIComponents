@@ -84,8 +84,7 @@ import SwiftUI
                 selectionMode: SelectionMode = .multiple,
                 itemLabel: @escaping (Item) -> String,
                 itemIcon: ((Item) -> String?)? = nil,
-                configuration: ARCChipConfiguration = .default)
-    {
+                configuration: ARCChipConfiguration = .default) {
         self.items = items
         _selection = selection
         self.selectionMode = selectionMode

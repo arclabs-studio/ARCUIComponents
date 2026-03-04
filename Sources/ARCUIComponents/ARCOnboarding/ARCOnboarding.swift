@@ -113,8 +113,7 @@ import SwiftUI
     public init(pages: [ARCOnboardingPage],
                 configuration: ARCOnboardingConfiguration = .default,
                 onComplete: @escaping () -> Void,
-                onSkip: (() -> Void)? = nil)
-    {
+                onSkip: (() -> Void)? = nil) {
         self.pages = pages
         self.configuration = configuration
         self.onComplete = onComplete

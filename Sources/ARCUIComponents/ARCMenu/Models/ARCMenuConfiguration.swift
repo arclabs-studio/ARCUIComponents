@@ -148,8 +148,7 @@ public struct ARCMenuConfiguration: Sendable {
                 layoutStyle: ARCMenuLayoutStyle = .flat,
                 contentInteraction: PresentationContentInteraction = .automatic,
                 hapticFeedback: ARCMenuHapticStyle = .medium,
-                allowsBackgroundInteraction: Bool = false)
-    {
+                allowsBackgroundInteraction: Bool = false) {
         self.presentationStyle = presentationStyle
         self.accentColor = accentColor
         self.cornerRadius = cornerRadius

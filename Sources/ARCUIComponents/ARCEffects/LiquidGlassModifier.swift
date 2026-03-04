@@ -319,8 +319,7 @@ import SwiftUI
     ///     .liquidGlass(configuration: config, isInteractive: true)
     /// ```
     public func liquidGlass(configuration: some LiquidGlassConfigurable,
-                            isInteractive: Bool = false) -> some View
-    {
+                            isInteractive: Bool = false) -> some View {
         modifier(LiquidGlassModifier(configuration: configuration, isInteractive: isInteractive))
     }
 }

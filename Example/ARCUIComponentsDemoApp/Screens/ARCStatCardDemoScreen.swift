@@ -82,8 +82,7 @@ extension ARCStatCardDemoScreen {
                 .foregroundStyle(.secondary)
 
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())],
-                      spacing: 12)
-            {
+                      spacing: 12) {
                 ARCStatCard(icon: "star.fill", value: "23", label: "Reviews", configuration: .compact)
                 ARCStatCard(icon: "flame.fill", value: "5", label: "Streak", configuration: .compact)
                 ARCStatCard(icon: "trophy.fill", value: "3", label: "Awards", configuration: .compact)

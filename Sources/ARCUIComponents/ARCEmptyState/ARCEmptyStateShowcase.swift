@@ -61,8 +61,7 @@ import SwiftUI
                 .navigationBarTitleDisplayMode(.large)
             #endif
                 .alert("Action Triggered",
-                       isPresented: $showAlert)
-                {
+                       isPresented: $showAlert) {
                     Button("OK", role: .cancel) {}
                 } message: {
                     Text(alertMessage)
@@ -80,8 +79,7 @@ import SwiftUI
                 .padding(.horizontal)
 
             PresetExample(title: "No Results",
-                          description: "Native - system styling")
-            {
+                          description: "Native - system styling") {
                 ARCEmptyState(configuration: .noResults)
             }
 
@@ -89,8 +87,7 @@ import SwiftUI
                 .padding(.horizontal)
 
             PresetExample(title: "No Data",
-                          description: "Native - system styling")
-            {
+                          description: "Native - system styling") {
                 ARCEmptyState(configuration: .noData)
             }
 
@@ -103,8 +100,7 @@ import SwiftUI
                 .padding(.horizontal)
 
             PresetExample(title: "No Favorites",
-                          description: "Custom - pink icon + action")
-            {
+                          description: "Custom - pink icon + action") {
                 ARCEmptyState(configuration: .noFavorites) {
                     triggerAction("Browse action")
                 }
@@ -114,8 +110,7 @@ import SwiftUI
                 .padding(.horizontal)
 
             PresetExample(title: "Error",
-                          description: "Custom - orange icon + retry")
-            {
+                          description: "Custom - orange icon + retry") {
                 ARCEmptyState(configuration: .error) {
                     triggerAction("Retry action")
                 }
@@ -125,8 +120,7 @@ import SwiftUI
                 .padding(.horizontal)
 
             PresetExample(title: "Offline",
-                          description: "Custom - red icon + settings")
-            {
+                          description: "Custom - red icon + settings") {
                 ARCEmptyState(configuration: .offline) {
                     triggerAction("Open Settings")
                 }
@@ -136,8 +130,7 @@ import SwiftUI
                 .padding(.horizontal)
 
             PresetExample(title: "Premium",
-                          description: "Custom - Liquid Glass background")
-            {
+                          description: "Custom - Liquid Glass background") {
                 ARCEmptyState(configuration: .premium) {
                     triggerAction("Explore")
                 }
@@ -155,16 +148,14 @@ import SwiftUI
 
             // Custom 1: Photos
             PresetExample(title: "No Photos",
-                          description: "Custom photo empty state")
-            {
+                          description: "Custom photo empty state") {
                 ARCEmptyState(icon: "photo.on.rectangle",
                               iconColor: .blue,
                               title: "No Photos",
                               message: "Take a photo or choose from your library to get started.",
                               actionTitle: "Add Photo",
                               showsAction: true,
-                              accentColor: .blue)
-                {
+                              accentColor: .blue) {
                     triggerAction("Add Photo")
                 }
             }
@@ -174,16 +165,14 @@ import SwiftUI
 
             // Custom 2: Messages
             PresetExample(title: "No Messages",
-                          description: "Custom messaging empty state")
-            {
+                          description: "Custom messaging empty state") {
                 ARCEmptyState(icon: "message",
                               iconColor: .green,
                               title: "No Messages",
                               message: "Start a conversation to see your messages here.",
                               actionTitle: "New Message",
                               showsAction: true,
-                              accentColor: .green)
-                {
+                              accentColor: .green) {
                     triggerAction("New Message")
                 }
             }
@@ -193,16 +182,14 @@ import SwiftUI
 
             // Custom 3: Calendar
             PresetExample(title: "No Events",
-                          description: "Custom calendar empty state")
-            {
+                          description: "Custom calendar empty state") {
                 ARCEmptyState(icon: "calendar",
                               iconColor: .red,
                               title: "No Events Today",
                               message: "You have no scheduled events. Enjoy your free time!",
                               actionTitle: "Add Event",
                               showsAction: true,
-                              accentColor: .red)
-                {
+                              accentColor: .red) {
                     triggerAction("Add Event")
                 }
             }
@@ -212,16 +199,14 @@ import SwiftUI
 
             // Custom 4: Notes
             PresetExample(title: "No Notes",
-                          description: "Custom notes empty state")
-            {
+                          description: "Custom notes empty state") {
                 ARCEmptyState(icon: "note.text",
                               iconColor: .orange,
                               title: "No Notes",
                               message: "Create your first note to capture your thoughts and ideas.",
                               actionTitle: "New Note",
                               showsAction: true,
-                              accentColor: .orange)
-                {
+                              accentColor: .orange) {
                     triggerAction("New Note")
                 }
             }
@@ -238,8 +223,7 @@ import SwiftUI
 
             // List Context
             ContextExample(title: "In a List",
-                           description: "Empty state within a list view")
-            {
+                           description: "Empty state within a list view") {
                 VStack(spacing: 0) {
                     // Header
                     HStack {
@@ -267,8 +251,7 @@ import SwiftUI
 
             // Search Context
             ContextExample(title: "In Search",
-                           description: "Empty search results")
-            {
+                           description: "Empty search results") {
                 VStack(spacing: 0) {
                     // Search Bar
                     HStack {

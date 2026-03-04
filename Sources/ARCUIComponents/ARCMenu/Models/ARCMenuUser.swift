@@ -37,8 +37,7 @@ public struct ARCMenuUser: Sendable, Identifiable {
                 name: String,
                 email: String? = nil,
                 subtitle: String? = nil,
-                avatarImage: ARCMenuUserImage)
-    {
+                avatarImage: ARCMenuUserImage) {
         self.id = id
         self.name = name
         self.email = email

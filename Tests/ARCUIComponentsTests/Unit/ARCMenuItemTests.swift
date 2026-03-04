@@ -12,7 +12,8 @@ import Testing
 /// Unit tests for ARCMenuItem
 ///
 /// Tests cover initialization, factory methods, and icon types.
-@Suite("ARCMenuItem Tests") struct ARCMenuItemTests {
+@Suite("ARCMenuItem Tests")
+struct ARCMenuItemTests {
     // MARK: - Initialization Tests
 
     @Test("init_withRequiredParameters_createsItem") func init_withRequiredParameters_createsItem() {
@@ -201,7 +202,8 @@ import Testing
 
 // MARK: - ARCMenuIcon Tests
 
-@Suite("ARCMenuIcon Tests") struct ARCMenuIconTests {
+@Suite("ARCMenuIcon Tests")
+struct ARCMenuIconTests {
     @Test("system_createsSystemIcon") func system_createsSystemIcon() {
         let icon = ARCMenuIcon.system("gear")
 

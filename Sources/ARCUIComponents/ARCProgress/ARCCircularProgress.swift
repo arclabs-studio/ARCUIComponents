@@ -101,8 +101,7 @@ import SwiftUI
     ///   - progress: Progress value from 0.0 (empty) to 1.0 (complete)
     ///   - configuration: Visual configuration (default: .default)
     public init(progress: Double,
-                configuration: ARCCircularProgressConfiguration = .default)
-    {
+                configuration: ARCCircularProgressConfiguration = .default) {
         self.progress = progress
         self.configuration = configuration
     }
@@ -174,10 +173,9 @@ import SwiftUI
             .onAppear {
                 guard !reduceMotion else { return }
                 withAnimation(.linear(duration: configuration.rotationDuration)
-                    .repeatForever(autoreverses: false))
-                {
-                    rotation = .degrees(360)
-                }
+                    .repeatForever(autoreverses: false)) {
+                        rotation = .degrees(360)
+                    }
             }
     }
 

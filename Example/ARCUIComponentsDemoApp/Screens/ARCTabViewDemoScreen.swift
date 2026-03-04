@@ -95,16 +95,14 @@ import SwiftUI
         if showSearchTab {
             ARCTabView(selection: $selectedTab,
                        searchValue: .search,
-                       sidebarAdaptable: sidebarAdaptable)
-            { tab in
+                       sidebarAdaptable: sidebarAdaptable) { tab in
                 TabContentView(tab: tab)
             } search: {
                 SearchContentView()
             }
         } else {
             ARCTabView(selection: $selectedTab,
-                       sidebarAdaptable: sidebarAdaptable)
-            { tab in
+                       sidebarAdaptable: sidebarAdaptable) { tab in
                 TabContentView(tab: tab)
             }
         }
@@ -115,16 +113,14 @@ import SwiftUI
             if showSearchTab {
                 ARCTabView(selection: $selectedTab,
                            searchValue: .search,
-                           sidebarAdaptable: sidebarAdaptable)
-                { tab in
+                           sidebarAdaptable: sidebarAdaptable) { tab in
                     FullScreenTabContent(tab: tab)
                 } search: {
                     FullScreenSearchContent()
                 }
             } else {
                 ARCTabView(selection: $selectedTab,
-                           sidebarAdaptable: sidebarAdaptable)
-                { tab in
+                           sidebarAdaptable: sidebarAdaptable) { tab in
                     FullScreenTabContent(tab: tab)
                 }
             }

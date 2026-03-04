@@ -12,7 +12,8 @@ import Testing
 /// Unit tests for ARCMenuPresentationStyle
 ///
 /// Tests cover presentation style properties and behaviors.
-@Suite("ARCMenuPresentationStyle Tests") struct ARCMenuPresentationStyleTests {
+@Suite("ARCMenuPresentationStyle Tests")
+struct ARCMenuPresentationStyleTests {
     // MARK: - Entering Edge Tests
 
     @Test("bottomSheet_hasBottomEnteringEdge") func bottomSheet_hasBottomEnteringEdge() {

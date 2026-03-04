@@ -241,8 +241,7 @@ import SwiftUI
 
                 ARCButton("Create Account",
                           icon: "person.badge.plus",
-                          configuration: ARCButtonConfiguration(isFullWidth: true))
-                {
+                          configuration: ARCButtonConfiguration(isFullWidth: true)) {
                     // Form submission
                 }
                 .padding(.top, 8)
@@ -271,8 +270,7 @@ import SwiftUI
 
     private func styleRow(_ title: String,
                           description: String,
-                          @ViewBuilder content: () -> some View) -> some View
-    {
+                          @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

@@ -103,8 +103,7 @@ import UIKit
                 title: String,
                 subtitle: String? = nil,
                 @ViewBuilder accessories: () -> Accessories,
-                action: (() -> Void)? = nil)
-    {
+                action: (() -> Void)? = nil) {
         self.configuration = configuration
         self.image = image
         self.title = title
@@ -232,8 +231,7 @@ import UIKit
                 image: CardImage? = nil,
                 title: String,
                 subtitle: String? = nil,
-                action: (() -> Void)? = nil)
-    {
+                action: (() -> Void)? = nil) {
         self.configuration = configuration
         self.image = image
         self.title = title
@@ -268,8 +266,7 @@ import UIKit
                         subtitle: "Just title and subtitle")
 
             ARCListCard(title: "Card with Action",
-                        subtitle: "Tap to trigger action")
-            {
+                        subtitle: "Tap to trigger action") {
                 print("Card tapped")
             }
         }

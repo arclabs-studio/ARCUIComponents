@@ -43,8 +43,7 @@ import SwiftUI
                 subtitleIconFont: Font = .caption,
                 spacing: CGFloat = .arcSpacingSmall,
                 padding: CGFloat = .arcSpacingMedium,
-                cornerRadius: CGFloat = .arcCornerRadiusMedium)
-    {
+                cornerRadius: CGFloat = .arcCornerRadiusMedium) {
         self.titleFont = titleFont
         self.headlineFont = headlineFont
         self.subtitleFont = subtitleFont

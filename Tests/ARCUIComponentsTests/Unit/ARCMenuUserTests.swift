@@ -12,7 +12,8 @@ import Testing
 /// Unit tests for ARCMenuUser
 ///
 /// Tests cover initialization and avatar image types.
-@Suite("ARCMenuUser Tests") struct ARCMenuUserTests {
+@Suite("ARCMenuUser Tests")
+struct ARCMenuUserTests {
     // MARK: - Initialization Tests
 
     @Test("init_withRequiredParameters_createsUser") func init_withRequiredParameters_createsUser() {
@@ -84,7 +85,8 @@ import Testing
 
 // MARK: - ARCMenuUserImage Tests
 
-@Suite("ARCMenuUserImage Tests") struct ARCMenuUserImageTests {
+@Suite("ARCMenuUserImage Tests")
+struct ARCMenuUserImageTests {
     @Test("systemImage_createsCorrectType") func systemImage_createsCorrectType() {
         let image = ARCMenuUserImage.systemImage("person.circle.fill")
 

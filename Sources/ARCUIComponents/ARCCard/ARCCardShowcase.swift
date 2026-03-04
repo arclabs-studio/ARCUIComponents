@@ -98,8 +98,7 @@ import SwiftUI
                         subtitle: "Italian Cuisine",
                         secondarySubtitle: "Downtown",
                         subtitleIcon: "fork.knife",
-                        secondarySubtitleIcon: "location.fill")
-                {
+                        secondarySubtitleIcon: "location.fill") {
                     cardImage(icon: "fork.knife", color: .orange)
                 } footer: {
                     HStack {
@@ -116,8 +115,7 @@ import SwiftUI
                         secondarySubtitle: "Fiction",
                         subtitleIcon: "person.fill",
                         secondarySubtitleIcon: "books.vertical.fill",
-                        configuration: .prominent)
-                {
+                        configuration: .prominent) {
                     cardImage(icon: "book.fill", color: .blue)
                 } footer: {
                     ARCRatingView(rating: 4.8)
@@ -135,16 +133,14 @@ import SwiftUI
                         subtitle: "Blur effect",
                         badges: [.init(text: "$12.99", position: .topTrailing, style: .material),
                                  .init(text: "NEW", position: .topLeading, style: .material)],
-                        configuration: .glassmorphic)
-                {
+                        configuration: .glassmorphic) {
                     cardImage(icon: "star.fill", color: .yellow)
                 }
 
                 ARCCard(title: "Solid Badges",
                         subtitle: "Colored style",
                         badges: [.init(text: "SALE", position: .topLeading, style: .solid(.red)),
-                                 .init(text: "-20%", position: .bottomTrailing, style: .solid(.green))])
-                {
+                                 .init(text: "-20%", position: .bottomTrailing, style: .solid(.green))]) {
                     cardImage(icon: "tag.fill", color: .green)
                 }
             }
@@ -160,8 +156,7 @@ import SwiftUI
                     print("Default tap")
                 } label: {
                     ARCCard(title: "Default Press",
-                            subtitle: "Scale: 0.96")
-                    {
+                            subtitle: "Scale: 0.96") {
                         cardImage(icon: "hand.tap.fill", color: .blue)
                     }
                 }
@@ -172,8 +167,7 @@ import SwiftUI
                 } label: {
                     ARCCard(title: "Subtle Press",
                             subtitle: "Scale: 0.98",
-                            configuration: .prominent)
-                    {
+                            configuration: .prominent) {
                         cardImage(icon: "hand.point.up.fill", color: .mint)
                     }
                 }
@@ -184,8 +178,7 @@ import SwiftUI
                 } label: {
                     ARCCard(title: "Prominent",
                             subtitle: "Scale: 0.92",
-                            configuration: .glassmorphic)
-                    {
+                            configuration: .glassmorphic) {
                         cardImage(icon: "sparkles", color: .purple)
                     }
                 }
@@ -228,8 +221,7 @@ import SwiftUI
             ARCCard(title: name,
                     subtitle: features.first ?? "",
                     subtitleIcon: icon,
-                    configuration: config)
-            {
+                    configuration: config) {
                 color.opacity(0.15)
                     .frame(height: 60)
                     .overlay {

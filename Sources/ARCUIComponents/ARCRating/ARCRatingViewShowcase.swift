@@ -85,8 +85,7 @@ import SwiftUI
 
             LazyVGrid(columns: [GridItem(.flexible()),
                                 GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: .arcSpacingLarge)
-            {
+                                GridItem(.flexible())], spacing: .arcSpacingLarge) {
                 ForEach([2.0, 4.5, 6.0, 7.5, 8.5, 10.0], id: \.self) { rating in
                     VStack(spacing: .arcSpacingSmall) {
                         ARCRatingView(rating: rating, style: .circularGauge)
@@ -145,8 +144,7 @@ import SwiftUI
             LazyVGrid(columns: [GridItem(.flexible()),
                                 GridItem(.flexible()),
                                 GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: .arcSpacingMedium)
-            {
+                                GridItem(.flexible())], spacing: .arcSpacingMedium) {
                 ForEach([2.0, 5.0, 7.0, 9.5], id: \.self) { rating in
                     VStack(spacing: .arcSpacingXSmall) {
                         ARCRatingView(rating: rating, style: .minimal)
@@ -171,8 +169,7 @@ import SwiftUI
                                 GridItem(.flexible()),
                                 GridItem(.flexible()),
                                 GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: .arcSpacingMedium)
-            {
+                                GridItem(.flexible())], spacing: .arcSpacingMedium) {
                 ForEach(1 ... 10, id: \.self) { rating in
                     VStack(spacing: .arcSpacingXSmall) {
                         ARCRatingView(rating: Double(rating),

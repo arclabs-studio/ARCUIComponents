@@ -236,8 +236,7 @@ import SwiftUI
                          message: String,
                          type: ARCToastType = .info,
                          action: ARCToastAction? = nil,
-                         configuration: ARCToastConfiguration = .default) -> some View
-    {
+                         configuration: ARCToastConfiguration = .default) -> some View {
         modifier(ARCToastModifier(isPresented: isPresented,
                                   message: message,
                                   type: type,

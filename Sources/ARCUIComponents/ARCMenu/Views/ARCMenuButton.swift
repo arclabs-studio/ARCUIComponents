@@ -67,8 +67,7 @@ public struct ARCMenuButton: View {
     public init(isPresented: Binding<Bool>,
                 viewModel: ARCMenuViewModel,
                 showsBadge: Bool = false,
-                badgeCount: Int = 0)
-    {
+                badgeCount: Int = 0) {
         _isPresented = isPresented
         self.viewModel = viewModel
         self.showsBadge = showsBadge
@@ -81,8 +80,7 @@ public struct ARCMenuButton: View {
     @available(*, deprecated, message: "Use init(isPresented:viewModel:) with external @State binding")
     public init(viewModel: ARCMenuViewModel,
                 showsBadge: Bool = false,
-                badgeCount: Int = 0)
-    {
+                badgeCount: Int = 0) {
         // Create a binding that reads/writes to the ViewModel's deprecated isPresented
         _isPresented = Binding(get: { viewModel.isPresented },
                                set: { newValue in
@@ -222,8 +220,7 @@ extension View {
     public func arcMenuToolbarButton(isPresented: Binding<Bool>,
                                      viewModel: ARCMenuViewModel,
                                      showsBadge: Bool = false,
-                                     badgeCount: Int = 0) -> some View
-    {
+                                     badgeCount: Int = 0) -> some View {
         toolbar {
             #if os(iOS)
             ToolbarItem(placement: .topBarTrailing) {
@@ -249,8 +246,7 @@ extension View {
     @available(*, deprecated, message: "Use arcMenuToolbarButton(isPresented:viewModel:) with external @State binding")
     public func arcMenuButton(viewModel: ARCMenuViewModel,
                               showsBadge: Bool = false,
-                              badgeCount: Int = 0) -> some View
-    {
+                              badgeCount: Int = 0) -> some View {
         toolbar {
             #if os(iOS)
             ToolbarItem(placement: .topBarTrailing) {

@@ -47,8 +47,7 @@ import SwiftUI
     ///   - animated: Whether to animate changes (default: `true`)
     public init(style: ARCRatingStyle = .circularGauge,
                 maxRating: Double = 10.0,
-                animated: Bool = true)
-    {
+                animated: Bool = true) {
         self.style = style
         self.maxRating = maxRating
         self.animated = animated
@@ -78,8 +77,7 @@ import SwiftUI
     /// - Returns: View with rating overlay
     public func ratingOverlay(_ rating: Double,
                               style: ARCRatingStyle = .minimal,
-                              alignment: Alignment = .topTrailing) -> some View
-    {
+                              alignment: Alignment = .topTrailing) -> some View {
         overlay(alignment: alignment) {
             ARCRatingView(rating: rating, style: style)
                 .padding(8)
