@@ -125,7 +125,9 @@ import SwiftUI
             .navigationBarTitleDisplayMode(.large)
         #endif
             .disabled(viewModel.isLoading)
-            .alert(errorAlertTitle, isPresented: .constant(viewModel.errorMessage != nil)) {
+            .alert(errorAlertTitle,
+                   isPresented: Binding(get: { viewModel.errorMessage != nil },
+                                        set: { if !$0 { viewModel.errorMessage = nil } })) {
                 Button(errorAlertDismissLabel) { viewModel.errorMessage = nil }
             } message: {
                 Text(viewModel.errorMessage ?? "")
