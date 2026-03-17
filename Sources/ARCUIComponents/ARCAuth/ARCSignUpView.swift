@@ -42,6 +42,8 @@ import SwiftUI
     private let passwordPlaceholder: String
     private let confirmPasswordPlaceholder: String
     private let signUpLabel: String
+    private let errorAlertTitle: String
+    private let errorAlertDismissLabel: String
     private let socialContent: SocialContent
 
     // MARK: Initialization
@@ -55,6 +57,8 @@ import SwiftUI
     ///   - passwordPlaceholder: Password field placeholder (default: `"Password"`).
     ///   - confirmPasswordPlaceholder: Confirm-password field placeholder (default: `"Confirm password"`).
     ///   - signUpLabel: Primary button label (default: `"Create Account"`).
+    ///   - errorAlertTitle: Title of the error alert (default: `"Error"`).
+    ///   - errorAlertDismissLabel: Dismiss button label of the error alert (default: `"OK"`).
     ///   - socialContent: Additional sign-in buttons (Apple, Google, etc.). Omit for email-only.
     public init(viewModel: ARCSignUpViewModel,
                 navigationTitle: String = "Create Account",
@@ -62,14 +66,17 @@ import SwiftUI
                 passwordPlaceholder: String = "Password",
                 confirmPasswordPlaceholder: String = "Confirm password",
                 signUpLabel: String = "Create Account",
-                @ViewBuilder socialContent: () -> SocialContent)
-    {
+                errorAlertTitle: String = "Error",
+                errorAlertDismissLabel: String = "OK",
+                @ViewBuilder socialContent: () -> SocialContent) {
         self.viewModel = viewModel
         self.navigationTitle = navigationTitle
         self.emailPlaceholder = emailPlaceholder
         self.passwordPlaceholder = passwordPlaceholder
         self.confirmPasswordPlaceholder = confirmPasswordPlaceholder
         self.signUpLabel = signUpLabel
+        self.errorAlertTitle = errorAlertTitle
+        self.errorAlertDismissLabel = errorAlertDismissLabel
         self.socialContent = socialContent()
     }
 
@@ -91,8 +98,8 @@ import SwiftUI
             .navigationBarTitleDisplayMode(.large)
         #endif
             .disabled(viewModel.isLoading)
-            .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
-                Button("OK") { viewModel.errorMessage = nil }
+            .alert(errorAlertTitle, isPresented: .constant(viewModel.errorMessage != nil)) {
+                Button(errorAlertDismissLabel) { viewModel.errorMessage = nil }
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }
@@ -111,19 +118,24 @@ import SwiftUI
     ///   - passwordPlaceholder: Password field placeholder (default: `"Password"`).
     ///   - confirmPasswordPlaceholder: Confirm-password field placeholder (default: `"Confirm password"`).
     ///   - signUpLabel: Primary button label (default: `"Create Account"`).
+    ///   - errorAlertTitle: Title of the error alert (default: `"Error"`).
+    ///   - errorAlertDismissLabel: Dismiss button label of the error alert (default: `"OK"`).
     public init(viewModel: ARCSignUpViewModel,
                 navigationTitle: String = "Create Account",
                 emailPlaceholder: String = "Email",
                 passwordPlaceholder: String = "Password",
                 confirmPasswordPlaceholder: String = "Confirm password",
-                signUpLabel: String = "Create Account")
-    {
+                signUpLabel: String = "Create Account",
+                errorAlertTitle: String = "Error",
+                errorAlertDismissLabel: String = "OK") {
         self.init(viewModel: viewModel,
                   navigationTitle: navigationTitle,
                   emailPlaceholder: emailPlaceholder,
                   passwordPlaceholder: passwordPlaceholder,
                   confirmPasswordPlaceholder: confirmPasswordPlaceholder,
                   signUpLabel: signUpLabel,
+                  errorAlertTitle: errorAlertTitle,
+                  errorAlertDismissLabel: errorAlertDismissLabel,
                   socialContent: { EmptyView() })
     }
 }
@@ -163,8 +175,7 @@ import SwiftUI
 
             ARCButton(signUpLabel,
                       isLoading: $viewModel.isLoading,
-                      configuration: ARCButtonConfiguration(size: .large, isFullWidth: true))
-            {
+                      configuration: ARCButtonConfiguration(size: .large, isFullWidth: true)) {
                 Task { await viewModel.signUpWithEmail() }
             }
         }

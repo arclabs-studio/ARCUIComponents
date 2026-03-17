@@ -40,6 +40,8 @@ import SwiftUI
     private let sendLabel: String
     private let successTitle: String
     private let successMessage: String
+    private let errorAlertTitle: String
+    private let errorAlertDismissLabel: String
 
     // MARK: Initialization
 
@@ -53,14 +55,17 @@ import SwiftUI
     ///   - sendLabel: Primary button label (default: `"Send Reset Link"`).
     ///   - successTitle: Title shown on the success screen (default: `"Link sent"`).
     ///   - successMessage: Body shown on the success screen.
+    ///   - errorAlertTitle: Title of the error alert (default: `"Error"`).
+    ///   - errorAlertDismissLabel: Dismiss button label of the error alert (default: `"OK"`).
     public init(viewModel: ARCForgotPasswordViewModel,
                 navigationTitle: String = "Reset Password",
                 instructionText: String = "Enter your email address and we'll send you a link to reset your password.",
                 emailPlaceholder: String = "Email",
                 sendLabel: String = "Send Reset Link",
                 successTitle: String = "Link sent",
-                successMessage: String = "Check your email and follow the instructions to reset your password.")
-    {
+                successMessage: String = "Check your email and follow the instructions to reset your password.",
+                errorAlertTitle: String = "Error",
+                errorAlertDismissLabel: String = "OK") {
         self.viewModel = viewModel
         self.navigationTitle = navigationTitle
         self.instructionText = instructionText
@@ -68,6 +73,8 @@ import SwiftUI
         self.sendLabel = sendLabel
         self.successTitle = successTitle
         self.successMessage = successMessage
+        self.errorAlertTitle = errorAlertTitle
+        self.errorAlertDismissLabel = errorAlertDismissLabel
     }
 
     // MARK: View
@@ -89,8 +96,8 @@ import SwiftUI
             .navigationBarTitleDisplayMode(.large)
         #endif
             .disabled(viewModel.isLoading)
-            .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
-                Button("OK") { viewModel.errorMessage = nil }
+            .alert(errorAlertTitle, isPresented: .constant(viewModel.errorMessage != nil)) {
+                Button(errorAlertDismissLabel) { viewModel.errorMessage = nil }
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }
@@ -119,8 +126,7 @@ import SwiftUI
 
             ARCButton(sendLabel,
                       isLoading: $viewModel.isLoading,
-                      configuration: ARCButtonConfiguration(size: .large, isFullWidth: true))
-            {
+                      configuration: ARCButtonConfiguration(size: .large, isFullWidth: true)) {
                 Task { await viewModel.sendReset() }
             }
         }

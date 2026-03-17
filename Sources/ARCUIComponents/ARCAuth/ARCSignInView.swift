@@ -54,6 +54,8 @@ import SwiftUI
     private let forgotPasswordLabel: String
     private let noAccountLabel: String
     private let signUpLabel: String
+    private let errorAlertTitle: String
+    private let errorAlertDismissLabel: String
     private let onForgotPassword: () -> Void
     private let onSignUp: () -> Void
     private let socialContent: SocialContent
@@ -73,6 +75,8 @@ import SwiftUI
     ///   - signUpLabel: Ghost button label for sign-up (default: `"Create account"`).
     ///   - onForgotPassword: Called when the user taps the forgot-password button.
     ///   - onSignUp: Called when the user taps the create-account button.
+    ///   - errorAlertTitle: Title of the error alert (default: `"Error"`).
+    ///   - errorAlertDismissLabel: Dismiss button label of the error alert (default: `"OK"`).
     ///   - socialContent: Additional sign-in buttons (Apple, Google, etc.). Pass `EmptyView()` or omit for email-only.
     public init(viewModel: ARCSignInViewModel,
                 navigationTitle: String = "Sign In",
@@ -82,10 +86,11 @@ import SwiftUI
                 forgotPasswordLabel: String = "Forgot password?",
                 noAccountLabel: String = "Don't have an account?",
                 signUpLabel: String = "Create account",
+                errorAlertTitle: String = "Error",
+                errorAlertDismissLabel: String = "OK",
                 onForgotPassword: @escaping () -> Void,
                 onSignUp: @escaping () -> Void,
-                @ViewBuilder socialContent: () -> SocialContent)
-    {
+                @ViewBuilder socialContent: () -> SocialContent) {
         self.viewModel = viewModel
         self.navigationTitle = navigationTitle
         self.emailPlaceholder = emailPlaceholder
@@ -94,6 +99,8 @@ import SwiftUI
         self.forgotPasswordLabel = forgotPasswordLabel
         self.noAccountLabel = noAccountLabel
         self.signUpLabel = signUpLabel
+        self.errorAlertTitle = errorAlertTitle
+        self.errorAlertDismissLabel = errorAlertDismissLabel
         self.onForgotPassword = onForgotPassword
         self.onSignUp = onSignUp
         self.socialContent = socialContent()
@@ -118,8 +125,8 @@ import SwiftUI
             .navigationBarTitleDisplayMode(.large)
         #endif
             .disabled(viewModel.isLoading)
-            .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
-                Button("OK") { viewModel.errorMessage = nil }
+            .alert(errorAlertTitle, isPresented: .constant(viewModel.errorMessage != nil)) {
+                Button(errorAlertDismissLabel) { viewModel.errorMessage = nil }
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }
@@ -142,6 +149,8 @@ import SwiftUI
     ///   - signUpLabel: Ghost button label for sign-up (default: `"Create account"`).
     ///   - onForgotPassword: Called when the user taps the forgot-password button.
     ///   - onSignUp: Called when the user taps the create-account button.
+    ///   - errorAlertTitle: Title of the error alert (default: `"Error"`).
+    ///   - errorAlertDismissLabel: Dismiss button label of the error alert (default: `"OK"`).
     public init(viewModel: ARCSignInViewModel,
                 navigationTitle: String = "Sign In",
                 emailPlaceholder: String = "Email",
@@ -150,9 +159,10 @@ import SwiftUI
                 forgotPasswordLabel: String = "Forgot password?",
                 noAccountLabel: String = "Don't have an account?",
                 signUpLabel: String = "Create account",
+                errorAlertTitle: String = "Error",
+                errorAlertDismissLabel: String = "OK",
                 onForgotPassword: @escaping () -> Void,
-                onSignUp: @escaping () -> Void)
-    {
+                onSignUp: @escaping () -> Void) {
         self.init(viewModel: viewModel,
                   navigationTitle: navigationTitle,
                   emailPlaceholder: emailPlaceholder,
@@ -161,6 +171,8 @@ import SwiftUI
                   forgotPasswordLabel: forgotPasswordLabel,
                   noAccountLabel: noAccountLabel,
                   signUpLabel: signUpLabel,
+                  errorAlertTitle: errorAlertTitle,
+                  errorAlertDismissLabel: errorAlertDismissLabel,
                   onForgotPassword: onForgotPassword,
                   onSignUp: onSignUp,
                   socialContent: { EmptyView() })
@@ -192,8 +204,7 @@ import SwiftUI
 
             ARCButton(signInLabel,
                       isLoading: $viewModel.isLoading,
-                      configuration: ARCButtonConfiguration(size: .large, isFullWidth: true))
-            {
+                      configuration: ARCButtonConfiguration(size: .large, isFullWidth: true)) {
                 Task { await viewModel.signInWithEmail() }
             }
         }
@@ -224,8 +235,7 @@ import SwiftUI
     private var footerLinks: some View {
         VStack(spacing: .arcSpacingMedium) {
             ARCButton(forgotPasswordLabel,
-                      configuration: ARCButtonConfiguration(style: .ghost, size: .small))
-            {
+                      configuration: ARCButtonConfiguration(style: .ghost, size: .small)) {
                 onForgotPassword()
             }
 
@@ -234,8 +244,7 @@ import SwiftUI
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                 ARCButton(signUpLabel,
-                          configuration: ARCButtonConfiguration(style: .ghost, size: .small))
-                {
+                          configuration: ARCButtonConfiguration(style: .ghost, size: .small)) {
                     onSignUp()
                 }
             }
