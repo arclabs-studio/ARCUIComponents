@@ -54,8 +54,7 @@ import SwiftUI
     public init(appIcon: String = "person.circle.fill",
                 appName: String,
                 appSubtitle: String? = nil,
-                heroIconSize: CGFloat = 80)
-    {
+                heroIconSize: CGFloat = 80) {
         self.appIcon = appIcon
         self.appName = appName
         self.appSubtitle = appSubtitle

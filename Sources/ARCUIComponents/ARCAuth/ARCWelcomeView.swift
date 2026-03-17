@@ -55,8 +55,7 @@ import SwiftUI
                 signInLabel: String = "Sign In",
                 signUpLabel: String = "Create Account",
                 onSignIn: @escaping () -> Void,
-                onSignUp: @escaping () -> Void)
-    {
+                onSignUp: @escaping () -> Void) {
         self.configuration = configuration
         self.signInLabel = signInLabel
         self.signUpLabel = signUpLabel
@@ -101,14 +100,12 @@ import SwiftUI
     private var ctaSection: some View {
         VStack(spacing: .arcSpacingMedium) {
             ARCButton(signInLabel,
-                      configuration: ARCButtonConfiguration(size: .large, isFullWidth: true))
-            {
+                      configuration: ARCButtonConfiguration(size: .large, isFullWidth: true)) {
                 onSignIn()
             }
 
             ARCButton(signUpLabel,
-                      configuration: ARCButtonConfiguration(style: .outlined, size: .large, isFullWidth: true))
-            {
+                      configuration: ARCButtonConfiguration(style: .outlined, size: .large, isFullWidth: true)) {
                 onSignUp()
             }
         }
