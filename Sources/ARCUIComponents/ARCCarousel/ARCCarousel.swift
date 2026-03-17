@@ -63,8 +63,7 @@ import SwiftUI
 ///     RestaurantCard(restaurant: restaurant)
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCCarousel<Data: RandomAccessCollection, Content: View>: View
+@available(iOS 17.0, macOS 14.0, *) public struct ARCCarousel<Data: RandomAccessCollection, Content: View>: View
 where Data.Element: Identifiable {
     // MARK: - Properties
 
@@ -96,12 +95,10 @@ where Data.Element: Identifiable {
     ///   - currentIndex: Binding to the currently displayed item index
     ///   - configuration: Configuration options for appearance and behavior
     ///   - content: A view builder that creates the view for each item
-    public init(
-        _ data: Data,
-        currentIndex: Binding<Int> = .constant(0),
-        configuration: ARCCarouselConfiguration = .default,
-        @ViewBuilder content: @escaping (Data.Element) -> Content
-    ) {
+    public init(_ data: Data,
+                currentIndex: Binding<Int> = .constant(0),
+                configuration: ARCCarouselConfiguration = .default,
+                @ViewBuilder content: @escaping (Data.Element) -> Content) {
         self.data = data
         _currentIndex = currentIndex
         self.configuration = configuration
@@ -154,7 +151,7 @@ where Data.Element: Identifiable {
 
     // MARK: - Carousel Content
 
-    @ViewBuilder private var carouselContent: some View {
+    private var carouselContent: some View {
         GeometryReader { geometry in
             let width = geometry.size.width
 
@@ -229,24 +226,19 @@ where Data.Element: Identifiable {
 
     // MARK: - Item View
 
-    @ViewBuilder
-    private func itemView(for item: Data.Element, at index: Int, containerWidth: CGFloat) -> some View {
+    @ViewBuilder private func itemView(for item: Data.Element, at index: Int, containerWidth: CGFloat) -> some View {
         let itemWidth = calculateItemWidth(containerWidth: containerWidth)
 
         content(item)
             .frame(width: itemWidth)
             .clipShape(RoundedRectangle(cornerRadius: configuration.itemCornerRadius, style: .continuous))
-            .shadow(
-                color: configuration.showShadows ? .black.opacity(0.15) : .clear,
-                radius: configuration.showShadows ? 10 : 0,
-                x: 0,
-                y: configuration.showShadows ? 4 : 0
-            )
+            .shadow(color: configuration.showShadows ? .black.opacity(0.15) : .clear,
+                    radius: configuration.showShadows ? 10 : 0,
+                    x: 0,
+                    y: configuration.showShadows ? 4 : 0)
             .scaleEffect(scaleFor(index: index))
-            .animation(
-                reduceMotion ? .none : (configuration.scaleEffect?.animation ?? .spring(response: 0.3)),
-                value: currentIndex
-            )
+            .animation(reduceMotion ? .none : (configuration.scaleEffect?.animation ?? .spring(response: 0.3)),
+                       value: currentIndex)
             .accessibilityLabel("Item \(index + 1)")
             .accessibilityHint("Swipe left or right to see more items")
     }
@@ -255,13 +247,11 @@ where Data.Element: Identifiable {
 
     @ViewBuilder private var indicatorView: some View {
         if configuration.indicatorStyle != .none, data.count > 1 {
-            ARCCarouselIndicator(
-                totalItems: data.count,
-                currentIndex: currentIndex,
-                style: configuration.indicatorStyle,
-                maxVisibleDots: configuration.maxVisibleDots,
-                accentColor: .primary
-            )
+            ARCCarouselIndicator(totalItems: data.count,
+                                 currentIndex: currentIndex,
+                                 style: configuration.indicatorStyle,
+                                 maxVisibleDots: configuration.maxVisibleDots,
+                                 accentColor: .primary)
         }
     }
 
@@ -322,10 +312,8 @@ where Data.Element: Identifiable {
 
         stopAutoScroll()
 
-        autoScrollTimer = Timer.scheduledTimer(
-            withTimeInterval: configuration.autoScrollInterval,
-            repeats: true
-        ) { [self] _ in
+        autoScrollTimer = Timer.scheduledTimer(withTimeInterval: configuration.autoScrollInterval,
+                                               repeats: true) { [self] _ in
             Task { @MainActor in
                 guard !isDragging else { return }
 
@@ -370,8 +358,7 @@ where Data.Element: Identifiable {
 
 // MARK: - Preview Data
 
-@available(iOS 17.0, macOS 14.0, *)
-private struct PreviewItem: Identifiable {
+@available(iOS 17.0, macOS 14.0, *) private struct PreviewItem: Identifiable {
     let id = UUID()
     let color: Color
     let title: String
@@ -381,12 +368,10 @@ private struct PreviewItem: Identifiable {
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Default") {
-    let items = [
-        PreviewItem(color: .blue, title: "First"),
-        PreviewItem(color: .green, title: "Second"),
-        PreviewItem(color: .orange, title: "Third"),
-        PreviewItem(color: .purple, title: "Fourth")
-    ]
+    let items = [PreviewItem(color: .blue, title: "First"),
+                 PreviewItem(color: .green, title: "Second"),
+                 PreviewItem(color: .orange, title: "Third"),
+                 PreviewItem(color: .purple, title: "Fourth")]
 
     ARCCarousel(items) { item in
         RoundedRectangle(cornerRadius: 16)
@@ -404,11 +389,9 @@ private struct PreviewItem: Identifiable {
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Featured") {
-    let items = [
-        PreviewItem(color: .red, title: "Featured 1"),
-        PreviewItem(color: .blue, title: "Featured 2"),
-        PreviewItem(color: .green, title: "Featured 3")
-    ]
+    let items = [PreviewItem(color: .red, title: "Featured 1"),
+                 PreviewItem(color: .blue, title: "Featured 2"),
+                 PreviewItem(color: .green, title: "Featured 3")]
 
     ARCCarousel(items, configuration: .featured) { item in
         RoundedRectangle(cornerRadius: 20)

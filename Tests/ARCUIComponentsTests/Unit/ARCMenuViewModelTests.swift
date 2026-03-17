@@ -13,12 +13,10 @@ import Testing
 /// Tests cover state management, data storage, and factory methods
 /// following Swift Testing best practices.
 @Suite("ARCMenuViewModel Tests")
-@MainActor
-struct ARCMenuViewModelTests {
+@MainActor struct ARCMenuViewModelTests {
     // MARK: - Initialization Tests
 
-    @Test("init_withDefaultValues_setsCorrectInitialState")
-    func init_withDefaultValues_setsCorrectInitialState() {
+    @Test("init_withDefaultValues_setsCorrectInitialState") func init_withDefaultValues_setsCorrectInitialState() {
         let viewModel = ARCMenuViewModel()
 
         #expect(viewModel.dragOffset == 0)
@@ -26,13 +24,10 @@ struct ARCMenuViewModelTests {
         #expect(viewModel.menuItems.isEmpty)
     }
 
-    @Test("init_withUser_setsUserCorrectly")
-    func init_withUser_setsUserCorrectly() {
-        let user = ARCMenuUser(
-            name: "Test User",
-            email: "test@example.com",
-            avatarImage: .initials("TU")
-        )
+    @Test("init_withUser_setsUserCorrectly") func init_withUser_setsUserCorrectly() {
+        let user = ARCMenuUser(name: "Test User",
+                               email: "test@example.com",
+                               avatarImage: .initials("TU"))
 
         let viewModel = ARCMenuViewModel(user: user)
 
@@ -40,12 +35,9 @@ struct ARCMenuViewModelTests {
         #expect(viewModel.user?.email == "test@example.com")
     }
 
-    @Test("init_withMenuItems_setsItemsCorrectly")
-    func init_withMenuItems_setsItemsCorrectly() {
-        let items: [ARCMenuItem] = [
-            .Common.settings(action: {}),
-            .Common.profile(action: {})
-        ]
+    @Test("init_withMenuItems_setsItemsCorrectly") func init_withMenuItems_setsItemsCorrectly() {
+        let items: [ARCMenuItem] = [.Common.settings(action: {}),
+                                    .Common.profile(action: {})]
 
         let viewModel = ARCMenuViewModel(menuItems: items)
 
@@ -63,8 +55,7 @@ struct ARCMenuViewModelTests {
 
     // MARK: - Property Mutation Tests
 
-    @Test("dragOffset_canBeUpdated")
-    func dragOffset_canBeUpdated() {
+    @Test("dragOffset_canBeUpdated") func dragOffset_canBeUpdated() {
         let viewModel = ARCMenuViewModel()
 
         viewModel.dragOffset = 50
@@ -72,8 +63,7 @@ struct ARCMenuViewModelTests {
         #expect(viewModel.dragOffset == 50)
     }
 
-    @Test("user_canBeUpdated")
-    func user_canBeUpdated() {
+    @Test("user_canBeUpdated") func user_canBeUpdated() {
         let viewModel = ARCMenuViewModel()
         let user = ARCMenuUser(name: "Updated", avatarImage: .initials("U"))
 
@@ -82,8 +72,7 @@ struct ARCMenuViewModelTests {
         #expect(viewModel.user?.name == "Updated")
     }
 
-    @Test("menuItems_canBeUpdated")
-    func menuItems_canBeUpdated() {
+    @Test("menuItems_canBeUpdated") func menuItems_canBeUpdated() {
         let viewModel = ARCMenuViewModel()
         let items: [ARCMenuItem] = [.Common.settings(action: {})]
 
@@ -92,8 +81,7 @@ struct ARCMenuViewModelTests {
         #expect(viewModel.menuItems.count == 1)
     }
 
-    @Test("configuration_canBeUpdated")
-    func configuration_canBeUpdated() {
+    @Test("configuration_canBeUpdated") func configuration_canBeUpdated() {
         let viewModel = ARCMenuViewModel()
         let newConfig = ARCMenuConfiguration(accentColor: .purple)
 
@@ -102,39 +90,76 @@ struct ARCMenuViewModelTests {
         #expect(viewModel.configuration.accentColor == .purple)
     }
 
+    // MARK: - Sections Init Tests
+
+    @Test("init_withSections_setsSectionsCorrectly") func init_withSections_setsSectionsCorrectly() {
+        let sections = [ARCMenuSection(title: "Data", items: [.Common.settings(action: {})]),
+                        ARCMenuSection(title: "Support", items: [.Common.feedback(action: {})])]
+
+        let viewModel = ARCMenuViewModel(sections: sections)
+
+        #expect(viewModel.sections.count == 2)
+        #expect(viewModel.menuItems.isEmpty)
+    }
+
+    @Test("init_withSections_defaultsToSectionedConfiguration")
+    func init_withSections_defaultsToSectionedConfiguration() {
+        let sections = [ARCMenuSection(items: [.Common.settings(action: {})])]
+
+        let viewModel = ARCMenuViewModel(sections: sections)
+
+        if case .grouped = viewModel.configuration.layoutStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected grouped layout style for sections init")
+        }
+    }
+
+    @Test("init_withMenuItems_defaultsToFlatLayout") func init_withMenuItems_defaultsToFlatLayout() {
+        let viewModel = ARCMenuViewModel(menuItems: [.Common.settings(action: {})])
+
+        if case .flat = viewModel.configuration.layoutStyle {
+            #expect(Bool(true))
+        } else {
+            #expect(Bool(false), "Expected flat layout style for menuItems init")
+        }
+        #expect(viewModel.sections.isEmpty)
+    }
+
+    @Test("sections_canBeUpdated") func sections_canBeUpdated() {
+        let viewModel = ARCMenuViewModel()
+        let sections = [ARCMenuSection(title: "New", items: [])]
+
+        viewModel.sections = sections
+
+        #expect(viewModel.sections.count == 1)
+    }
+
     // MARK: - withDefaultItems Factory Tests
 
-    @Test("withDefaultItems_createsAllDefaultMenuItems")
-    func withDefaultItems_createsAllDefaultMenuItems() {
-        let viewModel = ARCMenuViewModel.withDefaultItems(
-            user: nil,
-            onProfile: {},
-            onSettings: {},
-            onFeedback: {},
-            onSubscriptions: {},
-            onAbout: {},
-            onLogout: {}
-        )
+    @Test("withDefaultItems_createsAllDefaultMenuItems") func withDefaultItems_createsAllDefaultMenuItems() {
+        let viewModel = ARCMenuViewModel.withDefaultItems(user: nil,
+                                                          onProfile: {},
+                                                          onSettings: {},
+                                                          onFeedback: {},
+                                                          onSubscriptions: {},
+                                                          onAbout: {},
+                                                          onLogout: {})
 
         #expect(viewModel.menuItems.count == 6)
     }
 
-    @Test("withDefaultItems_withUser_setsUserCorrectly")
-    func withDefaultItems_withUser_setsUserCorrectly() {
-        let user = ARCMenuUser(
-            name: "Test",
-            avatarImage: .initials("T")
-        )
+    @Test("withDefaultItems_withUser_setsUserCorrectly") func withDefaultItems_withUser_setsUserCorrectly() {
+        let user = ARCMenuUser(name: "Test",
+                               avatarImage: .initials("T"))
 
-        let viewModel = ARCMenuViewModel.withDefaultItems(
-            user: user,
-            onProfile: {},
-            onSettings: {},
-            onFeedback: {},
-            onSubscriptions: {},
-            onAbout: {},
-            onLogout: {}
-        )
+        let viewModel = ARCMenuViewModel.withDefaultItems(user: user,
+                                                          onProfile: {},
+                                                          onSettings: {},
+                                                          onFeedback: {},
+                                                          onSubscriptions: {},
+                                                          onAbout: {},
+                                                          onLogout: {})
 
         #expect(viewModel.user?.name == "Test")
     }
@@ -143,76 +168,62 @@ struct ARCMenuViewModelTests {
     func withDefaultItems_withConfiguration_setsConfigurationCorrectly() {
         let config = ARCMenuConfiguration(accentColor: .orange)
 
-        let viewModel = ARCMenuViewModel.withDefaultItems(
-            user: nil,
-            configuration: config,
-            onProfile: {},
-            onSettings: {},
-            onFeedback: {},
-            onSubscriptions: {},
-            onAbout: {},
-            onLogout: {}
-        )
+        let viewModel = ARCMenuViewModel.withDefaultItems(user: nil,
+                                                          configuration: config,
+                                                          onProfile: {},
+                                                          onSettings: {},
+                                                          onFeedback: {},
+                                                          onSubscriptions: {},
+                                                          onAbout: {},
+                                                          onLogout: {})
 
         #expect(viewModel.configuration.accentColor == .orange)
     }
 
     // MARK: - Default Items Factory Tests
 
-    @Test("defaultItems_createsProfileItem")
-    func defaultItems_createsProfileItem() {
-        let items = ARCMenuItem.defaultItems(
-            onProfile: {},
-            onSettings: {},
-            onFeedback: {},
-            onSubscriptions: {},
-            onAbout: {},
-            onLogout: {}
-        )
+    @Test("defaultItems_createsProfileItem") func defaultItems_createsProfileItem() {
+        let items = ARCMenuItem.defaultItems(onProfile: {},
+                                             onSettings: {},
+                                             onFeedback: {},
+                                             onSubscriptions: {},
+                                             onAbout: {},
+                                             onLogout: {})
 
         #expect(items.first?.title == "Profile")
     }
 
-    @Test("defaultItems_createsLogoutAsLastItem")
-    func defaultItems_createsLogoutAsLastItem() {
-        let items = ARCMenuItem.defaultItems(
-            onProfile: {},
-            onSettings: {},
-            onFeedback: {},
-            onSubscriptions: {},
-            onAbout: {},
-            onLogout: {}
-        )
+    @Test("defaultItems_createsLogoutAsLastItem") func defaultItems_createsLogoutAsLastItem() {
+        let items = ARCMenuItem.defaultItems(onProfile: {},
+                                             onSettings: {},
+                                             onFeedback: {},
+                                             onSubscriptions: {},
+                                             onAbout: {},
+                                             onLogout: {})
 
         #expect(items.last?.title == "Logout")
         #expect(items.last?.isDestructive == true)
     }
 
-    @Test("defaultItems_containsFeedbackItem")
-    func defaultItems_containsFeedbackItem() {
-        let items = ARCMenuItem.defaultItems(
-            onProfile: {},
-            onSettings: {},
-            onFeedback: {},
-            onSubscriptions: {},
-            onAbout: {},
-            onLogout: {}
-        )
+    @Test("defaultItems_containsFeedbackItem") func defaultItems_containsFeedbackItem() {
+        let items = ARCMenuItem.defaultItems(onProfile: {},
+                                             onSettings: {},
+                                             onFeedback: {},
+                                             onSubscriptions: {},
+                                             onAbout: {},
+                                             onLogout: {})
 
         let feedbackItem = items.first { $0.title == "Feedback" }
         #expect(feedbackItem != nil)
     }
 
-    @Test("defaultItems_containsSubscriptionsItem")
-    func defaultItems_containsSubscriptionsItem() {
-        let items = ARCMenuItem.defaultItems(
-            onProfile: {},
-            onSettings: {},
-            onFeedback: {},
-            onSubscriptions: {},
-            onAbout: {},
-            onLogout: {}
-        )
+    @Test("defaultItems_containsSubscriptionsItem") func defaultItems_containsSubscriptionsItem() {
+        let items = ARCMenuItem.defaultItems(onProfile: {},
+                                             onSettings: {},
+                                             onFeedback: {},
+                                             onSubscriptions: {},
+                                             onAbout: {},
+                                             onLogout: {})
 
         let subscriptionsItem = items.first { $0.title == "Subscriptions" }
         #expect(subscriptionsItem != nil)

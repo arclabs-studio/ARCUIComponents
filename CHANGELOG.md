@@ -7,6 +7,63 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.1] - 2026-01-29
+
+### Fixed
+- **ARCMenu Presentation Bug**: Fixed critical bug where `.arcMenu(viewModel:)` deprecated modifier
+  used `.constant()` binding, preventing the menu from opening when using `ARCMenuButton`
+
+### Changed
+- **ARCMenuButton Refactored for External Binding Pattern**:
+  - New primary initializer: `init(isPresented: Binding<Bool>, viewModel:, showsBadge:, badgeCount:)`
+  - Button now toggles the external `isPresented` binding instead of ViewModel's internal state
+  - Deprecated initializer maintains backward compatibility with proper binding wrapper
+  - Animation now observes external `isPresented` for rotation effect
+
+- **New Toolbar Modifier**:
+  - Added `.arcMenuToolbarButton(isPresented:viewModel:showsBadge:badgeCount:)`
+  - Deprecated `.arcMenuButton(viewModel:)` - use new modifier with binding instead
+
+- **ARCMenuLegacyModifier**: New internal modifier that properly wraps ViewModel's deprecated
+  `isPresented` state into a working `Binding<Bool>` for backward compatibility
+
+### Documentation
+- Updated `ARCMenu.swift` with comprehensive usage examples
+- Updated `ARCMenuShowcase.swift` integration guide with v1.9.1 patterns
+- Demo app `ARCMenuDemoScreen` updated to use new `ARCMenuButton(isPresented:viewModel:)` API
+- Added architecture integration examples (plain SwiftUI, Coordinator, TCA, etc.)
+- Added inline documentation explaining the external binding pattern
+
+### Migration Guide
+
+**Before (v1.9.0 - deprecated, but now works)**:
+```swift
+@State var viewModel = ARCMenuViewModel(...)
+
+var body: some View {
+    ContentView()
+        .arcMenuButton(viewModel: viewModel)
+        .arcMenu(viewModel: viewModel)
+}
+```
+
+**After (v1.9.1 - recommended)**:
+```swift
+@State var showMenu = false
+@State var viewModel = ARCMenuViewModel(...)
+
+var body: some View {
+    NavigationStack {
+        ContentView()
+            .arcMenuToolbarButton(
+                isPresented: $showMenu,
+                viewModel: viewModel
+            )
+    }
+    .arcMenu(isPresented: $showMenu, viewModel: viewModel)
+}
+```
+
 ## [1.9.0] - 2026-01-29
 
 ### Changed
@@ -258,7 +315,8 @@ See [TECHNICAL_REVIEW.md](TECHNICAL_REVIEW.md) for planned improvements and futu
 
 ---
 
-[Unreleased]: https://github.com/arclabs-studio/ARCUIComponents/compare/v1.9.0...HEAD
+[Unreleased]: https://github.com/arclabs-studio/ARCUIComponents/compare/v1.9.1...HEAD
+[1.9.1]: https://github.com/arclabs-studio/ARCUIComponents/compare/v1.9.0...v1.9.1
 [1.9.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.9.0
 [1.8.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.8.0
 [1.7.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.7.0

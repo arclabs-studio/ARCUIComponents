@@ -12,8 +12,7 @@ import SwiftUI
 ///
 /// Displays a large circular gradient background with the configured icon,
 /// title, and subtitle. Follows Apple Intelligence design patterns.
-@available(iOS 17.0, macOS 14.0, *)
-struct AIRecommenderHeader: View {
+@available(iOS 17.0, macOS 14.0, *) struct AIRecommenderHeader: View {
     // MARK: - Properties
 
     let configuration: ARCAIRecommenderConfiguration
@@ -21,56 +20,47 @@ struct AIRecommenderHeader: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: .arcSpacingMedium) {
+        VStack(spacing: .arcSpacingLarge) {
             // Animated icon in gradient circle
             iconView
 
-            // Title and subtitle
-            VStack(spacing: .arcSpacingXSmall) {
-                Text(configuration.title)
-                    .font(.title2)
-                    .fontWeight(.bold)
-
-                Text(configuration.subtitle)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-            }
+            // Subtitle only (title belongs in navigation bar per HIG)
+            Text(configuration.subtitle)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
         }
+        .padding(.top, configuration.headerTopPadding)
         .padding(.horizontal, .arcSpacingLarge)
-        .padding(.top, .arcSpacingMedium)
     }
 
     // MARK: - Private Views
 
-    @ViewBuilder private var iconView: some View {
+    private var iconView: some View {
         ZStack {
             // Gradient circle background
             Circle()
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            configuration.accentColor.opacity(0.3),
-                            configuration.accentColor.opacity(0.1)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(width: 80, height: 80)
+                .fill(LinearGradient(colors: [configuration.accentColor.opacity(0.3),
+                                              configuration.accentColor.opacity(0.1)],
+                                     startPoint: .topLeading,
+                                     endPoint: .bottomTrailing))
+                .frame(width: configuration.headerIconCircleSize,
+                       height: configuration.headerIconCircleSize)
 
             // Icon with optional pulse animation
             if configuration.animateHeaderIcon {
-                Image(systemName: configuration.headerIcon)
-                    .font(.largeTitle)
-                    .foregroundStyle(configuration.accentColor)
+                imageView
                     .symbolEffect(.pulse, options: .repeating)
             } else {
-                Image(systemName: configuration.headerIcon)
-                    .font(.largeTitle)
-                    .foregroundStyle(configuration.accentColor)
+                imageView
             }
         }
+    }
+
+    private var imageView: some View {
+        Image(systemName: configuration.headerIcon)
+            .font(configuration.headerIconFont)
+            .foregroundStyle(configuration.accentColor)
     }
 }
 

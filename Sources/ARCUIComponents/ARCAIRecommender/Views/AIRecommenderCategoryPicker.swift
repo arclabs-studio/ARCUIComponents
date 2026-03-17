@@ -12,8 +12,7 @@ import SwiftUI
 ///
 /// Displays categories as selectable pills that highlight when selected.
 /// Supports both predefined and custom categories.
-@available(iOS 17.0, macOS 14.0, *)
-struct AIRecommenderCategoryPicker: View {
+@available(iOS 17.0, macOS 14.0, *) struct AIRecommenderCategoryPicker: View {
     // MARK: - Properties
 
     let categories: [AIRecommenderCategory]
@@ -27,11 +26,9 @@ struct AIRecommenderCategoryPicker: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: .arcSpacingSmall) {
                 ForEach(categories) { category in
-                    CategoryCapsule(
-                        category: category,
-                        isSelected: selectedCategory == category,
-                        configuration: configuration
-                    ) {
+                    CategoryCapsule(category: category,
+                                    isSelected: selectedCategory == category,
+                                    configuration: configuration) {
                         arcWithAnimation(configuration.categoryAnimation) {
                             selectedCategory = category
                         }
@@ -47,8 +44,7 @@ struct AIRecommenderCategoryPicker: View {
 // MARK: - Category Capsule
 
 /// Individual category pill button
-@available(iOS 17.0, macOS 14.0, *)
-private struct CategoryCapsule: View {
+@available(iOS 17.0, macOS 14.0, *) private struct CategoryCapsule: View {
     // MARK: - Properties
 
     let category: AIRecommenderCategory
@@ -72,15 +68,11 @@ private struct CategoryCapsule: View {
             }
             .padding(.horizontal, .arcSpacingMedium)
             .padding(.vertical, .arcSpacingSmall)
-            .background(
-                Capsule()
-                    .fill(
-                        isSelected
-                            ? configuration.accentColor
-                            : Color.gray.opacity(0.15)
-                    )
-            )
-            .foregroundStyle(isSelected ? .white : .primary)
+            .background(Capsule()
+                .fill(isSelected
+                    ? configuration.accentColor
+                    : Color.gray.opacity(0.15)))
+                .foregroundStyle(isSelected ? .white : .primary)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(category.label)
@@ -95,12 +87,10 @@ private struct CategoryCapsule: View {
     @Previewable @State var selected: AIRecommenderCategory = .favorites
 
     VStack(spacing: 20) {
-        AIRecommenderCategoryPicker(
-            categories: AIRecommenderCategory.defaultCategories,
-            selectedCategory: $selected,
-            configuration: .default,
-            onCategorySelected: nil
-        )
+        AIRecommenderCategoryPicker(categories: AIRecommenderCategory.defaultCategories,
+                                    selectedCategory: $selected,
+                                    configuration: .default,
+                                    onCategorySelected: nil)
 
         Text("Selected: \(selected.label)")
             .font(.caption)
@@ -113,27 +103,23 @@ private struct CategoryCapsule: View {
 #Preview("Category Picker - No Icons") {
     @Previewable @State var selected: AIRecommenderCategory = .trending
 
-    AIRecommenderCategoryPicker(
-        categories: AIRecommenderCategory.defaultCategories,
-        selectedCategory: $selected,
-        configuration: .compact,
-        onCategorySelected: nil
-    )
-    .padding(.vertical)
-    .background(Color(.systemGroupedBackground))
+    AIRecommenderCategoryPicker(categories: AIRecommenderCategory.defaultCategories,
+                                selectedCategory: $selected,
+                                configuration: .compact,
+                                onCategorySelected: nil)
+        .padding(.vertical)
+        .background(Color(.systemGroupedBackground))
 }
 
 #Preview("Category Picker - Dark Mode") {
     @Previewable @State var selected: AIRecommenderCategory = .new
 
-    AIRecommenderCategoryPicker(
-        categories: AIRecommenderCategory.defaultCategories,
-        selectedCategory: $selected,
-        configuration: .default,
-        onCategorySelected: nil
-    )
-    .padding(.vertical)
-    .background(Color(.systemGroupedBackground))
-    .preferredColorScheme(.dark)
+    AIRecommenderCategoryPicker(categories: AIRecommenderCategory.defaultCategories,
+                                selectedCategory: $selected,
+                                configuration: .default,
+                                onCategorySelected: nil)
+        .padding(.vertical)
+        .background(Color(.systemGroupedBackground))
+        .preferredColorScheme(.dark)
 }
 #endif

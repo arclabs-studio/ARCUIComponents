@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 19/12/2025.
 //
 
+// swiftlint:disable file_length
 import ARCUIComponents
 import SwiftUI
 
@@ -19,6 +20,7 @@ struct DemoHomeView: View {
             List {
                 designSystemSection
                 componentsSection
+                statisticsSection
                 effectsSection
                 showcasesSection
                 aboutSection
@@ -91,6 +93,12 @@ extension DemoHomeView {
                 ARCRatingViewDemoScreen()
             } label: {
                 Label("ARCRatingView", systemImage: "star.fill")
+            }
+
+            NavigationLink {
+                ARCRatingInputDemoScreen()
+            } label: {
+                Label("ARCRatingInputView", systemImage: "star.leadinghalf.filled")
             }
 
             NavigationLink {
@@ -183,6 +191,12 @@ extension DemoHomeView {
                 Label("ARCAIRecommender", systemImage: "sparkles")
             }
 
+            NavigationLink {
+                ARCAuthDemoScreen()
+            } label: {
+                Label("ARCAuth", systemImage: "person.badge.key.fill")
+            }
+
             if #available(iOS 18.0, *) {
                 NavigationLink {
                     ARCTabViewDemoScreen()
@@ -194,6 +208,62 @@ extension DemoHomeView {
             Text("Components")
         } footer: {
             Text("Tap to explore each component with interactive examples.")
+        }
+    }
+
+    private var statisticsSection: some View {
+        Section {
+            NavigationLink {
+                ARCStatCardDemoScreen()
+            } label: {
+                Label("ARCStatCard", systemImage: "number.square")
+            }
+
+            NavigationLink {
+                ARCStatGridDemoScreen()
+            } label: {
+                Label("ARCStatGrid", systemImage: "square.grid.2x2")
+            }
+
+            NavigationLink {
+                ARCStatHighlightCardDemoScreen()
+            } label: {
+                Label("ARCStatHighlightCard", systemImage: "star.square.on.square")
+            }
+
+            NavigationLink {
+                ARCStatSectionHeaderDemoScreen()
+            } label: {
+                Label("ARCStatSectionHeader", systemImage: "text.badge.star")
+            }
+
+            NavigationLink {
+                ARCStatDashboardDemoScreen()
+            } label: {
+                Label("ARCStatDashboard", systemImage: "chart.bar.doc.horizontal")
+            }
+
+            NavigationLink {
+                ARCBarChartDemoScreen()
+            } label: {
+                Label("ARCBarChart", systemImage: "chart.bar.fill")
+            }
+
+            NavigationLink {
+                ARCDonutChartDemoScreen()
+            } label: {
+                Label("ARCDonutChart", systemImage: "chart.pie.fill")
+            }
+
+            NavigationLink {
+                ARCTimelineChartDemoScreen()
+            } label: {
+                Label("ARCTimelineChart", systemImage: "chart.xyaxis.line")
+            }
+        } header: {
+            Text("Statistics & Charts")
+        } footer: {
+            Text("Dashboard components for displaying metrics, charts, and data visualizations.")
         }
     }
 
@@ -241,6 +311,12 @@ extension DemoHomeView {
                 ARCRatingViewShowcase()
             } label: {
                 Label("Rating View Showcase", systemImage: "star.circle")
+            }
+
+            NavigationLink {
+                ARCRatingInputShowcase()
+            } label: {
+                Label("Rating Input Showcase", systemImage: "star.leadinghalf.filled")
             }
 
             NavigationLink {
@@ -343,6 +419,60 @@ extension DemoHomeView {
                 ARCAIRecommenderShowcase()
             } label: {
                 Label("AI Recommender Showcase", systemImage: "sparkles.rectangle.stack")
+            }
+
+            NavigationLink {
+                ARCAuthShowcase()
+            } label: {
+                Label("Auth Showcase", systemImage: "person.badge.key.fill")
+            }
+
+            NavigationLink {
+                ARCStatCardShowcase()
+            } label: {
+                Label("Stat Card Showcase", systemImage: "number.square.fill")
+            }
+
+            NavigationLink {
+                ARCStatGridShowcase()
+            } label: {
+                Label("Stat Grid Showcase", systemImage: "square.grid.2x2.fill")
+            }
+
+            NavigationLink {
+                ARCStatHighlightCardShowcase()
+            } label: {
+                Label("Highlight Card Showcase", systemImage: "star.square.on.square.fill")
+            }
+
+            NavigationLink {
+                ARCStatSectionHeaderShowcase()
+            } label: {
+                Label("Section Header Showcase", systemImage: "text.badge.star")
+            }
+
+            NavigationLink {
+                ARCStatDashboardShowcase()
+            } label: {
+                Label("Dashboard Showcase", systemImage: "chart.bar.doc.horizontal.fill")
+            }
+
+            NavigationLink {
+                ARCBarChartShowcase()
+            } label: {
+                Label("Bar Chart Showcase", systemImage: "chart.bar.fill")
+            }
+
+            NavigationLink {
+                ARCDonutChartShowcase()
+            } label: {
+                Label("Donut Chart Showcase", systemImage: "chart.pie.fill")
+            }
+
+            NavigationLink {
+                ARCTimelineChartShowcase()
+            } label: {
+                Label("Timeline Chart Showcase", systemImage: "chart.xyaxis.line")
             }
         } header: {
             Text("Full Showcases")

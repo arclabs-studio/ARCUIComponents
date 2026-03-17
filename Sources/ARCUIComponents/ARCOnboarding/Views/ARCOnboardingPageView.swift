@@ -13,8 +13,7 @@ import SwiftUI
 ///
 /// This view handles the layout and animation of individual page content,
 /// including the image, title, and subtitle.
-@available(iOS 17.0, macOS 14.0, *)
-struct ARCOnboardingPageView: View {
+@available(iOS 17.0, macOS 14.0, *) struct ARCOnboardingPageView: View {
     // MARK: - Properties
 
     let page: ARCOnboardingPage
@@ -33,14 +32,11 @@ struct ARCOnboardingPageView: View {
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .title)
-    private var imageSize: CGFloat = 120
+    @ScaledMetric(relativeTo: .title) private var imageSize: CGFloat = 120
 
-    @ScaledMetric(relativeTo: .body)
-    private var contentSpacing: CGFloat = 24
+    @ScaledMetric(relativeTo: .body) private var contentSpacing: CGFloat = 24
 
-    @ScaledMetric(relativeTo: .body)
-    private var textSpacing: CGFloat = 12
+    @ScaledMetric(relativeTo: .body) private var textSpacing: CGFloat = 12
 
     // MARK: - Body
 
@@ -69,7 +65,6 @@ struct ARCOnboardingPageView: View {
 
     // MARK: - Image Section
 
-    @ViewBuilder
     private func imageSection(height: CGFloat) -> some View {
         VStack {
             Spacer(minLength: 0)
@@ -132,7 +127,7 @@ struct ARCOnboardingPageView: View {
 
     // MARK: - Text Section
 
-    @ViewBuilder private var textSection: some View {
+    private var textSection: some View {
         VStack(spacing: textSpacing) {
             Text(page.title)
                 .font(configuration.titleFont)
@@ -182,29 +177,22 @@ struct ARCOnboardingPageView: View {
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Page View - SF Symbol") {
-    ARCOnboardingPageView(
-        page: .systemImage(
-            "star.fill",
-            color: .yellow,
-            title: "Welcome to MyApp",
-            subtitle: "Discover amazing features that will transform how you work and play every day."
-        ),
-        configuration: .default,
-        isCurrentPage: true
-    )
+    ARCOnboardingPageView(page: .systemImage("star.fill",
+                                             color: .yellow,
+                                             title: "Welcome to MyApp",
+                                             subtitle: "Discover amazing features that will transform"
+                                                 + " how you work and play every day."),
+                          configuration: .default,
+                          isCurrentPage: true)
 }
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Page View - Dark Mode") {
-    ARCOnboardingPageView(
-        page: .systemImage(
-            "moon.stars.fill",
-            color: .purple,
-            title: "Dark Mode Support",
-            subtitle: "Easy on your eyes, day or night."
-        ),
-        configuration: .default,
-        isCurrentPage: true
-    )
-    .preferredColorScheme(.dark)
+    ARCOnboardingPageView(page: .systemImage("moon.stars.fill",
+                                             color: .purple,
+                                             title: "Dark Mode Support",
+                                             subtitle: "Easy on your eyes, day or night."),
+                          configuration: .default,
+                          isCurrentPage: true)
+        .preferredColorScheme(.dark)
 }

@@ -15,7 +15,6 @@ import SwiftUI
 /// This enum showcases the basic structure for creating custom artwork types.
 /// Use this as a reference for implementing artwork in your own apps.
 enum ExampleArtwork: String, ArtworkTypeProtocol, CaseIterable {
-
     /// A circular pattern artwork.
     case circles
 
@@ -30,25 +29,24 @@ enum ExampleArtwork: String, ArtworkTypeProtocol, CaseIterable {
     var theme: ArtworkTheme {
         switch self {
         case .circles:
-            return .warm
+            .warm
         case .card:
-            return .cool
+            .cool
         case .starburst:
-            return .nature
+            .nature
         }
     }
 
     var recommendedConfiguration: ArtworkConfiguration {
         switch self {
         case .circles, .starburst:
-            return .circular
+            .circular
         case .card:
-            return .card
+            .card
         }
     }
 
-    @ViewBuilder
-    func makeContent(dimension: CGFloat) -> some View {
+    @ViewBuilder func makeContent(dimension: CGFloat) -> some View {
         switch self {
         case .circles:
             CirclesArtworkContent(dimension: dimension, theme: theme)
@@ -70,36 +68,28 @@ enum ExampleArtwork: String, ArtworkTypeProtocol, CaseIterable {
 
 /// Content view for the circles artwork style.
 private struct CirclesArtworkContent: View {
-
     let dimension: CGFloat
     let theme: ArtworkTheme
 
     var body: some View {
         ZStack {
             Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [theme.primaryColor, theme.primaryColor.opacity(0.6)],
-                        center: .center,
-                        startRadius: 0,
-                        endRadius: dimension * 0.5
-                    )
-                )
+                .fill(RadialGradient(colors: [theme.primaryColor, theme.primaryColor.opacity(0.6)],
+                                     center: .center,
+                                     startRadius: 0,
+                                     endRadius: dimension * 0.5))
 
-            CircularDecoration(
-                count: 8,
-                radius: 0.3,
-                dimension: dimension
-            ) { index, dim in
+            CircularDecoration(count: 8,
+                               radius: 0.3,
+                               dimension: dimension)
+            { index, dim in
                 let color = index.isMultiple(of: 2)
                     ? theme.secondaryColor
                     : theme.accentColors.first ?? theme.secondaryColor
 
-                return DecorationElement.circle(
-                    color: color,
-                    diameter: dim * 0.12,
-                    opacity: 0.8
-                )
+                return DecorationElement.circle(color: color,
+                                                diameter: dim * 0.12,
+                                                opacity: 0.8)
             }
 
             Circle()
@@ -114,20 +104,15 @@ private struct CirclesArtworkContent: View {
 
 /// Content view for the card artwork style.
 private struct CardArtworkContent: View {
-
     let dimension: CGFloat
     let theme: ArtworkTheme
 
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: dimension * 0.08)
-                .fill(
-                    LinearGradient(
-                        colors: [theme.primaryColor, theme.primaryColor.opacity(0.7)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .fill(LinearGradient(colors: [theme.primaryColor, theme.primaryColor.opacity(0.7)],
+                                     startPoint: .topLeading,
+                                     endPoint: .bottomTrailing))
 
             VStack(spacing: dimension * 0.06) {
                 RoundedRectangle(cornerRadius: dimension * 0.02)
@@ -135,13 +120,11 @@ private struct CardArtworkContent: View {
                     .frame(height: dimension * 0.25)
                     .padding(.horizontal, dimension * 0.1)
 
-                LinearDecoration(
-                    lineCount: 3,
-                    dimension: dimension,
-                    color: theme.secondaryColor.opacity(0.4),
-                    spacing: 0.08,
-                    startOffset: 0.1
-                )
+                LinearDecoration(lineCount: 3,
+                                 dimension: dimension,
+                                 color: theme.secondaryColor.opacity(0.4),
+                                 spacing: 0.08,
+                                 startOffset: 0.1)
             }
 
             RoundedRectangle(cornerRadius: dimension * 0.08)
@@ -155,23 +138,18 @@ private struct CardArtworkContent: View {
 
 /// Content view for the starburst artwork style.
 private struct StarburstArtworkContent: View {
-
     let dimension: CGFloat
     let theme: ArtworkTheme
 
     var body: some View {
         ZStack {
             Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [theme.primaryColor.opacity(0.9), theme.primaryColor.opacity(0.5)],
-                        center: .center,
-                        startRadius: 0,
-                        endRadius: dimension * 0.5
-                    )
-                )
+                .fill(RadialGradient(colors: [theme.primaryColor.opacity(0.9), theme.primaryColor.opacity(0.5)],
+                                     center: .center,
+                                     startRadius: 0,
+                                     endRadius: dimension * 0.5))
 
-            ForEach(0..<12, id: \.self) { index in
+            ForEach(0 ..< 12, id: \.self) { index in
                 Capsule()
                     .fill(theme.secondaryColor.opacity(0.7))
                     .frame(width: dimension * 0.04, height: dimension * 0.35)

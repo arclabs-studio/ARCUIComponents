@@ -65,8 +65,7 @@ import SwiftUI
 ///     cornerRadius: 24
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCBottomSheetConfiguration: Sendable, LiquidGlassConfigurable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCBottomSheetConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Handle Properties
 
     /// Whether to show the drag handle at the top of the sheet
@@ -170,25 +169,23 @@ public struct ARCBottomSheetConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - backgroundStyle: Background style (default: .liquidGlass)
     ///   - cornerRadius: Top corner radius (default: 20)
     ///   - shadow: Shadow configuration (default: .prominent)
-    public init(
-        showHandle: Bool = true,
-        handleColor: Color = .secondary.opacity(0.5),
-        handleWidth: CGFloat = 36,
-        handleHeight: CGFloat = 5,
-        isDismissable: Bool = true,
-        isInteractiveDismissDisabled: Bool = false,
-        snapToDetents: Bool = true,
-        tapHandleToCycle: Bool = true,
-        animation: Animation = .arcGentle,
-        velocityThreshold: CGFloat = 500,
-        dimBackground: Bool = true,
-        dimOpacity: CGFloat = 0.3,
-        tapBackgroundToDismiss: Bool = true,
-        accentColor: Color = .arcBrandBurgundy,
-        backgroundStyle: ARCBackgroundStyle = .liquidGlass,
-        cornerRadius: CGFloat = 20,
-        shadow: ARCShadow = .prominent
-    ) {
+    public init(showHandle: Bool = true,
+                handleColor: Color = .secondary.opacity(0.5),
+                handleWidth: CGFloat = 36,
+                handleHeight: CGFloat = 5,
+                isDismissable: Bool = true,
+                isInteractiveDismissDisabled: Bool = false,
+                snapToDetents: Bool = true,
+                tapHandleToCycle: Bool = true,
+                animation: Animation = .arcGentle,
+                velocityThreshold: CGFloat = 500,
+                dimBackground: Bool = true,
+                dimOpacity: CGFloat = 0.3,
+                tapBackgroundToDismiss: Bool = true,
+                accentColor: Color = .arcBrandBurgundy,
+                backgroundStyle: ARCBackgroundStyle = .liquidGlass,
+                cornerRadius: CGFloat = 20,
+                shadow: ARCShadow = .prominent) {
         self.showHandle = showHandle
         self.handleColor = handleColor
         self.handleWidth = handleWidth
@@ -211,8 +208,7 @@ public struct ARCBottomSheetConfiguration: Sendable, LiquidGlassConfigurable {
 
 // MARK: - Presets
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCBottomSheetConfiguration {
+@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetConfiguration {
     /// Default configuration with balanced settings
     ///
     /// Features:
@@ -229,12 +225,10 @@ extension ARCBottomSheetConfiguration {
     /// - Dismissable
     /// - Strong background dimming
     /// - Tap background to dismiss
-    public static let modal = ARCBottomSheetConfiguration(
-        dimOpacity: 0.4,
-        tapBackgroundToDismiss: true,
-        backgroundStyle: .material(.regularMaterial),
-        shadow: .prominent
-    )
+    public static let modal = ARCBottomSheetConfiguration(dimOpacity: 0.4,
+                                                          tapBackgroundToDismiss: true,
+                                                          backgroundStyle: .material(.regularMaterial),
+                                                          shadow: .prominent)
 
     /// Persistent configuration that cannot be dismissed
     ///
@@ -243,16 +237,14 @@ extension ARCBottomSheetConfiguration {
     /// - Cannot be dismissed
     /// - No background dimming
     /// - Useful for always-visible drawers
-    public static let persistent = ARCBottomSheetConfiguration(
-        handleColor: .secondary.opacity(0.3),
-        handleWidth: 28,
-        handleHeight: 4,
-        isDismissable: false,
-        isInteractiveDismissDisabled: true,
-        dimBackground: false,
-        backgroundStyle: .translucent,
-        shadow: .subtle
-    )
+    public static let persistent = ARCBottomSheetConfiguration(handleColor: .secondary.opacity(0.3),
+                                                               handleWidth: 28,
+                                                               handleHeight: 4,
+                                                               isDismissable: false,
+                                                               isInteractiveDismissDisabled: true,
+                                                               dimBackground: false,
+                                                               backgroundStyle: .translucent,
+                                                               shadow: .subtle)
 
     /// Drawer configuration like Apple Maps
     ///
@@ -262,14 +254,12 @@ extension ARCBottomSheetConfiguration {
     /// - No background dimming
     /// - Semi-transparent background
     /// - Three-detent friendly
-    public static let drawer = ARCBottomSheetConfiguration(
-        isDismissable: false,
-        dimBackground: false,
-        tapBackgroundToDismiss: false,
-        backgroundStyle: .material(.regularMaterial),
-        cornerRadius: 16,
-        shadow: .default
-    )
+    public static let drawer = ARCBottomSheetConfiguration(isDismissable: false,
+                                                           dimBackground: false,
+                                                           tapBackgroundToDismiss: false,
+                                                           backgroundStyle: .material(.regularMaterial),
+                                                           cornerRadius: 16,
+                                                           shadow: .default)
 
     /// Glass configuration with premium liquid glass effect
     ///
@@ -279,13 +269,11 @@ extension ARCBottomSheetConfiguration {
     /// - Light background dimming
     /// - Full liquid glass effect
     /// - Larger corner radius
-    public static let glass = ARCBottomSheetConfiguration(
-        handleColor: .white.opacity(0.5),
-        dimOpacity: 0.2,
-        backgroundStyle: .liquidGlass,
-        cornerRadius: 24,
-        shadow: .prominent
-    )
+    public static let glass = ARCBottomSheetConfiguration(handleColor: .white.opacity(0.5),
+                                                          dimOpacity: 0.2,
+                                                          backgroundStyle: .liquidGlass,
+                                                          cornerRadius: 24,
+                                                          shadow: .prominent)
 
     /// Compact configuration for small content
     ///
@@ -294,12 +282,10 @@ extension ARCBottomSheetConfiguration {
     /// - Dismissable
     /// - Smaller corner radius
     /// - Lighter shadow
-    public static let compact = ARCBottomSheetConfiguration(
-        handleWidth: 28,
-        handleHeight: 4,
-        dimOpacity: 0.25,
-        backgroundStyle: .translucent,
-        cornerRadius: 12,
-        shadow: .subtle
-    )
+    public static let compact = ARCBottomSheetConfiguration(handleWidth: 28,
+                                                            handleHeight: 4,
+                                                            dimOpacity: 0.25,
+                                                            backgroundStyle: .translucent,
+                                                            cornerRadius: 12,
+                                                            shadow: .subtle)
 }

@@ -25,8 +25,7 @@ import SwiftUI
 /// // Minimal badge
 /// ARCRatingView(rating: 9.2, configuration: .minimal)
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCRatingViewConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCRatingViewConfiguration: Sendable {
     // MARK: - Properties
 
     /// Visual style for the rating display
@@ -46,11 +45,9 @@ public struct ARCRatingViewConfiguration: Sendable {
     ///   - style: Visual style (default: `.circularGauge`)
     ///   - maxRating: Maximum rating value (default: `10.0`)
     ///   - animated: Whether to animate changes (default: `true`)
-    public init(
-        style: ARCRatingStyle = .circularGauge,
-        maxRating: Double = 10.0,
-        animated: Bool = true
-    ) {
+    public init(style: ARCRatingStyle = .circularGauge,
+                maxRating: Double = 10.0,
+                animated: Bool = true) {
         self.style = style
         self.maxRating = maxRating
         self.animated = animated
@@ -70,8 +67,7 @@ public struct ARCRatingViewConfiguration: Sendable {
 
 // MARK: - View Extension
 
-@available(iOS 17.0, macOS 14.0, *)
-public extension View {
+@available(iOS 17.0, macOS 14.0, *) extension View {
     /// Adds a rating overlay to the view
     ///
     /// - Parameters:
@@ -79,11 +75,9 @@ public extension View {
     ///   - style: Visual style
     ///   - alignment: Position of the rating
     /// - Returns: View with rating overlay
-    func ratingOverlay(
-        _ rating: Double,
-        style: ARCRatingStyle = .minimal,
-        alignment: Alignment = .topTrailing
-    ) -> some View {
+    public func ratingOverlay(_ rating: Double,
+                              style: ARCRatingStyle = .minimal,
+                              alignment: Alignment = .topTrailing) -> some View {
         overlay(alignment: alignment) {
             ARCRatingView(rating: rating, style: style)
                 .padding(8)

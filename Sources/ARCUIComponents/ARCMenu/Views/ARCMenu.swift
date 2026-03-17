@@ -25,20 +25,38 @@ import SwiftUI
 ///
 /// ## Usage
 ///
+/// Use an external `@State` for presentation control. This follows SwiftUI's
+/// declarative pattern and works with any architecture.
+///
 /// ```swift
 /// struct ContentView: View {
 ///     @State private var showMenu = false
 ///     @State private var menuViewModel = ARCMenuViewModel(
 ///         user: ARCMenuUser(name: "John", avatarImage: .initials("JD")),
-///         menuItems: ARCMenuItem.defaultItems(...)
+///         menuItems: [
+///             .Common.settings { print("Settings") },
+///             .Common.profile { print("Profile") },
+///             .Common.logout { print("Logout") }
+///         ]
 ///     )
 ///
 ///     var body: some View {
-///         YourContentView()
-///             .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+///         NavigationStack {
+///             Text("My App")
+///                 .arcMenuToolbarButton(
+///                     isPresented: $showMenu,
+///                     viewModel: menuViewModel
+///                 )
+///         }
+///         .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
 ///     }
 /// }
 /// ```
+///
+/// ## Architecture Agnostic
+///
+/// ARCMenu works with any architecture (plain SwiftUI, MVVM, TCA, etc.).
+/// The only requirement is a `Binding<Bool>` for presentation control.
 public struct ARCMenu: View {
     // MARK: - Properties
 
@@ -69,7 +87,7 @@ public struct ARCMenu: View {
 
     // MARK: - Trailing Panel (Custom Implementation)
 
-    @ViewBuilder private var trailingPanelOverlay: some View {
+    private var trailingPanelOverlay: some View {
         GeometryReader { geometry in
             ZStack(alignment: .trailing) {
                 // Backdrop (Button for VoiceOver accessibility)
@@ -97,7 +115,6 @@ public struct ARCMenu: View {
         }
     }
 
-    @ViewBuilder
     private func trailingPanelContent(geometry: GeometryProxy) -> some View {
         VStack(spacing: 0) {
             // Header with close button
@@ -133,7 +150,7 @@ public struct ARCMenu: View {
                 if value.translation.width > 100 {
                     dismissWithHaptic()
                 } else {
-                    withAnimation(.arcSpring) {
+                    arcWithAnimation(.arcSpring) {
                         viewModel.dragOffset = 0
                     }
                 }
@@ -142,36 +159,45 @@ public struct ARCMenu: View {
 
     // MARK: - Shared Content
 
-    private var menuContentStack: some View {
+    @ViewBuilder private var menuContentStack: some View {
+        switch viewModel.configuration.layoutStyle {
+        case .flat:
+            flatContentStack
+        case .grouped:
+            groupedContentStack
+        }
+    }
+
+    // MARK: - Flat Layout (Trailing Panel)
+
+    private var flatContentStack: some View {
         VStack(spacing: viewModel.configuration.sectionSpacing) {
-            userHeaderSection
-            menuItemsSection
-            versionSection
+            flatUserHeaderSection
+            flatMenuItemsSection
+            flatVersionSection
         }
         .padding(viewModel.configuration.contentInsets)
     }
 
-    @ViewBuilder private var userHeaderSection: some View {
+    @ViewBuilder private var flatUserHeaderSection: some View {
         if let user = viewModel.user {
             ARCMenuUserHeader(user: user, configuration: viewModel.configuration, onTap: nil)
         }
     }
 
-    @ViewBuilder private var menuItemsSection: some View {
+    private var flatMenuItemsSection: some View {
         VStack(spacing: 0) {
             ForEach(viewModel.menuItems) { item in
-                ARCMenuItemRow(
-                    item: item,
-                    configuration: viewModel.configuration,
-                    action: {
-                        dismissWithHaptic()
-                        // Execute action after dismiss animation
-                        Task {
-                            try? await Task.sleep(for: .milliseconds(300))
-                            item.action()
-                        }
-                    }
-                )
+                ARCMenuItemRow(item: item,
+                               configuration: viewModel.configuration,
+                               action: {
+                                   dismissWithHaptic()
+                                   // Execute action after dismiss animation
+                                   Task {
+                                       try? await Task.sleep(for: .milliseconds(300))
+                                       item.action()
+                                   }
+                               })
                 if item.id != viewModel.menuItems.last?.id {
                     Divider()
                         .padding(.leading, 56)
@@ -184,7 +210,7 @@ public struct ARCMenu: View {
         }
     }
 
-    @ViewBuilder private var versionSection: some View {
+    @ViewBuilder private var flatVersionSection: some View {
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             Text("Version \(version)")
                 .font(.caption2)
@@ -193,9 +219,50 @@ public struct ARCMenu: View {
         }
     }
 
+    // MARK: - Grouped Layout (Trailing Panel)
+
+    @ViewBuilder private var groupedContentStack: some View {
+        Form {
+            if let user = viewModel.user {
+                Section {
+                    ARCMenuUserHeader(user: user, configuration: viewModel.configuration, onTap: nil)
+                }
+            }
+
+            ForEach(viewModel.sections) { section in
+                Section {
+                    ForEach(section.items) { item in
+                        ARCMenuItemRow(item: item,
+                                       configuration: viewModel.configuration,
+                                       context: .form,
+                                       action: {
+                                           dismissWithHaptic()
+                                           Task {
+                                               try? await Task.sleep(for: .milliseconds(300))
+                                               item.action()
+                                           }
+                                       })
+                    }
+                } header: {
+                    if let title = section.title {
+                        Text(title)
+                    }
+                } footer: {
+                    if let footer = section.footer {
+                        Text(footer)
+                    }
+                }
+            }
+        }
+        #if os(iOS)
+        .formStyle(.grouped)
+        #endif
+        .scrollContentBackground(.hidden)
+    }
+
     // MARK: - Panel Header
 
-    @ViewBuilder private var panelHeader: some View {
+    private var panelHeader: some View {
         HStack {
             if let title = viewModel.configuration.sheetTitle {
                 Text(title)
@@ -218,12 +285,13 @@ public struct ARCMenu: View {
             dismissWithHaptic()
         } label: {
             Image(systemName: "xmark")
-                .font(.system(size: 12, weight: .bold))
+                .font(.caption2.weight(.bold))
                 .foregroundStyle(.secondary)
                 .frame(width: 30, height: 30)
                 .background(.ultraThinMaterial, in: Circle())
         }
         .buttonStyle(.plain)
+        .accessibilityLabel(String(localized: "Close menu"))
     }
 
     // MARK: - Helpers
@@ -232,150 +300,6 @@ public struct ARCMenu: View {
         viewModel.configuration.hapticFeedback.perform()
         isPresented = false
         viewModel.dragOffset = 0
-    }
-}
-
-// MARK: - Sheet Content View
-
-/// Internal view for sheet content with native presentation modifiers
-struct ARCMenuSheetContent: View {
-    @Binding var isPresented: Bool
-    @Bindable var viewModel: ARCMenuViewModel
-
-    var body: some View {
-        VStack(spacing: 0) {
-            // Header
-            sheetHeader
-
-            // Scrollable content
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: viewModel.configuration.sectionSpacing) {
-                    userHeaderSection
-                    menuItemsSection
-                    versionSection
-                }
-                .padding(viewModel.configuration.contentInsets)
-            }
-        }
-        .presentationDetents(
-            viewModel.configuration.detents,
-            selection: .constant(viewModel.configuration.selectedDetent ?? .medium)
-        )
-        .presentationDragIndicator(viewModel.configuration.showsGrabber ? .visible : .hidden)
-        .presentationCornerRadius(32)
-        .presentationBackground {
-            materialBackground
-        }
-        .presentationBackgroundInteraction(
-            viewModel.configuration.allowsBackgroundInteraction
-                ? .enabled(upThrough: .medium)
-                : .disabled
-        )
-        .onAppear {
-            viewModel.configuration.hapticFeedback.perform()
-        }
-    }
-
-    // MARK: - Background
-
-    @ViewBuilder private var materialBackground: some View {
-        if #available(iOS 26.0, *) {
-            // Use Liquid Glass on iOS 26+
-            Rectangle()
-                .fill(.ultraThinMaterial)
-            // TODO: Replace with .glassEffect() when iOS 26 SDK is available
-            // .glassEffect(.regular)
-        } else {
-            // Fall back to Material on earlier versions
-            Rectangle()
-                .fill(.ultraThinMaterial)
-        }
-    }
-
-    // MARK: - Header
-
-    @ViewBuilder private var sheetHeader: some View {
-        if viewModel.configuration.showsCloseButton || viewModel.configuration.sheetTitle != nil {
-            HStack {
-                // Close button (leading position like Apple Music)
-                if viewModel.configuration.showsCloseButton {
-                    Button {
-                        viewModel.configuration.hapticFeedback.perform()
-                        isPresented = false
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 12, weight: .bold))
-                            .foregroundStyle(.secondary)
-                            .frame(width: 30, height: 30)
-                            .background(.ultraThinMaterial, in: Circle())
-                    }
-                    .buttonStyle(.plain)
-                } else {
-                    Spacer().frame(width: 30)
-                }
-
-                Spacer()
-
-                // Title
-                if let title = viewModel.configuration.sheetTitle {
-                    Text(title)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                }
-
-                Spacer()
-
-                // Placeholder for symmetry
-                Spacer().frame(width: 30)
-            }
-            .padding(.horizontal, .arcSpacingMedium)
-            .padding(.vertical, .arcSpacingSmall)
-        }
-    }
-
-    // MARK: - Sections
-
-    @ViewBuilder private var userHeaderSection: some View {
-        if let user = viewModel.user {
-            ARCMenuUserHeader(user: user, configuration: viewModel.configuration, onTap: nil)
-        }
-    }
-
-    @ViewBuilder private var menuItemsSection: some View {
-        VStack(spacing: 0) {
-            ForEach(viewModel.menuItems) { item in
-                ARCMenuItemRow(
-                    item: item,
-                    configuration: viewModel.configuration,
-                    action: {
-                        viewModel.configuration.hapticFeedback.perform()
-                        isPresented = false
-                        // Execute action after dismiss animation
-                        Task {
-                            try? await Task.sleep(for: .milliseconds(300))
-                            item.action()
-                        }
-                    }
-                )
-                if item.id != viewModel.menuItems.last?.id {
-                    Divider()
-                        .padding(.leading, 56)
-                }
-            }
-        }
-        .background {
-            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium, style: .continuous)
-                .fill(.ultraThinMaterial)
-        }
-    }
-
-    @ViewBuilder private var versionSection: some View {
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            Text("Version \(version)")
-                .font(.caption2)
-                .foregroundStyle(.tertiary)
-                .padding(.top, .arcSpacingSmall)
-        }
     }
 }
 
@@ -394,12 +318,44 @@ extension View {
 
     /// Adds an ARCMenu to a view using the view model's internal presentation state
     ///
+    /// - Note: Deprecated. Use `arcMenu(isPresented:viewModel:)` with external `@State` binding.
     /// - Parameter viewModel: View model containing menu state and configuration
-    /// - Returns: View with menu overlay (for backward compatibility)
-    @available(*, deprecated, message: "Use arcMenu(isPresented:viewModel:) instead")
+    /// - Returns: View with menu sheet attached
+    @available(*, deprecated, message: "Use arcMenu(isPresented:viewModel:) with external @State binding")
     public func arcMenu(viewModel: ARCMenuViewModel) -> some View {
-        overlay {
-            ARCMenu(isPresented: .constant(viewModel.isPresented), viewModel: viewModel)
+        modifier(ARCMenuLegacyModifier(viewModel: viewModel))
+    }
+}
+
+// MARK: - Legacy Modifier (Backward Compatibility)
+
+/// View modifier that uses ViewModel's internal isPresented state
+///
+/// - Note: Deprecated. Exists only for backward compatibility with v1.8.x code.
+struct ARCMenuLegacyModifier: ViewModifier {
+    @Bindable var viewModel: ARCMenuViewModel
+
+    func body(content: Content) -> some View {
+        let binding = Binding<Bool>(get: { viewModel.isPresented },
+                                    set: { newValue in
+                                        if newValue {
+                                            viewModel.present()
+                                        } else {
+                                            viewModel.dismiss()
+                                        }
+                                    })
+
+        switch viewModel.configuration.presentationStyle {
+        case .bottomSheet:
+            content
+                .sheet(isPresented: binding) {
+                    ARCMenuSheetContent(isPresented: binding, viewModel: viewModel)
+                }
+        case .trailingPanel:
+            content
+                .overlay {
+                    ARCMenu(isPresented: binding, viewModel: viewModel)
+                }
         }
     }
 }

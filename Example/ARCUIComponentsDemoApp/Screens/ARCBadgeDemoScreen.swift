@@ -11,8 +11,7 @@ import SwiftUI
 /// Demo screen for ARCBadge component.
 ///
 /// Shows badge notifications with various content types, styles, and overlay usage.
-@available(iOS 17.0, *)
-struct ARCBadgeDemoScreen: View {
+@available(iOS 17.0, *) struct ARCBadgeDemoScreen: View {
     // MARK: - State
 
     @State private var notificationCount = 5
@@ -40,8 +39,7 @@ struct ARCBadgeDemoScreen: View {
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *)
-extension ARCBadgeDemoScreen {
+@available(iOS 17.0, *) extension ARCBadgeDemoScreen {
     // MARK: - Content Types Section
 
     private var contentTypesSection: some View {
@@ -90,11 +88,10 @@ extension ARCBadgeDemoScreen {
         }
     }
 
-    private func contentRow(
-        _ title: String,
-        description: String,
-        @ViewBuilder content: () -> some View
-    ) -> some View {
+    private func contentRow(_ title: String,
+                            description: String,
+                            @ViewBuilder content: () -> some View) -> some View
+    {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -146,11 +143,10 @@ extension ARCBadgeDemoScreen {
         }
     }
 
-    private func styleRow(
-        _ title: String,
-        description: String,
-        @ViewBuilder content: () -> some View
-    ) -> some View {
+    private func styleRow(_ title: String,
+                          description: String,
+                          @ViewBuilder content: () -> some View) -> some View
+    {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

@@ -61,8 +61,7 @@ import AppKit
 ///     backgroundStyle: .liquidGlass
 /// )
 /// ```
-@available(iOS 17.0, *)
-public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
+@available(iOS 17.0, *) public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Properties
 
     /// Primary accent color
@@ -94,14 +93,12 @@ public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - shadow: Shadow configuration
     ///   - spacing: Spacing between elements
     ///   - showsSeparator: Whether to show separators
-    public init(
-        accentColor: Color = .blue,
-        backgroundStyle: ARCBackgroundStyle = .translucent,
-        cornerRadius: CGFloat = .arcCornerRadiusMedium,
-        shadow: ARCShadow = .subtle,
-        spacing: CGFloat = .arcSpacingMedium,
-        showsSeparator: Bool = false
-    ) {
+    public init(accentColor: Color = .blue,
+                backgroundStyle: ARCBackgroundStyle = .translucent,
+                cornerRadius: CGFloat = .arcCornerRadiusMedium,
+                shadow: ARCShadow = .subtle,
+                spacing: CGFloat = .arcSpacingMedium,
+                showsSeparator: Bool = false) {
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
         self.cornerRadius = cornerRadius
@@ -116,34 +113,30 @@ public struct ARCListCardConfiguration: Sendable, LiquidGlassConfigurable {
     public static let `default` = ARCListCardConfiguration()
 
     /// Prominent configuration with liquid glass effect
-    public static let prominent = ARCListCardConfiguration(
-        backgroundStyle: .liquidGlass,
-        cornerRadius: .arcCornerRadiusLarge,
-        shadow: .default
-    )
+    public static let prominent = ARCListCardConfiguration(backgroundStyle: .liquidGlass,
+                                                           cornerRadius: .arcCornerRadiusLarge,
+                                                           shadow: .default)
 
-    /// Subtle configuration with minimal styling
+    // Subtle configuration with minimal styling
     #if os(iOS)
-    public static let subtle = ARCListCardConfiguration(
-        backgroundStyle: .solid(Color(uiColor: .secondarySystemGroupedBackground), opacity: 1.0),
-        cornerRadius: .arcCornerRadiusSmall,
-        shadow: .none,
-        showsSeparator: true
-    )
+    public static let subtle =
+        ARCListCardConfiguration(backgroundStyle: .solid(Color(uiColor: .secondarySystemGroupedBackground),
+                                                         opacity: 1.0),
+                                 cornerRadius: .arcCornerRadiusSmall,
+                                 shadow: .none,
+                                 showsSeparator: true)
     #else
-    public static let subtle = ARCListCardConfiguration(
-        backgroundStyle: .solid(Color(nsColor: .underPageBackgroundColor), opacity: 1.0),
-        cornerRadius: .arcCornerRadiusSmall,
-        shadow: .none,
-        showsSeparator: true
-    )
+    public static let subtle =
+        ARCListCardConfiguration(backgroundStyle: .solid(Color(nsColor: .underPageBackgroundColor),
+                                                         opacity: 1.0),
+                                 cornerRadius: .arcCornerRadiusSmall,
+                                 shadow: .none,
+                                 showsSeparator: true)
     #endif
 
     /// Glassmorphic configuration matching Apple Music style
-    public static let glassmorphic = ARCListCardConfiguration(
-        accentColor: .pink,
-        backgroundStyle: .liquidGlass,
-        cornerRadius: .arcCornerRadiusMedium,
-        shadow: .default
-    )
+    public static let glassmorphic = ARCListCardConfiguration(accentColor: .pink,
+                                                              backgroundStyle: .liquidGlass,
+                                                              cornerRadius: .arcCornerRadiusMedium,
+                                                              shadow: .default)
 }

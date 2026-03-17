@@ -51,8 +51,7 @@ import SwiftUI
 ///     ARCSegment.textAndIcon("Search", icon: "magnifyingglass", value: Tab.search)
 /// ]
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCSegment<Value: Hashable>: Identifiable, Sendable where Value: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCSegment<Value: Hashable & Sendable>: Identifiable, Sendable {
     // MARK: - Properties
 
     /// Unique identifier for the segment
@@ -79,12 +78,10 @@ public struct ARCSegment<Value: Hashable>: Identifiable, Sendable where Value: S
     ///   - label: Optional text label
     ///   - icon: Optional SF Symbol name
     ///   - accessibilityLabel: Custom accessibility label
-    public init(
-        value: Value,
-        label: String? = nil,
-        icon: String? = nil,
-        accessibilityLabel: String? = nil
-    ) {
+    public init(value: Value,
+                label: String? = nil,
+                icon: String? = nil,
+                accessibilityLabel: String? = nil) {
         id = UUID()
         self.value = value
         self.label = label

@@ -23,7 +23,7 @@ import UIKit
 /// - Optional email or subtitle
 /// - Tap gesture for profile navigation
 /// - Smooth hover/press animations
-struct ARCMenuUserHeader: View {
+public struct ARCMenuUserHeader: View {
     // MARK: - Properties
 
     let user: ARCMenuUser
@@ -34,11 +34,15 @@ struct ARCMenuUserHeader: View {
 
     // MARK: - Initialization
 
-    init(
-        user: ARCMenuUser,
-        configuration: ARCMenuConfiguration,
-        onTap: (() -> Void)? = nil
-    ) {
+    /// Creates a new user header
+    ///
+    /// - Parameters:
+    ///   - user: User information to display
+    ///   - configuration: Menu configuration for styling
+    ///   - onTap: Optional tap action for the header
+    public init(user: ARCMenuUser,
+                configuration: ARCMenuConfiguration,
+                onTap: (() -> Void)? = nil) {
         self.user = user
         self.configuration = configuration
         self.onTap = onTap
@@ -46,7 +50,7 @@ struct ARCMenuUserHeader: View {
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         Button {
             onTap?()
             #if os(iOS)
@@ -56,12 +60,10 @@ struct ARCMenuUserHeader: View {
             HStack(spacing: .arcSpacingLarge) {
                 // Avatar
                 avatarView
-                    .shadow(
-                        color: .arcShadowLight,
-                        radius: .arcSpacingSmall,
-                        x: 0,
-                        y: .arcSpacingXSmall
-                    )
+                    .shadow(color: .arcShadowLight,
+                            radius: .arcSpacingSmall,
+                            x: 0,
+                            y: .arcSpacingXSmall)
 
                 // User info
                 VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
@@ -100,55 +102,41 @@ struct ARCMenuUserHeader: View {
                     .fill(.ultraThinMaterial)
                     .overlay {
                         RoundedRectangle(cornerRadius: .arcCornerRadiusLarge, style: .continuous)
-                            .strokeBorder(
-                                LinearGradient(
-                                    colors: [
-                                        Color.white.opacity(0.15),
-                                        Color.white.opacity(0.05)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                ),
-                                lineWidth: 0.5
-                            )
+                            .strokeBorder(LinearGradient(colors: [Color.white.opacity(0.15),
+                                                                  Color.white.opacity(0.05)],
+                                                         startPoint: .topLeading,
+                                                         endPoint: .bottomTrailing),
+                                          lineWidth: 0.5)
                     }
             }
             .scaleEffect(isPressed ? 0.97 : 1.0)
             .arcAnimation(.arcBouncy, value: isPressed)
         }
         .buttonStyle(.plain)
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    if !isPressed {
-                        isPressed = true
-                    }
+        .simultaneousGesture(DragGesture(minimumDistance: 0)
+            .onChanged { _ in
+                if !isPressed {
+                    isPressed = true
                 }
-                .onEnded { _ in
-                    isPressed = false
-                }
-        )
+            }
+            .onEnded { _ in
+                isPressed = false
+            })
         .disabled(onTap == nil)
     }
 
     // MARK: - Avatar View
 
-    @ViewBuilder private var avatarView: some View {
+    private var avatarView: some View {
         user.avatarImage.avatarView(size: 60)
             .overlay {
                 // Subtle ring around avatar
                 Circle()
-                    .strokeBorder(
-                        LinearGradient(
-                            colors: [
-                                Color.white.opacity(0.3),
-                                Color.white.opacity(0.1)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        ),
-                        lineWidth: 1
-                    )
+                    .strokeBorder(LinearGradient(colors: [Color.white.opacity(0.3),
+                                                          Color.white.opacity(0.1)],
+                                                 startPoint: .topLeading,
+                                                 endPoint: .bottomTrailing),
+                                  lineWidth: 1)
             }
     }
 }
@@ -159,18 +147,14 @@ struct ARCMenuUserHeader: View {
     ZStack {
         Color.black.ignoresSafeArea()
 
-        ARCMenuUserHeader(
-            user: ARCMenuUser(
-                name: "Carlos Ramirez",
-                email: "carlos@arclabs.studio",
-                avatarImage: .initials("CR")
-            ),
-            configuration: .default,
-            onTap: {
-                print("Profile tapped")
-            }
-        )
-        .padding()
+        ARCMenuUserHeader(user: ARCMenuUser(name: "Carlos Ramirez",
+                                            email: "carlos@arclabs.studio",
+                                            avatarImage: .initials("CR")),
+                          configuration: .default,
+                          onTap: {
+                              print("Profile tapped")
+                          })
+                          .padding()
     }
 }
 
@@ -178,38 +162,28 @@ struct ARCMenuUserHeader: View {
     ZStack {
         Color.gray.opacity(0.2).ignoresSafeArea()
 
-        ARCMenuUserHeader(
-            user: ARCMenuUser(
-                name: "Jane Cooper",
-                subtitle: "Premium Member",
-                avatarImage: .initials("JC")
-            ),
-            configuration: ARCMenuConfiguration(accentColor: .orange),
-            onTap: {
-                print("Profile tapped")
-            }
-        )
-        .padding()
+        ARCMenuUserHeader(user: ARCMenuUser(name: "Jane Cooper",
+                                            subtitle: "Premium Member",
+                                            avatarImage: .initials("JC")),
+                          configuration: ARCMenuConfiguration(accentColor: .orange),
+                          onTap: {
+                              print("Profile tapped")
+                          })
+                          .padding()
     }
 }
 
 #Preview("User Header - SF Symbol") {
     ZStack {
-        LinearGradient(
-            colors: [.blue, .purple],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
+        LinearGradient(colors: [.blue, .purple],
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+            .ignoresSafeArea()
 
-        ARCMenuUserHeader(
-            user: ARCMenuUser(
-                name: "Guest User",
-                email: "guest@example.com",
-                avatarImage: .systemImage("person.circle.fill")
-            ),
-            configuration: .default
-        )
-        .padding()
+        ARCMenuUserHeader(user: ARCMenuUser(name: "Guest User",
+                                            email: "guest@example.com",
+                                            avatarImage: .systemImage("person.circle.fill")),
+                          configuration: .default)
+            .padding()
     }
 }

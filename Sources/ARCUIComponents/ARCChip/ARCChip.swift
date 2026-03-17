@@ -51,8 +51,7 @@ import SwiftUI
 ///     }
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCChip: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCChip: View {
     // MARK: - Properties
 
     private let text: String
@@ -71,13 +70,11 @@ public struct ARCChip: View {
     ///   - isSelected: Binding to selection state
     ///   - configuration: Chip configuration
     ///   - onTap: Optional tap handler (in addition to toggling selection)
-    public init(
-        _ text: String,
-        icon: String? = nil,
-        isSelected: Binding<Bool>,
-        configuration: ARCChipConfiguration = .default,
-        onTap: (() -> Void)? = nil
-    ) {
+    public init(_ text: String,
+                icon: String? = nil,
+                isSelected: Binding<Bool>,
+                configuration: ARCChipConfiguration = .default,
+                onTap: (() -> Void)? = nil) {
         self.text = text
         self.icon = icon
         _isSelected = isSelected
@@ -126,7 +123,7 @@ public struct ARCChip: View {
 
     // MARK: - Checkmark View
 
-    @ViewBuilder private var checkmarkView: some View {
+    private var checkmarkView: some View {
         Image(systemName: "checkmark")
             .font(.system(size: configuration.size.iconSize - 2, weight: .semibold))
             .foregroundStyle(.white)
@@ -135,7 +132,6 @@ public struct ARCChip: View {
 
     // MARK: - Icon View
 
-    @ViewBuilder
     private func iconView(_ systemName: String) -> some View {
         Image(systemName: systemName)
             .font(.system(size: configuration.size.iconSize))
@@ -144,7 +140,7 @@ public struct ARCChip: View {
 
     // MARK: - Text View
 
-    @ViewBuilder private var textView: some View {
+    private var textView: some View {
         Text(text)
             .font(.system(size: configuration.size.fontSize, weight: .medium))
             .foregroundStyle(isSelected ? .white : .primary)
@@ -152,7 +148,7 @@ public struct ARCChip: View {
 
     // MARK: - Dismiss Button
 
-    @ViewBuilder private var dismissButton: some View {
+    private var dismissButton: some View {
         Button {
             withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
                 isSelected = false

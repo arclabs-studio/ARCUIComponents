@@ -116,8 +116,7 @@
 /// - **Accessibility**: Full VoiceOver and Dynamic Type support
 /// - **Type Safety**: Leverages Swift's type system for compile-time safety
 ///
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCUIComponents {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCUIComponents {
     /// Returns the current version of ARCUIComponents
     public static var version: String {
         "1.0.0"

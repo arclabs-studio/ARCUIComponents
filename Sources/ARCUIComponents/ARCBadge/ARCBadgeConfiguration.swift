@@ -38,8 +38,7 @@ import SwiftUI
 /// - ``success``
 /// - ``warning``
 /// - ``info``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCBadgeConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCBadgeConfiguration: Sendable {
     // MARK: - Size
 
     /// Size variants for badges
@@ -130,13 +129,11 @@ public struct ARCBadgeConfiguration: Sendable {
     ///   - maxCount: Maximum displayable count (default: 99)
     ///   - showZero: Show badge when count is 0 (default: false)
     ///   - animate: Animate on changes (default: true)
-    public init(
-        size: Size = .medium,
-        style: Style = .filled(.red),
-        maxCount: Int = 99,
-        showZero: Bool = false,
-        animate: Bool = true
-    ) {
+    public init(size: Size = .medium,
+                style: Style = .filled(.red),
+                maxCount: Int = 99,
+                showZero: Bool = false,
+                animate: Bool = true) {
         self.size = size
         self.style = style
         self.maxCount = maxCount
@@ -150,40 +147,26 @@ public struct ARCBadgeConfiguration: Sendable {
     public static let `default` = ARCBadgeConfiguration()
 
     /// Small dot indicator
-    public static let dot = ARCBadgeConfiguration(
-        size: .small,
-        style: .filled(.red),
-        showZero: true
-    )
+    public static let dot = ARCBadgeConfiguration(size: .small,
+                                                  style: .filled(.red),
+                                                  showZero: true)
 
     /// Notification-style badge (same as default)
-    public static let notification = ARCBadgeConfiguration(
-        size: .medium,
-        style: .filled(.red)
-    )
+    public static let notification = ARCBadgeConfiguration(size: .medium,
+                                                           style: .filled(.red))
 
     /// Success indicator (green)
-    public static let success = ARCBadgeConfiguration(
-        style: .filled(.green)
-    )
+    public static let success = ARCBadgeConfiguration(style: .filled(.green))
 
     /// Warning indicator (orange)
-    public static let warning = ARCBadgeConfiguration(
-        style: .filled(.orange)
-    )
+    public static let warning = ARCBadgeConfiguration(style: .filled(.orange))
 
     /// Info indicator (blue)
-    public static let info = ARCBadgeConfiguration(
-        style: .filled(.blue)
-    )
+    public static let info = ARCBadgeConfiguration(style: .filled(.blue))
 
     /// Subtle style with gray background
-    public static let subtle = ARCBadgeConfiguration(
-        style: .subtle(.gray)
-    )
+    public static let subtle = ARCBadgeConfiguration(style: .subtle(.gray))
 
     /// Outlined style
-    public static let outlined = ARCBadgeConfiguration(
-        style: .outlined(.red)
-    )
+    public static let outlined = ARCBadgeConfiguration(style: .outlined(.red))
 }

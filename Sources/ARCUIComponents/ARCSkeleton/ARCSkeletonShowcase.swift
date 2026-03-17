@@ -14,8 +14,7 @@ import SwiftUI
 ///
 /// Use this view to preview all skeleton variants and configurations
 /// in both light and dark modes.
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCSkeletonShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCSkeletonShowcase: View {
     // MARK: - State
 
     @State private var selectedSection: ShowcaseSection = .primitives
@@ -58,7 +57,7 @@ public struct ARCSkeletonShowcase: View {
 
     // MARK: - Animation Toggle
 
-    @ViewBuilder private var animationToggle: some View {
+    private var animationToggle: some View {
         Toggle("Shimmer Animation", isOn: $isAnimating)
             .padding()
             .background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
@@ -66,7 +65,7 @@ public struct ARCSkeletonShowcase: View {
 
     // MARK: - Section Picker
 
-    @ViewBuilder private var sectionPicker: some View {
+    private var sectionPicker: some View {
         Picker("Section", selection: $selectedSection) {
             ForEach(ShowcaseSection.allCases, id: \.self) { section in
                 Text(section.rawValue).tag(section)
@@ -77,40 +76,32 @@ public struct ARCSkeletonShowcase: View {
 
     // MARK: - Primitives Section
 
-    @ViewBuilder private var primitivesSection: some View {
+    private var primitivesSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Shapes")
 
             showcaseRow("Rectangle") {
-                ARCSkeletonView(configuration: ARCSkeletonConfiguration(
-                    shape: .rectangle,
-                    size: .fixed(width: 80, height: 40),
-                    shimmerEnabled: isAnimating
-                ))
+                ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .rectangle,
+                                                                        size: .fixed(width: 80, height: 40),
+                                                                        shimmerEnabled: isAnimating))
             }
 
             showcaseRow("Rounded Rectangle") {
-                ARCSkeletonView(configuration: ARCSkeletonConfiguration(
-                    shape: .roundedRectangle(cornerRadius: 12),
-                    size: .fixed(width: 80, height: 40),
-                    shimmerEnabled: isAnimating
-                ))
+                ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: 12),
+                                                                        size: .fixed(width: 80, height: 40),
+                                                                        shimmerEnabled: isAnimating))
             }
 
             showcaseRow("Circle") {
-                ARCSkeletonView(configuration: ARCSkeletonConfiguration(
-                    shape: .circle,
-                    size: .fixed(width: 50, height: 50),
-                    shimmerEnabled: isAnimating
-                ))
+                ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .circle,
+                                                                        size: .fixed(width: 50, height: 50),
+                                                                        shimmerEnabled: isAnimating))
             }
 
             showcaseRow("Capsule") {
-                ARCSkeletonView(configuration: ARCSkeletonConfiguration(
-                    shape: .capsule,
-                    size: .fixed(width: 100, height: 36),
-                    shimmerEnabled: isAnimating
-                ))
+                ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .capsule,
+                                                                        size: .fixed(width: 100, height: 36),
+                                                                        shimmerEnabled: isAnimating))
             }
 
             Divider()
@@ -148,7 +139,7 @@ public struct ARCSkeletonShowcase: View {
 
     // MARK: - Text Section
 
-    @ViewBuilder private var textSection: some View {
+    private var textSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Single Lines")
 
@@ -169,28 +160,22 @@ public struct ARCSkeletonShowcase: View {
             sectionHeader("Multiple Lines")
 
             showcaseRow("2 Lines") {
-                ARCSkeletonText(
-                    lineCount: 2,
-                    staggerDelay: isAnimating ? 0.05 : 0,
-                    configuration: shimmerConfig(.text)
-                )
+                ARCSkeletonText(lineCount: 2,
+                                staggerDelay: isAnimating ? 0.05 : 0,
+                                configuration: shimmerConfig(.text))
             }
 
             showcaseRow("3 Lines (Default)") {
-                ARCSkeletonText(
-                    lineCount: 3,
-                    staggerDelay: isAnimating ? 0.05 : 0,
-                    configuration: shimmerConfig(.text)
-                )
+                ARCSkeletonText(lineCount: 3,
+                                staggerDelay: isAnimating ? 0.05 : 0,
+                                configuration: shimmerConfig(.text))
             }
 
             showcaseRow("Paragraph (4 lines)") {
-                ARCSkeletonText(
-                    lineCount: 4,
-                    lastLineWidth: 0.6,
-                    staggerDelay: isAnimating ? 0.05 : 0,
-                    configuration: shimmerConfig(.text)
-                )
+                ARCSkeletonText(lineCount: 4,
+                                lastLineWidth: 0.6,
+                                staggerDelay: isAnimating ? 0.05 : 0,
+                                configuration: shimmerConfig(.text))
             }
 
             Divider()
@@ -213,7 +198,7 @@ public struct ARCSkeletonShowcase: View {
 
     // MARK: - Cards Section
 
-    @ViewBuilder private var cardsSection: some View {
+    private var cardsSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Card Presets")
 
@@ -241,26 +226,22 @@ public struct ARCSkeletonShowcase: View {
             sectionHeader("Custom Options")
 
             showcaseRow("No Footer") {
-                ARCSkeletonCard(
-                    showImage: true,
-                    showFooter: false
-                )
-                .frame(width: 200)
+                ARCSkeletonCard(showImage: true,
+                                showFooter: false)
+                    .frame(width: 200)
             }
 
             showcaseRow("Multiple Subtitles") {
-                ARCSkeletonCard(
-                    showImage: true,
-                    subtitleLines: 2
-                )
-                .frame(width: 200)
+                ARCSkeletonCard(showImage: true,
+                                subtitleLines: 2)
+                    .frame(width: 200)
             }
         }
     }
 
     // MARK: - Layouts Section
 
-    @ViewBuilder private var layoutsSection: some View {
+    private var layoutsSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("List Row Pattern")
 
@@ -288,14 +269,12 @@ public struct ARCSkeletonShowcase: View {
 
     // MARK: - Helpers
 
-    @ViewBuilder
     private func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.headline)
             .foregroundStyle(.primary)
     }
 
-    @ViewBuilder
     private func showcaseRow(_ title: String, @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: .arcSpacingSmall) {
             Text(title)
@@ -305,29 +284,25 @@ public struct ARCSkeletonShowcase: View {
         }
     }
 
-    @ViewBuilder
     private func textSkeletonView(_ config: ARCSkeletonConfiguration, width: CGFloat) -> some View {
         ARCSkeletonView(configuration: shimmerConfig(config))
             .frame(width: width)
     }
 
     func shimmerConfig(_ base: ARCSkeletonConfiguration, delay: Double = 0) -> ARCSkeletonConfiguration {
-        ARCSkeletonConfiguration(
-            shape: base.shape,
-            size: base.size,
-            baseColor: base.baseColor,
-            highlightColor: base.highlightColor,
-            animationDuration: base.animationDuration,
-            animationDelay: delay,
-            shimmerEnabled: isAnimating
-        )
+        ARCSkeletonConfiguration(shape: base.shape,
+                                 size: base.size,
+                                 baseColor: base.baseColor,
+                                 highlightColor: base.highlightColor,
+                                 animationDuration: base.animationDuration,
+                                 animationDelay: delay,
+                                 shimmerEnabled: isAnimating)
     }
 }
 
 // MARK: - Showcase Section
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCSkeletonShowcase {
+@available(iOS 17.0, macOS 14.0, *) extension ARCSkeletonShowcase {
     enum ShowcaseSection: String, CaseIterable {
         case primitives = "Primitives"
         case text = "Text"
@@ -338,9 +313,8 @@ extension ARCSkeletonShowcase {
 
 // MARK: - Layout Patterns
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCSkeletonShowcase {
-    @ViewBuilder var listRowPattern: some View {
+@available(iOS 17.0, macOS 14.0, *) extension ARCSkeletonShowcase {
+    var listRowPattern: some View {
         VStack(spacing: .arcSpacingMedium) {
             ForEach(0 ..< 3, id: \.self) { index in
                 HStack(spacing: .arcSpacingMedium) {
@@ -363,22 +337,18 @@ extension ARCSkeletonShowcase {
         }
     }
 
-    @ViewBuilder var gridPattern: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ], spacing: .arcSpacingMedium) {
+    var gridPattern: some View {
+        LazyVGrid(columns: [GridItem(.flexible()),
+                            GridItem(.flexible())], spacing: .arcSpacingMedium) {
             ForEach(0 ..< 4, id: \.self) { _ in
-                ARCSkeletonCard(
-                    imageHeight: 100,
-                    subtitleLines: 1,
-                    showFooter: true
-                )
+                ARCSkeletonCard(imageHeight: 100,
+                                subtitleLines: 1,
+                                showFooter: true)
             }
         }
     }
 
-    @ViewBuilder var profilePattern: some View {
+    var profilePattern: some View {
         VStack(spacing: .arcSpacingLarge) {
             // Profile header
             HStack(spacing: .arcSpacingMedium) {
@@ -407,17 +377,15 @@ extension ARCSkeletonShowcase {
             }
 
             // Bio
-            ARCSkeletonText(
-                lineCount: 3,
-                lastLineWidth: 0.7,
-                configuration: shimmerConfig(.text, delay: 0.2)
-            )
+            ARCSkeletonText(lineCount: 3,
+                            lastLineWidth: 0.7,
+                            configuration: shimmerConfig(.text, delay: 0.2))
         }
         .padding()
         .background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 16))
     }
 
-    @ViewBuilder var articlePattern: some View {
+    var articlePattern: some View {
         VStack(alignment: .leading, spacing: .arcSpacingMedium) {
             // Hero image
             ARCSkeletonView(configuration: shimmerConfig(.image))
@@ -440,11 +408,9 @@ extension ARCSkeletonShowcase {
             Divider()
 
             // Article body
-            ARCSkeletonText(
-                lineCount: 5,
-                lastLineWidth: 0.5,
-                configuration: shimmerConfig(.text, delay: 0.35)
-            )
+            ARCSkeletonText(lineCount: 5,
+                            lastLineWidth: 0.5,
+                            configuration: shimmerConfig(.text, delay: 0.35))
         }
         .padding()
         .background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 16))

@@ -43,8 +43,7 @@ import SwiftUI
 ///     BannerView(banner: banner)
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCFeaturedCarousel<Data: RandomAccessCollection, Content: View>: View
+@available(iOS 17.0, macOS 14.0, *) public struct ARCFeaturedCarousel<Data: RandomAccessCollection, Content: View>: View
 where Data.Element: Identifiable {
     // MARK: - Properties
 
@@ -67,13 +66,11 @@ where Data.Element: Identifiable {
     ///   - autoScrollInterval: Time between auto-scroll advances (default: 5 seconds)
     ///   - showIndicators: Whether to show page indicators (default: true)
     ///   - content: A view builder that creates the view for each item
-    public init(
-        _ data: Data,
-        currentIndex: Binding<Int> = .constant(0),
-        autoScrollInterval: TimeInterval = 5,
-        showIndicators: Bool = true,
-        @ViewBuilder content: @escaping (Data.Element) -> Content
-    ) {
+    public init(_ data: Data,
+                currentIndex: Binding<Int> = .constant(0),
+                autoScrollInterval: TimeInterval = 5,
+                showIndicators: Bool = true,
+                @ViewBuilder content: @escaping (Data.Element) -> Content) {
         self.data = data
         _currentIndex = currentIndex
         self.autoScrollInterval = autoScrollInterval
@@ -84,11 +81,9 @@ where Data.Element: Identifiable {
     // MARK: - Body
 
     public var body: some View {
-        ARCCarousel(
-            data,
-            currentIndex: $currentIndex,
-            configuration: configuration
-        ) { item in
+        ARCCarousel(data,
+                    currentIndex: $currentIndex,
+                    configuration: configuration) { item in
             content(item)
         }
     }
@@ -96,27 +91,24 @@ where Data.Element: Identifiable {
     // MARK: - Configuration
 
     private var configuration: ARCCarouselConfiguration {
-        ARCCarouselConfiguration(
-            itemSize: .fractional(0.9),
-            itemSpacing: 12,
-            contentInsets: EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20),
-            snapBehavior: .item,
-            autoScrollEnabled: true,
-            autoScrollInterval: autoScrollInterval,
-            pauseOnInteraction: true,
-            indicatorStyle: showIndicators ? .dots : .none,
-            indicatorPosition: .overlay(alignment: .bottom),
-            showShadows: true,
-            scaleEffect: .default,
-            itemCornerRadius: 20
-        )
+        ARCCarouselConfiguration(itemSize: .fractional(0.9),
+                                 itemSpacing: 12,
+                                 contentInsets: EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20),
+                                 snapBehavior: .item,
+                                 autoScrollEnabled: true,
+                                 autoScrollInterval: autoScrollInterval,
+                                 pauseOnInteraction: true,
+                                 indicatorStyle: showIndicators ? .dots : .none,
+                                 indicatorPosition: .overlay(alignment: .bottom),
+                                 showShadows: true,
+                                 scaleEffect: .default,
+                                 itemCornerRadius: 20)
     }
 }
 
 // MARK: - Preview
 
-@available(iOS 17.0, macOS 14.0, *)
-private struct FeaturedPreviewItem: Identifiable {
+@available(iOS 17.0, macOS 14.0, *) private struct FeaturedPreviewItem: Identifiable {
     let id = UUID()
     let color: Color
     let title: String
@@ -125,12 +117,10 @@ private struct FeaturedPreviewItem: Identifiable {
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("ARCFeaturedCarousel") {
-    let items = [
-        FeaturedPreviewItem(color: .blue, title: "Summer Sale", subtitle: "Up to 50% off"),
-        FeaturedPreviewItem(color: .orange, title: "New Arrivals", subtitle: "Check out what's new"),
-        FeaturedPreviewItem(color: .purple, title: "Featured", subtitle: "Editor's choice"),
-        FeaturedPreviewItem(color: .green, title: "Trending", subtitle: "Popular this week")
-    ]
+    let items = [FeaturedPreviewItem(color: .blue, title: "Summer Sale", subtitle: "Up to 50% off"),
+                 FeaturedPreviewItem(color: .orange, title: "New Arrivals", subtitle: "Check out what's new"),
+                 FeaturedPreviewItem(color: .purple, title: "Featured", subtitle: "Editor's choice"),
+                 FeaturedPreviewItem(color: .green, title: "Trending", subtitle: "Popular this week")]
 
     VStack {
         Text("Featured")
