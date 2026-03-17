@@ -27,7 +27,7 @@ import SwiftUI
 ///
 /// ARCForgotPasswordView(viewModel: viewModel)
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCForgotPasswordView: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCForgotPasswordView<FooterContent: View>: View {
     // MARK: Properties
 
     @Bindable private var viewModel: ARCForgotPasswordViewModel
@@ -44,10 +44,85 @@ import SwiftUI
     private let successIconColor: Color
     private let errorAlertTitle: String
     private let errorAlertDismissLabel: String
+    private let footerContent: FooterContent
 
     // MARK: Initialization
 
-    /// Creates a forgot-password view.
+    /// Creates a forgot-password view with an optional footer below the send button.
+    ///
+    /// - Parameters:
+    ///   - viewModel: The observable view model driving this screen.
+    ///   - navigationTitle: Navigation bar title (default: `"Reset Password"`).
+    ///   - instructionText: Instruction text shown above the email field.
+    ///   - emailPlaceholder: Email field placeholder (default: `"Email"`).
+    ///   - sendLabel: Primary button label (default: `"Send Reset Link"`).
+    ///   - successTitle: Title shown on the success screen (default: `"Link sent"`).
+    ///   - successMessage: Body shown on the success screen.
+    ///   - successIcon: SF Symbol name for the success state icon (default: `"checkmark.circle.fill"`).
+    ///   - successIconColor: Color of the success state icon (default: `.green`).
+    ///   - errorAlertTitle: Title of the error alert (default: `"Error"`).
+    ///   - errorAlertDismissLabel: Dismiss button label of the error alert (default: `"OK"`).
+    ///   - footerContent: Additional content rendered below the send button (e.g. a "Contact support" link).
+    public init(viewModel: ARCForgotPasswordViewModel,
+                navigationTitle: String = "Reset Password",
+                instructionText: String = "Enter your email address and we'll send you a link to reset your password.",
+                emailPlaceholder: String = "Email",
+                sendLabel: String = "Send Reset Link",
+                successTitle: String = "Link sent",
+                successMessage: String = "Check your email and follow the instructions to reset your password.",
+                successIcon: String = "checkmark.circle.fill",
+                successIconColor: Color = .green,
+                errorAlertTitle: String = "Error",
+                errorAlertDismissLabel: String = "OK",
+                @ViewBuilder footerContent: () -> FooterContent) {
+        self.viewModel = viewModel
+        self.navigationTitle = navigationTitle
+        self.instructionText = instructionText
+        self.emailPlaceholder = emailPlaceholder
+        self.sendLabel = sendLabel
+        self.successTitle = successTitle
+        self.successMessage = successMessage
+        self.successIcon = successIcon
+        self.successIconColor = successIconColor
+        self.errorAlertTitle = errorAlertTitle
+        self.errorAlertDismissLabel = errorAlertDismissLabel
+        self.footerContent = footerContent()
+    }
+
+    // MARK: View
+
+    public var body: some View {
+        ScrollView {
+            VStack(spacing: .arcSpacingXLarge) {
+                if viewModel.didSendReset {
+                    successState
+                } else {
+                    inputState
+                }
+                if FooterContent.self != EmptyView.self {
+                    footerContent
+                }
+            }
+            .padding(.horizontal, .arcSpacingXLarge)
+            .padding(.vertical, .arcSpacingXLarge)
+        }
+        .navigationTitle(navigationTitle)
+        #if os(iOS)
+            .navigationBarTitleDisplayMode(.large)
+        #endif
+            .disabled(viewModel.isLoading)
+            .alert(errorAlertTitle, isPresented: .constant(viewModel.errorMessage != nil)) {
+                Button(errorAlertDismissLabel) { viewModel.errorMessage = nil }
+            } message: {
+                Text(viewModel.errorMessage ?? "")
+            }
+    }
+}
+
+// MARK: - Convenience Init (no footer)
+
+@available(iOS 17.0, macOS 14.0, *) extension ARCForgotPasswordView where FooterContent == EmptyView {
+    /// Creates a forgot-password view with no footer content.
     ///
     /// - Parameters:
     ///   - viewModel: The observable view model driving this screen.
@@ -72,43 +147,18 @@ import SwiftUI
                 successIconColor: Color = .green,
                 errorAlertTitle: String = "Error",
                 errorAlertDismissLabel: String = "OK") {
-        self.viewModel = viewModel
-        self.navigationTitle = navigationTitle
-        self.instructionText = instructionText
-        self.emailPlaceholder = emailPlaceholder
-        self.sendLabel = sendLabel
-        self.successTitle = successTitle
-        self.successMessage = successMessage
-        self.successIcon = successIcon
-        self.successIconColor = successIconColor
-        self.errorAlertTitle = errorAlertTitle
-        self.errorAlertDismissLabel = errorAlertDismissLabel
-    }
-
-    // MARK: View
-
-    public var body: some View {
-        ScrollView {
-            VStack(spacing: .arcSpacingXLarge) {
-                if viewModel.didSendReset {
-                    successState
-                } else {
-                    inputState
-                }
-            }
-            .padding(.horizontal, .arcSpacingXLarge)
-            .padding(.vertical, .arcSpacingXLarge)
-        }
-        .navigationTitle(navigationTitle)
-        #if os(iOS)
-            .navigationBarTitleDisplayMode(.large)
-        #endif
-            .disabled(viewModel.isLoading)
-            .alert(errorAlertTitle, isPresented: .constant(viewModel.errorMessage != nil)) {
-                Button(errorAlertDismissLabel) { viewModel.errorMessage = nil }
-            } message: {
-                Text(viewModel.errorMessage ?? "")
-            }
+        self.init(viewModel: viewModel,
+                  navigationTitle: navigationTitle,
+                  instructionText: instructionText,
+                  emailPlaceholder: emailPlaceholder,
+                  sendLabel: sendLabel,
+                  successTitle: successTitle,
+                  successMessage: successMessage,
+                  successIcon: successIcon,
+                  successIconColor: successIconColor,
+                  errorAlertTitle: errorAlertTitle,
+                  errorAlertDismissLabel: errorAlertDismissLabel,
+                  footerContent: { EmptyView() })
     }
 }
 
