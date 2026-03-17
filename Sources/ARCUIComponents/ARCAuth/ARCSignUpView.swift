@@ -42,6 +42,7 @@ import SwiftUI
     private let passwordPlaceholder: String
     private let confirmPasswordPlaceholder: String
     private let signUpLabel: String
+    private let passwordValidation: ARCTextFieldValidation?
     private let errorAlertTitle: String
     private let errorAlertDismissLabel: String
     private let socialContent: SocialContent
@@ -57,6 +58,8 @@ import SwiftUI
     ///   - passwordPlaceholder: Password field placeholder (default: `"Password"`).
     ///   - confirmPasswordPlaceholder: Confirm-password field placeholder (default: `"Confirm password"`).
     ///   - signUpLabel: Primary button label (default: `"Create Account"`).
+    ///   - passwordValidation: Validation rules applied to the password field (default: `.strongPassword`). Pass `nil`
+    /// to disable.
     ///   - errorAlertTitle: Title of the error alert (default: `"Error"`).
     ///   - errorAlertDismissLabel: Dismiss button label of the error alert (default: `"OK"`).
     ///   - socialContent: Additional sign-in buttons (Apple, Google, etc.). Omit for email-only.
@@ -66,6 +69,7 @@ import SwiftUI
                 passwordPlaceholder: String = "Password",
                 confirmPasswordPlaceholder: String = "Confirm password",
                 signUpLabel: String = "Create Account",
+                passwordValidation: ARCTextFieldValidation? = .strongPassword,
                 errorAlertTitle: String = "Error",
                 errorAlertDismissLabel: String = "OK",
                 @ViewBuilder socialContent: () -> SocialContent) {
@@ -75,6 +79,7 @@ import SwiftUI
         self.passwordPlaceholder = passwordPlaceholder
         self.confirmPasswordPlaceholder = confirmPasswordPlaceholder
         self.signUpLabel = signUpLabel
+        self.passwordValidation = passwordValidation
         self.errorAlertTitle = errorAlertTitle
         self.errorAlertDismissLabel = errorAlertDismissLabel
         self.socialContent = socialContent()
@@ -118,6 +123,8 @@ import SwiftUI
     ///   - passwordPlaceholder: Password field placeholder (default: `"Password"`).
     ///   - confirmPasswordPlaceholder: Confirm-password field placeholder (default: `"Confirm password"`).
     ///   - signUpLabel: Primary button label (default: `"Create Account"`).
+    ///   - passwordValidation: Validation rules applied to the password field (default: `.strongPassword`). Pass `nil`
+    /// to disable.
     ///   - errorAlertTitle: Title of the error alert (default: `"Error"`).
     ///   - errorAlertDismissLabel: Dismiss button label of the error alert (default: `"OK"`).
     public init(viewModel: ARCSignUpViewModel,
@@ -126,6 +133,7 @@ import SwiftUI
                 passwordPlaceholder: String = "Password",
                 confirmPasswordPlaceholder: String = "Confirm password",
                 signUpLabel: String = "Create Account",
+                passwordValidation: ARCTextFieldValidation? = .strongPassword,
                 errorAlertTitle: String = "Error",
                 errorAlertDismissLabel: String = "OK") {
         self.init(viewModel: viewModel,
@@ -134,6 +142,7 @@ import SwiftUI
                   passwordPlaceholder: passwordPlaceholder,
                   confirmPasswordPlaceholder: confirmPasswordPlaceholder,
                   signUpLabel: signUpLabel,
+                  passwordValidation: passwordValidation,
                   errorAlertTitle: errorAlertTitle,
                   errorAlertDismissLabel: errorAlertDismissLabel,
                   socialContent: { EmptyView() })
@@ -159,7 +168,7 @@ import SwiftUI
                            configuration: ARCTextFieldConfiguration(inputType: .password,
                                                                     label: passwordPlaceholder,
                                                                     leadingIcon: "lock",
-                                                                    validation: .strongPassword,
+                                                                    validation: passwordValidation,
                                                                     autocapitalization: .never,
                                                                     autocorrection: false,
                                                                     clearButton: .never))
