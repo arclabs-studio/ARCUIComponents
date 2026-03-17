@@ -40,6 +40,8 @@ import SwiftUI
     private let sendLabel: String
     private let successTitle: String
     private let successMessage: String
+    private let successIcon: String
+    private let successIconColor: Color
     private let errorAlertTitle: String
     private let errorAlertDismissLabel: String
 
@@ -55,6 +57,8 @@ import SwiftUI
     ///   - sendLabel: Primary button label (default: `"Send Reset Link"`).
     ///   - successTitle: Title shown on the success screen (default: `"Link sent"`).
     ///   - successMessage: Body shown on the success screen.
+    ///   - successIcon: SF Symbol name for the success state icon (default: `"checkmark.circle.fill"`).
+    ///   - successIconColor: Color of the success state icon (default: `.green`).
     ///   - errorAlertTitle: Title of the error alert (default: `"Error"`).
     ///   - errorAlertDismissLabel: Dismiss button label of the error alert (default: `"OK"`).
     public init(viewModel: ARCForgotPasswordViewModel,
@@ -64,6 +68,8 @@ import SwiftUI
                 sendLabel: String = "Send Reset Link",
                 successTitle: String = "Link sent",
                 successMessage: String = "Check your email and follow the instructions to reset your password.",
+                successIcon: String = "checkmark.circle.fill",
+                successIconColor: Color = .green,
                 errorAlertTitle: String = "Error",
                 errorAlertDismissLabel: String = "OK") {
         self.viewModel = viewModel
@@ -73,6 +79,8 @@ import SwiftUI
         self.sendLabel = sendLabel
         self.successTitle = successTitle
         self.successMessage = successMessage
+        self.successIcon = successIcon
+        self.successIconColor = successIconColor
         self.errorAlertTitle = errorAlertTitle
         self.errorAlertDismissLabel = errorAlertDismissLabel
     }
@@ -134,9 +142,9 @@ import SwiftUI
 
     private var successState: some View {
         VStack(spacing: .arcSpacingLarge) {
-            Image(systemName: "checkmark.circle.fill")
+            Image(systemName: successIcon)
                 .font(.system(size: 60))
-                .foregroundStyle(.green)
+                .foregroundStyle(successIconColor)
 
             Text(successTitle)
                 .font(.title2.bold())
