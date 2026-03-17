@@ -73,15 +73,17 @@ import SwiftUI
     // MARK: View
 
     public var body: some View {
-        VStack(spacing: .arcSpacingXLarge) {
-            if viewModel.didSendReset {
-                successState
-            } else {
-                inputState
+        ScrollView {
+            VStack(spacing: .arcSpacingXLarge) {
+                if viewModel.didSendReset {
+                    successState
+                } else {
+                    inputState
+                }
             }
+            .padding(.horizontal, .arcSpacingXLarge)
+            .padding(.vertical, .arcSpacingXLarge)
         }
-        .padding(.horizontal, .arcSpacingXLarge)
-        .padding(.vertical, .arcSpacingXLarge)
         .navigationTitle(navigationTitle)
         #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
