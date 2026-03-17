@@ -16,8 +16,7 @@ import Testing
     private typealias Validation = ARCTextFieldValidation
 
     private func makeSUT(rules: [Validation.ValidationRule],
-                         mode: Validation.ValidationMode = .all) -> ARCTextFieldValidation
-    {
+                         mode: Validation.ValidationMode = .all) -> ARCTextFieldValidation {
         ARCTextFieldValidation(rules: rules, mode: mode)
     }
 

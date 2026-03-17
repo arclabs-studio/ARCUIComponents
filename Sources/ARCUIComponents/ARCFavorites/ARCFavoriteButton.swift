@@ -123,8 +123,7 @@ import UIKit
                 color: Color = .pink,
                 size: Size = .medium,
                 haptics: Bool = true,
-                onToggle: ((Bool) -> Void)? = nil)
-    {
+                onToggle: ((Bool) -> Void)? = nil) {
         _isFavorite = isFavorite
         self.icon = icon
         self.color = color

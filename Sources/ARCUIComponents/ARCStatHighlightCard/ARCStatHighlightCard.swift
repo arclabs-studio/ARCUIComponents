@@ -69,8 +69,7 @@ import SwiftUI
                 rating: Double,
                 icon: String,
                 accentColor: Color,
-                configuration: ARCStatHighlightCardConfiguration = .default)
-    {
+                configuration: ARCStatHighlightCardConfiguration = .default) {
         self.title = title
         self.headline = headline
         self.rating = rating
@@ -97,8 +96,7 @@ import SwiftUI
                 subtitleIcon: String? = nil,
                 icon: String,
                 accentColor: Color,
-                configuration: ARCStatHighlightCardConfiguration = .default)
-    {
+                configuration: ARCStatHighlightCardConfiguration = .default) {
         self.title = title
         self.headline = headline
         rating = nil

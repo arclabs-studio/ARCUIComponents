@@ -81,8 +81,7 @@ import SwiftUI
     public init(value: Value,
                 label: String? = nil,
                 icon: String? = nil,
-                accessibilityLabel: String? = nil)
-    {
+                accessibilityLabel: String? = nil) {
         id = UUID()
         self.value = value
         self.label = label

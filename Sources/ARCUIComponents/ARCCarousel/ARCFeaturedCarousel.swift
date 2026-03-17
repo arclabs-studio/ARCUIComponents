@@ -70,8 +70,7 @@ where Data.Element: Identifiable {
                 currentIndex: Binding<Int> = .constant(0),
                 autoScrollInterval: TimeInterval = 5,
                 showIndicators: Bool = true,
-                @ViewBuilder content: @escaping (Data.Element) -> Content)
-    {
+                @ViewBuilder content: @escaping (Data.Element) -> Content) {
         self.data = data
         _currentIndex = currentIndex
         self.autoScrollInterval = autoScrollInterval
@@ -84,8 +83,7 @@ where Data.Element: Identifiable {
     public var body: some View {
         ARCCarousel(data,
                     currentIndex: $currentIndex,
-                    configuration: configuration)
-        { item in
+                    configuration: configuration) { item in
             content(item)
         }
     }

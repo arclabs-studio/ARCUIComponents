@@ -121,8 +121,7 @@ import SwiftUI
     public init(selectedDetent: Binding<ARCBottomSheetDetent>,
                 detents: Set<ARCBottomSheetDetent> = [.medium, .large],
                 configuration: ARCBottomSheetConfiguration = .default,
-                @ViewBuilder content: @escaping () -> Content)
-    {
+                @ViewBuilder content: @escaping () -> Content) {
         _selectedDetent = selectedDetent
         self.detents = detents.isEmpty ? [.medium, .large] : detents
         self.configuration = configuration
@@ -334,8 +333,7 @@ import SwiftUI
 
                 ARCBottomSheet(selectedDetent: $detent,
                                detents: [.small, .medium, .large],
-                               configuration: .default)
-                {
+                               configuration: .default) {
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Sheet Content")
                             .font(.headline)

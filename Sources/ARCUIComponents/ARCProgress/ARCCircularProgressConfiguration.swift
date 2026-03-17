@@ -140,8 +140,7 @@ import SwiftUI
                 startAngle: Angle = .degrees(-90),
                 animated: Bool = true,
                 animationDuration: Double = 0.3,
-                rotationDuration: Double = 1.0)
-    {
+                rotationDuration: Double = 1.0) {
         self.size = size
         self.lineWidth = lineWidth ?? size.defaultLineWidth
         self.trackColor = trackColor

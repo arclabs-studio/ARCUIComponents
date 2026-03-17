@@ -185,8 +185,7 @@ import SwiftUI
                 accentColor: Color = .arcBrandBurgundy,
                 backgroundStyle: ARCBackgroundStyle = .liquidGlass,
                 cornerRadius: CGFloat = 20,
-                shadow: ARCShadow = .prominent)
-    {
+                shadow: ARCShadow = .prominent) {
         self.showHandle = showHandle
         self.handleColor = handleColor
         self.handleWidth = handleWidth

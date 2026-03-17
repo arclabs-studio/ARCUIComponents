@@ -69,8 +69,7 @@ import SwiftUI
                 spacing: CGFloat = .arcSpacingSmall,
                 padding: CGFloat = .arcSpacingMedium,
                 cornerRadius: CGFloat = .arcCornerRadiusMedium,
-                ratingStyle: ARCRatingStyle = .circularGauge)
-    {
+                ratingStyle: ARCRatingStyle = .circularGauge) {
         self.iconColor = iconColor
         self.valueFont = valueFont
         self.labelFont = labelFont

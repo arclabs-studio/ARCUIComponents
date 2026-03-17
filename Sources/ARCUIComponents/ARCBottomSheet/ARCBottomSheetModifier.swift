@@ -155,8 +155,7 @@ import SwiftUI
                                selectedDetent: Binding<ARCBottomSheetDetent>,
                                configuration: ARCBottomSheetConfiguration = .default,
                                onDismiss: (() -> Void)? = nil,
-                               @ViewBuilder content: @escaping () -> some View) -> some View
-    {
+                               @ViewBuilder content: @escaping () -> some View) -> some View {
         modifier(ARCBottomSheetModifier(isPresented: isPresented,
                                         detents: detents,
                                         selectedDetent: selectedDetent,
@@ -199,8 +198,7 @@ import SwiftUI
     public func arcPersistentSheet(selectedDetent: Binding<ARCBottomSheetDetent>,
                                    detents: Set<ARCBottomSheetDetent>,
                                    configuration: ARCBottomSheetConfiguration = .persistent,
-                                   @ViewBuilder content: @escaping () -> some View) -> some View
-    {
+                                   @ViewBuilder content: @escaping () -> some View) -> some View {
         modifier(ARCPersistentSheetModifier(selectedDetent: selectedDetent,
                                             detents: detents,
                                             configuration: configuration,
@@ -280,8 +278,7 @@ import SwiftUI
             }
             .arcPersistentSheet(selectedDetent: $detent,
                                 detents: [.small, .medium, .large],
-                                configuration: .drawer)
-            {
+                                configuration: .drawer) {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
                         Image(systemName: "magnifyingglass")

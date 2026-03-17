@@ -65,8 +65,7 @@ public struct ArtworkConfiguration: Sendable {
                 aspectRatio: CGFloat = 1.0,
                 cornerRadius: CGFloat = 16,
                 shadowRadius: CGFloat = 14,
-                shadowOffset: CGSize = CGSize(width: 0, height: 8))
-    {
+                shadowOffset: CGSize = CGSize(width: 0, height: 8)) {
         self.baseShape = baseShape
         self.aspectRatio = aspectRatio
         self.cornerRadius = cornerRadius

@@ -100,8 +100,7 @@ import SwiftUI
                 imageColor: Color? = nil,
                 title: String,
                 subtitle: String,
-                accentColor: Color? = nil)
-    {
+                accentColor: Color? = nil) {
         id = UUID()
         self.image = image
         self.imageColor = imageColor
@@ -172,8 +171,7 @@ import SwiftUI
     public static func systemImage(_ name: String,
                                    color: Color = .accentColor,
                                    title: String,
-                                   subtitle: String) -> Self
-    {
+                                   subtitle: String) -> Self {
         ARCOnboardingPage(image: .systemImage(name),
                           imageColor: color,
                           title: title,
@@ -202,8 +200,7 @@ import SwiftUI
     /// ```
     public static func assetImage(_ name: String,
                                   title: String,
-                                  subtitle: String) -> Self
-    {
+                                  subtitle: String) -> Self {
         ARCOnboardingPage(image: .assetImage(name),
                           title: title,
                           subtitle: subtitle)
@@ -228,8 +225,7 @@ import SwiftUI
     /// ```
     public static func remoteImage(_ url: URL,
                                    title: String,
-                                   subtitle: String) -> Self
-    {
+                                   subtitle: String) -> Self {
         ARCOnboardingPage(image: .url(url),
                           title: title,
                           subtitle: subtitle)

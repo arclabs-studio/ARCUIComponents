@@ -92,8 +92,7 @@ import SwiftUI
     ///   - rating: Binding to the rating value (1.0-10.0)
     ///   - configuration: Visual and interaction configuration (default: `.slider`)
     public init(rating: Binding<Double>,
-                configuration: ARCRatingInputConfiguration = .slider)
-    {
+                configuration: ARCRatingInputConfiguration = .slider) {
         _rating = rating
         self.configuration = configuration
     }
@@ -110,8 +109,7 @@ import SwiftUI
                 style: ARCRatingInputStyle = .slider,
                 showLabel: Bool = true,
                 showHint: Bool = true,
-                animated: Bool = true)
-    {
+                animated: Bool = true) {
         _rating = rating
         configuration = ARCRatingInputConfiguration(style: style,
                                                     showLabel: showLabel,
@@ -248,8 +246,7 @@ import SwiftUI
     static func applyWrapAroundClamping(newRating: Double,
                                         currentRating: Double,
                                         minRating: Double,
-                                        maxRating: Double) -> Double
-    {
+                                        maxRating: Double) -> Double {
         let ratingRange = maxRating - minRating
         let delta = newRating - currentRating
         if delta > ratingRange / 2 {

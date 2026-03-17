@@ -133,8 +133,7 @@ import SwiftUI
                 style: Style = .filled(.red),
                 maxCount: Int = 99,
                 showZero: Bool = false,
-                animate: Bool = true)
-    {
+                animate: Bool = true) {
         self.size = size
         self.style = style
         self.maxCount = maxCount

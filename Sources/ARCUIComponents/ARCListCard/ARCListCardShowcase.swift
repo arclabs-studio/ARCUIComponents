@@ -63,8 +63,7 @@ import SwiftUI
                 .navigationBarTitleDisplayMode(.large)
             #endif
                 .sheet(item: Binding(get: { selectedItem.map { ItemWrapper(id: $0) } },
-                                     set: { selectedItem = $0?.id }))
-                { item in
+                                     set: { selectedItem = $0?.id })) { item in
                     DetailSheet(item: item.id)
                 }
         }
@@ -89,8 +88,7 @@ import SwiftUI
 
             // Default
             StyleSection(title: "Default",
-                         description: "Translucent background with subtle shadow")
-            {
+                         description: "Translucent background with subtle shadow") {
                 ARCListCard(configuration: .default,
                             image: .system("star.fill", color: .yellow),
                             title: "Default Configuration",
@@ -99,8 +97,7 @@ import SwiftUI
 
             // Prominent
             StyleSection(title: "Prominent",
-                         description: "Liquid glass effect with enhanced depth")
-            {
+                         description: "Liquid glass effect with enhanced depth") {
                 ARCListCard(configuration: .prominent,
                             image: .system("sparkles", color: .blue),
                             title: "Prominent Configuration",
@@ -109,8 +106,7 @@ import SwiftUI
 
             // Glassmorphic
             StyleSection(title: "Glassmorphic",
-                         description: "Apple Music-inspired styling")
-            {
+                         description: "Apple Music-inspired styling") {
                 ARCListCard(configuration: .glassmorphic,
                             image: .system("music.note", color: .pink),
                             title: "Glassmorphic Configuration",
@@ -119,8 +115,7 @@ import SwiftUI
 
             // Subtle
             StyleSection(title: "Subtle",
-                         description: "Minimal styling with separator")
-            {
+                         description: "Minimal styling with separator") {
                 ARCListCard(configuration: .subtle,
                             image: .system("doc.fill", color: .gray),
                             title: "Subtle Configuration",
@@ -139,23 +134,20 @@ import SwiftUI
 
             // Title only
             ContentSection(title: "Title Only",
-                           description: "Minimal card with just a title")
-            {
+                           description: "Minimal card with just a title") {
                 ARCListCard(title: "Simple Title")
             }
 
             // Title and subtitle
             ContentSection(title: "Title & Subtitle",
-                           description: "Card with supporting text")
-            {
+                           description: "Card with supporting text") {
                 ARCListCard(title: "Main Title",
                             subtitle: "Supporting subtitle text")
             }
 
             // With image
             ContentSection(title: "With Image",
-                           description: "Card with leading image")
-            {
+                           description: "Card with leading image") {
                 ARCListCard(image: .system("photo.fill", color: .blue),
                             title: "Title with Image",
                             subtitle: "And a subtitle")
@@ -163,8 +155,7 @@ import SwiftUI
 
             // With accessories
             ContentSection(title: "With Accessories",
-                           description: "Card with trailing elements")
-            {
+                           description: "Card with trailing elements") {
                 ARCListCard(image: .system("music.note", color: .pink),
                             title: "Song Title",
                             subtitle: "Artist Name",
@@ -236,8 +227,7 @@ import SwiftUI
                         ARCListCard(configuration: .default,
                                     image: .system("mic.fill", color: .purple),
                                     title: item.title,
-                                    subtitle: item.subtitle)
-                        {
+                                    subtitle: item.subtitle) {
                             selectedItem = item.id
                         }
                     }

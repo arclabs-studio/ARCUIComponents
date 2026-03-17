@@ -24,8 +24,7 @@ import Testing
     // MARK: - SUT
 
     private func makeSUT(newRating: Double,
-                         currentRating: Double) -> Double
-    {
+                         currentRating: Double) -> Double {
         ARCRatingInputView.applyWrapAroundClamping(newRating: newRating,
                                                    currentRating: currentRating,
                                                    minRating: minRating,

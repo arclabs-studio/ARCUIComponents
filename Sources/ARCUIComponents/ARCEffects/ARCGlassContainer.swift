@@ -77,8 +77,7 @@ import SwiftUI
     ///     Default is 40 points, which works well for most layouts.
     ///   - content: The views to display inside the container.
     public init(spacing: CGFloat = 40,
-                @ViewBuilder content: () -> Content)
-    {
+                @ViewBuilder content: () -> Content) {
         self.spacing = spacing
         self.content = content()
     }

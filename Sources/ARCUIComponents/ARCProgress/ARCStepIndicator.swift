@@ -88,8 +88,7 @@ import SwiftUI
     ///   - configuration: Visual configuration (default: .default)
     public init(totalSteps: Int,
                 currentStep: Int,
-                configuration: ARCStepIndicatorConfiguration = .default)
-    {
+                configuration: ARCStepIndicatorConfiguration = .default) {
         self.totalSteps = max(1, totalSteps)
         self.currentStep = min(max(1, currentStep), totalSteps)
         self.configuration = configuration

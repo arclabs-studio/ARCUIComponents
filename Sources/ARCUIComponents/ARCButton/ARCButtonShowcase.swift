@@ -151,14 +151,12 @@ import SwiftUI
 
                         ARCButton("Submit",
                                   isLoading: $isLoading2,
-                                  configuration: .secondary)
-                        {
+                                  configuration: .secondary) {
                             simulateLoading($isLoading2)
                         }
 
                         ARCButton(icon: "arrow.clockwise",
-                                  isLoading: $isLoading3)
-                        {
+                                  isLoading: $isLoading3) {
                             simulateLoading($isLoading3)
                         }
                     }
@@ -285,8 +283,7 @@ import SwiftUI
 
     private func styleRow(_ title: String,
                           description: String,
-                          @ViewBuilder content: () -> some View) -> some View
-    {
+                          @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

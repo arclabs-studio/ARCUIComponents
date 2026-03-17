@@ -99,8 +99,7 @@ import UIKit
     ///   - configuration: Visual and behavior configuration
     public init(selection: Binding<SelectionValue>,
                 segments: [ARCSegment<SelectionValue>],
-                configuration: ARCSegmentedControlConfiguration = .default)
-    {
+                configuration: ARCSegmentedControlConfiguration = .default) {
         _selection = selection
         self.segments = segments
         self.configuration = configuration
@@ -324,8 +323,7 @@ import UIKit
 @available(iOS 17.0, macOS 14.0, *) extension ARCSegmentedControl where
     SelectionValue: CaseIterable & RawRepresentable,
     SelectionValue.AllCases: RandomAccessCollection,
-    SelectionValue.RawValue == String
-{
+    SelectionValue.RawValue == String {
     /// Creates a segmented control from an enum conforming to CaseIterable
     ///
     /// This convenience initializer automatically creates segments from all cases
@@ -335,8 +333,7 @@ import UIKit
     ///   - selection: Binding to the selected value
     ///   - configuration: Visual and behavior configuration
     public init(selection: Binding<SelectionValue>,
-                configuration: ARCSegmentedControlConfiguration = .default)
-    {
+                configuration: ARCSegmentedControlConfiguration = .default) {
         let segments = SelectionValue.allCases.map { value in
             ARCSegment.text(value.rawValue, value: value)
         }

@@ -98,8 +98,7 @@ import SwiftUI
                 onItemSelected: ((Item) -> Void)? = nil,
                 onItemBookmarked: ((Item) -> Void)? = nil,
                 onEmptyStateAction: (() -> Void)? = nil,
-                onGenerateRecommendations: (() -> Void)? = nil)
-    {
+                onGenerateRecommendations: (() -> Void)? = nil) {
         _mode = .constant(.quick)
         self.categories = categories
         _selectedCategory = selectedCategory
@@ -125,8 +124,7 @@ import SwiftUI
     public init(questions: [AIRecommenderQuestion],
                 answers: Binding<AIRecommenderAnswers>,
                 configuration: ARCAIRecommenderConfiguration = .default,
-                onSubmit: ((AIRecommenderAnswers) -> Void)? = nil)
-    {
+                onSubmit: ((AIRecommenderAnswers) -> Void)? = nil) {
         _mode = .constant(.questionnaire)
         categories = []
         _selectedCategory = .constant(.favorites)
@@ -164,8 +162,7 @@ import SwiftUI
                 onQuestionnaireSubmit: ((AIRecommenderAnswers) -> Void)? = nil,
                 onEmptyStateAction: (() -> Void)? = nil,
                 onQuestionnaireRetake: (() -> Void)? = nil,
-                onGenerateRecommendations: (() -> Void)? = nil)
-    {
+                onGenerateRecommendations: (() -> Void)? = nil) {
         _mode = mode
         self.categories = categories
         _selectedCategory = selectedCategory
@@ -224,8 +221,7 @@ import SwiftUI
             ModeTab(title: "Rápido",
                     icon: "bolt.fill",
                     isSelected: mode == .quick,
-                    accentColor: configuration.accentColor)
-            {
+                    accentColor: configuration.accentColor) {
                 arcWithAnimation(.arcSpring) {
                     mode = .quick
                 }
@@ -234,8 +230,7 @@ import SwiftUI
             ModeTab(title: "Personalizado",
                     icon: "slider.horizontal.3",
                     isSelected: mode == .questionnaire,
-                    accentColor: configuration.accentColor)
-            {
+                    accentColor: configuration.accentColor) {
                 arcWithAnimation(.arcSpring) {
                     mode = .questionnaire
                 }
@@ -306,8 +301,7 @@ import SwiftUI
                         ForEach(Array(questionnaireItems.enumerated()), id: \.element.id) { index, item in
                             AIRecommenderItemCard(item: item,
                                                   rank: configuration.showRankBadges ? index + 1 : nil,
-                                                  configuration: configuration)
-                            {
+                                                  configuration: configuration) {
                                 onItemSelected?(item)
                             }
                         }
@@ -355,8 +349,7 @@ import SwiftUI
                 ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                     AIRecommenderItemCard(item: item,
                                           rank: configuration.showRankBadges ? index + 1 : nil,
-                                          configuration: configuration)
-                    {
+                                          configuration: configuration) {
                         onItemSelected?(item)
                     }
                     .aiGlowBorder(isActive: configuration.showGlowEffect,
@@ -386,8 +379,7 @@ import SwiftUI
                 .multilineTextAlignment(.center)
 
             if let actionText = configuration.emptyStateActionText,
-               let action = onEmptyStateAction
-            {
+               let action = onEmptyStateAction {
                 Button(action: action) {
                     HStack(spacing: .arcSpacingSmall) {
                         Image(systemName: "sparkles")

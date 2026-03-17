@@ -59,8 +59,7 @@ import SwiftUI
                 value: KeyPath<Item, Int>,
                 label: KeyPath<Item, String>,
                 icon: KeyPath<Item, String>? = nil,
-                configuration: ARCDonutChartConfiguration = .default)
-    {
+                configuration: ARCDonutChartConfiguration = .default) {
         self.data = data
         self.value = value
         self.label = label

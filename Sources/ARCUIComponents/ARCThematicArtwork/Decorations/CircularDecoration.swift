@@ -54,8 +54,7 @@ public struct CircularDecoration: View {
     public init(count: Int,
                 radius: CGFloat,
                 dimension: CGFloat,
-                elementBuilder: @escaping (Int, CGFloat) -> DecorationElement)
-    {
+                elementBuilder: @escaping (Int, CGFloat) -> DecorationElement) {
         self.count = count
         self.radius = radius
         self.dimension = dimension
@@ -86,8 +85,7 @@ public struct CircularDecoration: View {
 
         CircularDecoration(count: 6,
                            radius: 0.35,
-                           dimension: 200)
-        { _, dim in
+                           dimension: 200) { _, dim in
             DecorationElement.circle(color: .black,
                                      diameter: dim * 0.12,
                                      opacity: 0.85)
@@ -104,8 +102,7 @@ public struct CircularDecoration: View {
 
         CircularDecoration(count: 16,
                            radius: 0.38,
-                           dimension: 200)
-        { index, dim in
+                           dimension: 200) { index, dim in
             DecorationElement.circle(color: index.isMultiple(of: 2) ? .red : .green,
                                      diameter: dim * 0.08,
                                      blur: 0.4,
@@ -123,8 +120,7 @@ public struct CircularDecoration: View {
 
         CircularDecoration(count: 6,
                            radius: 0.18,
-                           dimension: 200)
-        { _, dim in
+                           dimension: 200) { _, dim in
             DecorationElement.capsule(color: .black,
                                       size: CGSize(width: dim * 0.12, height: dim * 0.52),
                                       opacity: 0.85)

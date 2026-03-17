@@ -110,8 +110,7 @@ private let previewQuestions: [AIRecommenderQuestion] = [AIRecommenderQuestion(i
     NavigationStack {
         ARCAIRecommender<MockRecommendation>(questions: previewQuestions,
                                              answers: $answers,
-                                             configuration: .default)
-        { finalAnswers in
+                                             configuration: .default) { finalAnswers in
             print("Submitted: \(finalAnswers.toDictionary())")
         }
         .navigationTitle("Preferencias")

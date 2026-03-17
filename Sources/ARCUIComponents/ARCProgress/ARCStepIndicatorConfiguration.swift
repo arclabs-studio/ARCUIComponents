@@ -185,8 +185,7 @@ import SwiftUI
                 labelFont: Font = .caption,
                 animated: Bool = true,
                 animationDuration: Double = 0.3,
-                showCheckmarkAnimation: Bool = true)
-    {
+                showCheckmarkAnimation: Bool = true) {
         self.style = style
         self.layout = layout
         self.stepSize = stepSize

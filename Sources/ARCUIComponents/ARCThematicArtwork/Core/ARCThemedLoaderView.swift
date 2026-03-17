@@ -51,8 +51,7 @@ public struct ARCThemedLoaderView<ArtworkType: ArtworkTypeProtocol>: View {
                 size: CGFloat = 64,
                 animationType: ArtworkAnimationType = .spin,
                 animationDuration: Double = 4.0,
-                accessibilityLabel: String = "Loading")
-    {
+                accessibilityLabel: String = "Loading") {
         self.type = type
         self.size = size
         self.animationType = animationType

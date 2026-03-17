@@ -136,8 +136,7 @@ import SwiftUI
                 accentColor: Color = .blue,
                 backgroundStyle: ARCBackgroundStyle = .translucent,
                 cornerRadius: CGFloat = 0,
-                shadow: ARCShadow = .none)
-    {
+                shadow: ARCShadow = .none) {
         self.size = size
         self.selectedColor = selectedColor
         self.unselectedColor = unselectedColor

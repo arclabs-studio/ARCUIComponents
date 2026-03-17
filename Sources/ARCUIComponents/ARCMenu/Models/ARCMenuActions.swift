@@ -63,8 +63,7 @@ public struct ARCMenuActions: Sendable {
                 onFeedback: @escaping @Sendable () -> Void,
                 onSubscriptions: @escaping @Sendable () -> Void,
                 onAbout: @escaping @Sendable () -> Void,
-                onLogout: @escaping @Sendable () -> Void)
-    {
+                onLogout: @escaping @Sendable () -> Void) {
         self.onProfile = onProfile
         self.onSettings = onSettings
         self.onFeedback = onFeedback

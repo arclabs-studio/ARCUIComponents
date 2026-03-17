@@ -53,8 +53,7 @@ import SwiftUI
                 showAnnotations: Bool = false,
                 height: CGFloat? = nil,
                 heightPerBar: CGFloat = 40,
-                horizontalPadding: CGFloat = .arcSpacingLarge)
-    {
+                horizontalPadding: CGFloat = .arcSpacingLarge) {
         self.orientation = orientation
         self.defaultColor = defaultColor
         self.useGradient = useGradient

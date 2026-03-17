@@ -176,8 +176,7 @@ import SwiftUI
                 accentColor: Color = .blue,
                 backgroundStyle: ARCBackgroundStyle = .translucent,
                 cornerRadius: CGFloat = 0, // 0 means capsule
-                shadow: ARCShadow = .none)
-    {
+                shadow: ARCShadow = .none) {
         self.size = size
         self.style = style
         self.color = color

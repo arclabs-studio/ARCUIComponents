@@ -63,8 +63,7 @@ import AppKit
     ///   - configuration: Group configuration (default: .default)
     public init(avatars: [ARCAvatar],
                 maxDisplay: Int = 4,
-                configuration: ARCAvatarGroupConfiguration = .default)
-    {
+                configuration: ARCAvatarGroupConfiguration = .default) {
         self.avatars = avatars
         self.maxDisplay = max(1, maxDisplay)
         self.configuration = configuration
@@ -206,8 +205,7 @@ import AppKit
                 borderWidth: CGFloat = 2,
                 showOverflowCount: Bool = true,
                 overflowBackgroundColor: Color = .gray,
-                overflowForegroundColor: Color = .white)
-    {
+                overflowForegroundColor: Color = .white) {
         self.size = size
         self.avatarShape = avatarShape
         self.overlapPercentage = min(0.5, max(0, overlapPercentage))

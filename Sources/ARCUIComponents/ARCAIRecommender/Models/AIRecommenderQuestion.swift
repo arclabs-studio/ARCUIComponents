@@ -60,8 +60,7 @@ import SwiftUI
                 options: [Option],
                 inputType: InputType = .singleChoice,
                 isRequired: Bool = false,
-                icon: String? = nil)
-    {
+                icon: String? = nil) {
         self.id = id
         self.text = text
         self.subtitle = subtitle
@@ -112,8 +111,7 @@ import SwiftUI
                     label: String,
                     icon: String? = nil,
                     description: String? = nil,
-                    color: Color? = nil)
-        {
+                    color: Color? = nil) {
             self.id = id
             self.label = label
             self.icon = icon

@@ -28,8 +28,7 @@ import SwiftUI
                 ForEach(categories) { category in
                     CategoryCapsule(category: category,
                                     isSelected: selectedCategory == category,
-                                    configuration: configuration)
-                    {
+                                    configuration: configuration) {
                         arcWithAnimation(configuration.categoryAnimation) {
                             selectedCategory = category
                         }

@@ -51,8 +51,7 @@ import SwiftUI
     ///   ``SwiftUI/View/liquidGlass(configuration:isInteractive:)`` or
     ///   the native `.glassEffect()` modifier.
     @ViewBuilder public func arcGlassEffectID<ID: Hashable & Sendable>(_ id: ID,
-                                                                       in namespace: Namespace.ID) -> some View
-    {
+                                                                       in namespace: Namespace.ID) -> some View {
         #if compiler(>=6.2)
         if #available(iOS 26.0, macOS 26.0, *) {
             glassEffectID(id, in: namespace)
@@ -93,8 +92,7 @@ import SwiftUI
     ///   - namespace: The namespace that groups related glass effects together.
     /// - Returns: The view with union applied (iOS 26+) or unchanged (iOS 17-25).
     @ViewBuilder public func arcGlassEffectUnion<ID: Hashable & Sendable>(id: ID,
-                                                                          in namespace: Namespace.ID) -> some View
-    {
+                                                                          in namespace: Namespace.ID) -> some View {
         #if compiler(>=6.2)
         if #available(iOS 26.0, macOS 26.0, *) {
             glassEffectUnion(id: id, namespace: namespace)

@@ -69,8 +69,7 @@ import SwiftUI
                 label: KeyPath<Item, String>,
                 value: KeyPath<Item, Int>,
                 color: ((Item) -> Color)? = nil,
-                configuration: ARCBarChartConfiguration = .default)
-    {
+                configuration: ARCBarChartConfiguration = .default) {
         self.data = data
         self.label = label
         self.value = value

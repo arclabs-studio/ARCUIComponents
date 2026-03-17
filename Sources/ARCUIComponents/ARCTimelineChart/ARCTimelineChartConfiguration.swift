@@ -43,8 +43,7 @@ import SwiftUI
                 height: CGFloat = 200,
                 xAxisStride: Calendar.Component = .month,
                 xAxisStrideCount: Int = 2,
-                horizontalPadding: CGFloat = .arcSpacingLarge)
-    {
+                horizontalPadding: CGFloat = .arcSpacingLarge) {
         self.lineColor = lineColor
         self.fillGradient = fillGradient
         self.lineWidth = lineWidth

@@ -169,8 +169,7 @@ import SwiftUI
                 .padding(.horizontal)
 
             LazyVGrid(columns: [GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: 32)
-            {
+                                GridItem(.flexible())], spacing: 32) {
                 ForEach(ColorVariation.allCases, id: \.self) { variation in
                     ColorExample(variation: variation,
                                  isFavorite: binding(for: variation.id))
@@ -190,15 +189,13 @@ import SwiftUI
 
             // Card Context
             ContextExample(title: "In Card",
-                           description: "Favorite button on a content card")
-            {
+                           description: "Favorite button on a content card") {
                 ContentCard(isFavorite: binding(for: "card"))
             }
 
             // List Context
             ContextExample(title: "In List",
-                           description: "Favorite button in list row")
-            {
+                           description: "Favorite button in list row") {
                 VStack(spacing: 0) {
                     ForEach(1 ... 3, id: \.self) { index in
                         ListRow(title: "Item \(index)",
@@ -220,8 +217,7 @@ import SwiftUI
 
             // Toolbar Context
             ContextExample(title: "In Toolbar",
-                           description: "Favorite button in navigation toolbar")
-            {
+                           description: "Favorite button in navigation toolbar") {
                 VStack(spacing: 0) {
                     // Toolbar
                     HStack {

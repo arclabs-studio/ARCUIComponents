@@ -178,8 +178,7 @@ import SwiftUI
                 hapticFeedback: Bool = true,
                 loadingIndicatorColor: Color? = nil,
                 cornerRadius: CGFloat = 12,
-                shadow: ARCShadow = .subtle)
-    {
+                shadow: ARCShadow = .subtle) {
         self.style = style
         self.size = size
         self.color = color

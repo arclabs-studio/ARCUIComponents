@@ -42,8 +42,7 @@ public struct ARCMenuUserHeader: View {
     ///   - onTap: Optional tap action for the header
     public init(user: ARCMenuUser,
                 configuration: ARCMenuConfiguration,
-                onTap: (() -> Void)? = nil)
-    {
+                onTap: (() -> Void)? = nil) {
         self.user = user
         self.configuration = configuration
         self.onTap = onTap
