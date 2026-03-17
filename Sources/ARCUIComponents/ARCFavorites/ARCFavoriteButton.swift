@@ -40,7 +40,8 @@ import UIKit
 ///     icon: .custom(filled: "hand.thumbsup.fill", empty: "hand.thumbsup")
 /// )
 /// ```
-@available(iOS 17.0, *) public struct ARCFavoriteButton: View {
+@available(iOS 17.0, *)
+public struct ARCFavoriteButton: View {
     // MARK: - Icon Preset
 
     /// Preset icon pairs for common use cases.
@@ -93,9 +94,7 @@ import UIKit
             }
         }
 
-        var touchTarget: CGFloat {
-            max(44, iconSize + 20)
-        }
+        var touchTarget: CGFloat { max(44, iconSize + 20) }
     }
 
     // MARK: - Properties
@@ -118,12 +117,14 @@ import UIKit
     ///   - size: Button size (default: `.medium`)
     ///   - haptics: Enable haptic feedback (default: `true`)
     ///   - onToggle: Optional callback when state changes
-    public init(isFavorite: Binding<Bool>,
-                icon: Icon = .heart,
-                color: Color = .pink,
-                size: Size = .medium,
-                haptics: Bool = true,
-                onToggle: ((Bool) -> Void)? = nil) {
+    public init(
+        isFavorite: Binding<Bool>,
+        icon: Icon = .heart,
+        color: Color = .pink,
+        size: Size = .medium,
+        haptics: Bool = true,
+        onToggle: ((Bool) -> Void)? = nil
+    ) {
         _isFavorite = isFavorite
         self.icon = icon
         self.color = color
@@ -166,7 +167,8 @@ import UIKit
 
 // MARK: - Button Style
 
-@available(iOS 17.0, *) private struct ScaleButtonStyle: ButtonStyle {
+@available(iOS 17.0, *)
+private struct ScaleButtonStyle: ButtonStyle {
     let touchTarget: CGFloat
 
     func makeBody(configuration: Configuration) -> some View {
@@ -214,10 +216,12 @@ import UIKit
 #Preview("Custom Icon") {
     @Previewable @State var liked = false
 
-    ARCFavoriteButton(isFavorite: $liked,
-                      icon: .custom(filled: "hand.thumbsup.fill", empty: "hand.thumbsup"),
-                      color: .blue)
-        .padding()
+    ARCFavoriteButton(
+        isFavorite: $liked,
+        icon: .custom(filled: "hand.thumbsup.fill", empty: "hand.thumbsup"),
+        color: .blue
+    )
+    .padding()
 }
 
 @available(iOS 17.0, *)

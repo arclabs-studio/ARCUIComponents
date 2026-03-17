@@ -11,7 +11,8 @@ import SwiftUI
 // MARK: - ARCBadgeShowcase
 
 /// A comprehensive showcase of all ARCBadge configurations
-@available(iOS 17.0, macOS 14.0, *) public struct ARCBadgeShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCBadgeShowcase: View {
     // MARK: - State
 
     @State private var badgeCount = 5
@@ -44,8 +45,9 @@ import SwiftUI
 
 // MARK: - Sections
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCBadgeShowcase {
-    private var contentTypesSection: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCBadgeShowcase {
+    @ViewBuilder private var contentTypesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Content Types")
 
@@ -79,7 +81,7 @@ import SwiftUI
         }
     }
 
-    private var stylesSection: some View {
+    @ViewBuilder private var stylesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Styles")
 
@@ -112,7 +114,7 @@ import SwiftUI
         }
     }
 
-    private var brandColorsSection: some View {
+    @ViewBuilder private var brandColorsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("ARC Brand Colors")
 
@@ -166,7 +168,7 @@ import SwiftUI
         }
     }
 
-    private var sizesSection: some View {
+    @ViewBuilder private var sizesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Sizes")
 
@@ -191,7 +193,7 @@ import SwiftUI
         }
     }
 
-    private var overlaySection: some View {
+    @ViewBuilder private var overlaySection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("As Overlay")
 
@@ -217,7 +219,7 @@ import SwiftUI
         }
     }
 
-    private var interactiveSection: some View {
+    @ViewBuilder private var interactiveSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Interactive Demo")
 
@@ -246,12 +248,14 @@ import SwiftUI
 
     // MARK: - Helpers
 
+    @ViewBuilder
     private func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.headline)
             .foregroundStyle(.primary)
     }
 
+    @ViewBuilder
     private func row(_ label: String, @ViewBuilder content: () -> some View) -> some View {
         HStack {
             Text(label)

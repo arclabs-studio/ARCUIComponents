@@ -22,8 +22,6 @@ import SwiftUI
 ///     var rating: Double? { averageRating }
 ///     var imageSource: AIRecommenderImageSource? { .system(cuisineIcon) }
 ///     var aiReason: String? { "Te encanta la cocina italiana" }
-///     var location: String? { "Centro, Madrid · 0.5 km" }
-///     var highlightDetail: String? { "Pasta Carbonara" }
 ///
 ///     // Your own properties
 ///     let cuisineType: String
@@ -32,7 +30,8 @@ import SwiftUI
 ///     let cuisineIcon: String
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public protocol AIRecommenderItem: Identifiable, Sendable {
+@available(iOS 17.0, macOS 14.0, *)
+public protocol AIRecommenderItem: Identifiable, Sendable {
     /// Unique identifier for the item
     var id: ID { get }
 
@@ -50,40 +49,16 @@ import SwiftUI
 
     /// Optional AI-generated reason for the recommendation
     var aiReason: String? { get }
-
-    /// Optional location description (e.g., "Centro, Madrid · 0.5 km")
-    var location: String? { get }
-
-    /// Optional highlight detail (e.g., featured dish or standout feature)
-    var highlightDetail: String? { get }
 }
 
 // MARK: - Default Implementations
 
-@available(iOS 17.0, macOS 14.0, *) extension AIRecommenderItem {
-    public var subtitle: String? {
-        nil
-    }
-
-    public var rating: Double? {
-        nil
-    }
-
-    public var imageSource: AIRecommenderImageSource? {
-        nil
-    }
-
-    public var aiReason: String? {
-        nil
-    }
-
-    public var location: String? {
-        nil
-    }
-
-    public var highlightDetail: String? {
-        nil
-    }
+@available(iOS 17.0, macOS 14.0, *)
+extension AIRecommenderItem {
+    public var subtitle: String? { nil }
+    public var rating: Double? { nil }
+    public var imageSource: AIRecommenderImageSource? { nil }
+    public var aiReason: String? { nil }
 }
 
 // MARK: - AIRecommenderImageSource
@@ -107,7 +82,8 @@ import SwiftUI
 /// // Gradient placeholder with initials
 /// .placeholder(text: "MR", colors: [.orange, .red])
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public enum AIRecommenderImageSource: Sendable, Equatable {
+@available(iOS 17.0, macOS 14.0, *)
+public enum AIRecommenderImageSource: Sendable, Equatable {
     /// SF Symbol icon with optional tint color
     case system(String, color: Color = .primary)
 
@@ -122,105 +98,10 @@ import SwiftUI
 
     // MARK: - View Builder
 
-    /// Creates a hero image view for card stack display
-    /// - Parameter height: The height of the hero image container
-    @ViewBuilder public func heroImageView(height: CGFloat = 200) -> some View {
-        switch self {
-        case let .system(name, color):
-            heroSystemView(name: name, color: color, height: height)
-        case let .image(name):
-            heroAssetView(name: name, height: height)
-        case let .url(imageURL):
-            heroAsyncView(url: imageURL, height: height)
-        case let .placeholder(text, colors):
-            heroPlaceholderView(text: text, colors: colors, height: height)
-        }
-    }
-
-    private func heroSystemView(name: String, color: Color, height: CGFloat) -> some View {
-        ZStack {
-            LinearGradient(colors: [color.opacity(0.4), color.opacity(0.15)],
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-            Image(systemName: name)
-                .font(.system(size: 80))
-                .foregroundStyle(color.opacity(0.6))
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: height)
-    }
-
-    private func heroAssetView(name: String, height: CGFloat) -> some View {
-        Image(name)
-            .resizable()
-            .scaledToFill()
-            .frame(maxWidth: .infinity)
-            .frame(height: height)
-            .clipped()
-            .overlay(alignment: .bottom) { heroGradientOverlay(height: height) }
-    }
-
-    private func heroAsyncView(url: URL, height: CGFloat) -> some View {
-        AsyncImage(url: url) { phase in
-            switch phase {
-            case .empty:
-                ZStack {
-                    Color.gray.opacity(0.1)
-                    ProgressView()
-                }
-                .frame(maxWidth: .infinity)
-                .frame(height: height)
-
-            case let .success(image):
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: height)
-                    .clipped()
-                    .overlay(alignment: .bottom) { heroGradientOverlay(height: height) }
-
-            case .failure:
-                heroFailurePlaceholder(height: height)
-
-            @unknown default:
-                Color.gray.opacity(0.1)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: height)
-            }
-        }
-    }
-
-    private func heroPlaceholderView(text: String?, colors: [Color], height: CGFloat) -> some View {
-        ZStack {
-            LinearGradient(colors: colors, startPoint: .topLeading, endPoint: .bottomTrailing)
-            if let text {
-                Text(text)
-                    .font(.system(size: 60, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.6))
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: height)
-    }
-
-    private func heroGradientOverlay(height: CGFloat) -> some View {
-        LinearGradient(colors: [.clear, .black.opacity(0.4)], startPoint: .top, endPoint: .bottom)
-            .frame(height: height * 0.5)
-    }
-
-    private func heroFailurePlaceholder(height: CGFloat) -> some View {
-        ZStack {
-            Color.gray.opacity(0.15)
-            Image(systemName: "photo").font(.system(size: 40)).foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .frame(height: height)
-    }
-
     /// Creates the image view for this source
     /// - Parameter size: The size of the image container
-    @ViewBuilder public func imageView(size: CGFloat = 60) -> some View {
+    @ViewBuilder
+    public func imageView(size: CGFloat = 60) -> some View {
         switch self {
         case let .system(name, color):
             systemImageView(name: name, color: color, size: size)
@@ -233,6 +114,7 @@ import SwiftUI
         }
     }
 
+    @ViewBuilder
     private func systemImageView(name: String, color: Color, size: CGFloat) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -244,6 +126,7 @@ import SwiftUI
         .frame(width: size, height: size)
     }
 
+    @ViewBuilder
     private func assetImageView(name: String, size: CGFloat) -> some View {
         Image(name)
             .resizable()
@@ -252,6 +135,7 @@ import SwiftUI
             .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 
+    @ViewBuilder
     private func asyncImageView(url: URL, size: CGFloat) -> some View {
         AsyncImage(url: url) { phase in
             switch phase {
@@ -272,6 +156,7 @@ import SwiftUI
         }
     }
 
+    @ViewBuilder
     private func failurePlaceholder(size: CGFloat) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -282,12 +167,17 @@ import SwiftUI
         .frame(width: size, height: size)
     }
 
+    @ViewBuilder
     private func placeholderView(text: String?, colors: [Color], size: CGFloat) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(LinearGradient(colors: colors,
-                                     startPoint: .topLeading,
-                                     endPoint: .bottomTrailing))
+                .fill(
+                    LinearGradient(
+                        colors: colors,
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
             if let text {
                 Text(text)
                     .font(.headline)

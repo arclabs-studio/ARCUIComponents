@@ -13,10 +13,12 @@ import Testing
 ///
 /// Tests cover backdrop opacity behavior and tap gesture configuration.
 @Suite("ARCMenuBackdropModifier Tests")
-@MainActor struct ARCMenuBackdropModifierTests {
+@MainActor
+struct ARCMenuBackdropModifierTests {
     // MARK: - Initialization Tests
 
-    @Test("init_withValidOpacity_createsModifier") func init_withValidOpacity_createsModifier() {
+    @Test("init_withValidOpacity_createsModifier")
+    func init_withValidOpacity_createsModifier() {
         var tapCalled = false
         let modifier = ARCMenuBackdropModifier(opacity: 0.5) {
             tapCalled = true
@@ -27,13 +29,15 @@ import Testing
         #expect(tapCalled == false)
     }
 
-    @Test("init_withZeroOpacity_createsModifier") func init_withZeroOpacity_createsModifier() {
+    @Test("init_withZeroOpacity_createsModifier")
+    func init_withZeroOpacity_createsModifier() {
         let modifier = ARCMenuBackdropModifier(opacity: 0) {}
 
         #expect(modifier.opacity == 0)
     }
 
-    @Test("init_withFullOpacity_createsModifier") func init_withFullOpacity_createsModifier() {
+    @Test("init_withFullOpacity_createsModifier")
+    func init_withFullOpacity_createsModifier() {
         let modifier = ARCMenuBackdropModifier(opacity: 1.0) {}
 
         #expect(modifier.opacity == 1.0)
@@ -41,7 +45,8 @@ import Testing
 
     // MARK: - Opacity Range Tests
 
-    @Test("opacity_atZero_hidesBackdrop") func opacity_atZero_hidesBackdrop() {
+    @Test("opacity_atZero_hidesBackdrop")
+    func opacity_atZero_hidesBackdrop() {
         let modifier = ARCMenuBackdropModifier(opacity: 0) {}
 
         // When opacity is 0, the backdrop should not be visible
@@ -49,13 +54,15 @@ import Testing
         #expect(modifier.opacity == 0)
     }
 
-    @Test("opacity_atHalf_showsPartialBackdrop") func opacity_atHalf_showsPartialBackdrop() {
+    @Test("opacity_atHalf_showsPartialBackdrop")
+    func opacity_atHalf_showsPartialBackdrop() {
         let modifier = ARCMenuBackdropModifier(opacity: 0.5) {}
 
         #expect(modifier.opacity == 0.5)
     }
 
-    @Test("opacity_atFull_showsFullBackdrop") func opacity_atFull_showsFullBackdrop() {
+    @Test("opacity_atFull_showsFullBackdrop")
+    func opacity_atFull_showsFullBackdrop() {
         let modifier = ARCMenuBackdropModifier(opacity: 1.0) {}
 
         #expect(modifier.opacity == 1.0)
@@ -63,7 +70,8 @@ import Testing
 
     // MARK: - Calculated Opacity Tests
 
-    @Test("calculatedOpacity_isThirtyPercentOfInput") func calculatedOpacity_isThirtyPercentOfInput() {
+    @Test("calculatedOpacity_isThirtyPercentOfInput")
+    func calculatedOpacity_isThirtyPercentOfInput() {
         // The modifier multiplies opacity by 0.3 for the actual backdrop
         let inputOpacity = 1.0
         let expectedBackdropOpacity = inputOpacity * 0.3
@@ -71,7 +79,8 @@ import Testing
         #expect(expectedBackdropOpacity == 0.3)
     }
 
-    @Test("calculatedOpacity_atHalfInput_isFifteenPercent") func calculatedOpacity_atHalfInput_isFifteenPercent() {
+    @Test("calculatedOpacity_atHalfInput_isFifteenPercent")
+    func calculatedOpacity_atHalfInput_isFifteenPercent() {
         let inputOpacity = 0.5
         let expectedBackdropOpacity = inputOpacity * 0.3
 
@@ -82,7 +91,8 @@ import Testing
 // MARK: - View Extension Tests
 
 @Suite("Backdrop View Extension Tests")
-@MainActor struct BackdropViewExtensionTests {
+@MainActor
+struct BackdropViewExtensionTests {
     @Test("backdropExtension_withOpacity_returnsModifiedView")
     func backdropExtension_withOpacity_returnsModifiedView() {
         // Verify the extension compiles and can be called
@@ -116,7 +126,8 @@ import Testing
 // MARK: - Material Extension Tests
 
 @Suite("ARCMenu Material Extension Tests")
-@MainActor struct ARCMenuMaterialExtensionTests {
+@MainActor
+struct ARCMenuMaterialExtensionTests {
     @Test("arcMenuLiquidGlass_withConfiguration_returnsModifiedView")
     func arcMenuLiquidGlass_withConfiguration_returnsModifiedView() {
         let view = Text("Test")

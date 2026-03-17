@@ -35,7 +35,8 @@ import Foundation
 ///     return prompt
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct AIRecommenderAnswers: Sendable, Equatable {
+@available(iOS 17.0, macOS 14.0, *)
+public struct AIRecommenderAnswers: Sendable, Equatable {
     // MARK: - Properties
 
     /// Dictionary mapping question IDs to selected option IDs

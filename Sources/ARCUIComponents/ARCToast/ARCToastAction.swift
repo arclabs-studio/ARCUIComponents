@@ -44,7 +44,8 @@ import Foundation
 ///     router.navigate(to: .details)
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCToastAction: Sendable {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCToastAction: Sendable {
     // MARK: - Properties
 
     /// The title displayed on the action button
@@ -68,7 +69,8 @@ import Foundation
 
 // MARK: - Common Actions
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCToastAction {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCToastAction {
     /// Creates an "Undo" action
     ///
     /// - Parameter action: The undo handler

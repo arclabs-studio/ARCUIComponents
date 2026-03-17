@@ -62,7 +62,8 @@ import UIKit
 ///     )
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCSecureField: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCSecureField: View {
     // MARK: - Properties
 
     @Binding private var text: String
@@ -89,10 +90,12 @@ import UIKit
     ///   - text: Binding to the text value
     ///   - configuration: Text field configuration (default: .password)
     ///   - onSubmit: Action to perform on submit
-    public init(_ placeholder: String,
-                text: Binding<String>,
-                configuration: ARCTextFieldConfiguration = .password,
-                onSubmit: (() -> Void)? = nil) {
+    public init(
+        _ placeholder: String,
+        text: Binding<String>,
+        configuration: ARCTextFieldConfiguration = .password,
+        onSubmit: (() -> Void)? = nil
+    ) {
         self.placeholder = placeholder
         _text = text
         self.configuration = configuration
@@ -114,7 +117,7 @@ import UIKit
 
     // MARK: - Field Container
 
-    private var fieldContainer: some View {
+    @ViewBuilder private var fieldContainer: some View {
         ZStack(alignment: .leading) {
             backgroundView
             fieldContent
@@ -157,15 +160,21 @@ import UIKit
         }
     }
 
-    private var glassBackground: some View {
+    @ViewBuilder private var glassBackground: some View {
         RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
             .fill(.ultraThinMaterial)
             .overlay {
                 RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                    .fill(LinearGradient(colors: [Color.white.opacity(0.15),
-                                                  Color.white.opacity(0.05)],
-                                         startPoint: .top,
-                                         endPoint: .bottom))
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.15),
+                                Color.white.opacity(0.05)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
             }
             .overlay {
                 if isErrorState {
@@ -173,22 +182,30 @@ import UIKit
                         .strokeBorder(configuration.errorBorderColor, lineWidth: currentBorderWidth)
                 } else {
                     RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                        .strokeBorder(LinearGradient(colors: [Color.white.opacity(isFocused ? 0.5 : 0.3),
-                                                              Color.white.opacity(isFocused ? 0.2 : 0.1)],
-                                                     startPoint: .top,
-                                                     endPoint: .bottom),
-                                      lineWidth: currentBorderWidth)
+                        .strokeBorder(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(isFocused ? 0.5 : 0.3),
+                                    Color.white.opacity(isFocused ? 0.2 : 0.1)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            ),
+                            lineWidth: currentBorderWidth
+                        )
                 }
             }
-            .shadow(color: configuration.shadow.color,
-                    radius: configuration.shadow.radius,
-                    x: configuration.shadow.x,
-                    y: configuration.shadow.y)
+            .shadow(
+                color: configuration.shadow.color,
+                radius: configuration.shadow.radius,
+                x: configuration.shadow.x,
+                y: configuration.shadow.y
+            )
     }
 
     // MARK: - Field Content
 
-    private var fieldContent: some View {
+    @ViewBuilder private var fieldContent: some View {
         HStack(spacing: 12) {
             leadingContent
             textFieldContent
@@ -248,7 +265,7 @@ import UIKit
         #endif
     }
 
-    private var trailingContent: some View {
+    @ViewBuilder private var trailingContent: some View {
         HStack(spacing: 8) {
             visibilityToggle
 
@@ -258,7 +275,7 @@ import UIKit
         }
     }
 
-    private var visibilityToggle: some View {
+    @ViewBuilder private var visibilityToggle: some View {
         Button {
             withAnimation(.easeInOut(duration: 0.15)) {
                 isSecure.toggle()
@@ -273,7 +290,7 @@ import UIKit
         .accessibilityLabel(isSecure ? "Show password" : "Hide password")
     }
 
-    private var validationIcon: some View {
+    @ViewBuilder private var validationIcon: some View {
         Group {
             switch validationState {
             case .idle, .validating:
@@ -296,7 +313,7 @@ import UIKit
 
     // MARK: - Bottom Content
 
-    private var bottomContent: some View {
+    @ViewBuilder private var bottomContent: some View {
         HStack {
             if let errorMessage {
                 Label(errorMessage, systemImage: "exclamationmark.triangle.fill")
@@ -421,11 +438,15 @@ import UIKit
 #Preview("With Configuration") {
     VStack(spacing: 20) {
         ARCSecureField("Password", text: .constant(""), configuration: .password)
-        ARCSecureField("Confirm Password",
-                       text: .constant(""),
-                       configuration: ARCTextFieldConfiguration(label: "Confirm Password",
-                                                                leadingIcon: "lock.rotation",
-                                                                validation: .strongPassword))
+        ARCSecureField(
+            "Confirm Password",
+            text: .constant(""),
+            configuration: ARCTextFieldConfiguration(
+                label: "Confirm Password",
+                leadingIcon: "lock.rotation",
+                validation: .strongPassword
+            )
+        )
     }
     .padding()
 }
@@ -433,17 +454,23 @@ import UIKit
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Glass Style") {
     ZStack {
-        LinearGradient(colors: [.purple, .blue, .cyan],
-                       startPoint: .topLeading,
-                       endPoint: .bottomTrailing)
-            .ignoresSafeArea()
+        LinearGradient(
+            colors: [.purple, .blue, .cyan],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .ignoresSafeArea()
 
-        ARCSecureField("Password",
-                       text: .constant(""),
-                       configuration: ARCTextFieldConfiguration(style: ARCTextFieldConfiguration.Style.glass,
-                                                                label: "Password",
-                                                                leadingIcon: "lock"))
-            .padding()
+        ARCSecureField(
+            "Password",
+            text: .constant(""),
+            configuration: ARCTextFieldConfiguration(
+                style: ARCTextFieldConfiguration.Style.glass,
+                label: "Password",
+                leadingIcon: "lock"
+            )
+        )
+        .padding()
     }
 }
 

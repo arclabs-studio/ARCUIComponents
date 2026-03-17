@@ -10,7 +10,8 @@ import SwiftUI
 
 // MARK: - Configurations Tab
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCBottomSheetShowcase {
     var configurationsTab: some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -34,9 +35,11 @@ import SwiftUI
                 RoundedRectangle(cornerRadius: 12)
                     .fill(option.color.gradient)
                     .frame(width: 50, height: 50)
-                    .overlay(Image(systemName: option.icon)
-                        .font(.title3)
-                        .foregroundStyle(.white))
+                    .overlay(
+                        Image(systemName: option.icon)
+                            .font(.title3)
+                            .foregroundStyle(.white)
+                    )
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(option.title)
@@ -64,36 +67,47 @@ import SwiftUI
 
 // MARK: - Detents Tab
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCBottomSheetShowcase {
     var detentsTab: some View {
         ScrollView {
             VStack(spacing: 16) {
                 sectionHeader("Detent Types")
 
-                detentCard(title: "Small",
-                           description: "~15% height or 120pt minimum",
-                           detent: .small)
+                detentCard(
+                    title: "Small",
+                    description: "~15% height or 120pt minimum",
+                    detent: .small
+                )
 
-                detentCard(title: "Medium",
-                           description: "50% of screen height",
-                           detent: .medium)
+                detentCard(
+                    title: "Medium",
+                    description: "50% of screen height",
+                    detent: .medium
+                )
 
-                detentCard(title: "Large",
-                           description: "90% of screen height",
-                           detent: .large)
+                detentCard(
+                    title: "Large",
+                    description: "90% of screen height",
+                    detent: .large
+                )
 
                 Divider()
                     .padding(.vertical, 8)
 
                 sectionHeader("Custom Detents")
 
-                detentCard(title: "Fixed Height (200pt)",
-                           description: "Absolute height in points",
-                           detent: .height(200))
+                detentCard(
+                    title: "Fixed Height (200pt)",
+                    description: "Absolute height in points",
+                    detent: .height(200)
+                )
 
-                detentCard(title: "Fraction (60%)",
-                           description: "Percentage of container",
-                           detent: .fraction(0.6))
+                detentCard(
+                    title: "Fraction (60%)",
+                    description: "Percentage of container",
+                    detent: .fraction(0.6)
+                )
             }
             .padding()
         }
@@ -136,7 +150,8 @@ import SwiftUI
         }
     }
 
-    @ViewBuilder func detentPreview(_ detent: ARCBottomSheetDetent) -> some View {
+    @ViewBuilder
+    func detentPreview(_ detent: ARCBottomSheetDetent) -> some View {
         let fraction = fractionForDetent(detent)
 
         ZStack(alignment: .bottom) {
@@ -153,7 +168,8 @@ import SwiftUI
 
 // MARK: - Interactive Tab
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCBottomSheetShowcase {
     var interactiveTab: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -195,10 +211,12 @@ import SwiftUI
                         .foregroundStyle(currentDetent == detent ? .white : .primary)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
-                        .background(currentDetent == detent
-                            ? Color.arcBrandBurgundy
-                            : Color.secondary.opacity(0.1),
-                            in: RoundedRectangle(cornerRadius: 10))
+                        .background(
+                            currentDetent == detent
+                                ? Color.arcBrandBurgundy
+                                : Color.secondary.opacity(0.1),
+                            in: RoundedRectangle(cornerRadius: 10)
+                        )
                 }
                 .buttonStyle(.plain)
             }
@@ -226,8 +244,9 @@ import SwiftUI
 
 // MARK: - Sheet Overlay
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetShowcase {
-    var sheetOverlay: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCBottomSheetShowcase {
+    @ViewBuilder var sheetOverlay: some View {
         ZStack(alignment: .bottom) {
             if selectedConfig.configuration.dimBackground {
                 Color.black
@@ -240,9 +259,11 @@ import SwiftUI
                     }
             }
 
-            ARCBottomSheet(selectedDetent: $currentDetent,
-                           detents: [.small, .medium, .large],
-                           configuration: selectedConfig.configuration) {
+            ARCBottomSheet(
+                selectedDetent: $currentDetent,
+                detents: [.small, .medium, .large],
+                configuration: selectedConfig.configuration
+            ) {
                 sheetContent
             }
             .ignoresSafeArea(.container, edges: .bottom)
@@ -292,9 +313,11 @@ import SwiftUI
                             Circle()
                                 .fill(Color.arcBrandBurgundy.opacity(0.2))
                                 .frame(width: 36, height: 36)
-                                .overlay(Image(systemName: "star.fill")
-                                    .font(.caption)
-                                    .foregroundStyle(Color.arcBrandBurgundy))
+                                .overlay(
+                                    Image(systemName: "star.fill")
+                                        .font(.caption)
+                                        .foregroundStyle(Color.arcBrandBurgundy)
+                                )
 
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("Item \(index + 1)")

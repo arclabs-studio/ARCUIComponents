@@ -11,7 +11,8 @@ import SwiftUI
 // MARK: - ARCToastModifier
 
 /// View modifier for presenting a toast with binding control
-@available(iOS 17.0, macOS 14.0, *) struct ARCToastModifier: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *)
+struct ARCToastModifier: ViewModifier {
     // MARK: - Properties
 
     @Binding var isPresented: Bool
@@ -46,19 +47,21 @@ import SwiftUI
 
     // MARK: - Toast View
 
-    private var toastView: some View {
-        ARCToast(message: message,
-                 type: type,
-                 action: action,
-                 configuration: configuration,
-                 onDismiss: {
-                     dismissToast()
-                 })
-                 .padding(.horizontal, 16)
-                 .padding(configuration.position == .top ? .top : .bottom, 8)
-                 .onAppear {
-                     scheduleAutoDismissIfNeeded()
-                 }
+    @ViewBuilder private var toastView: some View {
+        ARCToast(
+            message: message,
+            type: type,
+            action: action,
+            configuration: configuration,
+            onDismiss: {
+                dismissToast()
+            }
+        )
+        .padding(.horizontal, 16)
+        .padding(configuration.position == .top ? .top : .bottom, 8)
+        .onAppear {
+            scheduleAutoDismissIfNeeded()
+        }
     }
 
     // MARK: - Layout
@@ -74,9 +77,11 @@ import SwiftUI
             return .opacity
         }
 
-        return .asymmetric(insertion: .move(edge: configuration.position == .top ? .top : .bottom)
-            .combined(with: .opacity),
-            removal: .opacity.combined(with: .scale(scale: 0.95)))
+        return .asymmetric(
+            insertion: .move(edge: configuration.position == .top ? .top : .bottom)
+                .combined(with: .opacity),
+            removal: .opacity.combined(with: .scale(scale: 0.95))
+        )
     }
 
     // MARK: - Presentation Logic
@@ -127,7 +132,8 @@ import SwiftUI
 // MARK: - ARCToastContainerModifier
 
 /// View modifier for presenting toasts from ARCToastManager
-@available(iOS 17.0, macOS 14.0, *) struct ARCToastContainerModifier: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *)
+struct ARCToastContainerModifier: ViewModifier {
     // MARK: - Properties
 
     @State private var manager = ARCToastManager.shared
@@ -164,18 +170,21 @@ import SwiftUI
         }
     }
 
+    @ViewBuilder
     private func toastView(for toast: ToastItem) -> some View {
-        ARCToast(message: toast.message,
-                 type: toast.type,
-                 action: toast.action,
-                 configuration: toast.configuration,
-                 onDismiss: {
-                     manager.dismiss()
-                 })
-                 .padding(.horizontal, 16)
-                 .padding(toast.configuration.position == .top ? .top : .bottom, 8)
-                 .zIndex(1000)
-                 .id(toast.id)
+        ARCToast(
+            message: toast.message,
+            type: toast.type,
+            action: toast.action,
+            configuration: toast.configuration,
+            onDismiss: {
+                manager.dismiss()
+            }
+        )
+        .padding(.horizontal, 16)
+        .padding(toast.configuration.position == .top ? .top : .bottom, 8)
+        .zIndex(1000)
+        .id(toast.id)
     }
 
     // MARK: - Transitions
@@ -184,22 +193,27 @@ import SwiftUI
         if reduceMotion {
             return .opacity
         }
-        return .asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity),
-                           removal: .opacity.combined(with: .scale(scale: 0.95)))
+        return .asymmetric(
+            insertion: .move(edge: .bottom).combined(with: .opacity),
+            removal: .opacity.combined(with: .scale(scale: 0.95))
+        )
     }
 
     private var topTransition: AnyTransition {
         if reduceMotion {
             return .opacity
         }
-        return .asymmetric(insertion: .move(edge: .top).combined(with: .opacity),
-                           removal: .opacity.combined(with: .scale(scale: 0.95)))
+        return .asymmetric(
+            insertion: .move(edge: .top).combined(with: .opacity),
+            removal: .opacity.combined(with: .scale(scale: 0.95))
+        )
     }
 }
 
 // MARK: - View Extension
 
-@available(iOS 17.0, macOS 14.0, *) extension View {
+@available(iOS 17.0, macOS 14.0, *)
+extension View {
     /// Presents a toast notification with binding control
     ///
     /// Use this modifier to show a toast that is controlled by a boolean binding.
@@ -232,16 +246,22 @@ import SwiftUI
     ///     }
     /// }
     /// ```
-    public func arcToast(isPresented: Binding<Bool>,
-                         message: String,
-                         type: ARCToastType = .info,
-                         action: ARCToastAction? = nil,
-                         configuration: ARCToastConfiguration = .default) -> some View {
-        modifier(ARCToastModifier(isPresented: isPresented,
-                                  message: message,
-                                  type: type,
-                                  action: action,
-                                  configuration: configuration))
+    public func arcToast(
+        isPresented: Binding<Bool>,
+        message: String,
+        type: ARCToastType = .info,
+        action: ARCToastAction? = nil,
+        configuration: ARCToastConfiguration = .default
+    ) -> some View {
+        modifier(
+            ARCToastModifier(
+                isPresented: isPresented,
+                message: message,
+                type: type,
+                action: action,
+                configuration: configuration
+            )
+        )
     }
 
     /// Adds a toast container for ARCToastManager
@@ -293,13 +313,17 @@ import SwiftUI
                 .buttonStyle(.bordered)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .arcToast(isPresented: $showSuccessToast,
-                      message: "Changes saved successfully",
-                      type: .success)
-            .arcToast(isPresented: $showErrorToast,
-                      message: "Failed to save changes",
-                      type: .error,
-                      configuration: .top)
+            .arcToast(
+                isPresented: $showSuccessToast,
+                message: "Changes saved successfully",
+                type: .success
+            )
+            .arcToast(
+                isPresented: $showErrorToast,
+                message: "Failed to save changes",
+                type: .error,
+                configuration: .top
+            )
         }
     }
 

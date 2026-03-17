@@ -52,9 +52,11 @@ extension View {
     ///   - isActive: Whether the animation is currently active.
     ///   - progress: The animation progress from 0 to 1.
     /// - Returns: A view with the animation applied.
-    func artworkAnimation(type: ArtworkAnimationType,
-                          isActive: Bool,
-                          progress: Double) -> some View {
+    func artworkAnimation(
+        type: ArtworkAnimationType,
+        isActive: Bool,
+        progress: Double
+    ) -> some View {
         modifier(AnimationModifier(type: type, isActive: isActive, progress: progress))
     }
 }

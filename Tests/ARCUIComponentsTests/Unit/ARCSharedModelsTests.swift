@@ -10,30 +10,35 @@ import Testing
 @testable import ARCUIComponents
 
 /// Unit tests for shared models: ARCShadow and ARCBackgroundStyle
-@Suite("ARCShadow Tests") struct ARCShadowTests {
+@Suite("ARCShadow Tests")
+struct ARCShadowTests {
     // MARK: - Preset Tests
 
-    @Test("default_hasNonZeroRadius") func default_hasNonZeroRadius() {
+    @Test("default_hasNonZeroRadius")
+    func default_hasNonZeroRadius() {
         let shadow = ARCShadow.default
 
         #expect(shadow.radius > 0)
     }
 
-    @Test("subtle_hasLowerRadiusThanDefault") func subtle_hasLowerRadiusThanDefault() {
+    @Test("subtle_hasLowerRadiusThanDefault")
+    func subtle_hasLowerRadiusThanDefault() {
         let subtle = ARCShadow.subtle
         let defaultShadow = ARCShadow.default
 
         #expect(subtle.radius < defaultShadow.radius)
     }
 
-    @Test("prominent_hasHigherRadiusThanDefault") func prominent_hasHigherRadiusThanDefault() {
+    @Test("prominent_hasHigherRadiusThanDefault")
+    func prominent_hasHigherRadiusThanDefault() {
         let prominent = ARCShadow.prominent
         let defaultShadow = ARCShadow.default
 
         #expect(prominent.radius > defaultShadow.radius)
     }
 
-    @Test("none_hasZeroRadius") func none_hasZeroRadius() {
+    @Test("none_hasZeroRadius")
+    func none_hasZeroRadius() {
         let shadow = ARCShadow.none
 
         #expect(shadow.radius == 0)
@@ -41,20 +46,23 @@ import Testing
 
     // MARK: - Custom Initialization Tests
 
-    @Test("init_withCustomRadius_setsRadiusCorrectly") func init_withCustomRadius_setsRadiusCorrectly() {
+    @Test("init_withCustomRadius_setsRadiusCorrectly")
+    func init_withCustomRadius_setsRadiusCorrectly() {
         let shadow = ARCShadow(color: .black, radius: 20, x: 0, y: 5)
 
         #expect(shadow.radius == 20)
     }
 
-    @Test("init_withCustomOffset_setsOffsetCorrectly") func init_withCustomOffset_setsOffsetCorrectly() {
+    @Test("init_withCustomOffset_setsOffsetCorrectly")
+    func init_withCustomOffset_setsOffsetCorrectly() {
         let shadow = ARCShadow(color: .black, radius: 10, x: 5, y: 10)
 
         #expect(shadow.x == 5)
         #expect(shadow.y == 10)
     }
 
-    @Test("init_withCustomColor_setsColorCorrectly") func init_withCustomColor_setsColorCorrectly() {
+    @Test("init_withCustomColor_setsColorCorrectly")
+    func init_withCustomColor_setsColorCorrectly() {
         let shadow = ARCShadow(color: .blue, radius: 10, x: 0, y: 5)
 
         #expect(shadow.color == .blue)
@@ -62,7 +70,8 @@ import Testing
 
     // MARK: - Sendable Conformance Tests
 
-    @Test("conformsToSendable_canBeSentAcrossBoundaries") func conformsToSendable_canBeSentAcrossBoundaries() async {
+    @Test("conformsToSendable_canBeSentAcrossBoundaries")
+    func conformsToSendable_canBeSentAcrossBoundaries() async {
         let shadow = ARCShadow.default
 
         let result = await Task.detached {
@@ -75,8 +84,10 @@ import Testing
 
 // MARK: - ARCBackgroundStyle Tests
 
-@Suite("ARCBackgroundStyle Tests") struct ARCBackgroundStyleTests {
-    @Test("liquidGlass_isValidCase") func liquidGlass_isValidCase() {
+@Suite("ARCBackgroundStyle Tests")
+struct ARCBackgroundStyleTests {
+    @Test("liquidGlass_isValidCase")
+    func liquidGlass_isValidCase() {
         let style = ARCBackgroundStyle.liquidGlass
 
         if case .liquidGlass = style {
@@ -86,7 +97,8 @@ import Testing
         }
     }
 
-    @Test("translucent_isValidCase") func translucent_isValidCase() {
+    @Test("translucent_isValidCase")
+    func translucent_isValidCase() {
         let style = ARCBackgroundStyle.translucent
 
         if case .translucent = style {
@@ -96,7 +108,8 @@ import Testing
         }
     }
 
-    @Test("solid_withColorAndOpacity_isValidCase") func solid_withColorAndOpacity_isValidCase() {
+    @Test("solid_withColorAndOpacity_isValidCase")
+    func solid_withColorAndOpacity_isValidCase() {
         let style = ARCBackgroundStyle.solid(.blue, opacity: 0.8)
 
         if case let .solid(color, opacity) = style {
@@ -107,7 +120,8 @@ import Testing
         }
     }
 
-    @Test("solid_withZeroOpacity_isTransparent") func solid_withZeroOpacity_isTransparent() {
+    @Test("solid_withZeroOpacity_isTransparent")
+    func solid_withZeroOpacity_isTransparent() {
         let style = ARCBackgroundStyle.solid(.red, opacity: 0)
 
         if case let .solid(_, opacity) = style {
@@ -117,7 +131,8 @@ import Testing
         }
     }
 
-    @Test("solid_withFullOpacity_isOpaque") func solid_withFullOpacity_isOpaque() {
+    @Test("solid_withFullOpacity_isOpaque")
+    func solid_withFullOpacity_isOpaque() {
         let style = ARCBackgroundStyle.solid(.green, opacity: 1.0)
 
         if case let .solid(_, opacity) = style {
@@ -127,7 +142,8 @@ import Testing
         }
     }
 
-    @Test("material_withUltraThinMaterial_isValidCase") func material_withUltraThinMaterial_isValidCase() {
+    @Test("material_withUltraThinMaterial_isValidCase")
+    func material_withUltraThinMaterial_isValidCase() {
         let style = ARCBackgroundStyle.material(.ultraThinMaterial)
 
         if case .material = style {
@@ -137,7 +153,8 @@ import Testing
         }
     }
 
-    @Test("material_withThickMaterial_isValidCase") func material_withThickMaterial_isValidCase() {
+    @Test("material_withThickMaterial_isValidCase")
+    func material_withThickMaterial_isValidCase() {
         let style = ARCBackgroundStyle.material(.thickMaterial)
 
         if case .material = style {
@@ -149,7 +166,8 @@ import Testing
 
     // MARK: - Sendable Conformance Tests
 
-    @Test("conformsToSendable_liquidGlass") func conformsToSendable_liquidGlass() async {
+    @Test("conformsToSendable_liquidGlass")
+    func conformsToSendable_liquidGlass() async {
         let style = ARCBackgroundStyle.liquidGlass
 
         let result = await Task.detached { () -> Bool in
@@ -162,7 +180,8 @@ import Testing
         #expect(result == true)
     }
 
-    @Test("conformsToSendable_translucent") func conformsToSendable_translucent() async {
+    @Test("conformsToSendable_translucent")
+    func conformsToSendable_translucent() async {
         let style = ARCBackgroundStyle.translucent
 
         let result = await Task.detached { () -> Bool in
@@ -175,7 +194,8 @@ import Testing
         #expect(result == true)
     }
 
-    @Test("conformsToSendable_solid") func conformsToSendable_solid() async {
+    @Test("conformsToSendable_solid")
+    func conformsToSendable_solid() async {
         let style = ARCBackgroundStyle.solid(.blue, opacity: 0.5)
 
         let result = await Task.detached { () -> Bool in
@@ -190,7 +210,8 @@ import Testing
 
     // MARK: - Material Variants Tests
 
-    @Test("material_withThinMaterial_isValidCase") func material_withThinMaterial_isValidCase() {
+    @Test("material_withThinMaterial_isValidCase")
+    func material_withThinMaterial_isValidCase() {
         let style = ARCBackgroundStyle.material(.thinMaterial)
 
         if case .material = style {
@@ -200,7 +221,8 @@ import Testing
         }
     }
 
-    @Test("material_withRegularMaterial_isValidCase") func material_withRegularMaterial_isValidCase() {
+    @Test("material_withRegularMaterial_isValidCase")
+    func material_withRegularMaterial_isValidCase() {
         let style = ARCBackgroundStyle.material(.regularMaterial)
 
         if case .material = style {
@@ -210,7 +232,8 @@ import Testing
         }
     }
 
-    @Test("material_withUltraThickMaterial_isValidCase") func material_withUltraThickMaterial_isValidCase() {
+    @Test("material_withUltraThickMaterial_isValidCase")
+    func material_withUltraThickMaterial_isValidCase() {
         let style = ARCBackgroundStyle.material(.ultraThickMaterial)
 
         if case .material = style {
@@ -222,7 +245,8 @@ import Testing
 
     // MARK: - Solid Color Variants Tests
 
-    @Test("solid_withVariousColors_preservesColor") func solid_withVariousColors_preservesColor() {
+    @Test("solid_withVariousColors_preservesColor")
+    func solid_withVariousColors_preservesColor() {
         let colors: [Color] = [.red, .green, .blue, .orange, .purple, .pink]
 
         for color in colors {
@@ -236,7 +260,8 @@ import Testing
         }
     }
 
-    @Test("solid_withVariousOpacities_preservesOpacity") func solid_withVariousOpacities_preservesOpacity() {
+    @Test("solid_withVariousOpacities_preservesOpacity")
+    func solid_withVariousOpacities_preservesOpacity() {
         let opacities: [Double] = [0.0, 0.25, 0.5, 0.75, 1.0]
 
         for opacity in opacities {
@@ -253,10 +278,12 @@ import Testing
 
 // MARK: - ARCShadow Extended Tests
 
-@Suite("ARCShadow Extended Tests") struct ARCShadowExtendedTests {
+@Suite("ARCShadow Extended Tests")
+struct ARCShadowExtendedTests {
     // MARK: - Preset Value Verification Tests
 
-    @Test("default_hasExpectedValues") func default_hasExpectedValues() {
+    @Test("default_hasExpectedValues")
+    func default_hasExpectedValues() {
         let shadow = ARCShadow.default
 
         #expect(shadow.radius == 20)
@@ -264,7 +291,8 @@ import Testing
         #expect(shadow.y == 10)
     }
 
-    @Test("subtle_hasExpectedValues") func subtle_hasExpectedValues() {
+    @Test("subtle_hasExpectedValues")
+    func subtle_hasExpectedValues() {
         let shadow = ARCShadow.subtle
 
         #expect(shadow.radius == 10)
@@ -272,7 +300,8 @@ import Testing
         #expect(shadow.y == 5)
     }
 
-    @Test("prominent_hasExpectedValues") func prominent_hasExpectedValues() {
+    @Test("prominent_hasExpectedValues")
+    func prominent_hasExpectedValues() {
         let shadow = ARCShadow.prominent
 
         #expect(shadow.radius == 30)
@@ -280,7 +309,8 @@ import Testing
         #expect(shadow.y == 15)
     }
 
-    @Test("none_hasExpectedValues") func none_hasExpectedValues() {
+    @Test("none_hasExpectedValues")
+    func none_hasExpectedValues() {
         let shadow = ARCShadow.none
 
         #expect(shadow.radius == 0)
@@ -291,7 +321,8 @@ import Testing
 
     // MARK: - Ordering Tests
 
-    @Test("presets_areOrderedByIntensity") func presets_areOrderedByIntensity() {
+    @Test("presets_areOrderedByIntensity")
+    func presets_areOrderedByIntensity() {
         let none = ARCShadow.none
         let subtle = ARCShadow.subtle
         let defaultShadow = ARCShadow.default
@@ -302,7 +333,8 @@ import Testing
         #expect(defaultShadow.radius < prominent.radius)
     }
 
-    @Test("presets_verticalOffsetProportionalToRadius") func presets_verticalOffsetProportionalToRadius() {
+    @Test("presets_verticalOffsetProportionalToRadius")
+    func presets_verticalOffsetProportionalToRadius() {
         let subtle = ARCShadow.subtle
         let defaultShadow = ARCShadow.default
         let prominent = ARCShadow.prominent
@@ -314,21 +346,24 @@ import Testing
 
     // MARK: - Custom Shadow Tests
 
-    @Test("customShadow_withNegativeOffset_isAllowed") func customShadow_withNegativeOffset_isAllowed() {
+    @Test("customShadow_withNegativeOffset_isAllowed")
+    func customShadow_withNegativeOffset_isAllowed() {
         let shadow = ARCShadow(color: .black, radius: 10, x: -5, y: -5)
 
         #expect(shadow.x == -5)
         #expect(shadow.y == -5)
     }
 
-    @Test("customShadow_withLargeRadius_isAllowed") func customShadow_withLargeRadius_isAllowed() {
+    @Test("customShadow_withLargeRadius_isAllowed")
+    func customShadow_withLargeRadius_isAllowed() {
         let shadow = ARCShadow(color: .black, radius: 100, x: 0, y: 50)
 
         #expect(shadow.radius == 100)
         #expect(shadow.y == 50)
     }
 
-    @Test("customShadow_withTransparentColor_isAllowed") func customShadow_withTransparentColor_isAllowed() {
+    @Test("customShadow_withTransparentColor_isAllowed")
+    func customShadow_withTransparentColor_isAllowed() {
         let shadow = ARCShadow(color: .clear, radius: 10, x: 0, y: 5)
 
         #expect(shadow.color == .clear)

@@ -39,14 +39,16 @@ public struct ARCMenuItem: Identifiable, Sendable {
     ///   - isDestructive: Whether this is a destructive action (e.g., Logout, Delete)
     ///   - showsDisclosure: Whether to show a disclosure indicator (chevron)
     ///   - action: Closure executed when item is tapped
-    public init(id: UUID = UUID(),
-                title: String,
-                subtitle: String? = nil,
-                icon: ARCMenuIcon,
-                badge: String? = nil,
-                isDestructive: Bool = false,
-                showsDisclosure: Bool = false,
-                action: @escaping @Sendable () -> Void) {
+    public init(
+        id: UUID = UUID(),
+        title: String,
+        subtitle: String? = nil,
+        icon: ARCMenuIcon,
+        badge: String? = nil,
+        isDestructive: Bool = false,
+        showsDisclosure: Bool = false,
+        action: @escaping @Sendable () -> Void
+    ) {
         self.id = id
         self.title = title
         self.subtitle = subtitle
@@ -69,7 +71,8 @@ public enum ARCMenuIcon: Sendable {
 
     // MARK: - Computed Properties
 
-    @ViewBuilder public func iconView(isDestructive: Bool = false) -> some View {
+    @ViewBuilder
+    public func iconView(isDestructive: Bool = false) -> some View {
         switch self {
         case let .system(name, renderingMode):
             Image(systemName: name)
@@ -97,112 +100,136 @@ extension ARCMenuItem {
     public enum Common {
         /// Creates a Profile menu item
         public static func profile(action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Profile",
-                        subtitle: "Edit your information",
-                        icon: .system("person.circle", renderingMode: .hierarchical),
-                        showsDisclosure: true,
-                        action: action)
+            ARCMenuItem(
+                title: "Profile",
+                subtitle: "Edit your information",
+                icon: .system("person.circle", renderingMode: .hierarchical),
+                showsDisclosure: true,
+                action: action
+            )
         }
 
         /// Creates a Settings menu item
         public static func settings(action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Settings",
-                        subtitle: "Preferences and options",
-                        icon: .system("gear", renderingMode: .hierarchical),
-                        showsDisclosure: true,
-                        action: action)
+            ARCMenuItem(
+                title: "Settings",
+                subtitle: "Preferences and options",
+                icon: .system("gear", renderingMode: .hierarchical),
+                showsDisclosure: true,
+                action: action
+            )
         }
 
         /// Creates a Feedback menu item
         public static func feedback(action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Feedback",
-                        subtitle: "Share your thoughts",
-                        icon: .system("bubble.left.and.bubble.right", renderingMode: .hierarchical),
-                        showsDisclosure: true,
-                        action: action)
+            ARCMenuItem(
+                title: "Feedback",
+                subtitle: "Share your thoughts",
+                icon: .system("bubble.left.and.bubble.right", renderingMode: .hierarchical),
+                showsDisclosure: true,
+                action: action
+            )
         }
 
         /// Creates a Subscriptions menu item
         public static func subscriptions(badge: String? = nil, action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Subscriptions",
-                        subtitle: "Manage your plan",
-                        icon: .system("creditcard", renderingMode: .hierarchical),
-                        badge: badge,
-                        showsDisclosure: true,
-                        action: action)
+            ARCMenuItem(
+                title: "Subscriptions",
+                subtitle: "Manage your plan",
+                icon: .system("creditcard", renderingMode: .hierarchical),
+                badge: badge,
+                showsDisclosure: true,
+                action: action
+            )
         }
 
         /// Creates an About menu item
         public static func about(action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "About",
-                        subtitle: "App information",
-                        icon: .system("info.circle", renderingMode: .hierarchical),
-                        showsDisclosure: true,
-                        action: action)
+            ARCMenuItem(
+                title: "About",
+                subtitle: "App information",
+                icon: .system("info.circle", renderingMode: .hierarchical),
+                showsDisclosure: true,
+                action: action
+            )
         }
 
         /// Creates a Logout menu item (destructive)
         public static func logout(action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Logout",
-                        icon: .system("rectangle.portrait.and.arrow.right", renderingMode: .hierarchical),
-                        isDestructive: true,
-                        action: action)
+            ARCMenuItem(
+                title: "Logout",
+                icon: .system("rectangle.portrait.and.arrow.right", renderingMode: .hierarchical),
+                isDestructive: true,
+                action: action
+            )
         }
 
         // MARK: - Additional Items
 
         /// Creates a Help menu item
         public static func help(action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Help",
-                        subtitle: "Support and documentation",
-                        icon: .system("questionmark.circle", renderingMode: .hierarchical),
-                        showsDisclosure: true,
-                        action: action)
+            ARCMenuItem(
+                title: "Help",
+                subtitle: "Support and documentation",
+                icon: .system("questionmark.circle", renderingMode: .hierarchical),
+                showsDisclosure: true,
+                action: action
+            )
         }
 
         /// Creates a Share menu item
         public static func share(action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Share",
-                        subtitle: "Share with friends",
-                        icon: .system("square.and.arrow.up", renderingMode: .hierarchical),
-                        action: action)
+            ARCMenuItem(
+                title: "Share",
+                subtitle: "Share with friends",
+                icon: .system("square.and.arrow.up", renderingMode: .hierarchical),
+                action: action
+            )
         }
 
         /// Creates a Notifications menu item
         public static func notifications(badge: String? = nil, action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Notifications",
-                        subtitle: "Manage alerts",
-                        icon: .system("bell", renderingMode: .hierarchical),
-                        badge: badge,
-                        showsDisclosure: true,
-                        action: action)
+            ARCMenuItem(
+                title: "Notifications",
+                subtitle: "Manage alerts",
+                icon: .system("bell", renderingMode: .hierarchical),
+                badge: badge,
+                showsDisclosure: true,
+                action: action
+            )
         }
 
         /// Creates a Privacy menu item
         public static func privacy(action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Privacy",
-                        subtitle: "Data and security",
-                        icon: .system("lock.shield", renderingMode: .hierarchical),
-                        showsDisclosure: true,
-                        action: action)
+            ARCMenuItem(
+                title: "Privacy",
+                subtitle: "Data and security",
+                icon: .system("lock.shield", renderingMode: .hierarchical),
+                showsDisclosure: true,
+                action: action
+            )
         }
 
         /// Creates a Contact menu item
         public static func contact(action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Contact",
-                        subtitle: "Get in touch",
-                        icon: .system("envelope", renderingMode: .hierarchical),
-                        showsDisclosure: true,
-                        action: action)
+            ARCMenuItem(
+                title: "Contact",
+                subtitle: "Get in touch",
+                icon: .system("envelope", renderingMode: .hierarchical),
+                showsDisclosure: true,
+                action: action
+            )
         }
 
         /// Creates a Delete Account menu item (destructive)
         public static func deleteAccount(action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            ARCMenuItem(title: "Delete Account",
-                        subtitle: "Permanently remove account",
-                        icon: .system("trash", renderingMode: .hierarchical),
-                        isDestructive: true,
-                        action: action)
+            ARCMenuItem(
+                title: "Delete Account",
+                subtitle: "Permanently remove account",
+                icon: .system("trash", renderingMode: .hierarchical),
+                isDestructive: true,
+                action: action
+            )
         }
 
         // MARK: - Legacy (Deprecated)
@@ -238,12 +265,14 @@ extension ARCMenuItem {
     /// let items = ARCMenuItem.defaultItems(actions: actions)
     /// ```
     public static func defaultItems(actions: ARCMenuActions) -> [ARCMenuItem] {
-        [.Common.profile(action: actions.onProfile),
-         .Common.settings(action: actions.onSettings),
-         .Common.feedback(action: actions.onFeedback),
-         .Common.subscriptions(action: actions.onSubscriptions),
-         .Common.about(action: actions.onAbout),
-         .Common.logout(action: actions.onLogout)]
+        [
+            .Common.profile(action: actions.onProfile),
+            .Common.settings(action: actions.onSettings),
+            .Common.feedback(action: actions.onFeedback),
+            .Common.subscriptions(action: actions.onSubscriptions),
+            .Common.about(action: actions.onAbout),
+            .Common.logout(action: actions.onLogout)
+        ]
     }
 
     /// Default menu items shown in all apps implementing ARCMenu (legacy)
@@ -251,17 +280,21 @@ extension ARCMenuItem {
     /// - Note: Deprecated in favor of `defaultItems(actions:)`
     @available(*, deprecated, message: "Use defaultItems(actions:) with ARCMenuActions struct")
     // swiftlint:disable:next function_parameter_count
-    public static func defaultItems(onProfile: @escaping @Sendable () -> Void,
-                                    onSettings: @escaping @Sendable () -> Void,
-                                    onFeedback: @escaping @Sendable () -> Void,
-                                    onSubscriptions: @escaping @Sendable () -> Void,
-                                    onAbout: @escaping @Sendable () -> Void,
-                                    onLogout: @escaping @Sendable () -> Void) -> [ARCMenuItem] {
-        defaultItems(actions: ARCMenuActions(onProfile: onProfile,
-                                             onSettings: onSettings,
-                                             onFeedback: onFeedback,
-                                             onSubscriptions: onSubscriptions,
-                                             onAbout: onAbout,
-                                             onLogout: onLogout))
+    public static func defaultItems(
+        onProfile: @escaping @Sendable () -> Void,
+        onSettings: @escaping @Sendable () -> Void,
+        onFeedback: @escaping @Sendable () -> Void,
+        onSubscriptions: @escaping @Sendable () -> Void,
+        onAbout: @escaping @Sendable () -> Void,
+        onLogout: @escaping @Sendable () -> Void
+    ) -> [ARCMenuItem] {
+        defaultItems(actions: ARCMenuActions(
+            onProfile: onProfile,
+            onSettings: onSettings,
+            onFeedback: onFeedback,
+            onSubscriptions: onSubscriptions,
+            onAbout: onAbout,
+            onLogout: onLogout
+        ))
     }
 }

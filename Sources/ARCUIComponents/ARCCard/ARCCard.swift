@@ -67,7 +67,8 @@ import SwiftUI
 /// ```
 ///
 /// - Note: Use `ARCCardPressStyle` button style when making cards interactive.
-@available(iOS 17.0, macOS 14.0, *) public struct ARCCard<ImageContent: View, FooterContent: View>: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCCard<ImageContent: View, FooterContent: View>: View {
     // MARK: - Properties
 
     /// Card title
@@ -99,13 +100,17 @@ import SwiftUI
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .body) private var contentSpacing: CGFloat = .arcSpacingSmall
+    @ScaledMetric(relativeTo: .body)
+    private var contentSpacing: CGFloat = .arcSpacingSmall
 
-    @ScaledMetric(relativeTo: .body) private var contentPadding: CGFloat = .arcSpacingMedium
+    @ScaledMetric(relativeTo: .body)
+    private var contentPadding: CGFloat = .arcSpacingMedium
 
-    @ScaledMetric(relativeTo: .caption) private var iconSpacing: CGFloat = .arcSpacingXSmall
+    @ScaledMetric(relativeTo: .caption)
+    private var iconSpacing: CGFloat = .arcSpacingXSmall
 
-    @ScaledMetric(relativeTo: .caption2) private var badgePadding: CGFloat = .arcSpacingSmall
+    @ScaledMetric(relativeTo: .caption2)
+    private var badgePadding: CGFloat = .arcSpacingSmall
 
     // MARK: - Initialization
 
@@ -121,15 +126,17 @@ import SwiftUI
     ///   - configuration: Visual configuration
     ///   - image: View builder for image content
     ///   - footer: View builder for footer content
-    public init(title: String,
-                subtitle: String? = nil,
-                secondarySubtitle: String? = nil,
-                subtitleIcon: String? = nil,
-                secondarySubtitleIcon: String? = nil,
-                badges: [Badge] = [],
-                configuration: ARCCardConfiguration = .default,
-                @ViewBuilder image: () -> ImageContent,
-                @ViewBuilder footer: () -> FooterContent) {
+    public init(
+        title: String,
+        subtitle: String? = nil,
+        secondarySubtitle: String? = nil,
+        subtitleIcon: String? = nil,
+        secondarySubtitleIcon: String? = nil,
+        badges: [Badge] = [],
+        configuration: ARCCardConfiguration = .default,
+        @ViewBuilder image: () -> ImageContent,
+        @ViewBuilder footer: () -> FooterContent
+    ) {
         self.title = title
         self.subtitle = subtitle
         self.secondarySubtitle = secondarySubtitle
@@ -160,6 +167,7 @@ import SwiftUI
 
     // MARK: - Image Section
 
+    @ViewBuilder
     private var imageSection: some View {
         ZStack(alignment: .center) {
             imageContent
@@ -171,13 +179,18 @@ import SwiftUI
                 badgeView(for: badges[index])
             }
         }
-        .clipShape(UnevenRoundedRectangle(topLeadingRadius: configuration.cornerRadius,
-                                          bottomLeadingRadius: 0,
-                                          bottomTrailingRadius: 0,
-                                          topTrailingRadius: configuration.cornerRadius,
-                                          style: .continuous))
+        .clipShape(
+            UnevenRoundedRectangle(
+                topLeadingRadius: configuration.cornerRadius,
+                bottomLeadingRadius: 0,
+                bottomTrailingRadius: 0,
+                topTrailingRadius: configuration.cornerRadius,
+                style: .continuous
+            )
+        )
     }
 
+    @ViewBuilder
     private func badgeView(for badge: Badge) -> some View {
         Text(badge.text)
             .font(.caption2.weight(.semibold))
@@ -189,7 +202,8 @@ import SwiftUI
             .padding(badgePadding)
     }
 
-    @ViewBuilder private func badgeBackground(for style: BadgeStyle) -> some View {
+    @ViewBuilder
+    private func badgeBackground(for style: BadgeStyle) -> some View {
         switch style {
         case .material:
             Color.clear.background(.ultraThinMaterial)
@@ -200,6 +214,7 @@ import SwiftUI
 
     // MARK: - Content Section
 
+    @ViewBuilder
     private var contentSection: some View {
         VStack(alignment: .leading, spacing: contentSpacing) {
             // Title
@@ -230,6 +245,7 @@ import SwiftUI
         .padding(contentPadding)
     }
 
+    @ViewBuilder
     private func subtitleRow(text: String, icon: String?) -> some View {
         HStack(spacing: iconSpacing) {
             if let icon {
@@ -246,7 +262,8 @@ import SwiftUI
 
 // MARK: - Computed Properties
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCCard {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCCard {
     private var hasFooterContent: Bool {
         !(FooterContent.self == EmptyView.self)
     }
@@ -268,7 +285,8 @@ import SwiftUI
 
 // MARK: - EmptyView Footer Initializer
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCCard where FooterContent == EmptyView {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCCard where FooterContent == EmptyView {
     /// Creates a card without footer content
     ///
     /// - Parameters:
@@ -280,14 +298,16 @@ import SwiftUI
     ///   - badges: Array of badges
     ///   - configuration: Visual configuration
     ///   - image: View builder for image content
-    public init(title: String,
-                subtitle: String? = nil,
-                secondarySubtitle: String? = nil,
-                subtitleIcon: String? = nil,
-                secondarySubtitleIcon: String? = nil,
-                badges: [Badge] = [],
-                configuration: ARCCardConfiguration = .default,
-                @ViewBuilder image: () -> ImageContent) {
+    public init(
+        title: String,
+        subtitle: String? = nil,
+        secondarySubtitle: String? = nil,
+        subtitleIcon: String? = nil,
+        secondarySubtitleIcon: String? = nil,
+        badges: [Badge] = [],
+        configuration: ARCCardConfiguration = .default,
+        @ViewBuilder image: () -> ImageContent
+    ) {
         self.title = title
         self.subtitle = subtitle
         self.secondarySubtitle = secondarySubtitle
@@ -302,7 +322,8 @@ import SwiftUI
 
 // MARK: - Badge
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCCard {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCCard {
     /// A badge to display over the card image
     public struct Badge: Sendable {
         /// Badge text
@@ -320,9 +341,11 @@ import SwiftUI
         ///   - text: Badge text
         ///   - position: Position on the image
         ///   - style: Visual style
-        public init(text: String,
-                    position: BadgePosition,
-                    style: BadgeStyle = .material) {
+        public init(
+            text: String,
+            position: BadgePosition,
+            style: BadgeStyle = .material
+        ) {
             self.text = text
             self.position = position
             self.style = style
@@ -359,20 +382,24 @@ import SwiftUI
 // MARK: - Preview
 
 #Preview("Basic Card") {
-    ARCCard(title: "Restaurant Name",
-            subtitle: "Italian Cuisine",
-            secondarySubtitle: "Downtown Area",
-            subtitleIcon: "fork.knife",
-            secondarySubtitleIcon: "location.fill") {
-        LinearGradient(colors: [.orange.opacity(0.3), .red.opacity(0.2)],
-                       startPoint: .topLeading,
-                       endPoint: .bottomTrailing)
-            .frame(height: 140)
-            .overlay {
-                Image(systemName: "fork.knife")
-                    .font(.largeTitle)
-                    .foregroundStyle(.orange)
-            }
+    ARCCard(
+        title: "Restaurant Name",
+        subtitle: "Italian Cuisine",
+        secondarySubtitle: "Downtown Area",
+        subtitleIcon: "fork.knife",
+        secondarySubtitleIcon: "location.fill"
+    ) {
+        LinearGradient(
+            colors: [.orange.opacity(0.3), .red.opacity(0.2)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .frame(height: 140)
+        .overlay {
+            Image(systemName: "fork.knife")
+                .font(.largeTitle)
+                .foregroundStyle(.orange)
+        }
     } footer: {
         HStack {
             Label("12", systemImage: "fork.knife")
@@ -387,20 +414,26 @@ import SwiftUI
 }
 
 #Preview("With Badges") {
-    ARCCard(title: "Book Title",
-            subtitle: "Author Name",
-            subtitleIcon: "person.fill",
-            badges: [.init(text: "$12.99", position: .topTrailing, style: .material),
-                     .init(text: "NEW", position: .topLeading, style: .solid(.blue))]) {
-        LinearGradient(colors: [.blue.opacity(0.3), .purple.opacity(0.2)],
-                       startPoint: .topLeading,
-                       endPoint: .bottomTrailing)
-            .frame(height: 160)
-            .overlay {
-                Image(systemName: "book.fill")
-                    .font(.largeTitle)
-                    .foregroundStyle(.blue)
-            }
+    ARCCard(
+        title: "Book Title",
+        subtitle: "Author Name",
+        subtitleIcon: "person.fill",
+        badges: [
+            .init(text: "$12.99", position: .topTrailing, style: .material),
+            .init(text: "NEW", position: .topLeading, style: .solid(.blue))
+        ]
+    ) {
+        LinearGradient(
+            colors: [.blue.opacity(0.3), .purple.opacity(0.2)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .frame(height: 160)
+        .overlay {
+            Image(systemName: "book.fill")
+                .font(.largeTitle)
+                .foregroundStyle(.blue)
+        }
     } footer: {
         ARCRatingView(rating: 4.8)
     }
@@ -409,17 +442,23 @@ import SwiftUI
 }
 
 #Preview("Grid Layout") {
-    let items = [("Pizza Place", "Italian", "star.fill", Color.orange),
-                 ("Sushi Bar", "Japanese", "fish.fill", Color.pink),
-                 ("Burger Joint", "American", "flame.fill", Color.red),
-                 ("Taco Shop", "Mexican", "leaf.fill", Color.green)]
+    let items = [
+        ("Pizza Place", "Italian", "star.fill", Color.orange),
+        ("Sushi Bar", "Japanese", "fish.fill", Color.pink),
+        ("Burger Joint", "American", "flame.fill", Color.red),
+        ("Taco Shop", "Mexican", "leaf.fill", Color.green)
+    ]
 
-    LazyVGrid(columns: [GridItem(.flexible()),
-                        GridItem(.flexible())], spacing: .arcSpacingLarge) {
+    LazyVGrid(columns: [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ], spacing: .arcSpacingLarge) {
         ForEach(items, id: \.0) { item in
-            ARCCard(title: item.0,
-                    subtitle: item.1,
-                    subtitleIcon: item.2) {
+            ARCCard(
+                title: item.0,
+                subtitle: item.1,
+                subtitleIcon: item.2
+            ) {
                 item.3.opacity(0.2)
                     .frame(height: 100)
                     .overlay {
@@ -428,7 +467,7 @@ import SwiftUI
                             .foregroundStyle(item.3)
                     }
             } footer: {
-                ARCRatingView(rating: Double.random(in: 3.5 ... 5.0))
+                ARCRatingView(rating: Double.random(in: 3.5...5.0))
             }
         }
     }
@@ -439,8 +478,10 @@ import SwiftUI
     Button {
         print("Card tapped")
     } label: {
-        ARCCard(title: "Tap Me",
-                subtitle: "Interactive card with press effect") {
+        ARCCard(
+            title: "Tap Me",
+            subtitle: "Interactive card with press effect"
+        ) {
             Color.blue.opacity(0.2)
                 .frame(height: 120)
                 .overlay {
@@ -456,10 +497,14 @@ import SwiftUI
 }
 
 #Preview("Dark Mode") {
-    ARCCard(title: "Dark Mode Card",
-            subtitle: "Looks great in dark",
-            subtitleIcon: "moon.fill",
-            badges: [.init(text: "DARK", position: .topTrailing, style: .material)]) {
+    ARCCard(
+        title: "Dark Mode Card",
+        subtitle: "Looks great in dark",
+        subtitleIcon: "moon.fill",
+        badges: [
+            .init(text: "DARK", position: .topTrailing, style: .material)
+        ]
+    ) {
         Color.indigo.opacity(0.3)
             .frame(height: 120)
             .overlay {
@@ -481,9 +526,11 @@ import SwiftUI
             .font(.caption)
             .foregroundStyle(.secondary)
 
-        ARCCard(title: "Default Config",
-                subtitle: "Standard spacing",
-                configuration: .default) {
+        ARCCard(
+            title: "Default Config",
+            subtitle: "Standard spacing",
+            configuration: .default
+        ) {
             Color.green.opacity(0.2).frame(height: 80)
         }
         .frame(width: 180)
@@ -492,9 +539,11 @@ import SwiftUI
             .font(.caption)
             .foregroundStyle(.secondary)
 
-        ARCCard(title: "Compact Config",
-                subtitle: "Smaller spacing",
-                configuration: .compact) {
+        ARCCard(
+            title: "Compact Config",
+            subtitle: "Smaller spacing",
+            configuration: .compact
+        ) {
             Color.blue.opacity(0.2).frame(height: 80)
         }
         .frame(width: 180)
@@ -503,9 +552,11 @@ import SwiftUI
             .font(.caption)
             .foregroundStyle(.secondary)
 
-        ARCCard(title: "Prominent Config",
-                subtitle: "Larger radius & shadow",
-                configuration: .prominent) {
+        ARCCard(
+            title: "Prominent Config",
+            subtitle: "Larger radius & shadow",
+            configuration: .prominent
+        ) {
             Color.purple.opacity(0.2).frame(height: 80)
         }
         .frame(width: 180)

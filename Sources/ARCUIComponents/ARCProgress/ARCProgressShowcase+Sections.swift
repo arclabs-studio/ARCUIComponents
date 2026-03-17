@@ -9,8 +9,9 @@ import SwiftUI
 
 // MARK: - Linear Progress Section
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCProgressShowcase {
-    var linearProgressSection: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCProgressShowcase {
+    @ViewBuilder var linearProgressSection: some View {
         VStack(alignment: .leading, spacing: 20) {
             sectionHeader("Linear Progress")
 
@@ -55,12 +56,18 @@ import SwiftUI
                         .font(.caption)
                         .foregroundStyle(.secondary)
 
-                    ARCLinearProgress(progress: 0.8,
-                                      configuration: ARCLinearProgressConfiguration(progressColor: .green))
-                    ARCLinearProgress(progress: 0.5,
-                                      configuration: ARCLinearProgressConfiguration(progressColor: .orange))
-                    ARCLinearProgress(progress: 0.3,
-                                      configuration: ARCLinearProgressConfiguration(progressColor: .red))
+                    ARCLinearProgress(
+                        progress: 0.8,
+                        configuration: ARCLinearProgressConfiguration(progressColor: .green)
+                    )
+                    ARCLinearProgress(
+                        progress: 0.5,
+                        configuration: ARCLinearProgressConfiguration(progressColor: .orange)
+                    )
+                    ARCLinearProgress(
+                        progress: 0.3,
+                        configuration: ARCLinearProgressConfiguration(progressColor: .red)
+                    )
                 }
             }
             .padding()
@@ -72,8 +79,9 @@ import SwiftUI
 
 // MARK: - Circular Progress Section
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCProgressShowcase {
-    var circularProgressSection: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCProgressShowcase {
+    @ViewBuilder var circularProgressSection: some View {
         VStack(alignment: .leading, spacing: 20) {
             sectionHeader("Circular Progress")
 
@@ -133,18 +141,24 @@ import SwiftUI
 
                     HStack(spacing: 32) {
                         VStack(spacing: 8) {
-                            ARCCircularProgress(progress: 0.6,
-                                                configuration: ARCCircularProgressConfiguration(lineCap: .round))
+                            ARCCircularProgress(
+                                progress: 0.6,
+                                configuration: ARCCircularProgressConfiguration(lineCap: .round)
+                            )
                             Text("Round").font(.caption2)
                         }
                         VStack(spacing: 8) {
-                            ARCCircularProgress(progress: 0.6,
-                                                configuration: ARCCircularProgressConfiguration(lineCap: .butt))
+                            ARCCircularProgress(
+                                progress: 0.6,
+                                configuration: ARCCircularProgressConfiguration(lineCap: .butt)
+                            )
                             Text("Butt").font(.caption2)
                         }
                         VStack(spacing: 8) {
-                            ARCCircularProgress(progress: 0.6,
-                                                configuration: ARCCircularProgressConfiguration(lineCap: .square))
+                            ARCCircularProgress(
+                                progress: 0.6,
+                                configuration: ARCCircularProgressConfiguration(lineCap: .square)
+                            )
                             Text("Square").font(.caption2)
                         }
                     }
@@ -160,8 +174,9 @@ import SwiftUI
 
 // MARK: - Step Indicator Section
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCProgressShowcase {
-    var stepIndicatorSection: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCProgressShowcase {
+    @ViewBuilder var stepIndicatorSection: some View {
         VStack(alignment: .leading, spacing: 20) {
             sectionHeader("Step Indicator")
 
@@ -189,13 +204,17 @@ import SwiftUI
                         .font(.caption)
                         .foregroundStyle(.secondary)
 
-                    ARCStepIndicator(totalSteps: 4,
-                                     currentStep: 2,
-                                     configuration: .withIcons(["cart.fill",
-                                                                "truck.box.fill",
-                                                                "creditcard.fill",
-                                                                "checkmark.seal.fill"]))
-                        .frame(maxWidth: .infinity)
+                    ARCStepIndicator(
+                        totalSteps: 4,
+                        currentStep: 2,
+                        configuration: .withIcons([
+                            "cart.fill",
+                            "truck.box.fill",
+                            "creditcard.fill",
+                            "checkmark.seal.fill"
+                        ])
+                    )
+                    .frame(maxWidth: .infinity)
                 }
 
                 VStack(alignment: .leading, spacing: 12) {
@@ -203,12 +222,16 @@ import SwiftUI
                         .font(.caption)
                         .foregroundStyle(.secondary)
 
-                    ARCStepIndicator(totalSteps: 4,
-                                     currentStep: 2,
-                                     configuration: .detailed(labels: ["Account Details",
-                                                                       "Shipping Address",
-                                                                       "Payment Method",
-                                                                       "Review Order"]))
+                    ARCStepIndicator(
+                        totalSteps: 4,
+                        currentStep: 2,
+                        configuration: .detailed(labels: [
+                            "Account Details",
+                            "Shipping Address",
+                            "Payment Method",
+                            "Review Order"
+                        ])
+                    )
                 }
             }
             .padding()
@@ -220,8 +243,9 @@ import SwiftUI
 
 // MARK: - Interactive Section
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCProgressShowcase {
-    var interactiveSection: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCProgressShowcase {
+    @ViewBuilder var interactiveSection: some View {
         VStack(alignment: .leading, spacing: 20) {
             sectionHeader("Interactive Demo")
 
@@ -282,12 +306,16 @@ import SwiftUI
                         .foregroundStyle(.secondary)
 
                     HStack(spacing: 24) {
-                        ARCLinearProgress(progress: isAnimating ? 1.0 : 0.0,
-                                          configuration: .thick)
-                            .frame(width: 120)
+                        ARCLinearProgress(
+                            progress: isAnimating ? 1.0 : 0.0,
+                            configuration: .thick
+                        )
+                        .frame(width: 120)
 
-                        ARCCircularProgress(progress: isAnimating ? 1.0 : 0.0,
-                                            configuration: .large)
+                        ARCCircularProgress(
+                            progress: isAnimating ? 1.0 : 0.0,
+                            configuration: .large
+                        )
                     }
                     .frame(maxWidth: .infinity)
 

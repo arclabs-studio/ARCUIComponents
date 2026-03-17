@@ -14,7 +14,8 @@ import UIKit
 
 // MARK: - Background Views
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCTextField {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCTextField {
     @ViewBuilder var backgroundView: some View {
         switch configuration.style {
         case .outlined:
@@ -48,15 +49,21 @@ import UIKit
         }
     }
 
-    var glassBackground: some View {
+    @ViewBuilder var glassBackground: some View {
         RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
             .fill(.ultraThinMaterial)
             .overlay {
                 RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                    .fill(LinearGradient(colors: [Color.white.opacity(0.15),
-                                                  Color.white.opacity(0.05)],
-                                         startPoint: .top,
-                                         endPoint: .bottom))
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.15),
+                                Color.white.opacity(0.05)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
             }
             .overlay {
                 if isErrorState {
@@ -64,24 +71,33 @@ import UIKit
                         .strokeBorder(configuration.errorBorderColor, lineWidth: currentBorderWidth)
                 } else {
                     RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                        .strokeBorder(LinearGradient(colors: [Color.white.opacity(isFocused ? 0.5 : 0.3),
-                                                              Color.white.opacity(isFocused ? 0.2 : 0.1)],
-                                                     startPoint: .top,
-                                                     endPoint: .bottom),
-                                      lineWidth: currentBorderWidth)
+                        .strokeBorder(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(isFocused ? 0.5 : 0.3),
+                                    Color.white.opacity(isFocused ? 0.2 : 0.1)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            ),
+                            lineWidth: currentBorderWidth
+                        )
                 }
             }
-            .shadow(color: configuration.shadow.color,
-                    radius: configuration.shadow.radius,
-                    x: configuration.shadow.x,
-                    y: configuration.shadow.y)
+            .shadow(
+                color: configuration.shadow.color,
+                radius: configuration.shadow.radius,
+                x: configuration.shadow.x,
+                y: configuration.shadow.y
+            )
     }
 }
 
 // MARK: - Field Content Views
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCTextField {
-    var fieldContent: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCTextField {
+    @ViewBuilder var fieldContent: some View {
         HStack(alignment: .center, spacing: 12) {
             leadingContent
             textFieldContent
@@ -122,7 +138,8 @@ import UIKit
 
 // MARK: - Input Views
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCTextField {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCTextField {
     @ViewBuilder var textInputView: some View {
         Group {
             if configuration.isMultiline {
@@ -144,14 +161,16 @@ import UIKit
         #endif
     }
 
-    var singleLineTextField: some View {
-        TextField(shouldFloatLabel ? "" : placeholder,
-                  text: $text)
-            .font(.body)
-            .foregroundStyle(.primary)
+    @ViewBuilder var singleLineTextField: some View {
+        TextField(
+            shouldFloatLabel ? "" : placeholder,
+            text: $text
+        )
+        .font(.body)
+        .foregroundStyle(.primary)
     }
 
-    var multilineTextField: some View {
+    @ViewBuilder var multilineTextField: some View {
         ZStack(alignment: .topLeading) {
             if text.isEmpty, !shouldFloatLabel {
                 Text(placeholder)
@@ -175,8 +194,9 @@ import UIKit
 
 // MARK: - Trailing Content Views
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCTextField {
-    var trailingContent: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCTextField {
+    @ViewBuilder var trailingContent: some View {
         HStack(spacing: 8) {
             if shouldShowClearButton {
                 clearButton
@@ -194,7 +214,7 @@ import UIKit
         }
     }
 
-    var clearButton: some View {
+    @ViewBuilder var clearButton: some View {
         Button {
             text = ""
             validationState = .idle
@@ -207,7 +227,7 @@ import UIKit
         .transition(.opacity.combined(with: .scale))
     }
 
-    var validationIcon: some View {
+    @ViewBuilder var validationIcon: some View {
         Group {
             switch validationState {
             case .idle, .validating:
@@ -231,8 +251,9 @@ import UIKit
 
 // MARK: - Bottom Content
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCTextField {
-    var bottomContent: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCTextField {
+    @ViewBuilder var bottomContent: some View {
         HStack {
             if let errorMessage {
                 Label(errorMessage, systemImage: "exclamationmark.triangle.fill")

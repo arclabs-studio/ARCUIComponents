@@ -59,7 +59,8 @@ import SwiftUI
 ///     subtitle: "Start exploring now"
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCOnboardingPage: Identifiable, Sendable {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCOnboardingPage: Identifiable, Sendable {
     // MARK: - Properties
 
     /// Unique identifier for the page
@@ -96,11 +97,13 @@ import SwiftUI
     ///   - title: The main title text
     ///   - subtitle: The subtitle or description text
     ///   - accentColor: Optional accent color override
-    public init(image: ImageType,
-                imageColor: Color? = nil,
-                title: String,
-                subtitle: String,
-                accentColor: Color? = nil) {
+    public init(
+        image: ImageType,
+        imageColor: Color? = nil,
+        title: String,
+        subtitle: String,
+        accentColor: Color? = nil
+    ) {
         id = UUID()
         self.image = image
         self.imageColor = imageColor
@@ -112,7 +115,8 @@ import SwiftUI
 
 // MARK: - ImageType
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCOnboardingPage {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCOnboardingPage {
     /// The type of visual content to display on an onboarding page
     ///
     /// Supports multiple image sources for maximum flexibility:
@@ -145,7 +149,8 @@ import SwiftUI
 
 // MARK: - Convenience Initializers
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCOnboardingPage {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCOnboardingPage {
     /// Creates an onboarding page with an SF Symbol image
     ///
     /// This convenience initializer provides a quick way to create pages
@@ -168,14 +173,18 @@ import SwiftUI
     ///     subtitle: "Get alerts when it matters"
     /// )
     /// ```
-    public static func systemImage(_ name: String,
-                                   color: Color = .accentColor,
-                                   title: String,
-                                   subtitle: String) -> Self {
-        ARCOnboardingPage(image: .systemImage(name),
-                          imageColor: color,
-                          title: title,
-                          subtitle: subtitle)
+    public static func systemImage(
+        _ name: String,
+        color: Color = .accentColor,
+        title: String,
+        subtitle: String
+    ) -> Self {
+        ARCOnboardingPage(
+            image: .systemImage(name),
+            imageColor: color,
+            title: title,
+            subtitle: subtitle
+        )
     }
 
     /// Creates an onboarding page with an asset catalog image
@@ -198,12 +207,16 @@ import SwiftUI
     ///     subtitle: "Let's get you started"
     /// )
     /// ```
-    public static func assetImage(_ name: String,
-                                  title: String,
-                                  subtitle: String) -> Self {
-        ARCOnboardingPage(image: .assetImage(name),
-                          title: title,
-                          subtitle: subtitle)
+    public static func assetImage(
+        _ name: String,
+        title: String,
+        subtitle: String
+    ) -> Self {
+        ARCOnboardingPage(
+            image: .assetImage(name),
+            title: title,
+            subtitle: subtitle
+        )
     }
 
     /// Creates an onboarding page with a remote image URL
@@ -223,11 +236,15 @@ import SwiftUI
     ///     subtitle: "Access your data anywhere"
     /// )
     /// ```
-    public static func remoteImage(_ url: URL,
-                                   title: String,
-                                   subtitle: String) -> Self {
-        ARCOnboardingPage(image: .url(url),
-                          title: title,
-                          subtitle: subtitle)
+    public static func remoteImage(
+        _ url: URL,
+        title: String,
+        subtitle: String
+    ) -> Self {
+        ARCOnboardingPage(
+            image: .url(url),
+            title: title,
+            subtitle: subtitle
+        )
     }
 }

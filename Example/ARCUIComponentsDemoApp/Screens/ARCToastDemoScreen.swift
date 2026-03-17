@@ -12,7 +12,8 @@ import SwiftUI
 ///
 /// Shows toast notifications with various types, configurations, and actions.
 /// Demonstrates both binding-based and manager-based toast presentation.
-@available(iOS 17.0, *) struct ARCToastDemoScreen: View {
+@available(iOS 17.0, *)
+struct ARCToastDemoScreen: View {
     // MARK: - State
 
     @State private var showBindingToast = false
@@ -40,18 +41,23 @@ import SwiftUI
             .navigationBarTitleDisplayMode(.large)
         #endif
             .arcToastContainer()
-            .arcToast(isPresented: $showBindingToast,
-                      message: "Binding-controlled toast",
-                      type: selectedType,
-                      action: includeAction ? .dismiss() : nil,
-                      configuration: ARCToastConfiguration(position: selectedPosition,
-                                                           showIcon: showIcon))
+            .arcToast(
+                isPresented: $showBindingToast,
+                message: "Binding-controlled toast",
+                type: selectedType,
+                action: includeAction ? .dismiss() : nil,
+                configuration: ARCToastConfiguration(
+                    position: selectedPosition,
+                    showIcon: showIcon
+                )
+            )
     }
 }
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *) extension ARCToastDemoScreen {
+@available(iOS 17.0, *)
+extension ARCToastDemoScreen {
     // MARK: - Manager Based Section
 
     private var managerBasedSection: some View {
@@ -101,10 +107,12 @@ import SwiftUI
                 typeRow("Error", icon: "xmark.circle.fill", color: .red, type: .error)
                 typeRow("Warning", icon: "exclamationmark.triangle.fill", color: .orange, type: .warning)
                 typeRow("Info", icon: "info.circle.fill", color: .blue, type: .info)
-                typeRow("Custom",
-                        icon: "bell.fill",
-                        color: .purple,
-                        type: .custom(icon: "bell.fill", color: .purple))
+                typeRow(
+                    "Custom",
+                    icon: "bell.fill",
+                    color: .purple,
+                    type: .custom(icon: "bell.fill", color: .purple)
+                )
             }
         }
     }
@@ -183,26 +191,34 @@ import SwiftUI
 
             VStack(spacing: 12) {
                 actionRow("Undo", description: "Reversible action") {
-                    ARCToastManager.shared.show("Item deleted",
-                                                type: .info,
-                                                action: .undo { print("Undo tapped") })
+                    ARCToastManager.shared.show(
+                        "Item deleted",
+                        type: .info,
+                        action: .undo { print("Undo tapped") }
+                    )
                 }
 
                 actionRow("Retry", description: "Try again on failure") {
-                    ARCToastManager.shared.showError("Upload failed",
-                                                     action: .retry { print("Retry tapped") })
+                    ARCToastManager.shared.showError(
+                        "Upload failed",
+                        action: .retry { print("Retry tapped") }
+                    )
                 }
 
                 actionRow("View", description: "Navigate to content") {
-                    ARCToastManager.shared.showSuccess("Photo uploaded",
-                                                       action: .view { print("View tapped") })
+                    ARCToastManager.shared.showSuccess(
+                        "Photo uploaded",
+                        action: .view { print("View tapped") }
+                    )
                 }
 
                 actionRow("Dismiss", description: "Manual dismissal") {
-                    ARCToastManager.shared.show("Persistent toast",
-                                                type: .info,
-                                                action: .dismiss(),
-                                                configuration: .persistent)
+                    ARCToastManager.shared.show(
+                        "Persistent toast",
+                        type: .info,
+                        action: .dismiss(),
+                        configuration: .persistent
+                    )
                 }
             }
         }
@@ -299,12 +315,16 @@ import SwiftUI
 
             // Preview button
             Button {
-                let config = ARCToastConfiguration(position: selectedPosition,
-                                                   showIcon: showIcon)
-                ARCToastManager.shared.show("Custom configured toast",
-                                            type: selectedType,
-                                            action: includeAction ? .dismiss() : nil,
-                                            configuration: config)
+                let config = ARCToastConfiguration(
+                    position: selectedPosition,
+                    showIcon: showIcon
+                )
+                ARCToastManager.shared.show(
+                    "Custom configured toast",
+                    type: selectedType,
+                    action: includeAction ? .dismiss() : nil,
+                    configuration: config
+                )
             } label: {
                 Text("Show Custom Toast")
                     .font(.headline)

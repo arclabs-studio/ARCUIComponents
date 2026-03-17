@@ -52,10 +52,13 @@ extension ARCDesignSystemDemoScreen {
                     .font(.caption)
                     .foregroundStyle(.secondary)
 
-                LazyVGrid(columns: [GridItem(.flexible()),
-                                    GridItem(.flexible())],
-                          spacing: .arcSpacingMedium)
-                {
+                LazyVGrid(
+                    columns: [
+                        GridItem(.flexible()),
+                        GridItem(.flexible())
+                    ],
+                    spacing: .arcSpacingMedium
+                ) {
                     animationDemoItem(name: "Standard", animation: .arcStandard)
                     animationDemoItem(name: "Quick", animation: .arcQuick)
                     animationDemoItem(name: "Smooth", animation: .arcSmooth)
@@ -149,8 +152,10 @@ extension ARCDesignSystemDemoScreen {
             RoundedRectangle(cornerRadius: .arcCornerRadiusSmall)
                 .fill(color)
                 .frame(width: 48, height: 48)
-                .overlay(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall)
-                    .strokeBorder(Color.primary.opacity(0.1), lineWidth: 1))
+                .overlay(
+                    RoundedRectangle(cornerRadius: .arcCornerRadiusSmall)
+                        .strokeBorder(Color.primary.opacity(0.1), lineWidth: 1)
+                )
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(name)
@@ -174,9 +179,12 @@ extension ARCDesignSystemDemoScreen {
 
     private var iconsSection: some View {
         sectionContainer(title: "Icons & Symbols", icon: "app") {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 100, maximum: 150), spacing: .arcSpacingMedium)],
-                      spacing: .arcSpacingMedium)
-            {
+            LazyVGrid(
+                columns: [
+                    GridItem(.adaptive(minimum: 100, maximum: 150), spacing: .arcSpacingMedium)
+                ],
+                spacing: .arcSpacingMedium
+            ) {
                 ForEach(ARCBrandAsset.icons + ARCBrandAsset.symbols, id: \.rawValue) { asset in
                     assetGridItem(asset: asset, variant: .burgundy)
                 }
@@ -264,10 +272,12 @@ extension ARCDesignSystemDemoScreen {
         .clipShape(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall))
     }
 
-    private func sectionContainer(title: String,
-                                  icon: String,
-                                  @ViewBuilder content: () -> some View) -> some View
-    {
+    @ViewBuilder
+    private func sectionContainer(
+        title: String,
+        icon: String,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
         VStack(alignment: .leading, spacing: .arcSpacingMedium) {
             Label(title, systemImage: icon)
                 .font(.title2.bold())

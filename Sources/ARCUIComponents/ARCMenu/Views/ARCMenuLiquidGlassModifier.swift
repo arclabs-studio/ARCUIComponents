@@ -15,7 +15,8 @@ import SwiftUI
 /// For iOS 26+, this will be updated to use the native `.glassEffect()` modifier.
 ///
 /// - Note: New code should use native presentation modifiers with `.presentationBackground(.ultraThinMaterial)`
-@available(iOS 17.0, *) extension View {
+@available(iOS 17.0, *)
+extension View {
     /// Applies a glass-like material effect to a view using ARCMenu configuration
     ///
     /// This uses native SwiftUI Material for the glass effect.
@@ -31,8 +32,10 @@ import SwiftUI
     ///     .arcMenuLiquidGlass(configuration: menuConfig)
     /// ```
     func arcMenuLiquidGlass(configuration: ARCMenuConfiguration) -> some View {
-        background(.ultraThinMaterial,
-                   in: RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous))
+        background(
+            .ultraThinMaterial,
+            in: RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
+        )
     }
 }
 
@@ -78,7 +81,8 @@ struct ARCMenuBackdropModifier: ViewModifier {
 
 // MARK: - View Extension
 
-@available(iOS 17.0, *) extension View {
+@available(iOS 17.0, *)
+extension View {
     /// Applies a backdrop blur overlay
     ///
     /// Adds a semi-transparent black overlay that responds to taps,

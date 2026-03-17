@@ -10,7 +10,8 @@ import SwiftUI
 // MARK: - BadgeModifier
 
 /// View modifier for adding badge overlays to views
-@available(iOS 17.0, macOS 14.0, *) struct BadgeModifier: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *)
+struct BadgeModifier: ViewModifier {
     // MARK: - Properties
 
     let content: ARCBadge.Content
@@ -44,7 +45,8 @@ import SwiftUI
 
 // MARK: - View Extension
 
-@available(iOS 17.0, macOS 14.0, *) extension View {
+@available(iOS 17.0, macOS 14.0, *)
+extension View {
     /// Adds a count badge overlay to this view
     ///
     /// The badge appears in the top-trailing corner by default.
@@ -65,14 +67,20 @@ import SwiftUI
     /// Image(systemName: "envelope")
     ///     .arcBadge(count: unreadCount, configuration: .info)
     /// ```
-    public func arcBadge(count: Int,
-                         configuration: ARCBadgeConfiguration = .default,
-                         alignment: Alignment = .topTrailing,
-                         offset: CGPoint = CGPoint(x: 8, y: -8)) -> some View {
-        modifier(BadgeModifier(content: .count(count),
-                               configuration: configuration,
-                               alignment: alignment,
-                               offset: offset))
+    public func arcBadge(
+        count: Int,
+        configuration: ARCBadgeConfiguration = .default,
+        alignment: Alignment = .topTrailing,
+        offset: CGPoint = CGPoint(x: 8, y: -8)
+    ) -> some View {
+        modifier(
+            BadgeModifier(
+                content: .count(count),
+                configuration: configuration,
+                alignment: alignment,
+                offset: offset
+            )
+        )
     }
 
     /// Adds a text badge overlay to this view
@@ -92,14 +100,20 @@ import SwiftUI
     /// Image(systemName: "star")
     ///     .arcBadge(text: "NEW")
     /// ```
-    public func arcBadge(text: String,
-                         configuration: ARCBadgeConfiguration = .default,
-                         alignment: Alignment = .topTrailing,
-                         offset: CGPoint = CGPoint(x: 12, y: -8)) -> some View {
-        modifier(BadgeModifier(content: .text(text),
-                               configuration: configuration,
-                               alignment: alignment,
-                               offset: offset))
+    public func arcBadge(
+        text: String,
+        configuration: ARCBadgeConfiguration = .default,
+        alignment: Alignment = .topTrailing,
+        offset: CGPoint = CGPoint(x: 12, y: -8)
+    ) -> some View {
+        modifier(
+            BadgeModifier(
+                content: .text(text),
+                configuration: configuration,
+                alignment: alignment,
+                offset: offset
+            )
+        )
     }
 
     /// Adds a dot badge overlay to this view
@@ -118,13 +132,19 @@ import SwiftUI
     /// Image(systemName: "person.circle")
     ///     .arcBadgeDot(configuration: .success) // Online indicator
     /// ```
-    public func arcBadgeDot(configuration: ARCBadgeConfiguration = .dot,
-                            alignment: Alignment = .topTrailing,
-                            offset: CGPoint = CGPoint(x: 4, y: -4)) -> some View {
-        modifier(BadgeModifier(content: .dot,
-                               configuration: configuration,
-                               alignment: alignment,
-                               offset: offset))
+    public func arcBadgeDot(
+        configuration: ARCBadgeConfiguration = .dot,
+        alignment: Alignment = .topTrailing,
+        offset: CGPoint = CGPoint(x: 4, y: -4)
+    ) -> some View {
+        modifier(
+            BadgeModifier(
+                content: .dot,
+                configuration: configuration,
+                alignment: alignment,
+                offset: offset
+            )
+        )
     }
 }
 

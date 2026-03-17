@@ -53,11 +53,13 @@ public struct ARCThemedArtworkView<ArtworkType: ArtworkTypeProtocol>: View {
     ///   - isAnimating: Whether the artwork should animate. Defaults to `false`.
     ///   - animationType: The type of animation to apply. Defaults to `.spin`.
     ///   - animationDuration: The duration of one animation cycle. Defaults to `4.0`.
-    public init(type: ArtworkType,
-                configuration: ArtworkConfiguration? = nil,
-                isAnimating: Bool = false,
-                animationType: ArtworkAnimationType = .spin,
-                animationDuration: Double = 4.0) {
+    public init(
+        type: ArtworkType,
+        configuration: ArtworkConfiguration? = nil,
+        isAnimating: Bool = false,
+        animationType: ArtworkAnimationType = .spin,
+        animationDuration: Double = 4.0
+    ) {
         self.type = type
         self.configuration = configuration ?? type.recommendedConfiguration
         self.isAnimating = isAnimating
@@ -68,7 +70,7 @@ public struct ARCThemedArtworkView<ArtworkType: ArtworkTypeProtocol>: View {
     // MARK: - Body
 
     public var body: some View {
-        if isAnimating, animationType != .shimmer {
+        if isAnimating && animationType != .shimmer {
             animatedContent
         } else {
             staticContent
@@ -77,23 +79,30 @@ public struct ARCThemedArtworkView<ArtworkType: ArtworkTypeProtocol>: View {
 
     // MARK: - Private
 
+    @ViewBuilder
     private var animatedContent: some View {
         TimelineView(.animation(minimumInterval: 1.0 / 60.0, paused: false)) { timeline in
             let progress = calculateProgress(from: timeline.date)
 
             artworkContent
-                .artworkAnimation(type: animationType,
-                                  isActive: isAnimating,
-                                  progress: progress)
+                .artworkAnimation(
+                    type: animationType,
+                    isActive: isAnimating,
+                    progress: progress
+                )
         }
     }
 
+    @ViewBuilder
     private var staticContent: some View {
         artworkContent
-            .modifier(ShimmerConditionalModifier(isActive: isAnimating && animationType == .shimmer,
-                                                 duration: animationDuration))
+            .modifier(ShimmerConditionalModifier(
+                isActive: isAnimating && animationType == .shimmer,
+                duration: animationDuration
+            ))
     }
 
+    @ViewBuilder
     private var artworkContent: some View {
         GeometryReader { geometry in
             let dimension = min(geometry.size.width, geometry.size.height)
@@ -103,17 +112,19 @@ public struct ARCThemedArtworkView<ArtworkType: ArtworkTypeProtocol>: View {
         }
         .aspectRatio(configuration.aspectRatio, contentMode: .fit)
         .clipShape(resolvedShape)
-        .shadow(color: type.theme.shadowColor,
-                radius: configuration.shadowRadius,
-                x: configuration.shadowOffset.width,
-                y: configuration.shadowOffset.height)
+        .shadow(
+            color: type.theme.shadowColor,
+            radius: configuration.shadowRadius,
+            x: configuration.shadowOffset.width,
+            y: configuration.shadowOffset.height
+        )
     }
 
     private var resolvedShape: AnyShape {
         switch configuration.baseShape {
         case .circle:
             AnyShape(Circle())
-        case let .roundedRectangle(radius):
+        case .roundedRectangle(let radius):
             AnyShape(RoundedRectangle(cornerRadius: radius, style: .continuous))
         case .capsule:
             AnyShape(Capsule())

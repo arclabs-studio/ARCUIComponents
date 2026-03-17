@@ -11,7 +11,9 @@ import SwiftUI
 /// Demo screen for Liquid Glass effect.
 ///
 /// Shows the glassmorphism effect with various backgrounds and configurations.
-@available(iOS 17.0, *) struct LiquidGlassDemoScreen: View {
+@available(iOS 17.0, *)
+struct LiquidGlassDemoScreen: View {
+
     // MARK: Properties
 
     @State private var backgroundStyle: BackgroundStyleOption = .arcBrand
@@ -42,13 +44,18 @@ import SwiftUI
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *) extension LiquidGlassDemoScreen {
-    @ViewBuilder private var backgroundView: some View {
+@available(iOS 17.0, *)
+private extension LiquidGlassDemoScreen {
+
+    @ViewBuilder
+    var backgroundView: some View {
         switch backgroundStyle {
         case .arcBrand:
-            LinearGradient(colors: [.arcBrandBurgundy, .arcBrandBurgundy.opacity(0.7), .arcBrandGold.opacity(0.3)],
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
+            LinearGradient(
+                colors: [.arcBrandBurgundy, .arcBrandBurgundy.opacity(0.7), .arcBrandGold.opacity(0.3)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
 
         case .image:
             AsyncImage(url: URL(string: "https://picsum.photos/800/1200")) { image in
@@ -65,16 +72,19 @@ import SwiftUI
         case .animated:
             TimelineView(.animation) { timeline in
                 let phase = timeline.date.timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 10) / 10
-                let hue2 = (phase + 0.3).truncatingRemainder(dividingBy: 1)
-                LinearGradient(colors: [Color(hue: phase, saturation: 0.8, brightness: 0.9),
-                                        Color(hue: hue2, saturation: 0.8, brightness: 0.9)],
-                               startPoint: .topLeading,
-                               endPoint: .bottomTrailing)
+                LinearGradient(
+                    colors: [
+                        Color(hue: phase, saturation: 0.8, brightness: 0.9),
+                        Color(hue: (phase + 0.3).truncatingRemainder(dividingBy: 1), saturation: 0.8, brightness: 0.9)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
             }
         }
     }
 
-    private var backgroundPicker: some View {
+    var backgroundPicker: some View {
         VStack(spacing: 8) {
             Text("Background")
                 .font(.caption)
@@ -92,7 +102,7 @@ import SwiftUI
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    private var glassCardDemo: some View {
+    var glassCardDemo: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 12) {
                 Image("ARC_Symbol")
@@ -104,10 +114,11 @@ import SwiftUI
                     .font(.title2.bold())
             }
 
-            Text("This card uses the liquid glass modifier to create a premium glassmorphism effect. "
-                + "Notice how it blurs and tints the background while maintaining readability.")
-                .font(.body)
-                .foregroundStyle(.secondary)
+            Text(
+                "This card uses the liquid glass modifier to create a premium glassmorphism effect. Notice how it blurs and tints the background while maintaining readability."
+            )
+            .font(.body)
+            .foregroundStyle(.secondary)
 
             HStack {
                 Label("Premium Feel", systemImage: "sparkles")
@@ -124,7 +135,7 @@ import SwiftUI
         .shadow(color: .arcBrandBlack.opacity(0.2), radius: 20, y: 10)
     }
 
-    private var multipleCardsDemo: some View {
+    var multipleCardsDemo: some View {
         VStack(spacing: 16) {
             ForEach(0 ..< 3) { index in
                 HStack(spacing: 16) {
@@ -160,15 +171,14 @@ import SwiftUI
 
 // MARK: - Supporting Types
 
-@available(iOS 17.0, *) private enum BackgroundStyleOption: String, CaseIterable, Identifiable {
+@available(iOS 17.0, *)
+private enum BackgroundStyleOption: String, CaseIterable, Identifiable {
     case arcBrand
     case image
     case solid
     case animated
 
-    var id: String {
-        rawValue
-    }
+    var id: String { rawValue }
 
     var name: String {
         switch self {

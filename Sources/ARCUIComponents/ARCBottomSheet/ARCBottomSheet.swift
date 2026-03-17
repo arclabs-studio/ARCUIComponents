@@ -67,7 +67,8 @@ import SwiftUI
 /// - Note: For presenting as an overlay, use the
 /// ``View/arcBottomSheet(isPresented:detents:selectedDetent:configuration:onDismiss:content:)``
 ///   view modifier instead.
-@available(iOS 17.0, macOS 14.0, *) public struct ARCBottomSheet<Content: View>: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCBottomSheet<Content: View>: View {
     // MARK: - Properties
 
     @Binding private var selectedDetent: ARCBottomSheetDetent
@@ -118,10 +119,12 @@ import SwiftUI
     ///   - detents: Set of available detents the sheet can snap to
     ///   - configuration: Configuration options for appearance and behavior
     ///   - content: The content to display inside the sheet
-    public init(selectedDetent: Binding<ARCBottomSheetDetent>,
-                detents: Set<ARCBottomSheetDetent> = [.medium, .large],
-                configuration: ARCBottomSheetConfiguration = .default,
-                @ViewBuilder content: @escaping () -> Content) {
+    public init(
+        selectedDetent: Binding<ARCBottomSheetDetent>,
+        detents: Set<ARCBottomSheetDetent> = [.medium, .large],
+        configuration: ARCBottomSheetConfiguration = .default,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         _selectedDetent = selectedDetent
         self.detents = detents.isEmpty ? [.medium, .large] : detents
         self.configuration = configuration
@@ -164,11 +167,13 @@ import SwiftUI
 
     // MARK: - Sheet View
 
-    private var sheetView: some View {
+    @ViewBuilder private var sheetView: some View {
         VStack(spacing: 0) {
             if configuration.showHandle {
-                ARCBottomSheetHandle(configuration: configuration,
-                                     onTap: cycleToNextDetent)
+                ARCBottomSheetHandle(
+                    configuration: configuration,
+                    onTap: cycleToNextDetent
+                )
             }
 
             content()
@@ -176,17 +181,25 @@ import SwiftUI
         }
         .frame(maxWidth: .infinity)
         .background(sheetBackground)
-        .clipShape(UnevenRoundedRectangle(topLeadingRadius: configuration.cornerRadius,
-                                          bottomLeadingRadius: 0,
-                                          bottomTrailingRadius: 0,
-                                          topTrailingRadius: configuration.cornerRadius))
-        .shadow(color: configuration.shadow.color,
-                radius: configuration.shadow.radius,
-                x: configuration.shadow.x,
-                y: configuration.shadow.y)
+        .clipShape(
+            UnevenRoundedRectangle(
+                topLeadingRadius: configuration.cornerRadius,
+                bottomLeadingRadius: 0,
+                bottomTrailingRadius: 0,
+                topTrailingRadius: configuration.cornerRadius
+            )
+        )
+        .shadow(
+            color: configuration.shadow.color,
+            radius: configuration.shadow.radius,
+            x: configuration.shadow.x,
+            y: configuration.shadow.y
+        )
         .gesture(dragGesture)
-        .animation(reduceMotion ? .none : configuration.animation,
-                   value: selectedDetent)
+        .animation(
+            reduceMotion ? .none : configuration.animation,
+            value: selectedDetent
+        )
     }
 
     // MARK: - Background
@@ -199,10 +212,16 @@ import SwiftUI
                     .fill(.ultraThinMaterial)
 
                 Rectangle()
-                    .fill(LinearGradient(colors: [.white.opacity(0.15),
-                                                  .white.opacity(0.05)],
-                                         startPoint: .top,
-                                         endPoint: .bottom))
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                .white.opacity(0.15),
+                                .white.opacity(0.05)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
 
                 Rectangle()
                     .fill(configuration.accentColor.opacity(0.03))
@@ -317,10 +336,12 @@ import SwiftUI
 
         var body: some View {
             ZStack {
-                LinearGradient(colors: [.blue, .purple],
-                               startPoint: .topLeading,
-                               endPoint: .bottomTrailing)
-                    .ignoresSafeArea()
+                LinearGradient(
+                    colors: [.blue, .purple],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
 
                 VStack {
                     Text("Main Content")
@@ -331,9 +352,11 @@ import SwiftUI
                         .foregroundStyle(.white.opacity(0.8))
                 }
 
-                ARCBottomSheet(selectedDetent: $detent,
-                               detents: [.small, .medium, .large],
-                               configuration: .default) {
+                ARCBottomSheet(
+                    selectedDetent: $detent,
+                    detents: [.small, .medium, .large],
+                    configuration: .default
+                ) {
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Sheet Content")
                             .font(.headline)

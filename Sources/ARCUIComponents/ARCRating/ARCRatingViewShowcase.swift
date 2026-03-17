@@ -12,7 +12,8 @@ import SwiftUI
 ///
 /// This view provides a visual gallery of all rating display styles,
 /// demonstrating different configurations, colors, and use cases.
-@available(iOS 17.0, macOS 14.0, *) public struct ARCRatingViewShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCRatingViewShowcase: View {
     // MARK: - State
 
     @State private var animatedRating: Double = 5.0
@@ -46,6 +47,7 @@ import SwiftUI
 
     // MARK: - All Styles Section
 
+    @ViewBuilder
     private var allStylesSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("All Styles", subtitle: "3 visual styles for different contexts")
@@ -60,6 +62,7 @@ import SwiftUI
         }
     }
 
+    @ViewBuilder
     private func styleRow(_ name: String, style: ARCRatingStyle, description: String) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
@@ -79,13 +82,16 @@ import SwiftUI
 
     // MARK: - Circular Gauge Section
 
+    @ViewBuilder
     private var circularGaugeSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Circular Gauge", subtitle: "Default style with progress ring")
 
-            LazyVGrid(columns: [GridItem(.flexible()),
-                                GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: .arcSpacingLarge) {
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: .arcSpacingLarge) {
                 ForEach([2.0, 4.5, 6.0, 7.5, 8.5, 10.0], id: \.self) { rating in
                     VStack(spacing: .arcSpacingSmall) {
                         ARCRatingView(rating: rating, style: .circularGauge)
@@ -103,6 +109,7 @@ import SwiftUI
 
     // MARK: - Compact Inline Section
 
+    @ViewBuilder
     private var compactInlineSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Compact Inline", subtitle: "Number with mini progress bar")
@@ -137,14 +144,17 @@ import SwiftUI
 
     // MARK: - Minimal Section
 
+    @ViewBuilder
     private var minimalSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Minimal", subtitle: "Just the colored number")
 
-            LazyVGrid(columns: [GridItem(.flexible()),
-                                GridItem(.flexible()),
-                                GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: .arcSpacingMedium) {
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: .arcSpacingMedium) {
                 ForEach([2.0, 5.0, 7.0, 9.5], id: \.self) { rating in
                     VStack(spacing: .arcSpacingXSmall) {
                         ARCRatingView(rating: rating, style: .minimal)
@@ -161,21 +171,26 @@ import SwiftUI
 
     // MARK: - Color Scale Section
 
+    @ViewBuilder
     private var colorScaleSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Color Scale", subtitle: "Semantic colors from 1 to 10")
 
-            LazyVGrid(columns: [GridItem(.flexible()),
-                                GridItem(.flexible()),
-                                GridItem(.flexible()),
-                                GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: .arcSpacingMedium) {
-                ForEach(1 ... 10, id: \.self) { rating in
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: .arcSpacingMedium) {
+                ForEach(1...10, id: \.self) { rating in
                     VStack(spacing: .arcSpacingXSmall) {
-                        ARCRatingView(rating: Double(rating),
-                                      style: .circularGauge,
-                                      animated: false)
-                            .scaleEffect(0.55)
+                        ARCRatingView(
+                            rating: Double(rating),
+                            style: .circularGauge,
+                            animated: false
+                        )
+                        .scaleEffect(0.55)
 
                         Text("\(rating)")
                             .font(.caption2)
@@ -190,6 +205,7 @@ import SwiftUI
 
     // MARK: - Interactive Section
 
+    @ViewBuilder
     private var interactiveSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Interactive", subtitle: "Drag slider to see transitions")
@@ -203,7 +219,7 @@ import SwiftUI
                     ARCRatingView(rating: animatedRating, style: .minimal)
                 }
 
-                Slider(value: $animatedRating, in: 1 ... 10, step: 0.5)
+                Slider(value: $animatedRating, in: 1...10, step: 0.5)
                     .tint(.green)
 
                 Text("Rating: \(String(format: "%.1f", animatedRating))")
@@ -218,7 +234,9 @@ import SwiftUI
 
 // MARK: - In Context Section
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCRatingViewShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCRatingViewShowcase {
+    @ViewBuilder
     var inContextSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("In Context", subtitle: "Real-world usage examples")
@@ -228,12 +246,17 @@ import SwiftUI
         }
     }
 
+    @ViewBuilder
     private var restaurantCard: some View {
         HStack(spacing: .arcSpacingMedium) {
             RoundedRectangle(cornerRadius: .arcCornerRadiusSmall)
-                .fill(LinearGradient(colors: [.orange.opacity(0.3), .red.opacity(0.2)],
-                                     startPoint: .topLeading,
-                                     endPoint: .bottomTrailing))
+                .fill(
+                    LinearGradient(
+                        colors: [.orange.opacity(0.3), .red.opacity(0.2)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
                 .frame(width: 70, height: 70)
                 .overlay {
                     Image(systemName: "fork.knife")
@@ -270,6 +293,7 @@ import SwiftUI
         .background(cardBackground)
     }
 
+    @ViewBuilder
     private var productList: some View {
         VStack(spacing: 0) {
             ForEach(Array(productItems.enumerated()), id: \.offset) { index, item in
@@ -307,6 +331,7 @@ import SwiftUI
         .background(cardBackground)
     }
 
+    @ViewBuilder
     private var inlineTextExample: some View {
         VStack(alignment: .leading, spacing: .arcSpacingSmall) {
             Text("Inline Text Usage")
@@ -329,7 +354,9 @@ import SwiftUI
 
 // MARK: - Helpers
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCRatingViewShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCRatingViewShowcase {
+    @ViewBuilder
     func sectionHeader(_ title: String, subtitle: String? = nil) -> some View {
         VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
             Text(title)
@@ -351,43 +378,50 @@ import SwiftUI
 
     func ratingLabel(for rating: Double) -> String {
         switch rating {
-        case 0 ..< 3: "Poor"
-        case 3 ..< 5: "Fair"
-        case 5 ..< 7: "Good"
-        case 7 ..< 8.5: "Great"
-        default: "Excellent"
+        case 0..<3: return "Poor"
+        case 3..<5: return "Fair"
+        case 5..<7: return "Good"
+        case 7..<8.5: return "Great"
+        default: return "Excellent"
         }
     }
 }
 
 // MARK: - Sample Data
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCRatingViewShowcase {
-    private var sampleItems: [SampleItem] {
-        [SampleItem(name: "Pasta Carbonara", icon: "fork.knife", color: .orange, rating: 9.2),
-         SampleItem(name: "Caesar Salad", icon: "leaf.fill", color: .green, rating: 7.8),
-         SampleItem(name: "Tiramisu", icon: "birthday.cake", color: .brown, rating: 8.5),
-         SampleItem(name: "Espresso", icon: "cup.and.saucer.fill", color: .brown, rating: 6.5)]
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCRatingViewShowcase {
+    fileprivate var sampleItems: [SampleItem] {
+        [
+            SampleItem(name: "Pasta Carbonara", icon: "fork.knife", color: .orange, rating: 9.2),
+            SampleItem(name: "Caesar Salad", icon: "leaf.fill", color: .green, rating: 7.8),
+            SampleItem(name: "Tiramisu", icon: "birthday.cake", color: .brown, rating: 8.5),
+            SampleItem(name: "Espresso", icon: "cup.and.saucer.fill", color: .brown, rating: 6.5)
+        ]
     }
 
-    private var productItems: [ProductItem] {
-        [ProductItem(name: "iPhone 16 Pro", category: "Electronics", icon: "iphone", color: .blue, rating: 9.4),
-         ProductItem(name: "AirPods Pro", category: "Audio", icon: "airpodspro", color: .gray, rating: 8.8),
-         ProductItem(name: "MacBook Air", category: "Computers", icon: "laptopcomputer", color: .gray, rating: 9.1),
-         ProductItem(name: "Apple Watch", category: "Wearables", icon: "applewatch", color: .pink, rating: 8.2)]
+    fileprivate var productItems: [ProductItem] {
+        [
+            ProductItem(name: "iPhone 16 Pro", category: "Electronics", icon: "iphone", color: .blue, rating: 9.4),
+            ProductItem(name: "AirPods Pro", category: "Audio", icon: "airpodspro", color: .gray, rating: 8.8),
+            ProductItem(name: "MacBook Air", category: "Computers", icon: "laptopcomputer", color: .gray, rating: 9.1),
+            ProductItem(name: "Apple Watch", category: "Wearables", icon: "applewatch", color: .pink, rating: 8.2)
+        ]
     }
 }
 
 // MARK: - Sample Data Models
 
-@available(iOS 17.0, macOS 14.0, *) private struct SampleItem {
+@available(iOS 17.0, macOS 14.0, *)
+private struct SampleItem {
     let name: String
     let icon: String
     let color: Color
     let rating: Double
 }
 
-@available(iOS 17.0, macOS 14.0, *) private struct ProductItem {
+@available(iOS 17.0, macOS 14.0, *)
+private struct ProductItem {
     let name: String
     let category: String
     let icon: String

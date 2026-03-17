@@ -54,7 +54,8 @@ import SwiftUI
 /// // Small spinner
 /// ARCCircularProgress(configuration: .small)
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCCircularProgress: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCCircularProgress: View {
     // MARK: - Properties
 
     private let progress: Double?
@@ -88,7 +89,9 @@ import SwiftUI
     /// without a known completion percentage.
     ///
     /// - Parameter configuration: Visual configuration (default: .default)
-    public init(configuration: ARCCircularProgressConfiguration = .default) {
+    public init(
+        configuration: ARCCircularProgressConfiguration = .default
+    ) {
         progress = nil
         self.configuration = configuration
     }
@@ -100,8 +103,10 @@ import SwiftUI
     /// - Parameters:
     ///   - progress: Progress value from 0.0 (empty) to 1.0 (complete)
     ///   - configuration: Visual configuration (default: .default)
-    public init(progress: Double,
-                configuration: ARCCircularProgressConfiguration = .default) {
+    public init(
+        progress: Double,
+        configuration: ARCCircularProgressConfiguration = .default
+    ) {
         self.progress = progress
         self.configuration = configuration
     }
@@ -133,26 +138,36 @@ import SwiftUI
 
     // MARK: - Track View
 
-    private var trackView: some View {
+    @ViewBuilder private var trackView: some View {
         Circle()
-            .stroke(configuration.trackColor,
-                    style: StrokeStyle(lineWidth: configuration.lineWidth,
-                                       lineCap: configuration.lineCap))
+            .stroke(
+                configuration.trackColor,
+                style: StrokeStyle(
+                    lineWidth: configuration.lineWidth,
+                    lineCap: configuration.lineCap
+                )
+            )
     }
 
     // MARK: - Determinate View
 
-    private var determinateView: some View {
+    @ViewBuilder private var determinateView: some View {
         Circle()
             .trim(from: 0, to: animatedProgress)
-            .stroke(configuration.progressColor,
-                    style: StrokeStyle(lineWidth: configuration.lineWidth,
-                                       lineCap: configuration.lineCap))
+            .stroke(
+                configuration.progressColor,
+                style: StrokeStyle(
+                    lineWidth: configuration.lineWidth,
+                    lineCap: configuration.lineCap
+                )
+            )
             .rotationEffect(configuration.startAngle)
-            .animation(configuration.animated && !reduceMotion
-                ? .easeInOut(duration: configuration.animationDuration)
-                : .none,
-                value: animatedProgress)
+            .animation(
+                configuration.animated && !reduceMotion
+                    ? .easeInOut(duration: configuration.animationDuration)
+                    : .none,
+                value: animatedProgress
+            )
             .onAppear {
                 animatedProgress = clampedProgress
             }
@@ -163,18 +178,23 @@ import SwiftUI
 
     // MARK: - Indeterminate View
 
-    private var indeterminateView: some View {
+    @ViewBuilder private var indeterminateView: some View {
         Circle()
             .trim(from: 0, to: 0.7)
-            .stroke(configuration.progressColor,
-                    style: StrokeStyle(lineWidth: configuration.lineWidth,
-                                       lineCap: configuration.lineCap))
+            .stroke(
+                configuration.progressColor,
+                style: StrokeStyle(
+                    lineWidth: configuration.lineWidth,
+                    lineCap: configuration.lineCap
+                )
+            )
             .rotationEffect(rotation)
             .onAppear {
                 guard !reduceMotion else { return }
-                let animation = Animation.linear(duration: configuration.rotationDuration)
-                    .repeatForever(autoreverses: false)
-                withAnimation(animation) {
+                withAnimation(
+                    .linear(duration: configuration.rotationDuration)
+                        .repeatForever(autoreverses: false)
+                ) {
                     rotation = .degrees(360)
                 }
             }
@@ -182,13 +202,15 @@ import SwiftUI
 
     // MARK: - Percentage Label
 
-    private var percentageLabel: some View {
+    @ViewBuilder private var percentageLabel: some View {
         Text("\(Int(clampedProgress * 100))%")
             .font(configuration.percentageFont)
             .foregroundStyle(.primary)
             .contentTransition(.numericText())
-            .animation(configuration.animated ? .easeInOut(duration: configuration.animationDuration) : .none,
-                       value: clampedProgress)
+            .animation(
+                configuration.animated ? .easeInOut(duration: configuration.animationDuration) : .none,
+                value: clampedProgress
+            )
     }
 
     // MARK: - Accessibility
@@ -251,14 +273,20 @@ import SwiftUI
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("With Percentage Label") {
     HStack(spacing: 24) {
-        ARCCircularProgress(progress: 0.25,
-                            configuration: .labeledProgress)
+        ARCCircularProgress(
+            progress: 0.25,
+            configuration: .labeledProgress
+        )
 
-        ARCCircularProgress(progress: 0.65,
-                            configuration: .labeledProgress)
+        ARCCircularProgress(
+            progress: 0.65,
+            configuration: .labeledProgress
+        )
 
-        ARCCircularProgress(progress: 0.95,
-                            configuration: .labeledProgress)
+        ARCCircularProgress(
+            progress: 0.95,
+            configuration: .labeledProgress
+        )
     }
     .padding()
 }
@@ -266,14 +294,26 @@ import SwiftUI
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Custom Colors") {
     HStack(spacing: 24) {
-        ARCCircularProgress(progress: 0.6,
-                            configuration: ARCCircularProgressConfiguration(progressColor: .green))
+        ARCCircularProgress(
+            progress: 0.6,
+            configuration: ARCCircularProgressConfiguration(
+                progressColor: .green
+            )
+        )
 
-        ARCCircularProgress(progress: 0.6,
-                            configuration: ARCCircularProgressConfiguration(progressColor: .orange))
+        ARCCircularProgress(
+            progress: 0.6,
+            configuration: ARCCircularProgressConfiguration(
+                progressColor: .orange
+            )
+        )
 
-        ARCCircularProgress(progress: 0.6,
-                            configuration: ARCCircularProgressConfiguration(progressColor: .red))
+        ARCCircularProgress(
+            progress: 0.6,
+            configuration: ARCCircularProgressConfiguration(
+                progressColor: .red
+            )
+        )
     }
     .padding()
 }
@@ -282,25 +322,37 @@ import SwiftUI
 #Preview("Line Cap Styles") {
     HStack(spacing: 24) {
         VStack(spacing: 8) {
-            ARCCircularProgress(progress: 0.6,
-                                configuration: ARCCircularProgressConfiguration(size: .large,
-                                                                                lineCap: .round))
+            ARCCircularProgress(
+                progress: 0.6,
+                configuration: ARCCircularProgressConfiguration(
+                    size: .large,
+                    lineCap: .round
+                )
+            )
             Text("Round")
                 .font(.caption)
         }
 
         VStack(spacing: 8) {
-            ARCCircularProgress(progress: 0.6,
-                                configuration: ARCCircularProgressConfiguration(size: .large,
-                                                                                lineCap: .butt))
+            ARCCircularProgress(
+                progress: 0.6,
+                configuration: ARCCircularProgressConfiguration(
+                    size: .large,
+                    lineCap: .butt
+                )
+            )
             Text("Butt")
                 .font(.caption)
         }
 
         VStack(spacing: 8) {
-            ARCCircularProgress(progress: 0.6,
-                                configuration: ARCCircularProgressConfiguration(size: .large,
-                                                                                lineCap: .square))
+            ARCCircularProgress(
+                progress: 0.6,
+                configuration: ARCCircularProgressConfiguration(
+                    size: .large,
+                    lineCap: .square
+                )
+            )
             Text("Square")
                 .font(.caption)
         }

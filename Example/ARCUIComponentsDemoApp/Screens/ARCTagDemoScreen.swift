@@ -11,7 +11,8 @@ import SwiftUI
 /// Demo screen for ARCTag component.
 ///
 /// Shows static label tags with various styles, colors, and configurations.
-@available(iOS 17.0, *) struct ARCTagDemoScreen: View {
+@available(iOS 17.0, *)
+struct ARCTagDemoScreen: View {
     // MARK: - Body
 
     var body: some View {
@@ -33,7 +34,8 @@ import SwiftUI
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *) extension ARCTagDemoScreen {
+@available(iOS 17.0, *)
+extension ARCTagDemoScreen {
     // MARK: - Styles Section
 
     private var stylesSection: some View {
@@ -74,10 +76,11 @@ import SwiftUI
         }
     }
 
-    private func styleRow(_ title: String,
-                          description: String,
-                          @ViewBuilder content: () -> some View) -> some View
-    {
+    private func styleRow(
+        _ title: String,
+        description: String,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -111,22 +114,27 @@ import SwiftUI
 
                 iconRow("Trailing Icons", description: "Icon after text") {
                     HStack(spacing: 8) {
-                        ARCTag("Verified",
-                               icon: "checkmark.seal.fill",
-                               configuration: .init(color: .blue, iconPosition: .trailing))
-                        ARCTag("Premium",
-                               icon: "star.fill",
-                               configuration: .init(color: .yellow, iconPosition: .trailing))
+                        ARCTag(
+                            "Verified",
+                            icon: "checkmark.seal.fill",
+                            configuration: .init(color: .blue, iconPosition: .trailing)
+                        )
+                        ARCTag(
+                            "Premium",
+                            icon: "star.fill",
+                            configuration: .init(color: .yellow, iconPosition: .trailing)
+                        )
                     }
                 }
             }
         }
     }
 
-    private func iconRow(_ title: String,
-                         description: String,
-                         @ViewBuilder content: () -> some View) -> some View
-    {
+    private func iconRow(
+        _ title: String,
+        description: String,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -227,9 +235,10 @@ import SwiftUI
         }
     }
 
-    private func exampleSection(_ title: String,
-                                @ViewBuilder content: () -> some View) -> some View
-    {
+    private func exampleSection(
+        _ title: String,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.subheadline)
@@ -254,7 +263,8 @@ import SwiftUI
 
 // MARK: - FlowLayout for Demo
 
-@available(iOS 17.0, *) private struct FlowLayoutDemo: Layout {
+@available(iOS 17.0, *)
+private struct FlowLayoutDemo: Layout {
     var spacing: CGFloat = 8
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
@@ -266,8 +276,10 @@ import SwiftUI
         let result = arrange(proposal: proposal, subviews: subviews)
 
         for (index, position) in result.positions.enumerated() {
-            subviews[index].place(at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
-                                  proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified)))
+            subviews[index].place(
+                at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
+                proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified))
+            )
         }
     }
 

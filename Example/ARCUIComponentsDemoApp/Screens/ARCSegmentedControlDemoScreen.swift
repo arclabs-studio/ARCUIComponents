@@ -12,7 +12,8 @@ import SwiftUI
 ///
 /// Shows interactive examples of segmented controls with different styles,
 /// content types, and practical use cases.
-@available(iOS 17.0, *) struct ARCSegmentedControlDemoScreen: View {
+@available(iOS 17.0, *)
+struct ARCSegmentedControlDemoScreen: View {
     // MARK: - State
 
     @State private var selectedFilter: ContentFilter = .all
@@ -43,7 +44,8 @@ import SwiftUI
 
 // MARK: - Filter Enum
 
-@available(iOS 17.0, *) private enum ContentFilter: String, CaseIterable, Sendable {
+@available(iOS 17.0, *)
+private enum ContentFilter: String, CaseIterable, Sendable {
     case all = "All"
     case favorites = "Favorites"
     case recent = "Recent"
@@ -51,7 +53,8 @@ import SwiftUI
 
 // MARK: - ViewMode Enum
 
-@available(iOS 17.0, *) private enum ViewMode: Int, CaseIterable, Sendable {
+@available(iOS 17.0, *)
+private enum ViewMode: Int, CaseIterable, Sendable {
     case list
     case grid
     case gallery
@@ -59,7 +62,8 @@ import SwiftUI
 
 // MARK: - TimeRange Enum
 
-@available(iOS 17.0, *) private enum TimeRange: String, CaseIterable, Sendable {
+@available(iOS 17.0, *)
+private enum TimeRange: String, CaseIterable, Sendable {
     case day = "Day"
     case week = "Week"
     case month = "Month"
@@ -68,7 +72,8 @@ import SwiftUI
 
 // MARK: - SocialTab Enum
 
-@available(iOS 17.0, *) private enum SocialTab: String, CaseIterable, Sendable {
+@available(iOS 17.0, *)
+private enum SocialTab: String, CaseIterable, Sendable {
     case posts = "Posts"
     case replies = "Replies"
     case media = "Media"
@@ -77,7 +82,8 @@ import SwiftUI
 
 // MARK: - StyleOption Enum
 
-@available(iOS 17.0, *) private enum StyleOption: String, CaseIterable, Sendable {
+@available(iOS 17.0, *)
+private enum StyleOption: String, CaseIterable, Sendable {
     case classic = "Classic"
     case modern = "Modern"
     case minimal = "Minimal"
@@ -85,7 +91,8 @@ import SwiftUI
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *) extension ARCSegmentedControlDemoScreen {
+@available(iOS 17.0, *)
+extension ARCSegmentedControlDemoScreen {
     // MARK: - Basic Usage Section
 
     private var basicUsageSection: some View {
@@ -111,10 +118,11 @@ import SwiftUI
         }
     }
 
-    private func usageRow(_ title: String,
-                          description: String,
-                          @ViewBuilder content: () -> some View) -> some View
-    {
+    private func usageRow(
+        _ title: String,
+        description: String,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -143,13 +151,15 @@ import SwiftUI
                     .foregroundStyle(.secondary)
 
                 HStack {
-                    ARCSegmentedControl(selection: $selectedViewMode,
-                                        segments: [.icon("list.bullet", value: .list, accessibilityLabel: "List view"),
-                                                   .icon("square.grid.2x2", value: .grid,
-                                                         accessibilityLabel: "Grid view"),
-                                                   .icon("rectangle.grid.1x2", value: .gallery,
-                                                         accessibilityLabel: "Gallery view")],
-                                        configuration: .pill)
+                    ARCSegmentedControl(
+                        selection: $selectedViewMode,
+                        segments: [
+                            .icon("list.bullet", value: .list, accessibilityLabel: "List view"),
+                            .icon("square.grid.2x2", value: .grid, accessibilityLabel: "Grid view"),
+                            .icon("rectangle.grid.1x2", value: .gallery, accessibilityLabel: "Gallery view")
+                        ],
+                        configuration: .pill
+                    )
 
                     Spacer()
 
@@ -173,7 +183,7 @@ import SwiftUI
         }
     }
 
-    private var viewModePreview: some View {
+    @ViewBuilder private var viewModePreview: some View {
         Group {
             switch selectedViewMode {
             case .list:
@@ -221,12 +231,16 @@ import SwiftUI
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
-                ARCSegmentedControl(selection: $selectedTimeRange,
-                                    segments: [.text("Day", value: .day),
-                                               .text("Week", value: .week),
-                                               .text("Month", value: .month),
-                                               .text("Year", value: .year)],
-                                    configuration: .outlined)
+                ARCSegmentedControl(
+                    selection: $selectedTimeRange,
+                    segments: [
+                        .text("Day", value: .day),
+                        .text("Week", value: .week),
+                        .text("Month", value: .month),
+                        .text("Year", value: .year)
+                    ],
+                    configuration: .outlined
+                )
 
                 HStack {
                     Image(systemName: "calendar")
@@ -248,12 +262,16 @@ import SwiftUI
             sectionHeader("Tab Style", subtitle: "Underlined style for profile-like navigation")
 
             VStack(spacing: 0) {
-                ARCSegmentedControl(selection: $selectedTab,
-                                    segments: [.text("Posts", value: .posts),
-                                               .text("Replies", value: .replies),
-                                               .text("Media", value: .media),
-                                               .text("Likes", value: .likes)],
-                                    configuration: .underlined)
+                ARCSegmentedControl(
+                    selection: $selectedTab,
+                    segments: [
+                        .text("Posts", value: .posts),
+                        .text("Replies", value: .replies),
+                        .text("Media", value: .media),
+                        .text("Likes", value: .likes)
+                    ],
+                    configuration: .underlined
+                )
 
                 Divider()
 
@@ -264,7 +282,7 @@ import SwiftUI
         }
     }
 
-    private var tabContentPreview: some View {
+    @ViewBuilder private var tabContentPreview: some View {
         VStack {
             Spacer()
             Text("\(selectedTab.rawValue) content")
@@ -286,20 +304,26 @@ import SwiftUI
             sectionHeader("Real World Example", subtitle: "Glass style with gradient background")
 
             ZStack {
-                LinearGradient(colors: [.purple, .blue, .cyan],
-                               startPoint: .topLeading,
-                               endPoint: .bottomTrailing)
+                LinearGradient(
+                    colors: [.purple, .blue, .cyan],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
 
                 VStack(spacing: 20) {
                     Text("Choose Your Style")
                         .font(.title2.bold())
                         .foregroundStyle(.white)
 
-                    ARCSegmentedControl(selection: $selectedStyle,
-                                        segments: [.textAndIcon("Classic", icon: "crown", value: .classic),
-                                                   .textAndIcon("Modern", icon: "sparkles", value: .modern),
-                                                   .textAndIcon("Minimal", icon: "leaf", value: .minimal)],
-                                        configuration: .glass)
+                    ARCSegmentedControl(
+                        selection: $selectedStyle,
+                        segments: [
+                            .textAndIcon("Classic", icon: "crown", value: .classic),
+                            .textAndIcon("Modern", icon: "sparkles", value: .modern),
+                            .textAndIcon("Minimal", icon: "leaf", value: .minimal)
+                        ],
+                        configuration: .glass
+                    )
 
                     Text("Selected: \(selectedStyle.rawValue)")
                         .font(.caption)

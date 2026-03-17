@@ -33,11 +33,13 @@ public struct ARCMenuUser: Sendable, Identifiable {
     ///   - email: Optional email address
     ///   - subtitle: Optional subtitle (e.g., membership tier, role)
     ///   - avatarImage: User's avatar image
-    public init(id: UUID = UUID(),
-                name: String,
-                email: String? = nil,
-                subtitle: String? = nil,
-                avatarImage: ARCMenuUserImage) {
+    public init(
+        id: UUID = UUID(),
+        name: String,
+        email: String? = nil,
+        subtitle: String? = nil,
+        avatarImage: ARCMenuUserImage
+    ) {
         self.id = id
         self.name = name
         self.email = email
@@ -61,7 +63,8 @@ public enum ARCMenuUserImage: Sendable {
     // MARK: - Public Methods
 
     /// Returns the appropriate SwiftUI view for the avatar
-    @ViewBuilder public func avatarView(size: CGFloat = 60) -> some View {
+    @ViewBuilder
+    public func avatarView(size: CGFloat = 60) -> some View {
         switch self {
         case let .systemImage(name):
             systemImageView(name: name, size: size)
@@ -76,6 +79,7 @@ public enum ARCMenuUserImage: Sendable {
 
     // MARK: - Private Helpers
 
+    @ViewBuilder
     private func systemImageView(name: String, size: CGFloat) -> some View {
         Image(systemName: name)
             .resizable()
@@ -84,6 +88,7 @@ public enum ARCMenuUserImage: Sendable {
             .foregroundStyle(.primary)
     }
 
+    @ViewBuilder
     private func assetImageView(name: String, size: CGFloat) -> some View {
         Image(name)
             .resizable()
@@ -92,6 +97,7 @@ public enum ARCMenuUserImage: Sendable {
             .clipShape(Circle())
     }
 
+    @ViewBuilder
     private func asyncImageView(url: URL, size: CGFloat) -> some View {
         AsyncImage(url: url) { phase in
             switch phase {
@@ -116,12 +122,17 @@ public enum ARCMenuUserImage: Sendable {
         }
     }
 
+    @ViewBuilder
     private func initialsView(text: String, size: CGFloat) -> some View {
         ZStack {
             Circle()
-                .fill(LinearGradient(colors: [.blue, .purple],
-                                     startPoint: .topLeading,
-                                     endPoint: .bottomTrailing))
+                .fill(
+                    LinearGradient(
+                        colors: [.blue, .purple],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
             Text(text)
                 .font(.system(size: size * 0.4, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white)

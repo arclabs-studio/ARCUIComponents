@@ -11,7 +11,8 @@ import SwiftUI
 /// Demo screen for ARCChip component.
 ///
 /// Shows interactive chip selection with single-select, multi-select, and input modes.
-@available(iOS 17.0, *) struct ARCChipDemoScreen: View {
+@available(iOS 17.0, *)
+struct ARCChipDemoScreen: View {
     // MARK: - State
 
     @State private var selectedChip = false
@@ -44,7 +45,8 @@ import SwiftUI
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *) extension ARCChipDemoScreen {
+@available(iOS 17.0, *)
+extension ARCChipDemoScreen {
     // MARK: - Basic Usage Section
 
     private var basicUsageSection: some View {
@@ -74,10 +76,11 @@ import SwiftUI
         }
     }
 
-    private func usageRow(_ title: String,
-                          description: String,
-                          @ViewBuilder content: () -> some View) -> some View
-    {
+    private func usageRow(
+        _ title: String,
+        description: String,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -105,10 +108,12 @@ import SwiftUI
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
-                ARCChipGroup(items: cuisines,
-                             selection: $selectedCuisines,
-                             selectionMode: .multiple,
-                             itemLabel: { $0 })
+                ARCChipGroup(
+                    items: cuisines,
+                    selection: $selectedCuisines,
+                    selectionMode: .multiple,
+                    itemLabel: { $0 }
+                )
 
                 Text("Selected: \(selectedCuisines.sorted().joined(separator: ", "))")
                     .font(.caption)
@@ -140,10 +145,12 @@ import SwiftUI
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
-                ARCChipGroup(items: priceRanges,
-                             selection: $selectedPriceRange,
-                             selectionMode: .single,
-                             itemLabel: { $0 })
+                ARCChipGroup(
+                    items: priceRanges,
+                    selection: $selectedPriceRange,
+                    selectionMode: .single,
+                    itemLabel: { $0 }
+                )
 
                 Text("Selected: \(selectedPriceRange.first ?? "None")")
                     .font(.caption)
@@ -167,10 +174,14 @@ import SwiftUI
 
                 FlowLayoutChipDemo(spacing: 8) {
                     ForEach(Array(inputTags).sorted(), id: \.self) { tag in
-                        ARCChip(tag,
-                                isSelected: Binding(get: { inputTags.contains(tag) },
-                                                    set: { if !$0 { inputTags.remove(tag) } }),
-                                configuration: .input)
+                        ARCChip(
+                            tag,
+                            isSelected: Binding(
+                                get: { inputTags.contains(tag) },
+                                set: { if !$0 { inputTags.remove(tag) } }
+                            ),
+                            configuration: .input
+                        )
                     }
                 }
 
@@ -208,9 +219,11 @@ import SwiftUI
                 }
 
                 configRow("No Checkmark", description: "Selected without indicator") {
-                    ARCChip("No Checkmark",
-                            isSelected: .constant(true),
-                            configuration: .init(showCheckmark: false))
+                    ARCChip(
+                        "No Checkmark",
+                        isSelected: .constant(true),
+                        configuration: .init(showCheckmark: false)
+                    )
                 }
 
                 configRow("Dismissible", description: "Shows X button when selected") {
@@ -224,12 +237,16 @@ import SwiftUI
                             ARCChip("Green", isSelected: .constant(true), configuration: .init(selectedColor: .green))
                             ARCChip("Purple", isSelected: .constant(true), configuration: .init(selectedColor: .purple))
                             ARCChip("Orange", isSelected: .constant(true), configuration: .init(selectedColor: .orange))
-                            ARCChip("Burgundy",
-                                    isSelected: .constant(true),
-                                    configuration: .init(selectedColor: .arcBrandBurgundy))
-                            ARCChip("Gold",
-                                    isSelected: .constant(true),
-                                    configuration: .init(selectedColor: .arcBrandGold))
+                            ARCChip(
+                                "Burgundy",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .arcBrandBurgundy)
+                            )
+                            ARCChip(
+                                "Gold",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .arcBrandGold)
+                            )
                         }
                     }
                 }
@@ -244,10 +261,11 @@ import SwiftUI
         }
     }
 
-    private func configRow(_ title: String,
-                           description: String,
-                           @ViewBuilder content: () -> some View) -> some View
-    {
+    private func configRow(
+        _ title: String,
+        description: String,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -280,7 +298,8 @@ import SwiftUI
 
 // MARK: - FlowLayout for Demo
 
-@available(iOS 17.0, *) private struct FlowLayoutChipDemo: Layout {
+@available(iOS 17.0, *)
+private struct FlowLayoutChipDemo: Layout {
     var spacing: CGFloat = 8
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
@@ -292,8 +311,10 @@ import SwiftUI
         let result = arrange(proposal: proposal, subviews: subviews)
 
         for (index, position) in result.positions.enumerated() {
-            subviews[index].place(at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
-                                  proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified)))
+            subviews[index].place(
+                at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
+                proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified))
+            )
         }
     }
 

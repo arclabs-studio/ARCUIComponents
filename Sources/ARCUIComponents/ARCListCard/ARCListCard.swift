@@ -62,7 +62,8 @@ import UIKit
 /// ```
 ///
 /// - Note: Cards automatically handle press states, animations, and accessibility.
-@available(iOS 17.0, *) public struct ARCListCard<Accessories: View>: View {
+@available(iOS 17.0, *)
+public struct ARCListCard<Accessories: View>: View {
     // MARK: - Properties
 
     /// Configuration for appearance
@@ -98,12 +99,14 @@ import UIKit
     ///   - subtitle: Optional subtitle text
     ///   - accessories: Optional trailing view
     ///   - action: Optional tap action
-    public init(configuration: ARCListCardConfiguration = .default,
-                image: CardImage? = nil,
-                title: String,
-                subtitle: String? = nil,
-                @ViewBuilder accessories: () -> Accessories,
-                action: (() -> Void)? = nil) {
+    public init(
+        configuration: ARCListCardConfiguration = .default,
+        image: CardImage? = nil,
+        title: String,
+        subtitle: String? = nil,
+        @ViewBuilder accessories: () -> Accessories,
+        action: (() -> Void)? = nil
+    ) {
         self.configuration = configuration
         self.image = image
         self.title = title
@@ -153,7 +156,8 @@ import UIKit
 
     // MARK: - Image View
 
-    @ViewBuilder private func imageView(for image: CardImage) -> some View {
+    @ViewBuilder
+    private func imageView(for image: CardImage) -> some View {
         switch image {
         case let .url(url, size):
             AsyncImage(url: url) { phase in
@@ -218,7 +222,8 @@ import UIKit
 
 // MARK: - No Accessories Initializer
 
-@available(iOS 17.0, *) extension ARCListCard where Accessories == EmptyView {
+@available(iOS 17.0, *)
+extension ARCListCard where Accessories == EmptyView {
     /// Creates a list card without accessories
     ///
     /// - Parameters:
@@ -227,11 +232,13 @@ import UIKit
     ///   - title: Title text
     ///   - subtitle: Optional subtitle text
     ///   - action: Optional tap action
-    public init(configuration: ARCListCardConfiguration = .default,
-                image: CardImage? = nil,
-                title: String,
-                subtitle: String? = nil,
-                action: (() -> Void)? = nil) {
+    public init(
+        configuration: ARCListCardConfiguration = .default,
+        image: CardImage? = nil,
+        title: String,
+        subtitle: String? = nil,
+        action: (() -> Void)? = nil
+    ) {
         self.configuration = configuration
         self.image = image
         self.title = title
@@ -243,7 +250,8 @@ import UIKit
 
 // MARK: - Card Image
 
-@available(iOS 17.0, *) extension ARCListCard {
+@available(iOS 17.0, *)
+extension ARCListCard {
     /// Image options for list cards
     public enum CardImage: Sendable {
         /// Remote image from URL
@@ -262,11 +270,15 @@ import UIKit
 #Preview("Simple Cards") {
     ScrollView {
         VStack(spacing: .arcSpacingLarge) {
-            ARCListCard(title: "Simple Card",
-                        subtitle: "Just title and subtitle")
+            ARCListCard(
+                title: "Simple Card",
+                subtitle: "Just title and subtitle"
+            )
 
-            ARCListCard(title: "Card with Action",
-                        subtitle: "Tap to trigger action") {
+            ARCListCard(
+                title: "Card with Action",
+                subtitle: "Tap to trigger action"
+            ) {
                 print("Card tapped")
             }
         }
@@ -282,17 +294,23 @@ import UIKit
 #Preview("With Images") {
     ScrollView {
         VStack(spacing: .arcSpacingLarge) {
-            ARCListCard(image: .system("music.note", color: .pink),
-                        title: "Music Track",
-                        subtitle: "Artist Name")
+            ARCListCard(
+                image: .system("music.note", color: .pink),
+                title: "Music Track",
+                subtitle: "Artist Name"
+            )
 
-            ARCListCard(image: .system("book.fill", color: .orange),
-                        title: "Book Title",
-                        subtitle: "Author Name")
+            ARCListCard(
+                image: .system("book.fill", color: .orange),
+                title: "Book Title",
+                subtitle: "Author Name"
+            )
 
-            ARCListCard(image: .system("mic.fill", color: .purple),
-                        title: "Podcast Episode",
-                        subtitle: "Show Name • 45 min")
+            ARCListCard(
+                image: .system("mic.fill", color: .purple),
+                title: "Podcast Episode",
+                subtitle: "Show Name • 45 min"
+            )
         }
         .padding()
     }
@@ -309,23 +327,29 @@ import UIKit
     ScrollView {
         VStack(spacing: .arcSpacingLarge) {
             ForEach(["Song 1", "Song 2", "Song 3"], id: \.self) { song in
-                ARCListCard(image: .system("music.note", color: .pink),
-                            title: song,
-                            subtitle: "Artist Name",
-                            accessories: {
-                                ARCFavoriteButton(isFavorite: Binding(get: { favorites.contains(song) },
-                                                                      set: { isFav in
-                                                                          if isFav {
-                                                                              favorites.insert(song)
-                                                                          } else {
-                                                                              favorites.remove(song)
-                                                                          }
-                                                                      }),
-                                                  size: .medium)
-                            },
-                            action: {
-                                print("Tapped \(song)")
-                            })
+                ARCListCard(
+                    image: .system("music.note", color: .pink),
+                    title: song,
+                    subtitle: "Artist Name",
+                    accessories: {
+                        ARCFavoriteButton(
+                            isFavorite: Binding(
+                                get: { favorites.contains(song) },
+                                set: { isFav in
+                                    if isFav {
+                                        favorites.insert(song)
+                                    } else {
+                                        favorites.remove(song)
+                                    }
+                                }
+                            ),
+                            size: .medium
+                        )
+                    },
+                    action: {
+                        print("Tapped \(song)")
+                    }
+                )
             }
         }
         .padding()
@@ -345,10 +369,12 @@ import UIKit
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
 
-                ARCListCard(configuration: .default,
-                            image: .system("star.fill", color: .yellow),
-                            title: "Default Style",
-                            subtitle: "Translucent background")
+                ARCListCard(
+                    configuration: .default,
+                    image: .system("star.fill", color: .yellow),
+                    title: "Default Style",
+                    subtitle: "Translucent background"
+                )
             }
 
             VStack(alignment: .leading, spacing: .arcSpacingMedium) {
@@ -356,10 +382,12 @@ import UIKit
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
 
-                ARCListCard(configuration: .prominent,
-                            image: .system("sparkles", color: .blue),
-                            title: "Prominent Style",
-                            subtitle: "Liquid glass effect")
+                ARCListCard(
+                    configuration: .prominent,
+                    image: .system("sparkles", color: .blue),
+                    title: "Prominent Style",
+                    subtitle: "Liquid glass effect"
+                )
             }
 
             VStack(alignment: .leading, spacing: .arcSpacingMedium) {
@@ -367,26 +395,34 @@ import UIKit
                     .font(.caption.bold())
                     .foregroundStyle(.secondary)
 
-                ARCListCard(configuration: .glassmorphic,
-                            image: .system("music.note", color: .pink),
-                            title: "Glassmorphic Style",
-                            subtitle: "Apple Music inspired")
+                ARCListCard(
+                    configuration: .glassmorphic,
+                    image: .system("music.note", color: .pink),
+                    title: "Glassmorphic Style",
+                    subtitle: "Apple Music inspired"
+                )
             }
         }
         .padding()
     }
-    .background(LinearGradient(colors: [.blue.opacity(0.3), .purple.opacity(0.2)],
-                               startPoint: .topLeading,
-                               endPoint: .bottomTrailing))
+    .background(
+        LinearGradient(
+            colors: [.blue.opacity(0.3), .purple.opacity(0.2)],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    )
 }
 
 #Preview("Dark Mode") {
     ScrollView {
         VStack(spacing: .arcSpacingLarge) {
-            ARCListCard(configuration: .prominent,
-                        image: .system("moon.stars.fill", color: .indigo),
-                        title: "Dark Mode Card",
-                        subtitle: "Looks great in dark mode")
+            ARCListCard(
+                configuration: .prominent,
+                image: .system("moon.stars.fill", color: .indigo),
+                title: "Dark Mode Card",
+                subtitle: "Looks great in dark mode"
+            )
         }
         .padding()
     }

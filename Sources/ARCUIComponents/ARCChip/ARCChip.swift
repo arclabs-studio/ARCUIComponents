@@ -51,7 +51,8 @@ import SwiftUI
 ///     }
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCChip: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCChip: View {
     // MARK: - Properties
 
     private let text: String
@@ -70,11 +71,13 @@ import SwiftUI
     ///   - isSelected: Binding to selection state
     ///   - configuration: Chip configuration
     ///   - onTap: Optional tap handler (in addition to toggling selection)
-    public init(_ text: String,
-                icon: String? = nil,
-                isSelected: Binding<Bool>,
-                configuration: ARCChipConfiguration = .default,
-                onTap: (() -> Void)? = nil) {
+    public init(
+        _ text: String,
+        icon: String? = nil,
+        isSelected: Binding<Bool>,
+        configuration: ARCChipConfiguration = .default,
+        onTap: (() -> Void)? = nil
+    ) {
         self.text = text
         self.icon = icon
         _isSelected = isSelected
@@ -123,7 +126,7 @@ import SwiftUI
 
     // MARK: - Checkmark View
 
-    private var checkmarkView: some View {
+    @ViewBuilder private var checkmarkView: some View {
         Image(systemName: "checkmark")
             .font(.system(size: configuration.size.iconSize - 2, weight: .semibold))
             .foregroundStyle(.white)
@@ -132,6 +135,7 @@ import SwiftUI
 
     // MARK: - Icon View
 
+    @ViewBuilder
     private func iconView(_ systemName: String) -> some View {
         Image(systemName: systemName)
             .font(.system(size: configuration.size.iconSize))
@@ -140,7 +144,7 @@ import SwiftUI
 
     // MARK: - Text View
 
-    private var textView: some View {
+    @ViewBuilder private var textView: some View {
         Text(text)
             .font(.system(size: configuration.size.fontSize, weight: .medium))
             .foregroundStyle(isSelected ? .white : .primary)
@@ -148,7 +152,7 @@ import SwiftUI
 
     // MARK: - Dismiss Button
 
-    private var dismissButton: some View {
+    @ViewBuilder private var dismissButton: some View {
         Button {
             withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
                 isSelected = false

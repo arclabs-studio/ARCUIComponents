@@ -12,7 +12,8 @@ import SwiftUI
 ///
 /// Shows bottom sheets with various configurations, detent options,
 /// and interaction patterns. Demonstrates modal and persistent sheet styles.
-@available(iOS 17.0, *) struct ARCBottomSheetDemoScreen: View {
+@available(iOS 17.0, *)
+struct ARCBottomSheetDemoScreen: View {
     // MARK: - State
 
     @State private var showModalSheet = false
@@ -36,13 +37,15 @@ import SwiftUI
         #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
         #endif
-            .arcBottomSheet(isPresented: $showModalSheet,
-                            detents: selectedConfig.detents,
-                            selectedDetent: $currentDetent,
-                            configuration: selectedConfig.configuration,
-                            onDismiss: {
-                                print("Sheet dismissed")
-                            }) {
+            .arcBottomSheet(
+                isPresented: $showModalSheet,
+                detents: selectedConfig.detents,
+                selectedDetent: $currentDetent,
+                configuration: selectedConfig.configuration,
+                onDismiss: {
+                    print("Sheet dismissed")
+                }
+            ) {
                 modalSheetContent
             }
             .fullScreenCover(isPresented: $showPersistentDemo) {
@@ -53,7 +56,8 @@ import SwiftUI
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *) extension ARCBottomSheetDemoScreen {
+@available(iOS 17.0, *)
+extension ARCBottomSheetDemoScreen {
     // MARK: - Quick Actions Section
 
     private var quickActionsSection: some View {
@@ -82,10 +86,14 @@ import SwiftUI
                         .foregroundStyle(.white)
                 }
                 .padding()
-                .background(LinearGradient(colors: [Color.arcBrandBurgundy, Color.arcBrandBurgundy.opacity(0.8)],
-                                           startPoint: .leading,
-                                           endPoint: .trailing),
-                            in: RoundedRectangle(cornerRadius: 16))
+                .background(
+                    LinearGradient(
+                        colors: [Color.arcBrandBurgundy, Color.arcBrandBurgundy.opacity(0.8)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    ),
+                    in: RoundedRectangle(cornerRadius: 16)
+                )
             }
             .buttonStyle(.plain)
 
@@ -122,39 +130,48 @@ import SwiftUI
             sectionHeader("Configuration Presets", subtitle: "Pre-built sheet styles")
 
             VStack(spacing: 12) {
-                presetRow(title: "Default",
-                          description: "Balanced settings, dismissable with dimming",
-                          icon: "slider.horizontal.3",
-                          color: .blue,
-                          preset: .default)
+                presetRow(
+                    title: "Default",
+                    description: "Balanced settings, dismissable with dimming",
+                    icon: "slider.horizontal.3",
+                    color: .blue,
+                    preset: .default
+                )
 
-                presetRow(title: "Modal",
-                          description: "Strong dimming, tap to dismiss",
-                          icon: "rectangle.portrait.on.rectangle.portrait",
-                          color: .purple,
-                          preset: .modal)
+                presetRow(
+                    title: "Modal",
+                    description: "Strong dimming, tap to dismiss",
+                    icon: "rectangle.portrait.on.rectangle.portrait",
+                    color: .purple,
+                    preset: .modal
+                )
 
-                presetRow(title: "Glass",
-                          description: "Premium liquid glass effect",
-                          icon: "sparkles",
-                          color: .pink,
-                          preset: .glass)
+                presetRow(
+                    title: "Glass",
+                    description: "Premium liquid glass effect",
+                    icon: "sparkles",
+                    color: .pink,
+                    preset: .glass
+                )
 
-                presetRow(title: "Compact",
-                          description: "Smaller handle, lighter styling",
-                          icon: "rectangle.compress.vertical",
-                          color: .gray,
-                          preset: .compact)
+                presetRow(
+                    title: "Compact",
+                    description: "Smaller handle, lighter styling",
+                    icon: "rectangle.compress.vertical",
+                    color: .gray,
+                    preset: .compact
+                )
             }
         }
     }
 
-    private func presetRow(title: String,
-                           description: String,
-                           icon: String,
-                           color: Color,
-                           preset: ConfigPreset) -> some View
-    {
+    private func presetRow(
+        title: String,
+        description: String,
+        icon: String,
+        color: Color,
+        preset: ConfigPreset
+    ) -> some View {
         Button {
             selectedConfig = preset
             currentDetent = .medium
@@ -164,9 +181,11 @@ import SwiftUI
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .fill(color.gradient)
                     .frame(width: 44, height: 44)
-                    .overlay(Image(systemName: icon)
-                        .font(.body.weight(.semibold))
-                        .foregroundStyle(.white))
+                    .overlay(
+                        Image(systemName: icon)
+                            .font(.body.weight(.semibold))
+                            .foregroundStyle(.white)
+                    )
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
@@ -195,33 +214,44 @@ import SwiftUI
             sectionHeader("Detent Types", subtitle: "Different sheet heights")
 
             VStack(spacing: 12) {
-                detentRow(title: "Small",
-                          description: "~15% or 120pt minimum",
-                          detent: .small)
+                detentRow(
+                    title: "Small",
+                    description: "~15% or 120pt minimum",
+                    detent: .small
+                )
 
-                detentRow(title: "Medium",
-                          description: "50% of screen height",
-                          detent: .medium)
+                detentRow(
+                    title: "Medium",
+                    description: "50% of screen height",
+                    detent: .medium
+                )
 
-                detentRow(title: "Large",
-                          description: "90% of screen height",
-                          detent: .large)
+                detentRow(
+                    title: "Large",
+                    description: "90% of screen height",
+                    detent: .large
+                )
 
-                detentRow(title: "Custom (200pt)",
-                          description: "Fixed height in points",
-                          detent: .height(200))
+                detentRow(
+                    title: "Custom (200pt)",
+                    description: "Fixed height in points",
+                    detent: .height(200)
+                )
 
-                detentRow(title: "Custom (70%)",
-                          description: "Fraction of container",
-                          detent: .fraction(0.7))
+                detentRow(
+                    title: "Custom (70%)",
+                    description: "Fraction of container",
+                    detent: .fraction(0.7)
+                )
             }
         }
     }
 
-    private func detentRow(title: String,
-                           description: String,
-                           detent: ARCBottomSheetDetent) -> some View
-    {
+    private func detentRow(
+        title: String,
+        description: String,
+        detent: ARCBottomSheetDetent
+    ) -> some View {
         Button {
             selectedConfig = .default
             currentDetent = detent
@@ -246,14 +276,17 @@ import SwiftUI
         .buttonStyle(.plain)
     }
 
-    @ViewBuilder private func detentPreview(_ detent: ARCBottomSheetDetent) -> some View {
-        let fraction: CGFloat = switch detent {
-        case .small: 0.15
-        case .medium: 0.5
-        case .large: 0.9
-        case let .fraction(f): f
-        case .height: 0.3
-        }
+    @ViewBuilder
+    private func detentPreview(_ detent: ARCBottomSheetDetent) -> some View {
+        let fraction: CGFloat = {
+            switch detent {
+            case .small: return 0.15
+            case .medium: return 0.5
+            case .large: return 0.9
+            case .fraction(let f): return f
+            case .height: return 0.3
+            }
+        }()
 
         ZStack(alignment: .bottom) {
             RoundedRectangle(cornerRadius: 4)
@@ -273,25 +306,35 @@ import SwiftUI
             sectionHeader("Features", subtitle: "Key capabilities")
 
             VStack(spacing: 12) {
-                featureRow(icon: "hand.draw",
-                           title: "Drag Gestures",
-                           description: "Smooth dragging between detents")
+                featureRow(
+                    icon: "hand.draw",
+                    title: "Drag Gestures",
+                    description: "Smooth dragging between detents"
+                )
 
-                featureRow(icon: "gauge.with.dots.needle.67percent",
-                           title: "Velocity Snapping",
-                           description: "Fast drags snap to next detent")
+                featureRow(
+                    icon: "gauge.with.dots.needle.67percent",
+                    title: "Velocity Snapping",
+                    description: "Fast drags snap to next detent"
+                )
 
-                featureRow(icon: "hand.tap",
-                           title: "Handle Tap",
-                           description: "Tap grabber to cycle through detents")
+                featureRow(
+                    icon: "hand.tap",
+                    title: "Handle Tap",
+                    description: "Tap grabber to cycle through detents"
+                )
 
-                featureRow(icon: "sparkles.rectangle.stack",
-                           title: "Liquid Glass",
-                           description: "Premium glass effect styling")
+                featureRow(
+                    icon: "sparkles.rectangle.stack",
+                    title: "Liquid Glass",
+                    description: "Premium glass effect styling"
+                )
 
-                featureRow(icon: "accessibility",
-                           title: "Accessibility",
-                           description: "Full VoiceOver and Dynamic Type support")
+                featureRow(
+                    icon: "accessibility",
+                    title: "Accessibility",
+                    description: "Full VoiceOver and Dynamic Type support"
+                )
             }
         }
     }
@@ -362,14 +405,16 @@ import SwiftUI
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            ForEach(0 ..< 5, id: \.self) { index in
+            ForEach(0..<5, id: \.self) { index in
                 HStack(spacing: 12) {
                     Circle()
                         .fill(Color.arcBrandBurgundy.opacity(0.2))
                         .frame(width: 36, height: 36)
-                        .overlay(Text("\(index + 1)")
-                            .font(.caption.weight(.bold))
-                            .foregroundStyle(Color.arcBrandBurgundy))
+                        .overlay(
+                            Text("\(index + 1)")
+                                .font(.caption.weight(.bold))
+                                .foregroundStyle(Color.arcBrandBurgundy)
+                        )
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text("List Item \(index + 1)")
@@ -390,46 +435,49 @@ import SwiftUI
     private var persistentDemoView: some View {
         ZStack {
             // Map-like background
-            LinearGradient(colors: [.green.opacity(0.2), .blue.opacity(0.2)],
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-                .ignoresSafeArea()
-                .overlay {
-                    VStack {
-                        HStack {
-                            Button {
-                                showPersistentDemo = false
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                                    .font(.title)
-                                    .foregroundStyle(.secondary)
-                            }
-                            .padding()
-
-                            Spacer()
-                        }
-
-                        Spacer()
-
-                        VStack(spacing: 8) {
-                            Image(systemName: "map")
-                                .font(.system(size: 60))
-                                .foregroundStyle(.secondary.opacity(0.5))
-
-                            Text("Map View")
-                                .font(.title2)
+            LinearGradient(
+                colors: [.green.opacity(0.2), .blue.opacity(0.2)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+            .overlay {
+                VStack {
+                    HStack {
+                        Button {
+                            showPersistentDemo = false
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .font(.title)
                                 .foregroundStyle(.secondary)
                         }
+                        .padding()
 
                         Spacer()
-                        Spacer()
                     }
+
+                    Spacer()
+
+                    VStack(spacing: 8) {
+                        Image(systemName: "map")
+                            .font(.system(size: 60))
+                            .foregroundStyle(.secondary.opacity(0.5))
+
+                        Text("Map View")
+                            .font(.title2)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Spacer()
+                    Spacer()
                 }
+            }
         }
-        .arcPersistentSheet(selectedDetent: $currentDetent,
-                            detents: [.small, .medium, .large],
-                            configuration: .drawer)
-        {
+        .arcPersistentSheet(
+            selectedDetent: $currentDetent,
+            detents: [.small, .medium, .large],
+            configuration: .drawer
+        ) {
             VStack(alignment: .leading, spacing: 16) {
                 // Search bar
                 HStack {
@@ -465,8 +513,8 @@ import SwiftUI
             .padding()
         }
         .onAppear {
-                currentDetent = .small
-            }
+            currentDetent = .small
+        }
     }
 
     // MARK: - Helpers
@@ -485,7 +533,8 @@ import SwiftUI
 
 // MARK: - ConfigPreset
 
-@available(iOS 17.0, *) extension ARCBottomSheetDemoScreen {
+@available(iOS 17.0, *)
+extension ARCBottomSheetDemoScreen {
     fileprivate enum ConfigPreset {
         case `default`
         case modal
@@ -494,19 +543,19 @@ import SwiftUI
 
         var title: String {
             switch self {
-            case .default: "Default"
-            case .modal: "Modal"
-            case .glass: "Glass"
-            case .compact: "Compact"
+            case .default: return "Default"
+            case .modal: return "Modal"
+            case .glass: return "Glass"
+            case .compact: return "Compact"
             }
         }
 
         var configuration: ARCBottomSheetConfiguration {
             switch self {
-            case .default: .default
-            case .modal: .modal
-            case .glass: .glass
-            case .compact: .compact
+            case .default: return .default
+            case .modal: return .modal
+            case .glass: return .glass
+            case .compact: return .compact
             }
         }
 

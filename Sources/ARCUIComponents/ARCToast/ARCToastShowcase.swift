@@ -14,7 +14,8 @@ import SwiftUI
 ///
 /// Use this view to preview all toast variants and test different configurations
 /// in both light and dark modes.
-@available(iOS 17.0, macOS 14.0, *) public struct ARCToastShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCToastShowcase: View {
     // MARK: - State
 
     @State private var selectedSection: ShowcaseSection = .types
@@ -56,7 +57,7 @@ import SwiftUI
 
     // MARK: - Section Picker
 
-    private var sectionPicker: some View {
+    @ViewBuilder private var sectionPicker: some View {
         Picker("Section", selection: $selectedSection) {
             ForEach(ShowcaseSection.allCases, id: \.self) { section in
                 Text(section.rawValue).tag(section)
@@ -67,7 +68,7 @@ import SwiftUI
 
     // MARK: - Types Section
 
-    private var typesSection: some View {
+    @ViewBuilder private var typesSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Toast Types")
 
@@ -76,9 +77,11 @@ import SwiftUI
                 typeButton("Error", type: .error, message: "Failed to save changes")
                 typeButton("Warning", type: .warning, message: "Low storage space")
                 typeButton("Info", type: .info, message: "New update available")
-                typeButton("Custom",
-                           type: .custom(icon: "bell.fill", color: .purple),
-                           message: "You have a new notification")
+                typeButton(
+                    "Custom",
+                    type: .custom(icon: "bell.fill", color: .purple),
+                    message: "You have a new notification"
+                )
             }
 
             Divider()
@@ -96,7 +99,7 @@ import SwiftUI
 
     // MARK: - Configurations Section
 
-    private var configurationsSection: some View {
+    @ViewBuilder private var configurationsSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Presets")
 
@@ -124,20 +127,24 @@ import SwiftUI
             sectionHeader("Static with Actions")
 
             VStack(spacing: .arcSpacingMedium) {
-                ARCToast(message: "Item deleted",
-                         type: .info,
-                         action: .undo {})
+                ARCToast(
+                    message: "Item deleted",
+                    type: .info,
+                    action: .undo {}
+                )
 
-                ARCToast(message: "Network error",
-                         type: .error,
-                         action: .retry {})
+                ARCToast(
+                    message: "Network error",
+                    type: .error,
+                    action: .retry {}
+                )
             }
         }
     }
 
     // MARK: - Interactive Section
 
-    private var interactiveSection: some View {
+    @ViewBuilder private var interactiveSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Build Your Toast")
 
@@ -175,12 +182,16 @@ import SwiftUI
 
             // Preview button
             Button {
-                let config = ARCToastConfiguration(position: selectedPosition,
-                                                   showIcon: showIcon)
-                ARCToastManager.shared.show("Custom configured toast",
-                                            type: selectedType,
-                                            action: showAction ? .dismiss() : nil,
-                                            configuration: config)
+                let config = ARCToastConfiguration(
+                    position: selectedPosition,
+                    showIcon: showIcon
+                )
+                ARCToastManager.shared.show(
+                    "Custom configured toast",
+                    type: selectedType,
+                    action: showAction ? .dismiss() : nil,
+                    configuration: config
+                )
             } label: {
                 Text("Show Toast")
                     .frame(maxWidth: .infinity)
@@ -191,52 +202,72 @@ import SwiftUI
 
             sectionHeader("Live Preview")
 
-            ARCToast(message: "Preview toast message",
-                     type: selectedType,
-                     action: showAction ? .dismiss() : nil,
-                     configuration: ARCToastConfiguration(position: selectedPosition,
-                                                          showIcon: showIcon))
+            ARCToast(
+                message: "Preview toast message",
+                type: selectedType,
+                action: showAction ? .dismiss() : nil,
+                configuration: ARCToastConfiguration(
+                    position: selectedPosition,
+                    showIcon: showIcon
+                )
+            )
         }
     }
 
     // MARK: - Real World Section
 
-    private var realWorldSection: some View {
+    @ViewBuilder private var realWorldSection: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
             sectionHeader("Common Scenarios")
 
             VStack(spacing: .arcSpacingMedium) {
-                scenarioButton("Save Success",
-                               icon: "square.and.arrow.down",
-                               description: "User saves a document") {
+                scenarioButton(
+                    "Save Success",
+                    icon: "square.and.arrow.down",
+                    description: "User saves a document"
+                ) {
                     ARCToastManager.shared.showSuccess("Document saved")
                 }
 
-                scenarioButton("Delete with Undo",
-                               icon: "trash",
-                               description: "User deletes an item") {
-                    ARCToastManager.shared.show("Item moved to trash",
-                                                type: .info,
-                                                action: .undo {})
+                scenarioButton(
+                    "Delete with Undo",
+                    icon: "trash",
+                    description: "User deletes an item"
+                ) {
+                    ARCToastManager.shared.show(
+                        "Item moved to trash",
+                        type: .info,
+                        action: .undo {}
+                    )
                 }
 
-                scenarioButton("Network Error",
-                               icon: "wifi.slash",
-                               description: "API request fails") {
-                    ARCToastManager.shared.showError("Connection failed",
-                                                     action: .retry {})
+                scenarioButton(
+                    "Network Error",
+                    icon: "wifi.slash",
+                    description: "API request fails"
+                ) {
+                    ARCToastManager.shared.showError(
+                        "Connection failed",
+                        action: .retry {}
+                    )
                 }
 
-                scenarioButton("Upload Complete",
-                               icon: "arrow.up.circle",
-                               description: "File upload finishes") {
-                    ARCToastManager.shared.showSuccess("Photo uploaded",
-                                                       action: .view {})
+                scenarioButton(
+                    "Upload Complete",
+                    icon: "arrow.up.circle",
+                    description: "File upload finishes"
+                ) {
+                    ARCToastManager.shared.showSuccess(
+                        "Photo uploaded",
+                        action: .view {}
+                    )
                 }
 
-                scenarioButton("Low Storage",
-                               icon: "externaldrive.badge.exclamationmark",
-                               description: "Device running low on space") {
+                scenarioButton(
+                    "Low Storage",
+                    icon: "externaldrive.badge.exclamationmark",
+                    description: "Device running low on space"
+                ) {
                     ARCToastManager.shared.showWarning("Storage almost full")
                 }
             }
@@ -264,7 +295,8 @@ import SwiftUI
 
 // MARK: - Showcase Section
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCToastShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCToastShowcase {
     enum ShowcaseSection: String, CaseIterable {
         case types = "Types"
         case configurations = "Config"
@@ -275,13 +307,16 @@ import SwiftUI
 
 // MARK: - Helper Views
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCToastShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCToastShowcase {
+    @ViewBuilder
     func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.headline)
             .foregroundStyle(.primary)
     }
 
+    @ViewBuilder
     func typeButton(_ title: String, type: ARCToastType, message: String) -> some View {
         Button {
             ARCToastManager.shared.show(message, type: type)
@@ -300,6 +335,7 @@ import SwiftUI
         .buttonStyle(.plain)
     }
 
+    @ViewBuilder
     func configButton(_ title: String, config: ARCToastConfiguration) -> some View {
         Button {
             ARCToastManager.shared.show("This is a \(title.lowercased()) toast", configuration: config)
@@ -316,11 +352,14 @@ import SwiftUI
         .buttonStyle(.plain)
     }
 
+    @ViewBuilder
     func actionButton(_ title: String, action: ARCToastAction) -> some View {
         Button {
-            ARCToastManager.shared.show("Toast with \(action.title) action",
-                                        type: .info,
-                                        action: action)
+            ARCToastManager.shared.show(
+                "Toast with \(action.title) action",
+                type: .info,
+                action: action
+            )
         } label: {
             HStack {
                 Text(title)
@@ -335,10 +374,13 @@ import SwiftUI
         .buttonStyle(.plain)
     }
 
-    func scenarioButton(_ title: String,
-                        icon: String,
-                        description: String,
-                        action: @escaping () -> Void) -> some View {
+    @ViewBuilder
+    func scenarioButton(
+        _ title: String,
+        icon: String,
+        description: String,
+        action: @escaping () -> Void
+    ) -> some View {
         Button(action: action) {
             HStack(spacing: .arcSpacingMedium) {
                 Image(systemName: icon)

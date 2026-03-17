@@ -58,12 +58,14 @@ public struct ARCMenuActions: Sendable {
     ///   - onSubscriptions: Action for Subscriptions menu item
     ///   - onAbout: Action for About menu item
     ///   - onLogout: Action for Logout menu item
-    public init(onProfile: @escaping @Sendable () -> Void,
-                onSettings: @escaping @Sendable () -> Void,
-                onFeedback: @escaping @Sendable () -> Void,
-                onSubscriptions: @escaping @Sendable () -> Void,
-                onAbout: @escaping @Sendable () -> Void,
-                onLogout: @escaping @Sendable () -> Void) {
+    public init(
+        onProfile: @escaping @Sendable () -> Void,
+        onSettings: @escaping @Sendable () -> Void,
+        onFeedback: @escaping @Sendable () -> Void,
+        onSubscriptions: @escaping @Sendable () -> Void,
+        onAbout: @escaping @Sendable () -> Void,
+        onLogout: @escaping @Sendable () -> Void
+    ) {
         self.onProfile = onProfile
         self.onSettings = onSettings
         self.onFeedback = onFeedback
@@ -78,11 +80,13 @@ public struct ARCMenuActions: Sendable {
 extension ARCMenuActions {
     /// Creates actions with empty handlers (useful for previews)
     public static var empty: ARCMenuActions {
-        ARCMenuActions(onProfile: {},
-                       onSettings: {},
-                       onFeedback: {},
-                       onSubscriptions: {},
-                       onAbout: {},
-                       onLogout: {})
+        ARCMenuActions(
+            onProfile: {},
+            onSettings: {},
+            onFeedback: {},
+            onSubscriptions: {},
+            onAbout: {},
+            onLogout: {}
+        )
     }
 }

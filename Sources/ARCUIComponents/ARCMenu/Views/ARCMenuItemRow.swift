@@ -8,18 +8,6 @@
 import ARCDesignSystem
 import SwiftUI
 
-/// Context for how an ARCMenuItemRow is rendered
-///
-/// Controls padding and animation behavior based on where the row is used:
-/// - `.standalone`: Full padding + press scale animation (VStack/ScrollView)
-/// - `.form`: No explicit padding or press animation (Form provides them)
-public enum ARCMenuItemRowContext: Sendable {
-    /// Used in VStack or ScrollView with manual padding and press animation
-    case standalone
-    /// Used inside a Form where the system provides padding and row highlighting
-    case form
-}
-
 /// Menu item row for ARCMenu
 ///
 /// Displays individual menu items following Apple's Human Interface Guidelines.
@@ -29,39 +17,19 @@ public enum ARCMenuItemRowContext: Sendable {
 /// - Badges (for notifications, counts, "New" labels)
 /// - Disclosure indicators (chevrons)
 /// - Destructive actions (red tint)
-/// - Press animations with haptic feedback (standalone context only)
-public struct ARCMenuItemRow: View {
+/// - Press animations with haptic feedback
+struct ARCMenuItemRow: View {
     // MARK: - Properties
 
     let item: ARCMenuItem
     let configuration: ARCMenuConfiguration
-    let context: ARCMenuItemRowContext
     let action: () -> Void
 
     @State private var isPressed = false
 
-    // MARK: - Initialization
-
-    /// Creates a new menu item row
-    ///
-    /// - Parameters:
-    ///   - item: The menu item to display
-    ///   - configuration: Menu configuration for styling
-    ///   - context: Rendering context (default: `.standalone`)
-    ///   - action: Action to perform when tapped
-    public init(item: ARCMenuItem,
-                configuration: ARCMenuConfiguration,
-                context: ARCMenuItemRowContext = .standalone,
-                action: @escaping () -> Void) {
-        self.item = item
-        self.configuration = configuration
-        self.context = context
-        self.action = action
-    }
-
     // MARK: - Body
 
-    public var body: some View {
+    var body: some View {
         Button {
             action()
         } label: {
@@ -99,42 +67,43 @@ public struct ARCMenuItemRow: View {
                         .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundStyle(.tertiary)
-                        .accessibilityHidden(true)
                 }
             }
-            .modifier(ARCMenuItemRowStyleModifier(context: context, isPressed: isPressed))
+            .padding(.vertical, .arcSpacingMedium)
+            .padding(.horizontal, .arcSpacingLarge)
+            .background {
+                if isPressed {
+                    RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous)
+                        .fill(Color.primary.opacity(0.05))
+                }
+            }
+            .scaleEffect(isPressed ? 0.98 : 1.0)
+            .arcAnimation(.arcSnappy, value: isPressed)
         }
         .buttonStyle(.plain)
-        .modifier(ARCMenuItemRowGestureModifier(context: context, isPressed: $isPressed))
-        .accessibilityLabel(accessibilityLabel)
-        .accessibilityHint(item.showsDisclosure ? String(localized: "Opens a new screen") : "")
-    }
-
-    // MARK: - Accessibility
-
-    private var accessibilityLabel: String {
-        var components = [item.title]
-        if let subtitle = item.subtitle {
-            components.append(subtitle)
-        }
-        if let badge = item.badge {
-            components.append(badge)
-        }
-        if item.isDestructive {
-            components.append(String(localized: "Destructive action"))
-        }
-        return components.joined(separator: ", ")
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { _ in
+                    if !isPressed {
+                        isPressed = true
+                    }
+                }
+                .onEnded { _ in
+                    isPressed = false
+                }
+        )
     }
 
     // MARK: - Icon View
 
-    private var iconView: some View {
+    @ViewBuilder private var iconView: some View {
         item.icon.iconView(isDestructive: item.isDestructive)
             .foregroundStyle(item.isDestructive ? .red : configuration.accentColor)
     }
 
     // MARK: - Badge View
 
+    @ViewBuilder
     private func badgeView(text: String) -> some View {
         Text(text)
             .font(.caption2)
@@ -144,66 +113,18 @@ public struct ARCMenuItemRow: View {
             .padding(.vertical, 3) // Intentionally small for badge
             .background {
                 Capsule()
-                    .fill(LinearGradient(colors: [configuration.accentColor,
-                                                  configuration.accentColor.opacity(0.8)],
-                                         startPoint: .topLeading,
-                                         endPoint: .bottomTrailing))
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                configuration.accentColor,
+                                configuration.accentColor.opacity(0.8)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
             }
             .shadow(color: configuration.accentColor.opacity(0.3), radius: 4, x: 0, y: 2)
-    }
-}
-
-// MARK: - Style Modifier
-
-/// Applies padding and press animation based on row context
-private struct ARCMenuItemRowStyleModifier: ViewModifier {
-    let context: ARCMenuItemRowContext
-    let isPressed: Bool
-
-    func body(content: Content) -> some View {
-        switch context {
-        case .standalone:
-            content
-                .padding(.vertical, .arcSpacingMedium)
-                .padding(.horizontal, .arcSpacingLarge)
-                .background {
-                    if isPressed {
-                        RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous)
-                            .fill(Color.primary.opacity(0.05))
-                    }
-                }
-                .scaleEffect(isPressed ? 0.98 : 1.0)
-                .arcAnimation(.arcSnappy, value: isPressed)
-        case .form:
-            // Form provides its own padding and row highlighting
-            content
-        }
-    }
-}
-
-// MARK: - Gesture Modifier
-
-/// Applies press gesture tracking for standalone context
-private struct ARCMenuItemRowGestureModifier: ViewModifier {
-    let context: ARCMenuItemRowContext
-    @Binding var isPressed: Bool
-
-    func body(content: Content) -> some View {
-        switch context {
-        case .standalone:
-            content
-                .simultaneousGesture(DragGesture(minimumDistance: 0)
-                    .onChanged { _ in
-                        if !isPressed {
-                            isPressed = true
-                        }
-                    }
-                    .onEnded { _ in
-                        isPressed = false
-                    })
-        case .form:
-            content
-        }
     }
 }
 
@@ -214,20 +135,24 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
         Color.black.ignoresSafeArea()
 
         VStack(spacing: 0) {
-            ARCMenuItemRow(item: .Common.settings(action: {}),
-                           configuration: .default,
-                           action: {
-                               print("Settings tapped")
-                           })
+            ARCMenuItemRow(
+                item: .Common.settings(action: {}),
+                configuration: .default,
+                action: {
+                    print("Settings tapped")
+                }
+            )
 
             Divider()
                 .padding(.leading, 64)
 
-            ARCMenuItemRow(item: .Common.profile(action: {}),
-                           configuration: .default,
-                           action: {
-                               print("Profile tapped")
-                           })
+            ARCMenuItemRow(
+                item: .Common.profile(action: {}),
+                configuration: .default,
+                action: {
+                    print("Profile tapped")
+                }
+            )
         }
         .padding()
         .background {
@@ -240,23 +165,29 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
 
 #Preview("Menu Item - With Badge") {
     ZStack {
-        LinearGradient(colors: [.blue, .purple],
-                       startPoint: .topLeading,
-                       endPoint: .bottomTrailing)
-            .ignoresSafeArea()
+        LinearGradient(
+            colors: [.blue, .purple],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .ignoresSafeArea()
 
         VStack(spacing: 8) {
-            ARCMenuItemRow(item: .Common.subscriptions(badge: "Pro", action: {}),
-                           configuration: ARCMenuConfiguration(accentColor: .orange),
-                           action: {
-                               print("Subscriptions tapped")
-                           })
+            ARCMenuItemRow(
+                item: .Common.subscriptions(badge: "Pro", action: {}),
+                configuration: ARCMenuConfiguration(accentColor: .orange),
+                action: {
+                    print("Subscriptions tapped")
+                }
+            )
 
-            ARCMenuItemRow(item: .Common.notifications(badge: "3", action: {}),
-                           configuration: ARCMenuConfiguration(accentColor: .orange),
-                           action: {
-                               print("Notifications tapped")
-                           })
+            ARCMenuItemRow(
+                item: .Common.notifications(badge: "3", action: {}),
+                configuration: ARCMenuConfiguration(accentColor: .orange),
+                action: {
+                    print("Notifications tapped")
+                }
+            )
         }
         .padding()
         .background {
@@ -272,18 +203,22 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
         Color.gray.opacity(0.2).ignoresSafeArea()
 
         VStack(spacing: 0) {
-            ARCMenuItemRow(item: .Common.about(action: {}),
-                           configuration: .default,
-                           action: {})
+            ARCMenuItemRow(
+                item: .Common.about(action: {}),
+                configuration: .default,
+                action: {}
+            )
 
             Divider()
                 .padding(.leading, 64)
 
-            ARCMenuItemRow(item: .Common.logout(action: {}),
-                           configuration: .default,
-                           action: {
-                               print("Logout tapped")
-                           })
+            ARCMenuItemRow(
+                item: .Common.logout(action: {}),
+                configuration: .default,
+                action: {
+                    print("Logout tapped")
+                }
+            )
         }
         .padding()
         .background {
@@ -300,41 +235,59 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
     ScrollView {
         VStack(spacing: 12) {
             Group {
-                ARCMenuItemRow(item: .Common.profile(action: {}),
-                               configuration: config,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.profile(action: {}),
+                    configuration: config,
+                    action: {}
+                )
 
-                ARCMenuItemRow(item: .Common.settings(action: {}),
-                               configuration: config,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.settings(action: {}),
+                    configuration: config,
+                    action: {}
+                )
 
-                ARCMenuItemRow(item: .Common.subscriptions(badge: "Premium", action: {}),
-                               configuration: config,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.subscriptions(badge: "Premium", action: {}),
+                    configuration: config,
+                    action: {}
+                )
 
-                ARCMenuItemRow(item: .Common.notifications(badge: "12", action: {}),
-                               configuration: config,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.notifications(badge: "12", action: {}),
+                    configuration: config,
+                    action: {}
+                )
 
-                ARCMenuItemRow(item: .Common.privacy(action: {}),
-                               configuration: config,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.privacy(action: {}),
+                    configuration: config,
+                    action: {}
+                )
 
-                ARCMenuItemRow(item: .Common.help(action: {}),
-                               configuration: config,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.help(action: {}),
+                    configuration: config,
+                    action: {}
+                )
 
-                ARCMenuItemRow(item: .Common.contact(action: {}),
-                               configuration: config,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.contact(action: {}),
+                    configuration: config,
+                    action: {}
+                )
 
-                ARCMenuItemRow(item: .Common.about(action: {}),
-                               configuration: config,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.about(action: {}),
+                    configuration: config,
+                    action: {}
+                )
 
-                ARCMenuItemRow(item: .Common.logout(action: {}),
-                               configuration: config,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.logout(action: {}),
+                    configuration: config,
+                    action: {}
+                )
             }
         }
         .padding()
@@ -348,53 +301,71 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
 }
 
 #Preview("Menu Item - Prominent Icons") {
-    let config = ARCMenuConfiguration(accentColor: Color(red: 0.95, green: 0.75, blue: 0.3),
-                                      iconStyle: .prominent)
+    let config = ARCMenuConfiguration(
+        accentColor: Color(red: 0.95, green: 0.75, blue: 0.3),
+        iconStyle: .prominent
+    )
 
     ZStack {
         Color(red: 0.1, green: 0.1, blue: 0.12).ignoresSafeArea()
 
         VStack(spacing: 0) {
-            ARCMenuItemRow(item: ARCMenuItem(title: "Italian",
-                                             subtitle: "Pizza, Pasta, Risotto",
-                                             icon: .system("fork.knife", renderingMode: .monochrome),
-                                             showsDisclosure: true,
-                                             action: {}),
-                           configuration: config,
-                           action: {})
+            ARCMenuItemRow(
+                item: ARCMenuItem(
+                    title: "Italian",
+                    subtitle: "Pizza, Pasta, Risotto",
+                    icon: .system("fork.knife", renderingMode: .monochrome),
+                    showsDisclosure: true,
+                    action: {}
+                ),
+                configuration: config,
+                action: {}
+            )
 
             Divider()
                 .padding(.leading, 64)
 
-            ARCMenuItemRow(item: ARCMenuItem(title: "Japanese",
-                                             subtitle: "Sushi, Ramen, Tempura",
-                                             icon: .system("leaf.fill", renderingMode: .monochrome),
-                                             showsDisclosure: true,
-                                             action: {}),
-                           configuration: config,
-                           action: {})
+            ARCMenuItemRow(
+                item: ARCMenuItem(
+                    title: "Japanese",
+                    subtitle: "Sushi, Ramen, Tempura",
+                    icon: .system("leaf.fill", renderingMode: .monochrome),
+                    showsDisclosure: true,
+                    action: {}
+                ),
+                configuration: config,
+                action: {}
+            )
 
             Divider()
                 .padding(.leading, 64)
 
-            ARCMenuItemRow(item: ARCMenuItem(title: "Mexican",
-                                             subtitle: "Tacos, Burritos, Enchiladas",
-                                             icon: .system("flame.fill", renderingMode: .monochrome),
-                                             showsDisclosure: true,
-                                             action: {}),
-                           configuration: config,
-                           action: {})
+            ARCMenuItemRow(
+                item: ARCMenuItem(
+                    title: "Mexican",
+                    subtitle: "Tacos, Burritos, Enchiladas",
+                    icon: .system("flame.fill", renderingMode: .monochrome),
+                    showsDisclosure: true,
+                    action: {}
+                ),
+                configuration: config,
+                action: {}
+            )
 
             Divider()
                 .padding(.leading, 64)
 
-            ARCMenuItemRow(item: ARCMenuItem(title: "Indian",
-                                             subtitle: "Curry, Biryani, Naan",
-                                             icon: .system("star.fill", renderingMode: .monochrome),
-                                             showsDisclosure: true,
-                                             action: {}),
-                           configuration: config,
-                           action: {})
+            ARCMenuItemRow(
+                item: ARCMenuItem(
+                    title: "Indian",
+                    subtitle: "Curry, Biryani, Naan",
+                    icon: .system("star.fill", renderingMode: .monochrome),
+                    showsDisclosure: true,
+                    action: {}
+                ),
+                configuration: config,
+                action: {}
+            )
         }
         .padding()
         .background {
@@ -406,8 +377,10 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
 }
 
 #Preview("Icon Style Comparison") {
-    let prominentConfig = ARCMenuConfiguration(accentColor: .orange,
-                                               iconStyle: .prominent)
+    let prominentConfig = ARCMenuConfiguration(
+        accentColor: .orange,
+        iconStyle: .prominent
+    )
 
     VStack(spacing: 24) {
         // Subtle style (default)
@@ -418,12 +391,16 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
                 .padding(.horizontal)
 
             VStack(spacing: 0) {
-                ARCMenuItemRow(item: .Common.settings(action: {}),
-                               configuration: .default,
-                               action: {})
-                ARCMenuItemRow(item: .Common.profile(action: {}),
-                               configuration: .default,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.settings(action: {}),
+                    configuration: .default,
+                    action: {}
+                )
+                ARCMenuItemRow(
+                    item: .Common.profile(action: {}),
+                    configuration: .default,
+                    action: {}
+                )
             }
             .background {
                 RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -439,12 +416,16 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
                 .padding(.horizontal)
 
             VStack(spacing: 0) {
-                ARCMenuItemRow(item: .Common.settings(action: {}),
-                               configuration: prominentConfig,
-                               action: {})
-                ARCMenuItemRow(item: .Common.profile(action: {}),
-                               configuration: prominentConfig,
-                               action: {})
+                ARCMenuItemRow(
+                    item: .Common.settings(action: {}),
+                    configuration: prominentConfig,
+                    action: {}
+                )
+                ARCMenuItemRow(
+                    item: .Common.profile(action: {}),
+                    configuration: prominentConfig,
+                    action: {}
+                )
             }
             .background {
                 RoundedRectangle(cornerRadius: 16, style: .continuous)

@@ -48,7 +48,7 @@ struct ARCProgressDemoScreen: View {
 
     // MARK: - Header Section
 
-    private var headerSection: some View {
+    @ViewBuilder private var headerSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Progress Indicators")
                 .font(.title2.bold())
@@ -66,7 +66,7 @@ struct ARCProgressDemoScreen: View {
 
     // MARK: - File Download Example
 
-    private var fileDownloadExample: some View {
+    @ViewBuilder private var fileDownloadExample: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionTitle("File Download")
 
@@ -129,7 +129,7 @@ struct ARCProgressDemoScreen: View {
 
     // MARK: - Upload Progress Example
 
-    private var uploadProgressExample: some View {
+    @ViewBuilder private var uploadProgressExample: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionTitle("Photo Upload")
 
@@ -137,9 +137,13 @@ struct ARCProgressDemoScreen: View {
                 HStack(spacing: 16) {
                     // Thumbnail placeholder
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(LinearGradient(colors: [.purple, .pink],
-                                             startPoint: .topLeading,
-                                             endPoint: .bottomTrailing))
+                        .fill(
+                            LinearGradient(
+                                colors: [.purple, .pink],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
                         .frame(width: 60, height: 60)
                         .overlay {
                             Image(systemName: "photo.fill")
@@ -150,9 +154,13 @@ struct ARCProgressDemoScreen: View {
                         Text("Uploading to Cloud...")
                             .font(.subheadline.weight(.medium))
 
-                        ARCLinearProgress(progress: uploadProgress,
-                                          configuration: ARCLinearProgressConfiguration(height: 6,
-                                                                                        progressColor: .purple))
+                        ARCLinearProgress(
+                            progress: uploadProgress,
+                            configuration: ARCLinearProgressConfiguration(
+                                height: 6,
+                                progressColor: .purple
+                            )
+                        )
 
                         Text("\(Int(uploadProgress * 100))% • \(Int((1 - uploadProgress) * 12.5)) MB remaining")
                             .font(.caption)
@@ -182,7 +190,7 @@ struct ARCProgressDemoScreen: View {
 
     // MARK: - Loading Spinners Example
 
-    private var loadingSpinnersExample: some View {
+    @ViewBuilder private var loadingSpinnersExample: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionTitle("Loading States")
 
@@ -232,16 +240,19 @@ struct ARCProgressDemoScreen: View {
 // MARK: - Step Indicator Examples
 
 extension ARCProgressDemoScreen {
-    var checkoutFlowExample: some View {
+    @ViewBuilder var checkoutFlowExample: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionTitle("Checkout Flow")
 
             VStack(spacing: 20) {
-                ARCStepIndicator(totalSteps: 4,
-                                 currentStep: checkoutStep,
-                                 configuration: .withIcons(["cart.fill", "truck.box.fill", "creditcard.fill",
-                                                            "checkmark.seal.fill"]))
-                    .frame(maxWidth: .infinity)
+                ARCStepIndicator(
+                    totalSteps: 4,
+                    currentStep: checkoutStep,
+                    configuration: .withIcons([
+                        "cart.fill", "truck.box.fill", "creditcard.fill", "checkmark.seal.fill"
+                    ])
+                )
+                .frame(maxWidth: .infinity)
 
                 VStack(spacing: 12) {
                     Text(checkoutStepTitle).font(.headline)
@@ -276,15 +287,17 @@ extension ARCProgressDemoScreen {
         }
     }
 
-    var onboardingDotsExample: some View {
+    @ViewBuilder var onboardingDotsExample: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionTitle("Onboarding Progress")
 
             VStack(spacing: 20) {
                 RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(LinearGradient(colors: onboardingColors,
-                                         startPoint: .topLeading,
-                                         endPoint: .bottomTrailing))
+                    .fill(LinearGradient(
+                        colors: onboardingColors,
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ))
                     .frame(height: 150)
                     .overlay {
                         VStack(spacing: 8) {
@@ -324,7 +337,7 @@ extension ARCProgressDemoScreen {
 // MARK: - Color Variants & Helpers
 
 extension ARCProgressDemoScreen {
-    var colorVariantsExample: some View {
+    @ViewBuilder var colorVariantsExample: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionTitle("Color Variants")
 
@@ -339,15 +352,19 @@ extension ARCProgressDemoScreen {
         }
     }
 
+    @ViewBuilder
     private func colorVariantRow(progress: Double, color: Color, title: String) -> some View {
         HStack(spacing: 12) {
-            ARCCircularProgress(progress: progress,
-                                configuration: ARCCircularProgressConfiguration(progressColor: color,
-                                                                                showPercentage: true))
+            ARCCircularProgress(
+                progress: progress,
+                configuration: ARCCircularProgressConfiguration(progressColor: color, showPercentage: true)
+            )
             VStack(alignment: .leading, spacing: 4) {
                 Text(title).font(.subheadline.weight(.medium))
-                ARCLinearProgress(progress: progress,
-                                  configuration: ARCLinearProgressConfiguration(progressColor: color))
+                ARCLinearProgress(
+                    progress: progress,
+                    configuration: ARCLinearProgressConfiguration(progressColor: color)
+                )
             }
         }
     }
@@ -416,12 +433,13 @@ extension ARCProgressDemoScreen {
     func startDownload() {
         isDownloading = true
         downloadProgress = 0
-        Task {
-            while downloadProgress < 1.0 {
-                try? await Task.sleep(for: .milliseconds(100))
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { timer in
+            if downloadProgress < 1.0 {
                 downloadProgress += 0.02
+            } else {
+                timer.invalidate()
+                isDownloading = false
             }
-            isDownloading = false
         }
     }
 
@@ -432,10 +450,11 @@ extension ARCProgressDemoScreen {
 
     func startUpload() {
         uploadProgress = 0
-        Task {
-            while uploadProgress < 1.0 {
-                try? await Task.sleep(for: .milliseconds(80))
+        Timer.scheduledTimer(withTimeInterval: 0.08, repeats: true) { timer in
+            if uploadProgress < 1.0 {
                 uploadProgress += 0.015
+            } else {
+                timer.invalidate()
             }
         }
     }

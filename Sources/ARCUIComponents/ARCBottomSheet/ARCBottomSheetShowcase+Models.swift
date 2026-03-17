@@ -9,7 +9,8 @@ import SwiftUI
 
 // MARK: - ShowcaseSection
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCBottomSheetShowcase {
     enum ShowcaseSection: String, CaseIterable {
         case configurations, detents, interactive
     }
@@ -17,7 +18,8 @@ import SwiftUI
 
 // MARK: - ConfigOption
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCBottomSheetShowcase {
     enum ConfigOption: String, CaseIterable, Identifiable {
         case `default`
         case modal
@@ -26,9 +28,7 @@ import SwiftUI
         case glass
         case compact
 
-        var id: String {
-            rawValue
-        }
+        var id: String { rawValue }
 
         var title: String {
             switch self {

@@ -61,11 +61,13 @@ public struct ArtworkConfiguration: Sendable {
     ///   - cornerRadius: The outer corner radius. Defaults to `16`.
     ///   - shadowRadius: The shadow blur radius. Defaults to `14`.
     ///   - shadowOffset: The shadow offset. Defaults to `(0, 8)`.
-    public init(baseShape: BaseShape = .circle,
-                aspectRatio: CGFloat = 1.0,
-                cornerRadius: CGFloat = 16,
-                shadowRadius: CGFloat = 14,
-                shadowOffset: CGSize = CGSize(width: 0, height: 8)) {
+    public init(
+        baseShape: BaseShape = .circle,
+        aspectRatio: CGFloat = 1.0,
+        cornerRadius: CGFloat = 16,
+        shadowRadius: CGFloat = 14,
+        shadowOffset: CGSize = CGSize(width: 0, height: 8)
+    ) {
         self.baseShape = baseShape
         self.aspectRatio = aspectRatio
         self.cornerRadius = cornerRadius
@@ -81,12 +83,16 @@ extension ArtworkConfiguration {
     public static let circular = ArtworkConfiguration(baseShape: .circle)
 
     /// Book configuration with typical book proportions.
-    public static let book = ArtworkConfiguration(baseShape: .roundedRectangle(cornerRadius: 4),
-                                                  aspectRatio: 0.65,
-                                                  cornerRadius: 8)
+    public static let book = ArtworkConfiguration(
+        baseShape: .roundedRectangle(cornerRadius: 4),
+        aspectRatio: 0.65,
+        cornerRadius: 8
+    )
 
     /// Card configuration for square card-style artworks.
-    public static let card = ArtworkConfiguration(baseShape: .roundedRectangle(cornerRadius: 12),
-                                                  aspectRatio: 1.0,
-                                                  cornerRadius: 16)
+    public static let card = ArtworkConfiguration(
+        baseShape: .roundedRectangle(cornerRadius: 12),
+        aspectRatio: 1.0,
+        cornerRadius: 16
+    )
 }
