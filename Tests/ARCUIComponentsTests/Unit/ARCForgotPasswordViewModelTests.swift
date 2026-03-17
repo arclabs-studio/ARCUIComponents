@@ -23,6 +23,10 @@ private final class Spy<T: Sendable>: @unchecked Sendable {
 
 private final class Flag: @unchecked Sendable {
     private(set) var count = 0
+    var isEmpty: Bool {
+        count.isZero
+    }
+
     func increment() {
         count += 1
     }

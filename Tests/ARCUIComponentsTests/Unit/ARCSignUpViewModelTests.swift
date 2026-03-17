@@ -23,6 +23,10 @@ private final class Spy<T: Sendable>: @unchecked Sendable {
 
 private final class Flag: @unchecked Sendable {
     private(set) var count = 0
+    var isEmpty: Bool {
+        count.isZero
+    }
+
     func increment() {
         count += 1
     }
@@ -40,8 +44,7 @@ private final class Flag: @unchecked Sendable {
 
     private func makeSUT(onSignUpWithEmail: @escaping @Sendable (String, String) async throws -> Void = { _, _ in },
                          onSignInWithApple: @escaping @Sendable () async throws -> Void = {},
-                         onSignInWithGoogle: @escaping @Sendable () async throws -> Void = {}) -> ARCSignUpViewModel
-    {
+                         onSignInWithGoogle: @escaping @Sendable () async throws -> Void = {}) -> ARCSignUpViewModel {
         ARCSignUpViewModel(onSignUpWithEmail: onSignUpWithEmail,
                            onSignInWithApple: onSignInWithApple,
                            onSignInWithGoogle: onSignInWithGoogle)
