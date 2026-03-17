@@ -67,8 +67,7 @@ import UIKit
     ///   - configuration: Menu configuration
     public init(user: ARCMenuUser? = nil,
                 menuItems: [ARCMenuItem] = [],
-                configuration: ARCMenuConfiguration = .default)
-    {
+                configuration: ARCMenuConfiguration = .default) {
         self.user = user
         self.menuItems = menuItems
         sections = []
@@ -83,8 +82,7 @@ import UIKit
     ///   - configuration: Menu configuration (defaults to `.sectioned`)
     public init(user: ARCMenuUser? = nil,
                 sections: [ARCMenuSection],
-                configuration: ARCMenuConfiguration = .sectioned)
-    {
+                configuration: ARCMenuConfiguration = .sectioned) {
         self.user = user
         menuItems = []
         self.sections = sections
@@ -146,8 +144,7 @@ extension ARCMenuViewModel {
     /// ```
     public static func withDefaultItems(user: ARCMenuUser?,
                                         configuration: ARCMenuConfiguration = .default,
-                                        actions: ARCMenuActions) -> ARCMenuViewModel
-    {
+                                        actions: ARCMenuActions) -> ARCMenuViewModel {
         ARCMenuViewModel(user: user,
                          menuItems: ARCMenuItem.defaultItems(actions: actions),
                          configuration: configuration)
@@ -165,8 +162,7 @@ extension ARCMenuViewModel {
                                         onFeedback: @escaping @Sendable () -> Void,
                                         onSubscriptions: @escaping @Sendable () -> Void,
                                         onAbout: @escaping @Sendable () -> Void,
-                                        onLogout: @escaping @Sendable () -> Void) -> ARCMenuViewModel
-    {
+                                        onLogout: @escaping @Sendable () -> Void) -> ARCMenuViewModel {
         withDefaultItems(user: user,
                          configuration: configuration,
                          actions: ARCMenuActions(onProfile: onProfile,
@@ -177,7 +173,6 @@ extension ARCMenuViewModel {
                                                  onLogout: onLogout))
     }
 
-    // swiftlint:disable line_length
     /// Creates a view model with common menu items (legacy)
     ///
     /// - Note: Deprecated in favor of `withDefaultItems`
@@ -197,9 +192,7 @@ extension ARCMenuViewModel {
                                                                                            nil,
                                                                                        onLogout: (@Sendable ()
                                                                                            -> Void)? = nil)
-        -> ARCMenuViewModel
-    {
-        // swiftlint:enable line_length
+    -> ARCMenuViewModel {
         var items: [ARCMenuItem] = []
 
         if let onProfile {
