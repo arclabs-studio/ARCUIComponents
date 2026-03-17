@@ -23,7 +23,8 @@ import SwiftUI
 ///
 /// - **iOS 26+**: Uses native `glassEffect()` API with morphing animations
 /// - **iOS 17-25**: Uses manual implementation with materials and gradients
-@available(iOS 17.0, macOS 14.0, *) public struct LiquidGlassShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct LiquidGlassShowcase: View {
     // MARK: - State
 
     @State private var showMorphingDemo = false
@@ -63,12 +64,18 @@ import SwiftUI
             }
             .padding(.bottom, 40)
         }
-        .background(LinearGradient(colors: [Color.blue.opacity(0.3),
-                                            Color.purple.opacity(0.3),
-                                            Color.pink.opacity(0.2)],
-                                   startPoint: .topLeading,
-                                   endPoint: .bottomTrailing)
-                .ignoresSafeArea())
+        .background(
+            LinearGradient(
+                colors: [
+                    Color.blue.opacity(0.3),
+                    Color.purple.opacity(0.3),
+                    Color.pink.opacity(0.2)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+        )
     }
 
     // MARK: - Platform Badge
@@ -82,8 +89,10 @@ import SwiftUI
         }
         .padding(.horizontal, .arcSpacingMedium)
         .padding(.vertical, .arcSpacingSmall)
-        .background(Capsule()
-            .fill(isUsingNativeGlass ? Color.green.opacity(0.15) : Color.orange.opacity(0.15)))
+        .background(
+            Capsule()
+                .fill(isUsingNativeGlass ? Color.green.opacity(0.15) : Color.orange.opacity(0.15))
+        )
         .padding(.top, .arcSpacingSmall)
     }
 
@@ -98,65 +107,89 @@ import SwiftUI
 
     private var liquidGlassExample: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            SectionHeader(title: "Liquid Glass",
-                          subtitle: "Premium Apple-style effect")
+            SectionHeader(
+                title: "Liquid Glass",
+                subtitle: "Premium Apple-style effect"
+            )
 
-            ExampleCard(configuration: LiquidGlassConfiguration(accentColor: .blue,
-                                                                backgroundStyle: .liquidGlass,
-                                                                cornerRadius: .arcCornerRadiusLarge,
-                                                                shadow: .default))
+            ExampleCard(configuration: LiquidGlassConfiguration(
+                accentColor: .blue,
+                backgroundStyle: .liquidGlass,
+                cornerRadius: .arcCornerRadiusLarge,
+                shadow: .default
+            ))
         }
     }
 
     private var translucentExample: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            SectionHeader(title: "Translucent",
-                          subtitle: "Standard blur with minimal accent")
+            SectionHeader(
+                title: "Translucent",
+                subtitle: "Standard blur with minimal accent"
+            )
 
-            ExampleCard(configuration: LiquidGlassConfiguration(accentColor: .green,
-                                                                backgroundStyle: .translucent,
-                                                                cornerRadius: .arcCornerRadiusLarge,
-                                                                shadow: .subtle))
+            ExampleCard(configuration: LiquidGlassConfiguration(
+                accentColor: .green,
+                backgroundStyle: .translucent,
+                cornerRadius: .arcCornerRadiusLarge,
+                shadow: .subtle
+            ))
         }
     }
 
     private var solidExample: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            SectionHeader(title: "Solid",
-                          subtitle: "Custom color with opacity")
+            SectionHeader(
+                title: "Solid",
+                subtitle: "Custom color with opacity"
+            )
 
-            ExampleCard(configuration: LiquidGlassConfiguration(accentColor: .orange,
-                                                                backgroundStyle: .solid(.orange, opacity: 0.3),
-                                                                cornerRadius: .arcCornerRadiusLarge,
-                                                                shadow: .default))
+            ExampleCard(configuration: LiquidGlassConfiguration(
+                accentColor: .orange,
+                backgroundStyle: .solid(.orange, opacity: 0.3),
+                cornerRadius: .arcCornerRadiusLarge,
+                shadow: .default
+            ))
         }
     }
 
     private var materialExample: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            SectionHeader(title: "Material",
-                          subtitle: "Custom SwiftUI material")
+            SectionHeader(
+                title: "Material",
+                subtitle: "Custom SwiftUI material"
+            )
 
-            ExampleCard(configuration: LiquidGlassConfiguration(accentColor: .purple,
-                                                                backgroundStyle: .material(.thick),
-                                                                cornerRadius: .arcCornerRadiusLarge,
-                                                                shadow: .default))
+            ExampleCard(configuration: LiquidGlassConfiguration(
+                accentColor: .purple,
+                backgroundStyle: .material(.thick),
+                cornerRadius: .arcCornerRadiusLarge,
+                shadow: .default
+            ))
         }
     }
 
     private var colorVariationsExample: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            SectionHeader(title: "Color Variations",
-                          subtitle: "Different accent colors")
+            SectionHeader(
+                title: "Color Variations",
+                subtitle: "Different accent colors"
+            )
 
-            LazyVGrid(columns: [GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: .arcSpacingLarge) {
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: .arcSpacingLarge) {
                 ForEach(ColorVariation.allCases, id: \.self) { variation in
-                    SmallExampleCard(configuration: LiquidGlassConfiguration(accentColor: variation.color,
-                                                                             backgroundStyle: .liquidGlass,
-                                                                             cornerRadius: .arcCornerRadiusMedium,
-                                                                             shadow: .subtle),
-                                     title: variation.name)
+                    SmallExampleCard(
+                        configuration: LiquidGlassConfiguration(
+                            accentColor: variation.color,
+                            backgroundStyle: .liquidGlass,
+                            cornerRadius: .arcCornerRadiusMedium,
+                            shadow: .subtle
+                        ),
+                        title: variation.name
+                    )
                 }
             }
         }
@@ -164,17 +197,23 @@ import SwiftUI
 
     private var shadowVariationsExample: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            SectionHeader(title: "Shadow Variations",
-                          subtitle: "Different shadow depths")
+            SectionHeader(
+                title: "Shadow Variations",
+                subtitle: "Different shadow depths"
+            )
 
             VStack(spacing: .arcSpacingLarge) {
                 ForEach(ShadowVariation.allCases, id: \.self) { variation in
-                    MediumExampleCard(configuration: LiquidGlassConfiguration(accentColor: .blue,
-                                                                              backgroundStyle: .liquidGlass,
-                                                                              cornerRadius: .arcCornerRadiusLarge,
-                                                                              shadow: variation.shadow),
-                                      title: variation.name,
-                                      subtitle: variation.description)
+                    MediumExampleCard(
+                        configuration: LiquidGlassConfiguration(
+                            accentColor: .blue,
+                            backgroundStyle: .liquidGlass,
+                            cornerRadius: .arcCornerRadiusLarge,
+                            shadow: variation.shadow
+                        ),
+                        title: variation.name,
+                        subtitle: variation.description
+                    )
                 }
             }
         }
@@ -184,28 +223,36 @@ import SwiftUI
 
     private var morphingExample: some View {
         VStack(alignment: .leading, spacing: .arcSpacingLarge) {
-            SectionHeader(title: "Morphing Animations",
-                          subtitle: isUsingNativeGlass
-                              ? "Tap to see glass elements morph (iOS 26+)"
-                              : "Available on iOS 26+ with native Glass API")
+            SectionHeader(
+                title: "Morphing Animations",
+                subtitle: isUsingNativeGlass
+                    ? "Tap to see glass elements morph (iOS 26+)"
+                    : "Available on iOS 26+ with native Glass API"
+            )
 
             ARCGlassContainer(spacing: 40) {
                 HStack(spacing: 40) {
-                    MorphButton(icon: "star.fill",
-                                title: "Star",
-                                color: .yellow)
-                        .arcGlassEffectID("star", in: morphNamespace)
+                    MorphButton(
+                        icon: "star.fill",
+                        title: "Star",
+                        color: .yellow
+                    )
+                    .arcGlassEffectID("star", in: morphNamespace)
 
                     if showMorphingDemo {
-                        MorphButton(icon: "heart.fill",
-                                    title: "Heart",
-                                    color: .pink)
-                            .arcGlassEffectID("heart", in: morphNamespace)
+                        MorphButton(
+                            icon: "heart.fill",
+                            title: "Heart",
+                            color: .pink
+                        )
+                        .arcGlassEffectID("heart", in: morphNamespace)
 
-                        MorphButton(icon: "bookmark.fill",
-                                    title: "Bookmark",
-                                    color: .blue)
-                            .arcGlassEffectID("bookmark", in: morphNamespace)
+                        MorphButton(
+                            icon: "bookmark.fill",
+                            title: "Bookmark",
+                            color: .blue
+                        )
+                        .arcGlassEffectID("bookmark", in: morphNamespace)
                     }
                 }
             }
@@ -230,7 +277,8 @@ import SwiftUI
 
 // MARK: - Example Configuration
 
-@available(iOS 17.0, macOS 14.0, *) private struct LiquidGlassConfiguration: LiquidGlassConfigurable {
+@available(iOS 17.0, macOS 14.0, *)
+private struct LiquidGlassConfiguration: LiquidGlassConfigurable {
     let accentColor: Color
     let backgroundStyle: ARCBackgroundStyle
     let cornerRadius: CGFloat
@@ -239,7 +287,8 @@ import SwiftUI
 
 // MARK: - Example Card
 
-@available(iOS 17.0, macOS 14.0, *) private struct ExampleCard: View {
+@available(iOS 17.0, macOS 14.0, *)
+private struct ExampleCard: View {
     let configuration: LiquidGlassConfiguration
 
     var body: some View {
@@ -252,10 +301,12 @@ import SwiftUI
                     .font(.headline)
                 Spacer()
             }
-            Text("""
-            This demonstrates how the liquid glass effect appears with real content. \
-            The background adapts to the system appearance and provides excellent readability.
-            """)
+            Text(
+                """
+                This demonstrates how the liquid glass effect appears with real content. \
+                The background adapts to the system appearance and provides excellent readability.
+                """
+            )
             .font(.subheadline)
             .foregroundStyle(.secondary)
         }
@@ -265,7 +316,8 @@ import SwiftUI
     }
 }
 
-@available(iOS 17.0, macOS 14.0, *) private struct SmallExampleCard: View {
+@available(iOS 17.0, macOS 14.0, *)
+private struct SmallExampleCard: View {
     let configuration: LiquidGlassConfiguration
     let title: String
 
@@ -286,7 +338,8 @@ import SwiftUI
     }
 }
 
-@available(iOS 17.0, macOS 14.0, *) private struct MediumExampleCard: View {
+@available(iOS 17.0, macOS 14.0, *)
+private struct MediumExampleCard: View {
     let configuration: LiquidGlassConfiguration
     let title: String
     let subtitle: String
@@ -317,15 +370,18 @@ import SwiftUI
 
 // MARK: - Morph Button
 
-@available(iOS 17.0, macOS 14.0, *) private struct MorphButton: View {
+@available(iOS 17.0, macOS 14.0, *)
+private struct MorphButton: View {
     let icon: String
     let title: String
     let color: Color
 
-    private let configuration = LiquidGlassConfiguration(accentColor: .blue,
-                                                         backgroundStyle: .liquidGlass,
-                                                         cornerRadius: .arcCornerRadiusMedium,
-                                                         shadow: .subtle)
+    private let configuration = LiquidGlassConfiguration(
+        accentColor: .blue,
+        backgroundStyle: .liquidGlass,
+        cornerRadius: .arcCornerRadiusMedium,
+        shadow: .subtle
+    )
 
     var body: some View {
         VStack(spacing: .arcSpacingSmall) {
@@ -343,7 +399,8 @@ import SwiftUI
 
 // MARK: - Section Header
 
-@available(iOS 17.0, macOS 14.0, *) private struct SectionHeader: View {
+@available(iOS 17.0, macOS 14.0, *)
+private struct SectionHeader: View {
     let title: String
     let subtitle: String
 
@@ -364,7 +421,8 @@ import SwiftUI
 
 // MARK: - Color Variations
 
-@available(iOS 17.0, macOS 14.0, *) private enum ColorVariation: CaseIterable {
+@available(iOS 17.0, macOS 14.0, *)
+private enum ColorVariation: CaseIterable {
     case blue, purple, green, orange, pink, indigo
 
     var name: String {
@@ -392,7 +450,8 @@ import SwiftUI
 
 // MARK: - Shadow Variations
 
-@available(iOS 17.0, macOS 14.0, *) private enum ShadowVariation: CaseIterable {
+@available(iOS 17.0, macOS 14.0, *)
+private enum ShadowVariation: CaseIterable {
     case none, subtle, `default`, prominent
 
     var name: String {

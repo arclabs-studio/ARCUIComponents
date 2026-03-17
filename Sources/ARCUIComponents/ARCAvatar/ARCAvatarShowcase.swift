@@ -21,7 +21,8 @@ import AppKit
 ///
 /// Use this view to explore all avatar variants, sizes, shapes, and status options.
 /// Perfect for design review and component documentation.
-@available(iOS 17.0, macOS 14.0, *) public struct ARCAvatarShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCAvatarShowcase: View {
     // MARK: - Body
 
     public init() {}
@@ -87,32 +88,42 @@ import AppKit
 
             HStack(alignment: .bottom, spacing: 16) {
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "XS",
-                              configuration: ARCAvatarConfiguration(size: .xs))
+                    ARCAvatar(
+                        name: "XS",
+                        configuration: ARCAvatarConfiguration(size: .xs)
+                    )
                     Text("XS (24pt)").font(.caption2)
                 }
 
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "SM",
-                              configuration: ARCAvatarConfiguration(size: .sm))
+                    ARCAvatar(
+                        name: "SM",
+                        configuration: ARCAvatarConfiguration(size: .sm)
+                    )
                     Text("SM (32pt)").font(.caption2)
                 }
 
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "MD",
-                              configuration: ARCAvatarConfiguration(size: .md))
+                    ARCAvatar(
+                        name: "MD",
+                        configuration: ARCAvatarConfiguration(size: .md)
+                    )
                     Text("MD (40pt)").font(.caption2)
                 }
 
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "LG",
-                              configuration: ARCAvatarConfiguration(size: .lg))
+                    ARCAvatar(
+                        name: "LG",
+                        configuration: ARCAvatarConfiguration(size: .lg)
+                    )
                     Text("LG (56pt)").font(.caption2)
                 }
 
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "XL",
-                              configuration: ARCAvatarConfiguration(size: .xl))
+                    ARCAvatar(
+                        name: "XL",
+                        configuration: ARCAvatarConfiguration(size: .xl)
+                    )
                     Text("XL (80pt)").font(.caption2)
                 }
             }
@@ -121,8 +132,10 @@ import AppKit
             HStack {
                 Spacer()
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "XXL",
-                              configuration: ARCAvatarConfiguration(size: .xxl))
+                    ARCAvatar(
+                        name: "XXL",
+                        configuration: ARCAvatarConfiguration(size: .xxl)
+                    )
                     Text("XXL (120pt)").font(.caption2)
                 }
                 Spacer()
@@ -138,23 +151,35 @@ import AppKit
 
             HStack(spacing: 24) {
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "Circle",
-                              configuration: ARCAvatarConfiguration(size: .lg,
-                                                                    shape: .circle))
+                    ARCAvatar(
+                        name: "Circle",
+                        configuration: ARCAvatarConfiguration(
+                            size: .lg,
+                            shape: .circle
+                        )
+                    )
                     Text("Circle").font(.caption2)
                 }
 
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "Rounded",
-                              configuration: ARCAvatarConfiguration(size: .lg,
-                                                                    shape: .roundedSquare(cornerRadius: 8)))
+                    ARCAvatar(
+                        name: "Rounded",
+                        configuration: ARCAvatarConfiguration(
+                            size: .lg,
+                            shape: .roundedSquare(cornerRadius: 8)
+                        )
+                    )
                     Text("Rounded Square").font(.caption2)
                 }
 
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "Squircle",
-                              configuration: ARCAvatarConfiguration(size: .lg,
-                                                                    shape: .squircle))
+                    ARCAvatar(
+                        name: "Squircle",
+                        configuration: ARCAvatarConfiguration(
+                            size: .lg,
+                            shape: .squircle
+                        )
+                    )
                     Text("Squircle").font(.caption2)
                 }
             }
@@ -206,34 +231,50 @@ import AppKit
 
             HStack(spacing: 24) {
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "BR",
-                              status: .online,
-                              configuration: ARCAvatarConfiguration(size: .lg,
-                                                                    statusBadgePosition: .bottomTrailing))
+                    ARCAvatar(
+                        name: "BR",
+                        status: .online,
+                        configuration: ARCAvatarConfiguration(
+                            size: .lg,
+                            statusBadgePosition: .bottomTrailing
+                        )
+                    )
                     Text("Bottom Trailing").font(.caption2)
                 }
 
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "TR",
-                              status: .online,
-                              configuration: ARCAvatarConfiguration(size: .lg,
-                                                                    statusBadgePosition: .topTrailing))
+                    ARCAvatar(
+                        name: "TR",
+                        status: .online,
+                        configuration: ARCAvatarConfiguration(
+                            size: .lg,
+                            statusBadgePosition: .topTrailing
+                        )
+                    )
                     Text("Top Trailing").font(.caption2)
                 }
 
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "BL",
-                              status: .online,
-                              configuration: ARCAvatarConfiguration(size: .lg,
-                                                                    statusBadgePosition: .bottomLeading))
+                    ARCAvatar(
+                        name: "BL",
+                        status: .online,
+                        configuration: ARCAvatarConfiguration(
+                            size: .lg,
+                            statusBadgePosition: .bottomLeading
+                        )
+                    )
                     Text("Bottom Leading").font(.caption2)
                 }
 
                 VStack(spacing: 8) {
-                    ARCAvatar(name: "TL",
-                              status: .online,
-                              configuration: ARCAvatarConfiguration(size: .lg,
-                                                                    statusBadgePosition: .topLeading))
+                    ARCAvatar(
+                        name: "TL",
+                        status: .online,
+                        configuration: ARCAvatarConfiguration(
+                            size: .lg,
+                            statusBadgePosition: .topLeading
+                        )
+                    )
                     Text("Top Leading").font(.caption2)
                 }
             }
@@ -294,22 +335,29 @@ import AppKit
 
 // MARK: - Example Sections
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCAvatarShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCAvatarShowcase {
     var avatarGroupSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Avatar Groups")
             VStack(alignment: .leading, spacing: 20) {
-                groupExample("3 Members", avatars: [ARCAvatar(name: "Alice Brown"),
-                                                    ARCAvatar(name: "Bob Smith"),
-                                                    ARCAvatar(name: "Carol White")])
-                groupExample("6 Members (max 4)",
-                             avatars: [ARCAvatar(name: "Alice"),
-                                       ARCAvatar(name: "Bob"),
-                                       ARCAvatar(name: "Carol"),
-                                       ARCAvatar(name: "David"),
-                                       ARCAvatar(name: "Eve"),
-                                       ARCAvatar(name: "Frank")],
-                             maxDisplay: 4)
+                groupExample("3 Members", avatars: [
+                    ARCAvatar(name: "Alice Brown"),
+                    ARCAvatar(name: "Bob Smith"),
+                    ARCAvatar(name: "Carol White")
+                ])
+                groupExample(
+                    "6 Members (max 4)",
+                    avatars: [
+                        ARCAvatar(name: "Alice"),
+                        ARCAvatar(name: "Bob"),
+                        ARCAvatar(name: "Carol"),
+                        ARCAvatar(name: "David"),
+                        ARCAvatar(name: "Eve"),
+                        ARCAvatar(name: "Frank")
+                    ],
+                    maxDisplay: 4
+                )
                 groupExample("Compact Style", avatars: sampleAvatars, maxDisplay: 5, config: .compact)
                 groupExample("Spread Style", avatars: sampleAvatars, maxDisplay: 4, config: .spread)
                 groupExample("Large Style", avatars: sampleAvatars, maxDisplay: 3, config: .large)
@@ -355,30 +403,37 @@ import AppKit
 
 // MARK: - Helpers
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCAvatarShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCAvatarShowcase {
     func sectionHeader(_ title: String) -> some View {
         Text(title).font(.headline).frame(maxWidth: .infinity, alignment: .leading)
     }
 
     var sampleAvatars: [ARCAvatar] {
-        [ARCAvatar(name: "Alice Brown"),
-         ARCAvatar(name: "Bob Smith"),
-         ARCAvatar(name: "Carol White"),
-         ARCAvatar(name: "David Green"),
-         ARCAvatar(name: "Eve Black")]
+        [
+            ARCAvatar(name: "Alice Brown"),
+            ARCAvatar(name: "Bob Smith"),
+            ARCAvatar(name: "Carol White"),
+            ARCAvatar(name: "David Green"),
+            ARCAvatar(name: "Eve Black")
+        ]
     }
 
     private var sampleUsers: [SampleUser] {
-        [SampleUser(name: "Alice Brown", email: "alice@example.com", status: .online),
-         SampleUser(name: "Bob Smith", email: "bob@example.com", status: .busy),
-         SampleUser(name: "Carol White", email: "carol@example.com", status: .away),
-         SampleUser(name: "David Green", email: "david@example.com", status: .offline)]
+        [
+            SampleUser(name: "Alice Brown", email: "alice@example.com", status: .online),
+            SampleUser(name: "Bob Smith", email: "bob@example.com", status: .busy),
+            SampleUser(name: "Carol White", email: "carol@example.com", status: .away),
+            SampleUser(name: "David Green", email: "david@example.com", status: .offline)
+        ]
     }
 
-    private func groupExample(_ title: String,
-                              avatars: [ARCAvatar],
-                              maxDisplay: Int? = nil,
-                              config: ARCAvatarGroupConfiguration? = nil) -> some View {
+    private func groupExample(
+        _ title: String,
+        avatars: [ARCAvatar],
+        maxDisplay: Int? = nil,
+        config: ARCAvatarGroupConfiguration? = nil
+    ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title).font(.subheadline)
             if let max = maxDisplay, let cfg = config {

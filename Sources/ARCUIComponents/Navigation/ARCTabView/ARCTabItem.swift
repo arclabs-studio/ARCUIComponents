@@ -87,9 +87,7 @@ public protocol ARCTabItem: Hashable, CaseIterable, Identifiable where AllCases:
 
 // MARK: - Default Implementation
 
-extension ARCTabItem {
+public extension ARCTabItem {
     /// Default implementation returns nil (no badge)
-    public var badge: Int? {
-        nil
-    }
+    var badge: Int? { nil }
 }

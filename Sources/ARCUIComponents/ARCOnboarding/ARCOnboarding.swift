@@ -74,7 +74,8 @@ import SwiftUI
 ///     }
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCOnboarding: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCOnboarding: View {
     // MARK: - Properties
 
     private let pages: [ARCOnboardingPage]
@@ -93,13 +94,17 @@ import SwiftUI
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .body) private var buttonHeight: CGFloat = 50
+    @ScaledMetric(relativeTo: .body)
+    private var buttonHeight: CGFloat = 50
 
-    @ScaledMetric(relativeTo: .body) private var horizontalPadding: CGFloat = 24
+    @ScaledMetric(relativeTo: .body)
+    private var horizontalPadding: CGFloat = 24
 
-    @ScaledMetric(relativeTo: .body) private var bottomPadding: CGFloat = 32
+    @ScaledMetric(relativeTo: .body)
+    private var bottomPadding: CGFloat = 32
 
-    @ScaledMetric(relativeTo: .body) private var indicatorSpacing: CGFloat = 24
+    @ScaledMetric(relativeTo: .body)
+    private var indicatorSpacing: CGFloat = 24
 
     // MARK: - Initialization
 
@@ -110,10 +115,12 @@ import SwiftUI
     ///   - configuration: Configuration options for appearance and behavior
     ///   - onComplete: Closure called when user completes the onboarding
     ///   - onSkip: Optional closure called when user skips the onboarding
-    public init(pages: [ARCOnboardingPage],
-                configuration: ARCOnboardingConfiguration = .default,
-                onComplete: @escaping () -> Void,
-                onSkip: (() -> Void)? = nil) {
+    public init(
+        pages: [ARCOnboardingPage],
+        configuration: ARCOnboardingConfiguration = .default,
+        onComplete: @escaping () -> Void,
+        onSkip: (() -> Void)? = nil
+    ) {
         self.pages = pages
         self.configuration = configuration
         self.onComplete = onComplete
@@ -156,7 +163,7 @@ import SwiftUI
 
     // MARK: - Background
 
-    private var backgroundView: some View {
+    @ViewBuilder private var backgroundView: some View {
         Color.clear
             .background(.background)
             .ignoresSafeArea()
@@ -164,13 +171,15 @@ import SwiftUI
 
     // MARK: - Top Indicator Section
 
-    private var topIndicatorSection: some View {
+    @ViewBuilder private var topIndicatorSection: some View {
         HStack {
             Spacer()
-            ARCOnboardingIndicator(totalPages: pages.count,
-                                   currentPage: currentPage,
-                                   style: configuration.indicatorStyle,
-                                   accentColor: currentAccentColor)
+            ARCOnboardingIndicator(
+                totalPages: pages.count,
+                currentPage: currentPage,
+                style: configuration.indicatorStyle,
+                accentColor: currentAccentColor
+            )
             Spacer()
         }
         .padding(.top, 16)
@@ -179,7 +188,7 @@ import SwiftUI
 
     // MARK: - Skip Button Section
 
-    private var skipButtonSection: some View {
+    @ViewBuilder private var skipButtonSection: some View {
         HStack {
             Spacer()
 
@@ -204,41 +213,49 @@ import SwiftUI
         #if os(iOS)
         TabView(selection: $currentPage) {
             ForEach(Array(pages.enumerated()), id: \.element.id) { index, page in
-                ARCOnboardingPageView(page: page,
-                                      configuration: configuration,
-                                      isCurrentPage: index == currentPage)
-                    .tag(index)
+                ARCOnboardingPageView(
+                    page: page,
+                    configuration: configuration,
+                    isCurrentPage: index == currentPage
+                )
+                .tag(index)
             }
         }
         .tabViewStyle(.page(indexDisplayMode: .never))
         .arcAnimationIfAllowed(.arcGentle, value: currentPage)
         #else
         // macOS fallback - simple view with navigation
-        ARCOnboardingPageView(page: pages[currentPage],
-                              configuration: configuration,
-                              isCurrentPage: true)
-            .arcAnimationIfAllowed(.arcGentle, value: currentPage)
+        ARCOnboardingPageView(
+            page: pages[currentPage],
+            configuration: configuration,
+            isCurrentPage: true
+        )
+        .arcAnimationIfAllowed(.arcGentle, value: currentPage)
         #endif
     }
 
     // MARK: - Bottom Section
 
-    private var bottomSection: some View {
+    @ViewBuilder private var bottomSection: some View {
         VStack(spacing: indicatorSpacing) {
             if configuration.indicatorPosition == .aboveButtons {
-                ARCOnboardingIndicator(totalPages: pages.count,
-                                       currentPage: currentPage,
-                                       style: configuration.indicatorStyle,
-                                       accentColor: currentAccentColor)
+                ARCOnboardingIndicator(
+                    totalPages: pages.count,
+                    currentPage: currentPage,
+                    style: configuration.indicatorStyle,
+                    accentColor: currentAccentColor
+                )
             }
 
             navigationButtons
 
             if configuration.indicatorPosition == .bottom {
-                ARCOnboardingIndicator(totalPages: pages.count,
-                                       currentPage: currentPage,
-                                       style: configuration.indicatorStyle,
-                                       accentColor: currentAccentColor)
+                ARCOnboardingIndicator(
+                    totalPages: pages.count,
+                    currentPage: currentPage,
+                    style: configuration.indicatorStyle,
+                    accentColor: currentAccentColor
+                )
             }
         }
         .padding(.horizontal, horizontalPadding)
@@ -247,7 +264,7 @@ import SwiftUI
 
     // MARK: - Navigation Buttons
 
-    private var navigationButtons: some View {
+    @ViewBuilder private var navigationButtons: some View {
         VStack(spacing: 12) {
             primaryButton
 
@@ -257,7 +274,7 @@ import SwiftUI
         }
     }
 
-    private var backButton: some View {
+    @ViewBuilder private var backButton: some View {
         Button {
             previousPage()
         } label: {
@@ -273,7 +290,7 @@ import SwiftUI
         .accessibilityLabel("Go to previous page")
     }
 
-    private var primaryButton: some View {
+    @ViewBuilder private var primaryButton: some View {
         Button {
             if isLastPage {
                 onComplete()
@@ -287,10 +304,12 @@ import SwiftUI
                 .frame(maxWidth: .infinity)
                 .frame(height: buttonHeight)
         }
-        .buttonStyle(OnboardingButtonStyle(style: configuration.buttonStyle,
-                                           configuration: configuration,
-                                           accentColor: currentAccentColor,
-                                           isSecondary: false))
+        .buttonStyle(OnboardingButtonStyle(
+            style: configuration.buttonStyle,
+            configuration: configuration,
+            accentColor: currentAccentColor,
+            isSecondary: false
+        ))
         .accessibilityLabel(isLastPage ? "Complete onboarding" : "Go to next page")
     }
 
@@ -362,7 +381,8 @@ import SwiftUI
 
 // MARK: - OnboardingButtonStyle
 
-@available(iOS 17.0, macOS 14.0, *) private struct OnboardingButtonStyle: ButtonStyle {
+@available(iOS 17.0, macOS 14.0, *)
+private struct OnboardingButtonStyle: ButtonStyle {
     let style: ARCOnboardingConfiguration.ButtonStyle
     let configuration: ARCOnboardingConfiguration
     let accentColor: Color
@@ -391,8 +411,10 @@ import SwiftUI
         case .glass:
             RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
                 .fill(.ultraThinMaterial)
-                .overlay(RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                    .stroke(accentColor.opacity(0.3), lineWidth: 1))
+                .overlay(
+                    RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
+                        .stroke(accentColor.opacity(0.3), lineWidth: 1)
+                )
         }
     }
 }
@@ -409,8 +431,12 @@ extension Array {
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("ARCOnboarding") {
-    ARCOnboarding(pages: [.systemImage("star.fill", color: .yellow, title: "Welcome", subtitle: "Get started"),
-                          .systemImage("bell.fill", color: .blue, title: "Notify", subtitle: "Stay updated"),
-                          .systemImage("checkmark.circle.fill", color: .green, title: "Done", subtitle: "All set")],
-                  onComplete: {})
+    ARCOnboarding(
+        pages: [
+            .systemImage("star.fill", color: .yellow, title: "Welcome", subtitle: "Get started"),
+            .systemImage("bell.fill", color: .blue, title: "Notify", subtitle: "Stay updated"),
+            .systemImage("checkmark.circle.fill", color: .green, title: "Done", subtitle: "All set")
+        ],
+        onComplete: {}
+    )
 }

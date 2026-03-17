@@ -14,7 +14,8 @@ import SwiftUI
 ///
 /// This view demonstrates all available configurations, detent options,
 /// and interaction patterns for the bottom sheet component.
-@available(iOS 17.0, macOS 14.0, *) public struct ARCBottomSheetShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCBottomSheetShowcase: View {
     // MARK: - State
 
     @State var selectedSection: ShowcaseSection = .configurations
@@ -62,11 +63,15 @@ import SwiftUI
     // MARK: - Background
 
     var backgroundGradient: some View {
-        LinearGradient(colors: [Color.arcBrandBurgundy.opacity(0.1),
-                                Color.purple.opacity(0.1)],
-                       startPoint: .topLeading,
-                       endPoint: .bottomTrailing)
-            .ignoresSafeArea()
+        LinearGradient(
+            colors: [
+                Color.arcBrandBurgundy.opacity(0.1),
+                Color.purple.opacity(0.1)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .ignoresSafeArea()
     }
 
     // MARK: - Section Picker

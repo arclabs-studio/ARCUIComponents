@@ -11,7 +11,8 @@ import SwiftUI
 // MARK: - ARCChipShowcase
 
 /// A comprehensive showcase of all ARCChip configurations
-@available(iOS 17.0, macOS 14.0, *) public struct ARCChipShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCChipShowcase: View {
     // MARK: - State
 
     @State private var selectedChip = false
@@ -50,8 +51,9 @@ import SwiftUI
 
 // MARK: - Sections
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCChipShowcase {
-    private var statesSection: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCChipShowcase {
+    @ViewBuilder private var statesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("States")
 
@@ -70,7 +72,7 @@ import SwiftUI
         }
     }
 
-    private var sizesSection: some View {
+    @ViewBuilder private var sizesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Sizes")
 
@@ -95,7 +97,7 @@ import SwiftUI
         }
     }
 
-    private var configurationsSection: some View {
+    @ViewBuilder private var configurationsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Configurations")
 
@@ -123,7 +125,7 @@ import SwiftUI
         }
     }
 
-    private var brandColorsSection: some View {
+    @ViewBuilder private var brandColorsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("ARC Brand Colors")
 
@@ -131,15 +133,19 @@ import SwiftUI
                 row("Selected") {
                     HStack(spacing: 12) {
                         VStack(spacing: 4) {
-                            ARCChip("Burgundy",
-                                    isSelected: .constant(true),
-                                    configuration: .init(selectedColor: .arcBrandBurgundy))
+                            ARCChip(
+                                "Burgundy",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .arcBrandBurgundy)
+                            )
                             Text("Primary").font(.caption2).foregroundStyle(.secondary)
                         }
                         VStack(spacing: 4) {
-                            ARCChip("Gold",
-                                    isSelected: .constant(true),
-                                    configuration: .init(selectedColor: .arcBrandGold))
+                            ARCChip(
+                                "Gold",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .arcBrandGold)
+                            )
                             Text("Secondary").font(.caption2).foregroundStyle(.secondary)
                         }
                     }
@@ -147,32 +153,40 @@ import SwiftUI
 
                 row("Unselected") {
                     HStack(spacing: 12) {
-                        ARCChip("Burgundy",
-                                isSelected: .constant(false),
-                                configuration: .init(unselectedColor: .arcBrandBurgundy))
-                        ARCChip("Gold",
-                                isSelected: .constant(false),
-                                configuration: .init(unselectedColor: .arcBrandGold))
+                        ARCChip(
+                            "Burgundy",
+                            isSelected: .constant(false),
+                            configuration: .init(unselectedColor: .arcBrandBurgundy)
+                        )
+                        ARCChip(
+                            "Gold",
+                            isSelected: .constant(false),
+                            configuration: .init(unselectedColor: .arcBrandGold)
+                        )
                     }
                 }
 
                 row("With Icons") {
                     HStack(spacing: 12) {
-                        ARCChip("ARC Labs",
-                                icon: "star.fill",
-                                isSelected: .constant(true),
-                                configuration: .init(selectedColor: .arcBrandBurgundy))
-                        ARCChip("Premium",
-                                icon: "crown.fill",
-                                isSelected: .constant(true),
-                                configuration: .init(selectedColor: .arcBrandGold))
+                        ARCChip(
+                            "ARC Labs",
+                            icon: "star.fill",
+                            isSelected: .constant(true),
+                            configuration: .init(selectedColor: .arcBrandBurgundy)
+                        )
+                        ARCChip(
+                            "Premium",
+                            icon: "crown.fill",
+                            isSelected: .constant(true),
+                            configuration: .init(selectedColor: .arcBrandGold)
+                        )
                     }
                 }
             }
         }
     }
 
-    private var multiSelectSection: some View {
+    @ViewBuilder private var multiSelectSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Multi-Select (Chip Group)")
 
@@ -181,10 +195,12 @@ import SwiftUI
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
-                ARCChipGroup(items: cuisines,
-                             selection: $selectedCuisines,
-                             selectionMode: .multiple,
-                             itemLabel: { $0 })
+                ARCChipGroup(
+                    items: cuisines,
+                    selection: $selectedCuisines,
+                    selectionMode: .multiple,
+                    itemLabel: { $0 }
+                )
 
                 Text("Selected: \(selectedCuisines.sorted().joined(separator: ", "))")
                     .font(.caption)
@@ -195,7 +211,7 @@ import SwiftUI
         }
     }
 
-    private var singleSelectSection: some View {
+    @ViewBuilder private var singleSelectSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Single-Select")
 
@@ -204,10 +220,12 @@ import SwiftUI
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
-                ARCChipGroup(items: priceRanges,
-                             selection: $selectedPrice,
-                             selectionMode: .single,
-                             itemLabel: { $0 })
+                ARCChipGroup(
+                    items: priceRanges,
+                    selection: $selectedPrice,
+                    selectionMode: .single,
+                    itemLabel: { $0 }
+                )
 
                 Text("Selected: \(selectedPrice.first ?? "None")")
                     .font(.caption)
@@ -218,7 +236,7 @@ import SwiftUI
         }
     }
 
-    private var inputChipsSection: some View {
+    @ViewBuilder private var inputChipsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Input Chips (Dismissible)")
 
@@ -229,10 +247,14 @@ import SwiftUI
 
                 FlowLayoutChipShowcase(spacing: 8) {
                     ForEach(Array(inputTags).sorted(), id: \.self) { tag in
-                        ARCChip(tag,
-                                isSelected: Binding(get: { inputTags.contains(tag) },
-                                                    set: { if !$0 { inputTags.remove(tag) } }),
-                                configuration: .input)
+                        ARCChip(
+                            tag,
+                            isSelected: Binding(
+                                get: { inputTags.contains(tag) },
+                                set: { if !$0 { inputTags.remove(tag) } }
+                            ),
+                            configuration: .input
+                        )
                     }
                 }
 
@@ -255,12 +277,14 @@ import SwiftUI
 
     // MARK: - Helpers
 
+    @ViewBuilder
     private func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.headline)
             .foregroundStyle(.primary)
     }
 
+    @ViewBuilder
     private func row(_ label: String, @ViewBuilder content: () -> some View) -> some View {
         HStack {
             Text(label)
@@ -279,7 +303,8 @@ import SwiftUI
 
 // MARK: - FlowLayout for Showcase
 
-@available(iOS 17.0, macOS 14.0, *) private struct FlowLayoutChipShowcase: Layout {
+@available(iOS 17.0, macOS 14.0, *)
+private struct FlowLayoutChipShowcase: Layout {
     var spacing: CGFloat = 8
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
@@ -291,8 +316,10 @@ import SwiftUI
         let result = arrange(proposal: proposal, subviews: subviews)
 
         for (index, position) in result.positions.enumerated() {
-            subviews[index].place(at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
-                                  proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified)))
+            subviews[index].place(
+                at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
+                proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified))
+            )
         }
     }
 

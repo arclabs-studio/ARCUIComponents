@@ -13,7 +13,8 @@ import SwiftUI
 /// This app showcases all ARCUIComponents in real-world UI contexts,
 /// providing a hands-on way to explore each component's features
 /// and customization options.
-@main struct ARCUIComponentsDemoApp: App {
+@main
+struct ARCUIComponentsDemoApp: App {
     // MARK: Initialization
 
     init() {

@@ -14,7 +14,8 @@ import SwiftUI
 ///
 /// Use this view to explore different configurations, styles, and customization
 /// options available in the ARCOnboarding component.
-@available(iOS 17.0, macOS 14.0, *) public struct ARCOnboardingShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCOnboardingShowcase: View {
     // MARK: - State
 
     @State private var selectedDemo: DemoType = .default
@@ -55,7 +56,7 @@ import SwiftUI
 
     // MARK: - Intro Section
 
-    private var introSection: some View {
+    @ViewBuilder private var introSection: some View {
         Section {
             VStack(alignment: .leading, spacing: 12) {
                 Text("A customizable onboarding flow component with horizontal page navigation.")
@@ -74,99 +75,128 @@ import SwiftUI
 
     // MARK: - Configuration Presets Section
 
-    private var configurationPresetsSection: some View {
+    @ViewBuilder private var configurationPresetsSection: some View {
         Section("Configuration Presets") {
-            demoRow(title: "Default",
-                    description: "Balanced settings with skip, back buttons",
-                    demo: .default,
-                    color: .blue)
+            demoRow(
+                title: "Default",
+                description: "Balanced settings with skip, back buttons",
+                demo: .default,
+                color: .blue
+            )
 
-            demoRow(title: "Minimal",
-                    description: "Clean look without navigation buttons",
-                    demo: .minimal,
-                    color: .gray)
+            demoRow(
+                title: "Minimal",
+                description: "Clean look without navigation buttons",
+                demo: .minimal,
+                color: .gray
+            )
 
-            demoRow(title: "Prominent",
-                    description: "Glass effects with larger images",
-                    demo: .prominent,
-                    color: .purple)
+            demoRow(
+                title: "Prominent",
+                description: "Glass effects with larger images",
+                demo: .prominent,
+                color: .purple
+            )
 
-            demoRow(title: "Compact",
-                    description: "Smaller layout for sheets and modals",
-                    demo: .compact,
-                    color: .orange)
+            demoRow(
+                title: "Compact",
+                description: "Smaller layout for sheets and modals",
+                demo: .compact,
+                color: .orange
+            )
         }
     }
 
     // MARK: - Indicator Styles Section
 
-    private var indicatorStylesSection: some View {
+    @ViewBuilder private var indicatorStylesSection: some View {
         Section("Indicator Styles") {
-            demoRow(title: "Dots",
-                    description: "Traditional circular indicators",
-                    demo: .indicatorDots,
-                    color: .blue)
+            demoRow(
+                title: "Dots",
+                description: "Traditional circular indicators",
+                demo: .indicatorDots,
+                color: .blue
+            )
 
-            demoRow(title: "Lines",
-                    description: "Modern line-based indicators",
-                    demo: .indicatorLines,
-                    color: .green)
+            demoRow(
+                title: "Lines",
+                description: "Modern line-based indicators",
+                demo: .indicatorLines,
+                color: .green
+            )
 
-            demoRow(title: "Numbers",
-                    description: "Numeric page count (1/5)",
-                    demo: .indicatorNumbers,
-                    color: .indigo)
+            demoRow(
+                title: "Numbers",
+                description: "Numeric page count (1/5)",
+                demo: .indicatorNumbers,
+                color: .indigo
+            )
 
-            demoRow(title: "Progress",
-                    description: "Progress bar indicator",
-                    demo: .indicatorProgress,
-                    color: .pink)
+            demoRow(
+                title: "Progress",
+                description: "Progress bar indicator",
+                demo: .indicatorProgress,
+                color: .pink
+            )
         }
     }
 
     // MARK: - Button Styles Section
 
-    private var buttonStylesSection: some View {
+    @ViewBuilder private var buttonStylesSection: some View {
         Section("Button Styles") {
-            demoRow(title: "Filled",
-                    description: "Solid color buttons",
-                    demo: .buttonFilled,
-                    color: .blue)
+            demoRow(
+                title: "Filled",
+                description: "Solid color buttons",
+                demo: .buttonFilled,
+                color: .blue
+            )
 
-            demoRow(title: "Text",
-                    description: "Plain text buttons",
-                    demo: .buttonText,
-                    color: .secondary)
+            demoRow(
+                title: "Text",
+                description: "Plain text buttons",
+                demo: .buttonText,
+                color: .secondary
+            )
 
-            demoRow(title: "Glass",
-                    description: "Liquid glass effect buttons",
-                    demo: .buttonGlass,
-                    color: .cyan)
+            demoRow(
+                title: "Glass",
+                description: "Liquid glass effect buttons",
+                demo: .buttonGlass,
+                color: .cyan
+            )
         }
     }
 
     // MARK: - Customization Section
 
-    private var customizationSection: some View {
+    @ViewBuilder private var customizationSection: some View {
         Section("Content Types") {
-            demoRow(title: "SF Symbols",
-                    description: "System icons with colors",
-                    demo: .contentSFSymbols,
-                    color: .yellow)
+            demoRow(
+                title: "SF Symbols",
+                description: "System icons with colors",
+                demo: .contentSFSymbols,
+                color: .yellow
+            )
 
-            demoRow(title: "Custom Colors",
-                    description: "Different accent per page",
-                    demo: .contentCustomColors,
-                    color: .red)
+            demoRow(
+                title: "Custom Colors",
+                description: "Different accent per page",
+                demo: .contentCustomColors,
+                color: .red
+            )
         }
     }
 
     // MARK: - Demo Row
 
-    private func demoRow(title: String,
-                         description: String,
-                         demo: DemoType,
-                         color: Color) -> some View {
+    @ViewBuilder
+    private func demoRow(
+        title: String,
+        description: String,
+        demo: DemoType,
+        color: Color
+    ) -> some View {
         Button {
             selectedDemo = demo
             showOnboarding = true
@@ -175,9 +205,11 @@ import SwiftUI
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
                     .fill(color.gradient)
                     .frame(width: 44, height: 44)
-                    .overlay(Image(systemName: demo.icon)
-                        .font(.body.weight(.semibold))
-                        .foregroundStyle(.white))
+                    .overlay(
+                        Image(systemName: demo.icon)
+                            .font(.body.weight(.semibold))
+                            .foregroundStyle(.white)
+                    )
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
@@ -202,33 +234,39 @@ import SwiftUI
 
     // MARK: - Feature Tag
 
+    @ViewBuilder
     private func featureTag(_ text: String) -> some View {
         Text(text)
             .font(.caption2.weight(.medium))
             .foregroundStyle(.secondary)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
-            .background(Capsule()
-                .fill(.quaternary))
+            .background(
+                Capsule()
+                    .fill(.quaternary)
+            )
     }
 
     // MARK: - Selected Onboarding
 
-    private var selectedOnboarding: some View {
-        ARCOnboarding(pages: selectedDemo.pages,
-                      configuration: selectedDemo.configuration,
-                      onComplete: {
-                          showOnboarding = false
-                      },
-                      onSkip: {
-                          showOnboarding = false
-                      })
+    @ViewBuilder private var selectedOnboarding: some View {
+        ARCOnboarding(
+            pages: selectedDemo.pages,
+            configuration: selectedDemo.configuration,
+            onComplete: {
+                showOnboarding = false
+            },
+            onSkip: {
+                showOnboarding = false
+            }
+        )
     }
 }
 
 // MARK: - DemoType
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCOnboardingShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCOnboardingShowcase {
     fileprivate enum DemoType {
         case `default`
         case minimal
@@ -296,39 +334,57 @@ import SwiftUI
         var pages: [ARCOnboardingPage] {
             switch self {
             case .contentCustomColors:
-                [ARCOnboardingPage(image: .systemImage("heart.fill"),
-                                   imageColor: .red,
-                                   title: "Love What You Do",
-                                   subtitle: "Passion drives everything we create.",
-                                   accentColor: .red),
-                 ARCOnboardingPage(image: .systemImage("bolt.fill"),
-                                   imageColor: .yellow,
-                                   title: "Lightning Fast",
-                                   subtitle: "Speed without compromising quality.",
-                                   accentColor: .yellow),
-                 ARCOnboardingPage(image: .systemImage("leaf.fill"),
-                                   imageColor: .green,
-                                   title: "Sustainable Growth",
-                                   subtitle: "Building for the long term.",
-                                   accentColor: .green)]
+                [
+                    ARCOnboardingPage(
+                        image: .systemImage("heart.fill"),
+                        imageColor: .red,
+                        title: "Love What You Do",
+                        subtitle: "Passion drives everything we create.",
+                        accentColor: .red
+                    ),
+                    ARCOnboardingPage(
+                        image: .systemImage("bolt.fill"),
+                        imageColor: .yellow,
+                        title: "Lightning Fast",
+                        subtitle: "Speed without compromising quality.",
+                        accentColor: .yellow
+                    ),
+                    ARCOnboardingPage(
+                        image: .systemImage("leaf.fill"),
+                        imageColor: .green,
+                        title: "Sustainable Growth",
+                        subtitle: "Building for the long term.",
+                        accentColor: .green
+                    )
+                ]
 
             default:
-                [.systemImage("star.fill",
-                              color: .yellow,
-                              title: "Welcome",
-                              subtitle: "Discover amazing features that will transform your daily workflow."),
-                 .systemImage("bell.fill",
-                              color: .blue,
-                              title: "Stay Notified",
-                              subtitle: "Get timely reminders and never miss important updates."),
-                 .systemImage("checkmark.circle.fill",
-                              color: .green,
-                              title: "Track Progress",
-                              subtitle: "Visualize your growth and celebrate milestones."),
-                 .systemImage("sparkles",
-                              color: .purple,
-                              title: "You're All Set!",
-                              subtitle: "Start your journey and make magic happen.")]
+                [
+                    .systemImage(
+                        "star.fill",
+                        color: .yellow,
+                        title: "Welcome",
+                        subtitle: "Discover amazing features that will transform your daily workflow."
+                    ),
+                    .systemImage(
+                        "bell.fill",
+                        color: .blue,
+                        title: "Stay Notified",
+                        subtitle: "Get timely reminders and never miss important updates."
+                    ),
+                    .systemImage(
+                        "checkmark.circle.fill",
+                        color: .green,
+                        title: "Track Progress",
+                        subtitle: "Visualize your growth and celebrate milestones."
+                    ),
+                    .systemImage(
+                        "sparkles",
+                        color: .purple,
+                        title: "You're All Set!",
+                        subtitle: "Start your journey and make magic happen."
+                    )
+                ]
             }
         }
     }

@@ -47,11 +47,13 @@ public struct ARCThemedLoaderView<ArtworkType: ArtworkTypeProtocol>: View {
     ///   - animationType: The animation type. Defaults to `.spin`.
     ///   - animationDuration: The duration of one animation cycle. Defaults to `4.0`.
     ///   - accessibilityLabel: The accessibility label. Defaults to `"Loading"`.
-    public init(type: ArtworkType,
-                size: CGFloat = 64,
-                animationType: ArtworkAnimationType = .spin,
-                animationDuration: Double = 4.0,
-                accessibilityLabel: String = "Loading") {
+    public init(
+        type: ArtworkType,
+        size: CGFloat = 64,
+        animationType: ArtworkAnimationType = .spin,
+        animationDuration: Double = 4.0,
+        accessibilityLabel: String = "Loading"
+    ) {
         self.type = type
         self.size = size
         self.animationType = animationType
@@ -62,13 +64,15 @@ public struct ARCThemedLoaderView<ArtworkType: ArtworkTypeProtocol>: View {
     // MARK: - Body
 
     public var body: some View {
-        ARCThemedArtworkView(type: type,
-                             isAnimating: true,
-                             animationType: animationType,
-                             animationDuration: animationDuration)
-            .frame(width: size, height: loaderHeight)
-            .accessibilityLabel(Text(accessibilityLabel))
-            .accessibilityAddTraits(.isImage)
+        ARCThemedArtworkView(
+            type: type,
+            isAnimating: true,
+            animationType: animationType,
+            animationDuration: animationDuration
+        )
+        .frame(width: size, height: loaderHeight)
+        .accessibilityLabel(Text(accessibilityLabel))
+        .accessibilityAddTraits(.isImage)
     }
 
     // MARK: - Private

@@ -48,7 +48,8 @@ import SwiftUI
 ///     }
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCTag: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCTag: View {
     // MARK: - Properties
 
     private let text: String
@@ -63,9 +64,11 @@ import SwiftUI
     ///   - text: The label text
     ///   - icon: Optional SF Symbol name
     ///   - configuration: Tag configuration
-    public init(_ text: String,
-                icon: String? = nil,
-                configuration: ARCTagConfiguration = .default) {
+    public init(
+        _ text: String,
+        icon: String? = nil,
+        configuration: ARCTagConfiguration = .default
+    ) {
         self.text = text
         self.icon = icon
         self.configuration = configuration
@@ -102,6 +105,7 @@ import SwiftUI
 
     // MARK: - Icon View
 
+    @ViewBuilder
     private func iconView(_ systemName: String) -> some View {
         Image(systemName: systemName)
             .font(.system(size: configuration.size.iconSize))
@@ -110,7 +114,7 @@ import SwiftUI
 
     // MARK: - Text View
 
-    private var textView: some View {
+    @ViewBuilder private var textView: some View {
         Text(text)
             .font(.system(size: configuration.size.fontSize, weight: .medium))
             .foregroundStyle(computedTextColor)
@@ -165,7 +169,8 @@ import SwiftUI
 
 // MARK: - AnyInsettableShape
 
-@available(iOS 17.0, macOS 14.0, *) private struct AnyInsettableShape: InsettableShape, @unchecked Sendable {
+@available(iOS 17.0, macOS 14.0, *)
+private struct AnyInsettableShape: InsettableShape, @unchecked Sendable {
     private let _path: @Sendable (CGRect) -> Path
     private let _inset: @Sendable (CGFloat) -> AnyInsettableShape
 
@@ -185,7 +190,8 @@ import SwiftUI
 
 // MARK: - Liquid Glass Background
 
-@available(iOS 17.0, macOS 14.0, *) private struct LiquidGlassBackground: View {
+@available(iOS 17.0, macOS 14.0, *)
+private struct LiquidGlassBackground: View {
     let configuration: ARCTagConfiguration
 
     var body: some View {

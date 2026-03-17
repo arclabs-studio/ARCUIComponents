@@ -58,14 +58,15 @@ public protocol ArtworkTypeProtocol: Sendable, Equatable {
     ///
     /// - Parameter dimension: The size dimension to use for scaling the artwork.
     /// - Returns: A view containing the artwork's visual representation.
-    @ViewBuilder func makeContent(dimension: CGFloat) -> ContentView
+    @ViewBuilder
+    func makeContent(dimension: CGFloat) -> ContentView
 }
 
 // MARK: - Default Implementations
 
-extension ArtworkTypeProtocol {
+public extension ArtworkTypeProtocol {
     /// Default recommended configuration is circular.
-    public var recommendedConfiguration: ArtworkConfiguration {
+    var recommendedConfiguration: ArtworkConfiguration {
         .circular
     }
 }

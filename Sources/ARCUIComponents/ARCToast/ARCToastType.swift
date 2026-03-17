@@ -47,7 +47,8 @@ import SwiftUI
 ///     type: .custom(icon: "envelope.fill", color: .purple)
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public enum ARCToastType: Sendable, Equatable, Hashable {
+@available(iOS 17.0, macOS 14.0, *)
+public enum ARCToastType: Sendable, Equatable, Hashable {
     /// Success notification - green checkmark
     ///
     /// Use for completed actions like saves, uploads, or successful operations.
@@ -165,9 +166,11 @@ import SwiftUI
 #if os(iOS)
 import UIKit
 
-@available(iOS 17.0, *) extension ARCToastType {
+@available(iOS 17.0, *)
+extension ARCToastType {
     /// Triggers the appropriate haptic feedback for this toast type
-    @MainActor public func triggerHaptic() {
+    @MainActor
+    public func triggerHaptic() {
         switch self {
         case .success:
             UINotificationFeedbackGenerator().notificationOccurred(.success)

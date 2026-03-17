@@ -69,7 +69,8 @@ import SwiftUI
 /// - Note: On iOS 26+, the native implementation provides additional features
 ///   like touch responsiveness and morphing animations when used with
 ///   ``ARCGlassContainer``.
-@available(iOS 17.0, macOS 14.0, *) struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *)
+struct LiquidGlassModifier<Configuration: LiquidGlassConfigurable>: ViewModifier {
     // MARK: - Properties
 
     /// Configuration providing visual styling
@@ -109,17 +110,22 @@ import SwiftUI
     #if compiler(>=6.2)
     /// Native Liquid Glass implementation using iOS 26+ APIs
     @available(iOS 26.0, macOS 26.0, *)
-    @ViewBuilder private func nativeGlassBody(content: Content) -> some View {
+    @ViewBuilder
+    private func nativeGlassBody(content: Content) -> some View {
         switch configuration.backgroundStyle {
         case .liquidGlass:
             content
-                .glassEffect(nativeGlassConfiguration,
-                             in: .rect(cornerRadius: configuration.cornerRadius))
+                .glassEffect(
+                    nativeGlassConfiguration,
+                    in: .rect(cornerRadius: configuration.cornerRadius)
+                )
 
         case .translucent:
             content
-                .glassEffect(nativeClearGlassConfiguration,
-                             in: .rect(cornerRadius: configuration.cornerRadius))
+                .glassEffect(
+                    nativeClearGlassConfiguration,
+                    in: .rect(cornerRadius: configuration.cornerRadius)
+                )
 
         case let .solid(color, opacity):
             // Solid backgrounds don't use glass effect
@@ -138,7 +144,8 @@ import SwiftUI
     }
 
     /// Native Glass configuration for liquidGlass style
-    @available(iOS 26.0, macOS 26.0, *) private var nativeGlassConfiguration: Glass {
+    @available(iOS 26.0, macOS 26.0, *)
+    private var nativeGlassConfiguration: Glass {
         var glass = Glass.regular.tint(configuration.accentColor)
         if isInteractive {
             glass = glass.interactive()
@@ -147,7 +154,8 @@ import SwiftUI
     }
 
     /// Native Glass configuration for translucent style
-    @available(iOS 26.0, macOS 26.0, *) private var nativeClearGlassConfiguration: Glass {
+    @available(iOS 26.0, macOS 26.0, *)
+    private var nativeClearGlassConfiguration: Glass {
         var glass = Glass.clear.tint(configuration.accentColor)
         if isInteractive {
             glass = glass.interactive()
@@ -159,6 +167,7 @@ import SwiftUI
     // MARK: - iOS 17-25 Legacy Implementation
 
     /// Legacy implementation using materials and gradients
+    @ViewBuilder
     private func legacyGlassBody(content: Content) -> some View {
         content
             .background {
@@ -166,7 +175,8 @@ import SwiftUI
             }
     }
 
-    @ViewBuilder private var legacyBackgroundView: some View {
+    @ViewBuilder
+    private var legacyBackgroundView: some View {
         switch configuration.backgroundStyle {
         case .liquidGlass:
             liquidGlassBackground
@@ -200,11 +210,15 @@ import SwiftUI
                 .fill(.ultraThinMaterial)
 
             // Subtle gradient overlay for depth
-            LinearGradient(colors: [Color.white.opacity(0.1),
-                                    Color.white.opacity(0.05),
-                                    Color.clear],
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
+            LinearGradient(
+                colors: [
+                    Color.white.opacity(0.1),
+                    Color.white.opacity(0.05),
+                    Color.clear
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
 
             // Vibrancy layer for content that sits on top
             Rectangle()
@@ -219,16 +233,24 @@ import SwiftUI
         .overlay {
             // Stroke border for definition
             RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                .strokeBorder(LinearGradient(colors: [Color.white.opacity(0.2),
-                                                      Color.white.opacity(0.05)],
-                                             startPoint: .topLeading,
-                                             endPoint: .bottomTrailing),
-                              lineWidth: 0.5)
+                .strokeBorder(
+                    LinearGradient(
+                        colors: [
+                            Color.white.opacity(0.2),
+                            Color.white.opacity(0.05)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 0.5
+                )
         }
-        .shadow(color: configuration.shadow.color,
-                radius: configuration.shadow.radius,
-                x: configuration.shadow.x,
-                y: configuration.shadow.y)
+        .shadow(
+            color: configuration.shadow.color,
+            radius: configuration.shadow.radius,
+            x: configuration.shadow.x,
+            y: configuration.shadow.y
+        )
     }
 
     // MARK: - Legacy Translucent Background
@@ -246,10 +268,12 @@ import SwiftUI
                 .blendMode(.overlay)
         }
         .clipShape(RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous))
-        .shadow(color: configuration.shadow.color,
-                radius: configuration.shadow.radius,
-                x: configuration.shadow.x,
-                y: configuration.shadow.y)
+        .shadow(
+            color: configuration.shadow.color,
+            radius: configuration.shadow.radius,
+            x: configuration.shadow.x,
+            y: configuration.shadow.y
+        )
     }
 
     // MARK: - Shared Backgrounds
@@ -262,10 +286,12 @@ import SwiftUI
     private func solidBackground(color: Color, opacity: Double) -> some View {
         RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
             .fill(color.opacity(opacity))
-            .shadow(color: configuration.shadow.color,
-                    radius: configuration.shadow.radius,
-                    x: configuration.shadow.x,
-                    y: configuration.shadow.y)
+            .shadow(
+                color: configuration.shadow.color,
+                radius: configuration.shadow.radius,
+                x: configuration.shadow.x,
+                y: configuration.shadow.y
+            )
     }
 
     /// Material background with custom SwiftUI material
@@ -274,16 +300,19 @@ import SwiftUI
     private func materialBackground(material: Material) -> some View {
         RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
             .fill(material)
-            .shadow(color: configuration.shadow.color,
-                    radius: configuration.shadow.radius,
-                    x: configuration.shadow.x,
-                    y: configuration.shadow.y)
+            .shadow(
+                color: configuration.shadow.color,
+                radius: configuration.shadow.radius,
+                x: configuration.shadow.x,
+                y: configuration.shadow.y
+            )
     }
 }
 
 // MARK: - View Extension
 
-@available(iOS 17.0, macOS 14.0, *) extension View {
+@available(iOS 17.0, macOS 14.0, *)
+public extension View {
     /// Applies the liquid glass effect to a view
     ///
     /// This unified modifier works with any configuration type that conforms
@@ -318,8 +347,10 @@ import SwiftUI
     /// Button("Action") { }
     ///     .liquidGlass(configuration: config, isInteractive: true)
     /// ```
-    public func liquidGlass(configuration: some LiquidGlassConfigurable,
-                            isInteractive: Bool = false) -> some View {
+    func liquidGlass(
+        configuration: some LiquidGlassConfigurable,
+        isInteractive: Bool = false
+    ) -> some View {
         modifier(LiquidGlassModifier(configuration: configuration, isInteractive: isInteractive))
     }
 }

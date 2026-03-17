@@ -56,23 +56,8 @@ import SwiftUI
 ///
 /// ## With Search Tab
 ///
-/// When using a search tab, add a dedicated case to your tab enum and
-/// exclude it from `allCases` so it doesn't render as a regular tab:
-///
 /// ```swift
-/// enum AppTab: String, ARCTabItem {
-///     case home, favorites, settings, search
-///
-///     // Exclude .search from regular tabs
-///     nonisolated static var allCases: [AppTab] {
-///         [.home, .favorites, .settings]
-///     }
-///
-///     var title: String { rawValue.capitalized }
-///     var icon: String { ... }
-/// }
-///
-/// ARCTabView(selection: $selectedTab, searchValue: .search) { tab in
+/// ARCTabView(selection: $selectedTab) { tab in
 ///     TabContent(for: tab)
 /// } search: {
 ///     SearchView()
@@ -84,7 +69,6 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
 
     @Binding private var selection: TabItem
     private let sidebarAdaptable: Bool
-    private let searchValue: TabItem?
     private let content: (TabItem) -> Content
     private let searchContent: SearchContent?
 
@@ -96,46 +80,32 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
     ///   - selection: Binding to the currently selected tab
     ///   - sidebarAdaptable: Use sidebar style on iPad (default: `false`)
     ///   - content: View builder for each tab's content
-    public init(selection: Binding<TabItem>,
-                sidebarAdaptable: Bool = false,
-                @ViewBuilder content: @escaping (TabItem) -> Content) where SearchContent == Never {
+    public init(
+        selection: Binding<TabItem>,
+        sidebarAdaptable: Bool = false,
+        @ViewBuilder content: @escaping (TabItem) -> Content
+    ) where SearchContent == Never {
         _selection = selection
         self.sidebarAdaptable = sidebarAdaptable
-        searchValue = nil
         self.content = content
         searchContent = nil
     }
 
     /// Creates a tab view with a search tab.
     ///
-    /// The `searchValue` must be a dedicated case in your `TabItem` enum that
-    /// is **excluded** from `allCases` so it doesn't render as a regular tab:
-    ///
-    /// ```swift
-    /// enum AppTab: String, ARCTabItem {
-    ///     case home, favorites, settings, search
-    ///
-    ///     nonisolated static var allCases: [AppTab] {
-    ///         [.home, .favorites, .settings]
-    ///     }
-    ///     // ...
-    /// }
-    /// ```
-    ///
     /// - Parameters:
     ///   - selection: Binding to the currently selected tab
-    ///   - searchValue: The tab value that represents the search tab
     ///   - sidebarAdaptable: Use sidebar style on iPad (default: `false`)
     ///   - content: View builder for each tab's content
     ///   - search: View builder for search tab content
-    public init(selection: Binding<TabItem>,
-                searchValue: TabItem,
-                sidebarAdaptable: Bool = false,
-                @ViewBuilder content: @escaping (TabItem) -> Content,
-                @ViewBuilder search: () -> SearchContent) {
+    public init(
+        selection: Binding<TabItem>,
+        sidebarAdaptable: Bool = false,
+        @ViewBuilder content: @escaping (TabItem) -> Content,
+        @ViewBuilder search: () -> SearchContent
+    ) {
         _selection = selection
         self.sidebarAdaptable = sidebarAdaptable
-        self.searchValue = searchValue
         self.content = content
         searchContent = search()
     }
@@ -148,8 +118,8 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
                 tabContent(for: tab)
             }
 
-            if let searchContent, let searchValue {
-                Tab(value: searchValue, role: .search) {
+            if let searchContent {
+                Tab(value: selection, role: .search) {
                     searchContent
                 }
             }
@@ -157,7 +127,8 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
         .modifier(TabViewStyleModifier(sidebarAdaptable: sidebarAdaptable))
     }
 
-    @TabContentBuilder<TabItem> private func tabContent(for tab: TabItem) -> some TabContent<TabItem> {
+    @TabContentBuilder<TabItem>
+    private func tabContent(for tab: TabItem) -> some TabContent<TabItem> {
         if let badge = tab.badge {
             Tab(tab.title, systemImage: tab.icon, value: tab) {
                 content(tab)
@@ -173,7 +144,8 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
 
 // MARK: - Style Modifier
 
-@available(iOS 18.0, macOS 15.0, *) private struct TabViewStyleModifier: ViewModifier {
+@available(iOS 18.0, macOS 15.0, *)
+private struct TabViewStyleModifier: ViewModifier {
     let sidebarAdaptable: Bool
 
     func body(content: Content) -> some View {
@@ -187,33 +159,21 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
 
 // MARK: - Preview
 
-@available(iOS 18.0, macOS 15.0, *) private enum PreviewTab: String, ARCTabItem {
-    case home, favorites, settings, search
+@available(iOS 18.0, macOS 15.0, *)
+private enum PreviewTab: String, ARCTabItem, CaseIterable {
+    case home, favorites, settings
 
-    nonisolated static var allCases: [PreviewTab] {
-        [.home, .favorites, .settings]
-    }
-
-    var id: String {
-        rawValue
-    }
-
-    var title: String {
-        rawValue.capitalized
-    }
-
+    var id: String { rawValue }
+    var title: String { rawValue.capitalized }
     var icon: String {
         switch self {
         case .home: "house.fill"
         case .favorites: "heart.fill"
         case .settings: "gearshape.fill"
-        case .search: "magnifyingglass"
         }
     }
 
-    var badge: Int? {
-        self == .favorites ? 5 : nil
-    }
+    var badge: Int? { self == .favorites ? 5 : nil }
 }
 
 @available(iOS 18.0, macOS 15.0, *)
@@ -230,8 +190,9 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
 @available(iOS 18.0, macOS 15.0, *)
 #Preview("With Search") {
     @Previewable @State var tab: PreviewTab = .home
-    ARCTabView(selection: $tab,
-               searchValue: .search) { tab in
+    ARCTabView(
+        selection: $tab
+    ) { tab in
         NavigationStack {
             Text(tab.title)
                 .navigationTitle(tab.title)

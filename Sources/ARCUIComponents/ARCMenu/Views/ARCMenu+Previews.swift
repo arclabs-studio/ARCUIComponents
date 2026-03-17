@@ -11,17 +11,23 @@ import SwiftUI
 
 #Preview("ARCMenu - Native Sheet") {
     @Previewable @State var showMenu = true
-    @Previewable @State var viewModel = ARCMenuViewModel(user: ARCMenuUser(name: "Carlos Ramirez",
-                                                                           email: "carlos@arclabs.studio",
-                                                                           avatarImage: .initials("CR")),
-                                                         menuItems: ARCMenuItem.defaultItems(actions: .empty))
+    @Previewable @State var viewModel = ARCMenuViewModel(
+        user: ARCMenuUser(
+            name: "Carlos Ramirez",
+            email: "carlos@arclabs.studio",
+            avatarImage: .initials("CR")
+        ),
+        menuItems: ARCMenuItem.defaultItems(actions: .empty)
+    )
 
     NavigationStack {
         ZStack {
-            LinearGradient(colors: [.blue, .purple],
-                           startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+            LinearGradient(
+                colors: [.blue, .purple],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
 
             VStack {
                 Text("ARCMenu Demo")
@@ -41,11 +47,15 @@ import SwiftUI
 
 #Preview("ARCMenu - Trailing Panel") {
     @Previewable @State var showMenu = true
-    @Previewable @State var viewModel = ARCMenuViewModel(user: ARCMenuUser(name: "Jane Cooper",
-                                                                           subtitle: "Premium Member",
-                                                                           avatarImage: .initials("JC")),
-                                                         menuItems: ARCMenuItem.defaultItems(actions: .empty),
-                                                         configuration: .trailingPanel)
+    @Previewable @State var viewModel = ARCMenuViewModel(
+        user: ARCMenuUser(
+            name: "Jane Cooper",
+            subtitle: "Premium Member",
+            avatarImage: .initials("JC")
+        ),
+        menuItems: ARCMenuItem.defaultItems(actions: .empty),
+        configuration: .trailingPanel
+    )
 
     ZStack {
         Color.indigo.opacity(0.3).ignoresSafeArea()
@@ -66,12 +76,15 @@ import SwiftUI
 
 #Preview("ARCMenu - With Title") {
     @Previewable @State var showMenu = true
-    @Previewable @State var viewModel = ARCMenuViewModel(user: ARCMenuUser(name: "Alex Morgan",
-                                                                           subtitle: "Gold Member",
-                                                                           avatarImage:
-                                                                           .systemImage("person.circle.fill")),
-                                                         menuItems: ARCMenuItem.defaultItems(actions: .empty),
-                                                         configuration: ARCMenuConfiguration(sheetTitle: "Account"))
+    @Previewable @State var viewModel = ARCMenuViewModel(
+        user: ARCMenuUser(
+            name: "Alex Morgan",
+            subtitle: "Gold Member",
+            avatarImage: .systemImage("person.circle.fill")
+        ),
+        menuItems: ARCMenuItem.defaultItems(actions: .empty),
+        configuration: ARCMenuConfiguration(sheetTitle: "Account")
+    )
 
     ZStack {
         Color.orange.opacity(0.2).ignoresSafeArea()

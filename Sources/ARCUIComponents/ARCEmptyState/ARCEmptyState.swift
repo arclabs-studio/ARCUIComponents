@@ -44,7 +44,8 @@ import SwiftUI
 ///     presentUpgrade()
 /// }
 /// ```
-@available(iOS 17.0, *) public struct ARCEmptyState: View {
+@available(iOS 17.0, *)
+public struct ARCEmptyState: View {
     // MARK: - Properties
 
     private let configuration: ARCEmptyStateConfiguration
@@ -61,8 +62,10 @@ import SwiftUI
     /// - Parameters:
     ///   - configuration: Visual and content configuration
     ///   - action: Action when the button is tapped (requires `showsAction: true`)
-    public init(configuration: ARCEmptyStateConfiguration,
-                action: (() -> Void)? = nil) {
+    public init(
+        configuration: ARCEmptyStateConfiguration,
+        action: (() -> Void)? = nil
+    ) {
         self.configuration = configuration
         self.action = action
     }
@@ -78,21 +81,25 @@ import SwiftUI
     ///   - showsAction: Show action button (default: `false`)
     ///   - accentColor: Button accent color (default: `.blue`)
     ///   - action: Action when the button is tapped
-    public init(icon: String,
-                iconColor: Color = .secondary,
-                title: String,
-                message: String,
-                actionTitle: String = "Get Started",
-                showsAction: Bool = false,
-                accentColor: Color = .blue,
-                action: (() -> Void)? = nil) {
-        configuration = ARCEmptyStateConfiguration(icon: icon,
-                                                   iconColor: iconColor,
-                                                   title: title,
-                                                   message: message,
-                                                   actionTitle: actionTitle,
-                                                   showsAction: showsAction,
-                                                   accentColor: accentColor)
+    public init(
+        icon: String,
+        iconColor: Color = .secondary,
+        title: String,
+        message: String,
+        actionTitle: String = "Get Started",
+        showsAction: Bool = false,
+        accentColor: Color = .blue,
+        action: (() -> Void)? = nil
+    ) {
+        configuration = ARCEmptyStateConfiguration(
+            icon: icon,
+            iconColor: iconColor,
+            title: title,
+            message: message,
+            actionTitle: actionTitle,
+            showsAction: showsAction,
+            accentColor: accentColor
+        )
         self.action = action
     }
 
@@ -112,7 +119,7 @@ import SwiftUI
     // MARK: - Native ContentUnavailableView
 
     /// Uses native SwiftUI when no ARC-specific customizations are needed.
-    private var nativeContentUnavailableView: some View {
+    @ViewBuilder private var nativeContentUnavailableView: some View {
         ContentUnavailableView {
             Label(configuration.title, systemImage: configuration.icon)
         } description: {
@@ -135,7 +142,7 @@ import SwiftUI
 
     // MARK: - Custom ARC View
 
-    private var customARCView: some View {
+    @ViewBuilder private var customARCView: some View {
         VStack(spacing: configuration.spacing) {
             iconView
             textContent
@@ -145,7 +152,7 @@ import SwiftUI
         .modifier(GlassBackgroundModifier(configuration: configuration))
     }
 
-    private var iconView: some View {
+    @ViewBuilder private var iconView: some View {
         Image(systemName: configuration.icon)
             .font(.system(size: iconSize))
             .foregroundStyle(configuration.iconColor.gradient)
@@ -153,7 +160,7 @@ import SwiftUI
             .accessibilityHidden(true)
     }
 
-    private var textContent: some View {
+    @ViewBuilder private var textContent: some View {
         VStack(spacing: .arcSpacingSmall) {
             Text(configuration.title)
                 .font(.title2.bold())
@@ -177,8 +184,10 @@ import SwiftUI
                     .foregroundStyle(.white)
                     .padding(.horizontal, .arcSpacingXLarge)
                     .padding(.vertical, .arcSpacingMedium)
-                    .background(Capsule()
-                        .fill(configuration.accentColor.gradient))
+                    .background(
+                        Capsule()
+                            .fill(configuration.accentColor.gradient)
+                    )
             }
             .buttonStyle(.plain)
             .padding(.top, .arcSpacingSmall)
@@ -216,7 +225,8 @@ import SwiftUI
 
 // MARK: - Glass Background Modifier
 
-@available(iOS 17.0, macOS 14.0, *) private struct GlassBackgroundModifier: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *)
+private struct GlassBackgroundModifier: ViewModifier {
     let configuration: ARCEmptyStateConfiguration
 
     func body(content: Content) -> some View {

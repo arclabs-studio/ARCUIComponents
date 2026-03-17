@@ -11,7 +11,8 @@ import SwiftUI
 /// Demo screen for ARCCarousel component.
 ///
 /// Shows carousels with various configurations, presets, and use cases.
-@available(iOS 17.0, *) struct ARCCarouselDemoScreen: View {
+@available(iOS 17.0, *)
+struct ARCCarouselDemoScreen: View {
     // MARK: - State
 
     @State private var defaultIndex = 0
@@ -21,19 +22,19 @@ import SwiftUI
 
     // MARK: - Sample Data
 
-    private let featuredItems: [CarouselDemoItem] = [CarouselDemoItem(color: .blue, title: "Summer Collection",
-                                                                      subtitle: "New arrivals are here"),
-                                                     CarouselDemoItem(color: .orange, title: "Flash Sale",
-                                                                      subtitle: "Up to 50% off selected items"),
-                                                     CarouselDemoItem(color: .purple, title: "Premium Members",
-                                                                      subtitle: "Exclusive access to deals"),
-                                                     CarouselDemoItem(color: .green, title: "Free Shipping",
-                                                                      subtitle: "On orders over $50")]
+    private let featuredItems: [CarouselDemoItem] = [
+        CarouselDemoItem(color: .blue, title: "Summer Collection", subtitle: "New arrivals are here"),
+        CarouselDemoItem(color: .orange, title: "Flash Sale", subtitle: "Up to 50% off selected items"),
+        CarouselDemoItem(color: .purple, title: "Premium Members", subtitle: "Exclusive access to deals"),
+        CarouselDemoItem(color: .green, title: "Free Shipping", subtitle: "On orders over $50"),
+    ]
 
-    private let cardItems: [CarouselDemoItem] = (1 ... 8).map { index in
-        CarouselDemoItem(color: Color(hue: Double(index) / 10.0 + 0.1, saturation: 0.6, brightness: 0.8),
-                         title: "Card \(index)",
-                         subtitle: "Item description")
+    private let cardItems: [CarouselDemoItem] = (1...8).map { index in
+        CarouselDemoItem(
+            color: Color(hue: Double(index) / 10.0 + 0.1, saturation: 0.6, brightness: 0.8),
+            title: "Card \(index)",
+            subtitle: "Item description"
+        )
     }
 
     // MARK: - Body
@@ -59,13 +60,16 @@ import SwiftUI
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *) extension ARCCarouselDemoScreen {
+@available(iOS 17.0, *)
+extension ARCCarouselDemoScreen {
     // MARK: - Default Section
 
     private var defaultSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionHeader("Default Carousel",
-                          subtitle: "Standard configuration with peek effect and dot indicators")
+            sectionHeader(
+                "Default Carousel",
+                subtitle: "Standard configuration with peek effect and dot indicators"
+            )
 
             ARCCarousel(featuredItems, currentIndex: $defaultIndex) { item in
                 DemoCarouselCard(item: item)
@@ -81,8 +85,10 @@ import SwiftUI
 
     private var featuredSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionHeader("Featured Carousel",
-                          subtitle: "Auto-scrolling with scale effect, perfect for hero banners")
+            sectionHeader(
+                "Featured Carousel",
+                subtitle: "Auto-scrolling with scale effect, perfect for hero banners"
+            )
 
             ARCFeaturedCarousel(featuredItems, currentIndex: $featuredIndex) { item in
                 DemoFeaturedBanner(item: item)
@@ -98,8 +104,10 @@ import SwiftUI
 
     private var gallerySection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionHeader("Gallery Style",
-                          subtitle: "Prominent scale effect with wider peek")
+            sectionHeader(
+                "Gallery Style",
+                subtitle: "Prominent scale effect with wider peek"
+            )
 
             ARCCarousel(featuredItems, currentIndex: $galleryIndex, configuration: .gallery) { item in
                 DemoCarouselCard(item: item)
@@ -115,8 +123,10 @@ import SwiftUI
 
     private var cardsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionHeader("Card Carousel",
-                          subtitle: "Fixed-width cards, multiple visible at once")
+            sectionHeader(
+                "Card Carousel",
+                subtitle: "Fixed-width cards, multiple visible at once"
+            )
 
             ARCCarousel(cardItems, currentIndex: $cardsIndex, configuration: .cards) { item in
                 DemoCompactCard(item: item)
@@ -130,8 +140,10 @@ import SwiftUI
 
     private var storiesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionHeader("Stories Style",
-                          subtitle: "Small circular items like Instagram stories")
+            sectionHeader(
+                "Stories Style",
+                subtitle: "Small circular items like Instagram stories"
+            )
 
             ARCCarousel(cardItems, configuration: .stories) { item in
                 Circle()
@@ -156,16 +168,20 @@ import SwiftUI
 
     private var customSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionHeader("Custom Configuration",
-                          subtitle: "Numbers indicator with 70% width items")
+            sectionHeader(
+                "Custom Configuration",
+                subtitle: "Numbers indicator with 70% width items"
+            )
 
-            let customConfig = ARCCarouselConfiguration(itemSize: .fractional(0.7),
-                                                        itemSpacing: 20,
-                                                        snapBehavior: .item,
-                                                        indicatorStyle: .numbers,
-                                                        indicatorPosition: .bottom(offset: 12),
-                                                        showShadows: true,
-                                                        itemCornerRadius: 24)
+            let customConfig = ARCCarouselConfiguration(
+                itemSize: .fractional(0.7),
+                itemSpacing: 20,
+                snapBehavior: .item,
+                indicatorStyle: .numbers,
+                indicatorPosition: .bottom(offset: 12),
+                showShadows: true,
+                itemCornerRadius: 24
+            )
 
             ARCCarousel(featuredItems, configuration: customConfig) { item in
                 DemoCarouselCard(item: item)
@@ -208,7 +224,8 @@ private struct CarouselDemoItem: Identifiable {
 
 // MARK: - Demo Card Views
 
-@available(iOS 17.0, *) private struct DemoCarouselCard: View {
+@available(iOS 17.0, *)
+private struct DemoCarouselCard: View {
     let item: CarouselDemoItem
 
     var body: some View {
@@ -227,7 +244,8 @@ private struct CarouselDemoItem: Identifiable {
     }
 }
 
-@available(iOS 17.0, *) private struct DemoFeaturedBanner: View {
+@available(iOS 17.0, *)
+private struct DemoFeaturedBanner: View {
     let item: CarouselDemoItem
 
     var body: some View {
@@ -247,7 +265,8 @@ private struct CarouselDemoItem: Identifiable {
     }
 }
 
-@available(iOS 17.0, *) private struct DemoCompactCard: View {
+@available(iOS 17.0, *)
+private struct DemoCompactCard: View {
     let item: CarouselDemoItem
 
     var body: some View {

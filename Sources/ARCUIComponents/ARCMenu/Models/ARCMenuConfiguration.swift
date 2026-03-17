@@ -88,20 +88,6 @@ public struct ARCMenuConfiguration: Sendable {
     /// Title displayed in the sheet header (optional)
     public let sheetTitle: String?
 
-    // MARK: - Content Layout
-
-    /// Layout style for menu content
-    ///
-    /// - `.flat`: Existing VStack behavior with dividers (default)
-    /// - `.grouped`: Form with sections for grouped content
-    public let layoutStyle: ARCMenuLayoutStyle
-
-    /// How users interact with sheet content when at a partial detent
-    ///
-    /// - `.automatic`: System default behavior
-    /// - `.scrolls`: Content scrolls within the sheet (useful for Form in medium detent)
-    public let contentInteraction: PresentationContentInteraction
-
     // MARK: - Behavior Configuration
 
     /// Haptic feedback on open/close
@@ -129,26 +115,24 @@ public struct ARCMenuConfiguration: Sendable {
     ///   - showsGrabber: Show drag indicator (default: true)
     ///   - showsCloseButton: Show X button (default: true)
     ///   - sheetTitle: Optional header title
-    ///   - layoutStyle: Content layout style (default: `.flat`)
-    ///   - contentInteraction: Sheet content interaction (default: `.automatic`)
     ///   - hapticFeedback: Haptic style (default: `.medium`)
     ///   - allowsBackgroundInteraction: Allow taps behind sheet (default: false)
-    public init(presentationStyle: ARCMenuPresentationStyle = .bottomSheet,
-                accentColor: Color = .arcBrandGold,
-                cornerRadius: CGFloat = .arcCornerRadiusXLarge,
-                iconStyle: ARCMenuIconStyle = .subtle,
-                detents: Set<PresentationDetent> = [.medium, .large],
-                selectedDetent: PresentationDetent? = .medium,
-                menuWidth: CGFloat = 320,
-                contentInsets: EdgeInsets = .arcPaddingSection,
-                sectionSpacing: CGFloat = .arcSpacingXLarge,
-                showsGrabber: Bool = true,
-                showsCloseButton: Bool = true,
-                sheetTitle: String? = nil,
-                layoutStyle: ARCMenuLayoutStyle = .flat,
-                contentInteraction: PresentationContentInteraction = .automatic,
-                hapticFeedback: ARCMenuHapticStyle = .medium,
-                allowsBackgroundInteraction: Bool = false) {
+    public init(
+        presentationStyle: ARCMenuPresentationStyle = .bottomSheet,
+        accentColor: Color = .arcBrandGold,
+        cornerRadius: CGFloat = .arcCornerRadiusXLarge,
+        iconStyle: ARCMenuIconStyle = .subtle,
+        detents: Set<PresentationDetent> = [.medium, .large],
+        selectedDetent: PresentationDetent? = .medium,
+        menuWidth: CGFloat = 320,
+        contentInsets: EdgeInsets = .arcPaddingSection,
+        sectionSpacing: CGFloat = .arcSpacingXLarge,
+        showsGrabber: Bool = true,
+        showsCloseButton: Bool = true,
+        sheetTitle: String? = nil,
+        hapticFeedback: ARCMenuHapticStyle = .medium,
+        allowsBackgroundInteraction: Bool = false
+    ) {
         self.presentationStyle = presentationStyle
         self.accentColor = accentColor
         self.cornerRadius = cornerRadius
@@ -161,8 +145,6 @@ public struct ARCMenuConfiguration: Sendable {
         self.showsGrabber = showsGrabber
         self.showsCloseButton = showsCloseButton
         self.sheetTitle = sheetTitle
-        self.layoutStyle = layoutStyle
-        self.contentInteraction = contentInteraction
         self.hapticFeedback = hapticFeedback
         self.allowsBackgroundInteraction = allowsBackgroundInteraction
     }
@@ -176,19 +158,14 @@ public struct ARCMenuConfiguration: Sendable {
     /// - Shows grabber and close button
     public static let `default` = ARCMenuConfiguration()
 
-    /// Configuration optimized for grouped sections in a Form
-    ///
-    /// Uses `.grouped` layout style with `.scrolls` content interaction,
-    /// so the Form scrolls naturally within the medium detent.
-    public static let sectioned = ARCMenuConfiguration(layoutStyle: .grouped,
-                                                       contentInteraction: .scrolls)
-
     /// Configuration with trailing panel presentation (drawer style)
     ///
     /// Optimized for iPad and Mac where a side panel feels more natural.
     /// Uses custom implementation since native sheets don't support trailing edge.
-    public static let trailingPanel = ARCMenuConfiguration(presentationStyle: .trailingPanel,
-                                                           showsGrabber: false)
+    public static let trailingPanel = ARCMenuConfiguration(
+        presentationStyle: .trailingPanel,
+        showsGrabber: false
+    )
 }
 
 // MARK: - ARCMenuHapticStyle
@@ -203,7 +180,8 @@ public enum ARCMenuHapticStyle: Sendable {
     case rigid
 
     /// Performs the haptic feedback
-    @MainActor func perform() {
+    @MainActor
+    func perform() {
         #if os(iOS)
         switch self {
         case .none:

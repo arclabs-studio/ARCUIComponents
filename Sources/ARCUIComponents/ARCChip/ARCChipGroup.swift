@@ -47,7 +47,8 @@ import SwiftUI
 ///     itemIcon: { $0.icon }
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCChipGroup<Item: Hashable>: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCChipGroup<Item: Hashable>: View {
     // MARK: - Selection Mode
 
     /// Selection behavior for the chip group
@@ -79,12 +80,14 @@ import SwiftUI
     ///   - itemLabel: Closure to get label text from item
     ///   - itemIcon: Optional closure to get icon from item
     ///   - configuration: Chip configuration (applied to all chips)
-    public init(items: [Item],
-                selection: Binding<Set<Item>>,
-                selectionMode: SelectionMode = .multiple,
-                itemLabel: @escaping (Item) -> String,
-                itemIcon: ((Item) -> String?)? = nil,
-                configuration: ARCChipConfiguration = .default) {
+    public init(
+        items: [Item],
+        selection: Binding<Set<Item>>,
+        selectionMode: SelectionMode = .multiple,
+        itemLabel: @escaping (Item) -> String,
+        itemIcon: ((Item) -> String?)? = nil,
+        configuration: ARCChipConfiguration = .default
+    ) {
         self.items = items
         _selection = selection
         self.selectionMode = selectionMode
@@ -105,35 +108,41 @@ import SwiftUI
 
     // MARK: - Chip View
 
+    @ViewBuilder
     private func chipView(for item: Item) -> some View {
-        ARCChip(itemLabel(item),
-                icon: itemIcon?(item),
-                isSelected: binding(for: item),
-                configuration: configuration)
+        ARCChip(
+            itemLabel(item),
+            icon: itemIcon?(item),
+            isSelected: binding(for: item),
+            configuration: configuration
+        )
     }
 
     // MARK: - Selection Binding
 
     private func binding(for item: Item) -> Binding<Bool> {
-        Binding(get: { selection.contains(item) },
-                set: { isSelected in
-                    if isSelected {
-                        if selectionMode == .single {
-                            selection = [item]
-                        } else {
-                            selection.insert(item)
-                        }
+        Binding(
+            get: { selection.contains(item) },
+            set: { isSelected in
+                if isSelected {
+                    if selectionMode == .single {
+                        selection = [item]
                     } else {
-                        selection.remove(item)
+                        selection.insert(item)
                     }
-                })
+                } else {
+                    selection.remove(item)
+                }
+            }
+        )
     }
 }
 
 // MARK: - FlowLayout
 
 /// A layout that arranges views in a flowing grid
-@available(iOS 17.0, macOS 14.0, *) struct FlowLayout: Layout {
+@available(iOS 17.0, macOS 14.0, *)
+struct FlowLayout: Layout {
     var spacing: CGFloat = 8
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
@@ -145,8 +154,10 @@ import SwiftUI
         let result = arrange(proposal: proposal, subviews: subviews)
 
         for (index, position) in result.positions.enumerated() {
-            subviews[index].place(at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
-                                  proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified)))
+            subviews[index].place(
+                at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
+                proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified))
+            )
         }
     }
 
@@ -191,10 +202,12 @@ import SwiftUI
                 Text("Select cuisines:")
                     .font(.headline)
 
-                ARCChipGroup(items: cuisines,
-                             selection: $selection,
-                             selectionMode: .multiple,
-                             itemLabel: { $0 })
+                ARCChipGroup(
+                    items: cuisines,
+                    selection: $selection,
+                    selectionMode: .multiple,
+                    itemLabel: { $0 }
+                )
 
                 Text("Selected: \(selection.sorted().joined(separator: ", "))")
                     .font(.caption)
@@ -218,10 +231,12 @@ import SwiftUI
                 Text("Price range:")
                     .font(.headline)
 
-                ARCChipGroup(items: priceRanges,
-                             selection: $selection,
-                             selectionMode: .single,
-                             itemLabel: { $0 })
+                ARCChipGroup(
+                    items: priceRanges,
+                    selection: $selection,
+                    selectionMode: .single,
+                    itemLabel: { $0 }
+                )
 
                 Text("Selected: \(selection.first ?? "None")")
                     .font(.caption)

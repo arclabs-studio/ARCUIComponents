@@ -12,7 +12,8 @@ import SwiftUI
 ///
 /// Supports single choice (chips), multiple choice (toggleable chips), and slider inputs.
 /// Uses interactive chip-based selection following Apple HIG guidelines.
-@available(iOS 17.0, macOS 14.0, *) struct AIRecommenderQuestionCard: View {
+@available(iOS 17.0, macOS 14.0, *)
+struct AIRecommenderQuestionCard: View {
     // MARK: - Properties
 
     let question: AIRecommenderQuestion
@@ -35,8 +36,10 @@ import SwiftUI
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.arcSpacingLarge)
-        .background(RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-            .fill(.ultraThinMaterial))
+        .background(
+            RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
+                .fill(.ultraThinMaterial)
+        )
         .onAppear {
             // Initialize slider value if exists
             if let existing = answers.sliderValue(for: question.id) {
@@ -47,7 +50,7 @@ import SwiftUI
 
     // MARK: - Question Header
 
-    private var questionHeader: some View {
+    @ViewBuilder private var questionHeader: some View {
         VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
             HStack(spacing: .arcSpacingSmall) {
                 if let icon = question.icon {
@@ -89,18 +92,16 @@ import SwiftUI
 
     // MARK: - Single Choice
 
-    private var singleChoiceOptions: some View {
+    @ViewBuilder private var singleChoiceOptions: some View {
         QuestionFlowLayout(spacing: .arcSpacingSmall) {
             ForEach(question.options) { option in
-                OptionChip(option: option,
-                           isSelected: answers.isSelected(option.id, for: question.id),
-                           configuration: configuration) {
+                OptionChip(
+                    option: option,
+                    isSelected: answers.isSelected(option.id, for: question.id),
+                    configuration: configuration
+                ) {
                     arcWithAnimation(configuration.categoryAnimation) {
-                        if answers.isSelected(option.id, for: question.id) {
-                            answers.clearSelections(for: question.id)
-                        } else {
-                            answers.selectSingle(option.id, for: question.id)
-                        }
+                        answers.selectSingle(option.id, for: question.id)
                     }
                 }
             }
@@ -109,12 +110,14 @@ import SwiftUI
 
     // MARK: - Multiple Choice
 
-    private var multipleChoiceOptions: some View {
+    @ViewBuilder private var multipleChoiceOptions: some View {
         QuestionFlowLayout(spacing: .arcSpacingSmall) {
             ForEach(question.options) { option in
-                OptionChip(option: option,
-                           isSelected: answers.isSelected(option.id, for: question.id),
-                           configuration: configuration) {
+                OptionChip(
+                    option: option,
+                    isSelected: answers.isSelected(option.id, for: question.id),
+                    configuration: configuration
+                ) {
                     arcWithAnimation(configuration.categoryAnimation) {
                         answers.toggleSelection(option.id, for: question.id)
                     }
@@ -125,7 +128,7 @@ import SwiftUI
 
     // MARK: - Slider
 
-    private var sliderOption: some View {
+    @ViewBuilder private var sliderOption: some View {
         VStack(spacing: .arcSpacingSmall) {
             // Slider with labels
             HStack {
@@ -162,12 +165,15 @@ import SwiftUI
 
             // Middle option label if exists
             if question.options.count > 2,
-               let middle = question.options[safe: question.options.count / 2] {
+               let middle = question.options[safe: question.options.count / 2]
+            {
                 Text(middle.label)
                     .font(.caption)
-                    .foregroundStyle((sliderValue >= 0.33 && sliderValue <= 0.66)
-                        ? configuration.accentColor
-                        : .secondary)
+                    .foregroundStyle(
+                        (sliderValue >= 0.33 && sliderValue <= 0.66)
+                            ? configuration.accentColor
+                            : .secondary
+                    )
             }
         }
     }
@@ -175,7 +181,8 @@ import SwiftUI
 
 // MARK: - Option Chip
 
-@available(iOS 17.0, macOS 14.0, *) private struct OptionChip: View {
+@available(iOS 17.0, macOS 14.0, *)
+private struct OptionChip: View {
     let option: AIRecommenderQuestion.Option
     let isSelected: Bool
     let configuration: ARCAIRecommenderConfiguration
@@ -202,11 +209,15 @@ import SwiftUI
             }
             .padding(.horizontal, .arcSpacingMedium)
             .padding(.vertical, .arcSpacingSmall)
-            .background(Capsule()
-                .fill(isSelected
-                    ? (option.color ?? configuration.accentColor)
-                    : Color.gray.opacity(0.15)))
-                .foregroundStyle(isSelected ? .white : .primary)
+            .background(
+                Capsule()
+                    .fill(
+                        isSelected
+                            ? (option.color ?? configuration.accentColor)
+                            : Color.gray.opacity(0.15)
+                    )
+            )
+            .foregroundStyle(isSelected ? .white : .primary)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(option.label)
@@ -217,7 +228,8 @@ import SwiftUI
 
 // MARK: - Question Flow Layout
 
-@available(iOS 17.0, macOS 14.0, *) private struct QuestionFlowLayout: Layout {
+@available(iOS 17.0, macOS 14.0, *)
+private struct QuestionFlowLayout: Layout {
     var spacing: CGFloat = 8
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
@@ -229,13 +241,17 @@ import SwiftUI
         let result = arrangeSubviews(proposal: proposal, subviews: subviews)
 
         for (index, placement) in result.placements.enumerated() {
-            subviews[index].place(at: CGPoint(x: bounds.minX + placement.origin.x, y: bounds.minY + placement.origin.y),
-                                  proposal: ProposedViewSize(placement.size))
+            subviews[index].place(
+                at: CGPoint(x: bounds.minX + placement.origin.x, y: bounds.minY + placement.origin.y),
+                proposal: ProposedViewSize(placement.size)
+            )
         }
     }
 
-    private func arrangeSubviews(proposal: ProposedViewSize,
-                                 subviews: Subviews) -> (size: CGSize, placements: [ViewPlacement]) {
+    private func arrangeSubviews(
+        proposal: ProposedViewSize,
+        subviews: Subviews
+    ) -> (size: CGSize, placements: [ViewPlacement]) {
         let maxWidth = proposal.width ?? .infinity
         var placements: [ViewPlacement] = []
         var currentX: CGFloat = 0
@@ -282,71 +298,58 @@ extension Array {
 
 // MARK: - Preview Mock Data
 
-@available(iOS 17.0, macOS 14.0, *) private enum PreviewQuestions {
-    static let singleChoice = AIRecommenderQuestion(id: "location",
-                                                    text: "¿Dónde te encuentras?",
-                                                    options: [.init(id: "nearby",
-                                                                    label: "Cerca de mí",
-                                                                    icon: "location.fill",
-                                                                    color: .blue),
-                                                              .init(id: "center",
-                                                                    label: "Centro",
-                                                                    icon: "building.2.fill",
-                                                                    color: .gray),
-                                                              .init(id: "anywhere",
-                                                                    label: "Donde sea",
-                                                                    icon: "map.fill",
-                                                                    color: .green)],
-                                                    inputType: .singleChoice,
-                                                    icon: "location.fill")
+@available(iOS 17.0, macOS 14.0, *)
+private enum PreviewQuestions {
+    static let singleChoice = AIRecommenderQuestion(
+        id: "location",
+        text: "¿Dónde te encuentras?",
+        options: [
+            .init(id: "nearby", label: "Cerca de mí", icon: "location.fill", color: .blue),
+            .init(id: "center", label: "Centro", icon: "building.2.fill", color: .gray),
+            .init(id: "anywhere", label: "Donde sea", icon: "map.fill", color: .green)
+        ],
+        inputType: .singleChoice,
+        icon: "location.fill"
+    )
 
-    static let multipleChoice = AIRecommenderQuestion(id: "preferences",
-                                                      text: "¿Qué te apetece?",
-                                                      subtitle: "Selecciona una o varias opciones",
-                                                      options: [.init(id: "option1",
-                                                                      label: "Opción A",
-                                                                      icon: "star.fill",
-                                                                      color: .orange),
-                                                                .init(id: "option2",
-                                                                      label: "Opción B",
-                                                                      icon: "heart.fill",
-                                                                      color: .pink),
-                                                                .init(id: "option3",
-                                                                      label: "Opción C",
-                                                                      icon: "bolt.fill",
-                                                                      color: .yellow),
-                                                                .init(id: "option4",
-                                                                      label: "Sorpréndeme",
-                                                                      icon: "sparkles",
-                                                                      color: .purple)],
-                                                      inputType: .multipleChoice,
-                                                      icon: "sparkles")
+    static let multipleChoice = AIRecommenderQuestion(
+        id: "preferences",
+        text: "¿Qué te apetece?",
+        subtitle: "Selecciona una o varias opciones",
+        options: [
+            .init(id: "option1", label: "Opción A", icon: "star.fill", color: .orange),
+            .init(id: "option2", label: "Opción B", icon: "heart.fill", color: .pink),
+            .init(id: "option3", label: "Opción C", icon: "bolt.fill", color: .yellow),
+            .init(id: "option4", label: "Sorpréndeme", icon: "sparkles", color: .purple)
+        ],
+        inputType: .multipleChoice,
+        icon: "sparkles"
+    )
 
-    static let slider = AIRecommenderQuestion(id: "intensity",
-                                              text: "¿Qué intensidad prefieres?",
-                                              options: [.init(id: "low", label: "Suave", icon: "leaf.fill"),
-                                                        .init(id: "medium", label: "Media", icon: "circle.fill"),
-                                                        .init(id: "high", label: "Intensa", icon: "flame.fill")],
-                                              inputType: .slider,
-                                              icon: "slider.horizontal.3")
+    static let slider = AIRecommenderQuestion(
+        id: "intensity",
+        text: "¿Qué intensidad prefieres?",
+        options: [
+            .init(id: "low", label: "Suave", icon: "leaf.fill"),
+            .init(id: "medium", label: "Media", icon: "circle.fill"),
+            .init(id: "high", label: "Intensa", icon: "flame.fill")
+        ],
+        inputType: .slider,
+        icon: "slider.horizontal.3"
+    )
 
-    static let mood = AIRecommenderQuestion(id: "mood",
-                                            text: "¿Cómo te sientes?",
-                                            subtitle: "Tu estado de ánimo influye en la recomendación",
-                                            options: [.init(id: "adventurous",
-                                                            label: "Aventurero",
-                                                            icon: "sparkles",
-                                                            color: .purple),
-                                                      .init(id: "relaxed",
-                                                            label: "Relajado",
-                                                            icon: "leaf.fill",
-                                                            color: .green),
-                                                      .init(id: "social",
-                                                            label: "Social",
-                                                            icon: "person.2.fill",
-                                                            color: .blue)],
-                                            inputType: .singleChoice,
-                                            icon: "face.smiling.fill")
+    static let mood = AIRecommenderQuestion(
+        id: "mood",
+        text: "¿Cómo te sientes?",
+        subtitle: "Tu estado de ánimo influye en la recomendación",
+        options: [
+            .init(id: "adventurous", label: "Aventurero", icon: "sparkles", color: .purple),
+            .init(id: "relaxed", label: "Relajado", icon: "leaf.fill", color: .green),
+            .init(id: "social", label: "Social", icon: "person.2.fill", color: .blue)
+        ],
+        inputType: .singleChoice,
+        icon: "face.smiling.fill"
+    )
 }
 
 // MARK: - Previews
@@ -356,44 +359,52 @@ extension Array {
 #Preview("Single Choice") {
     @Previewable @State var answers = AIRecommenderAnswers()
 
-    AIRecommenderQuestionCard(question: PreviewQuestions.singleChoice,
-                              answers: $answers,
-                              configuration: .default)
-        .padding()
-        .background(Color(.systemGroupedBackground))
+    AIRecommenderQuestionCard(
+        question: PreviewQuestions.singleChoice,
+        answers: $answers,
+        configuration: .default
+    )
+    .padding()
+    .background(Color(.systemGroupedBackground))
 }
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Multiple Choice") {
     @Previewable @State var answers = AIRecommenderAnswers()
 
-    AIRecommenderQuestionCard(question: PreviewQuestions.multipleChoice,
-                              answers: $answers,
-                              configuration: .default)
-        .padding()
-        .background(Color(.systemGroupedBackground))
+    AIRecommenderQuestionCard(
+        question: PreviewQuestions.multipleChoice,
+        answers: $answers,
+        configuration: .default
+    )
+    .padding()
+    .background(Color(.systemGroupedBackground))
 }
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Slider") {
     @Previewable @State var answers = AIRecommenderAnswers()
 
-    AIRecommenderQuestionCard(question: PreviewQuestions.slider,
-                              answers: $answers,
-                              configuration: .default)
-        .padding()
-        .background(Color(.systemGroupedBackground))
+    AIRecommenderQuestionCard(
+        question: PreviewQuestions.slider,
+        answers: $answers,
+        configuration: .default
+    )
+    .padding()
+    .background(Color(.systemGroupedBackground))
 }
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Dark Mode") {
     @Previewable @State var answers = AIRecommenderAnswers()
 
-    AIRecommenderQuestionCard(question: PreviewQuestions.mood,
-                              answers: $answers,
-                              configuration: .default)
-        .padding()
-        .background(Color(.systemGroupedBackground))
-        .preferredColorScheme(.dark)
+    AIRecommenderQuestionCard(
+        question: PreviewQuestions.mood,
+        answers: $answers,
+        configuration: .default
+    )
+    .padding()
+    .background(Color(.systemGroupedBackground))
+    .preferredColorScheme(.dark)
 }
 #endif

@@ -11,7 +11,8 @@ import SwiftUI
 /// Demo screen for ARCButton component.
 ///
 /// Shows action buttons with various styles, sizes, loading states, and interactive examples.
-@available(iOS 17.0, *) struct ARCButtonDemoScreen: View {
+@available(iOS 17.0, *)
+struct ARCButtonDemoScreen: View {
     // MARK: - State
 
     @State private var isSaving = false
@@ -42,7 +43,8 @@ import SwiftUI
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *) extension ARCButtonDemoScreen {
+@available(iOS 17.0, *)
+extension ARCButtonDemoScreen {
     // MARK: - Styles Section
 
     private var stylesSection: some View {
@@ -136,17 +138,19 @@ import SwiftUI
                         simulateAction($isSaving)
                     }
 
-                    ARCButton("Submit",
-                              isLoading: $isSubmitting,
-                              configuration: .secondary)
-                    {
+                    ARCButton(
+                        "Submit",
+                        isLoading: $isSubmitting,
+                        configuration: .secondary
+                    ) {
                         simulateAction($isSubmitting)
                     }
 
-                    ARCButton("Delete",
-                              isLoading: $isDeleting,
-                              configuration: .destructive)
-                    {
+                    ARCButton(
+                        "Delete",
+                        isLoading: $isDeleting,
+                        configuration: .destructive
+                    ) {
                         simulateAction($isDeleting)
                     }
                 }
@@ -185,9 +189,10 @@ import SwiftUI
                             }
                         }
 
-                        ARCButton(icon: "minus",
-                                  configuration: .secondary)
-                        {
+                        ARCButton(
+                            icon: "minus",
+                            configuration: .secondary
+                        ) {
                             withAnimation {
                                 if actionCount > 0 {
                                     actionCount -= 1
@@ -195,9 +200,10 @@ import SwiftUI
                             }
                         }
 
-                        ARCButton(icon: "arrow.counterclockwise",
-                                  configuration: .ghost)
-                        {
+                        ARCButton(
+                            icon: "arrow.counterclockwise",
+                            configuration: .ghost
+                        ) {
                             withAnimation {
                                 actionCount = 0
                             }
@@ -217,18 +223,28 @@ import SwiftUI
             sectionHeader("Full Width Buttons", subtitle: "Span container width")
 
             VStack(spacing: 12) {
-                ARCButton("Continue to Checkout",
-                          icon: "cart",
-                          configuration: ARCButtonConfiguration(isFullWidth: true)) {}
+                ARCButton(
+                    "Continue to Checkout",
+                    icon: "cart",
+                    configuration: ARCButtonConfiguration(isFullWidth: true)
+                ) {}
 
-                ARCButton("Create Account",
-                          icon: "person.badge.plus",
-                          configuration: ARCButtonConfiguration(size: .large,
-                                                                isFullWidth: true)) {}
+                ARCButton(
+                    "Create Account",
+                    icon: "person.badge.plus",
+                    configuration: ARCButtonConfiguration(
+                        size: .large,
+                        isFullWidth: true
+                    )
+                ) {}
 
-                ARCButton("Already have an account? Sign In",
-                          configuration: ARCButtonConfiguration(style: .ghost,
-                                                                isFullWidth: true)) {}
+                ARCButton(
+                    "Already have an account? Sign In",
+                    configuration: ARCButtonConfiguration(
+                        style: .ghost,
+                        isFullWidth: true
+                    )
+                ) {}
             }
             .padding()
             .background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
@@ -248,10 +264,11 @@ import SwiftUI
         }
     }
 
-    private func styleRow(_ title: String,
-                          description: String,
-                          @ViewBuilder content: () -> some View) -> some View
-    {
+    private func styleRow(
+        _ title: String,
+        description: String,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

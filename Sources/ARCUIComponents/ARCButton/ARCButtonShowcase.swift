@@ -17,7 +17,8 @@ import SwiftUI
 /// - Icon combinations (leading, trailing, icon-only)
 /// - Interactive states (normal, loading, disabled)
 /// - Full width layout options
-@available(iOS 17.0, macOS 14.0, *) public struct ARCButtonShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCButtonShowcase: View {
     // MARK: - State
 
     @State private var isLoading1 = false
@@ -50,7 +51,8 @@ import SwiftUI
 
 // MARK: - Private Views
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCButtonShowcase {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCButtonShowcase {
     // MARK: - Styles Section
 
     private var stylesSection: some View {
@@ -149,14 +151,18 @@ import SwiftUI
                             simulateLoading($isLoading1)
                         }
 
-                        ARCButton("Submit",
-                                  isLoading: $isLoading2,
-                                  configuration: .secondary) {
+                        ARCButton(
+                            "Submit",
+                            isLoading: $isLoading2,
+                            configuration: .secondary
+                        ) {
                             simulateLoading($isLoading2)
                         }
 
-                        ARCButton(icon: "arrow.clockwise",
-                                  isLoading: $isLoading3) {
+                        ARCButton(
+                            icon: "arrow.clockwise",
+                            isLoading: $isLoading3
+                        ) {
                             simulateLoading($isLoading3)
                         }
                     }
@@ -164,12 +170,18 @@ import SwiftUI
 
                 styleRow("Disabled", description: "Non-interactive state") {
                     HStack(spacing: 12) {
-                        ARCButton("Disabled",
-                                  configuration: ARCButtonConfiguration(isDisabled: true)) {}
+                        ARCButton(
+                            "Disabled",
+                            configuration: ARCButtonConfiguration(isDisabled: true)
+                        ) {}
 
-                        ARCButton("Disabled",
-                                  configuration: ARCButtonConfiguration(style: .outlined,
-                                                                        isDisabled: true)) {}
+                        ARCButton(
+                            "Disabled",
+                            configuration: ARCButtonConfiguration(
+                                style: .outlined,
+                                isDisabled: true
+                            )
+                        ) {}
                     }
                 }
             }
@@ -183,18 +195,28 @@ import SwiftUI
             sectionHeader("Full Width", subtitle: "Buttons that span container width")
 
             VStack(spacing: 12) {
-                ARCButton("Continue",
-                          configuration: ARCButtonConfiguration(isFullWidth: true)) {}
+                ARCButton(
+                    "Continue",
+                    configuration: ARCButtonConfiguration(isFullWidth: true)
+                ) {}
 
-                ARCButton("Get Started",
-                          icon: "arrow.right",
-                          iconPosition: .trailing,
-                          configuration: ARCButtonConfiguration(size: .large,
-                                                                isFullWidth: true)) {}
+                ARCButton(
+                    "Get Started",
+                    icon: "arrow.right",
+                    iconPosition: .trailing,
+                    configuration: ARCButtonConfiguration(
+                        size: .large,
+                        isFullWidth: true
+                    )
+                ) {}
 
-                ARCButton("Learn More",
-                          configuration: ARCButtonConfiguration(style: .outlined,
-                                                                isFullWidth: true)) {}
+                ARCButton(
+                    "Learn More",
+                    configuration: ARCButtonConfiguration(
+                        style: .outlined,
+                        isFullWidth: true
+                    )
+                ) {}
             }
             .padding()
             .background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
@@ -208,17 +230,21 @@ import SwiftUI
             sectionHeader("Glass Style", subtitle: "Liquid glass effect for floating UI")
 
             ZStack {
-                LinearGradient(colors: [.purple, .blue, .cyan],
-                               startPoint: .topLeading,
-                               endPoint: .bottomTrailing)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                LinearGradient(
+                    colors: [.purple, .blue, .cyan],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 16))
 
                 VStack(spacing: 16) {
                     ARCButton("Glass Button", configuration: .glass) {}
 
-                    ARCButton("Apply Filter",
-                              icon: "slider.horizontal.3",
-                              configuration: .glass) {}
+                    ARCButton(
+                        "Apply Filter",
+                        icon: "slider.horizontal.3",
+                        configuration: .glass
+                    ) {}
 
                     HStack(spacing: 12) {
                         ARCButton(icon: "heart.fill", configuration: .glass) {}
@@ -281,9 +307,11 @@ import SwiftUI
         }
     }
 
-    private func styleRow(_ title: String,
-                          description: String,
-                          @ViewBuilder content: () -> some View) -> some View {
+    private func styleRow(
+        _ title: String,
+        description: String,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

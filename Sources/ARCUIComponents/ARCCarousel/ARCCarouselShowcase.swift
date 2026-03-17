@@ -13,7 +13,8 @@ import SwiftUI
 ///
 /// This view displays various carousel presets and configurations for testing
 /// and demonstration purposes.
-@available(iOS 17.0, macOS 14.0, *) public struct ARCCarouselShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCCarouselShowcase: View {
     // MARK: - State
 
     @State private var defaultIndex = 0
@@ -25,26 +26,20 @@ import SwiftUI
 
     // MARK: - Sample Data
 
-    private let colorItems: [CarouselSampleItem] = [CarouselSampleItem(color: .blue,
-                                                                       title: "Ocean",
-                                                                       subtitle: "Calm waves"),
-                                                    CarouselSampleItem(color: .green,
-                                                                       title: "Forest",
-                                                                       subtitle: "Nature calls"),
-                                                    CarouselSampleItem(color: .orange,
-                                                                       title: "Sunset",
-                                                                       subtitle: "Golden hour"),
-                                                    CarouselSampleItem(color: .purple,
-                                                                       title: "Galaxy",
-                                                                       subtitle: "Explore space"),
-                                                    CarouselSampleItem(color: .red,
-                                                                       title: "Passion",
-                                                                       subtitle: "Feel alive")]
+    private let colorItems: [CarouselSampleItem] = [
+        CarouselSampleItem(color: .blue, title: "Ocean", subtitle: "Calm waves"),
+        CarouselSampleItem(color: .green, title: "Forest", subtitle: "Nature calls"),
+        CarouselSampleItem(color: .orange, title: "Sunset", subtitle: "Golden hour"),
+        CarouselSampleItem(color: .purple, title: "Galaxy", subtitle: "Explore space"),
+        CarouselSampleItem(color: .red, title: "Passion", subtitle: "Feel alive")
+    ]
 
     private let manyItems: [CarouselSampleItem] = (1 ... 12).map { index in
-        CarouselSampleItem(color: Color(hue: Double(index) / 12.0, saturation: 0.7, brightness: 0.8),
-                           title: "Item \(index)",
-                           subtitle: "Description")
+        CarouselSampleItem(
+            color: Color(hue: Double(index) / 12.0, saturation: 0.7, brightness: 0.8),
+            title: "Item \(index)",
+            subtitle: "Description"
+        )
     }
 
     // MARK: - Body
@@ -79,7 +74,7 @@ import SwiftUI
 
     // MARK: - Header Section
 
-    private var headerSection: some View {
+    @ViewBuilder private var headerSection: some View {
         VStack(spacing: 8) {
             Text("ARCCarousel")
                 .font(.largeTitle.bold())
@@ -94,7 +89,7 @@ import SwiftUI
 
     // MARK: - Default Section
 
-    private var defaultSection: some View {
+    @ViewBuilder private var defaultSection: some View {
         showcaseSection(title: "Default", subtitle: "Standard carousel with peek effect") {
             ARCCarousel(colorItems, currentIndex: $defaultIndex) { item in
                 SampleCardView(item: item)
@@ -106,7 +101,7 @@ import SwiftUI
 
     // MARK: - Featured Section
 
-    private var featuredSection: some View {
+    @ViewBuilder private var featuredSection: some View {
         showcaseSection(title: "Featured", subtitle: "Auto-scroll with scale effect and indicators") {
             ARCFeaturedCarousel(colorItems, currentIndex: $featuredIndex) { item in
                 SampleBannerView(item: item)
@@ -118,7 +113,7 @@ import SwiftUI
 
     // MARK: - Gallery Section
 
-    private var gallerySection: some View {
+    @ViewBuilder private var gallerySection: some View {
         showcaseSection(title: "Gallery", subtitle: "Prominent scale effect, wider peek") {
             ARCCarousel(colorItems, currentIndex: $galleryIndex, configuration: .gallery) { item in
                 SampleCardView(item: item)
@@ -130,7 +125,7 @@ import SwiftUI
 
     // MARK: - Cards Section
 
-    private var cardsSection: some View {
+    @ViewBuilder private var cardsSection: some View {
         showcaseSection(title: "Cards", subtitle: "Fixed-width cards, multiple visible") {
             ARCCarousel(manyItems, currentIndex: $cardsIndex, configuration: .cards) { item in
                 SampleCardView(item: item)
@@ -142,7 +137,7 @@ import SwiftUI
 
     // MARK: - Stories Section
 
-    private var storiesSection: some View {
+    @ViewBuilder private var storiesSection: some View {
         showcaseSection(title: "Stories", subtitle: "Small circular items, free scroll") {
             ARCCarousel(manyItems, currentIndex: $storiesIndex, configuration: .stories) { item in
                 Circle()
@@ -160,7 +155,7 @@ import SwiftUI
 
     // MARK: - Paging Section
 
-    private var pagingSection: some View {
+    @ViewBuilder private var pagingSection: some View {
         showcaseSection(title: "Paging", subtitle: "Full-width pages with line indicators") {
             ARCCarousel(colorItems, currentIndex: $pagingIndex, configuration: .paging) { item in
                 SampleBannerView(item: item)
@@ -172,13 +167,15 @@ import SwiftUI
 
     // MARK: - Custom Section
 
-    private var customSection: some View {
+    @ViewBuilder private var customSection: some View {
         showcaseSection(title: "Custom Configuration", subtitle: "Numbers indicator, no snap") {
-            let customConfig = ARCCarouselConfiguration(itemSize: .fractional(0.7),
-                                                        itemSpacing: 24,
-                                                        snapBehavior: .none,
-                                                        indicatorStyle: .numbers,
-                                                        indicatorPosition: .bottom(offset: 12))
+            let customConfig = ARCCarouselConfiguration(
+                itemSize: .fractional(0.7),
+                itemSpacing: 24,
+                snapBehavior: .none,
+                indicatorStyle: .numbers,
+                indicatorPosition: .bottom(offset: 12)
+            )
 
             ARCCarousel(colorItems, configuration: customConfig) { item in
                 SampleCardView(item: item)
@@ -190,7 +187,7 @@ import SwiftUI
 
     // MARK: - Indicator Styles Section
 
-    private var indicatorStylesSection: some View {
+    @ViewBuilder private var indicatorStylesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader(title: "Indicator Styles", subtitle: "Available indicator options")
 
@@ -208,15 +205,19 @@ import SwiftUI
 
     // MARK: - Helper Views
 
-    private func showcaseSection(title: String,
-                                 subtitle: String,
-                                 @ViewBuilder content: () -> some View) -> some View {
+    @ViewBuilder
+    private func showcaseSection(
+        title: String,
+        subtitle: String,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionHeader(title: title, subtitle: subtitle)
             content()
         }
     }
 
+    @ViewBuilder
     private func sectionHeader(title: String, subtitle: String) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
@@ -228,6 +229,7 @@ import SwiftUI
         .padding(.horizontal)
     }
 
+    @ViewBuilder
     private func indicatorDemo(style: ARCCarouselConfiguration.IndicatorStyle, label: String) -> some View {
         HStack {
             Text(label)
@@ -237,10 +239,12 @@ import SwiftUI
 
             Spacer()
 
-            ARCCarouselIndicator(totalItems: 5,
-                                 currentIndex: 2,
-                                 style: style,
-                                 accentColor: .primary)
+            ARCCarouselIndicator(
+                totalItems: 5,
+                currentIndex: 2,
+                style: style,
+                accentColor: .primary
+            )
 
             Spacer()
         }
@@ -249,7 +253,8 @@ import SwiftUI
 
 // MARK: - Sample Data Models
 
-@available(iOS 17.0, macOS 14.0, *) struct CarouselSampleItem: Identifiable {
+@available(iOS 17.0, macOS 14.0, *)
+struct CarouselSampleItem: Identifiable {
     let id = UUID()
     let color: Color
     let title: String
@@ -258,7 +263,8 @@ import SwiftUI
 
 // MARK: - Sample Views
 
-@available(iOS 17.0, macOS 14.0, *) private struct SampleCardView: View {
+@available(iOS 17.0, macOS 14.0, *)
+private struct SampleCardView: View {
     let item: CarouselSampleItem
 
     var body: some View {
@@ -277,7 +283,8 @@ import SwiftUI
     }
 }
 
-@available(iOS 17.0, macOS 14.0, *) private struct SampleBannerView: View {
+@available(iOS 17.0, macOS 14.0, *)
+private struct SampleBannerView: View {
     let item: CarouselSampleItem
 
     var body: some View {

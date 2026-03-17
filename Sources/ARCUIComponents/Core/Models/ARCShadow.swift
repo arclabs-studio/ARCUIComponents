@@ -52,7 +52,8 @@ import SwiftUI
 ///
 /// - Note: Shadows should be subtle and used sparingly. Excessive shadows can
 ///   make interfaces feel heavy and dated. Follow Apple's minimal approach.
-@available(iOS 17.0, *) public struct ARCShadow: Sendable {
+@available(iOS 17.0, *)
+public struct ARCShadow: Sendable {
     // MARK: - Properties
 
     /// The color of the shadow
@@ -85,10 +86,12 @@ import SwiftUI
     ///   - radius: Blur radius in points
     ///   - x: Horizontal offset in points
     ///   - y: Vertical offset in points
-    public init(color: Color,
-                radius: CGFloat,
-                x: CGFloat,
-                y: CGFloat) {
+    public init(
+        color: Color,
+        radius: CGFloat,
+        x: CGFloat,
+        y: CGFloat
+    ) {
         self.color = color
         self.radius = radius
         self.x = x
@@ -101,35 +104,43 @@ import SwiftUI
     ///
     /// Subtle shadow with 10% opacity, 20pt radius, and 10pt vertical offset.
     /// Suitable for most elevated components like cards and menus.
-    public static let `default` = ARCShadow(color: .black.opacity(0.1),
-                                            radius: 20,
-                                            x: 0,
-                                            y: 10)
+    public static let `default` = ARCShadow(
+        color: .black.opacity(0.1),
+        radius: 20,
+        x: 0,
+        y: 10
+    )
 
     /// Subtle shadow for minimal elevation
     ///
     /// Very light shadow with 5% opacity, 10pt radius, and 5pt vertical offset.
     /// Use for components that need slight separation without strong emphasis.
-    public static let subtle = ARCShadow(color: .black.opacity(0.05),
-                                         radius: 10,
-                                         x: 0,
-                                         y: 5)
+    public static let subtle = ARCShadow(
+        color: .black.opacity(0.05),
+        radius: 10,
+        x: 0,
+        y: 5
+    )
 
     /// Prominent shadow for high elevation
     ///
     /// Stronger shadow with 15% opacity, 30pt radius, and 15pt vertical offset.
     /// Use sparingly for modals, popovers, or critical floating elements.
-    public static let prominent = ARCShadow(color: .arcShadowMedium,
-                                            radius: 30,
-                                            x: 0,
-                                            y: 15)
+    public static let prominent = ARCShadow(
+        color: .arcShadowMedium,
+        radius: 30,
+        x: 0,
+        y: 15
+    )
 
     /// No shadow
     ///
     /// Completely transparent shadow with zero dimensions.
     /// Use when shadow should be disabled or removed.
-    public static let none = ARCShadow(color: .clear,
-                                       radius: 0,
-                                       x: 0,
-                                       y: 0)
+    public static let none = ARCShadow(
+        color: .clear,
+        radius: 0,
+        x: 0,
+        y: 0
+    )
 }

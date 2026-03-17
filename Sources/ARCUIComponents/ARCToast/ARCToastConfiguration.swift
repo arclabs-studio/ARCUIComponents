@@ -54,7 +54,8 @@ import SwiftUI
 ///     hapticFeedback: true
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCToastConfiguration: Sendable, LiquidGlassConfigurable {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCToastConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Position
 
     /// Screen position for toast display
@@ -151,16 +152,18 @@ import SwiftUI
     ///   - backgroundStyle: Background style (default: material)
     ///   - cornerRadius: Corner radius (default: 12)
     ///   - shadow: Shadow configuration (default: .default)
-    public init(position: Position = .bottom,
-                duration: Duration = .medium,
-                showIcon: Bool = true,
-                hapticFeedback: Bool = true,
-                swipeToDismiss: Bool = true,
-                tapToDismiss: Bool = false,
-                accentColor: Color = .blue,
-                backgroundStyle: ARCBackgroundStyle = .material(.regularMaterial),
-                cornerRadius: CGFloat = .arcCornerRadiusSmall,
-                shadow: ARCShadow = .default) {
+    public init(
+        position: Position = .bottom,
+        duration: Duration = .medium,
+        showIcon: Bool = true,
+        hapticFeedback: Bool = true,
+        swipeToDismiss: Bool = true,
+        tapToDismiss: Bool = false,
+        accentColor: Color = .blue,
+        backgroundStyle: ARCBackgroundStyle = .material(.regularMaterial),
+        cornerRadius: CGFloat = .arcCornerRadiusSmall,
+        shadow: ARCShadow = .default
+    ) {
         self.position = position
         self.duration = duration
         self.showIcon = showIcon
@@ -183,34 +186,44 @@ import SwiftUI
     /// Minimal toast configuration
     ///
     /// No icon, short duration, subtle appearance.
-    public static let minimal = ARCToastConfiguration(duration: .short,
-                                                      showIcon: false,
-                                                      hapticFeedback: false,
-                                                      shadow: .subtle)
+    public static let minimal = ARCToastConfiguration(
+        duration: .short,
+        showIcon: false,
+        hapticFeedback: false,
+        shadow: .subtle
+    )
 
     /// Prominent toast configuration
     ///
     /// Top position, long duration, liquid glass effect.
-    public static let prominent = ARCToastConfiguration(position: .top,
-                                                        duration: .long,
-                                                        backgroundStyle: .liquidGlass,
-                                                        cornerRadius: .arcCornerRadiusMedium,
-                                                        shadow: .prominent)
+    public static let prominent = ARCToastConfiguration(
+        position: .top,
+        duration: .long,
+        backgroundStyle: .liquidGlass,
+        cornerRadius: .arcCornerRadiusMedium,
+        shadow: .prominent
+    )
 
     /// Persistent toast configuration
     ///
     /// Indefinite duration, requires action to dismiss.
-    public static let persistent = ARCToastConfiguration(duration: .indefinite,
-                                                         swipeToDismiss: false)
+    public static let persistent = ARCToastConfiguration(
+        duration: .indefinite,
+        swipeToDismiss: false
+    )
 
     /// Top position toast configuration
     ///
     /// Same as default but positioned at top.
-    public static let top = ARCToastConfiguration(position: .top)
+    public static let top = ARCToastConfiguration(
+        position: .top
+    )
 
     /// Error-focused toast configuration
     ///
     /// Longer duration for error messages.
-    public static let error = ARCToastConfiguration(duration: .long,
-                                                    backgroundStyle: .material(.regularMaterial))
+    public static let error = ARCToastConfiguration(
+        duration: .long,
+        backgroundStyle: .material(.regularMaterial)
+    )
 }

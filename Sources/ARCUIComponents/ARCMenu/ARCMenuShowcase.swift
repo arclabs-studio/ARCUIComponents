@@ -1,9 +1,4 @@
-//
-//  ARCMenuShowcase.swift
-//  ARCUIComponents
-//
-//  Created by ARC Labs Studio on 2/10/26.
-//
+// swiftlint:disable file_length
 
 import ARCDesignSystem
 import SwiftUI
@@ -28,7 +23,8 @@ import AppKit
 /// - Design reference
 /// - Integration examples
 /// - Feature exploration
-@available(iOS 17.0, macOS 14.0, *) public struct ARCMenuShowcase: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCMenuShowcase: View {
     // MARK: - State
 
     @State private var selectedStyle: ShowcaseStyle = .default
@@ -84,10 +80,13 @@ import AppKit
         VStack(spacing: 16) {
             Image(systemName: "menucard.fill")
                 .font(.system(size: 70))
-                .foregroundStyle(LinearGradient(colors: [selectedStyle.accentColor,
-                                                         selectedStyle.accentColor.opacity(0.6)],
-                                                startPoint: .topLeading,
-                                                endPoint: .bottomTrailing))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [selectedStyle.accentColor, selectedStyle.accentColor.opacity(0.6)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
                 .symbolEffect(.bounce, value: selectedStyle)
 
             Text("ARCMenu Showcase")
@@ -123,11 +122,13 @@ import AppKit
             }
 
             // Mini preview
-            ShowcaseLivePreviewMiniature(style: selectedStyle,
-                                         variant: selectedVariant,
-                                         showBadge: showBadge,
-                                         badgeCount: badgeCount,
-                                         showUserHeader: showUserHeader)
+            LivePreviewMiniature(
+                style: selectedStyle,
+                variant: selectedVariant,
+                showBadge: showBadge,
+                badgeCount: badgeCount,
+                showUserHeader: showUserHeader
+            )
         }
         .padding(20)
         .background {
@@ -153,8 +154,10 @@ import AppKit
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(ShowcaseStyle.allCases) { style in
-                        ShowcaseStyleCard(style: style,
-                                          isSelected: selectedStyle == style) {
+                        StyleCard(
+                            style: style,
+                            isSelected: selectedStyle == style
+                        ) {
                             arcWithAnimation(.arcSpring) {
                                 selectedStyle = style
                             }
@@ -178,8 +181,10 @@ import AppKit
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(ShowcaseVariant.allCases) { variant in
-                        ShowcaseVariantCard(variant: variant,
-                                            isSelected: selectedVariant == variant) {
+                        VariantCard(
+                            variant: variant,
+                            isSelected: selectedVariant == variant
+                        ) {
                             arcWithAnimation(.arcSpring) {
                                 selectedVariant = variant
                             }
@@ -201,23 +206,29 @@ import AppKit
                 .padding(.horizontal, 20)
 
             VStack(spacing: 12) {
-                ShowcaseOptionToggle(title: "Show Badge",
-                                     icon: "circle.badge.fill",
-                                     isOn: $showBadge,
-                                     accentColor: selectedStyle.accentColor)
+                OptionToggle(
+                    title: "Show Badge",
+                    icon: "circle.badge.fill",
+                    isOn: $showBadge,
+                    accentColor: selectedStyle.accentColor
+                )
 
                 if showBadge {
-                    ShowcaseOptionStepper(title: "Badge Count",
-                                          icon: "number.circle.fill",
-                                          value: $badgeCount,
-                                          range: 0 ... 99,
-                                          accentColor: selectedStyle.accentColor)
+                    OptionStepper(
+                        title: "Badge Count",
+                        icon: "number.circle.fill",
+                        value: $badgeCount,
+                        range: 0 ... 99,
+                        accentColor: selectedStyle.accentColor
+                    )
                 }
 
-                ShowcaseOptionToggle(title: "Show User Header",
-                                     icon: "person.crop.circle.fill",
-                                     isOn: $showUserHeader,
-                                     accentColor: selectedStyle.accentColor)
+                OptionToggle(
+                    title: "Show User Header",
+                    icon: "person.crop.circle.fill",
+                    isOn: $showUserHeader,
+                    accentColor: selectedStyle.accentColor
+                )
             }
             .padding(.horizontal, 20)
         }
@@ -251,9 +262,11 @@ import AppKit
             }
             .padding(.horizontal, 20)
 
-            ShowcaseCodeBlock(code: generateCodeExample(),
-                              accentColor: selectedStyle.accentColor)
-                .padding(.horizontal, 20)
+            CodeBlock(
+                code: generateCodeExample(),
+                accentColor: selectedStyle.accentColor
+            )
+            .padding(.horizontal, 20)
         }
     }
 
@@ -268,7 +281,7 @@ import AppKit
 
             VStack(spacing: 20) {
                 ForEach(ShowcaseStyle.allCases) { style in
-                    ShowcaseGalleryCard(style: style)
+                    GalleryCard(style: style)
                 }
             }
             .padding(.horizontal, 20)
@@ -281,41 +294,32 @@ import AppKit
         let userCode = showUserHeader
             ? """
             user: ARCMenuUser(
-                    name: "\(selectedStyle.sampleUser.name)",
-                    email: "\(selectedStyle.sampleUser.email ?? "")",
-                    avatarImage: .initials("\(selectedStyle.sampleUser.initials)")
-                ),
+                name: "\(selectedStyle.sampleUser.name)",
+                email: "\(selectedStyle.sampleUser.email ?? "")",
+                avatarImage: .initials("\(selectedStyle.sampleUser.initials)")
+            ),
             """
             : "user: nil,"
 
-        let badgeCode = showBadge
-            ? """
-                showsBadge: true,
-                        badgeCount: \(badgeCount)
-            """
-            : ""
+        let badgeCode = showBadge ? """
+        showsBadge: true,
+        badgeCount: \(badgeCount)
+        """ : ""
 
         return """
-        @State private var showMenu = false
-        @State private var menuViewModel = ARCMenuViewModel(
+        let viewModel = ARCMenuViewModel.standard(
             \(userCode)
-            menuItems: [
-                .Common.settings { coordinator.showSettings() },
-                .Common.profile { coordinator.showProfile() },
-                .Common.logout { coordinator.logout() }
-            ],
-            configuration: .\(selectedStyle.configName)
+            configuration: .\(selectedStyle.configName),
+            onSettings: { /* ... */ },
+            onProfile: { /* ... */ },
+            onPlan: { /* ... */ },
+            onLogout: { /* ... */ }
         )
 
-        var body: some View {
-            NavigationStack {
-                ContentView()
-                    .arcMenuToolbarButton(
-                        isPresented: $showMenu,
-                        viewModel: menuViewModel\(badgeCode.isEmpty ? "" : ",\n                \(badgeCode)")
-                    )
-            }
-            .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+        NavigationStack {
+            ContentView()
+                .arcMenuButton(viewModel: viewModel\(badgeCode.isEmpty ? "" : ",\n        \(badgeCode)"))
+                .arcMenu(viewModel: viewModel)
         }
         """
     }
@@ -325,10 +329,503 @@ import AppKit
     public init() {}
 }
 
+// MARK: - Showcase Style
+
+enum ShowcaseStyle: String, CaseIterable, Identifiable {
+    case `default` = "Default"
+    case green = "Green"
+    case orange = "Orange"
+    case purple = "Purple"
+    case trailingPanel = "Trailing Panel"
+
+    var id: String { rawValue }
+
+    var name: String { rawValue }
+
+    var configName: String {
+        switch self {
+        case .default: "default"
+        case .green: "ARCMenuConfiguration(accentColor: .green)"
+        case .orange: "ARCMenuConfiguration(accentColor: .orange)"
+        case .purple: "ARCMenuConfiguration(accentColor: .purple)"
+        case .trailingPanel: "trailingPanel"
+        }
+    }
+
+    var accentColor: Color {
+        switch self {
+        case .default: .arcBrandGold
+        case .green: .green
+        case .orange: .orange
+        case .purple: .purple
+        case .trailingPanel: .arcBrandGold
+        }
+    }
+
+    var configuration: ARCMenuConfiguration {
+        switch self {
+        case .default: .default
+        case .green: ARCMenuConfiguration(accentColor: .green)
+        case .orange: ARCMenuConfiguration(accentColor: .orange)
+        case .purple: ARCMenuConfiguration(accentColor: .purple)
+        case .trailingPanel: .trailingPanel
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .default: "ARC Brand Gold accent"
+        case .green: "Health & Fitness apps"
+        case .orange: "Subscription services"
+        case .purple: "Dark theme apps"
+        case .trailingPanel: "Drawer style (iPad/Mac)"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .default: "menucard"
+        case .green: "figure.run"
+        case .orange: "crown.fill"
+        case .purple: "moon.stars.fill"
+        case .trailingPanel: "sidebar.trailing"
+        }
+    }
+
+    // swiftlint:disable:next large_tuple
+    var sampleUser: (name: String, email: String?, initials: String) {
+        switch self {
+        case .default: ("ARC User", "user@arclabs.studio", "AU")
+        case .green: ("Athlete Pro", "athlete@fit.app", "AP")
+        case .orange: ("Gold Member", "gold@premium.app", "GM")
+        case .purple: ("Night User", "night@dark.app", "NU")
+        case .trailingPanel: ("Panel User", "user@app.com", "PU")
+        }
+    }
+}
+
+// MARK: - Showcase Variant
+
+enum ShowcaseVariant: String, CaseIterable, Identifiable {
+    case full = "Full"
+    case compact = "Compact"
+    case minimal = "Minimal"
+    case custom = "Custom"
+
+    var id: String { rawValue }
+
+    var name: String { rawValue }
+
+    var description: String {
+        switch self {
+        case .full: "All menu items"
+        case .compact: "Essential items only"
+        case .minimal: "Just logout"
+        case .custom: "Custom actions"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .full: "list.bullet"
+        case .compact: "list.dash"
+        case .minimal: "minus.circle"
+        case .custom: "slider.horizontal.3"
+        }
+    }
+}
+
+// MARK: - Style Card
+
+private struct StyleCard: View {
+    let style: ShowcaseStyle
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 12) {
+                Image(systemName: style.icon)
+                    .font(.title)
+                    .foregroundStyle(
+                        isSelected ? style.accentColor : Color.secondary
+                    )
+                    .frame(width: 50, height: 50)
+                    .background {
+                        Circle()
+                            .fill(style.accentColor.opacity(isSelected ? 0.2 : 0.05))
+                    }
+
+                VStack(spacing: 4) {
+                    Text(style.name)
+                        .font(.subheadline)
+                        .fontWeight(isSelected ? .semibold : .regular)
+
+                    Text(style.description)
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .frame(width: 120)
+            .padding(.vertical, 16)
+            .background {
+                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                #if os(iOS)
+                    .fill(Color(uiColor: .secondarySystemGroupedBackground))
+                #else
+                    .fill(Color(nsColor: .underPageBackgroundColor))
+                #endif
+                    .overlay {
+                        if isSelected {
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .strokeBorder(style.accentColor, lineWidth: 2)
+                        }
+                    }
+            }
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Variant Card
+
+private struct VariantCard: View {
+    let variant: ShowcaseVariant
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 12) {
+                Image(systemName: variant.icon)
+                    .font(.title3)
+                    .foregroundStyle(isSelected ? Color.blue : Color.secondary)
+                    .frame(width: 30, height: 30)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(variant.name)
+                        .font(.subheadline)
+                        .fontWeight(isSelected ? .semibold : .regular)
+
+                    Text(variant.description)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                if isSelected {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(.blue)
+                }
+            }
+            .padding(12)
+            .background {
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                #if os(iOS)
+                    .fill(Color(uiColor: .secondarySystemGroupedBackground))
+                #else
+                    .fill(Color(nsColor: .underPageBackgroundColor))
+                #endif
+                    .overlay {
+                        if isSelected {
+                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                .strokeBorder(Color.blue, lineWidth: 2)
+                        }
+                    }
+            }
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Option Toggle
+
+private struct OptionToggle: View {
+    let title: String
+    let icon: String
+    @Binding var isOn: Bool
+    let accentColor: Color
+
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundStyle(accentColor)
+                .frame(width: 30)
+
+            Text(title)
+                .font(.body)
+
+            Spacer()
+
+            Toggle("", isOn: $isOn)
+                .labelsHidden()
+                .tint(accentColor)
+        }
+        .padding(16)
+        .background {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            #if os(iOS)
+                .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
+        }
+    }
+}
+
+// MARK: - Option Stepper
+
+private struct OptionStepper: View {
+    let title: String
+    let icon: String
+    @Binding var value: Int
+    let range: ClosedRange<Int>
+    let accentColor: Color
+
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundStyle(accentColor)
+                .frame(width: 30)
+
+            Text(title)
+                .font(.body)
+
+            Spacer()
+
+            HStack(spacing: 12) {
+                Button {
+                    if value > range.lowerBound {
+                        value -= 1
+                    }
+                } label: {
+                    Image(systemName: "minus.circle.fill")
+                        .font(.title3)
+                        .foregroundStyle(accentColor)
+                }
+
+                Text("\(value)")
+                    .font(.body)
+                    .fontWeight(.semibold)
+                    .frame(minWidth: 30)
+
+                Button {
+                    if value < range.upperBound {
+                        value += 1
+                    }
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.title3)
+                        .foregroundStyle(accentColor)
+                }
+            }
+        }
+        .padding(16)
+        .background {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            #if os(iOS)
+                .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
+        }
+    }
+}
+
+// MARK: - Code Block
+
+private struct CodeBlock: View {
+    let code: String
+    let accentColor: Color
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            Text(code)
+                .font(.system(size: 13, design: .monospaced))
+                .padding(16)
+        }
+        .background {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            #if os(iOS)
+                .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
+                .overlay {
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .strokeBorder(accentColor.opacity(0.3), lineWidth: 1)
+                }
+        }
+    }
+}
+
+// MARK: - Live Preview Miniature
+
+private struct LivePreviewMiniature: View {
+    let style: ShowcaseStyle
+    let variant: ShowcaseVariant
+    let showBadge: Bool
+    let badgeCount: Int
+    let showUserHeader: Bool
+
+    @State private var viewModel: ARCMenuViewModel
+
+    init(style: ShowcaseStyle, variant: ShowcaseVariant, showBadge: Bool, badgeCount: Int, showUserHeader: Bool) {
+        self.style = style
+        self.variant = variant
+        self.showBadge = showBadge
+        self.badgeCount = badgeCount
+        self.showUserHeader = showUserHeader
+
+        _viewModel = State(initialValue: ARCMenuViewModel.standard(
+            user: showUserHeader
+                ? ARCMenuUser(
+                    name: style.sampleUser.name,
+                    email: style.sampleUser.email,
+                    avatarImage: .initials(style.sampleUser.initials)
+                )
+                : nil,
+            configuration: style.configuration,
+            onSettings: {},
+            onProfile: {},
+            onPlan: {},
+            onContact: {},
+            onAbout: {},
+            onLogout: {}
+        ))
+    }
+
+    var body: some View {
+        ZStack {
+            // Background gradient
+            LinearGradient(
+                colors: [
+                    style.accentColor.opacity(0.3),
+                    style.accentColor.opacity(0.1)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .frame(height: 250)
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+
+            // Menu button mock
+            VStack {
+                HStack {
+                    Spacer()
+
+                    ARCMenuButton(
+                        viewModel: viewModel,
+                        showsBadge: showBadge,
+                        badgeCount: badgeCount
+                    )
+                    .padding(16)
+                }
+
+                Spacer()
+
+                Text("Tap button to preview →")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .padding(.bottom, 20)
+            }
+        }
+        .arcMenu(viewModel: viewModel)
+    }
+}
+
+// MARK: - Gallery Card
+
+private struct GalleryCard: View {
+    let style: ShowcaseStyle
+
+    @State private var viewModel: ARCMenuViewModel
+
+    init(style: ShowcaseStyle) {
+        self.style = style
+
+        _viewModel = State(initialValue: ARCMenuViewModel.standard(
+            user: ARCMenuUser(
+                name: style.sampleUser.name,
+                email: style.sampleUser.email,
+                avatarImage: .initials(style.sampleUser.initials)
+            ),
+            configuration: style.configuration,
+            onSettings: {},
+            onProfile: {},
+            onLogout: {}
+        ))
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(systemName: style.icon)
+                    .foregroundStyle(style.accentColor)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(style.name)
+                        .font(.headline)
+
+                    Text(style.description)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+
+                Spacer()
+
+                Button {
+                    viewModel.present()
+                } label: {
+                    Text("Preview")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background {
+                            Capsule()
+                                .fill(style.accentColor)
+                        }
+                }
+            }
+
+            // Mini screenshot mockup
+            ZStack {
+                LinearGradient(
+                    colors: [
+                        style.accentColor.opacity(0.2),
+                        style.accentColor.opacity(0.05)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .frame(height: 150)
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+
+                Text("Style: \(style.name)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(16)
+        .background {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+            #if os(iOS)
+                .fill(Color(uiColor: .secondarySystemGroupedBackground))
+            #else
+                .fill(Color(nsColor: .underPageBackgroundColor))
+            #endif
+        }
+        .arcMenu(viewModel: viewModel)
+    }
+}
+
 // MARK: - Integration Guide
 
 /*
- # ARCMenu Integration Guide (v1.9.1+)
+ # ARCMenu Integration Guide
 
  ## Basic Setup
 
@@ -337,20 +834,17 @@ import AppKit
  import ARCUIComponents
  ```
 
- 2. Create state for presentation and view model:
+ 2. Create a view model (usually as a @State property):
  ```swift
- @State private var showMenu = false
- @State private var menuViewModel = ARCMenuViewModel(
+ @State private var menuViewModel = ARCMenuViewModel.standard(
      user: ARCMenuUser(
          name: "Your Name",
          email: "you@email.com",
          avatarImage: .initials("YN")
      ),
-     menuItems: [
-         .Common.settings { print("Settings") },
-         .Common.profile { print("Profile") },
-         .Common.logout { print("Logout") }
-     ]
+     onSettings: { /* handle settings */ },
+     onProfile: { /* handle profile */ },
+     onLogout: { /* handle logout */ }
  )
  ```
 
@@ -359,25 +853,15 @@ import AppKit
  var body: some View {
      NavigationStack {
          YourContentView()
-             .arcMenuToolbarButton(
-                 isPresented: $showMenu,
-                 viewModel: menuViewModel
-             )
+             .arcMenuButton(viewModel: menuViewModel)
+             .arcMenu(viewModel: menuViewModel)
      }
-     .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
  }
  ```
 
- ## Architecture Agnostic
+ ## Advanced Customization
 
- ARCMenu works with any architecture. The only requirement is a `Binding<Bool>`:
-
- - Plain SwiftUI: `@State private var showMenu`
- - With Coordinator: Pass actions to menu items
- - With TCA: `$store.isMenuPresented`
- - With Environment: `@EnvironmentObject` for services
-
- ## Custom Menu Items
+ ### Custom Menu Items
  ```swift
  let customItem = ARCMenuItem(
      title: "Custom Action",
@@ -389,14 +873,15 @@ import AppKit
  )
  ```
 
- ## Custom Configuration
+ ### Custom Configuration
  ```swift
  let config = ARCMenuConfiguration(
      accentColor: .purple,
+     backgroundStyle: .liquidGlass,
      cornerRadius: 30,
+     shadow: .prominent,
      menuWidth: 320,
-     hapticFeedback: .medium,
-     sheetTitle: "Account"
+     hapticFeedback: .medium
  )
 
  let viewModel = ARCMenuViewModel(
@@ -406,7 +891,7 @@ import AppKit
  )
  ```
 
- ## User Avatar Options
+ ### User Avatar Options
  ```swift
  // SF Symbol
  .avatarImage(.systemImage("person.circle.fill"))
@@ -414,8 +899,8 @@ import AppKit
  // Image from assets
  .avatarImage(.imageName("avatar"))
 
- // Remote URL (use guard/if-let in production)
- .avatarImage(.url(URL(string: "https://example.com/avatar.jpg")))
+ // Remote URL
+ .avatarImage(.url(URL(string: "https://...")!))
 
  // Initials with gradient
  .avatarImage(.initials("AB"))
@@ -423,22 +908,27 @@ import AppKit
 
  ## Best Practices
 
- 1. **External Binding**: Always use `@State var showMenu` for reliable
-    sheet presentation (this is SwiftUI's standard pattern)
+ 1. **Configuration Presets**: Use built-in presets (.default, .fitness, .premium, .dark)
+    for consistent Apple-like styling
 
  2. **Haptic Feedback**: Keep haptic feedback enabled for better UX
+    (can be customized via configuration)
 
  3. **Badge Count**: Use badges sparingly for important notifications only
 
- 4. **Destructive Actions**: Place logout/delete at the bottom
+ 4. **Menu Width**: Default 320pt works well for most cases,
+    adjust for iPad if needed
+
+ 5. **Destructive Actions**: Place logout/delete actions at the bottom
+    and mark as destructive
 
  ## Tips
 
- - Uses native SwiftUI `.sheet()` presentation
- - Drag-to-dismiss is enabled by default
+ - The menu automatically handles safe areas and notches
+ - Drag-to-dismiss is enabled by default (can be disabled)
+ - The backdrop automatically adjusts opacity during drag
  - All animations follow Apple's spring animation curves
- - Supports both light and dark mode automatically
- - iOS 26+ will use Liquid Glass effect when available
+ - The menu supports both light and dark mode automatically
  */
 
 // MARK: - Preview Provider

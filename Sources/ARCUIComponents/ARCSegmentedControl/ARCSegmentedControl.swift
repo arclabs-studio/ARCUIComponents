@@ -77,7 +77,8 @@ import UIKit
 ///     configuration: .pill
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCSegmentedControl<SelectionValue: Hashable & Sendable>: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCSegmentedControl<SelectionValue: Hashable & Sendable>: View {
     // MARK: - Properties
 
     @Binding private var selection: SelectionValue
@@ -97,9 +98,11 @@ import UIKit
     ///   - selection: Binding to the selected value
     ///   - segments: Array of segment items to display
     ///   - configuration: Visual and behavior configuration
-    public init(selection: Binding<SelectionValue>,
-                segments: [ARCSegment<SelectionValue>],
-                configuration: ARCSegmentedControlConfiguration = .default) {
+    public init(
+        selection: Binding<SelectionValue>,
+        segments: [ARCSegment<SelectionValue>],
+        configuration: ARCSegmentedControlConfiguration = .default
+    ) {
         _selection = selection
         self.segments = segments
         self.configuration = configuration
@@ -124,7 +127,7 @@ import UIKit
         }
     }
 
-    private var standardContainer: some View {
+    @ViewBuilder private var standardContainer: some View {
         HStack(spacing: 0) {
             ForEach(segments) { segment in
                 segmentButton(for: segment)
@@ -134,13 +137,15 @@ import UIKit
         .frame(height: configuration.size.height)
         .background(containerBackground)
         .clipShape(RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous))
-        .shadow(color: configuration.shadow.color,
-                radius: configuration.shadow.radius,
-                x: configuration.shadow.x,
-                y: configuration.shadow.y)
+        .shadow(
+            color: configuration.shadow.color,
+            radius: configuration.shadow.radius,
+            x: configuration.shadow.x,
+            y: configuration.shadow.y
+        )
     }
 
-    private var underlinedContainer: some View {
+    @ViewBuilder private var underlinedContainer: some View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 ForEach(segments) { segment in
@@ -178,29 +183,42 @@ import UIKit
         }
     }
 
-    private var glassBackground: some View {
+    @ViewBuilder private var glassBackground: some View {
         RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
             .fill(.ultraThinMaterial)
             .overlay {
                 RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                    .fill(LinearGradient(colors: [Color.white.opacity(0.1),
-                                                  Color.white.opacity(0.05)],
-                                         startPoint: .top,
-                                         endPoint: .bottom))
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.1),
+                                Color.white.opacity(0.05)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
             }
             .overlay {
                 RoundedRectangle(cornerRadius: configuration.cornerRadius, style: .continuous)
-                    .strokeBorder(LinearGradient(colors: [Color.white.opacity(0.2),
-                                                          Color.white.opacity(0.1)],
-                                                 startPoint: .top,
-                                                 endPoint: .bottom),
-                                  lineWidth: 0.5)
+                    .strokeBorder(
+                        LinearGradient(
+                            colors: [
+                                Color.white.opacity(0.2),
+                                Color.white.opacity(0.1)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        ),
+                        lineWidth: 0.5
+                    )
             }
     }
 
     // MARK: - Segment Button
 
-    @ViewBuilder private func segmentButton(for segment: ARCSegment<SelectionValue>) -> some View {
+    @ViewBuilder
+    private func segmentButton(for segment: ARCSegment<SelectionValue>) -> some View {
         let isSelected = segment.value == selection
 
         Button {
@@ -222,6 +240,7 @@ import UIKit
         .accessibilityHint("Double tap to select")
     }
 
+    @ViewBuilder
     private func segmentContent(for segment: ARCSegment<SelectionValue>, isSelected: Bool) -> some View {
         HStack(spacing: 6) {
             if let icon = segment.icon {
@@ -254,20 +273,20 @@ import UIKit
         }
     }
 
-    private var filledIndicator: some View {
+    @ViewBuilder private var filledIndicator: some View {
         RoundedRectangle(cornerRadius: configuration.selectionCornerRadius, style: .continuous)
             .fill(configuration.selectedColor)
             .matchedGeometryEffect(id: "selection", in: namespace)
             .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
     }
 
-    private var outlinedIndicator: some View {
+    @ViewBuilder private var outlinedIndicator: some View {
         RoundedRectangle(cornerRadius: configuration.selectionCornerRadius, style: .continuous)
             .strokeBorder(configuration.selectedColor, lineWidth: 1.5)
             .matchedGeometryEffect(id: "selection", in: namespace)
     }
 
-    private var glassIndicator: some View {
+    @ViewBuilder private var glassIndicator: some View {
         RoundedRectangle(cornerRadius: configuration.selectionCornerRadius, style: .continuous)
             .fill(configuration.selectedColor)
             .matchedGeometryEffect(id: "selection", in: namespace)
@@ -320,10 +339,12 @@ import UIKit
 
 // MARK: - CaseIterable Convenience Init
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCSegmentedControl where
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCSegmentedControl where
     SelectionValue: CaseIterable & RawRepresentable,
     SelectionValue.AllCases: RandomAccessCollection,
-    SelectionValue.RawValue == String {
+    SelectionValue.RawValue == String
+{
     /// Creates a segmented control from an enum conforming to CaseIterable
     ///
     /// This convenience initializer automatically creates segments from all cases
@@ -332,8 +353,10 @@ import UIKit
     /// - Parameters:
     ///   - selection: Binding to the selected value
     ///   - configuration: Visual and behavior configuration
-    public init(selection: Binding<SelectionValue>,
-                configuration: ARCSegmentedControlConfiguration = .default) {
+    public init(
+        selection: Binding<SelectionValue>,
+        configuration: ARCSegmentedControlConfiguration = .default
+    ) {
         let segments = SelectionValue.allCases.map { value in
             ARCSegment.text(value.rawValue, value: value)
         }

@@ -52,7 +52,8 @@ import SwiftUI
 /// Image(systemName: "bell")
 ///     .arcBadge(count: unreadCount)
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCBadge: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCBadge: View {
     // MARK: - Content
 
     /// Content types for badges
@@ -138,14 +139,14 @@ import SwiftUI
         }
     }
 
-    private var dotView: some View {
+    @ViewBuilder private var dotView: some View {
         Circle()
             .fill(configuration.style.color)
             .frame(width: configuration.size.height / 2, height: configuration.size.height / 2)
             .accessibilityLabel("Status indicator")
     }
 
-    private var labelView: some View {
+    @ViewBuilder private var labelView: some View {
         Text(displayText)
             .font(.system(size: configuration.size.fontSize, weight: .bold, design: .rounded))
             .foregroundStyle(textColor)

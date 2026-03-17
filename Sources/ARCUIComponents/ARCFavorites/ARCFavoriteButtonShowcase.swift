@@ -20,7 +20,8 @@ import SwiftUI
 /// - Compare configurations side by side
 /// - Verify accessibility and Dynamic Type support
 /// - See buttons in realistic contexts (cards, lists, toolbars)
-@available(iOS 17.0, *) public struct ARCFavoriteButtonShowcase: View {
+@available(iOS 17.0, *)
+public struct ARCFavoriteButtonShowcase: View {
     // MARK: - State
 
     @State private var selectedTab: ShowcaseTab = .sizes
@@ -71,9 +72,11 @@ import SwiftUI
 
     private var sizesContent: some View {
         VStack(spacing: 40) {
-            SectionHeader(title: "Sizes",
-                          subtitle: "Different button sizes with proper touch targets")
-                .padding(.horizontal)
+            SectionHeader(
+                title: "Sizes",
+                subtitle: "Different button sizes with proper touch targets"
+            )
+            .padding(.horizontal)
 
             // Small
             SizeExample(size: .small, title: "Small", description: "20pt icon, 44pt touch target")
@@ -102,61 +105,73 @@ import SwiftUI
 
     private var iconsContent: some View {
         VStack(spacing: 40) {
-            SectionHeader(title: "Icon Styles",
-                          subtitle: "Customize icons to match your context")
-                .padding(.horizontal)
+            SectionHeader(
+                title: "Icon Styles",
+                subtitle: "Customize icons to match your context"
+            )
+            .padding(.horizontal)
 
             // Heart (default)
-            IconExample(title: "Heart",
-                        description: "Default style for favorites",
-                        favoriteIcon: "heart.fill",
-                        unfavoriteIcon: "heart",
-                        isFavorite: binding(for: "icon-heart"),
-                        color: .pink)
+            IconExample(
+                title: "Heart",
+                description: "Default style for favorites",
+                favoriteIcon: "heart.fill",
+                unfavoriteIcon: "heart",
+                isFavorite: binding(for: "icon-heart"),
+                color: .pink
+            )
 
             Divider()
                 .padding(.horizontal)
 
             // Bookmark
-            IconExample(title: "Bookmark",
-                        description: "Ideal for saving articles or content",
-                        favoriteIcon: "bookmark.fill",
-                        unfavoriteIcon: "bookmark",
-                        isFavorite: binding(for: "icon-bookmark"),
-                        color: .blue)
+            IconExample(
+                title: "Bookmark",
+                description: "Ideal for saving articles or content",
+                favoriteIcon: "bookmark.fill",
+                unfavoriteIcon: "bookmark",
+                isFavorite: binding(for: "icon-bookmark"),
+                color: .blue
+            )
 
             Divider()
                 .padding(.horizontal)
 
             // Star
-            IconExample(title: "Star",
-                        description: "Perfect for ratings and highlights",
-                        favoriteIcon: "star.fill",
-                        unfavoriteIcon: "star",
-                        isFavorite: binding(for: "icon-star"),
-                        color: .yellow)
+            IconExample(
+                title: "Star",
+                description: "Perfect for ratings and highlights",
+                favoriteIcon: "star.fill",
+                unfavoriteIcon: "star",
+                isFavorite: binding(for: "icon-star"),
+                color: .yellow
+            )
 
             Divider()
                 .padding(.horizontal)
 
             // Pin
-            IconExample(title: "Pin",
-                        description: "Great for pinning important items",
-                        favoriteIcon: "pin.fill",
-                        unfavoriteIcon: "pin",
-                        isFavorite: binding(for: "icon-pin"),
-                        color: .orange)
+            IconExample(
+                title: "Pin",
+                description: "Great for pinning important items",
+                favoriteIcon: "pin.fill",
+                unfavoriteIcon: "pin",
+                isFavorite: binding(for: "icon-pin"),
+                color: .orange
+            )
 
             Divider()
                 .padding(.horizontal)
 
             // Flag
-            IconExample(title: "Flag",
-                        description: "Useful for marking or flagging items",
-                        favoriteIcon: "flag.fill",
-                        unfavoriteIcon: "flag",
-                        isFavorite: binding(for: "icon-flag"),
-                        color: .red)
+            IconExample(
+                title: "Flag",
+                description: "Useful for marking or flagging items",
+                favoriteIcon: "flag.fill",
+                unfavoriteIcon: "flag",
+                isFavorite: binding(for: "icon-flag"),
+                color: .red
+            )
         }
     }
 
@@ -164,15 +179,21 @@ import SwiftUI
 
     private var colorsContent: some View {
         VStack(spacing: 40) {
-            SectionHeader(title: "Colors",
-                          subtitle: "Different accent colors for various contexts")
-                .padding(.horizontal)
+            SectionHeader(
+                title: "Colors",
+                subtitle: "Different accent colors for various contexts"
+            )
+            .padding(.horizontal)
 
-            LazyVGrid(columns: [GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: 32) {
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: 32) {
                 ForEach(ColorVariation.allCases, id: \.self) { variation in
-                    ColorExample(variation: variation,
-                                 isFavorite: binding(for: variation.id))
+                    ColorExample(
+                        variation: variation,
+                        isFavorite: binding(for: variation.id)
+                    )
                 }
             }
             .padding(.horizontal)
@@ -183,24 +204,32 @@ import SwiftUI
 
     private var contextsContent: some View {
         VStack(spacing: 40) {
-            SectionHeader(title: "In Context",
-                          subtitle: "Favorite buttons in realistic usage scenarios")
-                .padding(.horizontal)
+            SectionHeader(
+                title: "In Context",
+                subtitle: "Favorite buttons in realistic usage scenarios"
+            )
+            .padding(.horizontal)
 
             // Card Context
-            ContextExample(title: "In Card",
-                           description: "Favorite button on a content card") {
+            ContextExample(
+                title: "In Card",
+                description: "Favorite button on a content card"
+            ) {
                 ContentCard(isFavorite: binding(for: "card"))
             }
 
             // List Context
-            ContextExample(title: "In List",
-                           description: "Favorite button in list row") {
+            ContextExample(
+                title: "In List",
+                description: "Favorite button in list row"
+            ) {
                 VStack(spacing: 0) {
                     ForEach(1 ... 3, id: \.self) { index in
-                        ListRow(title: "Item \(index)",
-                                subtitle: "List item with favorite button",
-                                isFavorite: binding(for: "list-\(index)"))
+                        ListRow(
+                            title: "Item \(index)",
+                            subtitle: "List item with favorite button",
+                            isFavorite: binding(for: "list-\(index)")
+                        )
                         if index < 3 {
                             Divider()
                                 .padding(.leading, 60)
@@ -216,8 +245,10 @@ import SwiftUI
             }
 
             // Toolbar Context
-            ContextExample(title: "In Toolbar",
-                           description: "Favorite button in navigation toolbar") {
+            ContextExample(
+                title: "In Toolbar",
+                description: "Favorite button in navigation toolbar"
+            ) {
                 VStack(spacing: 0) {
                     // Toolbar
                     HStack {
@@ -233,8 +264,10 @@ import SwiftUI
 
                         Spacer()
 
-                        ARCFavoriteButton(isFavorite: binding(for: "toolbar"),
-                                          size: .medium)
+                        ARCFavoriteButton(
+                            isFavorite: binding(for: "toolbar"),
+                            size: .medium
+                        )
                     }
                     .padding()
                     .background(.ultraThinMaterial)
@@ -269,14 +302,17 @@ import SwiftUI
     // MARK: - Helper Methods
 
     private func binding(for key: String) -> Binding<Bool> {
-        Binding(get: { favoriteStates[key] ?? false },
-                set: { favoriteStates[key] = $0 })
+        Binding(
+            get: { favoriteStates[key] ?? false },
+            set: { favoriteStates[key] = $0 }
+        )
     }
 }
 
 // MARK: - Size Example
 
-@available(iOS 17.0, *) private struct SizeExample: View {
+@available(iOS 17.0, *)
+private struct SizeExample: View {
     @State private var isFavorite = false
     let size: ARCFavoriteButton.Size
     let title: String
@@ -297,8 +333,10 @@ import SwiftUI
 
             HStack(spacing: 40) {
                 VStack(spacing: 12) {
-                    ARCFavoriteButton(isFavorite: $isFavorite,
-                                      size: size)
+                    ARCFavoriteButton(
+                        isFavorite: $isFavorite,
+                        size: size
+                    )
 
                     Text("Not Favorited")
                         .font(.caption)
@@ -306,8 +344,10 @@ import SwiftUI
                 }
 
                 VStack(spacing: 12) {
-                    ARCFavoriteButton(isFavorite: .constant(true),
-                                      size: size)
+                    ARCFavoriteButton(
+                        isFavorite: .constant(true),
+                        size: size
+                    )
 
                     Text("Favorited")
                         .font(.caption)
@@ -320,7 +360,8 @@ import SwiftUI
 
 // MARK: - Icon Example
 
-@available(iOS 17.0, *) private struct IconExample: View {
+@available(iOS 17.0, *)
+private struct IconExample: View {
     let title: String
     let description: String
     let favoriteIcon: String
@@ -343,9 +384,11 @@ import SwiftUI
 
             HStack(spacing: 40) {
                 VStack(spacing: 12) {
-                    ARCFavoriteButton(isFavorite: .constant(false),
-                                      icon: .custom(filled: favoriteIcon, empty: unfavoriteIcon),
-                                      color: color)
+                    ARCFavoriteButton(
+                        isFavorite: .constant(false),
+                        icon: .custom(filled: favoriteIcon, empty: unfavoriteIcon),
+                        color: color
+                    )
 
                     Text("Not Active")
                         .font(.caption)
@@ -353,9 +396,11 @@ import SwiftUI
                 }
 
                 VStack(spacing: 12) {
-                    ARCFavoriteButton(isFavorite: .constant(true),
-                                      icon: .custom(filled: favoriteIcon, empty: unfavoriteIcon),
-                                      color: color)
+                    ARCFavoriteButton(
+                        isFavorite: .constant(true),
+                        icon: .custom(filled: favoriteIcon, empty: unfavoriteIcon),
+                        color: color
+                    )
 
                     Text("Active")
                         .font(.caption)
@@ -363,10 +408,12 @@ import SwiftUI
                 }
 
                 VStack(spacing: 12) {
-                    ARCFavoriteButton(isFavorite: $isFavorite,
-                                      icon: .custom(filled: favoriteIcon, empty: unfavoriteIcon),
-                                      color: color,
-                                      size: .large)
+                    ARCFavoriteButton(
+                        isFavorite: $isFavorite,
+                        icon: .custom(filled: favoriteIcon, empty: unfavoriteIcon),
+                        color: color,
+                        size: .large
+                    )
 
                     Text("Interactive")
                         .font(.caption)
@@ -379,15 +426,18 @@ import SwiftUI
 
 // MARK: - Color Example
 
-@available(iOS 17.0, *) private struct ColorExample: View {
+@available(iOS 17.0, *)
+private struct ColorExample: View {
     let variation: ColorVariation
     @Binding var isFavorite: Bool
 
     var body: some View {
         VStack(spacing: 16) {
-            ARCFavoriteButton(isFavorite: $isFavorite,
-                              color: variation.color,
-                              size: .large)
+            ARCFavoriteButton(
+                isFavorite: $isFavorite,
+                color: variation.color,
+                size: .large
+            )
 
             Text(variation.name)
                 .font(.caption.bold())
@@ -409,7 +459,8 @@ import SwiftUI
 
 // MARK: - Content Card
 
-@available(iOS 17.0, *) private struct ContentCard: View {
+@available(iOS 17.0, *)
+private struct ContentCard: View {
     @Binding var isFavorite: Bool
 
     var body: some View {
@@ -417,14 +468,20 @@ import SwiftUI
             // Image with favorite button
             ZStack(alignment: .topTrailing) {
                 Rectangle()
-                    .fill(LinearGradient(colors: [.blue, .purple],
-                                         startPoint: .topLeading,
-                                         endPoint: .bottomTrailing))
+                    .fill(
+                        LinearGradient(
+                            colors: [.blue, .purple],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
                     .frame(height: 180)
 
-                ARCFavoriteButton(isFavorite: $isFavorite,
-                                  size: .medium)
-                    .padding(12)
+                ARCFavoriteButton(
+                    isFavorite: $isFavorite,
+                    size: .medium
+                )
+                .padding(12)
             }
 
             // Card content
@@ -450,7 +507,8 @@ import SwiftUI
 
 // MARK: - List Row
 
-@available(iOS 17.0, *) private struct ListRow: View {
+@available(iOS 17.0, *)
+private struct ListRow: View {
     let title: String
     let subtitle: String
     @Binding var isFavorite: Bool
@@ -472,8 +530,10 @@ import SwiftUI
 
             Spacer()
 
-            ARCFavoriteButton(isFavorite: $isFavorite,
-                              size: .medium)
+            ARCFavoriteButton(
+                isFavorite: $isFavorite,
+                size: .medium
+            )
         }
         .padding()
     }
@@ -481,7 +541,8 @@ import SwiftUI
 
 // MARK: - Context Example
 
-@available(iOS 17.0, *) private struct ContextExample<Content: View>: View {
+@available(iOS 17.0, *)
+private struct ContextExample<Content: View>: View {
     let title: String
     let description: String
     @ViewBuilder let content: () -> Content
@@ -507,7 +568,8 @@ import SwiftUI
 
 // MARK: - Section Header
 
-@available(iOS 17.0, *) private struct SectionHeader: View {
+@available(iOS 17.0, *)
+private struct SectionHeader: View {
     let title: String
     let subtitle: String
 
@@ -528,7 +590,8 @@ import SwiftUI
 
 // MARK: - Color Variation
 
-@available(iOS 17.0, *) private enum ColorVariation: CaseIterable {
+@available(iOS 17.0, *)
+private enum ColorVariation: CaseIterable {
     case pink, red, orange, yellow, green, blue
 
     var id: String {
@@ -560,7 +623,8 @@ import SwiftUI
 
 // MARK: - Showcase Tab
 
-@available(iOS 17.0, *) private enum ShowcaseTab: String, CaseIterable {
+@available(iOS 17.0, *)
+private enum ShowcaseTab: String, CaseIterable {
     case sizes = "Sizes"
     case icons = "Icons"
     case colors = "Colors"

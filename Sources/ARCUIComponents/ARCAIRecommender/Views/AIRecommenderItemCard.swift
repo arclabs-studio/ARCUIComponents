@@ -12,7 +12,8 @@ import SwiftUI
 ///
 /// Shows item artwork, title, subtitle, optional AI reason, and rating.
 /// Designed for use in a vertical list of recommendations.
-@available(iOS 17.0, macOS 14.0, *) struct AIRecommenderItemCard<Item: AIRecommenderItem>: View {
+@available(iOS 17.0, macOS 14.0, *)
+struct AIRecommenderItemCard<Item: AIRecommenderItem>: View {
     // MARK: - Properties
 
     let item: Item
@@ -44,8 +45,10 @@ import SwiftUI
                 }
             }
             .padding(.arcSpacingMedium)
-            .background(RoundedRectangle(cornerRadius: configuration.itemCornerRadius, style: .continuous)
-                .fill(.ultraThinMaterial))
+            .background(
+                RoundedRectangle(cornerRadius: configuration.itemCornerRadius, style: .continuous)
+                    .fill(.ultraThinMaterial)
+            )
         }
         .buttonStyle(ARCCardPressStyle.subtle)
         .accessibilityElement(children: .combine)
@@ -54,14 +57,17 @@ import SwiftUI
 
     // MARK: - Private Views
 
+    @ViewBuilder
     private func rankBadge(rank: Int) -> some View {
         Text("\(rank)")
             .font(.caption)
             .fontWeight(.bold)
             .foregroundStyle(.white)
             .frame(width: 24, height: 24)
-            .background(Circle()
-                .fill(configuration.accentColor.gradient))
+            .background(
+                Circle()
+                    .fill(configuration.accentColor.gradient)
+            )
     }
 
     @ViewBuilder private var artworkView: some View {
@@ -70,13 +76,15 @@ import SwiftUI
         } else {
             // Default placeholder with accent color
             AIRecommenderImageSource
-                .placeholder(colors: [configuration.accentColor.opacity(0.2),
-                                      configuration.accentColor.opacity(0.1)])
+                .placeholder(colors: [
+                    configuration.accentColor.opacity(0.2),
+                    configuration.accentColor.opacity(0.1)
+                ])
                 .imageView(size: 60)
         }
     }
 
-    private var textContent: some View {
+    @ViewBuilder private var textContent: some View {
         VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
             Text(item.title)
                 .font(.subheadline)
@@ -99,6 +107,7 @@ import SwiftUI
         }
     }
 
+    @ViewBuilder
     private func ratingView(rating: Double) -> some View {
         VStack(alignment: .trailing, spacing: 2) {
             HStack(spacing: 2) {
@@ -142,7 +151,8 @@ import SwiftUI
 
 // MARK: - Previews
 
-@available(iOS 17.0, macOS 14.0, *) private struct MockItem: AIRecommenderItem {
+@available(iOS 17.0, macOS 14.0, *)
+private struct MockItem: AIRecommenderItem {
     let id: UUID
     let title: String
     let subtitle: String?
@@ -153,45 +163,57 @@ import SwiftUI
 
 #if os(iOS)
 #Preview("Item Card - Full") {
-    AIRecommenderItemCard(item: MockItem(id: UUID(),
-                                         title: "La Tagliatella",
-                                         subtitle: "Italiano · €€",
-                                         rating: 8.5,
-                                         imageSource: .system("fork.knife", color: .orange),
-                                         aiReason: "Te encanta la cocina italiana"),
-                          rank: 1,
-                          configuration: .default,
-                          action: {})
-        .padding()
-        .background(Color(.systemGroupedBackground))
+    AIRecommenderItemCard(
+        item: MockItem(
+            id: UUID(),
+            title: "La Tagliatella",
+            subtitle: "Italiano · €€",
+            rating: 8.5,
+            imageSource: .system("fork.knife", color: .orange),
+            aiReason: "Te encanta la cocina italiana"
+        ),
+        rank: 1,
+        configuration: .default,
+        action: {}
+    )
+    .padding()
+    .background(Color(.systemGroupedBackground))
 }
 
 #Preview("Item Card - Minimal") {
-    AIRecommenderItemCard(item: MockItem(id: UUID(),
-                                         title: "El Rincón",
-                                         subtitle: "Español · €€€",
-                                         rating: 9.2,
-                                         imageSource: .system("flame.fill", color: .red),
-                                         aiReason: nil),
-                          rank: nil,
-                          configuration: .minimal,
-                          action: {})
-        .padding()
-        .background(Color(.systemGroupedBackground))
+    AIRecommenderItemCard(
+        item: MockItem(
+            id: UUID(),
+            title: "El Rincón",
+            subtitle: "Español · €€€",
+            rating: 9.2,
+            imageSource: .system("flame.fill", color: .red),
+            aiReason: nil
+        ),
+        rank: nil,
+        configuration: .minimal,
+        action: {}
+    )
+    .padding()
+    .background(Color(.systemGroupedBackground))
 }
 
 #Preview("Item Card - Dark Mode") {
-    AIRecommenderItemCard(item: MockItem(id: UUID(),
-                                         title: "La Tagliatella",
-                                         subtitle: "Italiano · €€",
-                                         rating: 8.5,
-                                         imageSource: .system("fork.knife", color: .orange),
-                                         aiReason: "Te encanta la cocina italiana"),
-                          rank: 1,
-                          configuration: .default,
-                          action: {})
-        .padding()
-        .background(Color(.systemGroupedBackground))
-        .preferredColorScheme(.dark)
+    AIRecommenderItemCard(
+        item: MockItem(
+            id: UUID(),
+            title: "La Tagliatella",
+            subtitle: "Italiano · €€",
+            rating: 8.5,
+            imageSource: .system("fork.knife", color: .orange),
+            aiReason: "Te encanta la cocina italiana"
+        ),
+        rank: 1,
+        configuration: .default,
+        action: {}
+    )
+    .padding()
+    .background(Color(.systemGroupedBackground))
+    .preferredColorScheme(.dark)
 }
 #endif

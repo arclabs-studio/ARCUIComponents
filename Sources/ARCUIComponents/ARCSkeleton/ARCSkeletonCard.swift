@@ -56,7 +56,8 @@ import SwiftUI
 ///     }
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCSkeletonCard: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCSkeletonCard: View {
     // MARK: - Properties
 
     private let showImage: Bool
@@ -68,11 +69,14 @@ import SwiftUI
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .body) private var contentSpacing: CGFloat = .arcSpacingSmall
+    @ScaledMetric(relativeTo: .body)
+    private var contentSpacing: CGFloat = .arcSpacingSmall
 
-    @ScaledMetric(relativeTo: .body) private var contentPadding: CGFloat = .arcSpacingMedium
+    @ScaledMetric(relativeTo: .body)
+    private var contentPadding: CGFloat = .arcSpacingMedium
 
-    @ScaledMetric(relativeTo: .caption) private var footerHeight: CGFloat = 20
+    @ScaledMetric(relativeTo: .caption)
+    private var footerHeight: CGFloat = 20
 
     // MARK: - Initialization
 
@@ -85,12 +89,14 @@ import SwiftUI
     ///   - subtitleLines: Number of subtitle lines (default: 1)
     ///   - showFooter: Whether to show footer placeholder (default: true)
     ///   - configuration: Card appearance configuration (default: .default)
-    public init(showImage: Bool = true,
-                imageHeight: CGFloat = 140,
-                titleLines: Int = 1,
-                subtitleLines: Int = 1,
-                showFooter: Bool = true,
-                configuration: ARCCardConfiguration = .default) {
+    public init(
+        showImage: Bool = true,
+        imageHeight: CGFloat = 140,
+        titleLines: Int = 1,
+        subtitleLines: Int = 1,
+        showFooter: Bool = true,
+        configuration: ARCCardConfiguration = .default
+    ) {
         self.showImage = showImage
         self.imageHeight = imageHeight
         self.titleLines = max(1, titleLines)
@@ -116,20 +122,26 @@ import SwiftUI
 
     // MARK: - Image Section
 
-    private var imageSection: some View {
-        ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .rectangle,
-                                                                size: .fill(height: imageHeight),
-                                                                animationDelay: 0))
-            .clipShape(UnevenRoundedRectangle(topLeadingRadius: cardConfiguration.cornerRadius,
-                                              bottomLeadingRadius: 0,
-                                              bottomTrailingRadius: 0,
-                                              topTrailingRadius: cardConfiguration.cornerRadius,
-                                              style: .continuous))
+    @ViewBuilder private var imageSection: some View {
+        ARCSkeletonView(configuration: ARCSkeletonConfiguration(
+            shape: .rectangle,
+            size: .fill(height: imageHeight),
+            animationDelay: 0
+        ))
+        .clipShape(
+            UnevenRoundedRectangle(
+                topLeadingRadius: cardConfiguration.cornerRadius,
+                bottomLeadingRadius: 0,
+                bottomTrailingRadius: 0,
+                topTrailingRadius: cardConfiguration.cornerRadius,
+                style: .continuous
+            )
+        )
     }
 
     // MARK: - Content Section
 
-    private var contentSection: some View {
+    @ViewBuilder private var contentSection: some View {
         VStack(alignment: .leading, spacing: contentSpacing) {
             // Title
             titleSection
@@ -146,49 +158,55 @@ import SwiftUI
         .padding(contentPadding)
     }
 
-    private var titleSection: some View {
+    @ViewBuilder private var titleSection: some View {
         ForEach(0 ..< titleLines, id: \.self) { index in
-            ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: 4),
-                                                                    size: .flexible(minWidth: nil,
-                                                                                    maxWidth: nil,
-                                                                                    height: 18),
-                                                                    animationDelay: 0.05 + Double(index) * 0.05))
-                .frame(maxWidth: index == titleLines - 1 ? 150 : .infinity)
+            ARCSkeletonView(configuration: ARCSkeletonConfiguration(
+                shape: .roundedRectangle(cornerRadius: 4),
+                size: .flexible(minWidth: nil, maxWidth: nil, height: 18),
+                animationDelay: 0.05 + Double(index) * 0.05
+            ))
+            .frame(maxWidth: index == titleLines - 1 ? 150 : .infinity)
         }
     }
 
-    private var subtitleSection: some View {
+    @ViewBuilder private var subtitleSection: some View {
         ForEach(0 ..< subtitleLines, id: \.self) { index in
             HStack(spacing: .arcSpacingXSmall) {
                 // Icon placeholder
-                ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: 2),
-                                                                        size: .fixed(width: 12, height: 12),
-                                                                        animationDelay: 0.1 + Double(index) * 0.05))
+                ARCSkeletonView(configuration: ARCSkeletonConfiguration(
+                    shape: .roundedRectangle(cornerRadius: 2),
+                    size: .fixed(width: 12, height: 12),
+                    animationDelay: 0.1 + Double(index) * 0.05
+                ))
 
                 // Subtitle text
-                ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: 4),
-                                                                        size: .flexible(minWidth: nil,
-                                                                                        maxWidth: nil,
-                                                                                        height: 14),
-                                                                        animationDelay: 0.1 + Double(index) * 0.05))
-                    .frame(width: subtitleWidth(for: index))
+                ARCSkeletonView(configuration: ARCSkeletonConfiguration(
+                    shape: .roundedRectangle(cornerRadius: 4),
+                    size: .flexible(minWidth: nil, maxWidth: nil, height: 14),
+                    animationDelay: 0.1 + Double(index) * 0.05
+                ))
+                .frame(width: subtitleWidth(for: index))
             }
         }
     }
 
-    private var footerSection: some View {
+    @ViewBuilder private var footerSection: some View {
         HStack {
             // Left side placeholder
-            ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: 4),
-                                                                    size: .fixed(width: 60, height: footerHeight),
-                                                                    animationDelay: 0.2))
+            ARCSkeletonView(configuration: ARCSkeletonConfiguration(
+                shape: .roundedRectangle(cornerRadius: 4),
+                size: .fixed(width: 60, height: footerHeight),
+                animationDelay: 0.2
+            ))
 
             Spacer()
 
             // Right side placeholder (e.g., rating)
-            ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: 4),
-                                                                    size: .fixed(width: 50, height: footerHeight),
-                                                                    animationDelay: 0.25))
+            ARCSkeletonView(configuration: ARCSkeletonConfiguration(
+                shape: .roundedRectangle(cornerRadius: 4),
+                size: .fixed(width: 50, height: footerHeight),
+                animationDelay: 0.25
+            ))
         }
     }
 
@@ -203,7 +221,8 @@ import SwiftUI
 
 // MARK: - Presets
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCSkeletonCard {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCSkeletonCard {
     /// Standard card skeleton with image, title, subtitle, and footer
     public static var standard: ARCSkeletonCard {
         ARCSkeletonCard()
@@ -211,34 +230,42 @@ import SwiftUI
 
     /// Compact card skeleton with smaller image and minimal text
     public static var compact: ARCSkeletonCard {
-        ARCSkeletonCard(imageHeight: 100,
-                        subtitleLines: 0,
-                        showFooter: false,
-                        configuration: .compact)
+        ARCSkeletonCard(
+            imageHeight: 100,
+            subtitleLines: 0,
+            showFooter: false,
+            configuration: .compact
+        )
     }
 
     /// Image-only card skeleton
     public static var imageOnly: ARCSkeletonCard {
-        ARCSkeletonCard(showImage: true,
-                        imageHeight: 180,
-                        titleLines: 0,
-                        subtitleLines: 0,
-                        showFooter: false)
+        ARCSkeletonCard(
+            showImage: true,
+            imageHeight: 180,
+            titleLines: 0,
+            subtitleLines: 0,
+            showFooter: false
+        )
     }
 
     /// Text-only card skeleton without image
     public static var textOnly: ARCSkeletonCard {
-        ARCSkeletonCard(showImage: false,
-                        subtitleLines: 2,
-                        configuration: .textOnly)
+        ARCSkeletonCard(
+            showImage: false,
+            subtitleLines: 2,
+            configuration: .textOnly
+        )
     }
 
     /// List row card skeleton
     public static var listRow: ARCSkeletonCard {
-        ARCSkeletonCard(showImage: false,
-                        titleLines: 1,
-                        subtitleLines: 1,
-                        showFooter: false)
+        ARCSkeletonCard(
+            showImage: false,
+            titleLines: 1,
+            subtitleLines: 1,
+            showFooter: false
+        )
     }
 }
 
@@ -290,10 +317,14 @@ import SwiftUI
 }
 
 #Preview("Grid Layout") {
-    LazyVGrid(columns: [GridItem(.flexible()),
-                        GridItem(.flexible())], spacing: .arcSpacingLarge) {
+    LazyVGrid(columns: [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ], spacing: .arcSpacingLarge) {
         ForEach(0 ..< 4, id: \.self) { _ in
-            ARCSkeletonCard(imageHeight: 100)
+            ARCSkeletonCard(
+                imageHeight: 100
+            )
         }
     }
     .padding()
@@ -303,10 +334,12 @@ import SwiftUI
     List {
         ForEach(0 ..< 5, id: \.self) { _ in
             ARCSkeletonCard.listRow
-                .listRowInsets(EdgeInsets(top: 8,
-                                          leading: 16,
-                                          bottom: 8,
-                                          trailing: 16))
+                .listRowInsets(EdgeInsets(
+                    top: 8,
+                    leading: 16,
+                    bottom: 8,
+                    trailing: 16
+                ))
         }
     }
 }
@@ -333,13 +366,17 @@ import SwiftUI
                     ARCSkeletonCard()
                         .frame(width: 200)
                 } else {
-                    ARCCard(title: "Restaurant Name",
-                            subtitle: "Italian Cuisine",
-                            subtitleIcon: "fork.knife") {
-                        LinearGradient(colors: [.orange.opacity(0.3), .red.opacity(0.2)],
-                                       startPoint: .topLeading,
-                                       endPoint: .bottomTrailing)
-                            .frame(height: 140)
+                    ARCCard(
+                        title: "Restaurant Name",
+                        subtitle: "Italian Cuisine",
+                        subtitleIcon: "fork.knife"
+                    ) {
+                        LinearGradient(
+                            colors: [.orange.opacity(0.3), .red.opacity(0.2)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        .frame(height: 140)
                     } footer: {
                         ARCRatingView(rating: 4.5)
                     }

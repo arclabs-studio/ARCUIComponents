@@ -11,7 +11,9 @@ import SwiftUI
 /// Demo screen for ARCEmptyState component.
 ///
 /// Shows empty state configurations for common scenarios.
-@available(iOS 17.0, *) struct ARCEmptyStateDemoScreen: View {
+@available(iOS 17.0, *)
+struct ARCEmptyStateDemoScreen: View {
+
     // MARK: Properties
 
     @State private var selectedPreset: EmptyStatePreset = .noFavorites
@@ -42,8 +44,10 @@ import SwiftUI
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *) extension ARCEmptyStateDemoScreen {
-    private var presetSelector: some View {
+@available(iOS 17.0, *)
+private extension ARCEmptyStateDemoScreen {
+
+    var presetSelector: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Select Preset")
                 .font(.headline)
@@ -58,7 +62,7 @@ import SwiftUI
         }
     }
 
-    private var previewSection: some View {
+    var previewSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Preview")
                 .font(.headline)
@@ -80,7 +84,7 @@ import SwiftUI
         }
     }
 
-    private var presetsGallery: some View {
+    var presetsGallery: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("All Presets")
                 .font(.headline)
@@ -99,13 +103,17 @@ import SwiftUI
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 12)
-                        .fill(selectedPreset == preset
-                            ? Color.arcBrandGold.opacity(0.2)
-                            : Color.arcBrandBlack.opacity(0.05))
-                            .overlay(RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(selectedPreset == preset ? Color.arcBrandBurgundy : Color.clear,
-                                              lineWidth: 2)))
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(selectedPreset == preset ? Color.arcBrandGold.opacity(0.2) : Color.arcBrandBlack.opacity(0.05))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(
+                                        selectedPreset == preset ? Color.arcBrandBurgundy : Color.clear,
+                                        lineWidth: 2
+                                    )
+                            )
+                    )
                     .onTapGesture {
                         selectedPreset = preset
                     }
@@ -117,16 +125,15 @@ import SwiftUI
 
 // MARK: - Supporting Types
 
-@available(iOS 17.0, *) private enum EmptyStatePreset: String, CaseIterable, Identifiable {
+@available(iOS 17.0, *)
+private enum EmptyStatePreset: String, CaseIterable, Identifiable {
     case noFavorites
     case noResults
     case noData
     case error
     case offline
 
-    var id: String {
-        rawValue
-    }
+    var id: String { rawValue }
 
     var name: String {
         switch self {

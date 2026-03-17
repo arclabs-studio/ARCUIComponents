@@ -54,7 +54,8 @@ import SwiftUI
 ///
 /// - Note: The sheet will automatically sort detents by height when determining
 ///   which one to snap to.
-@available(iOS 17.0, macOS 14.0, *) public enum ARCBottomSheetDetent: Hashable, Sendable {
+@available(iOS 17.0, macOS 14.0, *)
+public enum ARCBottomSheetDetent: Hashable, Sendable {
     /// Small detent (~15% of screen or 120pt minimum)
     ///
     /// Typically used for a collapsed state showing minimal content,
@@ -106,10 +107,10 @@ import SwiftUI
             return containerHeight * 0.5
         case .large:
             return containerHeight * 0.9
-        case let .fraction(fraction):
+        case .fraction(let fraction):
             let clampedFraction = max(0.1, min(1.0, fraction))
             return containerHeight * clampedFraction
-        case let .height(height):
+        case .height(let height):
             return min(height, containerHeight * 0.95)
         }
     }
@@ -120,22 +121,23 @@ import SwiftUI
     public var accessibilityDescription: String {
         switch self {
         case .small:
-            "collapsed"
+            return "collapsed"
         case .medium:
-            "half height"
+            return "half height"
         case .large:
-            "expanded"
-        case let .fraction(fraction):
-            "\(Int(fraction * 100)) percent"
-        case let .height(height):
-            "\(Int(height)) points"
+            return "expanded"
+        case .fraction(let fraction):
+            return "\(Int(fraction * 100)) percent"
+        case .height(let height):
+            return "\(Int(height)) points"
         }
     }
 }
 
 // MARK: - Comparable
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetDetent: Comparable {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCBottomSheetDetent: Comparable {
     /// Compares detents by their approximate height
     ///
     /// This comparison uses a reference height of 1000 points to establish
@@ -148,19 +150,20 @@ import SwiftUI
 
 // MARK: - Identifiable
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCBottomSheetDetent: Identifiable {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCBottomSheetDetent: Identifiable {
     public var id: String {
         switch self {
         case .small:
-            "small"
+            return "small"
         case .medium:
-            "medium"
+            return "medium"
         case .large:
-            "large"
-        case let .fraction(fraction):
-            "fraction-\(fraction)"
-        case let .height(height):
-            "height-\(height)"
+            return "large"
+        case .fraction(let fraction):
+            return "fraction-\(fraction)"
+        case .height(let height):
+            return "height-\(height)"
         }
     }
 }

@@ -39,7 +39,8 @@ import SwiftUI
 /// - ``small``
 /// - ``large``
 /// - ``labeledProgress``
-@available(iOS 17.0, macOS 14.0, *) public struct ARCCircularProgressConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCCircularProgressConfiguration: Sendable {
     // MARK: - Size
 
     /// Size variants for circular progress indicators
@@ -130,17 +131,19 @@ import SwiftUI
     ///   - animated: Animate changes (default: true)
     ///   - animationDuration: Animation duration (default: 0.3)
     ///   - rotationDuration: Indeterminate rotation speed (default: 1.0)
-    public init(size: Size = .medium,
-                lineWidth: CGFloat? = nil,
-                trackColor: Color = Color.secondary.opacity(0.2),
-                progressColor: Color = .accentColor,
-                lineCap: CGLineCap = .round,
-                showPercentage: Bool = false,
-                percentageFont: Font = .caption.monospacedDigit(),
-                startAngle: Angle = .degrees(-90),
-                animated: Bool = true,
-                animationDuration: Double = 0.3,
-                rotationDuration: Double = 1.0) {
+    public init(
+        size: Size = .medium,
+        lineWidth: CGFloat? = nil,
+        trackColor: Color = Color.secondary.opacity(0.2),
+        progressColor: Color = .accentColor,
+        lineCap: CGLineCap = .round,
+        showPercentage: Bool = false,
+        percentageFont: Font = .caption.monospacedDigit(),
+        startAngle: Angle = .degrees(-90),
+        animated: Bool = true,
+        animationDuration: Double = 0.3,
+        rotationDuration: Double = 1.0
+    ) {
         self.size = size
         self.lineWidth = lineWidth ?? size.defaultLineWidth
         self.trackColor = trackColor
@@ -164,24 +167,32 @@ import SwiftUI
     /// Small circular progress (20pt)
     ///
     /// Compact size for inline indicators or tight spaces.
-    public static let small = ARCCircularProgressConfiguration(size: .small,
-                                                               percentageFont: .caption2.monospacedDigit())
+    public static let small = ARCCircularProgressConfiguration(
+        size: .small,
+        percentageFont: .caption2.monospacedDigit()
+    )
 
     /// Large circular progress (60pt)
     ///
     /// Prominent size for primary progress indicators.
-    public static let large = ARCCircularProgressConfiguration(size: .large,
-                                                               percentageFont: .body.monospacedDigit())
+    public static let large = ARCCircularProgressConfiguration(
+        size: .large,
+        percentageFont: .body.monospacedDigit()
+    )
 
     /// Progress indicator with centered percentage label
     ///
     /// Shows numeric percentage inside the ring.
-    public static let labeledProgress = ARCCircularProgressConfiguration(size: .large,
-                                                                         showPercentage: true,
-                                                                         percentageFont: .headline.monospacedDigit())
+    public static let labeledProgress = ARCCircularProgressConfiguration(
+        size: .large,
+        showPercentage: true,
+        percentageFont: .headline.monospacedDigit()
+    )
 
     /// Spinner style (indeterminate)
     ///
     /// Fast-spinning indicator for loading states.
-    public static let spinner = ARCCircularProgressConfiguration(rotationDuration: 0.8)
+    public static let spinner = ARCCircularProgressConfiguration(
+        rotationDuration: 0.8
+    )
 }

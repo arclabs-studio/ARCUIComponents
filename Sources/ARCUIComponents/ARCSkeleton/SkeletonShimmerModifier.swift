@@ -41,7 +41,8 @@ import SwiftUI
 ///         highlightColor: .gray.opacity(0.1)
 ///     )
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct SkeletonShimmerModifier: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *)
+public struct SkeletonShimmerModifier: ViewModifier {
     // MARK: - Environment
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -68,11 +69,13 @@ import SwiftUI
     ///   - highlightColor: Highlight color at the center of the shimmer
     ///   - duration: Duration of one shimmer cycle in seconds (default: 1.5)
     ///   - delay: Delay before starting animation (default: 0)
-    public init(isActive: Bool = true,
-                baseColor: Color = .clear,
-                highlightColor: Color = .white.opacity(0.4),
-                duration: Double = 1.5,
-                delay: Double = 0) {
+    public init(
+        isActive: Bool = true,
+        baseColor: Color = .clear,
+        highlightColor: Color = .white.opacity(0.4),
+        duration: Double = 1.5,
+        delay: Double = 0
+    ) {
         self.isActive = isActive
         self.baseColor = baseColor
         self.highlightColor = highlightColor
@@ -101,16 +104,20 @@ import SwiftUI
 
     // MARK: - Shimmer Overlay
 
-    private var shimmerOverlay: some View {
+    @ViewBuilder private var shimmerOverlay: some View {
         GeometryReader { geometry in
-            LinearGradient(colors: [baseColor,
-                                    highlightColor,
-                                    baseColor],
-                           startPoint: .leading,
-                           endPoint: .trailing)
-                .frame(width: geometry.size.width * 0.6)
-                .offset(x: shimmerOffset(for: geometry.size.width))
-                .blendMode(.sourceAtop)
+            LinearGradient(
+                colors: [
+                    baseColor,
+                    highlightColor,
+                    baseColor
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+            .frame(width: geometry.size.width * 0.6)
+            .offset(x: shimmerOffset(for: geometry.size.width))
+            .blendMode(.sourceAtop)
         }
     }
 
@@ -150,7 +157,8 @@ import SwiftUI
 
 // MARK: - View Extension
 
-@available(iOS 17.0, macOS 14.0, *) extension View {
+@available(iOS 17.0, macOS 14.0, *)
+extension View {
     /// Adds a skeleton shimmer effect to the view
     ///
     /// The shimmer creates a loading effect that sweeps across the content.
@@ -163,16 +171,22 @@ import SwiftUI
     ///   - duration: Duration of one cycle in seconds (default: 1.5)
     ///   - delay: Delay before starting (default: 0)
     /// - Returns: A view with the shimmer effect applied
-    public func skeletonShimmer(isActive: Bool = true,
-                                baseColor: Color = .clear,
-                                highlightColor: Color = .white.opacity(0.4),
-                                duration: Double = 1.5,
-                                delay: Double = 0) -> some View {
-        modifier(SkeletonShimmerModifier(isActive: isActive,
-                                         baseColor: baseColor,
-                                         highlightColor: highlightColor,
-                                         duration: duration,
-                                         delay: delay))
+    public func skeletonShimmer(
+        isActive: Bool = true,
+        baseColor: Color = .clear,
+        highlightColor: Color = .white.opacity(0.4),
+        duration: Double = 1.5,
+        delay: Double = 0
+    ) -> some View {
+        modifier(
+            SkeletonShimmerModifier(
+                isActive: isActive,
+                baseColor: baseColor,
+                highlightColor: highlightColor,
+                duration: duration,
+                delay: delay
+            )
+        )
     }
 
     /// Adds a skeleton shimmer effect using configuration
@@ -180,11 +194,15 @@ import SwiftUI
     /// - Parameter configuration: The skeleton configuration to use for animation settings
     /// - Returns: A view with the shimmer effect applied
     public func skeletonShimmer(configuration: ARCSkeletonConfiguration) -> some View {
-        modifier(SkeletonShimmerModifier(isActive: configuration.shimmerEnabled,
-                                         baseColor: .clear,
-                                         highlightColor: configuration.highlightColor,
-                                         duration: configuration.animationDuration,
-                                         delay: configuration.animationDelay))
+        modifier(
+            SkeletonShimmerModifier(
+                isActive: configuration.shimmerEnabled,
+                baseColor: .clear,
+                highlightColor: configuration.highlightColor,
+                duration: configuration.animationDuration,
+                delay: configuration.animationDelay
+            )
+        )
     }
 }
 

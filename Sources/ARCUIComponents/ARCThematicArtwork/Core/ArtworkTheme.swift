@@ -60,11 +60,13 @@ public struct ArtworkTheme: Sendable {
     ///   - accentColors: An array of accent colors for decorations. Defaults to empty.
     ///   - backgroundColor: The background/dark color. Defaults to black.
     ///   - shadowColor: The shadow color. Defaults to black at 20% opacity.
-    public init(primaryColor: Color,
-                secondaryColor: Color,
-                accentColors: [Color] = [],
-                backgroundColor: Color = .black,
-                shadowColor: Color = Color.black.opacity(0.2)) {
+    public init(
+        primaryColor: Color,
+        secondaryColor: Color,
+        accentColors: [Color] = [],
+        backgroundColor: Color = .black,
+        shadowColor: Color = Color.black.opacity(0.2)
+    ) {
         self.primaryColor = primaryColor
         self.secondaryColor = secondaryColor
         self.accentColors = accentColors
@@ -75,32 +77,48 @@ public struct ArtworkTheme: Sendable {
 
 // MARK: - Preset Themes
 
-extension ArtworkTheme {
+public extension ArtworkTheme {
     /// A neutral gray theme suitable for generic placeholders.
-    public static let neutral = ArtworkTheme(primaryColor: Color(white: 0.85),
-                                             secondaryColor: Color(white: 0.6),
-                                             accentColors: [Color(white: 0.4)])
+    static let neutral = ArtworkTheme(
+        primaryColor: Color(white: 0.85),
+        secondaryColor: Color(white: 0.6),
+        accentColors: [Color(white: 0.4)]
+    )
 
     /// A warm theme with orange and red tones.
-    public static let warm = ArtworkTheme(primaryColor: Color(red: 0.95, green: 0.6, blue: 0.2),
-                                          secondaryColor: Color(red: 0.8, green: 0.3, blue: 0.2),
-                                          accentColors: [Color(red: 0.64, green: 0.28, blue: 0.18),
-                                                         Color(red: 0.9, green: 0.5, blue: 0.1)])
+    static let warm = ArtworkTheme(
+        primaryColor: Color(red: 0.95, green: 0.6, blue: 0.2),
+        secondaryColor: Color(red: 0.8, green: 0.3, blue: 0.2),
+        accentColors: [
+            Color(red: 0.64, green: 0.28, blue: 0.18),
+            Color(red: 0.9, green: 0.5, blue: 0.1)
+        ]
+    )
 
     /// A cool theme with blue and purple tones.
-    public static let cool = ArtworkTheme(primaryColor: Color(red: 0.4, green: 0.6, blue: 0.9),
-                                          secondaryColor: Color(red: 0.3, green: 0.4, blue: 0.7),
-                                          accentColors: [Color(red: 0.5, green: 0.3, blue: 0.8),
-                                                         Color(red: 0.2, green: 0.5, blue: 0.9)])
+    static let cool = ArtworkTheme(
+        primaryColor: Color(red: 0.4, green: 0.6, blue: 0.9),
+        secondaryColor: Color(red: 0.3, green: 0.4, blue: 0.7),
+        accentColors: [
+            Color(red: 0.5, green: 0.3, blue: 0.8),
+            Color(red: 0.2, green: 0.5, blue: 0.9)
+        ]
+    )
 
     /// A nature theme with green and earth tones.
-    public static let nature = ArtworkTheme(primaryColor: Color(red: 0.4, green: 0.7, blue: 0.4),
-                                            secondaryColor: Color(red: 0.6, green: 0.5, blue: 0.3),
-                                            accentColors: [Color(red: 0.2, green: 0.5, blue: 0.2),
-                                                           Color(red: 0.8, green: 0.7, blue: 0.4)])
+    static let nature = ArtworkTheme(
+        primaryColor: Color(red: 0.4, green: 0.7, blue: 0.4),
+        secondaryColor: Color(red: 0.6, green: 0.5, blue: 0.3),
+        accentColors: [
+            Color(red: 0.2, green: 0.5, blue: 0.2),
+            Color(red: 0.8, green: 0.7, blue: 0.4)
+        ]
+    )
 
     /// A dark theme suitable for noir or mystery styles.
-    public static let dark = ArtworkTheme(primaryColor: Color(red: 0.15, green: 0.15, blue: 0.18),
-                                          secondaryColor: Color(red: 0.3, green: 0.3, blue: 0.35),
-                                          accentColors: [Color(red: 0.6, green: 0.1, blue: 0.1)])
+    static let dark = ArtworkTheme(
+        primaryColor: Color(red: 0.15, green: 0.15, blue: 0.18),
+        secondaryColor: Color(red: 0.3, green: 0.3, blue: 0.35),
+        accentColors: [Color(red: 0.6, green: 0.1, blue: 0.1)]
+    )
 }

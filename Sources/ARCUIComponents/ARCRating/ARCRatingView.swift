@@ -13,7 +13,8 @@ import SwiftUI
 /// Visual styles for ARCRatingView
 ///
 /// Each style provides a different visual representation optimized for specific use cases.
-@available(iOS 17.0, macOS 14.0, *) public enum ARCRatingStyle: String, CaseIterable, Sendable {
+@available(iOS 17.0, macOS 14.0, *)
+public enum ARCRatingStyle: String, CaseIterable, Sendable {
     /// Circular gauge with fill indicator (default)
     ///
     /// Best for: Cards, featured content, standalone ratings
@@ -74,7 +75,8 @@ import SwiftUI
 ///
 /// - Note: The view automatically animates between values and provides
 ///   meaningful accessibility labels for VoiceOver users.
-@available(iOS 17.0, macOS 14.0, *) public struct ARCRatingView: View {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCRatingView: View {
     // MARK: - Properties
 
     /// The rating value to display
@@ -89,11 +91,14 @@ import SwiftUI
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .body) private var gaugeSize: CGFloat = 56
+    @ScaledMetric(relativeTo: .body)
+    private var gaugeSize: CGFloat = 56
 
-    @ScaledMetric(relativeTo: .subheadline) private var spacing: CGFloat = .arcSpacingXSmall
+    @ScaledMetric(relativeTo: .subheadline)
+    private var spacing: CGFloat = .arcSpacingXSmall
 
-    @ScaledMetric(relativeTo: .caption) private var barWidth: CGFloat = 48
+    @ScaledMetric(relativeTo: .caption)
+    private var barWidth: CGFloat = 48
 
     // MARK: - Initialization
 
@@ -102,8 +107,10 @@ import SwiftUI
     /// - Parameters:
     ///   - rating: The rating value to display
     ///   - configuration: Visual configuration (default: `.circularGauge`)
-    public init(rating: Double,
-                configuration: ARCRatingViewConfiguration = .circularGauge) {
+    public init(
+        rating: Double,
+        configuration: ARCRatingViewConfiguration = .circularGauge
+    ) {
         self.rating = rating
         self.configuration = configuration
     }
@@ -115,14 +122,18 @@ import SwiftUI
     ///   - style: Visual style (default: `.circularGauge`)
     ///   - maxRating: Maximum rating value (default: `10.0`)
     ///   - animated: Whether to animate value changes (default: `true`)
-    public init(rating: Double,
-                style: ARCRatingStyle = .circularGauge,
-                maxRating: Double = 10.0,
-                animated: Bool = true) {
+    public init(
+        rating: Double,
+        style: ARCRatingStyle = .circularGauge,
+        maxRating: Double = 10.0,
+        animated: Bool = true
+    ) {
         self.rating = rating
-        configuration = ARCRatingViewConfiguration(style: style,
-                                                   maxRating: maxRating,
-                                                   animated: animated)
+        configuration = ARCRatingViewConfiguration(
+            style: style,
+            maxRating: maxRating,
+            animated: animated
+        )
     }
 
     // MARK: - Body
@@ -165,8 +176,9 @@ import SwiftUI
 
 // MARK: - Circular Gauge Style
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCRatingView {
-    private var circularGaugeView: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCRatingView {
+    @ViewBuilder private var circularGaugeView: some View {
         ZStack {
             // Background fill with gradient
             Circle()
@@ -174,15 +186,19 @@ import SwiftUI
 
             // Background track
             Circle()
-                .stroke(Color.primary.opacity(0.1),
-                        style: StrokeStyle(lineWidth: 5, lineCap: .round))
+                .stroke(
+                    Color.primary.opacity(0.1),
+                    style: StrokeStyle(lineWidth: 5, lineCap: .round)
+                )
                 .padding(3)
 
             // Filled arc
             Circle()
                 .trim(from: 0, to: ratingProgress)
-                .stroke(ratingGradient,
-                        style: StrokeStyle(lineWidth: 5, lineCap: .round))
+                .stroke(
+                    ratingGradient,
+                    style: StrokeStyle(lineWidth: 5, lineCap: .round)
+                )
                 .rotationEffect(.degrees(-90))
                 .padding(3)
 
@@ -197,8 +213,9 @@ import SwiftUI
 
 // MARK: - Compact Inline Style
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCRatingView {
-    private var compactInlineView: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCRatingView {
+    @ViewBuilder private var compactInlineView: some View {
         HStack(spacing: spacing) {
             // Progress bar
             GeometryReader { geometry in
@@ -223,8 +240,9 @@ import SwiftUI
 
 // MARK: - Minimal Style
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCRatingView {
-    private var minimalView: some View {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCRatingView {
+    @ViewBuilder private var minimalView: some View {
         Text(formattedRating)
             .font(.system(.subheadline, design: .rounded, weight: .semibold))
             .foregroundStyle(ratingColor)
@@ -239,7 +257,8 @@ import SwiftUI
 
 // MARK: - Computed Properties
 
-@available(iOS 17.0, macOS 14.0, *) extension ARCRatingView {
+@available(iOS 17.0, macOS 14.0, *)
+extension ARCRatingView {
     private var clampedRating: Double {
         min(max(rating, 0), configuration.maxRating)
     }
@@ -250,21 +269,64 @@ import SwiftUI
     }
 
     private var formattedRating: String {
-        ARCRatingColorMapper.formatted(clampedRating)
+        if clampedRating.truncatingRemainder(dividingBy: 1) == 0 {
+            return String(format: "%.0f", clampedRating)
+        }
+        return String(format: "%.1f", clampedRating)
     }
 
     private var accessibilityLabel: String {
-        String(format: "Rating: %.1f out of %.0f",
-               clampedRating,
-               configuration.maxRating)
+        String(
+            format: "Rating: %.1f out of %.0f",
+            clampedRating,
+            configuration.maxRating
+        )
     }
 
+    /// Returns semantic color based on rating percentage
     private var ratingColor: Color {
-        ARCRatingColorMapper.color(for: clampedRating, maxRating: configuration.maxRating)
+        let normalized = clampedRating / configuration.maxRating
+
+        switch normalized {
+        case 0 ..< 0.3:
+            return .red
+        case 0.3 ..< 0.5:
+            return .orange
+        case 0.5 ..< 0.65:
+            return .yellow
+        case 0.65 ..< 0.75:
+            return Color(red: 0.6, green: 0.75, blue: 0.2)
+        case 0.75 ..< 0.85:
+            return Color(red: 0.3, green: 0.75, blue: 0.3)
+        default:
+            return Color(red: 0.1, green: 0.65, blue: 0.2)
+        }
     }
 
+    /// Returns gradient based on rating percentage
     private var ratingGradient: LinearGradient {
-        ARCRatingColorMapper.gradient(for: clampedRating, maxRating: configuration.maxRating)
+        let normalized = clampedRating / configuration.maxRating
+
+        let colors: [Color] = switch normalized {
+        case 0 ..< 0.3:
+            [.red, .orange]
+        case 0.3 ..< 0.5:
+            [.orange, .yellow]
+        case 0.5 ..< 0.65:
+            [.yellow, Color(red: 0.7, green: 0.8, blue: 0.2)]
+        case 0.65 ..< 0.75:
+            [Color(red: 0.6, green: 0.8, blue: 0.2), Color(red: 0.4, green: 0.75, blue: 0.25)]
+        case 0.75 ..< 0.85:
+            [Color(red: 0.4, green: 0.75, blue: 0.25), Color(red: 0.2, green: 0.7, blue: 0.25)]
+        default:
+            [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
+        }
+
+        return LinearGradient(
+            colors: colors,
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
     }
 }
 
@@ -290,9 +352,11 @@ import SwiftUI
 }
 
 #Preview("Circular Gauge - All Ratings") {
-    LazyVGrid(columns: [GridItem(.flexible()),
-                        GridItem(.flexible()),
-                        GridItem(.flexible())], spacing: .arcSpacingLarge) {
+    LazyVGrid(columns: [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ], spacing: .arcSpacingLarge) {
         ForEach([2.0, 4.0, 5.5, 7.0, 8.5, 10.0], id: \.self) { rating in
             ARCRatingView(rating: rating)
         }
@@ -359,8 +423,10 @@ import SwiftUI
             ARCRatingView(rating: 9.2)
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: .arcCornerRadiusMedium)
-            .fill(.ultraThinMaterial))
+        .background(
+            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium)
+                .fill(.ultraThinMaterial)
+        )
 
         VStack(spacing: 0) {
             ForEach(["Pasta Carbonara", "Margherita Pizza", "Tiramisu"], id: \.self) { item in
@@ -379,8 +445,10 @@ import SwiftUI
                 }
             }
         }
-        .background(RoundedRectangle(cornerRadius: .arcCornerRadiusMedium)
-            .fill(.ultraThinMaterial))
+        .background(
+            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium)
+                .fill(.ultraThinMaterial)
+        )
     }
     .padding()
 }

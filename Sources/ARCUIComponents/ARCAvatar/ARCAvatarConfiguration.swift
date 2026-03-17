@@ -49,7 +49,8 @@ import AppKit
 /// - ``profile``
 /// - ``listItem``
 /// - ``comment``
-@available(iOS 17.0, macOS 14.0, *) public struct ARCAvatarConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *)
+public struct ARCAvatarConfiguration: Sendable {
     // MARK: - Size
 
     /// Size variants for avatars
@@ -196,15 +197,17 @@ import AppKit
     ///   - showStatusBadge: Whether to show status badge (default: true)
     ///   - statusBadgePosition: Position for status badge (default: .bottomTrailing)
     ///   - placeholderIcon: SF Symbol for placeholder (default: "person.fill")
-    public init(size: Size = .md,
-                shape: Shape = .circle,
-                backgroundColor: Color = .gray.opacity(0.3),
-                foregroundColor: Color = .primary,
-                borderColor: Color? = nil,
-                borderWidth: CGFloat = 0,
-                showStatusBadge: Bool = true,
-                statusBadgePosition: StatusBadgePosition = .bottomTrailing,
-                placeholderIcon: String = "person.fill") {
+    public init(
+        size: Size = .md,
+        shape: Shape = .circle,
+        backgroundColor: Color = .gray.opacity(0.3),
+        foregroundColor: Color = .primary,
+        borderColor: Color? = nil,
+        borderWidth: CGFloat = 0,
+        showStatusBadge: Bool = true,
+        statusBadgePosition: StatusBadgePosition = .bottomTrailing,
+        placeholderIcon: String = "person.fill"
+    ) {
         self.size = size
         self.shape = shape
         self.backgroundColor = backgroundColor
@@ -240,56 +243,75 @@ import AppKit
     public static let compact = ARCAvatarConfiguration(size: .xs)
 
     /// Avatar with border
-    public static let bordered = ARCAvatarConfiguration(borderColor: .white,
-                                                        borderWidth: 2)
+    public static let bordered = ARCAvatarConfiguration(
+        borderColor: .white,
+        borderWidth: 2
+    )
 
     // MARK: - Fun Placeholder Icons
 
     /// Robot avatar for playful UX
-    public static let robot = ARCAvatarConfiguration(backgroundColor: .purple.opacity(0.3),
-                                                     foregroundColor: .purple,
-                                                     placeholderIcon: "cpu.fill")
+    public static let robot = ARCAvatarConfiguration(
+        backgroundColor: .purple.opacity(0.3),
+        foregroundColor: .purple,
+        placeholderIcon: "cpu.fill"
+    )
 
     /// Alien avatar for playful UX
-    public static let alien = ARCAvatarConfiguration(backgroundColor: .green.opacity(0.3),
-                                                     foregroundColor: .green,
-                                                     placeholderIcon: "antenna.radiowaves.left.and.right")
+    public static let alien = ARCAvatarConfiguration(
+        backgroundColor: .green.opacity(0.3),
+        foregroundColor: .green,
+        placeholderIcon: "antenna.radiowaves.left.and.right"
+    )
 
     /// Ghost avatar for playful UX
-    public static let ghost = ARCAvatarConfiguration(backgroundColor: .gray.opacity(0.2),
-                                                     foregroundColor: .gray,
-                                                     placeholderIcon: "theatermasks.fill")
+    public static let ghost = ARCAvatarConfiguration(
+        backgroundColor: .gray.opacity(0.2),
+        foregroundColor: .gray,
+        placeholderIcon: "theatermasks.fill"
+    )
 
     /// Cat avatar for playful UX
-    public static let cat = ARCAvatarConfiguration(backgroundColor: .orange.opacity(0.3),
-                                                   foregroundColor: .orange,
-                                                   placeholderIcon: "cat.fill")
+    public static let cat = ARCAvatarConfiguration(
+        backgroundColor: .orange.opacity(0.3),
+        foregroundColor: .orange,
+        placeholderIcon: "cat.fill"
+    )
 
     /// Dog avatar for playful UX
-    public static let dog = ARCAvatarConfiguration(backgroundColor: .brown.opacity(0.3),
-                                                   foregroundColor: .brown,
-                                                   placeholderIcon: "dog.fill")
+    public static let dog = ARCAvatarConfiguration(
+        backgroundColor: .brown.opacity(0.3),
+        foregroundColor: .brown,
+        placeholderIcon: "dog.fill"
+    )
 
     /// Wizard avatar for playful UX
-    public static let wizard = ARCAvatarConfiguration(backgroundColor: .indigo.opacity(0.3),
-                                                      foregroundColor: .indigo,
-                                                      placeholderIcon: "sparkles")
+    public static let wizard = ARCAvatarConfiguration(
+        backgroundColor: .indigo.opacity(0.3),
+        foregroundColor: .indigo,
+        placeholderIcon: "sparkles"
+    )
 
     /// Ninja avatar for playful UX
-    public static let ninja = ARCAvatarConfiguration(backgroundColor: .black.opacity(0.3),
-                                                     foregroundColor: .primary,
-                                                     placeholderIcon: "figure.martial.arts")
+    public static let ninja = ARCAvatarConfiguration(
+        backgroundColor: .black.opacity(0.3),
+        foregroundColor: .primary,
+        placeholderIcon: "figure.martial.arts"
+    )
 
     /// Gamer avatar for playful UX
-    public static let gamer = ARCAvatarConfiguration(backgroundColor: .cyan.opacity(0.3),
-                                                     foregroundColor: .cyan,
-                                                     placeholderIcon: "gamecontroller.fill")
+    public static let gamer = ARCAvatarConfiguration(
+        backgroundColor: .cyan.opacity(0.3),
+        foregroundColor: .cyan,
+        placeholderIcon: "gamecontroller.fill"
+    )
 }
 
 // MARK: - ARCAvatarStatus
 
 /// Status indicator for avatars
-@available(iOS 17.0, macOS 14.0, *) public enum ARCAvatarStatus: Sendable, Equatable {
+@available(iOS 17.0, macOS 14.0, *)
+public enum ARCAvatarStatus: Sendable, Equatable {
     /// No status indicator
     case none
 
