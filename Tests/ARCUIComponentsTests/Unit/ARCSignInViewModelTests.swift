@@ -8,38 +8,6 @@
 import Testing
 @testable import ARCUIComponents
 
-// MARK: - Spy helper
-
-private final class Spy<T: Sendable>: @unchecked Sendable {
-    private(set) var values: [T] = []
-    var callCount: Int {
-        values.count
-    }
-
-    var wasCalled: Bool {
-        !values.isEmpty
-    }
-
-    func record(_ value: T) {
-        values.append(value)
-    }
-}
-
-private final class Flag: @unchecked Sendable {
-    private(set) var count = 0
-    var isEmpty: Bool {
-        count < 1
-    }
-
-    var wasCalled: Bool {
-        !isEmpty
-    }
-
-    func increment() {
-        count += 1
-    }
-}
-
 // MARK: - Tests
 
 @Suite("ARCSignInViewModel Tests")

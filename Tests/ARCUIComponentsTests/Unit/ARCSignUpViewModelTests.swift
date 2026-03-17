@@ -8,30 +8,6 @@
 import Testing
 @testable import ARCUIComponents
 
-// MARK: - Spy helpers
-
-private final class Spy<T: Sendable>: @unchecked Sendable {
-    private(set) var values: [T] = []
-    var callCount: Int {
-        values.count
-    }
-
-    func record(_ value: T) {
-        values.append(value)
-    }
-}
-
-private final class Flag: @unchecked Sendable {
-    private(set) var count = 0
-    var isEmpty: Bool {
-        count < 1
-    }
-
-    func increment() {
-        count += 1
-    }
-}
-
 // MARK: - Tests
 
 @Suite("ARCSignUpViewModel Tests")
@@ -154,6 +130,17 @@ private final class Flag: @unchecked Sendable {
 
     // MARK: - signInWithApple
 
+    @Test("signInWithApple_whenAlreadyLoading_doesNothing")
+    func signInWithApple_whenAlreadyLoading_doesNothing() async {
+        let flag = Flag()
+        let sut = makeSUT(onSignInWithApple: { flag.increment() })
+        sut.isLoading = true
+
+        await sut.signInWithApple()
+
+        #expect(flag.isEmpty)
+    }
+
     @Test("signInWithApple_whenSucceeds_resetsLoadingState")
     func signInWithApple_whenSucceeds_resetsLoadingState() async {
         let sut = makeSUT()
@@ -174,6 +161,17 @@ private final class Flag: @unchecked Sendable {
 
     // MARK: - signInWithGoogle
 
+    @Test("signInWithGoogle_whenAlreadyLoading_doesNothing")
+    func signInWithGoogle_whenAlreadyLoading_doesNothing() async {
+        let flag = Flag()
+        let sut = makeSUT(onSignInWithGoogle: { flag.increment() })
+        sut.isLoading = true
+
+        await sut.signInWithGoogle()
+
+        #expect(flag.isEmpty)
+    }
+
     @Test("signInWithGoogle_whenSucceeds_resetsLoadingState")
     func signInWithGoogle_whenSucceeds_resetsLoadingState() async {
         let sut = makeSUT()
@@ -190,5 +188,19 @@ private final class Flag: @unchecked Sendable {
         await sut.signInWithGoogle()
 
         #expect(sut.errorMessage != nil)
+    }
+
+    // MARK: - errorMessage dismissal
+
+    @Test("errorMessage_canBeDismissedBySettingToNil") func errorMessage_canBeDismissedBySettingToNil() async {
+        let sut = makeSUT(onSignUpWithEmail: { _, _ in throw TestError.signUpFailed })
+        sut.password = "pass"
+        sut.confirmPassword = "pass"
+        await sut.signUpWithEmail()
+        #expect(sut.errorMessage != nil)
+
+        sut.errorMessage = nil
+
+        #expect(sut.errorMessage == nil)
     }
 }

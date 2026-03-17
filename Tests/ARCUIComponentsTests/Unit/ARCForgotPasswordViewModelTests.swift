@@ -8,30 +8,6 @@
 import Testing
 @testable import ARCUIComponents
 
-// MARK: - Spy helpers
-
-private final class Spy<T: Sendable>: @unchecked Sendable {
-    private(set) var values: [T] = []
-    var callCount: Int {
-        values.count
-    }
-
-    func record(_ value: T) {
-        values.append(value)
-    }
-}
-
-private final class Flag: @unchecked Sendable {
-    private(set) var count = 0
-    var isEmpty: Bool {
-        count < 1
-    }
-
-    func increment() {
-        count += 1
-    }
-}
-
 // MARK: - Tests
 
 @Suite("ARCForgotPasswordViewModel Tests")
