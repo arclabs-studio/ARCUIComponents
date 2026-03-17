@@ -47,8 +47,7 @@ import SwiftUI
                 showLegend: Bool = true,
                 maxSectors: Int = 7,
                 height: CGFloat = 200,
-                horizontalPadding: CGFloat = .arcSpacingLarge)
-    {
+                horizontalPadding: CGFloat = .arcSpacingLarge) {
         self.colors = colors
         self.innerRadiusRatio = innerRadiusRatio
         self.angularInset = angularInset

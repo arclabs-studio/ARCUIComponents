@@ -70,8 +70,7 @@ import SwiftUI
     ///   - animationDuration: Animation response time in seconds (default: 0.15)
     public init(pressedScale: CGFloat = 0.96,
                 pressedOpacity: Double = 1.0,
-                animationDuration: Double = 0.15)
-    {
+                animationDuration: Double = 0.15) {
         self.pressedScale = pressedScale
         self.pressedOpacity = pressedOpacity
         self.animationDuration = animationDuration

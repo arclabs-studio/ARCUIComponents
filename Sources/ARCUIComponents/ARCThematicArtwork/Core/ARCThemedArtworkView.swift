@@ -57,8 +57,7 @@ public struct ARCThemedArtworkView<ArtworkType: ArtworkTypeProtocol>: View {
                 configuration: ArtworkConfiguration? = nil,
                 isAnimating: Bool = false,
                 animationType: ArtworkAnimationType = .spin,
-                animationDuration: Double = 4.0)
-    {
+                animationDuration: Double = 4.0) {
         self.type = type
         self.configuration = configuration ?? type.recommendedConfiguration
         self.isAnimating = isAnimating

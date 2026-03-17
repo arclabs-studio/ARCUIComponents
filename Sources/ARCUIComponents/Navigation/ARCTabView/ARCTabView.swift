@@ -98,8 +98,7 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
     ///   - content: View builder for each tab's content
     public init(selection: Binding<TabItem>,
                 sidebarAdaptable: Bool = false,
-                @ViewBuilder content: @escaping (TabItem) -> Content) where SearchContent == Never
-    {
+                @ViewBuilder content: @escaping (TabItem) -> Content) where SearchContent == Never {
         _selection = selection
         self.sidebarAdaptable = sidebarAdaptable
         searchValue = nil
@@ -133,8 +132,7 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
                 searchValue: TabItem,
                 sidebarAdaptable: Bool = false,
                 @ViewBuilder content: @escaping (TabItem) -> Content,
-                @ViewBuilder search: () -> SearchContent)
-    {
+                @ViewBuilder search: () -> SearchContent) {
         _selection = selection
         self.sidebarAdaptable = sidebarAdaptable
         self.searchValue = searchValue
@@ -233,8 +231,7 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
 #Preview("With Search") {
     @Previewable @State var tab: PreviewTab = .home
     ARCTabView(selection: $tab,
-               searchValue: .search)
-    { tab in
+               searchValue: .search) { tab in
         NavigationStack {
             Text(tab.title)
                 .navigationTitle(tab.title)

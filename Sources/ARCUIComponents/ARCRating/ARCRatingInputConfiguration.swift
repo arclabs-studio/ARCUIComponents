@@ -52,8 +52,7 @@ import SwiftUI
     public init(style: ARCRatingInputStyle = .slider,
                 showLabel: Bool = true,
                 showHint: Bool = true,
-                animated: Bool = true)
-    {
+                animated: Bool = true) {
         self.style = style
         self.showLabel = showLabel
         self.showHint = showHint

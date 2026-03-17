@@ -219,8 +219,7 @@ import SwiftUI
                 accentColor: Color = .blue,
                 backgroundStyle: ARCBackgroundStyle = .translucent,
                 cornerRadius: CGFloat = 8,
-                shadow: ARCShadow = .none)
-    {
+                shadow: ARCShadow = .none) {
         self.style = style
         self.size = size
         self.segmentWidth = segmentWidth

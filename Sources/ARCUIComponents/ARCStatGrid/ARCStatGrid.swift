@@ -45,8 +45,7 @@ import SwiftUI
     ///   - content: Grid content (typically ARCStatCard instances)
     public init(columns: Int = 2,
                 spacing: CGFloat = .arcSpacingMedium,
-                @ViewBuilder content: () -> Content)
-    {
+                @ViewBuilder content: () -> Content) {
         self.columns = columns
         self.spacing = spacing
         self.content = content()
@@ -56,8 +55,7 @@ import SwiftUI
 
     public var body: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: columns),
-                  spacing: spacing)
-        {
+                  spacing: spacing) {
             content
         }
         .padding(.horizontal, .arcSpacingLarge)

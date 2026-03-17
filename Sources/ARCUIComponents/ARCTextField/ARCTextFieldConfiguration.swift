@@ -252,8 +252,7 @@ import UIKit
                 height: CGFloat = 56,
                 horizontalPadding: CGFloat = 16,
                 borderWidth: CGFloat = 1,
-                focusedBorderWidth: CGFloat = 2)
-    {
+                focusedBorderWidth: CGFloat = 2) {
         self.style = style
         self.inputType = inputType
         self.label = label

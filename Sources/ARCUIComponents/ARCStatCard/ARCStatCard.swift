@@ -58,8 +58,7 @@ import SwiftUI
                 value: String,
                 label: String,
                 iconColor: Color? = nil,
-                configuration: ARCStatCardConfiguration = .default)
-    {
+                configuration: ARCStatCardConfiguration = .default) {
         self.icon = icon
         self.value = value
         rating = nil
@@ -80,8 +79,7 @@ import SwiftUI
     ///   - configuration: Visual configuration (default: .default)
     public init(rating: Double,
                 label: String,
-                configuration: ARCStatCardConfiguration = .default)
-    {
+                configuration: ARCStatCardConfiguration = .default) {
         icon = nil
         value = nil
         self.rating = rating

@@ -154,8 +154,7 @@ import SwiftUI
                 maxVisibleDots: Int = 7,
                 showShadows: Bool = false,
                 scaleEffect: ScaleEffect? = nil,
-                itemCornerRadius: CGFloat = 16)
-    {
+                itemCornerRadius: CGFloat = 16) {
         self.itemSize = itemSize
         self.itemSpacing = itemSpacing
         self.contentInsets = contentInsets
@@ -276,8 +275,7 @@ import SwiftUI
         ///   - animation: Animation for scale changes (default: spring)
         public init(centered: CGFloat = 1.0,
                     adjacent: CGFloat = 0.9,
-                    animation: Animation = .spring(response: 0.3, dampingFraction: 0.8))
-        {
+                    animation: Animation = .spring(response: 0.3, dampingFraction: 0.8)) {
             self.centered = centered
             self.adjacent = adjacent
             self.animation = animation

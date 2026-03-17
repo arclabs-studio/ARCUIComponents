@@ -208,15 +208,13 @@ import SwiftUI
             VStack(spacing: .arcSpacingMedium) {
                 scenarioButton("Save Success",
                                icon: "square.and.arrow.down",
-                               description: "User saves a document")
-                {
+                               description: "User saves a document") {
                     ARCToastManager.shared.showSuccess("Document saved")
                 }
 
                 scenarioButton("Delete with Undo",
                                icon: "trash",
-                               description: "User deletes an item")
-                {
+                               description: "User deletes an item") {
                     ARCToastManager.shared.show("Item moved to trash",
                                                 type: .info,
                                                 action: .undo {})
@@ -224,24 +222,21 @@ import SwiftUI
 
                 scenarioButton("Network Error",
                                icon: "wifi.slash",
-                               description: "API request fails")
-                {
+                               description: "API request fails") {
                     ARCToastManager.shared.showError("Connection failed",
                                                      action: .retry {})
                 }
 
                 scenarioButton("Upload Complete",
                                icon: "arrow.up.circle",
-                               description: "File upload finishes")
-                {
+                               description: "File upload finishes") {
                     ARCToastManager.shared.showSuccess("Photo uploaded",
                                                        action: .view {})
                 }
 
                 scenarioButton("Low Storage",
                                icon: "externaldrive.badge.exclamationmark",
-                               description: "Device running low on space")
-                {
+                               description: "Device running low on space") {
                     ARCToastManager.shared.showWarning("Storage almost full")
                 }
             }
@@ -343,8 +338,7 @@ import SwiftUI
     func scenarioButton(_ title: String,
                         icon: String,
                         description: String,
-                        action: @escaping () -> Void) -> some View
-    {
+                        action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack(spacing: .arcSpacingMedium) {
                 Image(systemName: icon)

@@ -65,8 +65,7 @@ import SwiftUI
     ///   - configuration: Tag configuration
     public init(_ text: String,
                 icon: String? = nil,
-                configuration: ARCTagConfiguration = .default)
-    {
+                configuration: ARCTagConfiguration = .default) {
         self.text = text
         self.icon = icon
         self.configuration = configuration

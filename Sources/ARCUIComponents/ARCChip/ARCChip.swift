@@ -74,8 +74,7 @@ import SwiftUI
                 icon: String? = nil,
                 isSelected: Binding<Bool>,
                 configuration: ARCChipConfiguration = .default,
-                onTap: (() -> Void)? = nil)
-    {
+                onTap: (() -> Void)? = nil) {
         self.text = text
         self.icon = icon
         _isSelected = isSelected

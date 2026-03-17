@@ -204,8 +204,7 @@ import AppKit
                 borderWidth: CGFloat = 0,
                 showStatusBadge: Bool = true,
                 statusBadgePosition: StatusBadgePosition = .bottomTrailing,
-                placeholderIcon: String = "person.fill")
-    {
+                placeholderIcon: String = "person.fill") {
         self.size = size
         self.shape = shape
         self.backgroundColor = backgroundColor

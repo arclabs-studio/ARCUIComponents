@@ -242,8 +242,7 @@ import SwiftUI
                                 GridItem(.flexible()),
                                 GridItem(.flexible()),
                                 GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: .arcSpacingSmall)
-            {
+                                GridItem(.flexible())], spacing: .arcSpacingSmall) {
                 ForEach(availableRatings, id: \.self) { rating in
                     Text(formatRating(rating))
                         .font(.system(.caption, design: .monospaced))

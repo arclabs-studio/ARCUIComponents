@@ -69,8 +69,7 @@ public struct LinearDecoration: View {
                 startOffset: CGFloat = 0.25,
                 randomizeWidths: Bool = true,
                 baseWidth: CGFloat = 0.5,
-                widthVariation: CGFloat = 0.3)
-    {
+                widthVariation: CGFloat = 0.3) {
         self.lineCount = lineCount
         self.dimension = dimension
         self.color = color

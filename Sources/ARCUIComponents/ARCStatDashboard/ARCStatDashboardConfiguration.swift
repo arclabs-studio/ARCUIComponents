@@ -31,8 +31,7 @@ import SwiftUI
     public init(sectionSpacing: CGFloat = .arcSpacingLarge,
                 topPadding: CGFloat = .arcSpacingMedium,
                 showDividers: Bool = true,
-                dividerPadding: CGFloat = .arcSpacingLarge)
-    {
+                dividerPadding: CGFloat = .arcSpacingLarge) {
         self.sectionSpacing = sectionSpacing
         self.topPadding = topPadding
         self.showDividers = showDividers

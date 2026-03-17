@@ -378,8 +378,7 @@ import AppKit
     private func groupExample(_ title: String,
                               avatars: [ARCAvatar],
                               maxDisplay: Int? = nil,
-                              config: ARCAvatarGroupConfiguration? = nil) -> some View
-    {
+                              config: ARCAvatarGroupConfiguration? = nil) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title).font(.subheadline)
             if let max = maxDisplay, let cfg = config {

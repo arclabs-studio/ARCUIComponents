@@ -165,8 +165,7 @@ import SwiftUI
                 accentColor: Color = .arcBrandBurgundy,
                 backgroundStyle: ARCBackgroundStyle = .liquidGlass,
                 cornerRadius: CGFloat = 16,
-                shadow: ARCShadow = .subtle)
-    {
+                shadow: ARCShadow = .subtle) {
         self.showSkipButton = showSkipButton
         self.showBackButton = showBackButton
         self.skipButtonTitle = skipButtonTitle

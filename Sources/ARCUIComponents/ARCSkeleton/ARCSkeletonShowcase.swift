@@ -339,8 +339,7 @@ import SwiftUI
 
     var gridPattern: some View {
         LazyVGrid(columns: [GridItem(.flexible()),
-                            GridItem(.flexible())], spacing: .arcSpacingMedium)
-        {
+                            GridItem(.flexible())], spacing: .arcSpacingMedium) {
             ForEach(0 ..< 4, id: \.self) { _ in
                 ARCSkeletonCard(imageHeight: 100,
                                 subtitleLines: 1,

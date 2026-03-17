@@ -94,8 +94,7 @@ import SwiftUI
                 shadow: ARCShadow = .card,
                 contentSpacing: CGFloat = .arcSpacingSmall,
                 contentPadding: CGFloat = .arcSpacingMedium,
-                showImage: Bool = true)
-    {
+                showImage: Bool = true) {
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
         self.cornerRadius = cornerRadius

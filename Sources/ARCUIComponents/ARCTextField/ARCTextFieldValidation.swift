@@ -89,8 +89,7 @@ import Foundation
         ///   - errorMessage: The error message to display when validation fails
         ///   - validate: A closure that returns true if the input is valid
         public init(errorMessage: String,
-                    validate: @escaping @Sendable (String) -> Bool)
-        {
+                    validate: @escaping @Sendable (String) -> Bool) {
             self.errorMessage = errorMessage
             self.validate = validate
         }
@@ -112,8 +111,7 @@ import Foundation
     ///   - rules: The validation rules to apply
     ///   - mode: How to combine multiple rules (default: .all)
     public init(rules: [ValidationRule],
-                mode: ValidationMode = .all)
-    {
+                mode: ValidationMode = .all) {
         self.rules = rules
         self.mode = mode
     }
@@ -220,8 +218,7 @@ import Foundation
     ///   - message: The error message when validation fails
     /// - Returns: A validation rule
     public static func custom(_ validate: @escaping @Sendable (String) -> Bool,
-                              message: String) -> ValidationRule
-    {
+                              message: String) -> ValidationRule {
         ValidationRule(errorMessage: message, validate: validate)
     }
 

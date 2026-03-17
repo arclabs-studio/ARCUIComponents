@@ -70,8 +70,7 @@ public struct DecorationElement: Identifiable, Sendable {
                 offset: CGPoint = .zero,
                 rotation: Angle = .zero,
                 blur: CGFloat = 0,
-                opacity: Double = 1.0)
-    {
+                opacity: Double = 1.0) {
         id = UUID()
         self.shape = shape
         self.color = color
@@ -98,8 +97,7 @@ public struct DecorationElement: Identifiable, Sendable {
                 offset: CGPoint = .zero,
                 rotation: Angle = .zero,
                 blur: CGFloat = 0,
-                opacity: Double = 1.0)
-    {
+                opacity: Double = 1.0) {
         id = UUID()
         self.shape = AnyShape(shape)
         self.color = color
@@ -126,8 +124,7 @@ extension DecorationElement {
                               diameter: CGFloat,
                               offset: CGPoint = .zero,
                               blur: CGFloat = 0,
-                              opacity: Double = 1.0) -> DecorationElement
-    {
+                              opacity: Double = 1.0) -> DecorationElement {
         DecorationElement(Circle(),
                           color: color,
                           size: CGSize(width: diameter, height: diameter),
@@ -148,8 +145,7 @@ extension DecorationElement {
                                size: CGSize,
                                offset: CGPoint = .zero,
                                rotation: Angle = .zero,
-                               opacity: Double = 1.0) -> DecorationElement
-    {
+                               opacity: Double = 1.0) -> DecorationElement {
         DecorationElement(Capsule(),
                           color: color,
                           size: size,
@@ -172,8 +168,7 @@ extension DecorationElement {
                                    cornerRadius: CGFloat,
                                    offset: CGPoint = .zero,
                                    rotation: Angle = .zero,
-                                   opacity: Double = 1.0) -> DecorationElement
-    {
+                                   opacity: Double = 1.0) -> DecorationElement {
         DecorationElement(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous),
                           color: color,
                           size: size,

@@ -52,8 +52,7 @@ public struct ARCMenuItemRow: View {
     public init(item: ARCMenuItem,
                 configuration: ARCMenuConfiguration,
                 context: ARCMenuItemRowContext = .standalone,
-                action: @escaping () -> Void)
-    {
+                action: @escaping () -> Void) {
         self.item = item
         self.configuration = configuration
         self.context = context

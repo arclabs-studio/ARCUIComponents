@@ -154,8 +154,7 @@ import AppKit
                 HStack(spacing: 12) {
                     ForEach(ShowcaseStyle.allCases) { style in
                         ShowcaseStyleCard(style: style,
-                                          isSelected: selectedStyle == style)
-                        {
+                                          isSelected: selectedStyle == style) {
                             arcWithAnimation(.arcSpring) {
                                 selectedStyle = style
                             }
@@ -180,8 +179,7 @@ import AppKit
                 HStack(spacing: 12) {
                     ForEach(ShowcaseVariant.allCases) { variant in
                         ShowcaseVariantCard(variant: variant,
-                                            isSelected: selectedVariant == variant)
-                        {
+                                            isSelected: selectedVariant == variant) {
                             arcWithAnimation(.arcSpring) {
                                 selectedVariant = variant
                             }

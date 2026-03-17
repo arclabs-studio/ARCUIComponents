@@ -98,8 +98,7 @@ import AppKit
                 cornerRadius: CGFloat = .arcCornerRadiusMedium,
                 shadow: ARCShadow = .subtle,
                 spacing: CGFloat = .arcSpacingMedium,
-                showsSeparator: Bool = false)
-    {
+                showsSeparator: Bool = false) {
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
         self.cornerRadius = cornerRadius

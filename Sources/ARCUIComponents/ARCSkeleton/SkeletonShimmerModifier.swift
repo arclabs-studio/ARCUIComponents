@@ -72,8 +72,7 @@ import SwiftUI
                 baseColor: Color = .clear,
                 highlightColor: Color = .white.opacity(0.4),
                 duration: Double = 1.5,
-                delay: Double = 0)
-    {
+                delay: Double = 0) {
         self.isActive = isActive
         self.baseColor = baseColor
         self.highlightColor = highlightColor
@@ -168,8 +167,7 @@ import SwiftUI
                                 baseColor: Color = .clear,
                                 highlightColor: Color = .white.opacity(0.4),
                                 duration: Double = 1.5,
-                                delay: Double = 0) -> some View
-    {
+                                delay: Double = 0) -> some View {
         modifier(SkeletonShimmerModifier(isActive: isActive,
                                          baseColor: baseColor,
                                          highlightColor: highlightColor,

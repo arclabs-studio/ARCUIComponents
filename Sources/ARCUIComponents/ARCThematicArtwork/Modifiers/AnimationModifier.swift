@@ -54,8 +54,7 @@ extension View {
     /// - Returns: A view with the animation applied.
     func artworkAnimation(type: ArtworkAnimationType,
                           isActive: Bool,
-                          progress: Double) -> some View
-    {
+                          progress: Double) -> some View {
         modifier(AnimationModifier(type: type, isActive: isActive, progress: progress))
     }
 }

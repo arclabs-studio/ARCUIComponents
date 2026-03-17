@@ -166,8 +166,7 @@ import SwiftUI
     private func demoRow(title: String,
                          description: String,
                          demo: DemoType,
-                         color: Color) -> some View
-    {
+                         color: Color) -> some View {
         Button {
             selectedDemo = demo
             showOnboarding = true

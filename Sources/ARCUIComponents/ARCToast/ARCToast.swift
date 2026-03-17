@@ -103,8 +103,7 @@ import SwiftUI
                 type: ARCToastType = .info,
                 action: ARCToastAction? = nil,
                 configuration: ARCToastConfiguration = .default,
-                onDismiss: @escaping () -> Void = {})
-    {
+                onDismiss: @escaping () -> Void = {}) {
         self.message = message
         self.type = type
         self.action = action
