@@ -58,11 +58,9 @@ extension ARCAuthDemoScreen {
     private var welcomeSection: some View {
         Section {
             NavigationLink {
-                NavigationStack {
-                    ARCWelcomeView(configuration: configuration,
-                                   onSignIn: {},
-                                   onSignUp: {})
-                }
+                ARCWelcomeView(configuration: configuration,
+                               onSignIn: {},
+                               onSignUp: {})
             } label: {
                 Label("Welcome Screen", systemImage: "hand.wave.fill")
             }
@@ -76,13 +74,11 @@ extension ARCAuthDemoScreen {
     private var signInSection: some View {
         Section {
             NavigationLink {
-                NavigationStack {
-                    ARCSignInView(viewModel: ARCSignInViewModel(onSignInWithEmail: { _, _ in },
-                                                                onSignInWithApple: {},
-                                                                onSignInWithGoogle: {}),
-                                  onForgotPassword: {},
-                                  onSignUp: {})
-                }
+                ARCSignInView(viewModel: ARCSignInViewModel(onSignInWithEmail: { _, _ in },
+                                                            onSignInWithApple: {},
+                                                            onSignInWithGoogle: {}),
+                              onForgotPassword: {},
+                              onSignUp: {})
             } label: {
                 Label("Sign In (email only)", systemImage: "envelope.fill")
             }
@@ -96,11 +92,9 @@ extension ARCAuthDemoScreen {
     private var signUpSection: some View {
         Section {
             NavigationLink {
-                NavigationStack {
-                    ARCSignUpView(viewModel: ARCSignUpViewModel(onSignUpWithEmail: { _, _ in },
-                                                                onSignInWithApple: {},
-                                                                onSignInWithGoogle: {}))
-                }
+                ARCSignUpView(viewModel: ARCSignUpViewModel(onSignUpWithEmail: { _, _ in },
+                                                            onSignInWithApple: {},
+                                                            onSignInWithGoogle: {}))
             } label: {
                 Label("Sign Up (email only)", systemImage: "person.badge.plus.fill")
             }
@@ -114,21 +108,17 @@ extension ARCAuthDemoScreen {
     private var forgotPasswordSection: some View {
         Section {
             NavigationLink {
-                NavigationStack {
-                    ARCForgotPasswordView(viewModel: ARCForgotPasswordViewModel(onSendReset: { _ in }))
-                }
+                ARCForgotPasswordView(viewModel: ARCForgotPasswordViewModel(onSendReset: { _ in }))
             } label: {
                 Label("Forgot Password — Input", systemImage: "key.fill")
             }
 
             NavigationLink {
-                NavigationStack {
-                    ARCForgotPasswordView(viewModel: {
-                        let vm = ARCForgotPasswordViewModel(onSendReset: { _ in })
-                        vm.didSendReset = true
-                        return vm
-                    }())
-                }
+                ARCForgotPasswordView(viewModel: {
+                    let vm = ARCForgotPasswordViewModel(onSendReset: { _ in })
+                    vm.didSendReset = true
+                    return vm
+                }())
             } label: {
                 Label("Forgot Password — Success", systemImage: "checkmark.circle.fill")
             }

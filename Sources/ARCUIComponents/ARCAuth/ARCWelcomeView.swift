@@ -73,9 +73,6 @@ import SwiftUI
             Spacer()
             ctaSection
         }
-        #if os(iOS)
-        .toolbar(.hidden, for: .navigationBar)
-        #endif
     }
 }
 
