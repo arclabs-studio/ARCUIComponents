@@ -50,6 +50,7 @@ import Foundation
     private let onSignInWithEmail: @Sendable (String, String) async throws -> Void
     private let onSignInWithApple: @Sendable () async throws -> Void
     private let onSignInWithGoogle: @Sendable () async throws -> Void
+    private let mapError: (Error) -> String
 
     // MARK: Initialization
 
@@ -59,13 +60,15 @@ import Foundation
     ///   - onSignInWithEmail: Called with `(email, password)` when the user submits the email form.
     ///   - onSignInWithApple: Called when the user taps Sign in with Apple.
     ///   - onSignInWithGoogle: Called when the user taps Sign in with Google.
+    ///   - errorMessage: Maps an `Error` to the string shown in the alert. Defaults to `localizedDescription`.
     public init(onSignInWithEmail: @escaping @Sendable (String, String) async throws -> Void,
                 onSignInWithApple: @escaping @Sendable () async throws -> Void,
-                onSignInWithGoogle: @escaping @Sendable () async throws -> Void)
-    {
+                onSignInWithGoogle: @escaping @Sendable () async throws -> Void,
+                errorMessage: @escaping @Sendable (Error) -> String = { $0.localizedDescription }) {
         self.onSignInWithEmail = onSignInWithEmail
         self.onSignInWithApple = onSignInWithApple
         self.onSignInWithGoogle = onSignInWithGoogle
+        mapError = errorMessage
     }
 
     // MARK: Actions
@@ -80,7 +83,7 @@ import Foundation
         do {
             try await onSignInWithEmail(email, password)
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = mapError(error)
         }
     }
 
@@ -94,7 +97,7 @@ import Foundation
         do {
             try await onSignInWithApple()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = mapError(error)
         }
     }
 
@@ -108,7 +111,7 @@ import Foundation
         do {
             try await onSignInWithGoogle()
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = mapError(error)
         }
     }
 }

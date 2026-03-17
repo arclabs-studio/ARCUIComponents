@@ -43,14 +43,19 @@ import Foundation
     // MARK: Private Properties
 
     private let onSendReset: @Sendable (String) async throws -> Void
+    private let mapError: (Error) -> String
 
     // MARK: Initialization
 
     /// Creates a forgot-password view model.
     ///
-    /// - Parameter onSendReset: Called with the user's email address to trigger the password-reset flow.
-    public init(onSendReset: @escaping @Sendable (String) async throws -> Void) {
+    /// - Parameters:
+    ///   - onSendReset: Called with the user's email address to trigger the password-reset flow.
+    ///   - errorMessage: Maps an `Error` to the string shown in the alert. Defaults to `localizedDescription`.
+    public init(onSendReset: @escaping @Sendable (String) async throws -> Void,
+                errorMessage: @escaping @Sendable (Error) -> String = { $0.localizedDescription }) {
         self.onSendReset = onSendReset
+        mapError = errorMessage
     }
 
     // MARK: Actions
@@ -66,7 +71,7 @@ import Foundation
             try await onSendReset(email)
             didSendReset = true
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = mapError(error)
         }
     }
 }
