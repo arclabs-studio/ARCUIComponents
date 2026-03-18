@@ -186,10 +186,10 @@ import SwiftUI
                     indeterminateOffset = 0
                     return
                 }
-                withAnimation(.linear(duration: 1.5)
-                    .repeatForever(autoreverses: false)) {
-                        indeterminateOffset = 1.0
-                    }
+                let animation = Animation.linear(duration: 1.5).repeatForever(autoreverses: false)
+                withAnimation(animation) {
+                    indeterminateOffset = 1.0
+                }
             }
     }
 

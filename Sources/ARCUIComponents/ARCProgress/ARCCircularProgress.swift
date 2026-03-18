@@ -172,10 +172,11 @@ import SwiftUI
             .rotationEffect(rotation)
             .onAppear {
                 guard !reduceMotion else { return }
-                withAnimation(.linear(duration: configuration.rotationDuration)
-                    .repeatForever(autoreverses: false)) {
-                        rotation = .degrees(360)
-                    }
+                let animation = Animation.linear(duration: configuration.rotationDuration)
+                    .repeatForever(autoreverses: false)
+                withAnimation(animation) {
+                    rotation = .degrees(360)
+                }
             }
     }
 
