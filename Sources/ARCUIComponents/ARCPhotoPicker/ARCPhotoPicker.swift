@@ -69,13 +69,7 @@ import SwiftUI
         PhotosPicker(selection: $pickerItems,
                      maxSelectionCount: configuration.maxSelectionCount,
                      matching: .images) {
-            Label(configuration.buttonLabel, systemImage: configuration.buttonIcon)
-                .opacity(isLoading ? 0 : 1)
-                .overlay {
-                    if isLoading {
-                        ProgressView()
-                    }
-                }
+            pickerLabel
         }
         .disabled(isLoading)
         .onChange(of: pickerItems) { _, newItems in
@@ -84,6 +78,16 @@ import SwiftUI
         }
         .accessibilityLabel(Text(configuration.buttonLabel))
         .accessibilityHint(Text("Opens photo library"))
+    }
+
+    private var pickerLabel: some View {
+        Label(configuration.buttonLabel, systemImage: configuration.buttonIcon)
+            .opacity(isLoading ? 0 : 1)
+            .overlay {
+                if isLoading {
+                    ProgressView()
+                }
+            }
     }
 
     // MARK: - Private
