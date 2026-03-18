@@ -122,8 +122,7 @@ import SwiftUI
                            description: String,
                            icon: String,
                            color: Color,
-                           preset: ConfigPreset) -> some View
-    {
+                           preset: ConfigPreset) -> some View {
         Button {
             selectedConfig = preset
             showOnboarding = true
@@ -184,8 +183,7 @@ import SwiftUI
 
     private func indicatorRow(title: String,
                               description: String,
-                              style: ARCOnboardingConfiguration.IndicatorStyle) -> some View
-    {
+                              style: ARCOnboardingConfiguration.IndicatorStyle) -> some View {
         Button {
             selectedConfig = .customIndicator(style)
             showOnboarding = true
@@ -259,8 +257,7 @@ import SwiftUI
 
     private func buttonStyleRow(title: String,
                                 description: String,
-                                style: ARCOnboardingConfiguration.ButtonStyle) -> some View
-    {
+                                style: ARCOnboardingConfiguration.ButtonStyle) -> some View {
         Button {
             selectedConfig = .customButton(style)
             showOnboarding = true

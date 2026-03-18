@@ -69,8 +69,7 @@ struct ARCAIRecommenderDemoScreen: View {
                              }
                          }
                          .alert("Seleccionado",
-                                isPresented: $showingDetail)
-                         {
+                                isPresented: $showingDetail) {
                              Button("OK") {}
                          } message: {
                              if let item = selectedItem {
@@ -78,12 +77,11 @@ struct ARCAIRecommenderDemoScreen: View {
                              }
                          }
                          .alert("Respuestas recibidas",
-                                isPresented: $showingAnswers)
-                         {
+                                isPresented: $showingAnswers) {
                              Button("OK") {}
-                             } message: {
-                                 Text(answersReceivedMessage)
-                             }
+                         } message: {
+                             Text(answersReceivedMessage)
+                         }
     }
 
     // MARK: - Private

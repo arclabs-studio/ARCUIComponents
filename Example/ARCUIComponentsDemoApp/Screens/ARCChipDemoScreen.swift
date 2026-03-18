@@ -76,8 +76,7 @@ import SwiftUI
 
     private func usageRow(_ title: String,
                           description: String,
-                          @ViewBuilder content: () -> some View) -> some View
-    {
+                          @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -246,8 +245,7 @@ import SwiftUI
 
     private func configRow(_ title: String,
                            description: String,
-                           @ViewBuilder content: () -> some View) -> some View
-    {
+                           @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

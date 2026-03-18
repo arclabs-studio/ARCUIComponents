@@ -9,7 +9,8 @@ import Foundation
 import Testing
 @testable import ARCUIComponents
 
-@Suite("ARCMenuAppInfo Tests") struct ARCMenuAppInfoTests {
+@Suite("ARCMenuAppInfo Tests")
+struct ARCMenuAppInfoTests {
     // MARK: - Initialization
 
     @Test("Init with all parameters stores values correctly") func initWithAllParameters() {

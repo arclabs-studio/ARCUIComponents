@@ -90,8 +90,7 @@ import SwiftUI
 
     private func contentRow(_ title: String,
                             description: String,
-                            @ViewBuilder content: () -> some View) -> some View
-    {
+                            @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -145,8 +144,7 @@ import SwiftUI
 
     private func styleRow(_ title: String,
                           description: String,
-                          @ViewBuilder content: () -> some View) -> some View
-    {
+                          @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

@@ -10,7 +10,8 @@ import Testing
 @testable import ARCUIComponents
 
 /// Unit tests for shared models: ARCShadow and ARCBackgroundStyle
-@Suite("ARCShadow Tests") struct ARCShadowTests {
+@Suite("ARCShadow Tests")
+struct ARCShadowTests {
     // MARK: - Preset Tests
 
     @Test("default_hasNonZeroRadius") func default_hasNonZeroRadius() {
@@ -75,7 +76,8 @@ import Testing
 
 // MARK: - ARCBackgroundStyle Tests
 
-@Suite("ARCBackgroundStyle Tests") struct ARCBackgroundStyleTests {
+@Suite("ARCBackgroundStyle Tests")
+struct ARCBackgroundStyleTests {
     @Test("liquidGlass_isValidCase") func liquidGlass_isValidCase() {
         let style = ARCBackgroundStyle.liquidGlass
 
@@ -253,7 +255,8 @@ import Testing
 
 // MARK: - ARCShadow Extended Tests
 
-@Suite("ARCShadow Extended Tests") struct ARCShadowExtendedTests {
+@Suite("ARCShadow Extended Tests")
+struct ARCShadowExtendedTests {
     // MARK: - Preset Value Verification Tests
 
     @Test("default_hasExpectedValues") func default_hasExpectedValues() {

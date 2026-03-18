@@ -13,7 +13,8 @@ import Testing
 /// Tests cover state management, data storage, and factory methods
 /// following Swift Testing best practices.
 @Suite("ARCMenuViewModel Tests")
-@MainActor struct ARCMenuViewModelTests {
+@MainActor
+struct ARCMenuViewModelTests {
     // MARK: - Initialization Tests
 
     @Test("init_withDefaultValues_setsCorrectInitialState") func init_withDefaultValues_setsCorrectInitialState() {

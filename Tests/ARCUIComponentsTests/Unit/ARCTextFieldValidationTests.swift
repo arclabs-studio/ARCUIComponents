@@ -10,7 +10,8 @@ import Testing
 
 // MARK: - Validation Mode Tests
 
-@Suite("ARCTextFieldValidation Tests") struct ARCTextFieldValidationTests {
+@Suite("ARCTextFieldValidation Tests")
+struct ARCTextFieldValidationTests {
     // MARK: - SUT
 
     private typealias Validation = ARCTextFieldValidation

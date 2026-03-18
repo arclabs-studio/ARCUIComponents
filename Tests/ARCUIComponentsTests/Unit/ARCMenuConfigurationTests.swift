@@ -12,7 +12,8 @@ import Testing
 /// Unit tests for ARCMenuConfiguration
 ///
 /// Tests cover preset configurations, default values, and custom initialization.
-@Suite("ARCMenuConfiguration Tests") struct ARCMenuConfigurationTests {
+@Suite("ARCMenuConfiguration Tests")
+struct ARCMenuConfigurationTests {
     // MARK: - Default Configuration Tests
 
     @Test("default_hasExpectedMenuWidth") func default_hasExpectedMenuWidth() {
@@ -212,7 +213,8 @@ import Testing
 
 // MARK: - ARCMenuHapticStyle Tests
 
-@Suite("ARCMenuHapticStyle Tests") struct ARCMenuHapticStyleTests {
+@Suite("ARCMenuHapticStyle Tests")
+struct ARCMenuHapticStyleTests {
     @Test("none_isValidCase") func none_isValidCase() {
         let style = ARCMenuHapticStyle.none
         if case .none = style {
@@ -270,7 +272,8 @@ import Testing
 
 // MARK: - ARCMenuIconStyle Tests
 
-@Suite("ARCMenuIconStyle Tests") struct ARCMenuIconStyleTests {
+@Suite("ARCMenuIconStyle Tests")
+struct ARCMenuIconStyleTests {
     @Test("subtle_isValidCase") func subtle_isValidCase() {
         let style = ARCMenuIconStyle.subtle
 

@@ -8,7 +8,8 @@
 import Testing
 @testable import ARCUIComponents
 
-@Suite("ARCAppLanguage Tests") struct ARCAppLanguageTests {
+@Suite("ARCAppLanguage Tests")
+struct ARCAppLanguageTests {
     // MARK: - Cases
 
     @Test("All cases exist") func allCasesExist() {

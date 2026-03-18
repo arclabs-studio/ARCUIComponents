@@ -117,8 +117,7 @@ extension ARCRatingInputDemoScreen {
 
     private func presetRow(title: String,
                            description: String,
-                           @ViewBuilder content: () -> some View) -> some View
-    {
+                           @ViewBuilder content: () -> some View) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)

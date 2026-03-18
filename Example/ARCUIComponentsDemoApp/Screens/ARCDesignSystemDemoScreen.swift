@@ -54,8 +54,7 @@ extension ARCDesignSystemDemoScreen {
 
                 LazyVGrid(columns: [GridItem(.flexible()),
                                     GridItem(.flexible())],
-                          spacing: .arcSpacingMedium)
-                {
+                          spacing: .arcSpacingMedium) {
                     animationDemoItem(name: "Standard", animation: .arcStandard)
                     animationDemoItem(name: "Quick", animation: .arcQuick)
                     animationDemoItem(name: "Smooth", animation: .arcSmooth)
@@ -175,8 +174,7 @@ extension ARCDesignSystemDemoScreen {
     private var iconsSection: some View {
         sectionContainer(title: "Icons & Symbols", icon: "app") {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100, maximum: 150), spacing: .arcSpacingMedium)],
-                      spacing: .arcSpacingMedium)
-            {
+                      spacing: .arcSpacingMedium) {
                 ForEach(ARCBrandAsset.icons + ARCBrandAsset.symbols, id: \.rawValue) { asset in
                     assetGridItem(asset: asset, variant: .burgundy)
                 }
@@ -266,8 +264,7 @@ extension ARCDesignSystemDemoScreen {
 
     private func sectionContainer(title: String,
                                   icon: String,
-                                  @ViewBuilder content: () -> some View) -> some View
-    {
+                                  @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: .arcSpacingMedium) {
             Label(title, systemImage: icon)
                 .font(.title2.bold())

@@ -12,7 +12,8 @@ import Testing
 /// Unit tests for ARCEmptyStateConfiguration
 ///
 /// Tests cover presets and custom initialization.
-@Suite("ARCEmptyStateConfiguration Tests") struct ARCEmptyStateConfigurationTests {
+@Suite("ARCEmptyStateConfiguration Tests")
+struct ARCEmptyStateConfigurationTests {
     // MARK: - Preset Tests: No Favorites
 
     @Test("noFavorites_hasCorrectIcon") func noFavorites_hasCorrectIcon() {

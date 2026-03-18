@@ -11,7 +11,8 @@ import Testing
 // MARK: - Tests
 
 @Suite("ARCSignInViewModel Tests")
-@MainActor struct ARCSignInViewModelTests {
+@MainActor
+struct ARCSignInViewModelTests {
     // MARK: - Helpers
 
     private enum TestError: Error {

@@ -13,7 +13,8 @@ import Testing
 ///
 /// Tests cover backdrop opacity behavior and tap gesture configuration.
 @Suite("ARCMenuBackdropModifier Tests")
-@MainActor struct ARCMenuBackdropModifierTests {
+@MainActor
+struct ARCMenuBackdropModifierTests {
     // MARK: - Initialization Tests
 
     @Test("init_withValidOpacity_createsModifier") func init_withValidOpacity_createsModifier() {
@@ -82,7 +83,8 @@ import Testing
 // MARK: - View Extension Tests
 
 @Suite("Backdrop View Extension Tests")
-@MainActor struct BackdropViewExtensionTests {
+@MainActor
+struct BackdropViewExtensionTests {
     @Test("backdropExtension_withOpacity_returnsModifiedView")
     func backdropExtension_withOpacity_returnsModifiedView() {
         // Verify the extension compiles and can be called
@@ -116,7 +118,8 @@ import Testing
 // MARK: - Material Extension Tests
 
 @Suite("ARCMenu Material Extension Tests")
-@MainActor struct ARCMenuMaterialExtensionTests {
+@MainActor
+struct ARCMenuMaterialExtensionTests {
     @Test("arcMenuLiquidGlass_withConfiguration_returnsModifiedView")
     func arcMenuLiquidGlass_withConfiguration_returnsModifiedView() {
         let view = Text("Test")

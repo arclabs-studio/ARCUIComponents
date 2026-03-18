@@ -29,6 +29,9 @@ A modern Swift package providing beautifully designed, reusable UI components th
 | **ARCOnboarding** | Customizable onboarding flow with page indicators, navigation, and animations |
 | **ARCTabView** | Floating tab bar with Liquid Glass effect (iOS 18+) |
 | **LiquidGlass** | Glassmorphism effect modifier for any view |
+| **ARCPhotoThumbnail** | Compressed image thumbnail with size presets and placeholder fallback |
+| **ARCPhotoCarousel** | Horizontal photo carousel with delete badges and optional picker add-button |
+| **ARCPhotoPicker** | Photos picker button (iOS only) with multi-select and preset configurations |
 
 ---
 
@@ -357,6 +360,83 @@ let viewModel = ARCMenuViewModel(
 )
 ```
 
+### Photo Components
+
+Three components for displaying and picking photo attachments:
+
+#### ARCPhotoItem — shared display model
+
+```swift
+import ARCUIComponents
+
+// Map your storage model to ARCPhotoItem before passing to photo views
+let items = photos.map {
+    ARCPhotoItem(
+        id: $0.id,
+        thumbnailData: $0.thumbnailData ?? Data(),
+        imageData: $0.imageData,
+        caption: $0.caption
+    )
+}
+```
+
+#### ARCPhotoThumbnail — single thumbnail with placeholder
+
+```swift
+// Default size, shows a placeholder when data is nil
+ARCPhotoThumbnail(data: photo.thumbnailData)
+
+// Preset configurations
+ARCPhotoThumbnail(data: photo.thumbnailData, configuration: .compact)
+ARCPhotoThumbnail(data: photo.thumbnailData, configuration: .featured)
+
+// Custom size
+ARCPhotoThumbnail(data: photo.thumbnailData,
+                  configuration: ARCPhotoThumbnailConfiguration(size: .custom(width: 120, height: 90)))
+```
+
+#### ARCPhotoCarousel — horizontal scrolling carousel
+
+```swift
+// Read-only
+ARCPhotoCarousel(items: items)
+
+// With delete badges
+ARCPhotoCarousel(items: items, onDelete: { item in
+    viewModel.deletePhoto(id: item.id)
+})
+
+// With delete + custom add button (iOS only)
+ARCPhotoCarousel(items: items,
+                 onDelete: { item in viewModel.deletePhoto(id: item.id) },
+                 addButton: {
+                     ARCPhotoPicker(configuration: .iconOnly) { dataArray in
+                         if let first = dataArray.first { viewModel.addPhoto(first) }
+                     }
+                 })
+```
+
+#### ARCPhotoPicker — photo picker button (iOS only)
+
+```swift
+#if os(iOS)
+// Default button (label + icon, multi-select)
+ARCPhotoPicker { dataArray in
+    for data in dataArray { viewModel.addPhoto(data) }
+}
+
+// Single photo only
+ARCPhotoPicker(configuration: .singlePhoto) { dataArray in
+    if let data = dataArray.first { viewModel.addPhoto(data) }
+}
+
+// Icon only (compact, for use inside a carousel)
+ARCPhotoPicker(configuration: .iconOnly) { dataArray in
+    if let data = dataArray.first { viewModel.addPhoto(data) }
+}
+#endif
+```
+
 ---
 
 ## 🏗️ Architecture
@@ -417,6 +497,20 @@ Sources/ARCUIComponents/
 │   └── ARCTabView/
 │       ├── ARCTabView.swift
 │       └── ARCTabItem.swift
+├── ARCPhoto/                 # Shared photo display model
+│   └── ARCPhotoItem.swift
+├── ARCPhotoThumbnail/        # Compressed thumbnail component
+│   ├── ARCPhotoThumbnail.swift
+│   ├── ARCPhotoThumbnailConfiguration.swift
+│   └── ARCPhotoThumbnailShowcase.swift
+├── ARCPhotoCarousel/         # Horizontal photo carousel
+│   ├── ARCPhotoCarousel.swift
+│   ├── ARCPhotoCarouselConfiguration.swift
+│   └── ARCPhotoCarouselShowcase.swift
+├── ARCPhotoPicker/           # Photos picker button (iOS only)
+│   ├── ARCPhotoPicker.swift
+│   ├── ARCPhotoPickerConfiguration.swift
+│   └── ARCPhotoPickerShowcase.swift
 ├── ThematicArtwork/          # Themed artwork views
 │   └── ...
 ├── Core/                     # Shared models
@@ -560,6 +654,9 @@ ARCUIComponents is available under the MIT license. See the [LICENSE](LICENSE) f
 - [x] ARCToast (toast notifications with queuing)
 - [x] ARCBadge/Tag/Chip component
 - [x] ARCOnboarding (onboarding flow with page navigation)
+- [x] ARCPhotoThumbnail (compressed thumbnail with placeholder fallback)
+- [x] ARCPhotoCarousel (horizontal photo carousel with delete and picker integration)
+- [x] ARCPhotoPicker (photo picker button, iOS only)
 - [ ] ARCBottomSheet component
 - [ ] ARCButton component
 - [ ] ARCTextField component

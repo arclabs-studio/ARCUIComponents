@@ -75,7 +75,8 @@ import SwiftUI
 /// ```
 @available(iOS 17.0, macOS 14.0, *)
 @Observable
-@MainActor public final class ARCToastManager {
+@MainActor
+public final class ARCToastManager {
     // MARK: - Singleton
 
     /// Shared instance for global toast management

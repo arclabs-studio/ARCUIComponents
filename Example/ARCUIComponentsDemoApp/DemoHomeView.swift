@@ -186,6 +186,12 @@ extension DemoHomeView {
             }
 
             NavigationLink {
+                ARCPhotoDemoScreen()
+            } label: {
+                Label("Photo Components", systemImage: "photo.on.rectangle.angled")
+            }
+
+            NavigationLink {
                 ARCAIRecommenderDemoScreen()
             } label: {
                 Label("ARCAIRecommender", systemImage: "sparkles")
@@ -414,6 +420,26 @@ extension DemoHomeView {
             } label: {
                 Label("Liquid Glass Showcase", systemImage: "drop.circle")
             }
+
+            NavigationLink {
+                ARCPhotoThumbnailShowcase()
+            } label: {
+                Label("Photo Thumbnail Showcase", systemImage: "photo")
+            }
+
+            NavigationLink {
+                ARCPhotoCarouselShowcase()
+            } label: {
+                Label("Photo Carousel Showcase", systemImage: "photo.on.rectangle.angled")
+            }
+
+            #if os(iOS)
+            NavigationLink {
+                ARCPhotoPickerShowcase()
+            } label: {
+                Label("Photo Picker Showcase", systemImage: "photo.badge.plus")
+            }
+            #endif
 
             NavigationLink {
                 ARCAIRecommenderShowcase()

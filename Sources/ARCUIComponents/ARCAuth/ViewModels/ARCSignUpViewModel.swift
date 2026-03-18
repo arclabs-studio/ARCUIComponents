@@ -30,7 +30,8 @@ import Foundation
 ///     }
 /// )
 /// ```
-@Observable @MainActor public final class ARCSignUpViewModel { // swiftlint:disable:this observable_viewmodel
+@Observable @MainActor
+public final class ARCSignUpViewModel { // swiftlint:disable:this observable_viewmodel
     // MARK: Properties
 
     /// Email address field value.

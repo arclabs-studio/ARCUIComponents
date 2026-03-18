@@ -33,7 +33,8 @@ import UIKit
 /// ```
 ///
 /// - Note: Uses `@Observable` for Swift 6 compatibility
-@Observable @MainActor public final class ARCMenuViewModel { // swiftlint:disable:this observable_viewmodel
+@Observable @MainActor
+public final class ARCMenuViewModel { // swiftlint:disable:this observable_viewmodel
     // MARK: - State
 
     /// Whether the menu is currently presented (for backward compatibility)

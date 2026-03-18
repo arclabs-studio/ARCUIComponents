@@ -89,8 +89,7 @@ extension ARCRatingViewDemoScreen {
                                 GridItem(.flexible()),
                                 GridItem(.flexible()),
                                 GridItem(.flexible()),
-                                GridItem(.flexible())], spacing: 16)
-            {
+                                GridItem(.flexible())], spacing: 16) {
                 ForEach(1 ... 10, id: \.self) { rating in
                     VStack(spacing: 4) {
                         ARCRatingView(rating: Double(rating),

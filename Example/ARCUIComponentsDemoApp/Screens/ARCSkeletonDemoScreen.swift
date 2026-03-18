@@ -141,8 +141,7 @@ import SwiftUI
 
     private var gridDemo: some View {
         LazyVGrid(columns: [GridItem(.flexible()),
-                            GridItem(.flexible())], spacing: 16)
-        {
+                            GridItem(.flexible())], spacing: 16) {
             ForEach(0 ..< 4, id: \.self) { _ in
                 if isLoading {
                     ARCSkeletonCard(imageHeight: 100,
@@ -151,8 +150,7 @@ import SwiftUI
                 } else {
                     ARCCard(title: "Item Title",
                             subtitle: "Description",
-                            subtitleIcon: "tag.fill")
-                    {
+                            subtitleIcon: "tag.fill") {
                         Color.arcBrandGold.opacity(0.2)
                             .frame(height: 100)
                             .overlay {

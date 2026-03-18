@@ -138,15 +138,13 @@ import SwiftUI
 
                     ARCButton("Submit",
                               isLoading: $isSubmitting,
-                              configuration: .secondary)
-                    {
+                              configuration: .secondary) {
                         simulateAction($isSubmitting)
                     }
 
                     ARCButton("Delete",
                               isLoading: $isDeleting,
-                              configuration: .destructive)
-                    {
+                              configuration: .destructive) {
                         simulateAction($isDeleting)
                     }
                 }
@@ -186,8 +184,7 @@ import SwiftUI
                         }
 
                         ARCButton(icon: "minus",
-                                  configuration: .secondary)
-                        {
+                                  configuration: .secondary) {
                             withAnimation {
                                 if actionCount > 0 {
                                     actionCount -= 1
@@ -196,8 +193,7 @@ import SwiftUI
                         }
 
                         ARCButton(icon: "arrow.counterclockwise",
-                                  configuration: .ghost)
-                        {
+                                  configuration: .ghost) {
                             withAnimation {
                                 actionCount = 0
                             }
@@ -250,8 +246,7 @@ import SwiftUI
 
     private func styleRow(_ title: String,
                           description: String,
-                          @ViewBuilder content: () -> some View) -> some View
-    {
+                          @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
