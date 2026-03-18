@@ -34,7 +34,7 @@ import UIKit
 ///
 /// - Note: Uses `@Observable` for Swift 6 compatibility
 @Observable @MainActor
-public final class ARCMenuViewModel {
+public final class ARCMenuViewModel { // swiftlint:disable:this observable_viewmodel
     // MARK: - State
 
     /// Whether the menu is currently presented (for backward compatibility)
@@ -174,10 +174,10 @@ extension ARCMenuViewModel {
                                                  onLogout: onLogout))
     }
 
-    // swiftlint:disable line_length
     /// Creates a view model with common menu items (legacy)
     ///
     /// - Note: Deprecated in favor of `withDefaultItems`
+    // swiftlint:disable line_length
     @available(*, deprecated, renamed: "withDefaultItems") public static func standard(user: ARCMenuUser?,
                                                                                        configuration: ARCMenuConfiguration =
                                                                                            .default,

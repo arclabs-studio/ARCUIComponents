@@ -197,6 +197,12 @@ extension DemoHomeView {
                 Label("ARCAIRecommender", systemImage: "sparkles")
             }
 
+            NavigationLink {
+                ARCAuthDemoScreen()
+            } label: {
+                Label("ARCAuth", systemImage: "person.badge.key.fill")
+            }
+
             if #available(iOS 18.0, *) {
                 NavigationLink {
                     ARCTabViewDemoScreen()
@@ -439,6 +445,12 @@ extension DemoHomeView {
                 ARCAIRecommenderShowcase()
             } label: {
                 Label("AI Recommender Showcase", systemImage: "sparkles.rectangle.stack")
+            }
+
+            NavigationLink {
+                ARCAuthShowcase()
+            } label: {
+                Label("Auth Showcase", systemImage: "person.badge.key.fill")
             }
 
             NavigationLink {
