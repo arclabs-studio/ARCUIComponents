@@ -46,6 +46,7 @@
 		B10000010000000000000035 /* ARCBarChartDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000035 /* ARCBarChartDemoScreen.swift */; };
 		B10000010000000000000036 /* ARCDonutChartDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000036 /* ARCDonutChartDemoScreen.swift */; };
 		B10000010000000000000037 /* ARCTimelineChartDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000037 /* ARCTimelineChartDemoScreen.swift */; };
+		B10000010000000000000038 /* ARCPhotoDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000038 /* ARCPhotoDemoScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +90,7 @@
 		B20000010000000000000035 /* ARCBarChartDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCBarChartDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000036 /* ARCDonutChartDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCDonutChartDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000037 /* ARCTimelineChartDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCTimelineChartDemoScreen.swift; sourceTree = "<group>"; };
+		B20000010000000000000038 /* ARCPhotoDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCPhotoDemoScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +179,7 @@
 				B20000010000000000000035 /* ARCBarChartDemoScreen.swift */,
 				B20000010000000000000036 /* ARCDonutChartDemoScreen.swift */,
 				B20000010000000000000037 /* ARCTimelineChartDemoScreen.swift */,
+				B20000010000000000000038 /* ARCPhotoDemoScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				B10000010000000000000035 /* ARCBarChartDemoScreen.swift in Sources */,
 				B10000010000000000000036 /* ARCDonutChartDemoScreen.swift in Sources */,
 				B10000010000000000000037 /* ARCTimelineChartDemoScreen.swift in Sources */,
+				B10000010000000000000038 /* ARCPhotoDemoScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
