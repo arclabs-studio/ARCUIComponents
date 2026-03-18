@@ -48,6 +48,7 @@ import SwiftUI
 
     @State private var pickerItems: [PhotosPickerItem] = []
     @State private var isLoading = false
+    @State private var showPicker = false
 
     // MARK: - Initialization
 
@@ -66,28 +67,26 @@ import SwiftUI
     // MARK: - Body
 
     public var body: some View {
-        PhotosPicker(selection: $pickerItems,
-                     maxSelectionCount: configuration.maxSelectionCount,
-                     matching: .images) {
-            pickerLabel
+        Button { showPicker = true } label: {
+            Label(configuration.buttonLabel, systemImage: configuration.buttonIcon)
+                .opacity(isLoading ? 0 : 1)
+                .overlay {
+                    if isLoading {
+                        ProgressView()
+                    }
+                }
         }
         .disabled(isLoading)
+        .photosPicker(isPresented: $showPicker,
+                      selection: $pickerItems,
+                      maxSelectionCount: configuration.maxSelectionCount,
+                      matching: .images)
         .onChange(of: pickerItems) { _, newItems in
             guard !newItems.isEmpty else { return }
             loadImages(from: newItems)
         }
         .accessibilityLabel(Text(configuration.buttonLabel))
         .accessibilityHint(Text("Opens photo library"))
-    }
-
-    private var pickerLabel: some View {
-        Label(configuration.buttonLabel, systemImage: configuration.buttonIcon)
-            .opacity(isLoading ? 0 : 1)
-            .overlay {
-                if isLoading {
-                    ProgressView()
-                }
-            }
     }
 
     // MARK: - Private
