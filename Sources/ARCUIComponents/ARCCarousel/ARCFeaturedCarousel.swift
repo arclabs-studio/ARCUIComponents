@@ -98,7 +98,7 @@ where Data.Element: Identifiable {
                                  autoScrollEnabled: true,
                                  autoScrollInterval: autoScrollInterval,
                                  pauseOnInteraction: true,
-                                 indicatorStyle: showIndicators ? .dots : .none,
+                                 indicatorStyle: showIndicators ? .dots() : .none,
                                  indicatorPosition: .overlay(alignment: .bottom),
                                  showShadows: true,
                                  scaleEffect: .default,
