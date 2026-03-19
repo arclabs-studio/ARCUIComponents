@@ -73,7 +73,7 @@ import SwiftUI
 
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         switch style {
         case .none:
             EmptyView()
