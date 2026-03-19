@@ -195,8 +195,8 @@ import SwiftUI
             sectionHeader(title: "Indicator Styles", subtitle: "Available indicator options")
 
             VStack(spacing: 24) {
-                indicatorDemo(style: .dots, label: "Dots")
-                indicatorDemo(style: .lines, label: "Lines")
+                indicatorDemo(style: .dots(), label: "Dots")
+                indicatorDemo(style: .lines(), label: "Lines")
                 indicatorDemo(style: .numbers, label: "Numbers")
             }
             .padding()

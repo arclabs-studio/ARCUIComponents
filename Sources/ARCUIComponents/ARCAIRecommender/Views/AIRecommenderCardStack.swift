@@ -61,7 +61,7 @@ import SwiftUI
     private var cardIndicator: some View {
         ARCCarouselIndicator(totalItems: items.count,
                              currentIndex: currentIndex,
-                             style: .dots,
+                             style: .dots(),
                              accentColor: configuration.accentColor)
     }
 

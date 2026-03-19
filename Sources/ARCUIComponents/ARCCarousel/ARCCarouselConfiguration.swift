@@ -134,7 +134,7 @@ import SwiftUI
     ///   - autoScrollEnabled: Whether to enable auto-scroll (default: false)
     ///   - autoScrollInterval: Auto-scroll interval in seconds (default: 4)
     ///   - pauseOnInteraction: Pause auto-scroll on interaction (default: true)
-    ///   - indicatorStyle: Page indicator style (default: .dots)
+    ///   - indicatorStyle: Page indicator style and size (default: .dots())
     ///   - indicatorPosition: Indicator position (default: .bottom(offset: 16))
     ///   - maxVisibleDots: Maximum visible indicator dots (default: 7)
     ///   - showShadows: Whether to show item shadows (default: false)
@@ -149,7 +149,7 @@ import SwiftUI
                 autoScrollEnabled: Bool = false,
                 autoScrollInterval: TimeInterval = 4,
                 pauseOnInteraction: Bool = true,
-                indicatorStyle: IndicatorStyle = .dots,
+                indicatorStyle: IndicatorStyle = .dots(),
                 indicatorPosition: IndicatorPosition = .bottom(offset: 16),
                 maxVisibleDots: Int = 7,
                 showShadows: Bool = false,
@@ -208,19 +208,41 @@ import SwiftUI
     }
 }
 
+// MARK: - IndicatorSize
+
+@available(iOS 17.0, macOS 14.0, *) extension ARCCarouselConfiguration {
+    /// The size of page indicators
+    public enum IndicatorSize: Sendable, Equatable {
+        /// Standard size — 8pt dots, for full-width carousels
+        case standard
+
+        /// Small size — 5pt dots, for mid-sized components
+        case small
+
+        /// Compact size — 3pt dots, for dense contexts like grid cards
+        case compact
+    }
+}
+
 // MARK: - IndicatorStyle
 
 @available(iOS 17.0, macOS 14.0, *) extension ARCCarouselConfiguration {
-    /// The visual style for page indicators
+    /// The visual style for page indicators.
+    ///
+    /// Size is an associated value of the style so it only applies where relevant:
+    /// - `.none` — no indicators (no size needed)
+    /// - `.dots(size:)` — dot indicators at the specified size (default `.standard`)
+    /// - `.lines(size:)` — line/bar indicators at the specified size (default `.standard`)
+    /// - `.numbers` — numeric indicator (no size needed)
     public enum IndicatorStyle: Sendable, Equatable {
         /// No indicators shown
         case none
 
         /// Traditional dot indicators
-        case dots
+        case dots(size: IndicatorSize = .standard)
 
         /// Line/bar indicators
-        case lines
+        case lines(size: IndicatorSize = .standard)
 
         /// Numeric indicators (e.g., "3 / 10")
         case numbers
@@ -315,7 +337,7 @@ import SwiftUI
                                                           itemSpacing: 12,
                                                           autoScrollEnabled: true,
                                                           autoScrollInterval: 5,
-                                                          indicatorStyle: .dots,
+                                                          indicatorStyle: .dots(),
                                                           indicatorPosition: .overlay(alignment: .bottom),
                                                           showShadows: true,
                                                           scaleEffect: .default)
@@ -372,6 +394,6 @@ import SwiftUI
                                                                              leading: 0,
                                                                              bottom: 0,
                                                                              trailing: 0),
-                                                        indicatorStyle: .lines,
+                                                        indicatorStyle: .lines(),
                                                         indicatorPosition: .top(offset: 8))
 }

@@ -14,7 +14,7 @@ import SwiftUI
 ///
 /// Supports multiple indicator styles including dots, lines, and numbers.
 /// Handles large item counts by showing a subset of indicators with scaling.
-@available(iOS 17.0, macOS 14.0, *) struct ARCCarouselIndicator: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCCarouselIndicator: View {
     // MARK: - Properties
 
     let totalItems: Int
@@ -23,7 +23,7 @@ import SwiftUI
     let maxVisibleDots: Int
     let accentColor: Color
 
-    // MARK: - Scaled Metrics
+    // MARK: - Scaled Metrics (standard base values — scaled down via sizeMultiplier)
 
     @ScaledMetric(relativeTo: .caption) private var dotSize: CGFloat = 8
 
@@ -39,16 +39,36 @@ import SwiftUI
 
     // MARK: - Initialization
 
-    init(totalItems: Int,
-         currentIndex: Int,
-         style: ARCCarouselConfiguration.IndicatorStyle,
-         maxVisibleDots: Int = 7,
-         accentColor: Color = .primary) {
+    public init(totalItems: Int,
+                currentIndex: Int,
+                style: ARCCarouselConfiguration.IndicatorStyle,
+                maxVisibleDots: Int = 7,
+                accentColor: Color = .primary) {
         self.totalItems = totalItems
         self.currentIndex = currentIndex
         self.style = style
         self.maxVisibleDots = maxVisibleDots
         self.accentColor = accentColor
+    }
+
+    // MARK: - Size Multiplier
+
+    /// Extracts the `IndicatorSize` embedded in the style's associated value.
+    /// Returns `.standard` for styles that carry no size (`.none`, `.numbers`).
+    private var effectiveSize: ARCCarouselConfiguration.IndicatorSize {
+        switch style {
+        case let .dots(size): size
+        case let .lines(size): size
+        default: .standard
+        }
+    }
+
+    private var sizeMultiplier: CGFloat {
+        switch effectiveSize {
+        case .standard: 1.0
+        case .small: 0.625
+        case .compact: 0.375
+        }
     }
 
     // MARK: - Body
@@ -72,7 +92,7 @@ import SwiftUI
     // MARK: - Dots Indicator
 
     private var dotsIndicator: some View {
-        HStack(spacing: spacing) {
+        HStack(spacing: spacing * sizeMultiplier) {
             ForEach(visibleDotIndices, id: \.self) { index in
                 Circle()
                     .fill(index == currentIndex ? accentColor : accentColor.opacity(0.3))
@@ -87,11 +107,11 @@ import SwiftUI
     // MARK: - Lines Indicator
 
     private var linesIndicator: some View {
-        HStack(spacing: spacing) {
+        HStack(spacing: spacing * sizeMultiplier) {
             ForEach(0 ..< totalItems, id: \.self) { index in
                 Capsule()
                     .fill(index == currentIndex ? accentColor : accentColor.opacity(0.3))
-                    .frame(width: lineWidth, height: lineHeight)
+                    .frame(width: lineWidth * sizeMultiplier, height: lineHeight * sizeMultiplier)
                     .arcAnimationIfAllowed(.arcSpring, value: currentIndex)
             }
         }
@@ -134,15 +154,17 @@ import SwiftUI
         return Array(start ... end)
     }
 
-    /// Returns the size for a dot at the given index (smaller for edge dots)
+    /// Returns the size for a dot at the given index (smaller for edge dots), adjusted for `size`.
     private func dotSizeFor(index: Int) -> CGFloat {
+        let base = dotSize * sizeMultiplier
+
         guard totalItems > maxVisibleDots else {
-            return dotSize
+            return base
         }
 
         let visibleIndices = visibleDotIndices
         guard let position = visibleIndices.firstIndex(of: index) else {
-            return dotSize * 0.5
+            return base * 0.5
         }
 
         // Scale down dots at the edges
@@ -150,12 +172,12 @@ import SwiftUI
         let maxDistance = maxVisibleDots / 2
 
         if distanceFromCenter >= maxDistance {
-            return dotSize * 0.6
+            return base * 0.6
         } else if distanceFromCenter == maxDistance - 1 {
-            return dotSize * 0.8
+            return base * 0.8
         }
 
-        return dotSize
+        return base
     }
 }
 
@@ -166,11 +188,11 @@ import SwiftUI
     VStack(spacing: 32) {
         ARCCarouselIndicator(totalItems: 5,
                              currentIndex: 2,
-                             style: .dots)
+                             style: .dots())
 
         ARCCarouselIndicator(totalItems: 5,
                              currentIndex: 0,
-                             style: .dots,
+                             style: .dots(),
                              accentColor: .blue)
     }
     .padding()
@@ -181,15 +203,15 @@ import SwiftUI
     VStack(spacing: 32) {
         ARCCarouselIndicator(totalItems: 15,
                              currentIndex: 7,
-                             style: .dots)
+                             style: .dots())
 
         ARCCarouselIndicator(totalItems: 15,
                              currentIndex: 0,
-                             style: .dots)
+                             style: .dots())
 
         ARCCarouselIndicator(totalItems: 15,
                              currentIndex: 14,
-                             style: .dots)
+                             style: .dots())
     }
     .padding()
 }
@@ -198,7 +220,7 @@ import SwiftUI
 #Preview("Lines") {
     ARCCarouselIndicator(totalItems: 4,
                          currentIndex: 1,
-                         style: .lines,
+                         style: .lines(),
                          accentColor: .orange)
         .padding()
 }
@@ -209,4 +231,14 @@ import SwiftUI
                          currentIndex: 3,
                          style: .numbers)
         .padding()
+}
+
+@available(iOS 17.0, macOS 14.0, *)
+#Preview("Sizes") {
+    VStack(spacing: 24) {
+        ARCCarouselIndicator(totalItems: 5, currentIndex: 2, style: .dots(size: .standard))
+        ARCCarouselIndicator(totalItems: 5, currentIndex: 2, style: .dots(size: .small))
+        ARCCarouselIndicator(totalItems: 5, currentIndex: 2, style: .dots(size: .compact))
+    }
+    .padding()
 }
