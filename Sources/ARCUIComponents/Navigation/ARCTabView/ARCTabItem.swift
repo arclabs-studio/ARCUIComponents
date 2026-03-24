@@ -37,7 +37,7 @@ import SwiftUI
 ///
 ///     var id: String { rawValue }
 ///
-///     var title: String {
+///     var title: LocalizedStringKey {
 ///         switch self {
 ///         case .home: "Home"
 ///         case .favorites: "Favorites"
@@ -69,7 +69,9 @@ public protocol ARCTabItem: Hashable, CaseIterable, Identifiable where AllCases:
     ///
     /// Keep titles short (preferably one word) for optimal display
     /// in the tab bar. The title is used for accessibility labels.
-    var title: String { get }
+    /// Using `LocalizedStringKey` ensures the tab title responds to
+    /// `.environment(\.locale, ...)` and the String Catalog.
+    var title: LocalizedStringKey { get }
 
     /// The SF Symbol name for the tab icon
     ///

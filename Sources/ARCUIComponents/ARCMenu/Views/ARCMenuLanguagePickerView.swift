@@ -26,6 +26,10 @@ public struct ARCMenuLanguagePickerView: View {
 
     @Binding public var selectedLanguage: ARCAppLanguage
 
+    // MARK: Private Properties
+
+    @Environment(\.dismiss) private var dismiss
+
     // MARK: Lifecycle
 
     public init(selectedLanguage: Binding<ARCAppLanguage>) {
@@ -64,9 +68,16 @@ public struct ARCMenuLanguagePickerView: View {
                 }
             }
         }
-        .navigationTitle("Idioma")
+        .navigationTitle("Language")
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Done") {
+                    dismiss()
+                }
+            }
+        }
         #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(.inline)
         #endif
     }
 }
