@@ -206,7 +206,7 @@ import SwiftUI
             Text(title)
                 .font(.headline)
                 .fontWeight(.semibold)
-                .lineLimit(1)
+                .lineLimit(2)
                 .foregroundStyle(.primary)
 
             // Subtitle with optional icon
