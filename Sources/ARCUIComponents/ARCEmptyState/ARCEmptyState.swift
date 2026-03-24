@@ -114,9 +114,9 @@ import SwiftUI
     /// Uses native SwiftUI when no ARC-specific customizations are needed.
     private var nativeContentUnavailableView: some View {
         ContentUnavailableView {
-            Label(configuration.title, systemImage: configuration.icon)
+            Label(LocalizedStringKey(configuration.title), systemImage: configuration.icon)
         } description: {
-            Text(configuration.message)
+            Text(LocalizedStringKey(configuration.message))
         }
     }
 
@@ -155,12 +155,12 @@ import SwiftUI
 
     private var textContent: some View {
         VStack(spacing: .arcSpacingSmall) {
-            Text(configuration.title)
+            Text(LocalizedStringKey(configuration.title))
                 .font(.title2.bold())
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.center)
 
-            Text(configuration.message)
+            Text(LocalizedStringKey(configuration.message))
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -172,7 +172,7 @@ import SwiftUI
     @ViewBuilder private var actionButton: some View {
         if configuration.showsAction, let action {
             Button(action: action) {
-                Text(configuration.actionTitle)
+                Text(LocalizedStringKey(configuration.actionTitle))
                     .font(.headline)
                     .foregroundStyle(.white)
                     .padding(.horizontal, .arcSpacingXLarge)
@@ -182,7 +182,7 @@ import SwiftUI
             }
             .buttonStyle(.plain)
             .padding(.top, .arcSpacingSmall)
-            .accessibilityLabel(configuration.actionTitle)
+            .accessibilityLabel(Text(LocalizedStringKey(configuration.actionTitle)))
             .accessibilityHint("Tap to \(configuration.actionTitle.lowercased())")
         }
     }

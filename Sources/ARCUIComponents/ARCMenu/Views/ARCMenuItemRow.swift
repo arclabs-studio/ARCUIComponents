@@ -73,7 +73,7 @@ public struct ARCMenuItemRow: View {
                 // Content
                 VStack(alignment: .leading, spacing: 2) {
                     HStack(spacing: .arcSpacingSmall) {
-                        Text(item.title)
+                        Text(LocalizedStringKey(item.title))
                             .font(.body)
                             .fontWeight(.medium)
                             .foregroundStyle(item.isDestructive ? .red : .primary)
@@ -84,7 +84,7 @@ public struct ARCMenuItemRow: View {
                     }
 
                     if let subtitle = item.subtitle {
-                        Text(subtitle)
+                        Text(LocalizedStringKey(subtitle))
                             .font(.caption)
                             .foregroundStyle(.secondary)
                             .lineLimit(1)
