@@ -67,7 +67,7 @@ public struct ARCMenuUserHeader: View {
 
                 // User info
                 VStack(alignment: .leading, spacing: .arcSpacingXSmall) {
-                    Text(user.name)
+                    Text(LocalizedStringKey(user.name))
                         .font(.title3)
                         .fontWeight(.semibold)
                         .fontDesign(.rounded)
@@ -81,7 +81,7 @@ public struct ARCMenuUserHeader: View {
                             .lineLimit(1)
                     } else if let subtitle = user.subtitle {
                         HStack(spacing: .arcSpacingXSmall) {
-                            Text(subtitle)
+                            Text(LocalizedStringKey(subtitle))
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                                 .foregroundStyle(configuration.accentColor)

@@ -54,7 +54,7 @@ import SwiftUI
 @available(iOS 17.0, macOS 14.0, *) public struct ARCChip: View {
     // MARK: - Properties
 
-    private let text: String
+    private let text: LocalizedStringKey
     private let icon: String?
     @Binding private var isSelected: Bool
     private let configuration: ARCChipConfiguration
@@ -65,12 +65,12 @@ import SwiftUI
     /// Creates an interactive chip
     ///
     /// - Parameters:
-    ///   - text: The label text
+    ///   - text: The label text as a `LocalizedStringKey`, looked up at render time
     ///   - icon: Optional SF Symbol name
     ///   - isSelected: Binding to selection state
     ///   - configuration: Chip configuration
     ///   - onTap: Optional tap handler (in addition to toggling selection)
-    public init(_ text: String,
+    public init(_ text: LocalizedStringKey,
                 icon: String? = nil,
                 isSelected: Binding<Bool>,
                 configuration: ARCChipConfiguration = .default,
@@ -80,6 +80,29 @@ import SwiftUI
         _isSelected = isSelected
         self.configuration = configuration
         self.onTap = onTap
+    }
+
+    /// Creates an interactive chip from a `String` value.
+    ///
+    /// The string is treated as a localization key and resolved at render time,
+    /// so it responds to `.environment(\.locale, ...)` changes.
+    ///
+    /// - Parameters:
+    ///   - text: The label text; treated as a localization key
+    ///   - icon: Optional SF Symbol name
+    ///   - isSelected: Binding to selection state
+    ///   - configuration: Chip configuration
+    ///   - onTap: Optional tap handler (in addition to toggling selection)
+    public init(_ text: String,
+                icon: String? = nil,
+                isSelected: Binding<Bool>,
+                configuration: ARCChipConfiguration = .default,
+                onTap: (() -> Void)? = nil) {
+        self.init(LocalizedStringKey(text),
+                  icon: icon,
+                  isSelected: isSelected,
+                  configuration: configuration,
+                  onTap: onTap)
     }
 
     // MARK: - Body
@@ -115,7 +138,7 @@ import SwiftUI
             }
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(text)
+        .accessibilityLabel(Text(text))
         .accessibilityValue(isSelected ? "Selected" : "Not selected")
         .accessibilityAddTraits(.isButton)
         .accessibilityHint("Double tap to \(isSelected ? "deselect" : "select")")
