@@ -27,7 +27,7 @@ import SwiftUI
 /// enum AppTab: String, ARCTabItem {
 ///     case home, favorites, settings
 ///
-///     var title: String { rawValue.capitalized }
+///     var title: LocalizedStringKey { LocalizedStringKey(rawValue.capitalized) }
 ///     var icon: String {
 ///         switch self {
 ///         case .home: "house.fill"
@@ -68,7 +68,7 @@ import SwiftUI
 ///         [.home, .favorites, .settings]
 ///     }
 ///
-///     var title: String { rawValue.capitalized }
+///     var title: LocalizedStringKey { LocalizedStringKey(rawValue.capitalized) }
 ///     var icon: String { ... }
 /// }
 ///
@@ -198,8 +198,8 @@ public struct ARCTabView<TabItem: ARCTabItem, Content: View, SearchContent: View
         rawValue
     }
 
-    var title: String {
-        rawValue.capitalized
+    var title: LocalizedStringKey {
+        LocalizedStringKey(rawValue.capitalized)
     }
 
     var icon: String {
