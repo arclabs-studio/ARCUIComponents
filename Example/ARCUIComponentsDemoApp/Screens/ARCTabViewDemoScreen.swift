@@ -155,7 +155,7 @@ import SwiftUI
         rawValue
     }
 
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .home: "Home"
         case .favorites: "Favorites"
@@ -233,7 +233,7 @@ import SwiftUI
                 .padding(.top, 40)
 
                 // Sample content
-                ForEach(1 ..< 6) { index in
+                ForEach(Array(1 ... 5), id: \.self) { index in
                     HStack {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.blue.opacity(0.1))
@@ -243,7 +243,7 @@ import SwiftUI
                             Text("Item \(index)")
                                 .font(.headline)
 
-                            Text("Sample content for \(tab.title.lowercased())")
+                            Text("Sample content for \(tab.rawValue)")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                         }
