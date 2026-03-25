@@ -5,6 +5,7 @@
 //  Created by ARC Labs Studio on 26/02/2026.
 //
 
+import SwiftUI
 import Testing
 @testable import ARCUIComponents
 
@@ -27,16 +28,19 @@ struct ARCAppLanguageTests {
 
     // MARK: - Title
 
-    @Test("system title is Sistema") func systemTitle() {
-        #expect(ARCAppLanguage.system.title == "Sistema")
+    @Test("system title is System LocalizedStringKey") func systemTitle() {
+        let expected: LocalizedStringKey = "System"
+        #expect(ARCAppLanguage.system.title == expected)
     }
 
-    @Test("spanish title is Español") func spanishTitle() {
-        #expect(ARCAppLanguage.spanish.title == "Español")
+    @Test("spanish title is Spanish LocalizedStringKey") func spanishTitle() {
+        let expected: LocalizedStringKey = "Spanish"
+        #expect(ARCAppLanguage.spanish.title == expected)
     }
 
-    @Test("english title is English") func englishTitle() {
-        #expect(ARCAppLanguage.english.title == "English")
+    @Test("english title is English LocalizedStringKey") func englishTitle() {
+        let expected: LocalizedStringKey = "English"
+        #expect(ARCAppLanguage.english.title == expected)
     }
 
     // MARK: - Icon
