@@ -31,6 +31,12 @@ struct ARCMenuDemoScreen: View {
     @State private var showBadge = true
     @State private var badgeCount = 3
 
+    // Localization demo
+    @State private var showLanguagePicker = false
+    @State private var showThemePicker = false
+    @State private var selectedLanguage: ARCAppLanguage = .system
+    @State private var selectedAppearance: ARCAppearanceMode = .system
+
     // MARK: - Body
 
     var body: some View {
@@ -47,6 +53,24 @@ struct ARCMenuDemoScreen: View {
                                   showsBadge: showBadge,
                                   badgeCount: badgeCount)
             .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
+            .sheet(isPresented: $showLanguagePicker) {
+                NavigationStack {
+                    ARCMenuLanguagePickerView(selectedLanguage: $selectedLanguage,
+                                              onDone: { showLanguagePicker = false })
+                }
+                .presentationDetents([.medium])
+            }
+            .sheet(isPresented: $showThemePicker) {
+                NavigationStack {
+                    ARCMenuThemePickerView(selectedMode: $selectedAppearance)
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") { showThemePicker = false }
+                            }
+                        }
+                }
+                .presentationDetents([.medium])
+            }
             .onChange(of: selectedLayout) { _, _ in rebuildViewModel() }
             .onChange(of: selectedPresentationStyle) { _, _ in rebuildViewModel() }
             .onChange(of: selectedTheme) { _, _ in rebuildViewModel() }
@@ -134,6 +158,7 @@ extension ARCMenuDemoScreen {
                 presentationStylePicker
                 themePicker
                 badgeOptions
+                localizationSection
                 codeExampleCard
                 featuresCard
             }
@@ -231,6 +256,60 @@ extension ARCMenuDemoScreen {
                 if showBadge {
                     Stepper("Count: \(badgeCount)", value: $badgeCount, in: 1 ... 99)
                 }
+            }
+            .padding()
+            .background(.ultraThinMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .padding(.horizontal, 32)
+    }
+
+    // MARK: - Localization
+
+    private var localizationSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Localization")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(.white.opacity(0.7))
+                .padding(.horizontal, 4)
+
+            VStack(spacing: 12) {
+                Button {
+                    showLanguagePicker = true
+                } label: {
+                    HStack {
+                        Image(systemName: selectedLanguage.icon)
+                            .frame(width: 24)
+                        Text("Language")
+                        Spacer()
+                        Text(selectedLanguage.title)
+                            .foregroundStyle(.secondary)
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                    }
+                }
+                .buttonStyle(.plain)
+
+                Divider()
+
+                Button {
+                    showThemePicker = true
+                } label: {
+                    HStack {
+                        Image(systemName: selectedAppearance.icon)
+                            .frame(width: 24)
+                        Text("Appearance")
+                        Spacer()
+                        Text(selectedAppearance.title)
+                            .foregroundStyle(.secondary)
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                    }
+                }
+                .buttonStyle(.plain)
             }
             .padding()
             .background(.ultraThinMaterial)
