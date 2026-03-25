@@ -5,7 +5,7 @@
 //  Created by ARC Labs Studio on 26/02/2026.
 //
 
-import Foundation
+import SwiftUI
 
 // MARK: - ARCAppLanguage
 
@@ -29,12 +29,16 @@ public enum ARCAppLanguage: String, CaseIterable, Identifiable, Sendable {
         rawValue
     }
 
-    public var title: String {
+    /// Localized display title for the language option
+    ///
+    /// Returns `LocalizedStringKey` so the consuming app's String Catalog
+    /// provides translations. The app owns all user-facing text.
+    public var title: LocalizedStringKey {
         switch self {
         case .system:
-            "Sistema"
+            "System"
         case .spanish:
-            "Español"
+            "Spanish"
         case .english:
             "English"
         }

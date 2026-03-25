@@ -29,14 +29,18 @@ public enum ARCAppearanceMode: String, CaseIterable, Identifiable, Sendable {
         rawValue
     }
 
-    public var title: String {
+    /// Localized display title for the appearance mode
+    ///
+    /// Returns `LocalizedStringKey` so the consuming app's String Catalog
+    /// provides translations. The app owns all user-facing text.
+    public var title: LocalizedStringKey {
         switch self {
         case .system:
-            "Sistema"
+            "System"
         case .light:
-            "Claro"
+            "Light"
         case .dark:
-            "Oscuro"
+            "Dark"
         }
     }
 
