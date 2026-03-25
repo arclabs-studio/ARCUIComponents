@@ -31,6 +31,11 @@ public struct ARCMenuThemePickerView: View {
 
     // MARK: Private Properties
 
+    /// Local selection state — only committed to the binding when the view disappears.
+    ///
+    /// Prevents `@Observable` side effects from invalidating the NavigationStack
+    /// while the user is still interacting with the picker.
+    @State private var pendingSelection: ARCAppearanceMode
     private let navigationTitleKey: LocalizedStringKey
 
     // MARK: Lifecycle
@@ -38,6 +43,7 @@ public struct ARCMenuThemePickerView: View {
     public init(selectedMode: Binding<ARCAppearanceMode>,
                 navigationTitle: LocalizedStringKey = "Theme") {
         _selectedMode = selectedMode
+        _pendingSelection = State(initialValue: selectedMode.wrappedValue)
         navigationTitleKey = navigationTitle
     }
 
@@ -48,12 +54,12 @@ public struct ARCMenuThemePickerView: View {
             Section {
                 ForEach(ARCAppearanceMode.allCases) { mode in
                     Button {
-                        selectedMode = mode
+                        pendingSelection = mode
                     } label: {
                         HStack(spacing: 12) {
                             Image(systemName: mode.icon)
                                 .font(.body)
-                                .foregroundStyle(selectedMode == mode ? Color.accentColor : .secondary)
+                                .foregroundStyle(pendingSelection == mode ? Color.accentColor : .secondary)
                                 .frame(width: 24)
 
                             Text(mode.title)
@@ -61,7 +67,7 @@ public struct ARCMenuThemePickerView: View {
 
                             Spacer()
 
-                            if selectedMode == mode {
+                            if pendingSelection == mode {
                                 Image(systemName: "checkmark")
                                     .font(.body.weight(.semibold))
                                     .foregroundStyle(Color.accentColor)
@@ -77,6 +83,9 @@ public struct ARCMenuThemePickerView: View {
         #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
+            .onDisappear {
+                selectedMode = pendingSelection
+            }
     }
 }
 
