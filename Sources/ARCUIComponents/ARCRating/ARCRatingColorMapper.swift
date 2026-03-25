@@ -67,20 +67,21 @@ import SwiftUI
     public static func gradient(for rating: Double, maxRating: Double = 10.0) -> LinearGradient {
         let normalized = maxRating > 0 ? rating / maxRating : 0
 
-        let colors: [Color] = switch normalized {
-        case 0 ..< 0.3:
-            [.red, .orange]
-        case 0.3 ..< 0.5:
-            [.orange, .yellow]
-        case 0.5 ..< 0.65:
-            [.yellow, Color(red: 0.7, green: 0.8, blue: 0.2)]
-        case 0.65 ..< 0.75:
-            [Color(red: 0.6, green: 0.8, blue: 0.2), Color(red: 0.4, green: 0.75, blue: 0.25)]
-        case 0.75 ..< 0.85:
-            [Color(red: 0.4, green: 0.75, blue: 0.25), Color(red: 0.2, green: 0.7, blue: 0.25)]
-        default:
-            [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
-        }
+        let colors: [Color] =
+            switch normalized {
+            case 0 ..< 0.3:
+                [.red, .orange]
+            case 0.3 ..< 0.5:
+                [.orange, .yellow]
+            case 0.5 ..< 0.65:
+                [.yellow, Color(red: 0.7, green: 0.8, blue: 0.2)]
+            case 0.65 ..< 0.75:
+                [Color(red: 0.6, green: 0.8, blue: 0.2), Color(red: 0.4, green: 0.75, blue: 0.25)]
+            case 0.75 ..< 0.85:
+                [Color(red: 0.4, green: 0.75, blue: 0.25), Color(red: 0.2, green: 0.7, blue: 0.25)]
+            default:
+                [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
+            }
 
         return LinearGradient(colors: colors,
                               startPoint: .topLeading,

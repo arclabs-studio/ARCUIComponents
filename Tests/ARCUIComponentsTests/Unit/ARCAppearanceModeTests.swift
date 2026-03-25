@@ -28,16 +28,19 @@ struct ARCAppearanceModeTests {
 
     // MARK: - Title
 
-    @Test("system title is Sistema") func systemTitle() {
-        #expect(ARCAppearanceMode.system.title == "Sistema")
+    @Test("system title is System LocalizedStringKey") func systemTitle() {
+        let expected: LocalizedStringKey = "System"
+        #expect(ARCAppearanceMode.system.title == expected)
     }
 
-    @Test("light title is Claro") func lightTitle() {
-        #expect(ARCAppearanceMode.light.title == "Claro")
+    @Test("light title is Light LocalizedStringKey") func lightTitle() {
+        let expected: LocalizedStringKey = "Light"
+        #expect(ARCAppearanceMode.light.title == expected)
     }
 
-    @Test("dark title is Oscuro") func darkTitle() {
-        #expect(ARCAppearanceMode.dark.title == "Oscuro")
+    @Test("dark title is Dark LocalizedStringKey") func darkTitle() {
+        let expected: LocalizedStringKey = "Dark"
+        #expect(ARCAppearanceMode.dark.title == expected)
     }
 
     // MARK: - Icon

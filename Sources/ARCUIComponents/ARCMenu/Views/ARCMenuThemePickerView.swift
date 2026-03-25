@@ -15,6 +15,9 @@ import SwiftUI
 /// This is a **leaf view** — it has no NavigationStack and does not know
 /// where it's presented from. The app provides navigation context.
 ///
+/// The navigation title uses `LocalizedStringKey`, so the consuming app's
+/// String Catalog provides translations.
+///
 /// Usage:
 /// ```swift
 /// NavigationStack {
@@ -26,10 +29,16 @@ public struct ARCMenuThemePickerView: View {
 
     @Binding public var selectedMode: ARCAppearanceMode
 
+    // MARK: Private Properties
+
+    private let navigationTitleKey: LocalizedStringKey
+
     // MARK: Lifecycle
 
-    public init(selectedMode: Binding<ARCAppearanceMode>) {
+    public init(selectedMode: Binding<ARCAppearanceMode>,
+                navigationTitle: LocalizedStringKey = "Theme") {
         _selectedMode = selectedMode
+        navigationTitleKey = navigationTitle
     }
 
     // MARK: View
@@ -64,7 +73,7 @@ public struct ARCMenuThemePickerView: View {
                 }
             }
         }
-        .navigationTitle("Tema")
+        .navigationTitle(navigationTitleKey)
         #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif

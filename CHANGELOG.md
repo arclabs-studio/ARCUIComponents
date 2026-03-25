@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- **Localization**: `ARCAppLanguage.title`, `ARCAppearanceMode.title`, and `ARCTabItem.title` now
+  return `LocalizedStringKey` instead of `String`, enabling automatic translation via String Catalogs
+- **ARCMenuLanguagePickerView**: Navigation title and Done button use `LocalizedStringKey`;
+  added configurable `navigationTitle` parameter and optional `onDone` callback
+- **ARCMenuThemePickerView**: Navigation title uses `LocalizedStringKey`;
+  added configurable `navigationTitle` parameter
+
+### Fixed
+- **ARCTabItem**: Changed `title` protocol requirement from `String` to `LocalizedStringKey`
+  so tab labels respond to `.environment(\.locale, ...)` and the String Catalog
+
 ## [1.9.1] - 2026-01-29
 
 ### Fixed
