@@ -147,9 +147,9 @@ import SwiftUI
             }
         }
         .accessibilityElement(children: .contain)
-        .accessibilityLabel("Bottom sheet")
+        .accessibilityLabel(String(localized: "Bottom sheet"))
         .accessibilityValue(selectedDetent.accessibilityDescription)
-        .accessibilityHint("Drag to resize")
+        .accessibilityHint(String(localized: "Drag to resize"))
         .accessibilityAdjustableAction { direction in
             switch direction {
             case .increment:
