@@ -103,11 +103,11 @@ import SwiftUI
         let answered = answers.count
         let total = questions.count
         if answered == 0 {
-            return "Cuéntame qué buscas"
+            return configuration.questionnaireStartPrompt
         } else if answered == total {
-            return "¡Perfecto! Listo para recomendar"
+            return configuration.questionnaireCompletePrompt
         } else {
-            return "\(answered) de \(total) respondidas"
+            return String(format: configuration.questionnaireProgressFormat, answered, total)
         }
     }
 
@@ -151,9 +151,9 @@ import SwiftUI
 
     private var submitButtonText: String {
         if answers.isEmpty {
-            "Responde al menos una pregunta"
+            configuration.questionnaireMinAnswerPrompt
         } else {
-            "Obtener recomendaciones"
+            configuration.questionnaireSubmitText
         }
     }
 }
