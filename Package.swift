@@ -4,6 +4,7 @@
 import PackageDescription
 
 let package = Package(name: "ARCUIComponents",
+                      defaultLocalization: "en",
                       platforms: [.iOS(.v17),
                                   .macOS(.v14)],
                       products: [// Main library - this is what consumers import
@@ -19,6 +20,7 @@ let package = Package(name: "ARCUIComponents",
                                   dependencies: ["ARCDesignSystem"],
                                   path: "Sources",
                                   exclude: ["ARCUIComponents/ARCAvatar/README.md"],
+                                  resources: [.process("ARCUIComponents/Resources")],
                                   swiftSettings: [.enableExperimentalFeature("StrictConcurrency")]),
 
                           // Tests
