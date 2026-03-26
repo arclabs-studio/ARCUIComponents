@@ -1,0 +1,319 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+
+    "1 team member" : {
+      "comment" : "ARCAvatarGroup: accessibility label when exactly one member is shown",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 team member"
+          }
+        }
+      }
+    },
+
+    "%lld team members" : {
+      "comment" : "ARCAvatarGroup: accessibility label for multiple members (count > 1)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld team members"
+          }
+        }
+      }
+    },
+
+    "%lld more members not shown" : {
+      "comment" : "ARCAvatarGroup: accessibility hint indicating overflow members hidden from view",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld more members not shown"
+          }
+        }
+      }
+    },
+
+    "Profile picture" : {
+      "comment" : "ARCAvatar: accessibility label for a remote image avatar",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile picture"
+          }
+        }
+      }
+    },
+
+    "Avatar with initials %@" : {
+      "comment" : "ARCAvatar: accessibility label for an initials avatar. %@ is the initials text (e.g. 'JD').",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avatar with initials %@"
+          }
+        }
+      }
+    },
+
+    "Avatar placeholder" : {
+      "comment" : "ARCAvatar: accessibility label for an avatar with no image or initials",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avatar placeholder"
+          }
+        }
+      }
+    },
+
+    "Online" : {
+      "comment" : "ARCAvatarConfiguration: accessibility description for online presence status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Online"
+          }
+        }
+      }
+    },
+
+    "Offline" : {
+      "comment" : "ARCAvatarConfiguration: accessibility description for offline presence status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offline"
+          }
+        }
+      }
+    },
+
+    "Busy" : {
+      "comment" : "ARCAvatarConfiguration: accessibility description for busy presence status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Busy"
+          }
+        }
+      }
+    },
+
+    "Away" : {
+      "comment" : "ARCAvatarConfiguration: accessibility description for away presence status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Away"
+          }
+        }
+      }
+    },
+
+    "Custom status" : {
+      "comment" : "ARCAvatarConfiguration: accessibility description for a custom presence status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom status"
+          }
+        }
+      }
+    },
+
+    "Close menu" : {
+      "comment" : "ARCMenu / ARCMenuSheetContent: accessibility label for the close button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close menu"
+          }
+        }
+      }
+    },
+
+    "Double tap to close the menu" : {
+      "comment" : "ARCMenu: VoiceOver hint on the close button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Double tap to close the menu"
+          }
+        }
+      }
+    },
+
+    "Opens a new screen" : {
+      "comment" : "ARCMenuItemRow: VoiceOver hint for a disclosure menu item that navigates to a child screen",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens a new screen"
+          }
+        }
+      }
+    },
+
+    "Destructive action" : {
+      "comment" : "ARCMenuItemRow: appended to the accessibility label of destructive menu items",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destructive action"
+          }
+        }
+      }
+    },
+
+    "Done" : {
+      "comment" : "ARCMenuLanguagePickerView: toolbar confirmation button that commits the selected language",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+
+    "Opens photo library" : {
+      "comment" : "ARCPhotoPicker: VoiceOver hint on the photo picker button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens photo library"
+          }
+        }
+      }
+    },
+
+    "Close" : {
+      "comment" : "ARCPhotoCarousel: button label to close the full-screen photo viewer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+
+    "Sheet handle" : {
+      "comment" : "ARCBottomSheetHandle: VoiceOver label for the drag handle at the top of the bottom sheet",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sheet handle"
+          }
+        }
+      }
+    },
+
+    "Tap to resize sheet" : {
+      "comment" : "ARCBottomSheetHandle: VoiceOver hint when the handle supports tap-to-cycle detents",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to resize sheet"
+          }
+        }
+      }
+    },
+
+    "Drag to resize sheet" : {
+      "comment" : "ARCBottomSheetHandle: VoiceOver hint when the handle supports drag-only resizing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag to resize sheet"
+          }
+        }
+      }
+    },
+
+    "Bottom sheet" : {
+      "comment" : "ARCBottomSheet: VoiceOver label for the bottom sheet container",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bottom sheet"
+          }
+        }
+      }
+    },
+
+    "Drag to resize" : {
+      "comment" : "ARCBottomSheet: VoiceOver hint indicating the sheet can be dragged to change size",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag to resize"
+          }
+        }
+      }
+    },
+
+    "Next" : {
+      "comment" : "AIRecommenderCardStack: VoiceOver custom action to advance to the next recommendation card",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
+          }
+        }
+      }
+    },
+
+    "Previous" : {
+      "comment" : "AIRecommenderCardStack: VoiceOver custom action to go back to the previous recommendation card",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous"
+          }
+        }
+      }
+    },
+
+    "Passwords do not match" : {
+      "comment" : "ARCSignUpViewModel: error message shown when the password and confirm-password fields differ",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passwords do not match"
+          }
+        }
+      }
+    }
+
+  },
+  "version" : "1.0"
+}

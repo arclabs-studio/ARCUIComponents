@@ -47,9 +47,11 @@ import SwiftUI
                                 },
                                 perform: {})
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("Sheet handle")
-            .accessibilityHint(configuration.tapHandleToCycle ? "Tap to resize sheet" : "Drag to resize sheet")
-            .accessibilityAddTraits(.isButton)
+            .accessibilityLabel(String(localized: "Sheet handle"))
+            .accessibilityHint(String(localized: configuration.tapHandleToCycle
+                    ? "Tap to resize sheet"
+                    : "Drag to resize sheet"))
+                .accessibilityAddTraits(.isButton)
     }
 }
 

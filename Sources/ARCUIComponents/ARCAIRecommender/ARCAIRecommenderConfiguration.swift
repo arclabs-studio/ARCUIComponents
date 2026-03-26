@@ -156,6 +156,15 @@ import SwiftUI
     /// Whether to show the position indicator (e.g., "2 / 8")
     public let showCardIndicator: Bool
 
+    /// Format string for the card stack VoiceOver accessibility label.
+    ///
+    /// Use `%lld` placeholders for current position (1-based) and total count respectively.
+    /// The app provides this string so the domain noun ("Recommendations", "Results", "Matches", etc.)
+    /// can be translated in the app's own String Catalog.
+    ///
+    /// Example: `"Recommendations, card %lld of %lld"` → `"Recommendations, card 2 of 5"`
+    public let cardAccessibilityLabelFormat: String
+
     /// SF Symbol for the bookmark button (inactive state)
     public let bookmarkIcon: String
 
@@ -282,6 +291,7 @@ import SwiftUI
                 cardSpacing: CGFloat = 12,
                 cardAspectRatio: CGFloat = 0.75,
                 showCardIndicator: Bool = true,
+                cardAccessibilityLabelFormat: String = "Recommendations, card %lld of %lld",
                 bookmarkIcon: String = "bookmark",
                 bookmarkActiveIcon: String = "bookmark.fill",
                 allViewedText: String = "You've explored all recommendations",
@@ -341,6 +351,7 @@ import SwiftUI
         self.cardSpacing = cardSpacing
         self.cardAspectRatio = cardAspectRatio
         self.showCardIndicator = showCardIndicator
+        self.cardAccessibilityLabelFormat = cardAccessibilityLabelFormat
         self.bookmarkIcon = bookmarkIcon
         self.bookmarkActiveIcon = bookmarkActiveIcon
         self.allViewedText = allViewedText
