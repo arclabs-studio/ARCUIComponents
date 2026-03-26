@@ -71,7 +71,7 @@ import SwiftUI
         .buttonStyle(ARCCardPressStyle.subtle)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityLabel)
-        .accessibilityAction(named: isBookmarked ? "Quitar guardado" : "Guardar") {
+        .accessibilityAction(named: isBookmarked ? configuration.bookmarkSavedLabel : configuration.bookmarkSaveLabel) {
             onBookmarkToggle()
         }
     }
@@ -186,7 +186,7 @@ import SwiftUI
             HStack(spacing: .arcSpacingSmall) {
                 Image(systemName: isBookmarked ? configuration.bookmarkActiveIcon : configuration.bookmarkIcon)
                     .contentTransition(.symbolEffect(.replace))
-                Text(isBookmarked ? "Guardado" : "Guardar restaurante")
+                Text(isBookmarked ? configuration.bookmarkSavedLabel : configuration.bookmarkSaveLabel)
                     .fontWeight(.medium)
             }
             .font(.subheadline)
@@ -197,7 +197,7 @@ import SwiftUI
                 .fill(isBookmarked ? configuration.accentColor : configuration.accentColor.opacity(0.15)))
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(isBookmarked ? "Quitar de guardados" : "Guardar restaurante")
+        .accessibilityLabel(isBookmarked ? configuration.bookmarkSavedLabel : configuration.bookmarkSaveLabel)
     }
 
     // MARK: - Accessibility
@@ -221,7 +221,7 @@ import SwiftUI
             components.append(reason)
         }
 
-        components.append(isBookmarked ? "Guardado" : "No guardado")
+        components.append(isBookmarked ? configuration.bookmarkSavedLabel : configuration.bookmarkSaveLabel)
 
         return components.joined(separator: ", ")
     }

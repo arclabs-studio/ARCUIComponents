@@ -48,12 +48,12 @@ public struct ARCMenuAboutView: View {
                 linksSection
             }
         }
-        .navigationTitle("Acerca de")
+        .navigationTitle("About")
         #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
         #endif
             .safeAreaInset(edge: .bottom) {
-                Text("Hecho con amor por \(appInfo.studioName)")
+                Text("Made with love by \(appInfo.studioName)")
                     .font(.footnote)
                     .foregroundStyle(.tertiary)
                     .frame(maxWidth: .infinity)
@@ -86,7 +86,7 @@ public struct ARCMenuAboutView: View {
     }
 
     private var versionSection: some View {
-        Section("Informacion") {
+        Section("Information") {
             LabeledContent("Version", value: appInfo.appVersion)
             LabeledContent("Build", value: appInfo.buildNumber)
         }
@@ -99,7 +99,7 @@ public struct ARCMenuAboutView: View {
                     openURL(privacyURL)
                 } label: {
                     HStack {
-                        Label("Politica de privacidad", systemImage: "hand.raised.fill")
+                        Label("Privacy Policy", systemImage: "hand.raised.fill")
                         Spacer()
                         Image(systemName: "arrow.up.right")
                             .font(.caption)
@@ -114,7 +114,7 @@ public struct ARCMenuAboutView: View {
                     openURL(termsURL)
                 } label: {
                     HStack {
-                        Label("Terminos de servicio", systemImage: "doc.text.fill")
+                        Label("Terms of Service", systemImage: "doc.text.fill")
                         Spacer()
                         Image(systemName: "arrow.up.right")
                             .font(.caption)

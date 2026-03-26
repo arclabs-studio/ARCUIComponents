@@ -174,6 +174,7 @@ extension ARCMenuViewModel {
                                                  onLogout: onLogout))
     }
 
+    // swiftlint:disable line_length superfluous_disable_command
     /// Creates a view model with common menu items (legacy)
     ///
     /// - Note: Deprecated in favor of `withDefaultItems`
@@ -194,6 +195,7 @@ extension ARCMenuViewModel {
                                                                                        onLogout: (@Sendable ()
                                                                                            -> Void)? = nil)
     -> ARCMenuViewModel {
+        // swiftlint:enable line_length superfluous_disable_command
         var items: [ARCMenuItem] = []
 
         if let onProfile {

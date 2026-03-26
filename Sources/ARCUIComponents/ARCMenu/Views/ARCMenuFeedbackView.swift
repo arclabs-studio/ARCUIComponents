@@ -42,14 +42,14 @@ public struct ARCMenuFeedbackView: View {
     public var body: some View {
         Form {
             Section {
-                Text("Tu opinion nos ayuda a mejorar \(appInfo.appName). Elige una opcion para contactarnos.")
+                Text("Your feedback helps us improve \(appInfo.appName). Choose an option to contact us.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
 
-            Section("Opciones") {
+            Section("Options") {
                 Button {
-                    openMailto(subject: "Sugerencia para \(appInfo.appName)",
+                    openMailto(subject: "Suggestion for \(appInfo.appName)",
                                includeDebugInfo: false)
                 } label: {
                     HStack(spacing: .arcSpacingSmall) {
@@ -58,9 +58,9 @@ public struct ARCMenuFeedbackView: View {
                             .frame(width: 24)
 
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Enviar sugerencia")
+                            Text("Send Suggestion")
                                 .foregroundStyle(.primary)
-                            Text("Ideas para nuevas funciones o mejoras")
+                            Text("Ideas for new features or improvements")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -75,7 +75,7 @@ public struct ARCMenuFeedbackView: View {
                 .buttonStyle(.plain)
 
                 Button {
-                    openMailto(subject: "Reporte de problema - \(appInfo.appName)",
+                    openMailto(subject: "Bug Report - \(appInfo.appName)",
                                includeDebugInfo: true)
                 } label: {
                     HStack(spacing: .arcSpacingSmall) {
@@ -84,9 +84,9 @@ public struct ARCMenuFeedbackView: View {
                             .frame(width: 24)
 
                         VStack(alignment: .leading, spacing: 2) {
-                            Text("Reportar un problema")
+                            Text("Report a Problem")
                                 .foregroundStyle(.primary)
-                            Text("Incluye informacion de depuracion automaticamente")
+                            Text("Automatically includes debug information")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -120,10 +120,10 @@ public struct ARCMenuFeedbackView: View {
 
 
             ---
-            Info de depuracion:
+            Debug Info:
             App: \(appInfo.appName) v\(version) (\(build))
-            Sistema: \(systemVersion)
-            Dispositivo: \(Self.deviceModel())
+            System: \(systemVersion)
+            Device: \(Self.deviceModel())
             """
         }
 

@@ -14,10 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   added configurable `navigationTitle` parameter and optional `onDone` callback
 - **ARCMenuThemePickerView**: Navigation title uses `LocalizedStringKey`;
   added configurable `navigationTitle` parameter
+- **AIRecommenderCategory**: `label` and `shortLabel` now return `LocalizedStringKey` with English
+  keys; consuming app's String Catalog provides translations and SwiftUI re-evaluates on
+  `.environment(\.locale, ...)` changes for fluid runtime language switching
+- **ARCAIRecommenderConfiguration**: All string defaults changed from Spanish to English.
+  New configurable string properties expose previously hardcoded Spanish UI strings:
+  `bookmarkSaveLabel`, `bookmarkSavedLabel`, `questionnaireStartPrompt`,
+  `questionnaireCompletePrompt`, `questionnaireProgressFormat`, `questionnaireMinAnswerPrompt`
 
 ### Fixed
 - **ARCTabItem**: Changed `title` protocol requirement from `String` to `LocalizedStringKey`
   so tab labels respond to `.environment(\.locale, ...)` and the String Catalog
+- **ARCMenuViewModel**: Reformatted deprecated `standard()` function signature to stay within
+  120-character line limit
 
 ## [1.9.1] - 2026-01-29
 

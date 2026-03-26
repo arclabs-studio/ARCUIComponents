@@ -5,7 +5,7 @@
 //  Created by ARC Labs Studio on 1/27/26.
 //
 
-import Foundation
+import SwiftUI
 
 /// Categories for AI-powered recommendations
 ///
@@ -90,34 +90,40 @@ import Foundation
     }
 
     /// Display label for the category
-    public var label: String {
+    ///
+    /// Returns `LocalizedStringKey` so the consuming app's String Catalog
+    /// provides translations. The app owns all user-facing text.
+    public var label: LocalizedStringKey {
         switch self {
         case .favorites:
-            "Basado en tus favoritos"
+            "Based on your favorites"
         case .trending:
-            "Tendencias"
+            "Trending"
         case .nearYou:
-            "Cerca de ti"
+            "Near You"
         case .new:
-            "Nuevos descubrimientos"
+            "New Discoveries"
         case let .custom(_, _, label):
-            label
+            LocalizedStringKey(label)
         }
     }
 
     /// Short label for compact displays (e.g., category picker)
-    public var shortLabel: String {
+    ///
+    /// Returns `LocalizedStringKey` so the consuming app's String Catalog
+    /// provides translations. The app owns all user-facing text.
+    public var shortLabel: LocalizedStringKey {
         switch self {
         case .favorites:
-            "Favoritos"
+            "Favorites"
         case .trending:
-            "Tendencias"
+            "Trending"
         case .nearYou:
-            "Cerca"
+            "Nearby"
         case .new:
-            "Nuevos"
+            "New"
         case let .custom(_, _, label):
-            label
+            LocalizedStringKey(label)
         }
     }
 

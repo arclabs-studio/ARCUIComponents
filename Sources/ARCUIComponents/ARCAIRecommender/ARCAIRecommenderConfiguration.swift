@@ -165,13 +165,33 @@ import SwiftUI
     /// Text shown when user has viewed all cards
     public let allViewedText: String
 
+    /// Label for the bookmark save button (not yet bookmarked)
+    public let bookmarkSaveLabel: String
+
+    /// Label for the bookmark button when item is already saved
+    public let bookmarkSavedLabel: String
+
     // MARK: - Questionnaire Configuration
 
     /// Default mode when using dual mode
     public let defaultMode: AIRecommenderMode
 
-    /// Title for the questionnaire submit button
+    /// Title for the questionnaire submit button (when at least one answer is given)
     public let questionnaireSubmitText: String
+
+    /// Text shown on the submit button when no answers have been given yet
+    public let questionnaireMinAnswerPrompt: String
+
+    /// Progress text shown at the start of the questionnaire (zero answers)
+    public let questionnaireStartPrompt: String
+
+    /// Progress text shown when all questions are answered
+    public let questionnaireCompletePrompt: String
+
+    /// Format string for mid-questionnaire progress (args: answered count, total count)
+    ///
+    /// Use `%lld` placeholders, e.g. `"%lld of %lld answered"`.
+    public let questionnaireProgressFormat: String
 
     /// Whether to show progress dots in questionnaire mode
     public let showQuestionnaireProgress: Bool
@@ -228,8 +248,8 @@ import SwiftUI
     // swiftlint:disable function_body_length
     /// Creates a new AI recommender configuration with all customization options.
     /// All parameters have sensible defaults — use `.default` for the standard preset.
-    public init(title: String = "Recomendador IA",
-                subtitle: String = "Descubre lugares personalizados según tus gustos",
+    public init(title: String = "AI Recommender",
+                subtitle: String = "Discover personalized places based on your taste",
                 headerIcon: String = "sparkles",
                 animateHeaderIcon: Bool = true,
                 headerIconCircleSize: CGFloat = 100,
@@ -264,23 +284,28 @@ import SwiftUI
                 showCardIndicator: Bool = true,
                 bookmarkIcon: String = "bookmark",
                 bookmarkActiveIcon: String = "bookmark.fill",
-                allViewedText: String = "Has explorado todas las recomendaciones",
+                allViewedText: String = "You've explored all recommendations",
+                bookmarkSaveLabel: String = "Save",
+                bookmarkSavedLabel: String = "Saved",
                 defaultMode: AIRecommenderMode = .quick,
-                questionnaireSubmitText: String = "Obtener recomendaciones",
+                questionnaireSubmitText: String = "Get recommendations",
+                questionnaireMinAnswerPrompt: String = "Answer at least one question",
+                questionnaireStartPrompt: String = "Tell me what you're looking for",
+                questionnaireCompletePrompt: String = "All done! Ready to recommend",
+                questionnaireProgressFormat: String = "%lld of %lld answered",
                 showQuestionnaireProgress: Bool = true,
                 headerToModeSwitcherSpacing: CGFloat = .arcSpacingLarge,
                 modeSwitcherToContentSpacing: CGFloat = .arcSpacingMedium,
                 progressToQuestionsSpacing: CGFloat = .arcSpacingMedium,
                 categoryToContentSpacing: CGFloat = .arcSpacingMedium,
-                emptyStateTitle: String = "Sin recomendaciones",
-                emptyStateSubtitle: String = "Explora otras categorías para descubrir nuevas sugerencias",
+                emptyStateTitle: String = "No recommendations",
+                emptyStateSubtitle: String = "Explore other categories to discover new suggestions",
                 emptyStateIcon: String = "sparkles",
                 emptyStateActionText: String? = nil,
-                questionnaireRetakeText: String = "Repetir cuestionario",
-                generateTitle: String = "Genera tus recomendaciones",
-                generateSubtitle: String = "Selecciona una categoría y pulsa para descubrir"
-                    + " sugerencias personalizadas con IA",
-                generateButtonText: String = "Generar recomendaciones",
+                questionnaireRetakeText: String = "Retake questionnaire",
+                generateTitle: String = "Generate your recommendations",
+                generateSubtitle: String = "Select a category and tap to discover personalized AI suggestions",
+                generateButtonText: String = "Generate recommendations",
                 generateButtonIcon: String = "sparkles") {
         self.title = title
         self.subtitle = subtitle
@@ -319,8 +344,14 @@ import SwiftUI
         self.bookmarkIcon = bookmarkIcon
         self.bookmarkActiveIcon = bookmarkActiveIcon
         self.allViewedText = allViewedText
+        self.bookmarkSaveLabel = bookmarkSaveLabel
+        self.bookmarkSavedLabel = bookmarkSavedLabel
         self.defaultMode = defaultMode
         self.questionnaireSubmitText = questionnaireSubmitText
+        self.questionnaireMinAnswerPrompt = questionnaireMinAnswerPrompt
+        self.questionnaireStartPrompt = questionnaireStartPrompt
+        self.questionnaireCompletePrompt = questionnaireCompletePrompt
+        self.questionnaireProgressFormat = questionnaireProgressFormat
         self.showQuestionnaireProgress = showQuestionnaireProgress
         self.headerToModeSwitcherSpacing = headerToModeSwitcherSpacing
         self.modeSwitcherToContentSpacing = modeSwitcherToContentSpacing
