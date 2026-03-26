@@ -92,7 +92,7 @@ import SwiftUI
                                     configuration: .default,
                                     onCategorySelected: nil)
 
-        Text("Selected: \(selected.label)")
+        Text("Selected: ") + Text(selected.label)
             .font(.caption)
             .foregroundStyle(.secondary)
     }
