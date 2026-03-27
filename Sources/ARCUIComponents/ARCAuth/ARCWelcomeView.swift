@@ -78,11 +78,24 @@ import SwiftUI
 // MARK: - Private Views
 
 @available(iOS 17.0, macOS 14.0, *) extension ARCWelcomeView {
-    private var brandingSection: some View {
-        VStack(spacing: .arcSpacingMedium) {
+    @ViewBuilder private var heroIcon: some View {
+        if let assetName = configuration.appIconAssetName {
+            Image(assetName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: configuration.heroIconSize, height: configuration.heroIconSize)
+                .clipShape(RoundedRectangle(cornerRadius: configuration.heroIconSize * 0.2236,
+                                            style: .continuous))
+        } else {
             Image(systemName: configuration.appIcon)
                 .font(.system(size: configuration.heroIconSize))
                 .foregroundStyle(.tint)
+        }
+    }
+
+    private var brandingSection: some View {
+        VStack(spacing: .arcSpacingMedium) {
+            heroIcon
 
             Text(configuration.appName)
                 .font(.largeTitle.bold())

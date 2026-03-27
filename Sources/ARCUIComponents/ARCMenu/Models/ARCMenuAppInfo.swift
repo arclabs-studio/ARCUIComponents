@@ -32,8 +32,11 @@ public struct ARCMenuAppInfo: Sendable {
     /// App display name (e.g., "FavRes")
     public let appName: String
 
-    /// SF Symbol name for the app icon (e.g., "fork.knife.circle.fill")
+    /// SF Symbol name for the app icon (e.g., "fork.knife.circle.fill"). Fallback when `appIconAssetName` is nil.
     public let appIcon: String
+
+    /// Asset catalog image name for the app icon. When set, takes precedence over `appIcon`.
+    public let appIconAssetName: String?
 
     /// Optional subtitle shown below the app name (e.g., "Tus restaurantes favoritos")
     public let appSubtitle: String?
@@ -66,6 +69,7 @@ public struct ARCMenuAppInfo: Sendable {
 
     public init(appName: String,
                 appIcon: String,
+                appIconAssetName: String? = nil,
                 appSubtitle: String? = nil,
                 feedbackEmail: String,
                 privacyURL: URL? = nil,
@@ -73,6 +77,7 @@ public struct ARCMenuAppInfo: Sendable {
                 studioName: String = "ARC Labs Studio") {
         self.appName = appName
         self.appIcon = appIcon
+        self.appIconAssetName = appIconAssetName
         self.appSubtitle = appSubtitle
         self.feedbackEmail = feedbackEmail
         self.privacyURL = privacyURL

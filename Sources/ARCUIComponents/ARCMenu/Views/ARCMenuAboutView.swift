@@ -63,12 +63,24 @@ public struct ARCMenuAboutView: View {
 
     // MARK: Private Views
 
+    @ViewBuilder private var appIconView: some View {
+        if let assetName = appInfo.appIconAssetName {
+            Image(assetName)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 56, height: 56)
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        } else {
+            Image(systemName: appInfo.appIcon)
+                .font(.system(size: 56))
+                .foregroundStyle(Color.accentColor)
+        }
+    }
+
     private var appHeaderSection: some View {
         Section {
             HStack(spacing: .arcSpacingMedium) {
-                Image(systemName: appInfo.appIcon)
-                    .font(.system(size: 56))
-                    .foregroundStyle(Color.accentColor)
+                appIconView
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(appInfo.appName)

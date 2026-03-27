@@ -40,6 +40,23 @@ import SwiftUI
         self.configuration = configuration
     }
 
+    // MARK: Private Views
+
+    @ViewBuilder private var heroIcon: some View {
+        let size = configuration.heroIconSize * 0.8
+        if let assetName = configuration.appIconAssetName {
+            Image(assetName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: size, height: size)
+                .clipShape(RoundedRectangle(cornerRadius: size * 0.2236, style: .continuous))
+        } else {
+            Image(systemName: configuration.appIcon)
+                .font(.system(size: size))
+                .foregroundStyle(.tint)
+        }
+    }
+
     // MARK: View
 
     public var body: some View {
@@ -53,9 +70,7 @@ import SwiftUI
             #endif
 
             VStack(spacing: .arcSpacingLarge) {
-                Image(systemName: configuration.appIcon)
-                    .font(.system(size: configuration.heroIconSize * 0.8))
-                    .foregroundStyle(.tint)
+                heroIcon
 
                 ProgressView()
                     .progressViewStyle(.circular)

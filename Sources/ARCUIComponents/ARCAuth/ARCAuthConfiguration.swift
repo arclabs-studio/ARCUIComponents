@@ -30,8 +30,12 @@ import SwiftUI
 @available(iOS 17.0, macOS 14.0, *) public struct ARCAuthConfiguration: Sendable {
     // MARK: Properties
 
-    /// SF Symbol name used as the app hero icon.
+    /// SF Symbol name used as the app hero icon (fallback when `appIconAssetName` is nil).
     public let appIcon: String
+
+    /// Asset catalog image name used as the app hero icon.
+    /// When set, takes precedence over `appIcon`. Use this to show the real app icon.
+    public let appIconAssetName: String?
 
     /// App name displayed on the Welcome screen.
     public let appName: String
@@ -48,14 +52,17 @@ import SwiftUI
     ///
     /// - Parameters:
     ///   - appIcon: SF Symbol name used as the hero icon (default: `"person.circle.fill"`).
+    ///   - appIconAssetName: Asset catalog image name. When set, renders the real app icon instead of the SF Symbol.
     ///   - appName: App name shown on the Welcome screen.
     ///   - appSubtitle: Optional subtitle shown below the app name.
     ///   - heroIconSize: Font size of the hero icon (default: `80`).
     public init(appIcon: String = "person.circle.fill",
+                appIconAssetName: String? = nil,
                 appName: String,
                 appSubtitle: String? = nil,
                 heroIconSize: CGFloat = 80) {
         self.appIcon = appIcon
+        self.appIconAssetName = appIconAssetName
         self.appName = appName
         self.appSubtitle = appSubtitle
         self.heroIconSize = heroIconSize
