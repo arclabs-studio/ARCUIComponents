@@ -33,18 +33,15 @@ public struct ARCMenuThemePickerView: View {
     // MARK: Private Properties
 
     private let navigationTitleKey: LocalizedStringKey
-    private let appliesImmediately: Bool
     private let onDone: (() -> Void)?
 
     // MARK: Lifecycle
 
     public init(selectedMode: Binding<ARCAppearanceMode>,
                 navigationTitle: LocalizedStringKey = "Theme",
-                appliesImmediately: Bool = false,
                 onDone: (() -> Void)? = nil) {
         _selectedMode = selectedMode
         navigationTitleKey = navigationTitle
-        self.appliesImmediately = appliesImmediately
         self.onDone = onDone
     }
 
@@ -53,7 +50,6 @@ public struct ARCMenuThemePickerView: View {
     public var body: some View {
         ARCMenuPickerView(selection: $selectedMode,
                           navigationTitle: navigationTitleKey,
-                          appliesImmediately: appliesImmediately,
                           onDone: onDone)
     }
 }
