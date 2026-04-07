@@ -11,17 +11,18 @@ import SwiftUI
 
 /// Standalone theme picker screen with checkmark selection
 ///
-/// Displays all ``ARCAppearanceMode`` cases (System, Light, Dark) in a Form.
-/// This is a **leaf view** — it has no NavigationStack and does not know
-/// where it's presented from. The app provides navigation context.
+/// A thin wrapper around ``ARCMenuPickerView`` specialised for ``ARCAppearanceMode``.
+/// Provides a default navigation title ("Theme") and forwards all behaviour to
+/// the generic picker, including the deferred commit pattern and optional Done button.
 ///
-/// The navigation title uses `LocalizedStringKey`, so the consuming app's
-/// String Catalog provides translations.
+/// This is a **leaf view** — it has no `NavigationStack` and does not know
+/// where it's presented from. The app provides navigation context.
 ///
 /// Usage:
 /// ```swift
 /// NavigationStack {
-///     ARCMenuThemePickerView(selectedMode: $appearanceManager.mode)
+///     ARCMenuThemePickerView(selectedMode: $appearanceManager.mode,
+///                            onDone: { dismiss() })
 /// }
 /// ```
 public struct ARCMenuThemePickerView: View {
@@ -31,61 +32,25 @@ public struct ARCMenuThemePickerView: View {
 
     // MARK: Private Properties
 
-    /// Local selection state — only committed to the binding when the view disappears.
-    ///
-    /// Prevents `@Observable` side effects from invalidating the NavigationStack
-    /// while the user is still interacting with the picker.
-    @State private var pendingSelection: ARCAppearanceMode
     private let navigationTitleKey: LocalizedStringKey
+    private let onDone: (() -> Void)?
 
     // MARK: Lifecycle
 
     public init(selectedMode: Binding<ARCAppearanceMode>,
-                navigationTitle: LocalizedStringKey = "Theme") {
+                navigationTitle: LocalizedStringKey = "Theme",
+                onDone: (() -> Void)? = nil) {
         _selectedMode = selectedMode
-        _pendingSelection = State(initialValue: selectedMode.wrappedValue)
         navigationTitleKey = navigationTitle
+        self.onDone = onDone
     }
 
     // MARK: View
 
     public var body: some View {
-        Form {
-            Section {
-                ForEach(ARCAppearanceMode.allCases) { mode in
-                    Button {
-                        pendingSelection = mode
-                    } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: mode.icon)
-                                .font(.body)
-                                .foregroundStyle(pendingSelection == mode ? Color.accentColor : .secondary)
-                                .frame(width: 24)
-
-                            Text(mode.title)
-                                .foregroundStyle(.primary)
-
-                            Spacer()
-
-                            if pendingSelection == mode {
-                                Image(systemName: "checkmark")
-                                    .font(.body.weight(.semibold))
-                                    .foregroundStyle(Color.accentColor)
-                            }
-                        }
-                        .contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-        }
-        .navigationTitle(navigationTitleKey)
-        #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-        #endif
-            .onDisappear {
-                selectedMode = pendingSelection
-            }
+        ARCMenuPickerView(selection: $selectedMode,
+                          navigationTitle: navigationTitleKey,
+                          onDone: onDone)
     }
 }
 
@@ -93,14 +58,14 @@ public struct ARCMenuThemePickerView: View {
 
 #Preview("Theme Picker - Dark") {
     NavigationStack {
-        ARCMenuThemePickerView(selectedMode: .constant(.system))
+        ARCMenuThemePickerView(selectedMode: .constant(.system), onDone: {})
     }
     .preferredColorScheme(.dark)
 }
 
 #Preview("Theme Picker - Light") {
     NavigationStack {
-        ARCMenuThemePickerView(selectedMode: .constant(.light))
+        ARCMenuThemePickerView(selectedMode: .constant(.light), onDone: {})
     }
     .preferredColorScheme(.light)
 }

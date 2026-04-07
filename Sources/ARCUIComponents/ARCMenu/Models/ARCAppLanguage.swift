@@ -18,7 +18,7 @@ import SwiftUI
 /// ```swift
 /// ARCMenuLanguagePickerView(selectedLanguage: $viewModel.selectedLanguage)
 /// ```
-public enum ARCAppLanguage: String, CaseIterable, Identifiable, Sendable {
+public enum ARCAppLanguage: String, CaseIterable, Identifiable, Sendable, ARCMenuPickerItem {
     case system
     case spanish
     case english

@@ -18,7 +18,7 @@ import SwiftUI
 /// ```swift
 /// ARCMenuThemePickerView(selectedMode: $appearanceManager.mode)
 /// ```
-public enum ARCAppearanceMode: String, CaseIterable, Identifiable, Sendable {
+public enum ARCAppearanceMode: String, CaseIterable, Identifiable, Sendable, ARCMenuPickerItem {
     case system
     case light
     case dark
