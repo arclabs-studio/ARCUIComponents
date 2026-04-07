@@ -38,15 +38,18 @@ public struct ARCMenuLanguagePickerView: View {
     // MARK: Private Properties
 
     private let navigationTitleKey: LocalizedStringKey
+    private let appliesImmediately: Bool
     private let onDone: (() -> Void)?
 
     // MARK: Lifecycle
 
     public init(selectedLanguage: Binding<ARCAppLanguage>,
                 navigationTitle: LocalizedStringKey = "Language",
+                appliesImmediately: Bool = false,
                 onDone: (() -> Void)? = nil) {
         _selectedLanguage = selectedLanguage
         navigationTitleKey = navigationTitle
+        self.appliesImmediately = appliesImmediately
         self.onDone = onDone
     }
 
@@ -55,6 +58,7 @@ public struct ARCMenuLanguagePickerView: View {
     public var body: some View {
         ARCMenuPickerView(selection: $selectedLanguage,
                           navigationTitle: navigationTitleKey,
+                          appliesImmediately: appliesImmediately,
                           onDone: onDone)
     }
 }

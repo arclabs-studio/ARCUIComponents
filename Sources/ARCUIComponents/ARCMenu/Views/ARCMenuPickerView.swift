@@ -21,28 +21,31 @@ import SwiftUI
 /// invalidate the `NavigationStack` and dismiss the view mid-interaction.
 ///
 /// Commit strategy:
-/// - When `onDone` is provided: selection is committed and `onDone` is called
-///   when the user taps the Done toolbar button. Navigating back without
-///   tapping Done discards the pending change.
-/// - When `onDone` is `nil`: selection is committed on `.onDisappear`
-///   (backward-compatible fallback for consumers that don't provide a done action).
+/// - When `appliesImmediately` is `true`: each tap writes through to the binding
+///   immediately (the caller sees the change live). Done just calls `onDone()`.
+/// - When `appliesImmediately` is `false` (default, deferred): selection is held
+///   in a local `pendingSelection` state and committed when Done is tapped
+///   (`onDone` provided) or on `.onDisappear` (fallback when `onDone` is `nil`).
+///   Navigating back without tapping Done discards the pending change.
 ///
 /// The navigation title and Done button label use `LocalizedStringKey`,
 /// so the consuming app's String Catalog provides translations.
 ///
 /// Usage:
 /// ```swift
-/// // Theme picker with Done button that dismisses the sheet
+/// // Instant apply — change is visible live, Done just dismisses
 /// NavigationStack {
 ///     ARCMenuPickerView(selection: $appearanceManager.mode,
 ///                       navigationTitle: "Theme",
+///                       appliesImmediately: true,
 ///                       onDone: { dismiss() })
 /// }
 ///
-/// // Simple picker without Done button (commits on back navigation)
+/// // Deferred apply — committed on Done tap (default)
 /// NavigationStack {
 ///     ARCMenuPickerView(selection: $viewModel.option,
-///                       navigationTitle: "Option")
+///                       navigationTitle: "Option",
+///                       onDone: { dismiss() })
 /// }
 /// ```
 public struct ARCMenuPickerView<Item: ARCMenuPickerItem>: View {
@@ -52,23 +55,27 @@ public struct ARCMenuPickerView<Item: ARCMenuPickerItem>: View {
 
     // MARK: Private Properties
 
-    /// Local selection state — only committed to the binding when Done is tapped
-    /// (or on disappear when `onDone` is nil).
+    /// Local selection state — mirrors `selection` for the deferred commit path.
     ///
-    /// Prevents `@Observable` side effects from invalidating the NavigationStack
-    /// while the user is still interacting with the picker.
+    /// When `appliesImmediately` is `false` this is the only value that changes
+    /// during interaction, preventing `@Observable` side effects from invalidating
+    /// the NavigationStack. When `appliesImmediately` is `true` it stays in sync
+    /// with `selection` and is used only to drive the checkmark highlight.
     @State private var pendingSelection: Item
     private let navigationTitleKey: LocalizedStringKey
+    private let appliesImmediately: Bool
     private let onDone: (() -> Void)?
 
     // MARK: Lifecycle
 
     public init(selection: Binding<Item>,
                 navigationTitle: LocalizedStringKey,
+                appliesImmediately: Bool = false,
                 onDone: (() -> Void)? = nil) {
         _selection = selection
         _pendingSelection = State(initialValue: selection.wrappedValue)
         navigationTitleKey = navigationTitle
+        self.appliesImmediately = appliesImmediately
         self.onDone = onDone
     }
 
@@ -80,6 +87,9 @@ public struct ARCMenuPickerView<Item: ARCMenuPickerItem>: View {
                 ForEach(Item.allCases, id: \.id) { item in
                     Button {
                         pendingSelection = item
+                        if appliesImmediately {
+                            selection = item
+                        }
                     } label: {
                         HStack(spacing: 12) {
                             Image(systemName: item.icon)
@@ -109,7 +119,9 @@ public struct ARCMenuPickerView<Item: ARCMenuPickerItem>: View {
             if let onDone {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") {
-                        selection = pendingSelection
+                        if !appliesImmediately {
+                            selection = pendingSelection
+                        }
                         onDone()
                     }
                 }
