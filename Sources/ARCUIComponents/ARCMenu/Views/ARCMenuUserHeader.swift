@@ -72,7 +72,7 @@ public struct ARCMenuUserHeader: View {
                         .fontWeight(.semibold)
                         .fontDesign(.rounded)
                         .foregroundStyle(.primary)
-                        .lineLimit(1)
+                        .lineLimit(2)
 
                     if let email = user.email {
                         Text(email)
