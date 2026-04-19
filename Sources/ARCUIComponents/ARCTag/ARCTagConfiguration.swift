@@ -137,6 +137,9 @@ import SwiftUI
     /// Text color (auto-calculated if nil)
     public let textColor: Color?
 
+    /// Icon color (falls back to textColor if nil)
+    public let iconColor: Color?
+
     /// Icon position relative to text
     public let iconPosition: IconPosition
 
@@ -163,6 +166,7 @@ import SwiftUI
     ///   - style: Visual style (default: .subtle)
     ///   - color: Primary color (default: .blue)
     ///   - textColor: Text color, auto-calculated if nil
+    ///   - iconColor: Icon color, falls back to textColor if nil
     ///   - iconPosition: Icon position (default: .leading)
     ///   - accentColor: Accent for glass effect (default: .blue)
     ///   - backgroundStyle: Background style (default: .translucent)
@@ -172,6 +176,7 @@ import SwiftUI
                 style: Style = .subtle,
                 color: Color = .blue,
                 textColor: Color? = nil,
+                iconColor: Color? = nil,
                 iconPosition: IconPosition = .leading,
                 accentColor: Color = .blue,
                 backgroundStyle: ARCBackgroundStyle = .translucent,
@@ -181,6 +186,7 @@ import SwiftUI
         self.style = style
         self.color = color
         self.textColor = textColor
+        self.iconColor = iconColor
         self.iconPosition = iconPosition
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
