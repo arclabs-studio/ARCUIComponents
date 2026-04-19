@@ -24,6 +24,7 @@ import SwiftUI
                     sizesSection
                     iconsSection
                     colorsSection
+                    customTextColorsSection
                     brandColorsSection
                     realWorldSection
                 }
@@ -136,6 +137,35 @@ import SwiftUI
                         ARCTag("Orange", configuration: .init(style: .subtle, color: .orange))
                         ARCTag("Green", configuration: .init(style: .subtle, color: .green))
                         ARCTag("Blue", configuration: .init(style: .subtle, color: .blue))
+                    }
+                }
+            }
+        }
+    }
+
+    private var customTextColorsSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            sectionHeader("Custom Text Colors")
+
+            VStack(spacing: 12) {
+                row("Text Color") {
+                    HStack(spacing: 8) {
+                        ARCTag("Gold + Black",
+                               configuration: .init(style: .filled, color: .yellow, textColor: .black))
+                        ARCTag("Red + White",
+                               configuration: .init(style: .filled, color: .red, textColor: .white))
+                    }
+                }
+
+                row("Icon Color") {
+                    HStack(spacing: 8) {
+                        ARCTag("Custom Icon",
+                               icon: "star.fill",
+                               configuration: .init(style: .filled, color: .yellow, textColor: .black,
+                                                    iconColor: .orange))
+                        ARCTag("Same Color",
+                               icon: "heart.fill",
+                               configuration: .init(style: .subtle, color: .pink, textColor: .pink))
                     }
                 }
             }

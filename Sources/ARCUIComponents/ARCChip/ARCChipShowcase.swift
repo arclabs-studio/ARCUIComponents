@@ -33,6 +33,7 @@ import SwiftUI
                     statesSection
                     sizesSection
                     configurationsSection
+                    customTextColorsSection
                     brandColorsSection
                     multiSelectSection
                     singleSelectSection
@@ -117,6 +118,36 @@ import SwiftUI
                         ARCChip("Blue", isSelected: .constant(true), configuration: .init(selectedColor: .blue))
                         ARCChip("Green", isSelected: .constant(true), configuration: .init(selectedColor: .green))
                         ARCChip("Purple", isSelected: .constant(true), configuration: .init(selectedColor: .purple))
+                    }
+                }
+            }
+        }
+    }
+
+    private var customTextColorsSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            sectionHeader("Custom Text Colors")
+
+            VStack(spacing: 12) {
+                row("Selected") {
+                    HStack(spacing: 8) {
+                        ARCChip("Gold + Black",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .yellow, selectedTextColor: .black))
+                        ARCChip("Red + Yellow",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .red, selectedTextColor: .yellow))
+                    }
+                }
+
+                row("Unselected") {
+                    HStack(spacing: 8) {
+                        ARCChip("Custom Text",
+                                isSelected: .constant(false),
+                                configuration: .init(unselectedTextColor: .orange))
+                        ARCChip("Brand Text",
+                                isSelected: .constant(false),
+                                configuration: .init(unselectedTextColor: .arcBrandBurgundy))
                     }
                 }
             }
