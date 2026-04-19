@@ -98,6 +98,12 @@ import SwiftUI
     /// Whether to show dismiss (X) button when selected
     public let dismissible: Bool
 
+    /// Text and icon color when selected (default: .white)
+    public let selectedTextColor: Color?
+
+    /// Text color when unselected (default: .primary)
+    public let unselectedTextColor: Color?
+
     // MARK: - LiquidGlassConfigurable Properties
 
     /// Accent color for liquid glass effect
@@ -123,6 +129,8 @@ import SwiftUI
     ///   - showCheckmark: Show checkmark when selected (default: true)
     ///   - hapticFeedback: Trigger haptics on tap (default: true)
     ///   - dismissible: Show X button when selected (default: false)
+    ///   - selectedTextColor: Text/icon color when selected, defaults to white if nil
+    ///   - unselectedTextColor: Text color when unselected, defaults to primary if nil
     ///   - accentColor: Accent for glass effect (default: .blue)
     ///   - backgroundStyle: Background style (default: .translucent)
     ///   - cornerRadius: Corner radius (default: 0 for capsule)
@@ -133,6 +141,8 @@ import SwiftUI
                 showCheckmark: Bool = true,
                 hapticFeedback: Bool = true,
                 dismissible: Bool = false,
+                selectedTextColor: Color? = nil,
+                unselectedTextColor: Color? = nil,
                 accentColor: Color = .blue,
                 backgroundStyle: ARCBackgroundStyle = .translucent,
                 cornerRadius: CGFloat = 0,
@@ -143,6 +153,8 @@ import SwiftUI
         self.showCheckmark = showCheckmark
         self.hapticFeedback = hapticFeedback
         self.dismissible = dismissible
+        self.selectedTextColor = selectedTextColor
+        self.unselectedTextColor = unselectedTextColor
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
         self.cornerRadius = cornerRadius

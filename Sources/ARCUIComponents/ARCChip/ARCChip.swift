@@ -149,7 +149,7 @@ import SwiftUI
     private var checkmarkView: some View {
         Image(systemName: "checkmark")
             .font(.system(size: configuration.size.iconSize - 2, weight: .semibold))
-            .foregroundStyle(.white)
+            .foregroundStyle(resolvedSelectedTextColor)
             .transition(.scale.combined(with: .opacity))
     }
 
@@ -158,7 +158,7 @@ import SwiftUI
     private func iconView(_ systemName: String) -> some View {
         Image(systemName: systemName)
             .font(.system(size: configuration.size.iconSize))
-            .foregroundStyle(isSelected ? .white : configuration.unselectedColor)
+            .foregroundStyle(isSelected ? resolvedSelectedTextColor : resolvedUnselectedTextColor)
     }
 
     // MARK: - Text View
@@ -166,7 +166,7 @@ import SwiftUI
     private var textView: some View {
         Text(text)
             .font(.system(size: configuration.size.fontSize, weight: .medium))
-            .foregroundStyle(isSelected ? .white : .primary)
+            .foregroundStyle(isSelected ? resolvedSelectedTextColor : resolvedUnselectedTextColor)
     }
 
     // MARK: - Dismiss Button
@@ -180,10 +180,20 @@ import SwiftUI
         } label: {
             Image(systemName: "xmark")
                 .font(.system(size: configuration.size.iconSize - 4, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(resolvedSelectedTextColor.opacity(0.8))
                 .padding(4)
         }
         .buttonStyle(.plain)
+    }
+
+    // MARK: - Resolved Colors
+
+    private var resolvedSelectedTextColor: Color {
+        configuration.selectedTextColor ?? .white
+    }
+
+    private var resolvedUnselectedTextColor: Color {
+        configuration.unselectedTextColor ?? .primary
     }
 
     // MARK: - Background View
