@@ -159,7 +159,7 @@ import SwiftUI
     }
 
     private var iconColor: Color {
-        computedTextColor
+        configuration.iconColor ?? computedTextColor
     }
 }
 

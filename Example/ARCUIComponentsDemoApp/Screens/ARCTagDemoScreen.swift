@@ -20,6 +20,7 @@ import SwiftUI
                 stylesSection
                 iconsSection
                 colorsSection
+                customTextColorsSection
                 realWorldExamplesSection
             }
             .padding()
@@ -172,6 +173,38 @@ import SwiftUI
             .frame(maxWidth: .infinity)
             .padding()
             .background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
+    // MARK: - Custom Text Colors Section
+
+    private var customTextColorsSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            sectionHeader("Custom Text Colors", subtitle: "Override text and icon colors")
+
+            VStack(spacing: 16) {
+                styleRow("Text Color", description: "Custom foreground on filled tags") {
+                    HStack(spacing: 8) {
+                        ARCTag("Gold + Black",
+                               configuration: .init(style: .filled, color: .yellow, textColor: .black))
+                        ARCTag("Mint + Dark",
+                               configuration: .init(style: .filled, color: .mint, textColor: .black))
+                    }
+                }
+
+                styleRow("Icon Color", description: "Separate icon tint from text") {
+                    HStack(spacing: 8) {
+                        ARCTag("Japonesa",
+                               icon: "fork.knife",
+                               configuration: .init(style: .filled, color: .yellow, textColor: .black,
+                                                    iconColor: .orange))
+                        ARCTag("Organic",
+                               icon: "leaf.fill",
+                               configuration: .init(style: .filled, color: .green, textColor: .white,
+                                                    iconColor: .yellow))
+                    }
+                }
+            }
         }
     }
 

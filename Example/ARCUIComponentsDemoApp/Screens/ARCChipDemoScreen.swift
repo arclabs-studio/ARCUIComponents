@@ -31,6 +31,7 @@ import SwiftUI
                 multiSelectSection
                 singleSelectSection
                 inputChipsSection
+                customTextColorsSection
                 configurationsSection
             }
             .padding()
@@ -192,6 +193,38 @@ import SwiftUI
             }
             .padding()
             .background(Color.gray.opacity(0.05), in: RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
+    // MARK: - Custom Text Colors Section
+
+    private var customTextColorsSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            sectionHeader("Custom Text Colors", subtitle: "Override text color on selected and unselected states")
+
+            VStack(spacing: 16) {
+                usageRow("Selected Text", description: "Custom text on colored background") {
+                    HStack(spacing: 8) {
+                        ARCChip("Gold + Black",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .yellow, selectedTextColor: .black))
+                        ARCChip("Mint + Dark",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .mint, selectedTextColor: .black))
+                    }
+                }
+
+                usageRow("Unselected Text", description: "Custom text when not selected") {
+                    HStack(spacing: 8) {
+                        ARCChip("Orange Text",
+                                isSelected: .constant(false),
+                                configuration: .init(unselectedTextColor: .orange))
+                        ARCChip("Brand Text",
+                                isSelected: .constant(false),
+                                configuration: .init(unselectedTextColor: .arcBrandBurgundy))
+                    }
+                }
+            }
         }
     }
 
