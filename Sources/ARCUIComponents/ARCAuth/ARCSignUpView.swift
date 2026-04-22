@@ -161,6 +161,8 @@ import SwiftUI
                          configuration: ARCTextFieldConfiguration(inputType: .email,
                                                                   label: emailPlaceholder,
                                                                   leadingIcon: "envelope",
+                                                                  validation: .email,
+                                                                  validateOnChange: true,
                                                                   autocapitalization: .never,
                                                                   autocorrection: false,
                                                                   submitLabel: .next))
@@ -171,6 +173,7 @@ import SwiftUI
                                                                     label: passwordPlaceholder,
                                                                     leadingIcon: "lock",
                                                                     validation: passwordValidation,
+                                                                    validateOnChange: true,
                                                                     autocapitalization: .never,
                                                                     autocorrection: false,
                                                                     clearButton: .never))
