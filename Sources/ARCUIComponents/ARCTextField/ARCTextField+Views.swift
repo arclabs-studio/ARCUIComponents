@@ -82,12 +82,13 @@ import UIKit
 
 @available(iOS 17.0, macOS 14.0, *) extension ARCTextField {
     var fieldContent: some View {
-        HStack(alignment: .center, spacing: 12) {
+        HStack(alignment: configuration.isMultiline ? .top : .center, spacing: 12) {
             leadingContent
             textFieldContent
             trailingContent
         }
         .padding(.horizontal, configuration.horizontalPadding)
+        .padding(.vertical, configuration.isMultiline ? 12 : 0)
     }
 
     @ViewBuilder var leadingContent: some View {
@@ -96,17 +97,19 @@ import UIKit
                 .font(.system(size: 18, weight: .medium))
                 .foregroundStyle(iconColor)
                 .frame(width: 24, height: 24)
+                .padding(.top, configuration.isMultiline ? (shouldFloatLabel ? 18 : 4) : 0)
         }
     }
 
     @ViewBuilder var textFieldContent: some View {
         if let label = configuration.label {
-            VStack(alignment: .leading, spacing: 0) {
+            VStack(alignment: .leading, spacing: 4) {
                 if shouldFloatLabel {
                     Text(label)
                         .font(.caption)
                         .fontWeight(.medium)
                         .foregroundStyle(labelColor)
+                        .padding(.top, configuration.isMultiline ? 4 : 0)
                         .transition(.opacity.combined(with: .move(edge: .top)))
                 }
                 textInputView

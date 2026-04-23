@@ -117,6 +117,18 @@ import SwiftUI
                 styleRow("Multiline", description: "Multi-line with character limit") {
                     ARCTextField("Bio", text: $bioText, configuration: .multiline)
                 }
+
+                styleRow("Multiline + Icon", description: "Multi-line with leading icon and label") {
+                    ARCTextField("Description",
+                                 text: $bioText,
+                                 configuration: ARCTextFieldConfiguration(inputType: .multiline(lineLimit: 5),
+                                                                          label: "Description",
+                                                                          leadingIcon: "note.text",
+                                                                          characterLimit: 500,
+                                                                          showCharacterCount: true,
+                                                                          submitLabel: .done,
+                                                                          height: 100))
+                }
             }
         }
     }
