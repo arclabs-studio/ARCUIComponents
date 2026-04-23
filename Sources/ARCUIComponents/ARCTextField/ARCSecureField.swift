@@ -110,6 +110,11 @@ import UIKit
         .onChange(of: text) { _, newValue in
             handleTextChange(newValue)
         }
+        .onChange(of: isFocused) { _, focused in
+            if !focused, configuration.validateOnSubmit {
+                validate(text)
+            }
+        }
     }
 
     // MARK: - Field Container
