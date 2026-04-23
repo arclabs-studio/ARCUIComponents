@@ -192,7 +192,6 @@ import SwiftUI
                                                                   label: emailPlaceholder,
                                                                   leadingIcon: "envelope",
                                                                   validation: .email,
-                                                                  validateOnChange: true,
                                                                   autocapitalization: .never,
                                                                   autocorrection: false,
                                                                   submitLabel: .next))
