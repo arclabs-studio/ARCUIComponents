@@ -83,6 +83,9 @@ import UIKit
         /// Numeric input only
         case number
 
+        /// Decimal numeric input (e.g. prices)
+        case decimal
+
         /// URL input with appropriate keyboard
         case url
 
@@ -413,6 +416,8 @@ import UIKit
             .phonePad
         case .number:
             .numberPad
+        case .decimal:
+            .decimalPad
         case .url:
             .URL
         }
