@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **ARCFavoriteButton empty-state affordance**: The unfavorited state now renders with a
+  55% opacity tint of the active `color` and `.semibold` font weight, instead of
+  `Color.secondary` at regular weight. Restores tappable affordance and HIG-compliant
+  contrast on light card backgrounds when the button is presented without a circular
+  background plate. Existing call sites that relied on the default `.pink` see a faint
+  pink unfavorited icon rather than a gray one.
 - **Localization**: `ARCAppLanguage.title`, `ARCAppearanceMode.title`, and `ARCTabItem.title` now
   return `LocalizedStringKey` instead of `String`, enabling automatic translation via String Catalogs
 - **ARCMenuLanguagePickerView**: Navigation title and Done button use `LocalizedStringKey`;
