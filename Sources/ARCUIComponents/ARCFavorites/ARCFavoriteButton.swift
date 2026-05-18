@@ -22,6 +22,14 @@ import UIKit
 /// - Gradient color support
 /// - Preset icon pairs (heart, star, bookmark)
 ///
+/// ## Empty-state styling
+///
+/// The empty (unfavorited) state is rendered with a 55% opacity tint of the
+/// active `color` and a `.semibold` font weight. This keeps the icon
+/// recognizable as a tappable control on light and dark card backgrounds
+/// without requiring a circular background plate, and satisfies HIG contrast
+/// guidance better than the previous `Color.secondary` rendering.
+///
 /// ## Usage
 ///
 /// ```swift
@@ -137,8 +145,8 @@ import UIKit
     public var body: some View {
         Button(action: toggle) {
             Image(systemName: isFavorite ? icon.filledName : icon.emptyName)
-                .font(.system(size: size.iconSize))
-                .foregroundStyle(isFavorite ? color.gradient : Color.secondary.gradient)
+                .font(.system(size: size.iconSize, weight: .semibold))
+                .foregroundStyle(isFavorite ? color.gradient : color.opacity(0.55).gradient)
                 .symbolEffect(.bounce, value: isFavorite)
                 .contentTransition(.symbolEffect(.replace))
         }
