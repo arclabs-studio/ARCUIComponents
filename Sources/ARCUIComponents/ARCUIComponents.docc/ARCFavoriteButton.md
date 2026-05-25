@@ -11,6 +11,7 @@ ARCFavoriteButton provides a delightful interaction for toggling favorite state,
 - **Symbol Effect**: iOS 17+ bounce animations on toggle
 - **Gradient Colors**: Beautiful gradient fills
 - **Icon Presets**: Heart, star, bookmark, flag, or custom icons
+- **Visibility Styles**: Plain icon-only treatment or prominent circular treatment for image overlays
 - **Haptic Feedback**: Tactile response on toggle
 - **Accessibility**: Full VoiceOver support
 - **HIG Compliant**: 44x44pt minimum touch target
@@ -69,6 +70,21 @@ ARCFavoriteButton(isFavorite: $fav, size: .large)
 ARCFavoriteButton(isFavorite: $fav, size: .custom(32))
 ```
 
+## Visibility Style
+
+Use the default `.plain` style in rows, toolbars, and low-noise surfaces. Use
+`.prominent` when the button sits on top of a photo, artwork, or a busy card
+surface.
+
+```swift
+ARCFavoriteButton(
+    isFavorite: $isFavorite,
+    icon: .star,
+    color: .yellow,
+    style: .prominent
+)
+```
+
 ## Callback on Toggle
 
 ```swift
@@ -117,6 +133,20 @@ ARCListCard(
 )
 ```
 
+### On Image Cards
+
+```swift
+ZStack(alignment: .topTrailing) {
+    image
+
+    ARCFavoriteButton(
+        isFavorite: $isFavorite,
+        style: .prominent
+    )
+    .padding(12)
+}
+```
+
 ### Multiple Icon Types
 
 ```swift
@@ -144,3 +174,4 @@ ARCFavoriteButton includes comprehensive accessibility support:
 - ``ARCFavoriteButton``
 - ``ARCFavoriteButton/Icon``
 - ``ARCFavoriteButton/Size``
+- ``ARCFavoriteButton/Style``

@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- **ARCFavoriteButton prominent style**: Added an opt-in `.prominent` visual treatment
+  for card-image overlays, with an adaptive circular material plate, stroke, shadow,
+  and stronger empty-state tint while preserving the 44pt minimum touch target.
 - **ARCFavoriteButton empty-state affordance**: The unfavorited state now renders with a
   55% opacity tint of the active `color` and `.semibold` font weight, instead of
   `Color.secondary` at regular weight. Restores tappable affordance and HIG-compliant
