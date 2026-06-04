@@ -82,6 +82,12 @@ import SwiftUI
     /// Callback when user taps generate recommendations in quick mode
     private let onGenerateRecommendations: (() -> Void)?
 
+    /// Optional custom hero artwork builder propagated to every rendered card
+    /// (both the compact `AIRecommenderItemCard` and the rich
+    /// `AIRecommenderSwipeCard` in the card-stack carousel). When non-nil it
+    /// replaces the default `AIRecommenderImageSource`-driven artwork.
+    private let heroContent: ((Item) -> AnyView)?
+
     // MARK: - Private State
 
     @State private var internalMode: AIRecommenderMode = .quick
@@ -98,7 +104,8 @@ import SwiftUI
                 onItemSelected: ((Item) -> Void)? = nil,
                 onItemBookmarked: ((Item) -> Void)? = nil,
                 onEmptyStateAction: (() -> Void)? = nil,
-                onGenerateRecommendations: (() -> Void)? = nil) {
+                onGenerateRecommendations: (() -> Void)? = nil,
+                heroContent: ((Item) -> AnyView)? = nil) {
         _mode = .constant(.quick)
         self.categories = categories
         _selectedCategory = selectedCategory
@@ -116,6 +123,7 @@ import SwiftUI
         questionnaireItems = []
         onQuestionnaireRetake = nil
         self.onGenerateRecommendations = onGenerateRecommendations
+        self.heroContent = heroContent
     }
 
     // MARK: - Initialization (Questionnaire Mode Only)
@@ -142,6 +150,7 @@ import SwiftUI
         questionnaireItems = []
         onQuestionnaireRetake = nil
         onGenerateRecommendations = nil
+        heroContent = nil
     }
 
     // MARK: - Initialization (Dual Mode)
@@ -162,7 +171,8 @@ import SwiftUI
                 onQuestionnaireSubmit: ((AIRecommenderAnswers) -> Void)? = nil,
                 onEmptyStateAction: (() -> Void)? = nil,
                 onQuestionnaireRetake: (() -> Void)? = nil,
-                onGenerateRecommendations: (() -> Void)? = nil) {
+                onGenerateRecommendations: (() -> Void)? = nil,
+                heroContent: ((Item) -> AnyView)? = nil) {
         _mode = mode
         self.categories = categories
         _selectedCategory = selectedCategory
@@ -180,6 +190,7 @@ import SwiftUI
         self.questionnaireItems = questionnaireItems
         self.onQuestionnaireRetake = onQuestionnaireRetake
         self.onGenerateRecommendations = onGenerateRecommendations
+        self.heroContent = heroContent
     }
 
     // MARK: - Body
@@ -343,20 +354,21 @@ import SwiftUI
                                    bookmarkedItemIDs: bookmarkedItemIDs,
                                    configuration: configuration,
                                    onItemSelected: onItemSelected,
-                                   onItemBookmarked: onItemBookmarked)
+                                   onItemBookmarked: onItemBookmarked,
+                                   heroContent: heroContent)
         } else {
             LazyVStack(spacing: .arcSpacingMedium) {
                 ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                     AIRecommenderItemCard(item: item,
                                           rank: configuration.showRankBadges ? index + 1 : nil,
-                                          configuration: configuration) {
-                        onItemSelected?(item)
-                    }
-                    .aiGlowBorder(isActive: configuration.showGlowEffect,
-                                  cornerRadius: configuration.itemCornerRadius,
-                                  accentColor: configuration.accentColor,
-                                  intensity: configuration.glowIntensity,
-                                  showSparkles: configuration.showSparkles)
+                                          configuration: configuration,
+                                          action: { onItemSelected?(item) },
+                                          heroContent: heroContent)
+                        .aiGlowBorder(isActive: configuration.showGlowEffect,
+                                      cornerRadius: configuration.itemCornerRadius,
+                                      accentColor: configuration.accentColor,
+                                      intensity: configuration.glowIntensity,
+                                      showSparkles: configuration.showSparkles)
                 }
             }
             .padding(.horizontal, .arcSpacingLarge)

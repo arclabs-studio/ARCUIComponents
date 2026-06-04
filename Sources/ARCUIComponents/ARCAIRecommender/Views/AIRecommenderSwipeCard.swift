@@ -23,6 +23,11 @@ import SwiftUI
     let onTap: () -> Void
     let onBookmarkToggle: () -> Void
 
+    /// Optional custom hero artwork builder. When non-nil, replaces the default
+    /// `imageSource`-driven hero rendering. The card frames the content to
+    /// `heroHeight` and applies the standard top-corner clipping.
+    var heroContent: ((Item) -> AnyView)?
+
     // MARK: - Scaled Metrics
 
     @ScaledMetric(relativeTo: .title2) private var titleSize: CGFloat = 22
@@ -79,7 +84,16 @@ import SwiftUI
     // MARK: - Hero Image
 
     @ViewBuilder private var heroImageSection: some View {
-        if let imageSource = item.imageSource {
+        if let heroContent {
+            heroContent(item)
+                .frame(maxWidth: .infinity)
+                .frame(height: heroHeight)
+                .clipShape(UnevenRoundedRectangle(topLeadingRadius: configuration.cornerRadius,
+                                                  bottomLeadingRadius: 0,
+                                                  bottomTrailingRadius: 0,
+                                                  topTrailingRadius: configuration.cornerRadius,
+                                                  style: .continuous))
+        } else if let imageSource = item.imageSource {
             imageSource.heroImageView(height: heroHeight)
                 .clipShape(UnevenRoundedRectangle(topLeadingRadius: configuration.cornerRadius,
                                                   bottomLeadingRadius: 0,

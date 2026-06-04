@@ -29,6 +29,10 @@ import SwiftUI
     let onItemSelected: ((Item) -> Void)?
     let onItemBookmarked: ((Item) -> Void)?
 
+    /// Optional custom hero artwork builder propagated to each `AIRecommenderSwipeCard`.
+    /// See `AIRecommenderSwipeCard.heroContent` for behavior.
+    var heroContent: ((Item) -> AnyView)?
+
     // MARK: - State
 
     @State private var currentIndex: Int = 0
@@ -121,7 +125,8 @@ import SwiftUI
                                isBookmarked: bookmarkedItemIDs.contains(AnyHashable(item.id)),
                                configuration: configuration,
                                onTap: { onItemSelected?(item) },
-                               onBookmarkToggle: { onItemBookmarked?(item) })
+                               onBookmarkToggle: { onItemBookmarked?(item) },
+                               heroContent: heroContent)
     }
 
     // MARK: - Navigation (Accessibility)
