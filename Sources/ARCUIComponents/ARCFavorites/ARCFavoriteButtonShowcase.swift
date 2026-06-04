@@ -234,7 +234,8 @@ import SwiftUI
                         Spacer()
 
                         ARCFavoriteButton(isFavorite: binding(for: "toolbar"),
-                                          size: .medium)
+                                          size: .medium,
+                                          style: .prominent)
                     }
                     .padding()
                     .background(.ultraThinMaterial)
@@ -423,7 +424,8 @@ import SwiftUI
                     .frame(height: 180)
 
                 ARCFavoriteButton(isFavorite: $isFavorite,
-                                  size: .medium)
+                                  size: .medium,
+                                  style: .prominent)
                     .padding(12)
             }
 

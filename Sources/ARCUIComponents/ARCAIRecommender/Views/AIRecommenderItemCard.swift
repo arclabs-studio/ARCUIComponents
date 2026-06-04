@@ -20,6 +20,11 @@ import SwiftUI
     let configuration: ARCAIRecommenderConfiguration
     let action: () -> Void
 
+    /// Optional custom artwork builder. When non-nil, replaces the default
+    /// `imageSource`-driven artwork rendering. Sized to 60×60pt by the consumer
+    /// constraint applied below.
+    var heroContent: ((Item) -> AnyView)?
+
     // MARK: - Body
 
     var body: some View {
@@ -65,7 +70,11 @@ import SwiftUI
     }
 
     @ViewBuilder private var artworkView: some View {
-        if let imageSource = item.imageSource {
+        if let heroContent {
+            heroContent(item)
+                .frame(width: 60, height: 60)
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        } else if let imageSource = item.imageSource {
             imageSource.imageView(size: 60)
         } else {
             // Default placeholder with accent color

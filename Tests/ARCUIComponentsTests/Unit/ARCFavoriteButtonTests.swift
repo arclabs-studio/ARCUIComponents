@@ -13,8 +13,7 @@ import Testing
 ///
 /// Locks in the icon-pair lookup, size mapping, touch-target floor, and the
 /// Option A empty-state affordance contract (semibold weight, brand-tinted
-/// foreground at 55% opacity instead of `Color.secondary`).
-@Suite("ARCFavoriteButton Tests")
+/// foreground instead of `Color.secondary`).
 struct ARCFavoriteButtonTests {
     // MARK: - Factory
 
@@ -22,12 +21,14 @@ struct ARCFavoriteButtonTests {
                                     icon: ARCFavoriteButton.Icon = .heart,
                                     color: Color = .pink,
                                     size: ARCFavoriteButton.Size = .medium,
+                                    style: ARCFavoriteButton.Style = .plain,
                                     haptics: Bool = false,
                                     onToggle: ((Bool) -> Void)? = nil) -> ARCFavoriteButton {
         ARCFavoriteButton(isFavorite: isFavorite,
                           icon: icon,
                           color: color,
                           size: size,
+                          style: style,
                           haptics: haptics,
                           onToggle: onToggle)
     }
@@ -107,6 +108,17 @@ struct ARCFavoriteButtonTests {
         #expect(size.touchTarget == 48)
     }
 
+    // MARK: - Style mapping
+
+    @Test("style_plain_usesSubtleEmptyStateOpacity") func style_plain_usesSubtleEmptyStateOpacity() {
+        #expect(ARCFavoriteButton.Style.plain.emptyStateOpacity == 0.55)
+    }
+
+    @Test("style_prominent_usesHigherEmptyStateOpacity") func style_prominent_usesHigherEmptyStateOpacity() {
+        #expect(ARCFavoriteButton.Style.prominent.emptyStateOpacity == 0.9)
+        #expect(ARCFavoriteButton.Style.prominent.emptyStateOpacity > ARCFavoriteButton.Style.plain.emptyStateOpacity)
+    }
+
     // MARK: - Construction smoke tests
 
     @MainActor
@@ -132,12 +144,46 @@ struct ARCFavoriteButtonTests {
     }
 
     @MainActor
+    @Test("init_allStyles_buildWithoutError") func init_allStyles_buildWithoutError() {
+        // Given
+        let styles: [ARCFavoriteButton.Style] = [.plain, .prominent]
+
+        // When/Then: every style constructs and renders body
+        for style in styles {
+            let sut = makeSUT(style: style)
+            _ = sut.body
+        }
+    }
+
+    @MainActor
     @Test("init_favoritedState_buildsWithoutError") func init_favoritedState_buildsWithoutError() {
         // Given: button starts favorited
         let sut = makeSUT(isFavorite: .constant(true))
 
         // Then
         _ = sut.body
+    }
+
+    @MainActor
+    @Test("init_styleDefault_isPlain") func init_styleDefault_isPlain() {
+        // Given/When
+        let sut = ARCFavoriteButton(isFavorite: .constant(false))
+
+        // Then
+        let mirror = Mirror(reflecting: sut)
+        let styleChild = mirror.children.first { $0.label == "style" }
+        #expect(styleChild?.value as? ARCFavoriteButton.Style == .plain)
+    }
+
+    @MainActor
+    @Test("init_prominentStyle_storesProminent") func init_prominentStyle_storesProminent() {
+        // Given/When
+        let sut = makeSUT(style: .prominent)
+
+        // Then
+        let mirror = Mirror(reflecting: sut)
+        let styleChild = mirror.children.first { $0.label == "style" }
+        #expect(styleChild?.value as? ARCFavoriteButton.Style == .prominent)
     }
 
     // MARK: - Empty-state affordance (Option A contract)
