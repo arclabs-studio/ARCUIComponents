@@ -116,14 +116,12 @@ import SwiftUI
     // MARK: - Body
 
     public var body: some View {
-        Group {
-            if shouldShow {
-                badgeContent
-                    .scaleEffect(animationScale)
-                    .onChange(of: content) { _, _ in
-                        animateIfNeeded()
-                    }
-            }
+        if shouldShow {
+            badgeContent
+                .scaleEffect(animationScale)
+                .onChange(of: content) { _, _ in
+                    animateIfNeeded()
+                }
         }
     }
 
