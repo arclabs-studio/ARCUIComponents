@@ -57,6 +57,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        # install-tools.sh lives in the ARCDevTools submodule.
+        submodules: recursive
 
     - name: Cache pinned tools
       uses: actions/cache@v4
