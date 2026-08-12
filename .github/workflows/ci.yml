@@ -57,12 +57,21 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
+      with:
+        # install-tools.sh lives in the ARCDevTools submodule.
+        submodules: recursive
 
-    - name: Install SwiftLint
-      run: brew install swiftlint
+    - name: Cache pinned tools
+      uses: actions/cache@v4
+      with:
+        path: .arc-tools
+        key: arc-tools-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('.arc-tool-versions', 'ARCDevTools/configs/tool-versions') }}
+
+    - name: Install pinned SwiftLint
+      run: ./ARCDevTools/scripts/install-tools.sh swiftlint
 
     - name: Run SwiftLint
-      run: swiftlint --strict
+      run: .arc-tools/bin/swiftlint --strict
 
   documentation:
     name: Build Documentation

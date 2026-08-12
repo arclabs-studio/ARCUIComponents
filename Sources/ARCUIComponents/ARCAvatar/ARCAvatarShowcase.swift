@@ -323,7 +323,9 @@ import AppKit
             VStack(spacing: 0) {
                 ForEach(sampleUsers, id: \.name) { user in
                     userRow(user)
-                    if user.name != sampleUsers.last?.name { Divider() }
+                    if user.name != sampleUsers.last?.name {
+                        Divider()
+                    }
                 }
             }
             .padding(.horizontal)
