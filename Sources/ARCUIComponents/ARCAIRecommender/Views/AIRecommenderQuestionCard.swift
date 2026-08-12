@@ -22,6 +22,7 @@ import SwiftUI
     // MARK: - Private State
 
     @State private var sliderValue: Double = 0.5
+    @State private var freeText = ""
 
     // MARK: - Body
 
@@ -32,6 +33,11 @@ import SwiftUI
 
             // Answer options based on input type
             answerSection
+
+            // Optional free-text field under the options
+            if question.freeTextPlaceholder != nil {
+                freeTextField
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.arcSpacingLarge)
@@ -41,6 +47,10 @@ import SwiftUI
             // Initialize slider value if exists
             if let existing = answers.sliderValue(for: question.id) {
                 sliderValue = existing
+            }
+            // Initialize free text if exists
+            if let existing = answers.freeText(for: question.id) {
+                freeText = existing
             }
         }
     }
@@ -121,6 +131,23 @@ import SwiftUI
                 }
             }
         }
+    }
+
+    // MARK: - Free Text
+
+    private var freeTextField: some View {
+        TextField(question.freeTextPlaceholder ?? "", text: $freeText, axis: .vertical)
+            .font(.subheadline)
+            .lineLimit(1 ... 3)
+            .textFieldStyle(.plain)
+            .padding(.horizontal, .arcSpacingMedium)
+            .padding(.vertical, .arcSpacingSmall)
+            .background(RoundedRectangle(cornerRadius: .arcCornerRadiusSmall, style: .continuous)
+                .fill(Color.gray.opacity(0.15)))
+            .onChange(of: freeText) { _, newValue in
+                answers.setFreeText(newValue, for: question.id)
+            }
+            .accessibilityLabel(question.freeTextPlaceholder ?? "")
     }
 
     // MARK: - Slider

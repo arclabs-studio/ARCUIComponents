@@ -52,6 +52,10 @@ import SwiftUI
     /// Optional SF Symbol icon for the question
     public let icon: String?
 
+    /// Placeholder for an optional free-text field rendered under the options.
+    /// `nil` (the default) renders no field — fully backwards compatible.
+    public let freeTextPlaceholder: String?
+
     // MARK: - Initialization
 
     public init(id: String,
@@ -60,7 +64,8 @@ import SwiftUI
                 options: [Option],
                 inputType: InputType = .singleChoice,
                 isRequired: Bool = false,
-                icon: String? = nil) {
+                icon: String? = nil,
+                freeTextPlaceholder: String? = nil) {
         self.id = id
         self.text = text
         self.subtitle = subtitle
@@ -68,6 +73,7 @@ import SwiftUI
         self.inputType = inputType
         self.isRequired = isRequired
         self.icon = icon
+        self.freeTextPlaceholder = freeTextPlaceholder
     }
 }
 
