@@ -60,6 +60,9 @@ import SwiftUI
 /// ARCRatingView(rating: 8.0, configuration: .circularGauge)
 /// ARCRatingView(rating: 7.5, configuration: .compactInline)
 /// ARCRatingView(rating: 9.2, configuration: .minimal)
+///
+/// // Unrated — renders a blue "?" in every style
+/// ARCRatingView(rating: nil)
 /// ```
 ///
 /// ## Color Scale
@@ -72,13 +75,16 @@ import SwiftUI
 /// - **7.5-8.5** (75-85%): Light/Medium Green - Very Good
 /// - **8.5-10** (85-100%): Strong Green - Excellent
 ///
+/// A `nil` rating is the *unrated* state — a blue `"?"` shown in the same slot,
+/// distinct from a genuine rating of `0`.
+///
 /// - Note: The view automatically animates between values and provides
 ///   meaningful accessibility labels for VoiceOver users.
 @available(iOS 17.0, macOS 14.0, *) public struct ARCRatingView: View {
     // MARK: - Properties
 
-    /// The rating value to display
-    private let rating: Double
+    /// The rating value to display, or `nil` when unrated
+    private let rating: Double?
 
     /// Configuration for appearance
     private let configuration: ARCRatingViewConfiguration
@@ -100,9 +106,9 @@ import SwiftUI
     /// Creates a rating view with a configuration
     ///
     /// - Parameters:
-    ///   - rating: The rating value to display
+    ///   - rating: The rating value to display, or `nil` when unrated
     ///   - configuration: Visual configuration (default: `.circularGauge`)
-    public init(rating: Double,
+    public init(rating: Double?,
                 configuration: ARCRatingViewConfiguration = .circularGauge) {
         self.rating = rating
         self.configuration = configuration
@@ -111,11 +117,11 @@ import SwiftUI
     /// Creates a rating view with individual parameters
     ///
     /// - Parameters:
-    ///   - rating: The rating value to display
+    ///   - rating: The rating value to display, or `nil` when unrated
     ///   - style: Visual style (default: `.circularGauge`)
     ///   - maxRating: Maximum rating value (default: `10.0`)
     ///   - animated: Whether to animate value changes (default: `true`)
-    public init(rating: Double,
+    public init(rating: Double?,
                 style: ARCRatingStyle = .circularGauge,
                 maxRating: Double = 10.0,
                 animated: Bool = true) {
@@ -141,14 +147,14 @@ import SwiftUI
         .onAppear {
             if configuration.animated {
                 arcWithAnimation(.arcSlow) {
-                    animatedRating = clampedRating
+                    animatedRating = clampedRating ?? 0
                 }
             } else {
-                animatedRating = clampedRating
+                animatedRating = clampedRating ?? 0
             }
         }
         .onChange(of: rating) { _, newValue in
-            let newClamped = min(max(newValue, 0), configuration.maxRating)
+            let newClamped = newValue.map { min(max($0, 0), configuration.maxRating) } ?? 0
             if configuration.animated {
                 arcWithAnimation(.arcGentle) {
                     animatedRating = newClamped
@@ -159,7 +165,7 @@ import SwiftUI
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(accessibilityLabel)
-        .accessibilityValue(formattedRating)
+        .accessibilityValue(isUnrated ? "" : formattedRating)
     }
 }
 
@@ -240,12 +246,16 @@ import SwiftUI
 // MARK: - Computed Properties
 
 @available(iOS 17.0, macOS 14.0, *) extension ARCRatingView {
-    private var clampedRating: Double {
-        min(max(rating, 0), configuration.maxRating)
+    private var clampedRating: Double? {
+        rating.map { min(max($0, 0), configuration.maxRating) }
+    }
+
+    private var isUnrated: Bool {
+        rating == nil
     }
 
     private var ratingProgress: Double {
-        guard configuration.maxRating > 0 else { return 0 }
+        guard !isUnrated, configuration.maxRating > 0 else { return 0 }
         return animatedRating / configuration.maxRating
     }
 
@@ -254,9 +264,11 @@ import SwiftUI
     }
 
     private var accessibilityLabel: String {
-        String(format: "Rating: %.1f out of %.0f",
-               clampedRating,
-               configuration.maxRating)
+        guard let clampedRating else { return String(localized: "Not rated") }
+
+        return String(format: "Rating: %.1f out of %.0f",
+                      clampedRating,
+                      configuration.maxRating)
     }
 
     private var ratingColor: Color {
@@ -282,11 +294,45 @@ import SwiftUI
                 Spacer()
 
                 ARCRatingView(rating: 8.5, style: style)
+
+                ARCRatingView(rating: nil, style: style)
             }
             .padding(.horizontal)
         }
     }
     .padding()
+}
+
+/// Side-by-side unrated / zero / high ratings, used to check the blue "?" contrast
+/// against a grouped background in both color schemes.
+@available(iOS 17.0, macOS 14.0, *) private struct ARCRatingUnratedPreview: View {
+    var body: some View {
+        VStack(spacing: .arcSpacingXLarge) {
+            HStack(spacing: .arcSpacingLarge) {
+                ARCRatingView(rating: nil)
+                ARCRatingView(rating: 0)
+                ARCRatingView(rating: 9.5)
+            }
+
+            HStack(spacing: .arcSpacingLarge) {
+                ARCRatingView(rating: nil, style: .compactInline)
+                ARCRatingView(rating: nil, style: .minimal)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.background.secondary)
+    }
+}
+
+#Preview("Unrated - Light") {
+    ARCRatingUnratedPreview()
+        .preferredColorScheme(.light)
+}
+
+#Preview("Unrated - Dark") {
+    ARCRatingUnratedPreview()
+        .preferredColorScheme(.dark)
 }
 
 #Preview("Circular Gauge - All Ratings") {
