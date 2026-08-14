@@ -71,11 +71,11 @@ import SwiftUI
     /// Adds a rating overlay to the view
     ///
     /// - Parameters:
-    ///   - rating: The rating value
+    ///   - rating: The rating value, or `nil` when unrated
     ///   - style: Visual style
     ///   - alignment: Position of the rating
     /// - Returns: View with rating overlay
-    public func ratingOverlay(_ rating: Double,
+    public func ratingOverlay(_ rating: Double?,
                               style: ARCRatingStyle = .minimal,
                               alignment: Alignment = .topTrailing) -> some View {
         overlay(alignment: alignment) {

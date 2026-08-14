@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **ARCRatingView unrated state**: `rating` is now `Double?`. A `nil` rating renders a
+  blue `"?"` in all three styles (`.circularGauge`, `.compactInline`, `.minimal`) with an
+  empty progress track and a "Not rated" accessibility label, so "no rating" is visually
+  distinct from a genuine rating of `0`. Source-compatible — `Double` promotes to `Double?`,
+  so existing call sites are unchanged.
+- **ARCRatingColorMapper unrated support**: `color(for:maxRating:)`, `gradient(for:maxRating:)`,
+  and `formatted(_:)` accept `Double?`. New `unratedPlaceholder` (`"?"`) and `unratedColor`
+  (blue, deliberately off the red-to-green quality scale) constants.
+- **ratingOverlay(_:style:alignment:)**: Accepts `Double?` for the same unrated rendering.
+- **ARCRatingViewShowcase**: New "Unrated" section contrasting `nil` against a rating of `0`.
+
 ### Changed
 - **ARCFavoriteButton prominent style**: Added an opt-in `.prominent` visual treatment
   for card-image overlays, with an adaptive circular material plate, stroke, shadow,

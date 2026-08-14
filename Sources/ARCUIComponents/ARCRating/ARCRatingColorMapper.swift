@@ -31,15 +31,33 @@ import SwiftUI
 /// let gradient = ARCRatingColorMapper.gradient(for: 8.5, maxRating: 10)
 /// let text = ARCRatingColorMapper.formatted(8.5) // "8.5"
 /// let text2 = ARCRatingColorMapper.formatted(9.0) // "9"
+/// let text3 = ARCRatingColorMapper.formatted(nil) // "?"
 /// ```
+///
+/// ## Unrated
+///
+/// A `nil` rating is a first-class state, distinct from a rating of `0`.
+/// It renders as `"?"` in blue — deliberately off the red-to-green quality
+/// scale, so "no data" never reads as "bad".
 @available(iOS 17.0, macOS 14.0, *) public enum ARCRatingColorMapper {
+    /// Placeholder rendered in every rating style when no rating exists
+    public static let unratedPlaceholder = "?"
+
+    /// Color for the unrated state
+    ///
+    /// Deliberately blue — off the red-to-green quality scale — so a missing
+    /// rating never reads as a bad one.
+    public static let unratedColor = Color.blue
+
     /// Returns a semantic color based on the rating's percentage of the maximum
     ///
     /// - Parameters:
-    ///   - rating: The rating value
+    ///   - rating: The rating value, or `nil` when unrated
     ///   - maxRating: The maximum possible rating (default: `10.0`)
-    /// - Returns: A color representing the rating quality
-    public static func color(for rating: Double, maxRating: Double = 10.0) -> Color {
+    /// - Returns: A color representing the rating quality, or ``unratedColor`` when `rating` is `nil`
+    public static func color(for rating: Double?, maxRating: Double = 10.0) -> Color {
+        guard let rating else { return unratedColor }
+
         let normalized = maxRating > 0 ? rating / maxRating : 0
 
         switch normalized {
@@ -61,10 +79,16 @@ import SwiftUI
     /// Returns a linear gradient based on the rating's percentage of the maximum
     ///
     /// - Parameters:
-    ///   - rating: The rating value
+    ///   - rating: The rating value, or `nil` when unrated
     ///   - maxRating: The maximum possible rating (default: `10.0`)
-    /// - Returns: A gradient representing the rating quality
-    public static func gradient(for rating: Double, maxRating: Double = 10.0) -> LinearGradient {
+    /// - Returns: A gradient representing the rating quality, or a blue gradient when `rating` is `nil`
+    public static func gradient(for rating: Double?, maxRating: Double = 10.0) -> LinearGradient {
+        guard let rating else {
+            return LinearGradient(colors: [unratedColor, unratedColor.opacity(0.6)],
+                                  startPoint: .topLeading,
+                                  endPoint: .bottomTrailing)
+        }
+
         let normalized = maxRating > 0 ? rating / maxRating : 0
 
         let colors: [Color] =
@@ -90,9 +114,11 @@ import SwiftUI
 
     /// Formats a rating value, showing whole numbers without decimals
     ///
-    /// - Parameter rating: The rating value to format
-    /// - Returns: `"9"` for whole numbers, `"8.5"` for half-steps
-    public static func formatted(_ rating: Double) -> String {
+    /// - Parameter rating: The rating value to format, or `nil` when unrated
+    /// - Returns: `"9"` for whole numbers, `"8.5"` for half-steps, ``unratedPlaceholder`` for `nil`
+    public static func formatted(_ rating: Double?) -> String {
+        guard let rating else { return unratedPlaceholder }
+
         if rating.truncatingRemainder(dividingBy: 1) == 0 {
             return String(format: "%.0f", rating)
         }

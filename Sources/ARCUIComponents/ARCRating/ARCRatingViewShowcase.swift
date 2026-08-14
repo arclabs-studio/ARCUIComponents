@@ -27,6 +27,7 @@ import SwiftUI
         ScrollView {
             VStack(spacing: .arcSpacingXXLarge) {
                 allStylesSection
+                unratedSection
                 circularGaugeSection
                 compactInlineSection
                 minimalSection
@@ -74,6 +75,37 @@ import SwiftUI
             Spacer()
 
             ARCRatingView(rating: 8.5, style: style)
+        }
+    }
+
+    // MARK: - Unrated Section
+
+    private var unratedSection: some View {
+        VStack(alignment: .leading, spacing: .arcSpacingLarge) {
+            sectionHeader("Unrated", subtitle: "A nil rating renders \"?\" — distinct from a rating of 0")
+
+            HStack(spacing: .arcSpacingLarge) {
+                ForEach(ARCRatingStyle.allCases, id: \.self) { style in
+                    VStack(spacing: .arcSpacingSmall) {
+                        ARCRatingView(rating: nil, style: style)
+
+                        Text("nil")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                VStack(spacing: .arcSpacingSmall) {
+                    ARCRatingView(rating: 0, style: .circularGauge)
+
+                    Text("0")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(cardBackground)
         }
     }
 

@@ -13,7 +13,6 @@ import Testing
 ///
 /// Validates that the shared color mapping, gradient mapping, and
 /// formatting logic works correctly at all boundary thresholds.
-@Suite("ARCRatingColorMapper Tests")
 struct ARCRatingColorMapperTests {
     // MARK: - Color Tests
 
@@ -148,5 +147,44 @@ struct ARCRatingColorMapperTests {
 
     @Test("gradient_withCustomMaxRating_returnsGradient") func gradient_withCustomMaxRating_returnsGradient() {
         let _: LinearGradient = ARCRatingColorMapper.gradient(for: 2.0, maxRating: 5.0)
+    }
+
+    // MARK: - Unrated Tests
+
+    @Test("color_forNilRating_returnsUnratedBlue") func color_forNilRating_returnsUnratedBlue() {
+        // Given: no rating at all
+        let color = ARCRatingColorMapper.color(for: nil)
+
+        // Then: blue, off the red-to-green quality scale
+        #expect(color == ARCRatingColorMapper.unratedColor)
+        #expect(color == .blue)
+    }
+
+    @Test("color_forZeroRating_isNotUnratedColor") func color_forZeroRating_isNotUnratedColor() {
+        // Given: a genuine rating of 0, which is not the same as unrated
+        let color = ARCRatingColorMapper.color(for: 0.0)
+
+        // Then
+        #expect(color == .red)
+        #expect(color != ARCRatingColorMapper.unratedColor)
+    }
+
+    @Test("gradient_forNilRating_returnsBlueGradient") func gradient_forNilRating_returnsBlueGradient() {
+        // Given / When: LinearGradient is not Equatable, so verify it is produced without crashing
+        let _: LinearGradient = ARCRatingColorMapper.gradient(for: nil)
+    }
+
+    @Test("formatted_forNilRating_returnsQuestionMark") func formatted_forNilRating_returnsQuestionMark() {
+        // Given / When
+        let formatted = ARCRatingColorMapper.formatted(nil)
+
+        // Then
+        #expect(formatted == "?")
+        #expect(formatted == ARCRatingColorMapper.unratedPlaceholder)
+    }
+
+    @Test("formatted_forZeroRating_returnsZero") func formatted_forZeroRating_returnsZero() {
+        // Given / When: a real 0 stays a 0, never the unrated placeholder
+        #expect(ARCRatingColorMapper.formatted(0.0) == "0")
     }
 }
