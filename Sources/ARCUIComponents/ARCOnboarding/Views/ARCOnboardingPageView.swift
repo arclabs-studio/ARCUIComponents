@@ -45,9 +45,12 @@ import SwiftUI
             VStack(spacing: contentSpacing) {
                 imageSection(height: geometry.size.height * configuration.imageHeight)
 
-                textSection
-
-                Spacer(minLength: 0)
+                // Scrollable so large Dynamic Type sizes never truncate;
+                // inert at standard sizes thanks to `.basedOnSize`.
+                ScrollView {
+                    textSection
+                }
+                .scrollBounceBehavior(.basedOnSize)
             }
             .padding(.horizontal, 32)
         }
@@ -139,7 +142,6 @@ import SwiftUI
                 .font(configuration.subtitleFont)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-                .lineLimit(4)
         }
         .opacity(textOpacity)
     }
