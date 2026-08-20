@@ -28,8 +28,7 @@ import SwiftUI
 ///     inputType: .singleChoice
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct AIRecommenderQuestion: Identifiable, Sendable, Equatable, Hashable {
+@available(iOS 17.0, macOS 14.0, *) public struct AIRecommenderQuestion: Identifiable, Sendable, Equatable, Hashable {
     // MARK: - Properties
 
     /// Unique identifier for the question
@@ -53,17 +52,20 @@ public struct AIRecommenderQuestion: Identifiable, Sendable, Equatable, Hashable
     /// Optional SF Symbol icon for the question
     public let icon: String?
 
+    /// Placeholder for an optional free-text field rendered under the options.
+    /// `nil` (the default) renders no field — fully backwards compatible.
+    public let freeTextPlaceholder: String?
+
     // MARK: - Initialization
 
-    public init(
-        id: String,
-        text: String,
-        subtitle: String? = nil,
-        options: [Option],
-        inputType: InputType = .singleChoice,
-        isRequired: Bool = false,
-        icon: String? = nil
-    ) {
+    public init(id: String,
+                text: String,
+                subtitle: String? = nil,
+                options: [Option],
+                inputType: InputType = .singleChoice,
+                isRequired: Bool = false,
+                icon: String? = nil,
+                freeTextPlaceholder: String? = nil) {
         self.id = id
         self.text = text
         self.subtitle = subtitle
@@ -71,13 +73,13 @@ public struct AIRecommenderQuestion: Identifiable, Sendable, Equatable, Hashable
         self.inputType = inputType
         self.isRequired = isRequired
         self.icon = icon
+        self.freeTextPlaceholder = freeTextPlaceholder
     }
 }
 
 // MARK: - Input Type
 
-@available(iOS 17.0, macOS 14.0, *)
-extension AIRecommenderQuestion {
+@available(iOS 17.0, macOS 14.0, *) extension AIRecommenderQuestion {
     /// The type of input for a question
     public enum InputType: String, Sendable, Equatable, Hashable {
         /// User selects exactly one option
@@ -93,8 +95,7 @@ extension AIRecommenderQuestion {
 
 // MARK: - Option
 
-@available(iOS 17.0, macOS 14.0, *)
-extension AIRecommenderQuestion {
+@available(iOS 17.0, macOS 14.0, *) extension AIRecommenderQuestion {
     /// An answer option for a question
     public struct Option: Identifiable, Sendable, Equatable, Hashable {
         /// Unique identifier for the option
@@ -112,13 +113,11 @@ extension AIRecommenderQuestion {
         /// Optional color for visual styling
         public let color: Color?
 
-        public init(
-            id: String,
-            label: String,
-            icon: String? = nil,
-            description: String? = nil,
-            color: Color? = nil
-        ) {
+        public init(id: String,
+                    label: String,
+                    icon: String? = nil,
+                    description: String? = nil,
+                    color: Color? = nil) {
             self.id = id
             self.label = label
             self.icon = icon

@@ -21,16 +21,12 @@ import SwiftUI
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("With Label") {
     VStack(spacing: 20) {
-        ARCTextField(
-            "Enter email",
-            text: .constant(""),
-            configuration: .email
-        )
-        ARCTextField(
-            "Enter email",
-            text: .constant("john@example.com"),
-            configuration: .email
-        )
+        ARCTextField("Enter email",
+                     text: .constant(""),
+                     configuration: .email)
+        ARCTextField("Enter email",
+                     text: .constant("john@example.com"),
+                     configuration: .email)
     }
     .padding()
 }
@@ -48,12 +44,10 @@ import SwiftUI
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Glass Style") {
     ZStack {
-        LinearGradient(
-            colors: [.purple, .blue, .cyan],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
+        LinearGradient(colors: [.purple, .blue, .cyan],
+                       startPoint: .topLeading,
+                       endPoint: .bottomTrailing)
+            .ignoresSafeArea()
 
         VStack(spacing: 20) {
             ARCTextField("Search", text: .constant(""), configuration: .glass)

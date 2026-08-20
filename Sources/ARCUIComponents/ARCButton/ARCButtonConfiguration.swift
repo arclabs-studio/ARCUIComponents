@@ -41,8 +41,7 @@ import SwiftUI
 /// - ``small``
 /// - ``large``
 /// - ``iconOnly``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCButtonConfiguration: LiquidGlassConfigurable, Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCButtonConfiguration: LiquidGlassConfigurable, Sendable {
     // MARK: - Style
 
     /// Visual styles for action buttons
@@ -169,19 +168,17 @@ public struct ARCButtonConfiguration: LiquidGlassConfigurable, Sendable {
     ///   - loadingIndicatorColor: Loading spinner color (default: auto)
     ///   - cornerRadius: Corner radius (default: 12)
     ///   - shadow: Shadow configuration (default: .subtle)
-    public init(
-        style: Style = .filled,
-        size: Size = .medium,
-        color: Color = .accentColor,
-        textColor: Color? = nil,
-        isFullWidth: Bool = false,
-        isDisabled: Bool = false,
-        pressedScale: CGFloat = 0.97,
-        hapticFeedback: Bool = true,
-        loadingIndicatorColor: Color? = nil,
-        cornerRadius: CGFloat = 12,
-        shadow: ARCShadow = .subtle
-    ) {
+    public init(style: Style = .filled,
+                size: Size = .medium,
+                color: Color = .accentColor,
+                textColor: Color? = nil,
+                isFullWidth: Bool = false,
+                isDisabled: Bool = false,
+                pressedScale: CGFloat = 0.97,
+                hapticFeedback: Bool = true,
+                loadingIndicatorColor: Color? = nil,
+                cornerRadius: CGFloat = 12,
+                shadow: ARCShadow = .subtle) {
         self.style = style
         self.size = size
         self.color = color
@@ -204,65 +201,49 @@ public struct ARCButtonConfiguration: LiquidGlassConfigurable, Sendable {
     /// Use for the most likely action in a view.
     /// Per Apple HIG: "Use a button that has a prominent visual style
     /// for the most likely action in a view."
-    public static let primary = ARCButtonConfiguration(
-        style: .filled,
-        color: .accentColor
-    )
+    public static let primary = ARCButtonConfiguration(style: .filled,
+                                                       color: .accentColor)
 
     /// Secondary outlined button
     ///
     /// Use for secondary actions that need visibility.
-    public static let secondary = ARCButtonConfiguration(
-        style: .outlined,
-        color: .accentColor,
-        shadow: .none
-    )
+    public static let secondary = ARCButtonConfiguration(style: .outlined,
+                                                         color: .accentColor,
+                                                         shadow: .none)
 
     /// Destructive red button
     ///
     /// Use for actions that result in data destruction.
     /// Per Apple HIG: "Don't assign the primary role to a button
     /// that performs a destructive action."
-    public static let destructive = ARCButtonConfiguration(
-        style: .filled,
-        color: .red
-    )
+    public static let destructive = ARCButtonConfiguration(style: .filled,
+                                                           color: .red)
 
     /// Ghost button with no background
     ///
     /// Use for tertiary actions or compact spaces.
-    public static let ghost = ARCButtonConfiguration(
-        style: .ghost,
-        color: .accentColor,
-        shadow: .none
-    )
+    public static let ghost = ARCButtonConfiguration(style: .ghost,
+                                                     color: .accentColor,
+                                                     shadow: .none)
 
     /// Liquid glass effect button
     ///
     /// Use for premium, floating UI elements.
-    public static let glass = ARCButtonConfiguration(
-        style: .glass,
-        color: .primary,
-        shadow: .default
-    )
+    public static let glass = ARCButtonConfiguration(style: .glass,
+                                                     color: .primary,
+                                                     shadow: .default)
 
     // MARK: - Size Presets
 
     /// Small button preset (32pt height)
-    public static let small = ARCButtonConfiguration(
-        size: .small
-    )
+    public static let small = ARCButtonConfiguration(size: .small)
 
     /// Large button preset (56pt height)
-    public static let large = ARCButtonConfiguration(
-        size: .large
-    )
+    public static let large = ARCButtonConfiguration(size: .large)
 
     /// Square icon-only button
-    public static let iconOnly = ARCButtonConfiguration(
-        style: .filled,
-        size: .medium
-    )
+    public static let iconOnly = ARCButtonConfiguration(style: .filled,
+                                                        size: .medium)
 
     // MARK: - Computed Properties
 

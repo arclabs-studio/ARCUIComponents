@@ -11,8 +11,7 @@ import SwiftUI
 /// Demo screen for ARCTag component.
 ///
 /// Shows static label tags with various styles, colors, and configurations.
-@available(iOS 17.0, *)
-struct ARCTagDemoScreen: View {
+@available(iOS 17.0, *) struct ARCTagDemoScreen: View {
     // MARK: - Body
 
     var body: some View {
@@ -21,6 +20,7 @@ struct ARCTagDemoScreen: View {
                 stylesSection
                 iconsSection
                 colorsSection
+                customTextColorsSection
                 realWorldExamplesSection
             }
             .padding()
@@ -34,8 +34,7 @@ struct ARCTagDemoScreen: View {
 
 // MARK: - Private Views
 
-@available(iOS 17.0, *)
-extension ARCTagDemoScreen {
+@available(iOS 17.0, *) extension ARCTagDemoScreen {
     // MARK: - Styles Section
 
     private var stylesSection: some View {
@@ -76,11 +75,9 @@ extension ARCTagDemoScreen {
         }
     }
 
-    private func styleRow(
-        _ title: String,
-        description: String,
-        @ViewBuilder content: () -> some View
-    ) -> some View {
+    private func styleRow(_ title: String,
+                          description: String,
+                          @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -114,27 +111,21 @@ extension ARCTagDemoScreen {
 
                 iconRow("Trailing Icons", description: "Icon after text") {
                     HStack(spacing: 8) {
-                        ARCTag(
-                            "Verified",
-                            icon: "checkmark.seal.fill",
-                            configuration: .init(color: .blue, iconPosition: .trailing)
-                        )
-                        ARCTag(
-                            "Premium",
-                            icon: "star.fill",
-                            configuration: .init(color: .yellow, iconPosition: .trailing)
-                        )
+                        ARCTag("Verified",
+                               icon: "checkmark.seal.fill",
+                               configuration: .init(color: .blue, iconPosition: .trailing))
+                        ARCTag("Premium",
+                               icon: "star.fill",
+                               configuration: .init(color: .yellow, iconPosition: .trailing))
                     }
                 }
             }
         }
     }
 
-    private func iconRow(
-        _ title: String,
-        description: String,
-        @ViewBuilder content: () -> some View
-    ) -> some View {
+    private func iconRow(_ title: String,
+                         description: String,
+                         @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
@@ -182,6 +173,38 @@ extension ARCTagDemoScreen {
             .frame(maxWidth: .infinity)
             .padding()
             .background(Color.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 12))
+        }
+    }
+
+    // MARK: - Custom Text Colors Section
+
+    private var customTextColorsSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            sectionHeader("Custom Text Colors", subtitle: "Override text and icon colors")
+
+            VStack(spacing: 16) {
+                styleRow("Text Color", description: "Custom foreground on filled tags") {
+                    HStack(spacing: 8) {
+                        ARCTag("Gold + Black",
+                               configuration: .init(style: .filled, color: .yellow, textColor: .black))
+                        ARCTag("Mint + Dark",
+                               configuration: .init(style: .filled, color: .mint, textColor: .black))
+                    }
+                }
+
+                styleRow("Icon Color", description: "Separate icon tint from text") {
+                    HStack(spacing: 8) {
+                        ARCTag("Japonesa",
+                               icon: "fork.knife",
+                               configuration: .init(style: .filled, color: .yellow, textColor: .black,
+                                                    iconColor: .orange))
+                        ARCTag("Organic",
+                               icon: "leaf.fill",
+                               configuration: .init(style: .filled, color: .green, textColor: .white,
+                                                    iconColor: .yellow))
+                    }
+                }
+            }
         }
     }
 
@@ -235,10 +258,8 @@ extension ARCTagDemoScreen {
         }
     }
 
-    private func exampleSection(
-        _ title: String,
-        @ViewBuilder content: () -> some View
-    ) -> some View {
+    private func exampleSection(_ title: String,
+                                @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.subheadline)
@@ -263,8 +284,7 @@ extension ARCTagDemoScreen {
 
 // MARK: - FlowLayout for Demo
 
-@available(iOS 17.0, *)
-private struct FlowLayoutDemo: Layout {
+@available(iOS 17.0, *) private struct FlowLayoutDemo: Layout {
     var spacing: CGFloat = 8
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
@@ -276,10 +296,8 @@ private struct FlowLayoutDemo: Layout {
         let result = arrange(proposal: proposal, subviews: subviews)
 
         for (index, position) in result.positions.enumerated() {
-            subviews[index].place(
-                at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
-                proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified))
-            )
+            subviews[index].place(at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
+                                  proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified)))
         }
     }
 

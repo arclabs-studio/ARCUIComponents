@@ -64,8 +64,7 @@ import SwiftUI
 ///     )
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCSegmentedControlConfiguration: Sendable, LiquidGlassConfigurable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCSegmentedControlConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Style
 
     /// Visual style variants for the segmented control
@@ -208,21 +207,19 @@ public struct ARCSegmentedControlConfiguration: Sendable, LiquidGlassConfigurabl
     ///   - backgroundStyle: Background style (default: .translucent)
     ///   - cornerRadius: Corner radius (default: 8)
     ///   - shadow: Shadow configuration (default: .none)
-    public init(
-        style: Style = .filled,
-        size: Size = .medium,
-        segmentWidth: SegmentWidth = .equal,
-        selectedColor: Color = .white,
-        unselectedColor: Color = .secondary,
-        selectedTextColor: Color = .primary,
-        backgroundColor: Color = .gray.opacity(0.15),
-        animated: Bool = true,
-        hapticFeedback: Bool = true,
-        accentColor: Color = .blue,
-        backgroundStyle: ARCBackgroundStyle = .translucent,
-        cornerRadius: CGFloat = 8,
-        shadow: ARCShadow = .none
-    ) {
+    public init(style: Style = .filled,
+                size: Size = .medium,
+                segmentWidth: SegmentWidth = .equal,
+                selectedColor: Color = .white,
+                unselectedColor: Color = .secondary,
+                selectedTextColor: Color = .primary,
+                backgroundColor: Color = .gray.opacity(0.15),
+                animated: Bool = true,
+                hapticFeedback: Bool = true,
+                accentColor: Color = .blue,
+                backgroundStyle: ARCBackgroundStyle = .translucent,
+                cornerRadius: CGFloat = 8,
+                shadow: ARCShadow = .none) {
         self.style = style
         self.size = size
         self.segmentWidth = segmentWidth
@@ -256,57 +253,45 @@ public struct ARCSegmentedControlConfiguration: Sendable, LiquidGlassConfigurabl
     public static let `default` = ARCSegmentedControlConfiguration()
 
     /// Outlined style with border
-    public static let outlined = ARCSegmentedControlConfiguration(
-        style: .outlined,
-        selectedColor: .accentColor,
-        unselectedColor: .secondary,
-        selectedTextColor: .accentColor,
-        backgroundColor: .clear,
-        cornerRadius: 8
-    )
+    public static let outlined = ARCSegmentedControlConfiguration(style: .outlined,
+                                                                  selectedColor: .accentColor,
+                                                                  unselectedColor: .secondary,
+                                                                  selectedTextColor: .accentColor,
+                                                                  backgroundColor: .clear,
+                                                                  cornerRadius: 8)
 
     /// Liquid glass effect style
-    public static let glass = ARCSegmentedControlConfiguration(
-        style: .glass,
-        selectedColor: .white.opacity(0.9),
-        unselectedColor: .primary.opacity(0.6),
-        selectedTextColor: .primary,
-        backgroundColor: .clear,
-        backgroundStyle: .liquidGlass,
-        cornerRadius: 12,
-        shadow: .subtle
-    )
+    public static let glass = ARCSegmentedControlConfiguration(style: .glass,
+                                                               selectedColor: .white.opacity(0.9),
+                                                               unselectedColor: .primary.opacity(0.6),
+                                                               selectedTextColor: .primary,
+                                                               backgroundColor: .clear,
+                                                               backgroundStyle: .liquidGlass,
+                                                               cornerRadius: 12,
+                                                               shadow: .subtle)
 
     /// Tab-like underlined style
-    public static let underlined = ARCSegmentedControlConfiguration(
-        style: .underlined,
-        selectedColor: .accentColor,
-        unselectedColor: .secondary,
-        selectedTextColor: .accentColor,
-        backgroundColor: .clear,
-        cornerRadius: 0
-    )
+    public static let underlined = ARCSegmentedControlConfiguration(style: .underlined,
+                                                                    selectedColor: .accentColor,
+                                                                    unselectedColor: .secondary,
+                                                                    selectedTextColor: .accentColor,
+                                                                    backgroundColor: .clear,
+                                                                    cornerRadius: 0)
 
     /// Pill-shaped compact style
-    public static let pill = ARCSegmentedControlConfiguration(
-        style: .filled,
-        size: .small,
-        selectedColor: .accentColor,
-        unselectedColor: .secondary,
-        selectedTextColor: .white,
-        backgroundColor: .gray.opacity(0.15),
-        cornerRadius: 14
-    )
+    public static let pill = ARCSegmentedControlConfiguration(style: .filled,
+                                                              size: .small,
+                                                              selectedColor: .accentColor,
+                                                              unselectedColor: .secondary,
+                                                              selectedTextColor: .white,
+                                                              backgroundColor: .gray.opacity(0.15),
+                                                              cornerRadius: 14)
 
     /// Large prominent style
-    public static let large = ARCSegmentedControlConfiguration(
-        size: .large,
-        cornerRadius: 12
-    )
+    public static let large = ARCSegmentedControlConfiguration(size: .large,
+                                                               cornerRadius: 12)
 
     /// Small compact style
-    public static let small = ARCSegmentedControlConfiguration(
-        size: .small,
-        cornerRadius: 6
-    )
+    public static let small = ARCSegmentedControlConfiguration(size: .small,
+                                                               cornerRadius: 6)
 }

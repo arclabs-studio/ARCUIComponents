@@ -44,8 +44,7 @@ import SwiftUI
 ///     presentUpgrade()
 /// }
 /// ```
-@available(iOS 17.0, *)
-public struct ARCEmptyState: View {
+@available(iOS 17.0, *) public struct ARCEmptyState: View {
     // MARK: - Properties
 
     private let configuration: ARCEmptyStateConfiguration
@@ -62,10 +61,8 @@ public struct ARCEmptyState: View {
     /// - Parameters:
     ///   - configuration: Visual and content configuration
     ///   - action: Action when the button is tapped (requires `showsAction: true`)
-    public init(
-        configuration: ARCEmptyStateConfiguration,
-        action: (() -> Void)? = nil
-    ) {
+    public init(configuration: ARCEmptyStateConfiguration,
+                action: (() -> Void)? = nil) {
         self.configuration = configuration
         self.action = action
     }
@@ -81,25 +78,21 @@ public struct ARCEmptyState: View {
     ///   - showsAction: Show action button (default: `false`)
     ///   - accentColor: Button accent color (default: `.blue`)
     ///   - action: Action when the button is tapped
-    public init(
-        icon: String,
-        iconColor: Color = .secondary,
-        title: String,
-        message: String,
-        actionTitle: String = "Get Started",
-        showsAction: Bool = false,
-        accentColor: Color = .blue,
-        action: (() -> Void)? = nil
-    ) {
-        configuration = ARCEmptyStateConfiguration(
-            icon: icon,
-            iconColor: iconColor,
-            title: title,
-            message: message,
-            actionTitle: actionTitle,
-            showsAction: showsAction,
-            accentColor: accentColor
-        )
+    public init(icon: String,
+                iconColor: Color = .secondary,
+                title: String,
+                message: String,
+                actionTitle: String = "Get Started",
+                showsAction: Bool = false,
+                accentColor: Color = .blue,
+                action: (() -> Void)? = nil) {
+        configuration = ARCEmptyStateConfiguration(icon: icon,
+                                                   iconColor: iconColor,
+                                                   title: title,
+                                                   message: message,
+                                                   actionTitle: actionTitle,
+                                                   showsAction: showsAction,
+                                                   accentColor: accentColor)
         self.action = action
     }
 
@@ -119,11 +112,11 @@ public struct ARCEmptyState: View {
     // MARK: - Native ContentUnavailableView
 
     /// Uses native SwiftUI when no ARC-specific customizations are needed.
-    @ViewBuilder private var nativeContentUnavailableView: some View {
+    private var nativeContentUnavailableView: some View {
         ContentUnavailableView {
-            Label(configuration.title, systemImage: configuration.icon)
+            Label(LocalizedStringKey(configuration.title), systemImage: configuration.icon)
         } description: {
-            Text(configuration.message)
+            Text(LocalizedStringKey(configuration.message))
         }
     }
 
@@ -142,7 +135,7 @@ public struct ARCEmptyState: View {
 
     // MARK: - Custom ARC View
 
-    @ViewBuilder private var customARCView: some View {
+    private var customARCView: some View {
         VStack(spacing: configuration.spacing) {
             iconView
             textContent
@@ -152,7 +145,7 @@ public struct ARCEmptyState: View {
         .modifier(GlassBackgroundModifier(configuration: configuration))
     }
 
-    @ViewBuilder private var iconView: some View {
+    private var iconView: some View {
         Image(systemName: configuration.icon)
             .font(.system(size: iconSize))
             .foregroundStyle(configuration.iconColor.gradient)
@@ -160,14 +153,14 @@ public struct ARCEmptyState: View {
             .accessibilityHidden(true)
     }
 
-    @ViewBuilder private var textContent: some View {
+    private var textContent: some View {
         VStack(spacing: .arcSpacingSmall) {
-            Text(configuration.title)
+            Text(LocalizedStringKey(configuration.title))
                 .font(.title2.bold())
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.center)
 
-            Text(configuration.message)
+            Text(LocalizedStringKey(configuration.message))
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -179,19 +172,17 @@ public struct ARCEmptyState: View {
     @ViewBuilder private var actionButton: some View {
         if configuration.showsAction, let action {
             Button(action: action) {
-                Text(configuration.actionTitle)
+                Text(LocalizedStringKey(configuration.actionTitle))
                     .font(.headline)
                     .foregroundStyle(.white)
                     .padding(.horizontal, .arcSpacingXLarge)
                     .padding(.vertical, .arcSpacingMedium)
-                    .background(
-                        Capsule()
-                            .fill(configuration.accentColor.gradient)
-                    )
+                    .background(Capsule()
+                        .fill(configuration.accentColor.gradient))
             }
             .buttonStyle(.plain)
             .padding(.top, .arcSpacingSmall)
-            .accessibilityLabel(configuration.actionTitle)
+            .accessibilityLabel(Text(LocalizedStringKey(configuration.actionTitle)))
             .accessibilityHint("Tap to \(configuration.actionTitle.lowercased())")
         }
     }
@@ -225,8 +216,7 @@ public struct ARCEmptyState: View {
 
 // MARK: - Glass Background Modifier
 
-@available(iOS 17.0, macOS 14.0, *)
-private struct GlassBackgroundModifier: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *) private struct GlassBackgroundModifier: ViewModifier {
     let configuration: ARCEmptyStateConfiguration
 
     func body(content: Content) -> some View {

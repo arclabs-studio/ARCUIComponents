@@ -80,15 +80,65 @@ ARCAIRecommender(
 }
 ```
 
+## AI Glow Border Effect
+
+The focused card in the card stack displays an animated glowing border to visually distinguish AI-generated content. The effect includes:
+
+- **Rotating gradient border**: A slowly spinning angular gradient (gold/amber tones) that creates ambient light around the card edge
+- **Outer glow layer**: A blurred, diffuse version of the gradient for a soft halo
+- **Sparkle particles**: Floating 4-point star shapes along the card perimeter that fade in and out at staggered intervals
+
+### Configuration
+
+Control the effect through three configuration properties:
+
+```swift
+let config = ARCAIRecommenderConfiguration(
+    showGlowEffect: true,       // Enable/disable the glow border
+    glowIntensity: .subtle,     // .subtle | .standard | .prominent
+    showSparkles: true          // Enable/disable sparkle particles
+)
+```
+
+### Standalone Usage
+
+The glow border modifier can be used independently on any view:
+
+```swift
+MyCardView()
+    .aiGlowBorder(
+        isActive: isFocused,
+        cornerRadius: 16,
+        accentColor: .orange,
+        intensity: .standard,
+        showSparkles: true
+    )
+```
+
+### Accessibility
+
+- **Reduce Motion**: When enabled, the gradient becomes static (no rotation) and sparkles are hidden entirely
+- The effect is purely decorative and is marked with `accessibilityHidden(true)`
+- Only one glow Canvas is active at a time (the focused card), minimizing performance impact
+
+### Preset Behavior
+
+| Preset | Glow | Sparkles |
+|--------|------|----------|
+| `.default` | On | On |
+| `.minimal` | Off | Off |
+| `.compact` | On | Off |
+| `.list` | On | Off |
+
 ## Configuration Presets
 
 ARCAIRecommender includes five configuration presets:
 
-- **Default**: Amber accent with AI/Intelligence styling
+- **Default**: Amber accent with AI/Intelligence styling, glow effect enabled
 - **Restaurant**: Orange accent for food-related apps (FavRes)
 - **Books**: Blue accent for reading applications (FavBook)
-- **Minimal**: No rank badges or AI reasons
-- **Compact**: Reduced visual complexity
+- **Minimal**: No rank badges, AI reasons, or glow effect
+- **Compact**: Reduced visual complexity, glow without sparkles
 
 ```swift
 // Use a preset
@@ -103,7 +153,9 @@ let config = ARCAIRecommenderConfiguration(
     title: "My Recommender",
     accentColor: .purple,
     showRankBadges: true,
-    showAIReason: true
+    showAIReason: true,
+    showGlowEffect: true,
+    glowIntensity: .standard
 )
 ```
 
@@ -222,13 +274,20 @@ ARCAIRecommender/
 │   ├── AIRecommenderCategory.swift     # Predefined + custom categories
 │   ├── AIRecommenderItem.swift         # Protocol for items
 │   ├── AIRecommenderQuestion.swift     # Question model
-│   └── AIRecommenderAnswers.swift      # User responses
+│   ├── AIRecommenderAnswers.swift      # User responses
+│   └── AIGlowIntensity.swift          # Glow effect intensity levels
 └── Views/
     ├── AIRecommenderHeader.swift       # Hero section
     ├── AIRecommenderCategoryPicker.swift # Category pills
     ├── AIRecommenderItemCard.swift     # Recommendation card
+    ├── AIRecommenderCardStack.swift    # Peek carousel with glow
+    ├── AIRecommenderSwipeCard.swift    # Rich card for carousel
     ├── AIRecommenderQuestionCard.swift # Question with chips
     └── AIRecommenderQuestionnaire.swift # Full survey
+
+ARCEffects/
+├── AIGlowBorderModifier.swift          # Animated glow border modifier
+└── AISparkleCanvas.swift               # Floating sparkle particles
 ```
 
 ## Topics
@@ -246,6 +305,7 @@ ARCAIRecommender/
 - ``AIRecommenderImageSource``
 - ``AIRecommenderQuestion``
 - ``AIRecommenderAnswers``
+- ``AIGlowIntensity``
 
 ### Examples
 

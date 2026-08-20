@@ -51,11 +51,10 @@ import SwiftUI
 ///     }
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCChip: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCChip: View {
     // MARK: - Properties
 
-    private let text: String
+    private let text: LocalizedStringKey
     private let icon: String?
     @Binding private var isSelected: Bool
     private let configuration: ARCChipConfiguration
@@ -66,23 +65,44 @@ public struct ARCChip: View {
     /// Creates an interactive chip
     ///
     /// - Parameters:
-    ///   - text: The label text
+    ///   - text: The label text as a `LocalizedStringKey`, looked up at render time
     ///   - icon: Optional SF Symbol name
     ///   - isSelected: Binding to selection state
     ///   - configuration: Chip configuration
     ///   - onTap: Optional tap handler (in addition to toggling selection)
-    public init(
-        _ text: String,
-        icon: String? = nil,
-        isSelected: Binding<Bool>,
-        configuration: ARCChipConfiguration = .default,
-        onTap: (() -> Void)? = nil
-    ) {
+    public init(_ text: LocalizedStringKey,
+                icon: String? = nil,
+                isSelected: Binding<Bool>,
+                configuration: ARCChipConfiguration = .default,
+                onTap: (() -> Void)? = nil) {
         self.text = text
         self.icon = icon
         _isSelected = isSelected
         self.configuration = configuration
         self.onTap = onTap
+    }
+
+    /// Creates an interactive chip from a `String` value.
+    ///
+    /// The string is treated as a localization key and resolved at render time,
+    /// so it responds to `.environment(\.locale, ...)` changes.
+    ///
+    /// - Parameters:
+    ///   - text: The label text; treated as a localization key
+    ///   - icon: Optional SF Symbol name
+    ///   - isSelected: Binding to selection state
+    ///   - configuration: Chip configuration
+    ///   - onTap: Optional tap handler (in addition to toggling selection)
+    public init(_ text: String,
+                icon: String? = nil,
+                isSelected: Binding<Bool>,
+                configuration: ARCChipConfiguration = .default,
+                onTap: (() -> Void)? = nil) {
+        self.init(LocalizedStringKey(text),
+                  icon: icon,
+                  isSelected: isSelected,
+                  configuration: configuration,
+                  onTap: onTap)
     }
 
     // MARK: - Body
@@ -118,7 +138,7 @@ public struct ARCChip: View {
             }
         }
         .buttonStyle(.plain)
-        .accessibilityLabel(text)
+        .accessibilityLabel(Text(text))
         .accessibilityValue(isSelected ? "Selected" : "Not selected")
         .accessibilityAddTraits(.isButton)
         .accessibilityHint("Double tap to \(isSelected ? "deselect" : "select")")
@@ -126,33 +146,32 @@ public struct ARCChip: View {
 
     // MARK: - Checkmark View
 
-    @ViewBuilder private var checkmarkView: some View {
+    private var checkmarkView: some View {
         Image(systemName: "checkmark")
             .font(.system(size: configuration.size.iconSize - 2, weight: .semibold))
-            .foregroundStyle(.white)
+            .foregroundStyle(resolvedSelectedTextColor)
             .transition(.scale.combined(with: .opacity))
     }
 
     // MARK: - Icon View
 
-    @ViewBuilder
     private func iconView(_ systemName: String) -> some View {
         Image(systemName: systemName)
             .font(.system(size: configuration.size.iconSize))
-            .foregroundStyle(isSelected ? .white : configuration.unselectedColor)
+            .foregroundStyle(isSelected ? resolvedSelectedTextColor : resolvedUnselectedTextColor)
     }
 
     // MARK: - Text View
 
-    @ViewBuilder private var textView: some View {
+    private var textView: some View {
         Text(text)
             .font(.system(size: configuration.size.fontSize, weight: .medium))
-            .foregroundStyle(isSelected ? .white : .primary)
+            .foregroundStyle(isSelected ? resolvedSelectedTextColor : resolvedUnselectedTextColor)
     }
 
     // MARK: - Dismiss Button
 
-    @ViewBuilder private var dismissButton: some View {
+    private var dismissButton: some View {
         Button {
             withAnimation(.spring(response: 0.25, dampingFraction: 0.7)) {
                 isSelected = false
@@ -161,10 +180,20 @@ public struct ARCChip: View {
         } label: {
             Image(systemName: "xmark")
                 .font(.system(size: configuration.size.iconSize - 4, weight: .semibold))
-                .foregroundStyle(.white.opacity(0.8))
+                .foregroundStyle(resolvedSelectedTextColor.opacity(0.8))
                 .padding(4)
         }
         .buttonStyle(.plain)
+    }
+
+    // MARK: - Resolved Colors
+
+    private var resolvedSelectedTextColor: Color {
+        configuration.selectedTextColor ?? .white
+    }
+
+    private var resolvedUnselectedTextColor: Color {
+        configuration.unselectedTextColor ?? .primary
     }
 
     // MARK: - Background View

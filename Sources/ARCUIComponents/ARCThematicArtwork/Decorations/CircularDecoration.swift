@@ -51,12 +51,10 @@ public struct CircularDecoration: View {
     ///   - radius: The radius as a proportion of the dimension (0-1).
     ///   - dimension: The reference dimension for sizing.
     ///   - elementBuilder: A closure that creates an `DecorationElement` for each index.
-    public init(
-        count: Int,
-        radius: CGFloat,
-        dimension: CGFloat,
-        elementBuilder: @escaping (Int, CGFloat) -> DecorationElement
-    ) {
+    public init(count: Int,
+                radius: CGFloat,
+                dimension: CGFloat,
+                elementBuilder: @escaping (Int, CGFloat) -> DecorationElement) {
         self.count = count
         self.radius = radius
         self.dimension = dimension
@@ -85,16 +83,12 @@ public struct CircularDecoration: View {
             .fill(Color.orange.opacity(0.5))
             .frame(width: 200, height: 200)
 
-        CircularDecoration(
-            count: 6,
-            radius: 0.35,
-            dimension: 200
-        ) { _, dim in
-            DecorationElement.circle(
-                color: .black,
-                diameter: dim * 0.12,
-                opacity: 0.85
-            )
+        CircularDecoration(count: 6,
+                           radius: 0.35,
+                           dimension: 200) { _, dim in
+            DecorationElement.circle(color: .black,
+                                     diameter: dim * 0.12,
+                                     opacity: 0.85)
         }
     }
     .padding()
@@ -106,17 +100,13 @@ public struct CircularDecoration: View {
             .fill(Color.orange.opacity(0.5))
             .frame(width: 200, height: 200)
 
-        CircularDecoration(
-            count: 16,
-            radius: 0.38,
-            dimension: 200
-        ) { index, dim in
-            DecorationElement.circle(
-                color: index.isMultiple(of: 2) ? .red : .green,
-                diameter: dim * 0.08,
-                blur: 0.4,
-                opacity: 0.8
-            )
+        CircularDecoration(count: 16,
+                           radius: 0.38,
+                           dimension: 200) { index, dim in
+            DecorationElement.circle(color: index.isMultiple(of: 2) ? .red : .green,
+                                     diameter: dim * 0.08,
+                                     blur: 0.4,
+                                     opacity: 0.8)
         }
     }
     .padding()
@@ -128,16 +118,12 @@ public struct CircularDecoration: View {
             .fill(Color.orange.opacity(0.5))
             .frame(width: 200, height: 200)
 
-        CircularDecoration(
-            count: 6,
-            radius: 0.18,
-            dimension: 200
-        ) { _, dim in
-            DecorationElement.capsule(
-                color: .black,
-                size: CGSize(width: dim * 0.12, height: dim * 0.52),
-                opacity: 0.85
-            )
+        CircularDecoration(count: 6,
+                           radius: 0.18,
+                           dimension: 200) { _, dim in
+            DecorationElement.capsule(color: .black,
+                                      size: CGSize(width: dim * 0.12, height: dim * 0.52),
+                                      opacity: 0.85)
         }
     }
     .padding()

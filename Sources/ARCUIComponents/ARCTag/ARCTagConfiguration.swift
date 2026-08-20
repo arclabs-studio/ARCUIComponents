@@ -35,8 +35,7 @@ import SwiftUI
 /// - ``category``
 /// - ``status``
 /// - ``glass``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCTagConfiguration: Sendable, LiquidGlassConfigurable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCTagConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Size
 
     /// Size variants for tags
@@ -138,6 +137,9 @@ public struct ARCTagConfiguration: Sendable, LiquidGlassConfigurable {
     /// Text color (auto-calculated if nil)
     public let textColor: Color?
 
+    /// Icon color (falls back to textColor if nil)
+    public let iconColor: Color?
+
     /// Icon position relative to text
     public let iconPosition: IconPosition
 
@@ -164,26 +166,27 @@ public struct ARCTagConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - style: Visual style (default: .subtle)
     ///   - color: Primary color (default: .blue)
     ///   - textColor: Text color, auto-calculated if nil
+    ///   - iconColor: Icon color, falls back to textColor if nil
     ///   - iconPosition: Icon position (default: .leading)
     ///   - accentColor: Accent for glass effect (default: .blue)
     ///   - backgroundStyle: Background style (default: .translucent)
     ///   - cornerRadius: Corner radius (default: 0 for capsule)
     ///   - shadow: Shadow configuration (default: .none)
-    public init(
-        size: Size = .medium,
-        style: Style = .subtle,
-        color: Color = .blue,
-        textColor: Color? = nil,
-        iconPosition: IconPosition = .leading,
-        accentColor: Color = .blue,
-        backgroundStyle: ARCBackgroundStyle = .translucent,
-        cornerRadius: CGFloat = 0, // 0 means capsule
-        shadow: ARCShadow = .none
-    ) {
+    public init(size: Size = .medium,
+                style: Style = .subtle,
+                color: Color = .blue,
+                textColor: Color? = nil,
+                iconColor: Color? = nil,
+                iconPosition: IconPosition = .leading,
+                accentColor: Color = .blue,
+                backgroundStyle: ARCBackgroundStyle = .translucent,
+                cornerRadius: CGFloat = 0, // 0 means capsule
+                shadow: ARCShadow = .none) {
         self.size = size
         self.style = style
         self.color = color
         self.textColor = textColor
+        self.iconColor = iconColor
         self.iconPosition = iconPosition
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
@@ -197,26 +200,18 @@ public struct ARCTagConfiguration: Sendable, LiquidGlassConfigurable {
     public static let `default` = ARCTagConfiguration()
 
     /// Category tag (e.g., genres, types)
-    public static let category = ARCTagConfiguration(
-        style: .subtle,
-        color: .secondary
-    )
+    public static let category = ARCTagConfiguration(style: .subtle,
+                                                     color: .secondary)
 
     /// Status tag (e.g., Open, Closed)
-    public static let status = ARCTagConfiguration(
-        style: .filled,
-        color: .green
-    )
+    public static let status = ARCTagConfiguration(style: .filled,
+                                                   color: .green)
 
     /// Glass effect tag
-    public static let glass = ARCTagConfiguration(
-        style: .glass,
-        backgroundStyle: .liquidGlass,
-        shadow: .subtle
-    )
+    public static let glass = ARCTagConfiguration(style: .glass,
+                                                  backgroundStyle: .liquidGlass,
+                                                  shadow: .subtle)
 
     /// Outlined tag
-    public static let outlined = ARCTagConfiguration(
-        style: .outlined
-    )
+    public static let outlined = ARCTagConfiguration(style: .outlined)
 }

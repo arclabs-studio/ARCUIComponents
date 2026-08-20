@@ -38,8 +38,7 @@ import SwiftUI
 /// - ``thick``
 /// - ``thin``
 /// - ``glass``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCLinearProgressConfiguration: LiquidGlassConfigurable, Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCLinearProgressConfiguration: LiquidGlassConfigurable, Sendable {
     // MARK: - Style
 
     /// Visual styles for linear progress bars
@@ -117,17 +116,15 @@ public struct ARCLinearProgressConfiguration: LiquidGlassConfigurable, Sendable 
     ///   - animated: Animate changes (default: true)
     ///   - animationDuration: Animation duration (default: 0.3)
     ///   - shadow: Shadow configuration (default: .none)
-    public init(
-        style: Style = .default,
-        height: CGFloat = 4,
-        trackColor: Color = Color.secondary.opacity(0.2),
-        progressColor: Color = .accentColor,
-        showPercentage: Bool = false,
-        percentageFont: Font = .caption,
-        animated: Bool = true,
-        animationDuration: Double = 0.3,
-        shadow: ARCShadow = .none
-    ) {
+    public init(style: Style = .default,
+                height: CGFloat = 4,
+                trackColor: Color = Color.secondary.opacity(0.2),
+                progressColor: Color = .accentColor,
+                showPercentage: Bool = false,
+                percentageFont: Font = .caption,
+                animated: Bool = true,
+                animationDuration: Double = 0.3,
+                shadow: ARCShadow = .none) {
         self.style = style
         self.height = height
         self.trackColor = trackColor
@@ -151,30 +148,22 @@ public struct ARCLinearProgressConfiguration: LiquidGlassConfigurable, Sendable 
     /// Thick progress bar (8pt height)
     ///
     /// More prominent, use for primary progress indicators.
-    public static let thick = ARCLinearProgressConfiguration(
-        height: 8
-    )
+    public static let thick = ARCLinearProgressConfiguration(height: 8)
 
     /// Thin progress bar (2pt height)
     ///
     /// Subtle, use for compact spaces or secondary indicators.
-    public static let thin = ARCLinearProgressConfiguration(
-        height: 2
-    )
+    public static let thin = ARCLinearProgressConfiguration(height: 2)
 
     /// Glass effect progress bar
     ///
     /// Premium style with translucent track.
-    public static let glass = ARCLinearProgressConfiguration(
-        trackColor: Color.white.opacity(0.15),
-        progressColor: .white,
-        shadow: .subtle
-    )
+    public static let glass = ARCLinearProgressConfiguration(trackColor: Color.white.opacity(0.15),
+                                                             progressColor: .white,
+                                                             shadow: .subtle)
 
     /// Progress bar with percentage label
     ///
     /// Shows numeric percentage next to the bar.
-    public static let withPercentage = ARCLinearProgressConfiguration(
-        showPercentage: true
-    )
+    public static let withPercentage = ARCLinearProgressConfiguration(showPercentage: true)
 }

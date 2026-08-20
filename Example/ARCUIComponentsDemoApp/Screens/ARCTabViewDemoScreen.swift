@@ -12,8 +12,7 @@ import SwiftUI
 ///
 /// Provides an interactive demonstration of the ARCTabView component
 /// with configurable options for style and search.
-@available(iOS 18.0, *)
-struct ARCTabViewDemoScreen: View {
+@available(iOS 18.0, *) struct ARCTabViewDemoScreen: View {
     // MARK: - State
 
     @State private var selectedTab: DemoAppTab = .home
@@ -94,40 +93,34 @@ struct ARCTabViewDemoScreen: View {
 
     @ViewBuilder private var embeddedDemoView: some View {
         if showSearchTab {
-            ARCTabView(
-                selection: $selectedTab,
-                sidebarAdaptable: sidebarAdaptable
-            ) { tab in
+            ARCTabView(selection: $selectedTab,
+                       searchValue: .search,
+                       sidebarAdaptable: sidebarAdaptable) { tab in
                 TabContentView(tab: tab)
             } search: {
                 SearchContentView()
             }
         } else {
-            ARCTabView(
-                selection: $selectedTab,
-                sidebarAdaptable: sidebarAdaptable
-            ) { tab in
+            ARCTabView(selection: $selectedTab,
+                       sidebarAdaptable: sidebarAdaptable) { tab in
                 TabContentView(tab: tab)
             }
         }
     }
 
-    @ViewBuilder private var fullScreenDemoView: some View {
+    private var fullScreenDemoView: some View {
         NavigationStack {
             if showSearchTab {
-                ARCTabView(
-                    selection: $selectedTab,
-                    sidebarAdaptable: sidebarAdaptable
-                ) { tab in
+                ARCTabView(selection: $selectedTab,
+                           searchValue: .search,
+                           sidebarAdaptable: sidebarAdaptable) { tab in
                     FullScreenTabContent(tab: tab)
                 } search: {
                     FullScreenSearchContent()
                 }
             } else {
-                ARCTabView(
-                    selection: $selectedTab,
-                    sidebarAdaptable: sidebarAdaptable
-                ) { tab in
+                ARCTabView(selection: $selectedTab,
+                           sidebarAdaptable: sidebarAdaptable) { tab in
                     FullScreenTabContent(tab: tab)
                 }
             }
@@ -148,19 +141,26 @@ struct ARCTabViewDemoScreen: View {
 
 // MARK: - Demo Tab Enum
 
-@available(iOS 18.0, *)
-private enum DemoAppTab: String, ARCTabItem, CaseIterable {
+@available(iOS 18.0, *) private enum DemoAppTab: String, ARCTabItem {
     case home
     case favorites
     case profile
+    case search
 
-    var id: String { rawValue }
+    nonisolated static var allCases: [DemoAppTab] {
+        [.home, .favorites, .profile]
+    }
 
-    var title: String {
+    var id: String {
+        rawValue
+    }
+
+    var title: LocalizedStringKey {
         switch self {
         case .home: "Home"
         case .favorites: "Favorites"
         case .profile: "Profile"
+        case .search: "Search"
         }
     }
 
@@ -169,6 +169,7 @@ private enum DemoAppTab: String, ARCTabItem, CaseIterable {
         case .home: "house.fill"
         case .favorites: "heart.fill"
         case .profile: "person.fill"
+        case .search: "magnifyingglass"
         }
     }
 
@@ -182,8 +183,7 @@ private enum DemoAppTab: String, ARCTabItem, CaseIterable {
 
 // MARK: - Content Views
 
-@available(iOS 18.0, *)
-private struct TabContentView: View {
+@available(iOS 18.0, *) private struct TabContentView: View {
     let tab: DemoAppTab
 
     var body: some View {
@@ -200,8 +200,7 @@ private struct TabContentView: View {
     }
 }
 
-@available(iOS 18.0, *)
-private struct SearchContentView: View {
+@available(iOS 18.0, *) private struct SearchContentView: View {
     var body: some View {
         VStack(spacing: 16) {
             Image(systemName: "magnifyingglass")
@@ -216,8 +215,7 @@ private struct SearchContentView: View {
     }
 }
 
-@available(iOS 18.0, *)
-private struct FullScreenTabContent: View {
+@available(iOS 18.0, *) private struct FullScreenTabContent: View {
     let tab: DemoAppTab
 
     var body: some View {
@@ -235,7 +233,7 @@ private struct FullScreenTabContent: View {
                 .padding(.top, 40)
 
                 // Sample content
-                ForEach(1 ..< 6) { index in
+                ForEach(Array(1 ... 5), id: \.self) { index in
                     HStack {
                         RoundedRectangle(cornerRadius: 8)
                             .fill(.blue.opacity(0.1))
@@ -245,7 +243,7 @@ private struct FullScreenTabContent: View {
                             Text("Item \(index)")
                                 .font(.headline)
 
-                            Text("Sample content for \(tab.title.lowercased())")
+                            Text("Sample content for \(tab.rawValue)")
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
                         }
@@ -267,8 +265,7 @@ private struct FullScreenTabContent: View {
     }
 }
 
-@available(iOS 18.0, *)
-private struct FullScreenSearchContent: View {
+@available(iOS 18.0, *) private struct FullScreenSearchContent: View {
     @State private var searchText = ""
 
     var body: some View {

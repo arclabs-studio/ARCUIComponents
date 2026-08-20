@@ -59,8 +59,7 @@ import SwiftUI
 ///
 /// - Note: For morphing to work, each glass element should have a unique
 ///   ID assigned via ``SwiftUI/View/arcGlassEffectID(_:in:)``.
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCGlassContainer<Content: View>: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCGlassContainer<Content: View>: View {
     // MARK: - Properties
 
     /// Spacing that controls when glass effects blend together
@@ -77,10 +76,8 @@ public struct ARCGlassContainer<Content: View>: View {
     ///   - spacing: The spacing value that determines when glass effects blend.
     ///     Default is 40 points, which works well for most layouts.
     ///   - content: The views to display inside the container.
-    public init(
-        spacing: CGFloat = 40,
-        @ViewBuilder content: () -> Content
-    ) {
+    public init(spacing: CGFloat = 40,
+                @ViewBuilder content: () -> Content) {
         self.spacing = spacing
         self.content = content()
     }

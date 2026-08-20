@@ -14,12 +14,10 @@ import SwiftUI
 struct ARCFavoriteButtonDemoScreen: View {
     // MARK: Properties
 
-    @State private var favorites: [String: Bool] = [
-        "small": false,
-        "medium": true,
-        "large": false,
-        "custom": true
-    ]
+    @State private var favorites: [String: Bool] = ["small": false,
+                                                    "medium": true,
+                                                    "large": false,
+                                                    "custom": true]
 
     // MARK: Body
 
@@ -49,30 +47,24 @@ extension ARCFavoriteButtonDemoScreen {
 
             HStack(spacing: 32) {
                 VStack {
-                    ARCFavoriteButton(
-                        isFavorite: binding(for: "small"),
-                        size: .small
-                    )
+                    ARCFavoriteButton(isFavorite: binding(for: "small"),
+                                      size: .small)
                     Text("Small")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
 
                 VStack {
-                    ARCFavoriteButton(
-                        isFavorite: binding(for: "medium"),
-                        size: .medium
-                    )
+                    ARCFavoriteButton(isFavorite: binding(for: "medium"),
+                                      size: .medium)
                     Text("Medium")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
 
                 VStack {
-                    ARCFavoriteButton(
-                        isFavorite: binding(for: "large"),
-                        size: .large
-                    )
+                    ARCFavoriteButton(isFavorite: binding(for: "large"),
+                                      size: .large)
                     Text("Large")
                         .font(.caption)
                         .foregroundStyle(.secondary)
@@ -91,11 +83,9 @@ extension ARCFavoriteButtonDemoScreen {
                 .font(.headline)
 
             VStack(spacing: 16) {
-                ARCFavoriteButton(
-                    isFavorite: binding(for: "custom"),
-                    color: .arcBrandBurgundy,
-                    size: .large
-                )
+                ARCFavoriteButton(isFavorite: binding(for: "custom"),
+                                  color: .arcBrandBurgundy,
+                                  size: .large)
 
                 Text(favorites["custom"] == true ? "Favorited!" : "Tap to favorite")
                     .font(.subheadline)
@@ -132,10 +122,8 @@ extension ARCFavoriteButtonDemoScreen {
 
                 Spacer()
 
-                ARCFavoriteButton(
-                    isFavorite: .constant(true),
-                    size: .medium
-                )
+                ARCFavoriteButton(isFavorite: .constant(true),
+                                  size: .medium)
             }
             .padding()
             .background(Color.arcBrandBlack.opacity(0.05))
@@ -148,10 +136,8 @@ extension ARCFavoriteButtonDemoScreen {
 
 extension ARCFavoriteButtonDemoScreen {
     private func binding(for key: String) -> Binding<Bool> {
-        Binding(
-            get: { favorites[key] ?? false },
-            set: { favorites[key] = $0 }
-        )
+        Binding(get: { favorites[key] ?? false },
+                set: { favorites[key] = $0 })
     }
 }
 

@@ -48,8 +48,7 @@ import SwiftUI
 /// ```
 ///
 /// - Note: For best results, use on larger interactive elements like cards or cells.
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCCardPressStyle: ButtonStyle {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCCardPressStyle: ButtonStyle {
     // MARK: - Properties
 
     /// Scale factor when pressed (0.0 - 1.0)
@@ -69,11 +68,9 @@ public struct ARCCardPressStyle: ButtonStyle {
     ///   - pressedScale: Scale factor when pressed (default: 0.96)
     ///   - pressedOpacity: Opacity when pressed (default: 1.0)
     ///   - animationDuration: Animation response time in seconds (default: 0.15)
-    public init(
-        pressedScale: CGFloat = 0.96,
-        pressedOpacity: Double = 1.0,
-        animationDuration: Double = 0.15
-    ) {
+    public init(pressedScale: CGFloat = 0.96,
+                pressedOpacity: Double = 1.0,
+                animationDuration: Double = 0.15) {
         self.pressedScale = pressedScale
         self.pressedOpacity = pressedOpacity
         self.animationDuration = animationDuration
@@ -91,8 +88,7 @@ public struct ARCCardPressStyle: ButtonStyle {
 
 // MARK: - Presets
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCCardPressStyle {
+@available(iOS 17.0, macOS 14.0, *) extension ARCCardPressStyle {
     /// Default card press style matching Apple's patterns
     ///
     /// Uses 0.96 scale for a subtle but noticeable press effect.
@@ -102,19 +98,15 @@ extension ARCCardPressStyle {
     ///
     /// Uses 0.98 scale for a very light press effect, suitable for
     /// smaller interactive elements or when less emphasis is desired.
-    public static let subtle = ARCCardPressStyle(
-        pressedScale: 0.98,
-        pressedOpacity: 1.0
-    )
+    public static let subtle = ARCCardPressStyle(pressedScale: 0.98,
+                                                 pressedOpacity: 1.0)
 
     /// Prominent press style with stronger visual feedback
     ///
     /// Uses 0.92 scale and 0.85 opacity for a more dramatic press effect,
     /// suitable for hero cards or important interactive elements.
-    public static let prominent = ARCCardPressStyle(
-        pressedScale: 0.92,
-        pressedOpacity: 0.85
-    )
+    public static let prominent = ARCCardPressStyle(pressedScale: 0.92,
+                                                    pressedOpacity: 0.85)
 }
 
 // MARK: - Preview
@@ -182,7 +174,6 @@ extension ARCCardPressStyle {
     .padding()
 }
 
-@ViewBuilder
 private func cardContent(color: Color, text: String) -> some View {
     RoundedRectangle(cornerRadius: 12)
         .fill(color.gradient)

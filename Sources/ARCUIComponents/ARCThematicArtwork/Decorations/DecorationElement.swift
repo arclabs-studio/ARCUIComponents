@@ -64,16 +64,14 @@ public struct DecorationElement: Identifiable, Sendable {
     ///   - rotation: The rotation angle. Defaults to `.zero`.
     ///   - blur: The blur radius. Defaults to `0`.
     ///   - opacity: The opacity value (0-1). Defaults to `1.0`.
-    public init(
-        shape: AnyShape,
-        color: Color,
-        size: CGSize,
-        offset: CGPoint = .zero,
-        rotation: Angle = .zero,
-        blur: CGFloat = 0,
-        opacity: Double = 1.0
-    ) {
-        self.id = UUID()
+    public init(shape: AnyShape,
+                color: Color,
+                size: CGSize,
+                offset: CGPoint = .zero,
+                rotation: Angle = .zero,
+                blur: CGFloat = 0,
+                opacity: Double = 1.0) {
+        id = UUID()
         self.shape = shape
         self.color = color
         self.size = size
@@ -93,16 +91,14 @@ public struct DecorationElement: Identifiable, Sendable {
     ///   - rotation: The rotation angle. Defaults to `.zero`.
     ///   - blur: The blur radius. Defaults to `0`.
     ///   - opacity: The opacity value (0-1). Defaults to `1.0`.
-    public init<S: Shape>(
-        _ shape: S,
-        color: Color,
-        size: CGSize,
-        offset: CGPoint = .zero,
-        rotation: Angle = .zero,
-        blur: CGFloat = 0,
-        opacity: Double = 1.0
-    ) {
-        self.id = UUID()
+    public init(_ shape: some Shape,
+                color: Color,
+                size: CGSize,
+                offset: CGPoint = .zero,
+                rotation: Angle = .zero,
+                blur: CGFloat = 0,
+                opacity: Double = 1.0) {
+        id = UUID()
         self.shape = AnyShape(shape)
         self.color = color
         self.size = size
@@ -115,7 +111,7 @@ public struct DecorationElement: Identifiable, Sendable {
 
 // MARK: - Convenience Initializers
 
-public extension DecorationElement {
+extension DecorationElement {
     /// Creates a circular decoration element.
     ///
     /// - Parameters:
@@ -124,21 +120,17 @@ public extension DecorationElement {
     ///   - offset: The offset from center. Defaults to `.zero`.
     ///   - blur: The blur radius. Defaults to `0`.
     ///   - opacity: The opacity value. Defaults to `1.0`.
-    static func circle(
-        color: Color,
-        diameter: CGFloat,
-        offset: CGPoint = .zero,
-        blur: CGFloat = 0,
-        opacity: Double = 1.0
-    ) -> DecorationElement {
-        DecorationElement(
-            Circle(),
-            color: color,
-            size: CGSize(width: diameter, height: diameter),
-            offset: offset,
-            blur: blur,
-            opacity: opacity
-        )
+    public static func circle(color: Color,
+                              diameter: CGFloat,
+                              offset: CGPoint = .zero,
+                              blur: CGFloat = 0,
+                              opacity: Double = 1.0) -> DecorationElement {
+        DecorationElement(Circle(),
+                          color: color,
+                          size: CGSize(width: diameter, height: diameter),
+                          offset: offset,
+                          blur: blur,
+                          opacity: opacity)
     }
 
     /// Creates a capsule decoration element.
@@ -149,21 +141,17 @@ public extension DecorationElement {
     ///   - offset: The offset from center. Defaults to `.zero`.
     ///   - rotation: The rotation angle. Defaults to `.zero`.
     ///   - opacity: The opacity value. Defaults to `1.0`.
-    static func capsule(
-        color: Color,
-        size: CGSize,
-        offset: CGPoint = .zero,
-        rotation: Angle = .zero,
-        opacity: Double = 1.0
-    ) -> DecorationElement {
-        DecorationElement(
-            Capsule(),
-            color: color,
-            size: size,
-            offset: offset,
-            rotation: rotation,
-            opacity: opacity
-        )
+    public static func capsule(color: Color,
+                               size: CGSize,
+                               offset: CGPoint = .zero,
+                               rotation: Angle = .zero,
+                               opacity: Double = 1.0) -> DecorationElement {
+        DecorationElement(Capsule(),
+                          color: color,
+                          size: size,
+                          offset: offset,
+                          rotation: rotation,
+                          opacity: opacity)
     }
 
     /// Creates a rounded rectangle decoration element.
@@ -175,21 +163,17 @@ public extension DecorationElement {
     ///   - offset: The offset from center. Defaults to `.zero`.
     ///   - rotation: The rotation angle. Defaults to `.zero`.
     ///   - opacity: The opacity value. Defaults to `1.0`.
-    static func roundedRect(
-        color: Color,
-        size: CGSize,
-        cornerRadius: CGFloat,
-        offset: CGPoint = .zero,
-        rotation: Angle = .zero,
-        opacity: Double = 1.0
-    ) -> DecorationElement {
-        DecorationElement(
-            RoundedRectangle(cornerRadius: cornerRadius, style: .continuous),
-            color: color,
-            size: size,
-            offset: offset,
-            rotation: rotation,
-            opacity: opacity
-        )
+    public static func roundedRect(color: Color,
+                                   size: CGSize,
+                                   cornerRadius: CGFloat,
+                                   offset: CGPoint = .zero,
+                                   rotation: Angle = .zero,
+                                   opacity: Double = 1.0) -> DecorationElement {
+        DecorationElement(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous),
+                          color: color,
+                          size: size,
+                          offset: offset,
+                          rotation: rotation,
+                          opacity: opacity)
     }
 }

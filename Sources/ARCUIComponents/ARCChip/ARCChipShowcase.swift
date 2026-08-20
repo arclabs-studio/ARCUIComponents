@@ -11,8 +11,7 @@ import SwiftUI
 // MARK: - ARCChipShowcase
 
 /// A comprehensive showcase of all ARCChip configurations
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCChipShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCChipShowcase: View {
     // MARK: - State
 
     @State private var selectedChip = false
@@ -34,6 +33,7 @@ public struct ARCChipShowcase: View {
                     statesSection
                     sizesSection
                     configurationsSection
+                    customTextColorsSection
                     brandColorsSection
                     multiSelectSection
                     singleSelectSection
@@ -51,9 +51,8 @@ public struct ARCChipShowcase: View {
 
 // MARK: - Sections
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCChipShowcase {
-    @ViewBuilder private var statesSection: some View {
+@available(iOS 17.0, macOS 14.0, *) extension ARCChipShowcase {
+    private var statesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("States")
 
@@ -72,7 +71,7 @@ extension ARCChipShowcase {
         }
     }
 
-    @ViewBuilder private var sizesSection: some View {
+    private var sizesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Sizes")
 
@@ -97,7 +96,7 @@ extension ARCChipShowcase {
         }
     }
 
-    @ViewBuilder private var configurationsSection: some View {
+    private var configurationsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Configurations")
 
@@ -125,7 +124,37 @@ extension ARCChipShowcase {
         }
     }
 
-    @ViewBuilder private var brandColorsSection: some View {
+    private var customTextColorsSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            sectionHeader("Custom Text Colors")
+
+            VStack(spacing: 12) {
+                row("Selected") {
+                    HStack(spacing: 8) {
+                        ARCChip("Gold + Black",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .yellow, selectedTextColor: .black))
+                        ARCChip("Red + Yellow",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .red, selectedTextColor: .yellow))
+                    }
+                }
+
+                row("Unselected") {
+                    HStack(spacing: 8) {
+                        ARCChip("Custom Text",
+                                isSelected: .constant(false),
+                                configuration: .init(unselectedTextColor: .orange))
+                        ARCChip("Brand Text",
+                                isSelected: .constant(false),
+                                configuration: .init(unselectedTextColor: .arcBrandBurgundy))
+                    }
+                }
+            }
+        }
+    }
+
+    private var brandColorsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("ARC Brand Colors")
 
@@ -133,19 +162,15 @@ extension ARCChipShowcase {
                 row("Selected") {
                     HStack(spacing: 12) {
                         VStack(spacing: 4) {
-                            ARCChip(
-                                "Burgundy",
-                                isSelected: .constant(true),
-                                configuration: .init(selectedColor: .arcBrandBurgundy)
-                            )
+                            ARCChip("Burgundy",
+                                    isSelected: .constant(true),
+                                    configuration: .init(selectedColor: .arcBrandBurgundy))
                             Text("Primary").font(.caption2).foregroundStyle(.secondary)
                         }
                         VStack(spacing: 4) {
-                            ARCChip(
-                                "Gold",
-                                isSelected: .constant(true),
-                                configuration: .init(selectedColor: .arcBrandGold)
-                            )
+                            ARCChip("Gold",
+                                    isSelected: .constant(true),
+                                    configuration: .init(selectedColor: .arcBrandGold))
                             Text("Secondary").font(.caption2).foregroundStyle(.secondary)
                         }
                     }
@@ -153,40 +178,32 @@ extension ARCChipShowcase {
 
                 row("Unselected") {
                     HStack(spacing: 12) {
-                        ARCChip(
-                            "Burgundy",
-                            isSelected: .constant(false),
-                            configuration: .init(unselectedColor: .arcBrandBurgundy)
-                        )
-                        ARCChip(
-                            "Gold",
-                            isSelected: .constant(false),
-                            configuration: .init(unselectedColor: .arcBrandGold)
-                        )
+                        ARCChip("Burgundy",
+                                isSelected: .constant(false),
+                                configuration: .init(unselectedColor: .arcBrandBurgundy))
+                        ARCChip("Gold",
+                                isSelected: .constant(false),
+                                configuration: .init(unselectedColor: .arcBrandGold))
                     }
                 }
 
                 row("With Icons") {
                     HStack(spacing: 12) {
-                        ARCChip(
-                            "ARC Labs",
-                            icon: "star.fill",
-                            isSelected: .constant(true),
-                            configuration: .init(selectedColor: .arcBrandBurgundy)
-                        )
-                        ARCChip(
-                            "Premium",
-                            icon: "crown.fill",
-                            isSelected: .constant(true),
-                            configuration: .init(selectedColor: .arcBrandGold)
-                        )
+                        ARCChip("ARC Labs",
+                                icon: "star.fill",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .arcBrandBurgundy))
+                        ARCChip("Premium",
+                                icon: "crown.fill",
+                                isSelected: .constant(true),
+                                configuration: .init(selectedColor: .arcBrandGold))
                     }
                 }
             }
         }
     }
 
-    @ViewBuilder private var multiSelectSection: some View {
+    private var multiSelectSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Multi-Select (Chip Group)")
 
@@ -195,12 +212,10 @@ extension ARCChipShowcase {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
-                ARCChipGroup(
-                    items: cuisines,
-                    selection: $selectedCuisines,
-                    selectionMode: .multiple,
-                    itemLabel: { $0 }
-                )
+                ARCChipGroup(items: cuisines,
+                             selection: $selectedCuisines,
+                             selectionMode: .multiple,
+                             itemLabel: { $0 })
 
                 Text("Selected: \(selectedCuisines.sorted().joined(separator: ", "))")
                     .font(.caption)
@@ -211,7 +226,7 @@ extension ARCChipShowcase {
         }
     }
 
-    @ViewBuilder private var singleSelectSection: some View {
+    private var singleSelectSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Single-Select")
 
@@ -220,12 +235,10 @@ extension ARCChipShowcase {
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
-                ARCChipGroup(
-                    items: priceRanges,
-                    selection: $selectedPrice,
-                    selectionMode: .single,
-                    itemLabel: { $0 }
-                )
+                ARCChipGroup(items: priceRanges,
+                             selection: $selectedPrice,
+                             selectionMode: .single,
+                             itemLabel: { $0 })
 
                 Text("Selected: \(selectedPrice.first ?? "None")")
                     .font(.caption)
@@ -236,7 +249,7 @@ extension ARCChipShowcase {
         }
     }
 
-    @ViewBuilder private var inputChipsSection: some View {
+    private var inputChipsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Input Chips (Dismissible)")
 
@@ -247,14 +260,14 @@ extension ARCChipShowcase {
 
                 FlowLayoutChipShowcase(spacing: 8) {
                     ForEach(Array(inputTags).sorted(), id: \.self) { tag in
-                        ARCChip(
-                            tag,
-                            isSelected: Binding(
-                                get: { inputTags.contains(tag) },
-                                set: { if !$0 { inputTags.remove(tag) } }
-                            ),
-                            configuration: .input
-                        )
+                        ARCChip(tag,
+                                isSelected: Binding(get: { inputTags.contains(tag) },
+                                                    set: {
+                                                        if !$0 {
+                                                            inputTags.remove(tag)
+                                                        }
+                                                    }),
+                                configuration: .input)
                     }
                 }
 
@@ -277,14 +290,12 @@ extension ARCChipShowcase {
 
     // MARK: - Helpers
 
-    @ViewBuilder
     private func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.headline)
             .foregroundStyle(.primary)
     }
 
-    @ViewBuilder
     private func row(_ label: String, @ViewBuilder content: () -> some View) -> some View {
         HStack {
             Text(label)
@@ -303,8 +314,7 @@ extension ARCChipShowcase {
 
 // MARK: - FlowLayout for Showcase
 
-@available(iOS 17.0, macOS 14.0, *)
-private struct FlowLayoutChipShowcase: Layout {
+@available(iOS 17.0, macOS 14.0, *) private struct FlowLayoutChipShowcase: Layout {
     var spacing: CGFloat = 8
 
     func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache _: inout ()) -> CGSize {
@@ -316,10 +326,8 @@ private struct FlowLayoutChipShowcase: Layout {
         let result = arrange(proposal: proposal, subviews: subviews)
 
         for (index, position) in result.positions.enumerated() {
-            subviews[index].place(
-                at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
-                proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified))
-            )
+            subviews[index].place(at: CGPoint(x: bounds.minX + position.x, y: bounds.minY + position.y),
+                                  proposal: ProposedViewSize(subviews[index].sizeThatFits(.unspecified)))
         }
     }
 

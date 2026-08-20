@@ -11,8 +11,7 @@ import SwiftUI
 // MARK: - ARCBadgeShowcase
 
 /// A comprehensive showcase of all ARCBadge configurations
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCBadgeShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCBadgeShowcase: View {
     // MARK: - State
 
     @State private var badgeCount = 5
@@ -45,9 +44,8 @@ public struct ARCBadgeShowcase: View {
 
 // MARK: - Sections
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCBadgeShowcase {
-    @ViewBuilder private var contentTypesSection: some View {
+@available(iOS 17.0, macOS 14.0, *) extension ARCBadgeShowcase {
+    private var contentTypesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Content Types")
 
@@ -81,7 +79,7 @@ extension ARCBadgeShowcase {
         }
     }
 
-    @ViewBuilder private var stylesSection: some View {
+    private var stylesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Styles")
 
@@ -114,7 +112,7 @@ extension ARCBadgeShowcase {
         }
     }
 
-    @ViewBuilder private var brandColorsSection: some View {
+    private var brandColorsSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("ARC Brand Colors")
 
@@ -168,7 +166,7 @@ extension ARCBadgeShowcase {
         }
     }
 
-    @ViewBuilder private var sizesSection: some View {
+    private var sizesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Sizes")
 
@@ -193,7 +191,7 @@ extension ARCBadgeShowcase {
         }
     }
 
-    @ViewBuilder private var overlaySection: some View {
+    private var overlaySection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("As Overlay")
 
@@ -219,7 +217,7 @@ extension ARCBadgeShowcase {
         }
     }
 
-    @ViewBuilder private var interactiveSection: some View {
+    private var interactiveSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Interactive Demo")
 
@@ -248,14 +246,12 @@ extension ARCBadgeShowcase {
 
     // MARK: - Helpers
 
-    @ViewBuilder
     private func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.headline)
             .foregroundStyle(.primary)
     }
 
-    @ViewBuilder
     private func row(_ label: String, @ViewBuilder content: () -> some View) -> some View {
         HStack {
             Text(label)

@@ -50,8 +50,7 @@ import SwiftUI
 ///     configuration: .textLarge
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCSkeletonText: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCSkeletonText: View {
     // MARK: - Properties
 
     private let lineCount: Int
@@ -63,11 +62,9 @@ public struct ARCSkeletonText: View {
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .body)
-    private var scaledLineHeight: CGFloat = 16
+    @ScaledMetric(relativeTo: .body) private var scaledLineHeight: CGFloat = 16
 
-    @ScaledMetric(relativeTo: .body)
-    private var scaledLineSpacing: CGFloat = 8
+    @ScaledMetric(relativeTo: .body) private var scaledLineSpacing: CGFloat = 8
 
     // MARK: - Initialization
 
@@ -80,14 +77,12 @@ public struct ARCSkeletonText: View {
     ///   - lastLineWidth: Width of last line as percentage 0-1 (default: 0.7)
     ///   - staggerDelay: Delay between each line's animation (default: 0.05)
     ///   - configuration: Base configuration for the skeleton (default: .text)
-    public init(
-        lineCount: Int = 3,
-        lineHeight: CGFloat = 16,
-        lineSpacing: CGFloat = 8,
-        lastLineWidth: CGFloat = 0.7,
-        staggerDelay: Double = 0.05,
-        configuration: ARCSkeletonConfiguration = .text
-    ) {
+    public init(lineCount: Int = 3,
+                lineHeight: CGFloat = 16,
+                lineSpacing: CGFloat = 8,
+                lastLineWidth: CGFloat = 0.7,
+                staggerDelay: Double = 0.05,
+                configuration: ARCSkeletonConfiguration = .text) {
         self.lineCount = max(1, lineCount)
         self.lineHeight = lineHeight
         self.lineSpacing = lineSpacing
@@ -110,8 +105,7 @@ public struct ARCSkeletonText: View {
 
     // MARK: - Line View
 
-    @ViewBuilder
-    private func lineView(at index: Int) -> some View {
+    @ViewBuilder private func lineView(at index: Int) -> some View {
         let isLastLine = index == lineCount - 1
         let lineConfig = lineConfiguration(at: index)
 
@@ -121,15 +115,13 @@ public struct ARCSkeletonText: View {
     }
 
     private func lineConfiguration(at index: Int) -> ARCSkeletonConfiguration {
-        ARCSkeletonConfiguration(
-            shape: configuration.shape,
-            size: .fill(height: scaledLineHeight),
-            baseColor: configuration.baseColor,
-            highlightColor: configuration.highlightColor,
-            animationDuration: configuration.animationDuration,
-            animationDelay: configuration.animationDelay + (Double(index) * staggerDelay),
-            shimmerEnabled: configuration.shimmerEnabled
-        )
+        ARCSkeletonConfiguration(shape: configuration.shape,
+                                 size: .fill(height: scaledLineHeight),
+                                 baseColor: configuration.baseColor,
+                                 highlightColor: configuration.highlightColor,
+                                 animationDuration: configuration.animationDuration,
+                                 animationDelay: configuration.animationDelay + (Double(index) * staggerDelay),
+                                 shimmerEnabled: configuration.shimmerEnabled)
     }
 
     private var lastLineMaxWidth: CGFloat? {
@@ -137,8 +129,7 @@ public struct ARCSkeletonText: View {
         nil
     }
 
-    // Use GeometryReader to calculate percentage width
-    @ViewBuilder
+    /// Use GeometryReader to calculate percentage width
     private func lastLineView(at index: Int) -> some View {
         GeometryReader { geometry in
             ARCSkeletonView(configuration: lineConfiguration(at: index))
@@ -150,8 +141,7 @@ public struct ARCSkeletonText: View {
 
 // MARK: - Presets
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCSkeletonText {
+@available(iOS 17.0, macOS 14.0, *) extension ARCSkeletonText {
     /// Paragraph skeleton (4 lines, last line at 60%)
     ///
     /// Suitable for article or description placeholders.
@@ -163,23 +153,19 @@ extension ARCSkeletonText {
     ///
     /// Suitable for headline placeholders.
     public static var title: ARCSkeletonText {
-        ARCSkeletonText(
-            lineCount: 1,
-            lineHeight: 24,
-            configuration: .textLarge
-        )
+        ARCSkeletonText(lineCount: 1,
+                        lineHeight: 24,
+                        configuration: .textLarge)
     }
 
     /// Subtitle skeleton (single line, small)
     ///
     /// Suitable for secondary text placeholders.
     public static var subtitle: ARCSkeletonText {
-        ARCSkeletonText(
-            lineCount: 1,
-            lineHeight: 14,
-            lastLineWidth: 0.5,
-            configuration: .textSmall
-        )
+        ARCSkeletonText(lineCount: 1,
+                        lineHeight: 14,
+                        lastLineWidth: 0.5,
+                        configuration: .textSmall)
     }
 
     /// Description skeleton (2 lines)

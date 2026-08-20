@@ -36,9 +36,9 @@ extension ARCMenuPresentationStyle {
     var enteringEdge: Edge {
         switch self {
         case .bottomSheet:
-            return .bottom
+            .bottom
         case .trailingPanel:
-            return .trailing
+            .trailing
         }
     }
 
@@ -46,9 +46,9 @@ extension ARCMenuPresentationStyle {
     var contentAlignment: Alignment {
         switch self {
         case .bottomSheet:
-            return .bottom
+            .bottom
         case .trailingPanel:
-            return .topTrailing
+            .topTrailing
         }
     }
 
@@ -56,9 +56,9 @@ extension ARCMenuPresentationStyle {
     var isVerticalDrag: Bool {
         switch self {
         case .bottomSheet:
-            return true
+            true
         case .trailingPanel:
-            return false
+            false
         }
     }
 }

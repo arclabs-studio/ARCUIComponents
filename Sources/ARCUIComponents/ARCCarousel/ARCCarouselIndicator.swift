@@ -14,8 +14,7 @@ import SwiftUI
 ///
 /// Supports multiple indicator styles including dots, lines, and numbers.
 /// Handles large item counts by showing a subset of indicators with scaling.
-@available(iOS 17.0, macOS 14.0, *)
-struct ARCCarouselIndicator: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCCarouselIndicator: View {
     // MARK: - Properties
 
     let totalItems: Int
@@ -24,19 +23,15 @@ struct ARCCarouselIndicator: View {
     let maxVisibleDots: Int
     let accentColor: Color
 
-    // MARK: - Scaled Metrics
+    // MARK: - Scaled Metrics (standard base values — scaled down via sizeMultiplier)
 
-    @ScaledMetric(relativeTo: .caption)
-    private var dotSize: CGFloat = 8
+    @ScaledMetric(relativeTo: .caption) private var dotSize: CGFloat = 8
 
-    @ScaledMetric(relativeTo: .caption)
-    private var lineWidth: CGFloat = 24
+    @ScaledMetric(relativeTo: .caption) private var lineWidth: CGFloat = 24
 
-    @ScaledMetric(relativeTo: .caption)
-    private var lineHeight: CGFloat = 4
+    @ScaledMetric(relativeTo: .caption) private var lineHeight: CGFloat = 4
 
-    @ScaledMetric(relativeTo: .caption)
-    private var spacing: CGFloat = 6
+    @ScaledMetric(relativeTo: .caption) private var spacing: CGFloat = 6
 
     // MARK: - Environment
 
@@ -44,13 +39,11 @@ struct ARCCarouselIndicator: View {
 
     // MARK: - Initialization
 
-    init(
-        totalItems: Int,
-        currentIndex: Int,
-        style: ARCCarouselConfiguration.IndicatorStyle,
-        maxVisibleDots: Int = 7,
-        accentColor: Color = .primary
-    ) {
+    public init(totalItems: Int,
+                currentIndex: Int,
+                style: ARCCarouselConfiguration.IndicatorStyle,
+                maxVisibleDots: Int = 7,
+                accentColor: Color = .primary) {
         self.totalItems = totalItems
         self.currentIndex = currentIndex
         self.style = style
@@ -58,9 +51,29 @@ struct ARCCarouselIndicator: View {
         self.accentColor = accentColor
     }
 
+    // MARK: - Size Multiplier
+
+    /// Extracts the `IndicatorSize` embedded in the style's associated value.
+    /// Returns `.standard` for styles that carry no size (`.none`, `.numbers`).
+    private var effectiveSize: ARCCarouselConfiguration.IndicatorSize {
+        switch style {
+        case let .dots(size): size
+        case let .lines(size): size
+        default: .standard
+        }
+    }
+
+    private var sizeMultiplier: CGFloat {
+        switch effectiveSize {
+        case .standard: 1.0
+        case .small: 0.625
+        case .compact: 0.375
+        }
+    }
+
     // MARK: - Body
 
-    var body: some View {
+    public var body: some View {
         switch style {
         case .none:
             EmptyView()
@@ -78,8 +91,8 @@ struct ARCCarouselIndicator: View {
 
     // MARK: - Dots Indicator
 
-    @ViewBuilder private var dotsIndicator: some View {
-        HStack(spacing: spacing) {
+    private var dotsIndicator: some View {
+        HStack(spacing: spacing * sizeMultiplier) {
             ForEach(visibleDotIndices, id: \.self) { index in
                 Circle()
                     .fill(index == currentIndex ? accentColor : accentColor.opacity(0.3))
@@ -93,12 +106,12 @@ struct ARCCarouselIndicator: View {
 
     // MARK: - Lines Indicator
 
-    @ViewBuilder private var linesIndicator: some View {
-        HStack(spacing: spacing) {
+    private var linesIndicator: some View {
+        HStack(spacing: spacing * sizeMultiplier) {
             ForEach(0 ..< totalItems, id: \.self) { index in
                 Capsule()
                     .fill(index == currentIndex ? accentColor : accentColor.opacity(0.3))
-                    .frame(width: lineWidth, height: lineHeight)
+                    .frame(width: lineWidth * sizeMultiplier, height: lineHeight * sizeMultiplier)
                     .arcAnimationIfAllowed(.arcSpring, value: currentIndex)
             }
         }
@@ -108,7 +121,7 @@ struct ARCCarouselIndicator: View {
 
     // MARK: - Numbers Indicator
 
-    @ViewBuilder private var numbersIndicator: some View {
+    private var numbersIndicator: some View {
         Text("\(currentIndex + 1) / \(totalItems)")
             .font(.caption.monospacedDigit())
             .foregroundStyle(.secondary)
@@ -141,15 +154,17 @@ struct ARCCarouselIndicator: View {
         return Array(start ... end)
     }
 
-    /// Returns the size for a dot at the given index (smaller for edge dots)
+    /// Returns the size for a dot at the given index (smaller for edge dots), adjusted for `size`.
     private func dotSizeFor(index: Int) -> CGFloat {
+        let base = dotSize * sizeMultiplier
+
         guard totalItems > maxVisibleDots else {
-            return dotSize
+            return base
         }
 
         let visibleIndices = visibleDotIndices
         guard let position = visibleIndices.firstIndex(of: index) else {
-            return dotSize * 0.5
+            return base * 0.5
         }
 
         // Scale down dots at the edges
@@ -157,12 +172,12 @@ struct ARCCarouselIndicator: View {
         let maxDistance = maxVisibleDots / 2
 
         if distanceFromCenter >= maxDistance {
-            return dotSize * 0.6
+            return base * 0.6
         } else if distanceFromCenter == maxDistance - 1 {
-            return dotSize * 0.8
+            return base * 0.8
         }
 
-        return dotSize
+        return base
     }
 }
 
@@ -171,18 +186,14 @@ struct ARCCarouselIndicator: View {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Dots - Few Items") {
     VStack(spacing: 32) {
-        ARCCarouselIndicator(
-            totalItems: 5,
-            currentIndex: 2,
-            style: .dots
-        )
+        ARCCarouselIndicator(totalItems: 5,
+                             currentIndex: 2,
+                             style: .dots())
 
-        ARCCarouselIndicator(
-            totalItems: 5,
-            currentIndex: 0,
-            style: .dots,
-            accentColor: .blue
-        )
+        ARCCarouselIndicator(totalItems: 5,
+                             currentIndex: 0,
+                             style: .dots(),
+                             accentColor: .blue)
     }
     .padding()
 }
@@ -190,44 +201,44 @@ struct ARCCarouselIndicator: View {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Dots - Many Items") {
     VStack(spacing: 32) {
-        ARCCarouselIndicator(
-            totalItems: 15,
-            currentIndex: 7,
-            style: .dots
-        )
+        ARCCarouselIndicator(totalItems: 15,
+                             currentIndex: 7,
+                             style: .dots())
 
-        ARCCarouselIndicator(
-            totalItems: 15,
-            currentIndex: 0,
-            style: .dots
-        )
+        ARCCarouselIndicator(totalItems: 15,
+                             currentIndex: 0,
+                             style: .dots())
 
-        ARCCarouselIndicator(
-            totalItems: 15,
-            currentIndex: 14,
-            style: .dots
-        )
+        ARCCarouselIndicator(totalItems: 15,
+                             currentIndex: 14,
+                             style: .dots())
     }
     .padding()
 }
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Lines") {
-    ARCCarouselIndicator(
-        totalItems: 4,
-        currentIndex: 1,
-        style: .lines,
-        accentColor: .orange
-    )
-    .padding()
+    ARCCarouselIndicator(totalItems: 4,
+                         currentIndex: 1,
+                         style: .lines(),
+                         accentColor: .orange)
+        .padding()
 }
 
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Numbers") {
-    ARCCarouselIndicator(
-        totalItems: 10,
-        currentIndex: 3,
-        style: .numbers
-    )
+    ARCCarouselIndicator(totalItems: 10,
+                         currentIndex: 3,
+                         style: .numbers)
+        .padding()
+}
+
+@available(iOS 17.0, macOS 14.0, *)
+#Preview("Sizes") {
+    VStack(spacing: 24) {
+        ARCCarouselIndicator(totalItems: 5, currentIndex: 2, style: .dots(size: .standard))
+        ARCCarouselIndicator(totalItems: 5, currentIndex: 2, style: .dots(size: .small))
+        ARCCarouselIndicator(totalItems: 5, currentIndex: 2, style: .dots(size: .compact))
+    }
     .padding()
 }

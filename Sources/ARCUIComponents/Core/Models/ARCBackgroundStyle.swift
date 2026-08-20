@@ -45,8 +45,7 @@ import SwiftUI
 ///
 /// - Note: The liquid glass effect works best on iOS 17+ with ProMotion displays,
 ///   where the subtle animations and blur effects are most noticeable.
-@available(iOS 17.0, *)
-public enum ARCBackgroundStyle: Sendable {
+@available(iOS 17.0, *) public enum ARCBackgroundStyle: Sendable {
     /// Apple's liquid glass effect with ultra-thin material and vibrancy
     ///
     /// Creates a premium, depth-rich appearance combining blur, gradient overlays,

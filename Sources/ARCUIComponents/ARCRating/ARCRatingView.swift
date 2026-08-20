@@ -13,8 +13,7 @@ import SwiftUI
 /// Visual styles for ARCRatingView
 ///
 /// Each style provides a different visual representation optimized for specific use cases.
-@available(iOS 17.0, macOS 14.0, *)
-public enum ARCRatingStyle: String, CaseIterable, Sendable {
+@available(iOS 17.0, macOS 14.0, *) public enum ARCRatingStyle: String, CaseIterable, Sendable {
     /// Circular gauge with fill indicator (default)
     ///
     /// Best for: Cards, featured content, standalone ratings
@@ -61,6 +60,9 @@ public enum ARCRatingStyle: String, CaseIterable, Sendable {
 /// ARCRatingView(rating: 8.0, configuration: .circularGauge)
 /// ARCRatingView(rating: 7.5, configuration: .compactInline)
 /// ARCRatingView(rating: 9.2, configuration: .minimal)
+///
+/// // Unrated — renders a blue "?" in every style
+/// ARCRatingView(rating: nil)
 /// ```
 ///
 /// ## Color Scale
@@ -73,14 +75,16 @@ public enum ARCRatingStyle: String, CaseIterable, Sendable {
 /// - **7.5-8.5** (75-85%): Light/Medium Green - Very Good
 /// - **8.5-10** (85-100%): Strong Green - Excellent
 ///
+/// A `nil` rating is the *unrated* state — a blue `"?"` shown in the same slot,
+/// distinct from a genuine rating of `0`.
+///
 /// - Note: The view automatically animates between values and provides
 ///   meaningful accessibility labels for VoiceOver users.
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCRatingView: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCRatingView: View {
     // MARK: - Properties
 
-    /// The rating value to display
-    private let rating: Double
+    /// The rating value to display, or `nil` when unrated
+    private let rating: Double?
 
     /// Configuration for appearance
     private let configuration: ARCRatingViewConfiguration
@@ -91,26 +95,21 @@ public struct ARCRatingView: View {
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .body)
-    private var gaugeSize: CGFloat = 56
+    @ScaledMetric(relativeTo: .body) private var gaugeSize: CGFloat = 56
 
-    @ScaledMetric(relativeTo: .subheadline)
-    private var spacing: CGFloat = .arcSpacingXSmall
+    @ScaledMetric(relativeTo: .subheadline) private var spacing: CGFloat = .arcSpacingXSmall
 
-    @ScaledMetric(relativeTo: .caption)
-    private var barWidth: CGFloat = 48
+    @ScaledMetric(relativeTo: .caption) private var barWidth: CGFloat = 48
 
     // MARK: - Initialization
 
     /// Creates a rating view with a configuration
     ///
     /// - Parameters:
-    ///   - rating: The rating value to display
+    ///   - rating: The rating value to display, or `nil` when unrated
     ///   - configuration: Visual configuration (default: `.circularGauge`)
-    public init(
-        rating: Double,
-        configuration: ARCRatingViewConfiguration = .circularGauge
-    ) {
+    public init(rating: Double?,
+                configuration: ARCRatingViewConfiguration = .circularGauge) {
         self.rating = rating
         self.configuration = configuration
     }
@@ -118,22 +117,18 @@ public struct ARCRatingView: View {
     /// Creates a rating view with individual parameters
     ///
     /// - Parameters:
-    ///   - rating: The rating value to display
+    ///   - rating: The rating value to display, or `nil` when unrated
     ///   - style: Visual style (default: `.circularGauge`)
     ///   - maxRating: Maximum rating value (default: `10.0`)
     ///   - animated: Whether to animate value changes (default: `true`)
-    public init(
-        rating: Double,
-        style: ARCRatingStyle = .circularGauge,
-        maxRating: Double = 10.0,
-        animated: Bool = true
-    ) {
+    public init(rating: Double?,
+                style: ARCRatingStyle = .circularGauge,
+                maxRating: Double = 10.0,
+                animated: Bool = true) {
         self.rating = rating
-        configuration = ARCRatingViewConfiguration(
-            style: style,
-            maxRating: maxRating,
-            animated: animated
-        )
+        configuration = ARCRatingViewConfiguration(style: style,
+                                                   maxRating: maxRating,
+                                                   animated: animated)
     }
 
     // MARK: - Body
@@ -152,14 +147,14 @@ public struct ARCRatingView: View {
         .onAppear {
             if configuration.animated {
                 arcWithAnimation(.arcSlow) {
-                    animatedRating = clampedRating
+                    animatedRating = clampedRating ?? 0
                 }
             } else {
-                animatedRating = clampedRating
+                animatedRating = clampedRating ?? 0
             }
         }
         .onChange(of: rating) { _, newValue in
-            let newClamped = min(max(newValue, 0), configuration.maxRating)
+            let newClamped = newValue.map { min(max($0, 0), configuration.maxRating) } ?? 0
             if configuration.animated {
                 arcWithAnimation(.arcGentle) {
                     animatedRating = newClamped
@@ -170,15 +165,14 @@ public struct ARCRatingView: View {
         }
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(accessibilityLabel)
-        .accessibilityValue(formattedRating)
+        .accessibilityValue(isUnrated ? "" : formattedRating)
     }
 }
 
 // MARK: - Circular Gauge Style
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCRatingView {
-    @ViewBuilder private var circularGaugeView: some View {
+@available(iOS 17.0, macOS 14.0, *) extension ARCRatingView {
+    private var circularGaugeView: some View {
         ZStack {
             // Background fill with gradient
             Circle()
@@ -186,19 +180,15 @@ extension ARCRatingView {
 
             // Background track
             Circle()
-                .stroke(
-                    Color.primary.opacity(0.1),
-                    style: StrokeStyle(lineWidth: 5, lineCap: .round)
-                )
+                .stroke(Color.primary.opacity(0.1),
+                        style: StrokeStyle(lineWidth: 5, lineCap: .round))
                 .padding(3)
 
             // Filled arc
             Circle()
                 .trim(from: 0, to: ratingProgress)
-                .stroke(
-                    ratingGradient,
-                    style: StrokeStyle(lineWidth: 5, lineCap: .round)
-                )
+                .stroke(ratingGradient,
+                        style: StrokeStyle(lineWidth: 5, lineCap: .round))
                 .rotationEffect(.degrees(-90))
                 .padding(3)
 
@@ -213,9 +203,8 @@ extension ARCRatingView {
 
 // MARK: - Compact Inline Style
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCRatingView {
-    @ViewBuilder private var compactInlineView: some View {
+@available(iOS 17.0, macOS 14.0, *) extension ARCRatingView {
+    private var compactInlineView: some View {
         HStack(spacing: spacing) {
             // Progress bar
             GeometryReader { geometry in
@@ -240,9 +229,8 @@ extension ARCRatingView {
 
 // MARK: - Minimal Style
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCRatingView {
-    @ViewBuilder private var minimalView: some View {
+@available(iOS 17.0, macOS 14.0, *) extension ARCRatingView {
+    private var minimalView: some View {
         Text(formattedRating)
             .font(.system(.subheadline, design: .rounded, weight: .semibold))
             .foregroundStyle(ratingColor)
@@ -257,76 +245,38 @@ extension ARCRatingView {
 
 // MARK: - Computed Properties
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCRatingView {
-    private var clampedRating: Double {
-        min(max(rating, 0), configuration.maxRating)
+@available(iOS 17.0, macOS 14.0, *) extension ARCRatingView {
+    private var clampedRating: Double? {
+        rating.map { min(max($0, 0), configuration.maxRating) }
+    }
+
+    private var isUnrated: Bool {
+        rating == nil
     }
 
     private var ratingProgress: Double {
-        guard configuration.maxRating > 0 else { return 0 }
+        guard !isUnrated, configuration.maxRating > 0 else { return 0 }
         return animatedRating / configuration.maxRating
     }
 
     private var formattedRating: String {
-        if clampedRating.truncatingRemainder(dividingBy: 1) == 0 {
-            return String(format: "%.0f", clampedRating)
-        }
-        return String(format: "%.1f", clampedRating)
+        ARCRatingColorMapper.formatted(clampedRating)
     }
 
     private var accessibilityLabel: String {
-        String(
-            format: "Rating: %.1f out of %.0f",
-            clampedRating,
-            configuration.maxRating
-        )
+        guard let clampedRating else { return String(localized: "Not rated") }
+
+        return String(format: "Rating: %.1f out of %.0f",
+                      clampedRating,
+                      configuration.maxRating)
     }
 
-    /// Returns semantic color based on rating percentage
     private var ratingColor: Color {
-        let normalized = clampedRating / configuration.maxRating
-
-        switch normalized {
-        case 0 ..< 0.3:
-            return .red
-        case 0.3 ..< 0.5:
-            return .orange
-        case 0.5 ..< 0.65:
-            return .yellow
-        case 0.65 ..< 0.75:
-            return Color(red: 0.6, green: 0.75, blue: 0.2)
-        case 0.75 ..< 0.85:
-            return Color(red: 0.3, green: 0.75, blue: 0.3)
-        default:
-            return Color(red: 0.1, green: 0.65, blue: 0.2)
-        }
+        ARCRatingColorMapper.color(for: clampedRating, maxRating: configuration.maxRating)
     }
 
-    /// Returns gradient based on rating percentage
     private var ratingGradient: LinearGradient {
-        let normalized = clampedRating / configuration.maxRating
-
-        let colors: [Color] = switch normalized {
-        case 0 ..< 0.3:
-            [.red, .orange]
-        case 0.3 ..< 0.5:
-            [.orange, .yellow]
-        case 0.5 ..< 0.65:
-            [.yellow, Color(red: 0.7, green: 0.8, blue: 0.2)]
-        case 0.65 ..< 0.75:
-            [Color(red: 0.6, green: 0.8, blue: 0.2), Color(red: 0.4, green: 0.75, blue: 0.25)]
-        case 0.75 ..< 0.85:
-            [Color(red: 0.4, green: 0.75, blue: 0.25), Color(red: 0.2, green: 0.7, blue: 0.25)]
-        default:
-            [Color(red: 0.2, green: 0.7, blue: 0.25), Color(red: 0.1, green: 0.6, blue: 0.15)]
-        }
-
-        return LinearGradient(
-            colors: colors,
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
+        ARCRatingColorMapper.gradient(for: clampedRating, maxRating: configuration.maxRating)
     }
 }
 
@@ -344,6 +294,8 @@ extension ARCRatingView {
                 Spacer()
 
                 ARCRatingView(rating: 8.5, style: style)
+
+                ARCRatingView(rating: nil, style: style)
             }
             .padding(.horizontal)
         }
@@ -351,12 +303,42 @@ extension ARCRatingView {
     .padding()
 }
 
+/// Side-by-side unrated / zero / high ratings, used to check the blue "?" contrast
+/// against a grouped background in both color schemes.
+@available(iOS 17.0, macOS 14.0, *) private struct ARCRatingUnratedPreview: View {
+    var body: some View {
+        VStack(spacing: .arcSpacingXLarge) {
+            HStack(spacing: .arcSpacingLarge) {
+                ARCRatingView(rating: nil)
+                ARCRatingView(rating: 0)
+                ARCRatingView(rating: 9.5)
+            }
+
+            HStack(spacing: .arcSpacingLarge) {
+                ARCRatingView(rating: nil, style: .compactInline)
+                ARCRatingView(rating: nil, style: .minimal)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.background.secondary)
+    }
+}
+
+#Preview("Unrated - Light") {
+    ARCRatingUnratedPreview()
+        .preferredColorScheme(.light)
+}
+
+#Preview("Unrated - Dark") {
+    ARCRatingUnratedPreview()
+        .preferredColorScheme(.dark)
+}
+
 #Preview("Circular Gauge - All Ratings") {
-    LazyVGrid(columns: [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ], spacing: .arcSpacingLarge) {
+    LazyVGrid(columns: [GridItem(.flexible()),
+                        GridItem(.flexible()),
+                        GridItem(.flexible())], spacing: .arcSpacingLarge) {
         ForEach([2.0, 4.0, 5.5, 7.0, 8.5, 10.0], id: \.self) { rating in
             ARCRatingView(rating: rating)
         }
@@ -423,10 +405,8 @@ extension ARCRatingView {
             ARCRatingView(rating: 9.2)
         }
         .padding()
-        .background(
-            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium)
-                .fill(.ultraThinMaterial)
-        )
+        .background(RoundedRectangle(cornerRadius: .arcCornerRadiusMedium)
+            .fill(.ultraThinMaterial))
 
         VStack(spacing: 0) {
             ForEach(["Pasta Carbonara", "Margherita Pizza", "Tiramisu"], id: \.self) { item in
@@ -445,10 +425,8 @@ extension ARCRatingView {
                 }
             }
         }
-        .background(
-            RoundedRectangle(cornerRadius: .arcCornerRadiusMedium)
-                .fill(.ultraThinMaterial)
-        )
+        .background(RoundedRectangle(cornerRadius: .arcCornerRadiusMedium)
+            .fill(.ultraThinMaterial))
     }
     .padding()
 }

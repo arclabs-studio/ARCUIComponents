@@ -27,8 +27,7 @@ import SwiftUI
 /// - ``filter``
 /// - ``input``
 /// - ``glass``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCChipConfiguration: Sendable, LiquidGlassConfigurable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCChipConfiguration: Sendable, LiquidGlassConfigurable {
     // MARK: - Size
 
     /// Size variants for chips
@@ -99,6 +98,12 @@ public struct ARCChipConfiguration: Sendable, LiquidGlassConfigurable {
     /// Whether to show dismiss (X) button when selected
     public let dismissible: Bool
 
+    /// Text and icon color when selected (default: .white)
+    public let selectedTextColor: Color?
+
+    /// Text color when unselected (default: .primary)
+    public let unselectedTextColor: Color?
+
     // MARK: - LiquidGlassConfigurable Properties
 
     /// Accent color for liquid glass effect
@@ -124,28 +129,32 @@ public struct ARCChipConfiguration: Sendable, LiquidGlassConfigurable {
     ///   - showCheckmark: Show checkmark when selected (default: true)
     ///   - hapticFeedback: Trigger haptics on tap (default: true)
     ///   - dismissible: Show X button when selected (default: false)
+    ///   - selectedTextColor: Text/icon color when selected, defaults to white if nil
+    ///   - unselectedTextColor: Text color when unselected, defaults to primary if nil
     ///   - accentColor: Accent for glass effect (default: .blue)
     ///   - backgroundStyle: Background style (default: .translucent)
     ///   - cornerRadius: Corner radius (default: 0 for capsule)
     ///   - shadow: Shadow configuration (default: .none)
-    public init(
-        size: Size = .medium,
-        selectedColor: Color = .blue,
-        unselectedColor: Color = .gray,
-        showCheckmark: Bool = true,
-        hapticFeedback: Bool = true,
-        dismissible: Bool = false,
-        accentColor: Color = .blue,
-        backgroundStyle: ARCBackgroundStyle = .translucent,
-        cornerRadius: CGFloat = 0,
-        shadow: ARCShadow = .none
-    ) {
+    public init(size: Size = .medium,
+                selectedColor: Color = .blue,
+                unselectedColor: Color = .gray,
+                showCheckmark: Bool = true,
+                hapticFeedback: Bool = true,
+                dismissible: Bool = false,
+                selectedTextColor: Color? = nil,
+                unselectedTextColor: Color? = nil,
+                accentColor: Color = .blue,
+                backgroundStyle: ARCBackgroundStyle = .translucent,
+                cornerRadius: CGFloat = 0,
+                shadow: ARCShadow = .none) {
         self.size = size
         self.selectedColor = selectedColor
         self.unselectedColor = unselectedColor
         self.showCheckmark = showCheckmark
         self.hapticFeedback = hapticFeedback
         self.dismissible = dismissible
+        self.selectedTextColor = selectedTextColor
+        self.unselectedTextColor = unselectedTextColor
         self.accentColor = accentColor
         self.backgroundStyle = backgroundStyle
         self.cornerRadius = cornerRadius
@@ -158,26 +167,18 @@ public struct ARCChipConfiguration: Sendable, LiquidGlassConfigurable {
     public static let `default` = ARCChipConfiguration()
 
     /// Filter chip for filtering UIs
-    public static let filter = ARCChipConfiguration(
-        showCheckmark: true,
-        dismissible: false
-    )
+    public static let filter = ARCChipConfiguration(showCheckmark: true,
+                                                    dismissible: false)
 
     /// Input chip for form inputs (dismissible)
-    public static let input = ARCChipConfiguration(
-        showCheckmark: false,
-        dismissible: true
-    )
+    public static let input = ARCChipConfiguration(showCheckmark: false,
+                                                   dismissible: true)
 
     /// Glass effect chip
-    public static let glass = ARCChipConfiguration(
-        backgroundStyle: .liquidGlass,
-        shadow: .subtle
-    )
+    public static let glass = ARCChipConfiguration(backgroundStyle: .liquidGlass,
+                                                   shadow: .subtle)
 
     /// Compact chip without checkmark
-    public static let compact = ARCChipConfiguration(
-        size: .small,
-        showCheckmark: false
-    )
+    public static let compact = ARCChipConfiguration(size: .small,
+                                                     showCheckmark: false)
 }

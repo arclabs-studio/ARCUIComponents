@@ -13,8 +13,7 @@ import SwiftUI
 ///
 /// Use this view to preview all ARCTextField variants, styles, and validation states
 /// in both light and dark mode.
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCTextFieldShowcase: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCTextFieldShowcase: View {
     // MARK: - State
 
     @State private var basicText = ""
@@ -67,13 +66,9 @@ public struct ARCTextFieldShowcase: View {
     private var glassStyleExample: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(
-                    LinearGradient(
-                        colors: [.purple.opacity(0.6), .blue.opacity(0.6)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+                .fill(LinearGradient(colors: [.purple.opacity(0.6), .blue.opacity(0.6)],
+                                     startPoint: .topLeading,
+                                     endPoint: .bottomTrailing))
                 .frame(height: 100)
 
             ARCTextField("Glass Style", text: $glassText, configuration: .glass)
@@ -97,11 +92,9 @@ public struct ARCTextFieldShowcase: View {
 
             ARCTextField("Search", text: $searchText, configuration: .search)
 
-            ARCTextField(
-                "Bio",
-                text: $bioText,
-                configuration: .multiline
-            )
+            ARCTextField("Bio",
+                         text: $bioText,
+                         configuration: .multiline)
         }
     }
 
@@ -111,40 +104,30 @@ public struct ARCTextFieldShowcase: View {
         VStack(alignment: .leading, spacing: 16) {
             sectionHeader("Validation")
 
-            ARCTextField(
-                "Username",
-                text: $usernameText,
-                configuration: ARCTextFieldConfiguration(
-                    label: "Username",
-                    leadingIcon: "person",
-                    helperText: "3-20 characters, letters, numbers, underscore",
-                    validation: ARCTextFieldValidation.username,
-                    validateOnChange: true
-                )
-            )
+            ARCTextField("Username",
+                         text: $usernameText,
+                         configuration: ARCTextFieldConfiguration(label: "Username",
+                                                                  leadingIcon: "person",
+                                                                  helperText: "3-20 characters, letters,"
+                                                                      + " numbers, underscore",
+                                                                  validation: ARCTextFieldValidation.username,
+                                                                  validateOnChange: true))
 
-            ARCTextField(
-                "Email with validation",
-                text: $emailText,
-                configuration: ARCTextFieldConfiguration(
-                    label: "Email",
-                    leadingIcon: "envelope",
-                    validation: ARCTextFieldValidation.email,
-                    validateOnChange: true
-                )
-            )
+            ARCTextField("Email with validation",
+                         text: $emailText,
+                         configuration: ARCTextFieldConfiguration(label: "Email",
+                                                                  leadingIcon: "envelope",
+                                                                  validation: ARCTextFieldValidation.email,
+                                                                  validateOnChange: true))
 
-            ARCSecureField(
-                "Strong Password",
-                text: $passwordText,
-                configuration: ARCTextFieldConfiguration(
-                    label: "Password",
-                    leadingIcon: "lock",
-                    helperText: "Min 8 chars, upper, lower, number, special",
-                    validation: ARCTextFieldValidation.strongPassword,
-                    validateOnChange: true
-                )
-            )
+            ARCSecureField("Strong Password",
+                           text: $passwordText,
+                           configuration: ARCTextFieldConfiguration(label: "Password",
+                                                                    leadingIcon: "lock",
+                                                                    helperText: "Min 8 chars, upper, lower,"
+                                                                        + " number, special",
+                                                                    validation: ARCTextFieldValidation.strongPassword,
+                                                                    validateOnChange: true))
         }
     }
 
@@ -165,33 +148,21 @@ public struct ARCTextFieldShowcase: View {
                 .disabled(true)
 
             // With Icons
-            ARCTextField(
-                "With Icons",
-                text: .constant(""),
-                configuration: ARCTextFieldConfiguration(
-                    leadingIcon: "magnifyingglass",
-                    trailingIcon: "mic.fill"
-                )
-            )
+            ARCTextField("With Icons",
+                         text: .constant(""),
+                         configuration: ARCTextFieldConfiguration(leadingIcon: "magnifyingglass",
+                                                                  trailingIcon: "mic.fill"))
 
             // With Helper Text
-            ARCTextField(
-                "With Helper",
-                text: .constant(""),
-                configuration: ARCTextFieldConfiguration(
-                    helperText: "This is helper text below the field"
-                )
-            )
+            ARCTextField("With Helper",
+                         text: .constant(""),
+                         configuration: ARCTextFieldConfiguration(helperText: "This is helper text below the field"))
 
             // With Character Count
-            ARCTextField(
-                "Character Limit",
-                text: $bioText,
-                configuration: ARCTextFieldConfiguration(
-                    characterLimit: 50,
-                    showCharacterCount: true
-                )
-            )
+            ARCTextField("Character Limit",
+                         text: $bioText,
+                         configuration: ARCTextFieldConfiguration(characterLimit: 50,
+                                                                  showCharacterCount: true))
         }
     }
 
@@ -202,58 +173,40 @@ public struct ARCTextFieldShowcase: View {
             sectionHeader("Form Example")
 
             VStack(spacing: 16) {
-                ARCTextField(
-                    "Username",
-                    text: $usernameText,
-                    configuration: ARCTextFieldConfiguration(
-                        label: "Username",
-                        leadingIcon: "person",
-                        validation: ARCTextFieldValidation.username,
-                        validateOnSubmit: true,
-                        submitLabel: .next
-                    )
-                )
+                ARCTextField("Username",
+                             text: $usernameText,
+                             configuration: ARCTextFieldConfiguration(label: "Username",
+                                                                      leadingIcon: "person",
+                                                                      validation: ARCTextFieldValidation.username,
+                                                                      validateOnSubmit: true,
+                                                                      submitLabel: .next))
 
-                ARCTextField(
-                    "Email",
-                    text: $emailText,
-                    configuration: ARCTextFieldConfiguration(
-                        label: "Email",
-                        leadingIcon: "envelope",
-                        validation: ARCTextFieldValidation.email,
-                        validateOnSubmit: true,
-                        submitLabel: .next
-                    )
-                )
+                ARCTextField("Email",
+                             text: $emailText,
+                             configuration: ARCTextFieldConfiguration(label: "Email",
+                                                                      leadingIcon: "envelope",
+                                                                      validation: ARCTextFieldValidation.email,
+                                                                      validateOnSubmit: true,
+                                                                      submitLabel: .next))
 
-                ARCSecureField(
-                    "Password",
-                    text: $passwordText,
-                    configuration: ARCTextFieldConfiguration(
-                        label: "Password",
-                        leadingIcon: "lock",
-                        validation: ARCTextFieldValidation.password,
-                        validateOnSubmit: true,
-                        submitLabel: .next
-                    )
-                )
+                ARCSecureField("Password",
+                               text: $passwordText,
+                               configuration: ARCTextFieldConfiguration(label: "Password",
+                                                                        leadingIcon: "lock",
+                                                                        validation: ARCTextFieldValidation.password,
+                                                                        validateOnSubmit: true,
+                                                                        submitLabel: .next))
 
-                ARCSecureField(
-                    "Confirm Password",
-                    text: $confirmPassword,
-                    configuration: ARCTextFieldConfiguration(
-                        label: "Confirm Password",
-                        leadingIcon: "lock.rotation",
-                        validation: ARCTextFieldValidation(
-                            rules: [
-                                ARCTextFieldValidation.required("Please confirm your password")
-                            ],
-                            mode: ARCTextFieldValidation.ValidationMode.all
-                        ),
-                        validateOnSubmit: true,
-                        submitLabel: .done
-                    )
-                )
+                let confirmValidation =
+                    ARCTextFieldValidation(rules: [ARCTextFieldValidation.required("Please confirm your password")],
+                                           mode: ARCTextFieldValidation.ValidationMode.all)
+                ARCSecureField("Confirm Password",
+                               text: $confirmPassword,
+                               configuration: ARCTextFieldConfiguration(label: "Confirm Password",
+                                                                        leadingIcon: "lock.rotation",
+                                                                        validation: confirmValidation,
+                                                                        validateOnSubmit: true,
+                                                                        submitLabel: .done))
             }
             .padding()
             .background {
@@ -300,13 +253,11 @@ public struct ARCTextFieldShowcase: View {
             ARCTextField("Underlined", text: .constant(""), configuration: .underlined)
 
             ZStack {
-                LinearGradient(
-                    colors: [.purple, .blue],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .frame(height: 80)
-                .clipShape(.rect(cornerRadius: 12))
+                LinearGradient(colors: [.purple, .blue],
+                               startPoint: .topLeading,
+                               endPoint: .bottomTrailing)
+                    .frame(height: 80)
+                    .clipShape(.rect(cornerRadius: 12))
 
                 ARCTextField("Glass", text: .constant(""), configuration: .glass)
                     .padding(.horizontal)
@@ -339,18 +290,14 @@ public struct ARCTextFieldShowcase: View {
         ARCTextField("Idle", text: .constant(""))
 
         // Valid (simulated)
-        ARCTextField(
-            "Valid",
-            text: .constant("valid@email.com"),
-            configuration: .email
-        )
+        ARCTextField("Valid",
+                     text: .constant("valid@email.com"),
+                     configuration: .email)
 
         // Invalid (simulated)
-        ARCTextField(
-            "Invalid",
-            text: .constant("invalid"),
-            configuration: .email
-        )
+        ARCTextField("Invalid",
+                     text: .constant("invalid"),
+                     configuration: .email)
     }
     .padding()
 }
@@ -360,16 +307,13 @@ public struct ARCTextFieldShowcase: View {
     VStack(spacing: 20) {
         ARCSecureField("Password", text: .constant(""))
         ARCSecureField("Password", text: .constant("secretpassword"))
-        ARCSecureField(
-            "Strong Password",
-            text: .constant(""),
-            configuration: ARCTextFieldConfiguration(
-                label: "Password",
-                leadingIcon: "lock.shield",
-                helperText: "Must include uppercase, lowercase, number, and special character",
-                validation: ARCTextFieldValidation.strongPassword
-            )
-        )
+        ARCSecureField("Strong Password",
+                       text: .constant(""),
+                       configuration: ARCTextFieldConfiguration(label: "Password",
+                                                                leadingIcon: "lock.shield",
+                                                                helperText: "Must include uppercase, lowercase,"
+                                                                    + " number, and special character",
+                                                                validation: ARCTextFieldValidation.strongPassword))
     }
     .padding()
 }
@@ -377,25 +321,18 @@ public struct ARCTextFieldShowcase: View {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("Character Limit") {
     VStack(spacing: 20) {
-        ARCTextField(
-            "Username",
-            text: .constant("john_doe"),
-            configuration: ARCTextFieldConfiguration(
-                characterLimit: 20,
-                showCharacterCount: true
-            )
-        )
+        ARCTextField("Username",
+                     text: .constant("john_doe"),
+                     configuration: ARCTextFieldConfiguration(characterLimit: 20,
+                                                              showCharacterCount: true))
 
-        ARCTextField(
-            "Bio",
-            text: .constant("Hello, I'm a software developer passionate about creating great user experiences."),
-            configuration: ARCTextFieldConfiguration(
-                inputType: .multiline(lineLimit: 4),
-                characterLimit: 150,
-                showCharacterCount: true,
-                height: 100
-            )
-        )
+        ARCTextField("Bio",
+                     text: .constant("Hello, I'm a software developer passionate about"
+                         + " creating great user experiences."),
+                     configuration: ARCTextFieldConfiguration(inputType: .multiline(lineLimit: 4),
+                                                              characterLimit: 150,
+                                                              showCharacterCount: true,
+                                                              height: 100))
     }
     .padding()
 }

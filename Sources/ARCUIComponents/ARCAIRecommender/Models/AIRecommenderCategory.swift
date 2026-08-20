@@ -5,7 +5,7 @@
 //  Created by ARC Labs Studio on 1/27/26.
 //
 
-import Foundation
+import SwiftUI
 
 /// Categories for AI-powered recommendations
 ///
@@ -30,8 +30,7 @@ import Foundation
 ///     label: "Por Cocina"
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public enum AIRecommenderCategory: Identifiable, Sendable, Equatable, Hashable {
+@available(iOS 17.0, macOS 14.0, *) public enum AIRecommenderCategory: Identifiable, Sendable, Equatable, Hashable {
     // MARK: - Predefined Categories
 
     /// Recommendations based on user's favorites and preferences
@@ -91,34 +90,40 @@ public enum AIRecommenderCategory: Identifiable, Sendable, Equatable, Hashable {
     }
 
     /// Display label for the category
-    public var label: String {
+    ///
+    /// Returns `LocalizedStringKey` so the consuming app's String Catalog
+    /// provides translations. The app owns all user-facing text.
+    public var label: LocalizedStringKey {
         switch self {
         case .favorites:
-            "Basado en tus favoritos"
+            "Based on your favorites"
         case .trending:
-            "Tendencias"
+            "Trending"
         case .nearYou:
-            "Cerca de ti"
+            "Near You"
         case .new:
-            "Nuevos descubrimientos"
+            "New Discoveries"
         case let .custom(_, _, label):
-            label
+            LocalizedStringKey(label)
         }
     }
 
     /// Short label for compact displays (e.g., category picker)
-    public var shortLabel: String {
+    ///
+    /// Returns `LocalizedStringKey` so the consuming app's String Catalog
+    /// provides translations. The app owns all user-facing text.
+    public var shortLabel: LocalizedStringKey {
         switch self {
         case .favorites:
-            "Favoritos"
+            "Favorites"
         case .trending:
-            "Tendencias"
+            "Trending"
         case .nearYou:
-            "Cerca"
+            "Nearby"
         case .new:
-            "Nuevos"
+            "New"
         case let .custom(_, _, label):
-            label
+            LocalizedStringKey(label)
         }
     }
 
@@ -137,8 +142,7 @@ public enum AIRecommenderCategory: Identifiable, Sendable, Equatable, Hashable {
 
 // MARK: - Default Categories
 
-@available(iOS 17.0, macOS 14.0, *)
-extension AIRecommenderCategory {
+@available(iOS 17.0, macOS 14.0, *) extension AIRecommenderCategory {
     /// Default set of categories for most apps
     public static var defaultCategories: [AIRecommenderCategory] {
         [.favorites, .nearYou, .trending, .new]

@@ -52,8 +52,7 @@ import SwiftUI
 /// Image(systemName: "bell")
 ///     .arcBadge(count: unreadCount)
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCBadge: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCBadge: View {
     // MARK: - Content
 
     /// Content types for badges
@@ -117,14 +116,12 @@ public struct ARCBadge: View {
     // MARK: - Body
 
     public var body: some View {
-        Group {
-            if shouldShow {
-                badgeContent
-                    .scaleEffect(animationScale)
-                    .onChange(of: content) { _, _ in
-                        animateIfNeeded()
-                    }
-            }
+        if shouldShow {
+            badgeContent
+                .scaleEffect(animationScale)
+                .onChange(of: content) { _, _ in
+                    animateIfNeeded()
+                }
         }
     }
 
@@ -139,14 +136,14 @@ public struct ARCBadge: View {
         }
     }
 
-    @ViewBuilder private var dotView: some View {
+    private var dotView: some View {
         Circle()
             .fill(configuration.style.color)
             .frame(width: configuration.size.height / 2, height: configuration.size.height / 2)
             .accessibilityLabel("Status indicator")
     }
 
-    @ViewBuilder private var labelView: some View {
+    private var labelView: some View {
         Text(displayText)
             .font(.system(size: configuration.size.fontSize, weight: .bold, design: .rounded))
             .foregroundStyle(textColor)

@@ -33,29 +33,21 @@ public struct HeartShape: Shape {
 
         path.move(to: CGPoint(x: width * 0.5, y: height * 0.25))
 
-        path.addCurve(
-            to: CGPoint(x: width * 0.1, y: height * 0.4),
-            control1: CGPoint(x: width * 0.5, y: height * 0.1),
-            control2: CGPoint(x: width * 0.2, y: height * 0.1)
-        )
+        path.addCurve(to: CGPoint(x: width * 0.1, y: height * 0.4),
+                      control1: CGPoint(x: width * 0.5, y: height * 0.1),
+                      control2: CGPoint(x: width * 0.2, y: height * 0.1))
 
-        path.addCurve(
-            to: CGPoint(x: width * 0.5, y: height * 0.9),
-            control1: CGPoint(x: 0, y: height * 0.6),
-            control2: CGPoint(x: width * 0.3, y: height * 0.9)
-        )
+        path.addCurve(to: CGPoint(x: width * 0.5, y: height * 0.9),
+                      control1: CGPoint(x: 0, y: height * 0.6),
+                      control2: CGPoint(x: width * 0.3, y: height * 0.9))
 
-        path.addCurve(
-            to: CGPoint(x: width * 0.9, y: height * 0.4),
-            control1: CGPoint(x: width * 0.7, y: height * 0.9),
-            control2: CGPoint(x: width, y: height * 0.6)
-        )
+        path.addCurve(to: CGPoint(x: width * 0.9, y: height * 0.4),
+                      control1: CGPoint(x: width * 0.7, y: height * 0.9),
+                      control2: CGPoint(x: width, y: height * 0.6))
 
-        path.addCurve(
-            to: CGPoint(x: width * 0.5, y: height * 0.25),
-            control1: CGPoint(x: width * 0.8, y: height * 0.1),
-            control2: CGPoint(x: width * 0.5, y: height * 0.1)
-        )
+        path.addCurve(to: CGPoint(x: width * 0.5, y: height * 0.25),
+                      control1: CGPoint(x: width * 0.8, y: height * 0.1),
+                      control2: CGPoint(x: width * 0.5, y: height * 0.1))
 
         return path
     }
@@ -81,13 +73,9 @@ public struct HeartShape: Shape {
             .frame(width: 60, height: 60)
 
         HeartShape()
-            .fill(
-                LinearGradient(
-                    colors: [.pink, .red],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            )
+            .fill(LinearGradient(colors: [.pink, .red],
+                                 startPoint: .top,
+                                 endPoint: .bottom))
             .frame(width: 80, height: 80)
     }
     .padding()
@@ -106,15 +94,13 @@ public struct HeartShape: Shape {
             .fill(Color.pink.opacity(0.2))
             .frame(width: 200, height: 200)
 
-        ForEach(0..<5, id: \.self) { _ in
+        ForEach(0 ..< 5, id: \.self) { _ in
             HeartShape()
                 .fill(Color.pink.opacity(0.6))
                 .frame(width: 25, height: 25)
-                .offset(
-                    x: CGFloat.random(in: -60...60),
-                    y: CGFloat.random(in: -60...60)
-                )
-                .rotationEffect(.degrees(Double.random(in: -30...30)))
+                .offset(x: CGFloat.random(in: -60 ... 60),
+                        y: CGFloat.random(in: -60 ... 60))
+                .rotationEffect(.degrees(Double.random(in: -30 ... 30)))
         }
     }
     .padding()

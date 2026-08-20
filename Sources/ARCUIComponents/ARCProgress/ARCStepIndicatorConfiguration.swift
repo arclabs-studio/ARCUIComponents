@@ -41,8 +41,7 @@ import SwiftUI
 /// - ``default``
 /// - ``compact``
 /// - ``detailed``
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCStepIndicatorConfiguration: Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCStepIndicatorConfiguration: Sendable {
     // MARK: - Style
 
     /// Visual styles for step indicators
@@ -173,22 +172,20 @@ public struct ARCStepIndicatorConfiguration: Sendable {
     ///   - animated: Enable animations (default: true)
     ///   - animationDuration: Animation duration (default: 0.3)
     ///   - showCheckmarkAnimation: Show checkmark on complete (default: true)
-    public init(
-        style: Style = .numbered,
-        layout: Layout = .horizontal,
-        stepSize: CGFloat = 28,
-        connectorLength: CGFloat = 40,
-        connectorThickness: CGFloat = 2,
-        completedColor: Color = .accentColor,
-        currentColor: Color = .accentColor,
-        pendingColor: Color = Color.secondary.opacity(0.3),
-        connectorColor: Color = Color.secondary.opacity(0.2),
-        numberFont: Font = .caption.bold(),
-        labelFont: Font = .caption,
-        animated: Bool = true,
-        animationDuration: Double = 0.3,
-        showCheckmarkAnimation: Bool = true
-    ) {
+    public init(style: Style = .numbered,
+                layout: Layout = .horizontal,
+                stepSize: CGFloat = 28,
+                connectorLength: CGFloat = 40,
+                connectorThickness: CGFloat = 2,
+                completedColor: Color = .accentColor,
+                currentColor: Color = .accentColor,
+                pendingColor: Color = Color.secondary.opacity(0.3),
+                connectorColor: Color = Color.secondary.opacity(0.2),
+                numberFont: Font = .caption.bold(),
+                labelFont: Font = .caption,
+                animated: Bool = true,
+                animationDuration: Double = 0.3,
+                showCheckmarkAnimation: Bool = true) {
         self.style = style
         self.layout = layout
         self.stepSize = stepSize
@@ -215,32 +212,26 @@ public struct ARCStepIndicatorConfiguration: Sendable {
     /// Compact dots indicator
     ///
     /// Minimal style, suitable for onboarding or limited space.
-    public static let compact = ARCStepIndicatorConfiguration(
-        style: .dots,
-        stepSize: 10,
-        connectorLength: 24,
-        connectorThickness: 2
-    )
+    public static let compact = ARCStepIndicatorConfiguration(style: .dots,
+                                                              stepSize: 10,
+                                                              connectorLength: 24,
+                                                              connectorThickness: 2)
 
     /// Detailed vertical indicator with labels
     ///
     /// Full-featured style with step descriptions.
     public static func detailed(labels: [String]) -> ARCStepIndicatorConfiguration {
-        ARCStepIndicatorConfiguration(
-            style: .labels(labels),
-            layout: .vertical,
-            stepSize: 32,
-            connectorLength: 40
-        )
+        ARCStepIndicatorConfiguration(style: .labels(labels),
+                                      layout: .vertical,
+                                      stepSize: 32,
+                                      connectorLength: 40)
     }
 
     /// Icon-based indicator
     ///
     /// Uses SF Symbols for each step.
     public static func withIcons(_ icons: [String]) -> ARCStepIndicatorConfiguration {
-        ARCStepIndicatorConfiguration(
-            style: .icons(icons),
-            stepSize: 32
-        )
+        ARCStepIndicatorConfiguration(style: .icons(icons),
+                                      stepSize: 32)
     }
 }

@@ -49,8 +49,7 @@ import SwiftUI
 /// ```
 ///
 /// - Note: All conforming types should be `Sendable` for Swift 6 concurrency safety.
-@available(iOS 17.0, *)
-public protocol LiquidGlassConfigurable: Sendable {
+@available(iOS 17.0, *) public protocol LiquidGlassConfigurable: Sendable {
     /// Primary accent color for the component
     ///
     /// This color is used very subtly (typically 3% opacity) as an overlay

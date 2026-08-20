@@ -57,8 +57,7 @@ import SwiftUI
 /// - Respects `accessibilityReduceMotion` (disables shimmer)
 /// - Provides "Loading" accessibility label
 /// - Uses semantic colors for dark/light mode support
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCSkeletonView: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCSkeletonView: View {
     // MARK: - Properties
 
     private let configuration: ARCSkeletonConfiguration
@@ -106,8 +105,7 @@ public struct ARCSkeletonView: View {
 
 // MARK: - Size Modifier
 
-@available(iOS 17.0, macOS 14.0, *)
-private struct SizeModifier: ViewModifier {
+@available(iOS 17.0, macOS 14.0, *) private struct SizeModifier: ViewModifier {
     let size: ARCSkeletonConfiguration.Size
 
     func body(content: Content) -> some View {
@@ -133,8 +131,7 @@ private struct SizeModifier: ViewModifier {
 
 // MARK: - Convenience Initializers
 
-@available(iOS 17.0, macOS 14.0, *)
-extension ARCSkeletonView {
+@available(iOS 17.0, macOS 14.0, *) extension ARCSkeletonView {
     /// Creates a text line skeleton
     ///
     /// - Parameter style: Text style preset (default: .text)
@@ -172,18 +169,14 @@ extension ARCSkeletonView {
         Text("Rectangle")
             .font(.caption)
             .foregroundStyle(.secondary)
-        ARCSkeletonView(configuration: ARCSkeletonConfiguration(
-            shape: .rectangle,
-            size: .fixed(width: 100, height: 50)
-        ))
+        ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .rectangle,
+                                                                size: .fixed(width: 100, height: 50)))
 
         Text("Rounded Rectangle")
             .font(.caption)
             .foregroundStyle(.secondary)
-        ARCSkeletonView(configuration: ARCSkeletonConfiguration(
-            shape: .roundedRectangle(cornerRadius: 12),
-            size: .fixed(width: 100, height: 50)
-        ))
+        ARCSkeletonView(configuration: ARCSkeletonConfiguration(shape: .roundedRectangle(cornerRadius: 12),
+                                                                size: .fixed(width: 100, height: 50)))
 
         Text("Circle")
             .font(.caption)

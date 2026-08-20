@@ -2,105 +2,72 @@
 
 ## Description
 
-<!-- Provide a brief description of the changes -->
+<!-- Provide a clear and concise description of your changes -->
 
 ## Type of Change
 
-<!-- Mark the relevant option with an "x" -->
+Please select the type of change this PR represents:
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
 - [ ] New feature (non-breaking change which adds functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] Documentation update
-- [ ] Code refactoring
-- [ ] Performance improvement
-- [ ] Test addition/update
+- [ ] Architecture/refactor
+- [ ] Chore (maintenance, dependencies, etc.)
 
-## Related Issue
+## Checklist
 
-<!-- Link to the issue this PR addresses -->
+Before submitting this PR, please make sure you have:
 
-Closes #(issue number)
+- [ ] My code follows the style guidelines of ARC Labs Studio
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes (`swift test --parallel`)
+- [ ] I have run `make lint` and `make format` to ensure code quality
+- [ ] I have updated CHANGELOG.md with my changes
+- [ ] I have updated DocC documentation if needed
 
-## Changes Made
+## Testing
 
-<!-- List the specific changes made in this PR -->
+### How Has This Been Tested?
 
--
--
--
+<!-- Describe the tests you ran to verify your changes -->
+
+**Test Configuration:**
+- Swift version:
+- macOS version:
+- Xcode version (if applicable):
+
+### Test Cases
+
+<!-- List specific test cases you've verified -->
+
+- [ ] Unit tests pass
+- [ ] Integration tests pass (if applicable)
+- [ ] Manual testing completed
 
 ## Screenshots (if applicable)
 
 <!-- Add screenshots to help explain your changes -->
 
-## Testing
+## Related Issues
 
-<!-- Describe the tests you ran to verify your changes -->
-
-- [ ] Unit tests added/updated
-- [ ] UI tests added/updated
-- [ ] Manual testing performed
-- [ ] All existing tests pass
-
-### Test Configuration
-
-- **Xcode Version**:
-- **iOS/macOS Version**:
-- **Device/Simulator**:
-
-## Checklist
-
-<!-- Mark completed items with an "x" -->
-
-- [ ] My code follows the project's coding standards
-- [ ] I have performed a self-review of my code
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
-- [ ] Any dependent changes have been merged and published
-- [ ] I have updated the CHANGELOG.md file
-
-## Documentation
-
-- [ ] DocC documentation added/updated
-- [ ] README updated (if needed)
-- [ ] Code examples provided
-- [ ] Inline comments added for complex logic
-
-## Accessibility
-
-- [ ] VoiceOver tested
-- [ ] Dynamic Type tested
-- [ ] High contrast mode tested
-- [ ] Reduced motion respected
-
-## Performance
-
-- [ ] No performance regressions introduced
-- [ ] Profiled with Instruments (if applicable)
-- [ ] Memory leaks checked
+<!-- Link to related issues using keywords like Closes, Fixes, Resolves -->
+<!-- Example: Closes #123, Fixes #456 -->
 
 ## Additional Notes
 
-<!-- Add any additional notes for reviewers -->
+<!-- Any additional information or context about the PR -->
+
+## Dependencies
+
+<!-- List any dependencies that are required for this change -->
 
 ---
 
-## For Reviewers
+**For Reviewers:**
 
-### Review Focus Areas
-
-<!-- Suggest specific areas for reviewers to focus on -->
-
--
--
-
-### Questions for Reviewers
-
-<!-- Any specific questions you have for reviewers -->
-
--
--
+<!-- Any specific areas you'd like reviewers to focus on? -->

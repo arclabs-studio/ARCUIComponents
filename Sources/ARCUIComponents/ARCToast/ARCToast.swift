@@ -61,8 +61,7 @@ import SwiftUI
 ///     configuration: .persistent
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct ARCToast: View {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCToast: View {
     // MARK: - Properties
 
     private let message: String
@@ -82,17 +81,13 @@ public struct ARCToast: View {
 
     // MARK: - Scaled Metrics
 
-    @ScaledMetric(relativeTo: .body)
-    private var horizontalPadding: CGFloat = 16
+    @ScaledMetric(relativeTo: .body) private var horizontalPadding: CGFloat = 16
 
-    @ScaledMetric(relativeTo: .body)
-    private var verticalPadding: CGFloat = 12
+    @ScaledMetric(relativeTo: .body) private var verticalPadding: CGFloat = 12
 
-    @ScaledMetric(relativeTo: .body)
-    private var iconSize: CGFloat = 20
+    @ScaledMetric(relativeTo: .body) private var iconSize: CGFloat = 20
 
-    @ScaledMetric(relativeTo: .body)
-    private var spacing: CGFloat = 12
+    @ScaledMetric(relativeTo: .body) private var spacing: CGFloat = 12
 
     // MARK: - Initialization
 
@@ -104,13 +99,11 @@ public struct ARCToast: View {
     ///   - action: Optional action button
     ///   - configuration: Visual and behavioral configuration
     ///   - onDismiss: Closure called when toast is dismissed
-    public init(
-        message: String,
-        type: ARCToastType = .info,
-        action: ARCToastAction? = nil,
-        configuration: ARCToastConfiguration = .default,
-        onDismiss: @escaping () -> Void = {}
-    ) {
+    public init(message: String,
+                type: ARCToastType = .info,
+                action: ARCToastAction? = nil,
+                configuration: ARCToastConfiguration = .default,
+                onDismiss: @escaping () -> Void = {}) {
         self.message = message
         self.type = type
         self.action = action
@@ -153,7 +146,7 @@ public struct ARCToast: View {
 
     // MARK: - Icon View
 
-    @ViewBuilder private var iconView: some View {
+    private var iconView: some View {
         Image(systemName: type.icon)
             .font(.system(size: iconSize, weight: .semibold))
             .foregroundStyle(type.color)
@@ -162,7 +155,7 @@ public struct ARCToast: View {
 
     // MARK: - Message View
 
-    @ViewBuilder private var messageView: some View {
+    private var messageView: some View {
         Text(message)
             .font(.subheadline.weight(.medium))
             .foregroundStyle(.primary)
@@ -173,7 +166,6 @@ public struct ARCToast: View {
 
     // MARK: - Action Button
 
-    @ViewBuilder
     private func actionButton(_ action: ARCToastAction) -> some View {
         Button {
             action.action()
@@ -255,10 +247,8 @@ public struct ARCToast: View {
         ARCToast(message: "Failed to upload file", type: .error)
         ARCToast(message: "Low storage space", type: .warning)
         ARCToast(message: "New update available", type: .info)
-        ARCToast(
-            message: "Custom notification",
-            type: .custom(icon: "bell.fill", color: .purple)
-        )
+        ARCToast(message: "Custom notification",
+                 type: .custom(icon: "bell.fill", color: .purple))
     }
     .padding()
 }
@@ -266,23 +256,17 @@ public struct ARCToast: View {
 @available(iOS 17.0, macOS 14.0, *)
 #Preview("With Actions") {
     VStack(spacing: 16) {
-        ARCToast(
-            message: "Item deleted",
-            type: .info,
-            action: .undo {}
-        )
+        ARCToast(message: "Item deleted",
+                 type: .info,
+                 action: .undo {})
 
-        ARCToast(
-            message: "Network error",
-            type: .error,
-            action: .retry {}
-        )
+        ARCToast(message: "Network error",
+                 type: .error,
+                 action: .retry {})
 
-        ARCToast(
-            message: "Message sent",
-            type: .success,
-            action: .view {}
-        )
+        ARCToast(message: "Message sent",
+                 type: .success,
+                 action: .view {})
     }
     .padding()
 }
@@ -302,11 +286,9 @@ public struct ARCToast: View {
     VStack(spacing: 16) {
         ARCToast(message: "Success in dark mode", type: .success)
         ARCToast(message: "Error in dark mode", type: .error)
-        ARCToast(
-            message: "With action",
-            type: .info,
-            action: .undo {}
-        )
+        ARCToast(message: "With action",
+                 type: .info,
+                 action: .undo {})
     }
     .padding()
     .preferredColorScheme(.dark)

@@ -10,8 +10,7 @@ import SwiftUI
 // MARK: - ToastItem
 
 /// Internal model representing a queued toast
-@available(iOS 17.0, macOS 14.0, *)
-public struct ToastItem: Identifiable, Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ToastItem: Identifiable, Sendable {
     public let id = UUID()
     public let message: String
     public let type: ARCToastType
@@ -115,18 +114,14 @@ public final class ARCToastManager {
     ///   - type: The toast type (default: .info)
     ///   - action: Optional action button
     ///   - configuration: Toast configuration (default: .default)
-    public func show(
-        _ message: String,
-        type: ARCToastType = .info,
-        action: ARCToastAction? = nil,
-        configuration: ARCToastConfiguration = .default
-    ) {
-        let item = ToastItem(
-            message: message,
-            type: type,
-            action: action,
-            configuration: configuration
-        )
+    public func show(_ message: String,
+                     type: ARCToastType = .info,
+                     action: ARCToastAction? = nil,
+                     configuration: ARCToastConfiguration = .default) {
+        let item = ToastItem(message: message,
+                             type: type,
+                             action: action,
+                             configuration: configuration)
 
         if currentToast == nil {
             presentToast(item)

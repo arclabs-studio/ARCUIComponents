@@ -51,18 +51,14 @@ public struct ShimmerModifier: ViewModifier {
             .overlay {
                 GeometryReader { geometry in
                     if isActive {
-                        LinearGradient(
-                            colors: [
-                                .clear,
-                                .white.opacity(0.4),
-                                .clear
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                        .frame(width: geometry.size.width * 0.6)
-                        .offset(x: -geometry.size.width + (geometry.size.width * 2 * phase))
-                        .blendMode(.screen)
+                        LinearGradient(colors: [.clear,
+                                                .white.opacity(0.4),
+                                                .clear],
+                                       startPoint: .leading,
+                                       endPoint: .trailing)
+                            .frame(width: geometry.size.width * 0.6)
+                            .offset(x: -geometry.size.width + (geometry.size.width * 2 * phase))
+                            .blendMode(.screen)
                     }
                 }
             }
@@ -88,14 +84,14 @@ public struct ShimmerModifier: ViewModifier {
 
 // MARK: - View Extension
 
-public extension View {
+extension View {
     /// Adds a shimmer effect to the view.
     ///
     /// - Parameters:
     ///   - isActive: Whether the shimmer is active. Defaults to `true`.
     ///   - duration: The duration of one shimmer cycle. Defaults to `1.5` seconds.
     /// - Returns: A view with the shimmer effect applied.
-    func shimmer(isActive: Bool = true, duration: Double = 1.5) -> some View {
+    public func shimmer(isActive: Bool = true, duration: Double = 1.5) -> some View {
         modifier(ShimmerModifier(isActive: isActive, duration: duration))
     }
 }

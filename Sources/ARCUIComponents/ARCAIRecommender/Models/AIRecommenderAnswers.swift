@@ -35,8 +35,7 @@ import Foundation
 ///     return prompt
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct AIRecommenderAnswers: Sendable, Equatable {
+@available(iOS 17.0, macOS 14.0, *) public struct AIRecommenderAnswers: Sendable, Equatable {
     // MARK: - Properties
 
     /// Dictionary mapping question IDs to selected option IDs
@@ -45,11 +44,15 @@ public struct AIRecommenderAnswers: Sendable, Equatable {
     /// Dictionary mapping question IDs to slider values (0.0 to 1.0)
     private var sliderValues: [String: Double]
 
+    /// Dictionary mapping question IDs to free-text answers
+    private var freeTexts: [String: String]
+
     // MARK: - Initialization
 
     public init() {
         selections = [:]
         sliderValues = [:]
+        freeTexts = [:]
     }
 
     // MARK: - Selection Methods
@@ -115,6 +118,29 @@ public struct AIRecommenderAnswers: Sendable, Equatable {
         sliderValues[questionId] = max(0, min(1, value))
     }
 
+    // MARK: - Free Text Methods
+
+    /// Gets the free-text answer for a question
+    /// - Parameter questionId: The question identifier
+    /// - Returns: The trimmed free text, or nil when none was entered
+    public func freeText(for questionId: String) -> String? {
+        freeTexts[questionId]
+    }
+
+    /// Sets the free-text answer for a question
+    ///
+    /// Whitespace-only text clears the stored value.
+    /// - Parameters:
+    ///   - text: The free-text answer
+    ///   - questionId: The question identifier
+    public mutating func setFreeText(_ text: String, for questionId: String) {
+        if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            freeTexts.removeValue(forKey: questionId)
+        } else {
+            freeTexts[questionId] = text
+        }
+    }
+
     // MARK: - Utility Methods
 
     /// Checks if any answer exists for a question
@@ -124,7 +150,10 @@ public struct AIRecommenderAnswers: Sendable, Equatable {
         if let selected = selections[questionId], !selected.isEmpty {
             return true
         }
-        return sliderValues[questionId] != nil
+        if sliderValues[questionId] != nil {
+            return true
+        }
+        return freeTexts[questionId] != nil
     }
 
     /// Checks if all required questions have answers
@@ -138,6 +167,7 @@ public struct AIRecommenderAnswers: Sendable, Equatable {
     public var answeredQuestionIds: [String] {
         var ids = Set(selections.keys)
         ids.formUnion(sliderValues.keys)
+        ids.formUnion(freeTexts.keys)
         return Array(ids)
     }
 
@@ -145,19 +175,21 @@ public struct AIRecommenderAnswers: Sendable, Equatable {
     public mutating func reset() {
         selections = [:]
         sliderValues = [:]
+        freeTexts = [:]
     }
 
     /// Total number of questions answered
     public var count: Int {
         var ids = Set(selections.keys.filter { !(selections[$0]?.isEmpty ?? true) })
         ids.formUnion(sliderValues.keys)
+        ids.formUnion(freeTexts.keys)
         return ids.count
     }
 
     /// Whether no questions have been answered
     public var isEmpty: Bool {
         let hasSelections = selections.values.contains { !$0.isEmpty }
-        return !hasSelections && sliderValues.isEmpty
+        return !hasSelections && sliderValues.isEmpty && freeTexts.isEmpty
     }
 
     // MARK: - Export
@@ -173,6 +205,10 @@ public struct AIRecommenderAnswers: Sendable, Equatable {
 
         for (questionId, value) in sliderValues {
             result[questionId] = value
+        }
+
+        for (questionId, text) in freeTexts {
+            result["\(questionId).freeText"] = text
         }
 
         return result

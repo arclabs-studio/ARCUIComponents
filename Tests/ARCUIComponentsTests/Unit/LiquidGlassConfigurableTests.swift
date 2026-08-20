@@ -54,32 +54,24 @@ struct LiquidGlassConfigurableTests {
 
     // MARK: - Protocol Property Consistency Tests
 
-    @Test("allConfigurations_havePositiveCornerRadius")
-    func allConfigurations_havePositiveCornerRadius() {
-        let listConfigs: [any LiquidGlassConfigurable] = [
-            ARCListCardConfiguration.default,
-            ARCListCardConfiguration.prominent,
-            ARCListCardConfiguration.glassmorphic
-        ]
+    @Test("allConfigurations_havePositiveCornerRadius") func allConfigurations_havePositiveCornerRadius() {
+        let listConfigs: [any LiquidGlassConfigurable] = [ARCListCardConfiguration.default,
+                                                          ARCListCardConfiguration.prominent,
+                                                          ARCListCardConfiguration.glassmorphic]
 
-        let otherConfigs: [any LiquidGlassConfigurable] = [
-            ARCEmptyStateConfiguration.noFavorites,
-            ARCEmptyStateConfiguration.premium
-        ]
+        let otherConfigs: [any LiquidGlassConfigurable] = [ARCEmptyStateConfiguration.noFavorites,
+                                                           ARCEmptyStateConfiguration.premium]
 
         for config in listConfigs + otherConfigs {
             #expect(config.cornerRadius > 0, "Configuration should have positive corner radius")
         }
     }
 
-    @Test("allConfigurations_haveValidShadow")
-    func allConfigurations_haveValidShadow() {
-        let configs: [any LiquidGlassConfigurable] = [
-            ARCListCardConfiguration.default,
-            ARCListCardConfiguration.prominent,
-            ARCEmptyStateConfiguration.noFavorites,
-            ARCEmptyStateConfiguration.premium
-        ]
+    @Test("allConfigurations_haveValidShadow") func allConfigurations_haveValidShadow() {
+        let configs: [any LiquidGlassConfigurable] = [ARCListCardConfiguration.default,
+                                                      ARCListCardConfiguration.prominent,
+                                                      ARCEmptyStateConfiguration.noFavorites,
+                                                      ARCEmptyStateConfiguration.premium]
 
         for config in configs {
             #expect(config.shadow.radius >= 0, "Shadow radius should be non-negative")
@@ -88,8 +80,7 @@ struct LiquidGlassConfigurableTests {
 
     // MARK: - New Component Conformance Tests
 
-    @Test("ARCEmptyStateConfiguration_conformsToProtocol")
-    func ARCEmptyStateConfiguration_conformsToProtocol() {
+    @Test("ARCEmptyStateConfiguration_conformsToProtocol") func ARCEmptyStateConfiguration_conformsToProtocol() {
         let config: any LiquidGlassConfigurable = ARCEmptyStateConfiguration.noFavorites
 
         _ = config.accentColor
@@ -97,12 +88,9 @@ struct LiquidGlassConfigurableTests {
         #expect(config.shadow.radius >= 0)
     }
 
-    @Test("allGlassmorphicPresets_haveLiquidGlassBackground")
-    func allGlassmorphicPresets_haveLiquidGlassBackground() {
-        let glassmorphicConfigs: [any LiquidGlassConfigurable] = [
-            ARCListCardConfiguration.glassmorphic,
-            ARCEmptyStateConfiguration.premium
-        ]
+    @Test("allGlassmorphicPresets_haveLiquidGlassBackground") func allGlassmorphicPresets_haveLiquidGlassBackground() {
+        let glassmorphicConfigs: [any LiquidGlassConfigurable] = [ARCListCardConfiguration.glassmorphic,
+                                                                  ARCEmptyStateConfiguration.premium]
 
         for config in glassmorphicConfigs {
             if case .liquidGlass = config.backgroundStyle {
@@ -120,12 +108,10 @@ struct LiquidGlassConfigurableTests {
 
     @Test("customListCardConfiguration_withTranslucent_conformsCorrectly")
     func customListCardConfiguration_withTranslucent_conformsCorrectly() {
-        let config = ARCListCardConfiguration(
-            accentColor: .green,
-            backgroundStyle: .translucent,
-            cornerRadius: 16,
-            shadow: .subtle
-        )
+        let config = ARCListCardConfiguration(accentColor: .green,
+                                              backgroundStyle: .translucent,
+                                              cornerRadius: 16,
+                                              shadow: .subtle)
 
         let configurable: any LiquidGlassConfigurable = config
 
@@ -169,8 +155,7 @@ struct LiquidGlassConfigurableTests {
 
 @Suite("LiquidGlass Background Style Tests")
 struct LiquidGlassBackgroundStyleTests {
-    @Test("liquidGlass_canBeUsedInListCardConfiguration")
-    func liquidGlass_canBeUsedInListCardConfiguration() {
+    @Test("liquidGlass_canBeUsedInListCardConfiguration") func liquidGlass_canBeUsedInListCardConfiguration() {
         let config = ARCListCardConfiguration(backgroundStyle: .liquidGlass)
 
         if case .liquidGlass = config.backgroundStyle {
@@ -180,8 +165,7 @@ struct LiquidGlassBackgroundStyleTests {
         }
     }
 
-    @Test("solid_canBeUsedInListCardConfiguration")
-    func solid_canBeUsedInListCardConfiguration() {
+    @Test("solid_canBeUsedInListCardConfiguration") func solid_canBeUsedInListCardConfiguration() {
         let config = ARCListCardConfiguration(backgroundStyle: .solid(.blue, opacity: 0.8))
 
         if case let .solid(color, opacity) = config.backgroundStyle {

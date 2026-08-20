@@ -22,8 +22,7 @@ import SwiftUI
 /// This style handles the visual feedback during button interaction,
 /// including scale reduction and opacity changes. The animation is
 /// quick and subtle to feel responsive without being distracting.
-@available(iOS 17.0, macOS 14.0, *)
-struct ARCButtonStyle: ButtonStyle {
+@available(iOS 17.0, macOS 14.0, *) struct ARCButtonStyle: ButtonStyle {
     // MARK: - Properties
 
     /// Button configuration for press behavior
