@@ -13,7 +13,7 @@ let package = Package(name: "ARCUIComponents",
                           // Note: ARCUIComponentsDemoApp is intentionally NOT exposed as a product.
                           // It's a separate Xcode project in Example/ARCUIComponentsDemoApp/
                       ],
-                      dependencies: [.package(url: "https://github.com/arclabs-studio/ARCDesignSystem", from: "2.3.0"),
+                      dependencies: [.package(url: "https://github.com/arclabs-studio/ARCDesignSystem", from: "1.0.0"),
                                      .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.4.3")],
                       targets: [// Main library
                           .target(name: "ARCUIComponents",

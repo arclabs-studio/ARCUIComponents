@@ -5,9 +5,16 @@ All notable changes to ARCUIComponents will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2026-08-20
+
+First public release of **ARCUIComponents**.
+
+ARC Labs Studio re-baselined every package at `1.0.0` for its first product launch. The pre-launch version history (0.1.0 → 1.9.0) never corresponded to a release the studio stood behind; those tags and GitHub Releases have been removed and the notes are preserved below under [Pre-1.0 history](#pre-10-history-untagged).
 
 ### Added
+
+- **`INTERNAL-USE.md`** — documents ARC Labs Studio's self-grant for commercial use of its own products under the new licence.
+
 - **ARCRatingView unrated state**: `rating` is now `Double?`. A `nil` rating renders a
   blue `"?"` in all three styles (`.circularGauge`, `.compactInline`, `.minimal`) with an
   empty progress track and a "Not rated" accessibility label, so "no rating" is visually
@@ -20,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **ARCRatingViewShowcase**: New "Unrated" section contrasting `nil` against a rating of `0`.
 
 ### Changed
+
+- **`ARCDesignSystem` dependency** — now `from: "1.0.0"`, following its own re-baseline (was `from: "2.3.0"`).
+
 - **ARCFavoriteButton prominent style**: Added an opt-in `.prominent` visual treatment
   for card-image overlays, with an adaptive circular material plate, stroke, shadow,
   and stronger empty-state tint while preserving the 44pt minimum touch target.
@@ -43,19 +53,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `bookmarkSaveLabel`, `bookmarkSavedLabel`, `questionnaireStartPrompt`,
   `questionnaireCompletePrompt`, `questionnaireProgressFormat`, `questionnaireMinAnswerPrompt`
 
+- **License** — relicensed from MIT to [PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0). Source-available and free for non-commercial use; commercial use requires a separate licence from ARC Labs Studio. ARC Labs Studio's own products are covered by an internal grant — see `INTERNAL-USE.md`.
+
 ### Fixed
+
 - **ARCTabItem**: Changed `title` protocol requirement from `String` to `LocalizedStringKey`
   so tab labels respond to `.environment(\.locale, ...)` and the String Catalog
 - **ARCMenuViewModel**: Reformatted deprecated `standard()` function signature to stay within
   120-character line limit
 
-## [1.9.1] - 2026-01-29
+---
 
-### Fixed
+## Pre-1.0 history (untagged)
+
+Everything below predates the 1.0.0 baseline. The version numbers are retained for traceability only — no tag or release exists for any of them.
+
+### [1.9.1] - 2026-01-29
+
+#### Fixed
 - **ARCMenu Presentation Bug**: Fixed critical bug where `.arcMenu(viewModel:)` deprecated modifier
   used `.constant()` binding, preventing the menu from opening when using `ARCMenuButton`
 
-### Changed
+#### Changed
 - **ARCMenuButton Refactored for External Binding Pattern**:
   - New primary initializer: `init(isPresented: Binding<Bool>, viewModel:, showsBadge:, badgeCount:)`
   - Button now toggles the external `isPresented` binding instead of ViewModel's internal state
@@ -69,14 +88,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **ARCMenuLegacyModifier**: New internal modifier that properly wraps ViewModel's deprecated
   `isPresented` state into a working `Binding<Bool>` for backward compatibility
 
-### Documentation
+#### Documentation
 - Updated `ARCMenu.swift` with comprehensive usage examples
 - Updated `ARCMenuShowcase.swift` integration guide with v1.9.1 patterns
 - Demo app `ARCMenuDemoScreen` updated to use new `ARCMenuButton(isPresented:viewModel:)` API
 - Added architecture integration examples (plain SwiftUI, Coordinator, TCA, etc.)
 - Added inline documentation explaining the external binding pattern
 
-### Migration Guide
+#### Migration Guide
 
 **Before (v1.9.0 - deprecated, but now works)**:
 ```swift
@@ -106,9 +125,11 @@ var body: some View {
 }
 ```
 
-## [1.9.0] - 2026-01-29
+---
 
-### Changed
+### [1.9.0] - 2026-01-29
+
+#### Changed
 - **ARCMenu Refactored for Native iOS/macOS Feel**:
   - Simplified `ARCMenuConfiguration` to use native `.sheet()` presentation
   - Removed `LiquidGlassConfigurable` conformance (uses native Material)
@@ -132,24 +153,26 @@ var body: some View {
   - Reduced icon size to 24x24 for cleaner native appearance
   - Better alignment with Apple HIG
 
-### Added
+#### Added
 - `ARCMenuActions`: New model for encapsulating menu action callbacks
 - `ARCMenuIconStyle`: Enum for icon rendering styles (`.subtle`, `.prominent`)
 - `ARCMenu+Previews.swift`: Extracted previews to separate file
 
-### Documentation
+#### Documentation
 - Updated `ARCMenu.md` DocC documentation with simplified API
 - Improved code examples reflecting new native sheet approach
 - Updated demo screen with simplified configuration options
 
-### Technical
+#### Technical
 - Reduced code complexity and file sizes across ARCMenu module
 - Better separation of concerns with extracted preview files
 - Improved SwiftLint compliance
 
-## [1.8.0] - 2026-01-28
+---
 
-### Added
+### [1.8.0] - 2026-01-28
+
+#### Added
 - **ARCAIRecommender Component**: AI-powered recommendation interface
   - Dual mode support: quick categories and questionnaire modes
   - Type-safe generic architecture
@@ -159,7 +182,7 @@ var body: some View {
   - Demo screen with interactive examples
   - Comprehensive DocC documentation
 
-### Changed
+#### Changed
 - **ARCMenu Icon Styling Simplified**:
   - Icons use accent color directly without background circles
   - Reduced icon size for cleaner native appearance
@@ -169,14 +192,16 @@ var body: some View {
   - Replaced text "Done"/"Close" buttons with `xmark.circle.fill` icons
   - Better visual consistency following iOS design patterns
 
-### Technical
+#### Technical
 - Updated ARCDevTools to v2.3.0 (GitHub Actions automation)
 - CI migrated to macos-14 runners for better availability
 - Optimized CI workflow matrix
 
-## [1.7.0] - 2026-01-28
+---
 
-### Added
+### [1.7.0] - 2026-01-28
+
+#### Added
 - **ARCAIRecommender Component**: AI-powered recommendation interface
   - Dual mode support: quick categories and questionnaire modes
   - `ARCAIRecommender`: Main view with mode switcher tabs
@@ -204,18 +229,20 @@ var body: some View {
   - New configuration presets: `.prominent`, `.restaurant`
   - Interactive icon style picker in demo app
 
-### Changed
+#### Changed
 - Demo app updated with ARCAIRecommender demo screen
 - ARCMenu demo enhanced with icon style selector
 - Updated ARCUIComponents.md documentation catalog
 
-### Technical
+#### Technical
 - Refactored ARCAIRecommender previews to separate files for SwiftLint compliance
 - Moved showcase sections to extensions to fix type_body_length violations
 
-## [1.6.0] - 2026-01-27
+---
 
-### Added
+### [1.6.0] - 2026-01-27
+
+#### Added
 - **ARCTabView Component**: Tab navigation with iOS 26 Liquid Glass support
   - Native `TabView` wrapper with automatic Liquid Glass detection
   - Fallback styling for iOS 17-25 with translucent materials
@@ -260,7 +287,7 @@ var body: some View {
 - Technical review document with improvement roadmap
 - CHANGELOG file for version tracking
 
-### Changed
+#### Changed
 - **ARCMenu Component Enhancements**:
   - `ARCMenuConfiguration`: Added `presentationStyle`, `showsGrabber`, `showsCloseButton`, and `sheetTitle` properties
   - `ARCMenu`: Refactored to support both `bottomSheet` and `trailingPanel` presentations with appropriate transitions
@@ -283,19 +310,21 @@ var body: some View {
 - Enhanced inline documentation with DocC markup
 - Improved code examples in documentation
 
-### Fixed
+#### Fixed
 - **Demo App Configuration**:
   - Added missing `ARCTabViewDemoScreen.swift` to Xcode project (file existed but was not registered)
   - Removed residual `Examples/` directory (correct path is `Example/ARCUIComponentsDemoApp/`)
   - Updated Package.swift comments to reflect correct demo app path
 
-### Technical
+#### Technical
 - Enabled `StrictConcurrency` experimental feature for main target and test target
 - Updated ARCDevTools submodule to latest version
 
-## [1.0.0] - 2025-11-12
+---
 
-### Added
+### [1.0.0] - 2025-11-12
+
+#### Added
 - **ARCMenu Component**: Premium menu with liquid glass effect
   - `ARCMenu`: Main menu container with animations and gestures
   - `ARCMenuButton`: Trigger button with avatar or icon
@@ -323,7 +352,7 @@ var body: some View {
   - Multiple preview configurations
   - Usage documentation
 
-### Technical
+#### Technical
 - Swift 6.0 with complete concurrency support
 - iOS 17.0+ / macOS 14.0+ / tvOS 17.0+ / watchOS 10.0+
 - Clean Architecture with clear layer separation
@@ -332,15 +361,17 @@ var body: some View {
 - Full `Sendable` compliance
 - No external dependencies
 
-### Documentation
+#### Documentation
 - Comprehensive README with examples
 - Inline code documentation
 - Usage guides and best practices
 - Architecture documentation
 
-## Release Notes
+---
 
-### Version 1.0.0 - Initial Release
+### Release Notes
+
+#### Version 1.0.0 - Initial Release
 
 ARCUIComponents launches with its first component: **ARCMenu**, a sophisticated menu component featuring Apple's Liquid Glass effect.
 
@@ -357,10 +388,4 @@ See [TECHNICAL_REVIEW.md](TECHNICAL_REVIEW.md) for planned improvements and futu
 
 ---
 
-[Unreleased]: https://github.com/arclabs-studio/ARCUIComponents/compare/v1.9.1...HEAD
-[1.9.1]: https://github.com/arclabs-studio/ARCUIComponents/compare/v1.9.0...v1.9.1
-[1.9.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.9.0
-[1.8.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.8.0
-[1.7.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.7.0
-[1.6.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.6.0
 [1.0.0]: https://github.com/arclabs-studio/ARCUIComponents/releases/tag/v1.0.0
