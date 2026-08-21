@@ -229,7 +229,7 @@ import SwiftUI
 
     private var modeSwitcher: some View {
         HStack(spacing: 0) {
-            ModeTab(title: "Rápido",
+            ModeTab(title: "Quick",
                     icon: "bolt.fill",
                     isSelected: mode == .quick,
                     accentColor: configuration.accentColor) {
@@ -238,7 +238,7 @@ import SwiftUI
                 }
             }
 
-            ModeTab(title: "Personalizado",
+            ModeTab(title: "Custom",
                     icon: "slider.horizontal.3",
                     isSelected: mode == .questionnaire,
                     accentColor: configuration.accentColor) {
@@ -452,7 +452,9 @@ import SwiftUI
 // MARK: - Mode Tab
 
 @available(iOS 17.0, macOS 14.0, *) private struct ModeTab: View {
-    let title: String
+    /// `LocalizedStringKey`, not `String`: the consuming app's String Catalog
+    /// resolves the label. A plain `String` renders verbatim in every locale.
+    let title: LocalizedStringKey
     let icon: String
     let isSelected: Bool
     let accentColor: Color
