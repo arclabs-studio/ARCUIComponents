@@ -5,6 +5,29 @@ All notable changes to ARCUIComponents will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-08-21
+
+### Fixed
+
+- **ARCAIRecommender mode switcher is now localizable.** `ModeTab.title` was declared
+  `String` and rendered via `Text(title)`, with the two call sites passing the Spanish
+  literals `"Rápido"` and `"Personalizado"`. A plain `String` renders verbatim in every
+  locale, so those two labels appeared in Spanish inside English-language apps —
+  surrounded by correctly localized UI.
+
+  The property is now `LocalizedStringKey` and the literals are the English keys
+  `"Quick"` and `"Custom"`, so the consuming app's String Catalog resolves them. This
+  restores the package's text-agnostic contract: ARC packages supply
+  `LocalizedStringKey` literals with English defaults and never hardcode non-English copy.
+
+  Found while capturing App Store screenshots for FavRes in English — the kind of defect
+  that stays invisible until someone actually runs the app in a non-default language.
+
+  `ModeTab` is `private` with two call sites, both internal, so there is **no public API
+  change and no source break for consumers**. Consumers that map the keys see unchanged
+  Spanish output. Released as a minor rather than a patch because the rendering contract
+  for these labels changes: anything relying on the literal Spanish now needs a catalog entry.
+
 ## [1.0.0] - 2026-08-20
 
 First public release of **ARCUIComponents**.
