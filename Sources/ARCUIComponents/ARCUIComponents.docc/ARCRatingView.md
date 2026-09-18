@@ -45,6 +45,9 @@ ARCRatingView(rating: 8.5, style: .circularGauge)
 ARCRatingView(rating: 8.5, configuration: .circularGauge)
 ```
 
+> Note: The gauge's start/finish point sits at the bottom (6 o'clock) of the
+> circle, and the fill sweeps clockwise from there.
+
 ### Compact Inline
 
 A mini progress bar with number, ideal for lists and table rows.

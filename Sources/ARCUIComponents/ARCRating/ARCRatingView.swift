@@ -80,6 +80,10 @@ import SwiftUI
 ///
 /// - Note: The view automatically animates between values and provides
 ///   meaningful accessibility labels for VoiceOver users.
+///
+/// In `.circularGauge` style, the ring's start/finish point sits at the
+/// bottom (6 o'clock) of the circle, with the fill sweeping clockwise from
+/// there.
 @available(iOS 17.0, macOS 14.0, *) public struct ARCRatingView: View {
     // MARK: - Properties
 
@@ -189,7 +193,7 @@ import SwiftUI
                 .trim(from: 0, to: ratingProgress)
                 .stroke(ratingGradient,
                         style: StrokeStyle(lineWidth: 5, lineCap: .round))
-                .rotationEffect(.degrees(-90))
+                .rotationEffect(.degrees(90))
                 .padding(3)
 
             // Center content

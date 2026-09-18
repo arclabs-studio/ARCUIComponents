@@ -5,6 +5,20 @@ All notable changes to ARCUIComponents will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **ARCRatingView / ARCRatingInputView circular gauge now starts at the bottom (6 o'clock) instead of the top (12 o'clock).**
+  In `.circularDrag` mode, the combination of finger-drag direction and the ring's fill direction starting from the top made
+  the rating hard to read at a glance. The start/finish point of the ring — and the matching drag-indicator dot and
+  drag-to-angle math in `ARCRatingInputView` — has been rotated 180°. The fill still sweeps clockwise; only the start
+  position moved. `ARCRatingView`'s display-only `.circularGauge` style was flipped the same way for visual consistency
+  between the two components.
+
+  No public API change: no new configuration property was added, this is a change to the fixed default visual/interaction
+  behavior of both components.
+
 ## [1.1.0] - 2026-08-21
 
 ### Fixed

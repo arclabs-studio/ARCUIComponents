@@ -10,7 +10,7 @@ import Testing
 
 /// Unit tests for circular drag wrap-around prevention in ARCRatingInputView
 ///
-/// When the user drags across the 12 o'clock boundary in circular drag mode,
+/// When the user drags across the 6 o'clock boundary in circular drag mode,
 /// the calculated rating jumps abruptly (e.g. 10→1 or 1→10). The
 /// `applyWrapAroundClamping` function detects these jumps and clamps
 /// to the nearest boundary instead.
@@ -36,7 +36,7 @@ struct ARCRatingInputWrapAroundTests {
 
     @Test("applyWrapAroundClamping_currentNearMax_newNearMin_clampsToMax")
     func applyWrapAroundClamping_currentNearMax_newNearMin_clampsToMax() {
-        // Given: user is at 9.5, drag crosses 12 o'clock → calculated rating jumps to 1.5
+        // Given: user is at 9.5, drag crosses 6 o'clock → calculated rating jumps to 1.5
         // delta = 1.5 - 9.5 = -8.0, which is < -4.5
 
         // When
@@ -48,7 +48,7 @@ struct ARCRatingInputWrapAroundTests {
 
     @Test("applyWrapAroundClamping_currentNearMin_newNearMax_clampsToMin")
     func applyWrapAroundClamping_currentNearMin_newNearMax_clampsToMin() {
-        // Given: user is at 1.5, drag crosses 12 o'clock → calculated rating jumps to 9.5
+        // Given: user is at 1.5, drag crosses 6 o'clock → calculated rating jumps to 9.5
         // delta = 9.5 - 1.5 = 8.0, which is > 4.5
 
         // When
