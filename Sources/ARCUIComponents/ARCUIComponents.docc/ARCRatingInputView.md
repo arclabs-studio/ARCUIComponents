@@ -60,6 +60,10 @@ The circular drag style includes:
 - Haptic feedback on value changes
 - Scale animation when dragging
 
+> Note: The gauge's start/finish point sits at the bottom (6 o'clock) of the
+> circle, and the fill sweeps clockwise from there. This keeps the fill
+> direction easy to read against the direction of the finger drag.
+
 ## Available Values
 
 The component provides 19 possible rating values:
