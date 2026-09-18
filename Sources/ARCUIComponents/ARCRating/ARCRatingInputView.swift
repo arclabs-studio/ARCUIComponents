@@ -58,6 +58,12 @@ import SwiftUI
 /// - Adjustable trait for increment/decrement
 /// - Clear value announcements
 /// - Semantic labels
+///
+/// ## Gauge Orientation
+///
+/// In `.circularDrag` style, the gauge's start/finish point sits at the
+/// bottom (6 o'clock) of the circle, with the fill sweeping clockwise from
+/// there — this keeps the fill direction easy to read against the finger drag.
 @available(iOS 17.0, macOS 14.0, *) public struct ARCRatingInputView: View {
     // MARK: - Properties
 
@@ -210,8 +216,8 @@ import SwiftUI
         let center = CGPoint(x: gaugeSize / 2, y: gaugeSize / 2)
         let vector = CGPoint(x: location.x - center.x, y: location.y - center.y)
 
-        // Calculate angle from top (12 o'clock position)
-        var angle = atan2(vector.x, -vector.y)
+        // Calculate angle from bottom (6 o'clock position)
+        var angle = atan2(-vector.x, vector.y)
         if angle < 0 {
             angle += 2 * .pi
         }
@@ -224,7 +230,7 @@ import SwiftUI
         let snappedRating = (rawRating / step).rounded() * step
         var newRating = min(max(snappedRating, minRating), maxRating)
 
-        // Prevent wrap-around when crossing the 12 o'clock boundary
+        // Prevent wrap-around when crossing the 6 o'clock boundary
         newRating = Self.applyWrapAroundClamping(newRating: newRating,
                                                  currentRating: rating,
                                                  minRating: minRating,
@@ -239,7 +245,7 @@ import SwiftUI
         }
     }
 
-    /// Prevents wrap-around when crossing the 12 o'clock boundary in circular drag mode
+    /// Prevents wrap-around when crossing the 6 o'clock boundary in circular drag mode
     ///
     /// If the jump between current and new rating exceeds half the range,
     /// it's treated as a boundary crossing and clamped to the nearest extreme.
@@ -278,7 +284,7 @@ import SwiftUI
                 .trim(from: 0, to: ratingProgress)
                 .stroke(ratingGradient,
                         style: StrokeStyle(lineWidth: 6, lineCap: .round))
-                .rotationEffect(.degrees(-90))
+                .rotationEffect(.degrees(90))
                 .padding(4)
 
             // Drag indicator for circular drag style
@@ -304,7 +310,7 @@ import SwiftUI
             .frame(width: 12, height: 12)
             .shadow(color: ratingColor.opacity(0.5), radius: 4)
             .offset(y: -(gaugeSize / 2 - 4))
-            .rotationEffect(.degrees(ratingProgress * 360))
+            .rotationEffect(.degrees(ratingProgress * 360 + 180))
     }
 }
 
