@@ -167,14 +167,32 @@ import SwiftUI
                     .fill(configuration.accentColor)
                     .frame(width: quoteBarWidth)
 
-                Text("\"\(reason)\"")
+                reasonText(reason)
                     .font(.callout)
-                    .italic()
-                    .foregroundStyle(.secondary)
                     .lineLimit(3)
             }
             .padding(.vertical, .arcSpacingXSmall)
         }
+    }
+
+    /// Builds the reason quote with the detail-hint glyph concatenated onto its
+    /// end, rather than pinned to a fixed trailing column — the reason is
+    /// routinely long enough to wrap and truncate, and a column-pinned badge
+    /// ends up stranded far from wherever the text actually stops. Text
+    /// concatenation preserves each segment's own styling, so the quote stays
+    /// italic/secondary while the glyph keeps its own accent color and rides
+    /// along with the text through wrapping and truncation.
+    private func reasonText(_ reason: String) -> Text {
+        let quote = Text("\"\(reason)\"")
+            .italic()
+            .foregroundStyle(.secondary)
+
+        guard configuration.showDetailHint else {
+            return quote
+        }
+
+        return quote + Text(" ") + Text(Image(systemName: "info.circle"))
+            .foregroundStyle(configuration.accentColor)
     }
 
     // MARK: - Location

@@ -112,6 +112,10 @@ import SwiftUI
     /// Whether to show the highlight detail row (e.g., featured dish, standout feature)
     public let showHighlightDetail: Bool
 
+    /// Whether to show the small info badge on the card hero, hinting that tapping
+    /// the card opens its detail sheet (distinct from the swipe accept/reject gesture)
+    public let showDetailHint: Bool
+
     // MARK: - Glow Effect Configuration
 
     /// Whether to show the animated AI glow border on the focused card
@@ -278,6 +282,7 @@ import SwiftUI
                 showTags: Bool = true,
                 showLocation: Bool = true,
                 showHighlightDetail: Bool = true,
+                showDetailHint: Bool = true,
                 showGlowEffect: Bool = true,
                 glowIntensity: AIGlowIntensity = .standard,
                 showSparkles: Bool = true,
@@ -338,6 +343,7 @@ import SwiftUI
         self.showTags = showTags
         self.showLocation = showLocation
         self.showHighlightDetail = showHighlightDetail
+        self.showDetailHint = showDetailHint
         self.showGlowEffect = showGlowEffect
         self.glowIntensity = glowIntensity
         self.showSparkles = showSparkles

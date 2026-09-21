@@ -130,6 +130,25 @@ MyCardView()
 | `.compact` | On | Off |
 | `.list` | On | Off |
 
+## Detail Hint Badge
+
+`AIRecommenderSwipeCard` concatenates a small `info.circle` glyph onto the end of the AI
+reason text (the card's closest thing to a description), signaling that tapping the card
+opens its detail sheet — distinct from the swipe accept/reject gesture the rest of the card
+responds to. The glyph is part of the text flow (not a fixed trailing column), so it wraps
+and truncates along with the reason instead of floating disconnected from wherever a long
+reason actually ends. It only appears when `item.aiReason` is present, since that's the text
+it anchors to.
+
+```swift
+let config = ARCAIRecommenderConfiguration(
+    showDetailHint: true   // default; set false to opt out
+)
+```
+
+The badge is purely decorative and marked `accessibilityHidden(true)` — the card's existing
+`onTap` accessibility action already communicates the action to VoiceOver.
+
 ## Configuration Presets
 
 ARCAIRecommender includes five configuration presets:
