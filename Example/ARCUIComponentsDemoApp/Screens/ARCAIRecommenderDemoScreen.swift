@@ -19,6 +19,9 @@ struct ARCAIRecommenderDemoScreen: View {
     @State private var showingDetail = false
     @State private var showingAnswers = false
     @State private var hasGenerated = false
+    /// FVRS card-affordance hint (ARCUIComponents, 2026-09-21): toggled here so the
+    /// swipe card's new `info.circle.fill` badge can be compared on vs. off.
+    @State private var showDetailHint = true
 
     // MARK: - Body
 
@@ -29,7 +32,7 @@ struct ARCAIRecommenderDemoScreen: View {
                          questions: Self.demoQuestions,
                          answers: $questionnaireAnswers,
                          items: hasGenerated ? itemsForCategory(selectedCategory) : [],
-                         configuration: .default,
+                         configuration: ARCAIRecommenderConfiguration(showDetailHint: showDetailHint),
                          onCategorySelected: { category in
                              hasGenerated = false
                              print("Selected category: \(category.label)")
@@ -66,6 +69,24 @@ struct ARCAIRecommenderDemoScreen: View {
                                          .clipShape(Circle())
                                  }
                                  .accessibilityLabel("Reiniciar respuestas")
+                             }
+                             ToolbarItem(placement: .topBarTrailing) {
+                                 Button {
+                                     showDetailHint.toggle()
+                                 } label: {
+                                     Image(systemName: showDetailHint ? "info.circle.fill" : "info.circle")
+                                         .font(.body.weight(.semibold))
+                                         .foregroundStyle(.white)
+                                         .frame(width: 38, height: 38)
+                                         .background(Circle()
+                                             .fill(.ultraThinMaterial)
+                                             .overlay(Circle()
+                                                 .strokeBorder(.white.opacity(0.2), lineWidth: 1)))
+                                         .clipShape(Circle())
+                                 }
+                                 .accessibilityLabel(showDetailHint
+                                     ? "Ocultar insignia de detalle en las tarjetas"
+                                     : "Mostrar insignia de detalle en las tarjetas")
                              }
                          }
                          .alert("Seleccionado",

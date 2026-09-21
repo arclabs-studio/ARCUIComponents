@@ -5,6 +5,23 @@ All notable changes to ARCUIComponents will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **`ARCAIRecommenderConfiguration.showDetailHint`** (default `true`). `AIRecommenderSwipeCard`
+  now concatenates a small `info.circle` glyph onto the end of the AI reason text (the card's
+  closest thing to a description), signaling that tapping the card opens its detail sheet —
+  distinct from the swipe accept/reject gesture the rest of the card responds to. Built via
+  `Text` concatenation rather than a fixed trailing column, so the glyph rides along with the
+  text through wrapping and `lineLimit(3)` truncation instead of floating disconnected from
+  wherever the (routinely long) reason actually stops. Purely decorative
+  (`accessibilityHidden`); the card's existing `onTap` accessibility action already covers
+  VoiceOver. Set `showDetailHint: false` to opt out.
+
+  Found while reviewing FavRes's AI recommender: the swipe stack gave no visual cue that a
+  tap did something different from a swipe.
+
 ## [1.1.1] - 2026-09-19
 
 ### Changed
