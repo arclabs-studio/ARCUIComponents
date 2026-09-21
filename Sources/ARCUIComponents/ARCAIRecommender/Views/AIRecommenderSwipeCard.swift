@@ -162,37 +162,45 @@ import SwiftUI
 
     @ViewBuilder private var aiReasonSection: some View {
         if configuration.showAIReason, let reason = item.aiReason {
-            HStack(spacing: .arcSpacingSmall) {
+            HStack(alignment: .top, spacing: .arcSpacingSmall) {
                 RoundedRectangle(cornerRadius: 1.5)
                     .fill(configuration.accentColor)
                     .frame(width: quoteBarWidth)
 
-                reasonText(reason)
+                Text("\"\(reason)\"")
                     .font(.callout)
+                    .italic()
+                    .foregroundStyle(.secondary)
                     .lineLimit(3)
+                    .padding(.trailing, configuration.showDetailHint ? detailHintReservedWidth : 0)
+                    .overlay(alignment: .bottomTrailing) {
+                        if configuration.showDetailHint {
+                            detailHintGlyph
+                        }
+                    }
             }
             .padding(.vertical, .arcSpacingXSmall)
         }
     }
 
-    /// Builds the reason quote with the detail-hint glyph concatenated onto its
-    /// end, rather than pinned to a fixed trailing column — the reason is
-    /// routinely long enough to wrap and truncate, and a column-pinned badge
-    /// ends up stranded far from wherever the text actually stops. Text
-    /// concatenation preserves each segment's own styling, so the quote stays
-    /// italic/secondary while the glyph keeps its own accent color and rides
-    /// along with the text through wrapping and truncation.
-    private func reasonText(_ reason: String) -> Text {
-        let quote = Text("\"\(reason)\"")
-            .italic()
-            .foregroundStyle(.secondary)
+    /// Reserves trailing space for `detailHintGlyph` so wrapping/truncation lays
+    /// the text out *around* it, rather than concatenating the glyph onto the
+    /// text and hoping it survives truncation. On a card with little vertical
+    /// room (dense metadata above pushes the reason down to a single truncated
+    /// line), `lineLimit(3)` + system ellipsis cuts the line off well before a
+    /// concatenated trailing glyph is ever reached — the glyph silently vanishes
+    /// exactly in the case it matters most (a long, truncated reason). Reserving
+    /// space and overlaying instead guarantees the glyph always renders at the
+    /// visible end of whatever text actually shows, truncated or not.
+    private var detailHintReservedWidth: CGFloat {
+        18
+    }
 
-        guard configuration.showDetailHint else {
-            return quote
-        }
-
-        return quote + Text(" ") + Text(Image(systemName: "info.circle"))
+    private var detailHintGlyph: some View {
+        Image(systemName: "info.circle")
+            .font(.footnote)
             .foregroundStyle(configuration.accentColor)
+            .accessibilityHidden(true)
     }
 
     // MARK: - Location
@@ -306,6 +314,35 @@ import SwiftUI
                            configuration: .default,
                            onTap: {},
                            onBookmarkToggle: {})
+        .padding()
+        .background(Color(.systemGroupedBackground))
+}
+
+@available(iOS 17.0, *)
+#Preview("Swipe Card - Long Reason (Constrained Height)") {
+    // Reproduces the real card-stack geometry (peekFraction 0.85 × ~393pt iPhone
+    // width, cardAspectRatio 0.75) rather than letting the card size to content —
+    // that's what let the detail-hint glyph regression through review: with room
+    // to breathe, the reason rendered on 2 lines with the glyph visible; on an
+    // actual card, dense metadata pushes the reason down to a single truncated
+    // line, and a concatenated trailing glyph never got reached.
+    let width: CGFloat = 334
+    return AIRecommenderSwipeCard(item: PreviewItem(id: UUID(),
+                                                    title: "Zuara Sushi",
+                                                    subtitle: "Japonesa · $$$$",
+                                                    rating: nil,
+                                                    imageSource: .system("fish.fill", color: .cyan),
+                                                    aiReason: "Dado tu alto aprecio por la gastronomía japonesa"
+                                                        + " de máxima calidad como Kappo, este espacio ofrece"
+                                                        + " una experiencia omakase excepcional en Madrid que"
+                                                        + " encaja perfectamente con tus puntuaciones más altas.",
+                                                    location: "Chamartín, Madrid",
+                                                    highlightDetail: "Menú Omakase de nigiris"),
+                                  isBookmarked: false,
+                                  configuration: .default,
+                                  onTap: {},
+                                  onBookmarkToggle: {})
+        .frame(width: width, height: width / 0.75)
         .padding()
         .background(Color(.systemGroupedBackground))
 }
