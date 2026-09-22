@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-09-22
+
 ### Fixed
 
 - **`AIRecommenderSwipeCard`'s detail-hint glyph could vanish entirely on a real card.** v1.2.0
