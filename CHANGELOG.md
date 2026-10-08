@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ("Swipe Card - Long Reason (Constrained Height)") that reproduces the real card-stack
   geometry (`peekFraction`/`cardAspectRatio`-derived frame) rather than letting the card size
   to content, since that's what let the original bug through visual review.
+- **Build no longer emits deprecation warnings from `ARCMenu.swift`.** The internal
+  `ARCMenuLegacyModifier`, which backs the deprecated `arcMenu(viewModel:)`, called the
+  ViewModel's deprecated `isPresented`, `present()` and `dismiss()` and warned on every build.
+  The modifier is now marked deprecated itself. No API or behavior change.
 
 ## [1.2.0] - 2026-09-21
 
