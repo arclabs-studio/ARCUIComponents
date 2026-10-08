@@ -110,13 +110,13 @@
 		B50000010000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				B50000010000000000000002 /*  */,
+				B50000010000000000000002,
 				B50000010000000000000003 /* Products */,
 				B50000010000000000000004 /* Packages */,
 			);
 			sourceTree = "<group>";
 		};
-		B50000010000000000000002 /*  */ = {
+		B50000010000000000000002 = {
 			isa = PBXGroup;
 			children = (
 				B20000010000000000000001 /* ARCUIComponentsDemoApp.swift */,
@@ -126,7 +126,6 @@
 				B50000010000000000000005 /* Screens */,
 				B50000010000000000000007 /* Resources */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		B50000010000000000000003 /* Products */ = {
@@ -259,7 +258,7 @@
 			);
 			mainGroup = B50000010000000000000001;
 			packageReferences = (
-				BC0000010000000000000001 /* XCLocalSwiftPackageReference ".." */,
+				BC0000010000000000000001 /* XCLocalSwiftPackageReference "../.." */,
 			);
 			productRefGroup = B50000010000000000000003 /* Products */;
 			projectDirPath = "";
@@ -366,7 +365,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 4W652PD582;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -432,7 +430,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 4W652PD582;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -538,7 +535,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		BC0000010000000000000001 /* XCLocalSwiftPackageReference ".." */ = {
+		BC0000010000000000000001 /* XCLocalSwiftPackageReference "../.." */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../..;
 		};
@@ -547,7 +544,7 @@
 /* Begin XCSwiftPackageProductDependency section */
 		B3000001000000000000000C /* ARCUIComponents */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BC0000010000000000000001 /* XCLocalSwiftPackageReference ".." */;
+			package = BC0000010000000000000001 /* XCLocalSwiftPackageReference "../.." */;
 			productName = ARCUIComponents;
 		};
 /* End XCSwiftPackageProductDependency section */
