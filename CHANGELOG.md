@@ -7,12 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-10-08
+
 ### Fixed
 
 - **Build no longer emits deprecation warnings from `ARCMenu.swift`.** The internal
   `ARCMenuLegacyModifier`, which backs the deprecated `arcMenu(viewModel:)`, called the
   ViewModel's deprecated `isPresented`, `present()` and `dismiss()` and warned on every build.
   The modifier is now marked deprecated itself. No API or behavior change.
+
+### Changed
+
+- **README and DocC examples now use the current ARCMenu API.** The quick starts, Getting Started
+  guide and other snippets used `ARCMenuViewModel.standard(...)`, `.arcMenuButton(viewModel:)`,
+  `ARCMenuButton(viewModel:)`, `.arcMenu(viewModel:)` and `.Common.plan(...)`, all deprecated, so
+  copying them produced warnings. They now use `ARCMenuViewModel(user:menuItems:)`,
+  `.arcMenuToolbarButton(isPresented:viewModel:)`, `.arcMenu(isPresented:viewModel:)` and
+  `.Common.subscriptions(...)` with the same menu items. Docs only; no API change.
+- **Demo app project no longer hardcodes a development team.** Example app only; the library is unchanged.
 
 ## [1.2.1] - 2026-09-22
 
