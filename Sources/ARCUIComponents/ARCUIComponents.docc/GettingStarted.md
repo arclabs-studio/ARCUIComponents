@@ -108,36 +108,38 @@ Choose the avatar type that fits your needs:
 
 ## Step 4: Create the ViewModel
 
-Use the convenience method for standard menus:
+Build the menu from the pre-built `ARCMenuItem.Common` items:
 
 ```swift
-@State private var menuViewModel = ARCMenuViewModel.standard(
+@State private var menuViewModel = ARCMenuViewModel(
     user: currentUser,
-    configuration: .default,
-    onSettings: {
-        print("Settings tapped")
-        // Navigate to settings
-    },
-    onProfile: {
-        print("Profile tapped")
-        // Navigate to profile
-    },
-    onPlan: {
-        print("Plan tapped")
-        // Navigate to subscription
-    },
-    onContact: {
-        print("Contact tapped")
-        // Open contact form
-    },
-    onAbout: {
-        print("About tapped")
-        // Show about screen
-    },
-    onLogout: {
-        print("Logout tapped")
-        // Perform logout
-    }
+    menuItems: [
+        .Common.profile {
+            print("Profile tapped")
+            // Navigate to profile
+        },
+        .Common.settings {
+            print("Settings tapped")
+            // Navigate to settings
+        },
+        .Common.subscriptions {
+            print("Subscriptions tapped")
+            // Navigate to subscription
+        },
+        .Common.contact {
+            print("Contact tapped")
+            // Open contact form
+        },
+        .Common.about {
+            print("About tapped")
+            // Show about screen
+        },
+        .Common.logout {
+            print("Logout tapped")
+            // Perform logout
+        }
+    ],
+    configuration: .default
 )
 ```
 
@@ -159,11 +161,14 @@ Integrate the menu into your view hierarchy:
 
 ```swift
 struct ContentView: View {
-    @State private var menuViewModel = ARCMenuViewModel.standard(
+    @State private var showMenu = false
+    @State private var menuViewModel = ARCMenuViewModel(
         user: currentUser,
-        onSettings: { /* ... */ },
-        onProfile: { /* ... */ },
-        onLogout: { /* ... */ }
+        menuItems: [
+            .Common.profile(action: { /* ... */ }),
+            .Common.settings(action: { /* ... */ }),
+            .Common.logout(action: { /* ... */ })
+        ]
     )
 
     var body: some View {
@@ -174,25 +179,26 @@ struct ContentView: View {
                     .font(.largeTitle)
             }
             .navigationTitle("My App")
-            .arcMenuButton(viewModel: menuViewModel)
-            .arcMenu(viewModel: menuViewModel)
+            .arcMenuToolbarButton(isPresented: $showMenu, viewModel: menuViewModel)
         }
+        .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
     }
 }
 ```
 
 ### Key Points
 
-- Use `.arcMenuButton()` to add the trigger button (top-right by default)
-- Use `.arcMenu()` to add the menu overlay
-- Both modifiers need the same view model instance
+- Use `.arcMenuToolbarButton(isPresented:viewModel:)` to add the trigger button (top-right by default)
+- Use `.arcMenu(isPresented:viewModel:)` on the `NavigationStack` to add the menu
+- Both modifiers need the same `@State` binding and the same view model instance
 
 ## Step 6: Add Badge (Optional)
 
 Show notification badges on the menu button:
 
 ```swift
-.arcMenuButton(
+.arcMenuToolbarButton(
+    isPresented: $showMenu,
     viewModel: menuViewModel,
     showsBadge: true,
     badgeCount: 5  // Number of unread items
@@ -227,12 +233,14 @@ let customConfig = ARCMenuConfiguration(
     dismissOnOutsideTap: true
 )
 
-let viewModel = ARCMenuViewModel.standard(
+let viewModel = ARCMenuViewModel(
     user: currentUser,
-    configuration: customConfig,
-    onSettings: { /* ... */ },
-    onProfile: { /* ... */ },
-    onLogout: { /* ... */ }
+    menuItems: [
+        .Common.profile(action: { /* ... */ }),
+        .Common.settings(action: { /* ... */ }),
+        .Common.logout(action: { /* ... */ })
+    ],
+    configuration: customConfig
 )
 ```
 
@@ -269,10 +277,12 @@ let viewModel = ARCMenuViewModel(
 For apps without user accounts:
 
 ```swift
-let viewModel = ARCMenuViewModel.standard(
+let viewModel = ARCMenuViewModel(
     user: nil,  // No user section
-    onSettings: { /* ... */ },
-    onAbout: { /* ... */ }
+    menuItems: [
+        .Common.settings(action: { /* ... */ }),
+        .Common.about(action: { /* ... */ })
+    ]
 )
 ```
 
@@ -290,7 +300,7 @@ Follow iOS conventions:
 Use badges sparingly:
 ```swift
 // Good: Important notifications
-.Common.plan(badge: "New", action: {})
+.Common.subscriptions(badge: "New", action: {})
 
 // Bad: Every item has a badge
 ```
@@ -321,16 +331,16 @@ ARCMenuUser(
 
 **Problem**: The menu button shows, but nothing happens when tapped.
 
-**Solution**: Ensure you're using the same view model instance for both modifiers:
+**Solution**: Ensure both modifiers share the same binding and view model instance:
 
 ```swift
 // ✓ Correct
-.arcMenuButton(viewModel: menuViewModel)
-.arcMenu(viewModel: menuViewModel)
+.arcMenuToolbarButton(isPresented: $showMenu, viewModel: menuViewModel)
+.arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
 
-// ✗ Wrong - different instances
-.arcMenuButton(viewModel: ARCMenuViewModel())
-.arcMenu(viewModel: ARCMenuViewModel())
+// ✗ Wrong - different bindings
+.arcMenuToolbarButton(isPresented: $showMenu, viewModel: menuViewModel)
+.arcMenu(isPresented: $otherFlag, viewModel: menuViewModel)
 ```
 
 ### Avatar Not Showing
