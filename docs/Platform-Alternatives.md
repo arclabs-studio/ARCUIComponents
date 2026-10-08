@@ -291,8 +291,8 @@ If you're using ARCMenu on iOS and adding macOS support:
 ```swift
 #if os(iOS)
     // Use ARCMenu
-    .arcMenuButton(viewModel: menuViewModel)
-    .arcMenu(viewModel: menuViewModel)
+    .arcMenuToolbarButton(isPresented: $showMenu, viewModel: menuViewModel)
+    .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
 #elseif os(macOS)
     // Use native Menu
     Menu {

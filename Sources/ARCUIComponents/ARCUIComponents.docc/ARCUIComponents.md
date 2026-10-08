@@ -157,23 +157,26 @@ dependencies: [
 import ARCUIComponents
 
 struct ContentView: View {
-    @State private var menuViewModel = ARCMenuViewModel.standard(
+    @State private var showMenu = false
+    @State private var menuViewModel = ARCMenuViewModel(
         user: ARCMenuUser(
             name: "Your Name",
             email: "you@email.com",
             avatarImage: .initials("YN")
         ),
-        onSettings: { /* handle settings */ },
-        onProfile: { /* handle profile */ },
-        onLogout: { /* handle logout */ }
+        menuItems: [
+            .Common.profile { /* handle profile */ },
+            .Common.settings { /* handle settings */ },
+            .Common.logout { /* handle logout */ }
+        ]
     )
 
     var body: some View {
         NavigationStack {
             YourContentView()
-                .arcMenuButton(viewModel: menuViewModel)
-                .arcMenu(viewModel: menuViewModel)
+                .arcMenuToolbarButton(isPresented: $showMenu, viewModel: menuViewModel)
         }
+        .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
     }
 }
 ```

@@ -332,6 +332,9 @@ extension View {
 /// View modifier that uses ViewModel's internal isPresented state
 ///
 /// - Note: Deprecated. Exists only for backward compatibility with v1.8.x code.
+///   Marked deprecated so its use of the ViewModel's deprecated presentation API
+///   doesn't emit warnings; its only caller is the deprecated `arcMenu(viewModel:)`.
+@available(*, deprecated, message: "Use arcMenu(isPresented:viewModel:) with external @State binding")
 struct ARCMenuLegacyModifier: ViewModifier {
     @Bindable var viewModel: ARCMenuViewModel
 

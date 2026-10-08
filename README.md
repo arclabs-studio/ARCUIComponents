@@ -112,30 +112,33 @@ import SwiftUI
 import ARCUIComponents
 
 struct ContentView: View {
-    @State private var menuViewModel = ARCMenuViewModel.standard(
+    @State private var showMenu = false
+    @State private var menuViewModel = ARCMenuViewModel(
         user: ARCMenuUser(
             name: "Carlos Ramirez",
             email: "carlos@arclabs.studio",
             avatarImage: .initials("CR")
         ),
-        onSettings: {
-            print("Settings tapped")
-        },
-        onProfile: {
-            print("Profile tapped")
-        },
-        onLogout: {
-            print("Logout tapped")
-        }
+        menuItems: [
+            .Common.profile {
+                print("Profile tapped")
+            },
+            .Common.settings {
+                print("Settings tapped")
+            },
+            .Common.logout {
+                print("Logout tapped")
+            }
+        ]
     )
 
     var body: some View {
         NavigationStack {
             YourContentView()
                 .navigationTitle("My App")
-                .arcMenuButton(viewModel: menuViewModel)
-                .arcMenu(viewModel: menuViewModel)
+                .arcMenuToolbarButton(isPresented: $showMenu, viewModel: menuViewModel)
         }
+        .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
     }
 }
 ```
@@ -181,7 +184,7 @@ let user = ARCMenuUser(
 let items: [ARCMenuItem] = [
     .Common.profile(action: { /* ... */ }),
     .Common.settings(action: { /* ... */ }),
-    .Common.plan(badge: "Pro", action: { /* ... */ }),
+    .Common.subscriptions(badge: "Pro", action: { /* ... */ }),
     .Common.contact(action: { /* ... */ }),
     .Common.about(action: { /* ... */ }),
     .Common.logout(action: { /* ... */ })
@@ -249,15 +252,17 @@ let config = ARCMenuConfiguration(
 **Standard Setup:**
 
 ```swift
-let viewModel = ARCMenuViewModel.standard(
+let viewModel = ARCMenuViewModel(
     user: user,
-    configuration: .default,
-    onSettings: { /* ... */ },
-    onProfile: { /* ... */ },
-    onPlan: { /* ... */ },
-    onContact: { /* ... */ },
-    onAbout: { /* ... */ },
-    onLogout: { /* ... */ }
+    menuItems: [
+        .Common.profile(action: { /* ... */ }),
+        .Common.settings(action: { /* ... */ }),
+        .Common.subscriptions(action: { /* ... */ }),
+        .Common.contact(action: { /* ... */ }),
+        .Common.about(action: { /* ... */ }),
+        .Common.logout(action: { /* ... */ })
+    ],
+    configuration: .default
 )
 ```
 
@@ -274,17 +279,20 @@ let viewModel = ARCMenuViewModel(
 #### 5. Add to Your View
 
 ```swift
+@State private var showMenu = false
+
 NavigationStack {
     YourContentView()
-        .arcMenuButton(viewModel: viewModel)
-        .arcMenu(viewModel: viewModel)
+        .arcMenuToolbarButton(isPresented: $showMenu, viewModel: viewModel)
 }
+.arcMenu(isPresented: $showMenu, viewModel: viewModel)
 ```
 
 **With Badge:**
 
 ```swift
-.arcMenuButton(
+.arcMenuToolbarButton(
+    isPresented: $showMenu,
     viewModel: viewModel,
     showsBadge: true,
     badgeCount: 5
@@ -298,16 +306,18 @@ NavigationStack {
 ### Music App Style
 
 ```swift
-let viewModel = ARCMenuViewModel.standard(
+let viewModel = ARCMenuViewModel(
     user: ARCMenuUser(
         name: "Music Lover",
         subtitle: "Apple Music",
         avatarImage: .systemImage("music.note")
     ),
-    configuration: .default,  // Red accent, liquid glass
-    onSettings: { /* ... */ },
-    onProfile: { /* ... */ },
-    onLogout: { /* ... */ }
+    menuItems: [
+        .Common.profile(action: { /* ... */ }),
+        .Common.settings(action: { /* ... */ }),
+        .Common.logout(action: { /* ... */ })
+    ],
+    configuration: .default  // Red accent, liquid glass
 )
 ```
 
@@ -322,7 +332,7 @@ let viewModel = ARCMenuViewModel(
     ),
     menuItems: [
         .Common.profile(action: {}),
-        .Common.plan(badge: "Pro", action: {}),
+        .Common.subscriptions(badge: "Pro", action: {}),
         ARCMenuItem(
             title: "Workouts",
             icon: .system("dumbbell.fill"),
@@ -347,7 +357,7 @@ let viewModel = ARCMenuViewModel(
     ),
     menuItems: [
         .Common.profile(action: {}),
-        .Common.plan(badge: "Gold", action: {}),
+        .Common.subscriptions(badge: "Gold", action: {}),
         ARCMenuItem(
             title: "Billing",
             subtitle: "Manage payments",

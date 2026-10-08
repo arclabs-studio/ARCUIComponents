@@ -1,13 +1,13 @@
 {
-  "originHash" : "499db84bcc216c35410263eef80527ad59163fdd27565458d04356ee4fdf5b0c",
+  "originHash" : "fa08299d9e39fc6ec771cf1a1fd71d04c26f81ba70cad49a4187f276c95d264e",
   "pins" : [
     {
       "identity" : "arcdesignsystem",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/arclabs-studio/ARCDesignSystem",
       "state" : {
-        "revision" : "f395bc222eafc17fbed8d7f90e45c9753661aa8e",
-        "version" : "2.3.1"
+        "revision" : "7af2ae64844deafd01040bd92023bdeb0efe4f6c",
+        "version" : "1.0.0"
       }
     },
     {
