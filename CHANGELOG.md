@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Build no longer emits deprecation warnings from `ARCMenu.swift`.** The internal
+  `ARCMenuLegacyModifier`, which backs the deprecated `arcMenu(viewModel:)`, called the
+  ViewModel's deprecated `isPresented`, `present()` and `dismiss()` and warned on every build.
+  The modifier is now marked deprecated itself. No API or behavior change.
+
+## [1.2.1] - 2026-09-22
+
+### Fixed
+
 - **`AIRecommenderSwipeCard`'s detail-hint glyph could vanish entirely on a real card.** v1.2.0
   concatenated the `info.circle` glyph onto the end of the reason `Text` and relied on it
   surviving `lineLimit(3)` truncation. On a card with little vertical room — dense metadata
@@ -20,10 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ("Swipe Card - Long Reason (Constrained Height)") that reproduces the real card-stack
   geometry (`peekFraction`/`cardAspectRatio`-derived frame) rather than letting the card size
   to content, since that's what let the original bug through visual review.
-- **Build no longer emits deprecation warnings from `ARCMenu.swift`.** The internal
-  `ARCMenuLegacyModifier`, which backs the deprecated `arcMenu(viewModel:)`, called the
-  ViewModel's deprecated `isPresented`, `present()` and `dismiss()` and warned on every build.
-  The modifier is now marked deprecated itself. No API or behavior change.
 
 ## [1.2.0] - 2026-09-21
 
