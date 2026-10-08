@@ -63,16 +63,17 @@ Example/
 ### Using ARCMenu with View Modifier
 
 ```swift
-@State private var menuViewModel = ARCMenuViewModel.standard(...)
+@State private var showMenu = false
+@State private var menuViewModel = ARCMenuViewModel(user: ..., menuItems: [...])
 
 var body: some View {
     ContentView()
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                ARCMenuButton(viewModel: menuViewModel)
+                ARCMenuButton(isPresented: $showMenu, viewModel: menuViewModel)
             }
         }
-        .arcMenu(viewModel: menuViewModel)
+        .arcMenu(isPresented: $showMenu, viewModel: menuViewModel)
 }
 ```
 
