@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Collapsible questionnaire options.** `AIRecommenderQuestion` gains `collapsedOptionCount`
+  (default `nil`, no collapsing). When it is below the option count, `AIRecommenderQuestionCard`
+  shows the first N options plus a "Show all" toggle chip, which becomes "Show less" once
+  expanded. A selected option beyond N stays visible while collapsed, so a selection is never
+  hidden. The pure `visibleOptions(isExpanded:selectedIds:)` and `isCollapsible` helpers drive
+  it. Chip texts are configurable through the new `ARCAIRecommenderConfiguration`
+  `questionnaireShowAllText` / `questionnaireShowLessText` (English defaults).
+
 ## [1.2.2] - 2026-10-08
 
 ### Fixed
