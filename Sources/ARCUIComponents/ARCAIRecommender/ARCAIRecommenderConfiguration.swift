@@ -242,6 +242,12 @@ import SwiftUI
     /// Text for the retake questionnaire button
     public let questionnaireRetakeText: String
 
+    /// Text for the chip that expands a collapsible question's option list
+    public let questionnaireShowAllText: String
+
+    /// Text for the chip that collapses an expanded question's option list
+    public let questionnaireShowLessText: String
+
     // MARK: - Generate Action Configuration
 
     /// Title displayed in the generate CTA (quick mode, before generating)
@@ -318,6 +324,8 @@ import SwiftUI
                 emptyStateIcon: String = "sparkles",
                 emptyStateActionText: String? = nil,
                 questionnaireRetakeText: String = "Retake questionnaire",
+                questionnaireShowAllText: String = "Show all",
+                questionnaireShowLessText: String = "Show less",
                 generateTitle: String = "Generate your recommendations",
                 generateSubtitle: String = "Select a category and tap to discover personalized AI suggestions",
                 generateButtonText: String = "Generate recommendations",
@@ -379,6 +387,8 @@ import SwiftUI
         self.emptyStateIcon = emptyStateIcon
         self.emptyStateActionText = emptyStateActionText
         self.questionnaireRetakeText = questionnaireRetakeText
+        self.questionnaireShowAllText = questionnaireShowAllText
+        self.questionnaireShowLessText = questionnaireShowLessText
         self.generateTitle = generateTitle
         self.generateSubtitle = generateSubtitle
         self.generateButtonText = generateButtonText

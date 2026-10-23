@@ -277,6 +277,7 @@ extension ARCAIRecommenderDemoScreen {
                                                                                inputType: .multipleChoice,
                                                                                icon: "sparkles",
                                                                                freeTextPlaceholder: "Añade algo específico (opcional)"),
+                                                         collapsibleQuestion,
                                                          AIRecommenderQuestion(id: "location",
                                                                                text: "¿Dónde te encuentras?",
                                                                                options: [.init(id: "nearby",
@@ -330,6 +331,38 @@ extension ARCAIRecommenderDemoScreen {
                                                                                                color: .blue)],
                                                                                inputType: .singleChoice,
                                                                                icon: "face.smiling.fill")]
+}
+
+// MARK: - Collapsible Question
+
+extension ARCAIRecommenderDemoScreen {
+    /// Long option list that starts collapsed behind a "Show all" chip.
+    static let collapsibleQuestion = AIRecommenderQuestion(id: "cuisine",
+                                                           text: "¿Qué cocina te apetece?",
+                                                           subtitle: "Toca «Show all» para ver todas",
+                                                           options: [.init(id: "italian", label: "Italiana",
+                                                                           icon: "fork.knife"),
+                                                                     .init(id: "japanese", label: "Japonesa",
+                                                                           icon: "fish.fill"),
+                                                                     .init(id: "mexican", label: "Mexicana",
+                                                                           icon: "flame.fill"),
+                                                                     .init(id: "indian", label: "India",
+                                                                           icon: "leaf.fill"),
+                                                                     .init(id: "thai", label: "Tailandesa",
+                                                                           icon: "carrot.fill"),
+                                                                     .init(id: "greek", label: "Griega",
+                                                                           icon: "sun.max.fill"),
+                                                                     .init(id: "burgers", label: "Hamburguesas",
+                                                                           icon: "takeoutbag.and.cup.and.straw.fill"),
+                                                                     .init(id: "pizza", label: "Pizza",
+                                                                           icon: "circle.grid.3x3.fill"),
+                                                                     .init(id: "dessert", label: "Postres",
+                                                                           icon: "birthday.cake.fill"),
+                                                                     .init(id: "vegan", label: "Vegana",
+                                                                           icon: "carrot")],
+                                                           inputType: .multipleChoice,
+                                                           icon: "fork.knife",
+                                                           collapsedOptionCount: 4)
 }
 
 // MARK: - Previews
