@@ -214,6 +214,25 @@ let questions: [AIRecommenderQuestion] = [
 - **multipleChoice**: User can select multiple options
 - **slider**: User selects a value on a scale
 
+### Collapsible Options
+
+Long choice lists can start collapsed. Set `collapsedOptionCount` to show only the first
+options plus a "Show all" chip; tapping it expands the list and the chip becomes "Show less".
+A selected option beyond the collapsed range always stays visible.
+
+```swift
+AIRecommenderQuestion(
+    id: "cuisine",
+    text: "What do you feel like eating?",
+    options: allCuisineOptions,
+    inputType: .multipleChoice,
+    collapsedOptionCount: 7
+)
+```
+
+The chip texts come from `questionnaireShowAllText` and `questionnaireShowLessText` on
+``ARCAIRecommenderConfiguration``. `nil` (the default) shows every option.
+
 ## Implementing AIRecommenderItem
 
 Your model must conform to `AIRecommenderItem`:

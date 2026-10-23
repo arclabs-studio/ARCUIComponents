@@ -56,6 +56,14 @@ import SwiftUI
     /// `nil` (the default) renders no field — fully backwards compatible.
     public let freeTextPlaceholder: String?
 
+    /// Number of options shown while the option list is collapsed.
+    ///
+    /// When set below `options.count`, the card shows the first `collapsedOptionCount`
+    /// options (plus any selected option beyond them, so a selection is never hidden)
+    /// and appends a "Show all" / "Show less" toggle chip.
+    /// `nil` (the default) shows every option — fully backwards compatible.
+    public let collapsedOptionCount: Int?
+
     // MARK: - Initialization
 
     public init(id: String,
@@ -65,7 +73,8 @@ import SwiftUI
                 inputType: InputType = .singleChoice,
                 isRequired: Bool = false,
                 icon: String? = nil,
-                freeTextPlaceholder: String? = nil) {
+                freeTextPlaceholder: String? = nil,
+                collapsedOptionCount: Int? = nil) {
         self.id = id
         self.text = text
         self.subtitle = subtitle
@@ -74,6 +83,32 @@ import SwiftUI
         self.isRequired = isRequired
         self.icon = icon
         self.freeTextPlaceholder = freeTextPlaceholder
+        self.collapsedOptionCount = collapsedOptionCount
+    }
+}
+
+// MARK: - Collapsible Options
+
+@available(iOS 17.0, macOS 14.0, *) extension AIRecommenderQuestion {
+    /// Whether the option list is long enough to collapse behind a "Show all" toggle.
+    public var isCollapsible: Bool {
+        guard let collapsedOptionCount else { return false }
+        return collapsedOptionCount < options.count
+    }
+
+    /// The options to display for the given expansion state.
+    ///
+    /// Returns every option when expanded or not collapsible. Otherwise returns the first
+    /// `collapsedOptionCount` options plus any selected option beyond them, in original order.
+    ///
+    /// - Parameters:
+    ///   - isExpanded: Whether the user expanded the list.
+    ///   - selectedIds: Ids of the currently selected options.
+    public func visibleOptions(isExpanded: Bool, selectedIds: Set<String>) -> [Option] {
+        guard !isExpanded, isCollapsible, let collapsedOptionCount else { return options }
+        return options.enumerated()
+            .filter { $0.offset < collapsedOptionCount || selectedIds.contains($0.element.id) }
+            .map(\.element)
     }
 }
 

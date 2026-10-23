@@ -23,6 +23,7 @@ import SwiftUI
 
     @State private var sliderValue: Double = 0.5
     @State private var freeText = ""
+    @State private var isExpanded = false
 
     // MARK: - Body
 
@@ -97,11 +98,28 @@ import SwiftUI
         }
     }
 
+    // MARK: - Visible Options
+
+    private var visibleOptions: [AIRecommenderQuestion.Option] {
+        question.visibleOptions(isExpanded: isExpanded,
+                                selectedIds: Set(answers.selectedOptions(for: question.id)))
+    }
+
+    @ViewBuilder private var expandToggle: some View {
+        if question.isCollapsible {
+            AIRecommenderExpandToggleChip(isExpanded: isExpanded, configuration: configuration) {
+                arcWithAnimation(configuration.categoryAnimation) {
+                    isExpanded.toggle()
+                }
+            }
+        }
+    }
+
     // MARK: - Single Choice
 
     private var singleChoiceOptions: some View {
         QuestionFlowLayout(spacing: .arcSpacingSmall) {
-            ForEach(question.options) { option in
+            ForEach(visibleOptions) { option in
                 OptionChip(option: option,
                            isSelected: answers.isSelected(option.id, for: question.id),
                            configuration: configuration) {
@@ -114,6 +132,8 @@ import SwiftUI
                     }
                 }
             }
+
+            expandToggle
         }
     }
 
@@ -121,7 +141,7 @@ import SwiftUI
 
     private var multipleChoiceOptions: some View {
         QuestionFlowLayout(spacing: .arcSpacingSmall) {
-            ForEach(question.options) { option in
+            ForEach(visibleOptions) { option in
                 OptionChip(option: option,
                            isSelected: answers.isSelected(option.id, for: question.id),
                            configuration: configuration) {
@@ -130,6 +150,8 @@ import SwiftUI
                     }
                 }
             }
+
+            expandToggle
         }
     }
 
@@ -357,6 +379,28 @@ extension Array {
                                               inputType: .slider,
                                               icon: "slider.horizontal.3")
 
+    static let collapsible = AIRecommenderQuestion(id: "cuisine",
+                                                   text: "What do you feel like eating?",
+                                                   subtitle: "Pick one or more",
+                                                   options: [.init(id: "surprise", label: "Surprise me",
+                                                                   icon: "sparkles"),
+                                                             .init(id: "italian", label: "Italian", icon: "fork.knife"),
+                                                             .init(id: "japanese", label: "Japanese",
+                                                                   icon: "fish.fill"),
+                                                             .init(id: "mexican", label: "Mexican", icon: "flame.fill"),
+                                                             .init(id: "indian", label: "Indian", icon: "leaf.fill"),
+                                                             .init(id: "thai", label: "Thai", icon: "carrot.fill"),
+                                                             .init(id: "greek", label: "Greek", icon: "sun.max.fill"),
+                                                             .init(id: "burgers", label: "Burgers",
+                                                                   icon: "takeoutbag.and.cup.and.straw.fill"),
+                                                             .init(id: "pizza", label: "Pizza",
+                                                                   icon: "circle.grid.3x3.fill"),
+                                                             .init(id: "dessert", label: "Dessert",
+                                                                   icon: "birthday.cake.fill")],
+                                                   inputType: .multipleChoice,
+                                                   icon: "fork.knife",
+                                                   collapsedOptionCount: 4)
+
     static let mood = AIRecommenderQuestion(id: "mood",
                                             text: "¿Cómo te sientes?",
                                             subtitle: "Tu estado de ánimo influye en la recomendación",
@@ -410,6 +454,29 @@ extension Array {
                               configuration: .default)
         .padding()
         .background(Color(.systemGroupedBackground))
+}
+
+@available(iOS 17.0, macOS 14.0, *)
+#Preview("Collapsible") {
+    @Previewable @State var answers = AIRecommenderAnswers()
+
+    AIRecommenderQuestionCard(question: PreviewQuestions.collapsible,
+                              answers: $answers,
+                              configuration: .default)
+        .padding()
+        .background(Color(.systemGroupedBackground))
+}
+
+@available(iOS 17.0, macOS 14.0, *)
+#Preview("Collapsible - Dark") {
+    @Previewable @State var answers = AIRecommenderAnswers()
+
+    AIRecommenderQuestionCard(question: PreviewQuestions.collapsible,
+                              answers: $answers,
+                              configuration: .default)
+        .padding()
+        .background(Color(.systemGroupedBackground))
+        .preferredColorScheme(.dark)
 }
 
 @available(iOS 17.0, macOS 14.0, *)
