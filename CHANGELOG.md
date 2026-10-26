@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Questionnaire chip hit targets.** Option chips and the "Show all" / "Show less" toggle chip
+  in `AIRecommenderQuestionCard` were about 37pt tall. They now have a minimum height of
+  `arcTouchTargetMinimum` (44pt), which scales with Dynamic Type.
+
 ## [1.3.0] - 2026-10-24
 
 ### Added

@@ -230,6 +230,8 @@ import SwiftUI
     let configuration: ARCAIRecommenderConfiguration
     let action: () -> Void
 
+    @ScaledMetric(relativeTo: .subheadline) private var minHeight: CGFloat = .arcTouchTargetMinimum
+
     var body: some View {
         Button(action: action) {
             HStack(spacing: 6) {
@@ -251,6 +253,7 @@ import SwiftUI
             }
             .padding(.horizontal, .arcSpacingMedium)
             .padding(.vertical, .arcSpacingSmall)
+            .frame(minHeight: minHeight)
             .background(Capsule()
                 .fill(isSelected
                     ? (option.color ?? configuration.accentColor)

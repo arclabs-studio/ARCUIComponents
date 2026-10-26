@@ -17,6 +17,8 @@ import SwiftUI
     let configuration: ARCAIRecommenderConfiguration
     let action: () -> Void
 
+    @ScaledMetric(relativeTo: .subheadline) private var minHeight: CGFloat = .arcTouchTargetMinimum
+
     private var title: String {
         isExpanded ? configuration.questionnaireShowLessText : configuration.questionnaireShowAllText
     }
@@ -34,6 +36,7 @@ import SwiftUI
             }
             .padding(.horizontal, .arcSpacingMedium)
             .padding(.vertical, .arcSpacingSmall)
+            .frame(minHeight: minHeight)
             .background(Capsule()
                 .fill(Color.gray.opacity(0.15)))
             .foregroundStyle(.primary)
