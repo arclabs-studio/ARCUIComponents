@@ -255,7 +255,9 @@ import SwiftUI
                 .fill(isSelected
                     ? (option.color ?? configuration.accentColor)
                     : Color.gray.opacity(0.15)))
-                .foregroundStyle(isSelected ? .white : .primary)
+            // Widens the hit area to 44pt without changing the chip's size or the layout.
+            .contentShape(Rectangle().inset(by: -.arcSpacingXSmall))
+            .foregroundStyle(isSelected ? .white : .primary)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(option.label)

@@ -217,7 +217,7 @@ let questions: [AIRecommenderQuestion] = [
 ### Collapsible Options
 
 Long choice lists can start collapsed. Set `collapsedOptionCount` to show only the first
-options plus a "Show all" chip; tapping it expands the list and the chip becomes "Show less".
+options plus a "Show all" button; tapping it expands the list and the button becomes "Show less".
 A selected option beyond the collapsed range always stays visible.
 
 ```swift
@@ -230,8 +230,9 @@ AIRecommenderQuestion(
 )
 ```
 
-The chip texts come from `questionnaireShowAllText` and `questionnaireShowLessText` on
-``ARCAIRecommenderConfiguration``. `nil` (the default) shows every option.
+The button texts come from `questionnaireShowAllText` and `questionnaireShowLessText` on
+``ARCAIRecommenderConfiguration``, and its color from `questionnaireToggleColor`.
+A `nil` `collapsedOptionCount` (the default) shows every option.
 
 ## Implementing AIRecommenderItem
 
