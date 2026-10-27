@@ -230,8 +230,6 @@ import SwiftUI
     let configuration: ARCAIRecommenderConfiguration
     let action: () -> Void
 
-    @ScaledMetric(relativeTo: .subheadline) private var minHeight: CGFloat = .arcTouchTargetMinimum
-
     var body: some View {
         Button(action: action) {
             HStack(spacing: 6) {
@@ -253,12 +251,13 @@ import SwiftUI
             }
             .padding(.horizontal, .arcSpacingMedium)
             .padding(.vertical, .arcSpacingSmall)
-            .frame(minHeight: minHeight)
             .background(Capsule()
                 .fill(isSelected
                     ? (option.color ?? configuration.accentColor)
                     : Color.gray.opacity(0.15)))
-                .foregroundStyle(isSelected ? .white : .primary)
+            // Widens the hit area to 44pt without changing the chip's size or the layout.
+            .contentShape(Rectangle().inset(by: -.arcSpacingXSmall))
+            .foregroundStyle(isSelected ? .white : .primary)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(option.label)

@@ -7,11 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`questionnaireToggleColor` on `ARCAIRecommenderConfiguration`.** Sets the color of the
+  "Show all" / "Show less" button. `nil` (the default) keeps the inherited tint.
+
+### Changed
+
+- **"Show all" / "Show less" toggle is a text button.** In `AIRecommenderQuestionCard`, the
+  toggle no longer has a capsule background, so it no longer looks like a selectable option. It is
+  a borderless button with a chevron and semibold text, tinted with `questionnaireToggleColor`.
+
 ### Fixed
 
-- **Questionnaire chip hit targets.** Option chips and the "Show all" / "Show less" toggle chip
-  in `AIRecommenderQuestionCard` were about 37pt tall. They now have a minimum height of
-  `arcTouchTargetMinimum` (44pt), which scales with Dynamic Type.
+- **Questionnaire hit targets.** Option chips and the "Show all" / "Show less" toggle in
+  `AIRecommenderQuestionCard` had a hit area of about 37pt. Their hit area now extends
+  `arcSpacingXSmall` (4pt) past each edge, to about 45pt. The chip size and the layout do not change.
 
 ## [1.3.0] - 2026-10-24
 

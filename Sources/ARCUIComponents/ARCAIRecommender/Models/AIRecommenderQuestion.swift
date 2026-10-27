@@ -60,7 +60,7 @@ import SwiftUI
     ///
     /// When set below `options.count`, the card shows the first `collapsedOptionCount`
     /// options (plus any selected option beyond them, so a selection is never hidden)
-    /// and appends a "Show all" / "Show less" toggle chip.
+    /// and appends a "Show all" / "Show less" toggle button.
     /// `nil` (the default) shows every option — fully backwards compatible.
     public let collapsedOptionCount: Int?
 

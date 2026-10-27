@@ -242,11 +242,17 @@ import SwiftUI
     /// Text for the retake questionnaire button
     public let questionnaireRetakeText: String
 
-    /// Text for the chip that expands a collapsible question's option list
+    /// Text for the button that expands a collapsible question's option list
     public let questionnaireShowAllText: String
 
-    /// Text for the chip that collapses an expanded question's option list
+    /// Text for the button that collapses an expanded question's option list
     public let questionnaireShowLessText: String
+
+    /// Color of the "Show all" / "Show less" button.
+    ///
+    /// `nil` (the default) keeps the inherited tint. The color is used for text,
+    /// so pick one with at least 4.5:1 contrast against the card in light and dark mode.
+    public let questionnaireToggleColor: Color?
 
     // MARK: - Generate Action Configuration
 
@@ -326,6 +332,7 @@ import SwiftUI
                 questionnaireRetakeText: String = "Retake questionnaire",
                 questionnaireShowAllText: String = "Show all",
                 questionnaireShowLessText: String = "Show less",
+                questionnaireToggleColor: Color? = nil,
                 generateTitle: String = "Generate your recommendations",
                 generateSubtitle: String = "Select a category and tap to discover personalized AI suggestions",
                 generateButtonText: String = "Generate recommendations",
@@ -389,6 +396,7 @@ import SwiftUI
         self.questionnaireRetakeText = questionnaireRetakeText
         self.questionnaireShowAllText = questionnaireShowAllText
         self.questionnaireShowLessText = questionnaireShowLessText
+        self.questionnaireToggleColor = questionnaireToggleColor
         self.generateTitle = generateTitle
         self.generateSubtitle = generateSubtitle
         self.generateButtonText = generateButtonText

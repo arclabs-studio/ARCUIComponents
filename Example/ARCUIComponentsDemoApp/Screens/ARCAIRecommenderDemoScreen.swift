@@ -336,7 +336,7 @@ extension ARCAIRecommenderDemoScreen {
 // MARK: - Collapsible Question
 
 extension ARCAIRecommenderDemoScreen {
-    /// Long option list that starts collapsed behind a "Show all" chip.
+    /// Long option list that starts collapsed behind a "Show all" button.
     static let collapsibleQuestion = AIRecommenderQuestion(id: "cuisine",
                                                            text: "¿Qué cocina te apetece?",
                                                            subtitle: "Toca «Show all» para ver todas",
