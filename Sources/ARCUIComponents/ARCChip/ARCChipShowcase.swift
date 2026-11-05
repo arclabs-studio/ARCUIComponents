@@ -261,12 +261,7 @@ import SwiftUI
                 FlowLayoutChipShowcase(spacing: 8) {
                     ForEach(Array(inputTags).sorted(), id: \.self) { tag in
                         ARCChip(tag,
-                                isSelected: Binding(get: { inputTags.contains(tag) },
-                                                    set: {
-                                                        if !$0 {
-                                                            inputTags.remove(tag)
-                                                        }
-                                                    }),
+                                isSelected: $inputTags[contains: tag],
                                 configuration: .input)
                     }
                 }

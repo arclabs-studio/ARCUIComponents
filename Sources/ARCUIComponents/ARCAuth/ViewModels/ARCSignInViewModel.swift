@@ -116,3 +116,17 @@ public final class ARCSignInViewModel { // swiftlint:disable:this observable_vie
         }
     }
 }
+
+// MARK: - Error Presentation
+
+extension ARCSignInViewModel {
+    /// Drives the error alert: `true` while ``errorMessage`` is set; dismissing clears it.
+    var isShowingError: Bool {
+        get { errorMessage != nil }
+        set {
+            if !newValue {
+                errorMessage = nil
+            }
+        }
+    }
+}
