@@ -254,10 +254,10 @@ extension ARCAIRecommenderDemoScreen {
 // MARK: - Demo Questions
 
 extension ARCAIRecommenderDemoScreen {
-    // swiftlint:disable:next function_body_length
     static let demoQuestions: [AIRecommenderQuestion] = [AIRecommenderQuestion(id: "preferences",
                                                                                text: "¿Qué te apetece?",
-                                                                               subtitle: "Selecciona una o varias opciones",
+                                                                               subtitle: "Selecciona una "
+                                                                                   + "o varias opciones",
                                                                                options: [.init(id: "option1",
                                                                                                label: "Opción A",
                                                                                                icon: "star.fill",
@@ -276,7 +276,8 @@ extension ARCAIRecommenderDemoScreen {
                                                                                                color: .purple)],
                                                                                inputType: .multipleChoice,
                                                                                icon: "sparkles",
-                                                                               freeTextPlaceholder: "Añade algo específico (opcional)"),
+                                                                               freeTextPlaceholder: "Añade algo "
+                                                                                   + "específico (opcional)"),
                                                          collapsibleQuestion,
                                                          AIRecommenderQuestion(id: "location",
                                                                                text: "¿Dónde te encuentras?",
@@ -316,7 +317,8 @@ extension ARCAIRecommenderDemoScreen {
                                                                                icon: "creditcard.fill"),
                                                          AIRecommenderQuestion(id: "mood",
                                                                                text: "¿Cómo te sientes?",
-                                                                               subtitle: "Tu estado de ánimo influye en la recomendación",
+                                                                               subtitle: "Tu estado de ánimo "
+                                                                                   + "influye en la recomendación",
                                                                                options: [.init(id: "adventurous",
                                                                                                label: "Aventurero",
                                                                                                icon: "sparkles",
