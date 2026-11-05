@@ -249,8 +249,7 @@ private let previewQuestions: [AIRecommenderQuestion] = [AIRecommenderQuestion(i
         AIRecommenderQuestionnaire(questions: previewQuestions,
                                    answers: $answers,
                                    configuration: .default,
-                                   onSubmit: { finalAnswers in
-                                       print("Submitted: \(finalAnswers.toDictionary())")
+                                   onSubmit: { _ in
                                    })
                                    .navigationTitle("Preferencias")
                                    .navigationBarTitleDisplayMode(.inline)

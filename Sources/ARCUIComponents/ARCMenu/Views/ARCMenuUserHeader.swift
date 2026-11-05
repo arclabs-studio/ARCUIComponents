@@ -151,10 +151,8 @@ public struct ARCMenuUserHeader: View {
                                             email: "carlos@arclabs.studio",
                                             avatarImage: .initials("CR")),
                           configuration: .default,
-                          onTap: {
-                              print("Profile tapped")
-                          })
-                          .padding()
+                          onTap: {})
+            .padding()
     }
 }
 
@@ -166,10 +164,8 @@ public struct ARCMenuUserHeader: View {
                                             subtitle: "Premium Member",
                                             avatarImage: .initials("JC")),
                           configuration: ARCMenuConfiguration(accentColor: .orange),
-                          onTap: {
-                              print("Profile tapped")
-                          })
-                          .padding()
+                          onTap: {})
+            .padding()
     }
 }
 

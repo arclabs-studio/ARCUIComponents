@@ -232,7 +232,7 @@ import SwiftUI
                             detents: [.small, .medium, .large],
                             selectedDetent: $detent,
                             configuration: .modal,
-                            onDismiss: { print("Sheet dismissed") },
+                            onDismiss: {},
                             content: {
                                 VStack(spacing: 16) {
                                     Text("Modal Sheet").font(.headline)
