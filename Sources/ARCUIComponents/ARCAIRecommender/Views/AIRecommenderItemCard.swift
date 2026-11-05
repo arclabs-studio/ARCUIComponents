@@ -113,7 +113,7 @@ import SwiftUI
             HStack(spacing: 2) {
                 Image(systemName: "star.fill")
                     .foregroundStyle(configuration.ratingColor)
-                Text(String(format: "%.1f", rating))
+                Text(rating.formatted(.number.precision(.fractionLength(1))))
                     .fontWeight(.semibold)
             }
             .font(.subheadline)
@@ -138,7 +138,7 @@ import SwiftUI
         }
 
         if let rating = item.rating, configuration.showRating {
-            components.append("Rating \(String(format: "%.1f", rating))")
+            components.append("Rating \(rating.formatted(.number.precision(.fractionLength(1))))")
         }
 
         if let reason = item.aiReason, configuration.showAIReason {
