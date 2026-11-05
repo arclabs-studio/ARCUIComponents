@@ -124,7 +124,8 @@ import SwiftUI
         guard isActive, !reduceMotion else { return }
 
         if delay > 0 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            Task {
+                try? await Task.sleep(for: .seconds(delay))
                 animateShimmer()
             }
         } else {

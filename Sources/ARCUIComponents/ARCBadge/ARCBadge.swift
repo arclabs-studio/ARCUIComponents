@@ -237,7 +237,8 @@ import SwiftUI
             animationScale = 1.2
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+        Task {
+            try? await Task.sleep(for: .milliseconds(150))
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
                 animationScale = 1.0
             }
