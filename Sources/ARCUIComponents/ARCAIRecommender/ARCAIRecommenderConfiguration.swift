@@ -160,14 +160,21 @@ import SwiftUI
     /// Whether to show the position indicator (e.g., "2 / 8")
     public let showCardIndicator: Bool
 
+    /// Builds the card stack VoiceOver label from the 1-based position and the total count.
+    ///
+    /// The app provides it so the domain noun ("Recommendations", "Results", "Matches", etc.)
+    /// comes from the app's own String Catalog.
+    ///
+    /// Example: `{ "Recommendations, card \($0) of \($1)" }` → `"Recommendations, card 2 of 5"`
+    public let cardAccessibilityLabel: @Sendable (_ position: Int, _ total: Int) -> String
+
+    private let legacyCardAccessibilityLabelFormat: String?
+
     /// Format string for the card stack VoiceOver accessibility label.
-    ///
-    /// Use `%lld` placeholders for current position (1-based) and total count respectively.
-    /// The app provides this string so the domain noun ("Recommendations", "Results", "Matches", etc.)
-    /// can be translated in the app's own String Catalog.
-    ///
-    /// Example: `"Recommendations, card %lld of %lld"` → `"Recommendations, card 2 of 5"`
-    public let cardAccessibilityLabelFormat: String
+    @available(*, deprecated, message: "Use cardAccessibilityLabel, which builds the label without String(format:)")
+    public var cardAccessibilityLabelFormat: String {
+        legacyCardAccessibilityLabelFormat ?? "Recommendations, card %lld of %lld"
+    }
 
     /// SF Symbol for the bookmark button (inactive state)
     public let bookmarkIcon: String
@@ -201,10 +208,18 @@ import SwiftUI
     /// Progress text shown when all questions are answered
     public let questionnaireCompletePrompt: String
 
-    /// Format string for mid-questionnaire progress (args: answered count, total count)
+    /// Builds the mid-questionnaire progress text from the answered and total counts.
     ///
-    /// Use `%lld` placeholders, e.g. `"%lld of %lld answered"`.
-    public let questionnaireProgressFormat: String
+    /// Example: `{ "\($0) of \($1) answered" }` → `"2 of 5 answered"`
+    public let questionnaireProgress: @Sendable (_ answered: Int, _ total: Int) -> String
+
+    private let legacyQuestionnaireProgressFormat: String?
+
+    /// Format string for mid-questionnaire progress (args: answered count, total count).
+    @available(*, deprecated, message: "Use questionnaireProgress, which builds the text without String(format:)")
+    public var questionnaireProgressFormat: String {
+        legacyQuestionnaireProgressFormat ?? "%lld of %lld answered"
+    }
 
     /// Whether to show progress dots in questionnaire mode
     public let showQuestionnaireProgress: Bool
@@ -308,7 +323,8 @@ import SwiftUI
                 cardSpacing: CGFloat = 12,
                 cardAspectRatio: CGFloat = 0.75,
                 showCardIndicator: Bool = true,
-                cardAccessibilityLabelFormat: String = "Recommendations, card %lld of %lld",
+                cardAccessibilityLabelFormat: String? = nil,
+                cardAccessibilityLabel: (@Sendable (_ position: Int, _ total: Int) -> String)? = nil,
                 bookmarkIcon: String = "bookmark",
                 bookmarkActiveIcon: String = "bookmark.fill",
                 allViewedText: String = "You've explored all recommendations",
@@ -319,7 +335,8 @@ import SwiftUI
                 questionnaireMinAnswerPrompt: String = "Answer at least one question",
                 questionnaireStartPrompt: String = "Tell me what you're looking for",
                 questionnaireCompletePrompt: String = "All done! Ready to recommend",
-                questionnaireProgressFormat: String = "%lld of %lld answered",
+                questionnaireProgressFormat: String? = nil,
+                questionnaireProgress: (@Sendable (_ answered: Int, _ total: Int) -> String)? = nil,
                 showQuestionnaireProgress: Bool = true,
                 headerToModeSwitcherSpacing: CGFloat = .arcSpacingLarge,
                 modeSwitcherToContentSpacing: CGFloat = .arcSpacingMedium,
@@ -372,7 +389,10 @@ import SwiftUI
         self.cardSpacing = cardSpacing
         self.cardAspectRatio = cardAspectRatio
         self.showCardIndicator = showCardIndicator
-        self.cardAccessibilityLabelFormat = cardAccessibilityLabelFormat
+        legacyCardAccessibilityLabelFormat = cardAccessibilityLabelFormat
+        self.cardAccessibilityLabel = cardAccessibilityLabel
+            ?? Self.legacyFormatter(cardAccessibilityLabelFormat)
+            ?? { "Recommendations, card \($0) of \($1)" }
         self.bookmarkIcon = bookmarkIcon
         self.bookmarkActiveIcon = bookmarkActiveIcon
         self.allViewedText = allViewedText
@@ -383,7 +403,10 @@ import SwiftUI
         self.questionnaireMinAnswerPrompt = questionnaireMinAnswerPrompt
         self.questionnaireStartPrompt = questionnaireStartPrompt
         self.questionnaireCompletePrompt = questionnaireCompletePrompt
-        self.questionnaireProgressFormat = questionnaireProgressFormat
+        legacyQuestionnaireProgressFormat = questionnaireProgressFormat
+        self.questionnaireProgress = questionnaireProgress
+            ?? Self.legacyFormatter(questionnaireProgressFormat)
+            ?? { "\($0) of \($1) answered" }
         self.showQuestionnaireProgress = showQuestionnaireProgress
         self.headerToModeSwitcherSpacing = headerToModeSwitcherSpacing
         self.modeSwitcherToContentSpacing = modeSwitcherToContentSpacing
@@ -408,6 +431,14 @@ import SwiftUI
     // MARK: - Presets
 
     /// Default configuration with amber accent (AI/Intelligence style)
+    /// Bridges a deprecated `%lld … %lld` format string to the closure API.
+    ///
+    /// `String(format:)` stays only on this deprecated path; it goes away with the format-string API.
+    private static func legacyFormatter(_ format: String?) -> (@Sendable (Int, Int) -> String)? {
+        guard let format else { return nil }
+        return { String(format: format, $0, $1) }
+    }
+
     public static let `default` = ARCAIRecommenderConfiguration()
 
     /// Minimal configuration without ranks or AI reasons

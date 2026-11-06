@@ -107,7 +107,7 @@ import SwiftUI
         } else if answered == total {
             return configuration.questionnaireCompletePrompt
         } else {
-            return String(format: configuration.questionnaireProgressFormat, answered, total)
+            return configuration.questionnaireProgress(answered, total)
         }
     }
 
