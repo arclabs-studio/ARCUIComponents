@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+All APIs deprecated in 1.x are gone. **Breaking.**
+
+- `ARCMenuViewModel.isPresented`, `present()`, `dismiss()`, `toggle()` → an external `@State`
+  `Bool` passed to `arcMenu(isPresented:viewModel:)`.
+- `View.arcMenu(viewModel:)` (and its internal `ARCMenuLegacyModifier`) → `arcMenu(isPresented:viewModel:)`.
+- `ARCMenuButton(viewModel:showsBadge:badgeCount:)` → `ARCMenuButton(isPresented:viewModel:showsBadge:badgeCount:)`.
+- `View.arcMenuButton(viewModel:showsBadge:badgeCount:)` → `arcMenuToolbarButton(isPresented:viewModel:showsBadge:badgeCount:)`.
+- `ARCMenuViewModel.withDefaultItems(user:configuration:onProfile:onSettings:onFeedback:onSubscriptions:onAbout:onLogout:)`
+  → `withDefaultItems(user:configuration:actions:)` with `ARCMenuActions`.
+- `ARCMenuViewModel.standard(user:configuration:onSettings:onProfile:onPlan:onContact:onAbout:onLogout:)`
+  → `withDefaultItems(user:configuration:actions:)` or `ARCMenuViewModel(user:menuItems:configuration:)`.
+- `ARCMenuItem.defaultItems(onProfile:onSettings:onFeedback:onSubscriptions:onAbout:onLogout:)`
+  → `defaultItems(actions:)`.
+- `ARCMenuItem.Common.plan(badge:action:)` → `Common.subscriptions(badge:action:)`.
+- `ARCAIRecommenderConfiguration.cardAccessibilityLabelFormat` and the `cardAccessibilityLabelFormat:`
+  init parameter → `cardAccessibilityLabel` closure.
+- `ARCAIRecommenderConfiguration.questionnaireProgressFormat` and the `questionnaireProgressFormat:`
+  init parameter → `questionnaireProgress` closure.
+
+### Changed
+
+- **`ARCOnboardingPage.ImageType` and `ARCOnboardingPage` are no longer `Sendable`.** **Breaking.**
+  The `@unchecked Sendable` conformance hid that `.custom(AnyView)` is not thread-safe. Build and
+  pass pages on the main actor (as SwiftUI views already do); code that sent pages across
+  isolation domains must keep them on the main actor instead.
+
 ## [1.4.0] - 2026-10-27
 
 ### Added

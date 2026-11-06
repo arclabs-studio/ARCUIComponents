@@ -74,27 +74,6 @@ public struct ARCMenuButton: View {
         self.badgeCount = badgeCount
     }
 
-    /// Creates a menu trigger button using ViewModel's internal state
-    ///
-    /// - Note: Deprecated. Use `init(isPresented:viewModel:showsBadge:badgeCount:)` instead.
-    @available(*, deprecated, message: "Use init(isPresented:viewModel:) with external @State binding")
-    public init(viewModel: ARCMenuViewModel,
-                showsBadge: Bool = false,
-                badgeCount: Int = 0) {
-        // Create a binding that reads/writes to the ViewModel's deprecated isPresented
-        _isPresented = Binding(get: { viewModel.isPresented },
-                               set: { newValue in
-                                   if newValue {
-                                       viewModel.present()
-                                   } else {
-                                       viewModel.dismiss()
-                                   }
-                               })
-        self.viewModel = viewModel
-        self.showsBadge = showsBadge
-        self.badgeCount = badgeCount
-    }
-
     // MARK: - Body
 
     public var body: some View {
@@ -233,30 +212,6 @@ extension View {
             ToolbarItem(placement: .automatic) {
                 ARCMenuButton(isPresented: isPresented,
                               viewModel: viewModel,
-                              showsBadge: showsBadge,
-                              badgeCount: badgeCount)
-            }
-            #endif
-        }
-    }
-
-    /// Adds an ARCMenu button to the toolbar using ViewModel's internal state
-    ///
-    /// - Note: Deprecated. Use `arcMenuToolbarButton(isPresented:viewModel:)` instead.
-    @available(*, deprecated, message: "Use arcMenuToolbarButton(isPresented:viewModel:) with external @State binding")
-    public func arcMenuButton(viewModel: ARCMenuViewModel,
-                              showsBadge: Bool = false,
-                              badgeCount: Int = 0) -> some View {
-        toolbar {
-            #if os(iOS)
-            ToolbarItem(placement: .topBarTrailing) {
-                ARCMenuButton(viewModel: viewModel,
-                              showsBadge: showsBadge,
-                              badgeCount: badgeCount)
-            }
-            #else
-            ToolbarItem(placement: .automatic) {
-                ARCMenuButton(viewModel: viewModel,
                               showsBadge: showsBadge,
                               badgeCount: badgeCount)
             }

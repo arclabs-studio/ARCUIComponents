@@ -533,25 +533,48 @@ The only requirement is a `Binding<Bool>` for presentation. How you manage that 
 
 ## Migration Guide
 
-### From v1.9.0 (Deprecated API)
+### Migrating to 2.0
 
-If you're using the deprecated API, migrate to the new external binding pattern:
+ARCUIComponents 2.0 removes the deprecated ARCMenu APIs that stored presentation state inside
+``ARCMenuViewModel``. The view model now holds data only; presentation is always an external
+`Binding<Bool>`.
 
-**Before (v1.9.0 - deprecated):**
+| Removed | Replacement |
+|---------|-------------|
+| `ARCMenuViewModel.isPresented`, `present()`, `dismiss()`, `toggle()` | A `@State` `Bool` passed as `isPresented:` |
+| `.arcMenu(viewModel:)` | `.arcMenu(isPresented:viewModel:)` |
+| `.arcMenuButton(viewModel:)` | `.arcMenuToolbarButton(isPresented:viewModel:)` |
+| `ARCMenuButton(viewModel:)` | `ARCMenuButton(isPresented:viewModel:)` |
+| `ARCMenuViewModel.standard(...)` | `ARCMenuViewModel(user:menuItems:)` or `withDefaultItems(user:configuration:actions:)` |
+| `ARCMenuViewModel.withDefaultItems(user:configuration:onProfile:...)` | `withDefaultItems(user:configuration:actions:)` |
+| `ARCMenuItem.defaultItems(onProfile:...)` | `ARCMenuItem.defaultItems(actions:)` |
+| `ARCMenuItem.Common.plan(badge:action:)` | `ARCMenuItem.Common.subscriptions(badge:action:)` |
+
+**Before (1.x, deprecated):**
 ```swift
 @State private var viewModel = ARCMenuViewModel(...)
 
 var body: some View {
     ContentView()
-        .arcMenuButton(viewModel: viewModel)  // Deprecated
-        .arcMenu(viewModel: viewModel)        // Deprecated
+        .arcMenuButton(viewModel: viewModel)
+        .arcMenu(viewModel: viewModel)
 }
 ```
 
-**After (v1.9.1+ - recommended):**
+**After (2.0):**
 ```swift
 @State private var showMenu = false  // External binding
-@State private var viewModel = ARCMenuViewModel(...)
+@State private var viewModel = ARCMenuViewModel.withDefaultItems(
+    user: user,
+    actions: ARCMenuActions(
+        onProfile: { },
+        onSettings: { },
+        onFeedback: { },
+        onSubscriptions: { },
+        onAbout: { },
+        onLogout: { }
+    )
+)
 
 var body: some View {
     NavigationStack {
@@ -565,44 +588,11 @@ var body: some View {
 }
 ```
 
-### From v1.8.x (ARCMenuViewModel.standard)
-
-```swift
-// Before (v1.8.x)
-@State private var viewModel = ARCMenuViewModel.standard(
-    user: user,
-    onSettings: { },
-    onProfile: { },
-    onLogout: { }
-)
-
-// After (v1.9.1+)
-@State private var showMenu = false
-@State private var viewModel = ARCMenuViewModel.withDefaultItems(
-    user: user,
-    actions: ARCMenuActions(
-        onProfile: { },
-        onSettings: { },
-        onFeedback: { },
-        onSubscriptions: { },
-        onAbout: { },
-        onLogout: { }
-    )
-)
-
-// In body:
-.arcMenuToolbarButton(isPresented: $showMenu, viewModel: viewModel)
-.arcMenu(isPresented: $showMenu, viewModel: viewModel)
-```
-
-### Why the Change?
-
-The new pattern fixes a critical bug where the deprecated modifier used `.constant()` binding, preventing the menu from opening. The external binding pattern:
+### Why External Binding?
 
 1. **Works with SwiftUI's native sheet**: `.sheet(isPresented:)` requires a mutable binding
 2. **Follows Apple's patterns**: Presentation state belongs in View layer
 3. **Better MVVM+C support**: Clear separation between UI state and data
-4. **No more bugs**: External binding guarantees sheet presentation works correctly
 
 ## See Also
 

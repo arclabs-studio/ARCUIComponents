@@ -221,7 +221,7 @@ public struct ARCMenu: View {
 
     // MARK: - Grouped Layout (Trailing Panel)
 
-    @ViewBuilder private var groupedContentStack: some View {
+    private var groupedContentStack: some View {
         Form {
             if let user = viewModel.user {
                 Section {
@@ -314,52 +314,6 @@ extension View {
     /// - Returns: View with menu sheet attached
     public func arcMenu(isPresented: Binding<Bool>, viewModel: ARCMenuViewModel) -> some View {
         modifier(ARCMenuModifier(isPresented: isPresented, viewModel: viewModel))
-    }
-
-    /// Adds an ARCMenu to a view using the view model's internal presentation state
-    ///
-    /// - Note: Deprecated. Use `arcMenu(isPresented:viewModel:)` with external `@State` binding.
-    /// - Parameter viewModel: View model containing menu state and configuration
-    /// - Returns: View with menu sheet attached
-    @available(*, deprecated, message: "Use arcMenu(isPresented:viewModel:) with external @State binding")
-    public func arcMenu(viewModel: ARCMenuViewModel) -> some View {
-        modifier(ARCMenuLegacyModifier(viewModel: viewModel))
-    }
-}
-
-// MARK: - Legacy Modifier (Backward Compatibility)
-
-/// View modifier that uses ViewModel's internal isPresented state
-///
-/// - Note: Deprecated. Exists only for backward compatibility with v1.8.x code.
-///   Marked deprecated so its use of the ViewModel's deprecated presentation API
-///   doesn't emit warnings; its only caller is the deprecated `arcMenu(viewModel:)`.
-@available(*, deprecated, message: "Use arcMenu(isPresented:viewModel:) with external @State binding")
-struct ARCMenuLegacyModifier: ViewModifier {
-    @Bindable var viewModel: ARCMenuViewModel
-
-    func body(content: Content) -> some View {
-        let binding = Binding<Bool>(get: { viewModel.isPresented },
-                                    set: { newValue in
-                                        if newValue {
-                                            viewModel.present()
-                                        } else {
-                                            viewModel.dismiss()
-                                        }
-                                    })
-
-        switch viewModel.configuration.presentationStyle {
-        case .bottomSheet:
-            content
-                .sheet(isPresented: binding) {
-                    ARCMenuSheetContent(isPresented: binding, viewModel: viewModel)
-                }
-        case .trailingPanel:
-            content
-                .overlay {
-                    ARCMenu(isPresented: binding, viewModel: viewModel)
-                }
-        }
     }
 }
 
