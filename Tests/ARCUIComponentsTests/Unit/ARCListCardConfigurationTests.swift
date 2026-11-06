@@ -89,7 +89,7 @@ struct ARCListCardConfigurationTests {
     @Test("conformsToLiquidGlassConfigurable_hasAccentColor") func conformsToLiquidGlassConfigurable_hasAccentColor() {
         let config: any LiquidGlassConfigurable = ARCListCardConfiguration.default
 
-        #expect(config.accentColor != nil)
+        #expect(config.accentColor == .blue)
     }
 
     @Test("conformsToLiquidGlassConfigurable_hasShadow") func conformsToLiquidGlassConfigurable_hasShadow() {

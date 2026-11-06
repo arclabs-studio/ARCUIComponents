@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29270CD630935EED0054492C /* PresentationStyleOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29270CD530935EED0054492C /* PresentationStyleOption.swift */; };
+		29270CD730935EED0054492C /* ARCBottomSheetDemoScreen+ConfigPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29270CD030935EED0054492C /* ARCBottomSheetDemoScreen+ConfigPreset.swift */; };
+		29270CD830935EED0054492C /* CodeSnippetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29270CD130935EED0054492C /* CodeSnippetRow.swift */; };
+		29270CD930935EED0054492C /* FeatureRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29270CD230935EED0054492C /* FeatureRowView.swift */; };
+		29270CDA30935EED0054492C /* MenuLayoutOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29270CD330935EED0054492C /* MenuLayoutOption.swift */; };
+		29270CDB30935EED0054492C /* MenuThemeOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29270CD430935EED0054492C /* MenuThemeOption.swift */; };
 		49B775E1DFC7A53F1C480A0D /* ARCRatingInputDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54ABD42E989D30E93608155C /* ARCRatingInputDemoScreen.swift */; };
 		B10000010000000000000001 /* ARCUIComponentsDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000001 /* ARCUIComponentsDemoApp.swift */; };
 		B10000010000000000000002 /* DemoHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20000010000000000000002 /* DemoHomeView.swift */; };
@@ -51,6 +57,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		29270CD030935EED0054492C /* ARCBottomSheetDemoScreen+ConfigPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARCBottomSheetDemoScreen+ConfigPreset.swift"; sourceTree = "<group>"; };
+		29270CD130935EED0054492C /* CodeSnippetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeSnippetRow.swift; sourceTree = "<group>"; };
+		29270CD230935EED0054492C /* FeatureRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureRowView.swift; sourceTree = "<group>"; };
+		29270CD330935EED0054492C /* MenuLayoutOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuLayoutOption.swift; sourceTree = "<group>"; };
+		29270CD430935EED0054492C /* MenuThemeOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuThemeOption.swift; sourceTree = "<group>"; };
+		29270CD530935EED0054492C /* PresentationStyleOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationStyleOption.swift; sourceTree = "<group>"; };
 		54ABD42E989D30E93608155C /* ARCRatingInputDemoScreen.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ARCRatingInputDemoScreen.swift; sourceTree = "<group>"; };
 		B20000010000000000000001 /* ARCUIComponentsDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCUIComponentsDemoApp.swift; sourceTree = "<group>"; };
 		B20000010000000000000002 /* DemoHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoHomeView.swift; sourceTree = "<group>"; };
@@ -147,6 +159,12 @@
 		B50000010000000000000005 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				29270CD030935EED0054492C /* ARCBottomSheetDemoScreen+ConfigPreset.swift */,
+				29270CD130935EED0054492C /* CodeSnippetRow.swift */,
+				29270CD230935EED0054492C /* FeatureRowView.swift */,
+				29270CD330935EED0054492C /* MenuLayoutOption.swift */,
+				29270CD430935EED0054492C /* MenuThemeOption.swift */,
+				29270CD530935EED0054492C /* PresentationStyleOption.swift */,
 				B20000010000000000000003 /* ARCMenuDemoScreen.swift */,
 				B20000010000000000000004 /* ARCFavoriteButtonDemoScreen.swift */,
 				B20000010000000000000005 /* ARCListCardDemoScreen.swift */,
@@ -303,6 +321,12 @@
 				B10000010000000000000018 /* ARCOnboardingDemoScreen.swift in Sources */,
 				B10000010000000000000019 /* ARCBottomSheetDemoScreen.swift in Sources */,
 				B1000001000000000000001A /* ARCButtonDemoScreen.swift in Sources */,
+				29270CD630935EED0054492C /* PresentationStyleOption.swift in Sources */,
+				29270CD730935EED0054492C /* ARCBottomSheetDemoScreen+ConfigPreset.swift in Sources */,
+				29270CD830935EED0054492C /* CodeSnippetRow.swift in Sources */,
+				29270CD930935EED0054492C /* FeatureRowView.swift in Sources */,
+				29270CDA30935EED0054492C /* MenuLayoutOption.swift in Sources */,
+				29270CDB30935EED0054492C /* MenuThemeOption.swift in Sources */,
 				B1000001000000000000001B /* ARCAvatarDemoScreen.swift in Sources */,
 				B1000001000000000000001C /* ARCCarouselDemoScreen.swift in Sources */,
 				B1000001000000000000001D /* ARCSegmentedControlDemoScreen.swift in Sources */,

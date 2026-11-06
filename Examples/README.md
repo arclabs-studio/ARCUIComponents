@@ -40,7 +40,7 @@ Each component includes a full showcase view (from the package itself) demonstra
 ## Architecture
 
 ```
-Example/
+Examples/
 ├── README.md
 └── ARCUIComponentsDemoApp/
     ├── ARCUIComponentsDemo.xcodeproj  # Xcode project
