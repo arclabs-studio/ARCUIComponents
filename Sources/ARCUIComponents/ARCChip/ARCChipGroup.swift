@@ -227,7 +227,7 @@ import SwiftUI
 extension Set {
     /// Selection state of one chip. When `replacesSelection` is `true` (single-selection mode),
     /// selecting a chip replaces the whole selection.
-    fileprivate subscript(chip item: Element, replacesSelection replacesSelection: Bool) -> Bool {
+    subscript(chip item: Element, replacesSelection replacesSelection: Bool) -> Bool {
         get { contains(item) }
         set {
             if newValue {

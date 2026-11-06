@@ -428,9 +428,8 @@ import SwiftUI
 
     // swiftlint:enable function_body_length
 
-    // MARK: - Presets
+    // MARK: - Legacy Format Bridge
 
-    /// Default configuration with amber accent (AI/Intelligence style)
     /// Bridges a deprecated `%lld … %lld` format string to the closure API.
     ///
     /// `String(format:)` stays only on this deprecated path; it goes away with the format-string API.
@@ -439,6 +438,9 @@ import SwiftUI
         return { String(format: format, $0, $1) }
     }
 
+    // MARK: - Presets
+
+    /// Default configuration with amber accent (AI/Intelligence style)
     public static let `default` = ARCAIRecommenderConfiguration()
 
     /// Minimal configuration without ranks or AI reasons
