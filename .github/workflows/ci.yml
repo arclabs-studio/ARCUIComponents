@@ -9,7 +9,7 @@ on:
 jobs:
   build-and-test:
     name: Build and Test
-    runs-on: macos-14
+    runs-on: macos-15
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
 
@@ -52,7 +52,7 @@ jobs:
 
   swiftlint:
     name: SwiftLint
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
     - name: Checkout
@@ -75,7 +75,7 @@ jobs:
 
   documentation:
     name: Build Documentation
-    runs-on: macos-14
+    runs-on: macos-15
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
     # Make this job non-blocking - it runs in parallel but doesn't block other checks
@@ -122,7 +122,7 @@ jobs:
 
   ios-compatibility:
     name: iOS/iPadOS Compatibility
-    runs-on: macos-14
+    runs-on: macos-15
     env:
       DEVELOPER_DIR: /Applications/Xcode_16.2.app/Contents/Developer
     # Temporarily reduced matrix to speed up CI
