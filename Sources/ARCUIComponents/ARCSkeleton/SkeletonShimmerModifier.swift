@@ -49,6 +49,7 @@ import SwiftUI
     // MARK: - State
 
     @State private var phase: CGFloat = 0
+    @State private var delayTask: Task<Void, Never>?
 
     // MARK: - Properties
 
@@ -96,6 +97,9 @@ import SwiftUI
             .onChange(of: isActive) { _, newValue in
                 handleActiveChange(newValue)
             }
+            .onDisappear {
+                delayTask?.cancel()
+            }
             .accessibilityLabel(isActive ? "Loading" : "")
     }
 
@@ -124,8 +128,10 @@ import SwiftUI
         guard isActive, !reduceMotion else { return }
 
         if delay > 0 {
-            Task {
+            delayTask?.cancel()
+            delayTask = Task {
                 try? await Task.sleep(for: .seconds(delay))
+                guard !Task.isCancelled else { return }
                 animateShimmer()
             }
         } else {
