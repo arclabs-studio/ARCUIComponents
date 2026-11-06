@@ -129,7 +129,7 @@ import SwiftUI
 
     private var accessibilityLabel: String {
         if let rating {
-            return "\(label): \(String(format: "%.1f", rating))"
+            return "\(label): \(rating.formatted(.number.precision(.fractionLength(1))))"
         }
         return "\(label): \(value ?? "")"
     }

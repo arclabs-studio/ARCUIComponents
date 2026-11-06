@@ -359,10 +359,10 @@ extension View {
     @Previewable @State var viewModel = ARCMenuViewModel(user: ARCMenuUser(name: "Interactive Demo",
                                                                            email: "demo@arclabs.studio",
                                                                            avatarImage: .initials("ID")),
-                                                         menuItems: [.Common.profile { print("Profile") },
-                                                                     .Common.settings { print("Settings") },
-                                                                     .Common.feedback { print("Feedback") },
-                                                                     .Common.logout { print("Logout") }],
+                                                         menuItems: [.Common.profile {},
+                                                                     .Common.settings {},
+                                                                     .Common.feedback {},
+                                                                     .Common.logout {}],
                                                          configuration: .default)
 
     NavigationStack {

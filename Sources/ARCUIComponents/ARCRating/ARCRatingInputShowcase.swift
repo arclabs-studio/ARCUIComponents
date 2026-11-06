@@ -105,7 +105,7 @@ import SwiftUI
                     Text("Selected:")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
-                    Text(String(format: "%.1f", sliderRating))
+                    Text(sliderRating.formatted(.number.precision(.fractionLength(1))))
                         .font(.headline.monospacedDigit())
                 }
             }
@@ -128,7 +128,7 @@ import SwiftUI
                     Text("Selected:")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
-                    Text(String(format: "%.1f", circularRating))
+                    Text(circularRating.formatted(.number.precision(.fractionLength(1))))
                         .font(.headline.monospacedDigit())
                 }
 
@@ -202,7 +202,7 @@ import SwiftUI
                     .font(.subheadline)
                 Spacer()
                 let average = formRatings.reduce(0, +) / Double(formRatings.count)
-                Text(String(format: "%.1f", average))
+                Text(average.formatted(.number.precision(.fractionLength(1))))
                     .font(.headline.monospacedDigit())
                     .foregroundStyle(colorForRating(average))
             }
@@ -222,7 +222,7 @@ import SwiftUI
                                configuration: .compact)
                 .scaleEffect(0.7)
 
-            Text(String(format: "%.1f", rating.wrappedValue))
+            Text(rating.wrappedValue.formatted(.number.precision(.fractionLength(1))))
                 .font(.subheadline.monospacedDigit())
                 .foregroundStyle(.secondary)
                 .frame(width: 32, alignment: .trailing)

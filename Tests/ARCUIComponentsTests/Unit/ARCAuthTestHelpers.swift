@@ -5,10 +5,17 @@
 //  Created by ARC Labs Studio on 17/03/2026.
 //
 
+import os
+
 // MARK: - Spy
 
-final class Spy<T: Sendable>: @unchecked Sendable {
-    private(set) var values: [T] = []
+final class Spy<T: Sendable>: Sendable {
+    private let storage = OSAllocatedUnfairLock<[T]>(initialState: [])
+
+    var values: [T] {
+        storage.withLock { $0 }
+    }
+
     var callCount: Int {
         values.count
     }
@@ -18,14 +25,19 @@ final class Spy<T: Sendable>: @unchecked Sendable {
     }
 
     func record(_ value: T) {
-        values.append(value)
+        storage.withLock { $0.append(value) }
     }
 }
 
 // MARK: - Flag
 
-final class Flag: @unchecked Sendable {
-    private(set) var count = 0
+final class Flag: Sendable {
+    private let storage = OSAllocatedUnfairLock(initialState: 0)
+
+    var count: Int {
+        storage.withLock { $0 }
+    }
+
     var isEmpty: Bool {
         count < 1
     }
@@ -35,6 +47,6 @@ final class Flag: @unchecked Sendable {
     }
 
     func increment() {
-        count += 1
+        storage.withLock { $0 += 1 }
     }
 }

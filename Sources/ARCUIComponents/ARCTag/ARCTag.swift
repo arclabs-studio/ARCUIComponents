@@ -165,7 +165,7 @@ import SwiftUI
 
 // MARK: - AnyInsettableShape
 
-@available(iOS 17.0, macOS 14.0, *) private struct AnyInsettableShape: InsettableShape, @unchecked Sendable {
+@available(iOS 17.0, macOS 14.0, *) private struct AnyInsettableShape: InsettableShape, Sendable {
     private let _path: @Sendable (CGRect) -> Path
     private let _inset: @Sendable (CGFloat) -> AnyInsettableShape
 

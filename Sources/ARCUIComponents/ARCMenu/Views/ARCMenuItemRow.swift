@@ -216,18 +216,14 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
         VStack(spacing: 0) {
             ARCMenuItemRow(item: .Common.settings(action: {}),
                            configuration: .default,
-                           action: {
-                               print("Settings tapped")
-                           })
+                           action: {})
 
             Divider()
                 .padding(.leading, 64)
 
             ARCMenuItemRow(item: .Common.profile(action: {}),
                            configuration: .default,
-                           action: {
-                               print("Profile tapped")
-                           })
+                           action: {})
         }
         .padding()
         .background {
@@ -248,15 +244,11 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
         VStack(spacing: 8) {
             ARCMenuItemRow(item: .Common.subscriptions(badge: "Pro", action: {}),
                            configuration: ARCMenuConfiguration(accentColor: .orange),
-                           action: {
-                               print("Subscriptions tapped")
-                           })
+                           action: {})
 
             ARCMenuItemRow(item: .Common.notifications(badge: "3", action: {}),
                            configuration: ARCMenuConfiguration(accentColor: .orange),
-                           action: {
-                               print("Notifications tapped")
-                           })
+                           action: {})
         }
         .padding()
         .background {
@@ -281,9 +273,7 @@ private struct ARCMenuItemRowGestureModifier: ViewModifier {
 
             ARCMenuItemRow(item: .Common.logout(action: {}),
                            configuration: .default,
-                           action: {
-                               print("Logout tapped")
-                           })
+                           action: {})
         }
         .padding()
         .background {

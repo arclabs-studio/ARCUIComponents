@@ -119,9 +119,11 @@ import SwiftUI
     public static func formatted(_ rating: Double?) -> String {
         guard let rating else { return unratedPlaceholder }
 
-        if rating.truncatingRemainder(dividingBy: 1) == 0 {
-            return String(format: "%.0f", rating)
-        }
-        return String(format: "%.1f", rating)
+        // POSIX locale keeps the documented "8.5" output identical in every locale.
+        let digits = rating.truncatingRemainder(dividingBy: 1) == 0 ? 0 : 1
+        return rating.formatted(.number
+            .precision(.fractionLength(digits))
+            .grouping(.never)
+            .locale(Locale(identifier: "en_US_POSIX")))
     }
 }

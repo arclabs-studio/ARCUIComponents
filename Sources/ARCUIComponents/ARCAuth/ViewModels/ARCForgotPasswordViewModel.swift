@@ -76,3 +76,17 @@ public final class ARCForgotPasswordViewModel { // swiftlint:disable:this observ
         }
     }
 }
+
+// MARK: - Error Presentation
+
+extension ARCForgotPasswordViewModel {
+    /// Drives the error alert: `true` while ``errorMessage`` is set; dismissing clears it.
+    var isShowingError: Bool {
+        get { errorMessage != nil }
+        set {
+            if !newValue {
+                errorMessage = nil
+            }
+        }
+    }
+}

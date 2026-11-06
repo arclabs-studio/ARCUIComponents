@@ -127,9 +127,8 @@ import SwiftUI
     /// - Default icon color (secondary)
     /// - No action button
     private var shouldUseNativeView: Bool {
-        guard case .translucent = configuration.backgroundStyle else { return false }
-        guard configuration.iconColor == .secondary else { return false }
-        guard !configuration.showsAction else { return false }
+        guard case .translucent = configuration.backgroundStyle, configuration.iconColor == .secondary,
+              !configuration.showsAction else { return false }
         return true
     }
 
@@ -233,9 +232,7 @@ import SwiftUI
 // MARK: - Preview
 
 #Preview("No Favorites") {
-    ARCEmptyState(configuration: .noFavorites) {
-        print("Navigate to browse")
-    }
+    ARCEmptyState(configuration: .noFavorites) {}
 }
 
 #Preview("No Results") {
@@ -243,16 +240,12 @@ import SwiftUI
 }
 
 #Preview("Error State") {
-    ARCEmptyState(configuration: .error) {
-        print("Retry action")
-    }
+    ARCEmptyState(configuration: .error) {}
 }
 
 #Preview("Dark Mode") {
-    ARCEmptyState(configuration: .offline) {
-        print("Open settings")
-    }
-    .preferredColorScheme(.dark)
+    ARCEmptyState(configuration: .offline) {}
+        .preferredColorScheme(.dark)
 }
 
 #Preview("Accessibility - Extra Large") {

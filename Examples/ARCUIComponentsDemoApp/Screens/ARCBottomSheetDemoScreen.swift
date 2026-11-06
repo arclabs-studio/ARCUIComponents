@@ -6,6 +6,7 @@
 //
 
 import ARCUIComponents
+import os
 import SwiftUI
 
 /// Demo screen for ARCBottomSheet component.
@@ -41,7 +42,7 @@ import SwiftUI
                             selectedDetent: $currentDetent,
                             configuration: selectedConfig.configuration,
                             onDismiss: {
-                                print("Sheet dismissed")
+                                demoLogger.info("Sheet dismissed")
                             },
                             content: {
                                 modalSheetContent

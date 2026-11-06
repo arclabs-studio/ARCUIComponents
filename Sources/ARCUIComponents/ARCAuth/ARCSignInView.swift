@@ -126,12 +126,7 @@ import SwiftUI
         #endif
             .disabled(viewModel.isLoading)
             .alert(errorAlertTitle,
-                   isPresented: Binding(get: { viewModel.errorMessage != nil },
-                                        set: {
-                                            if !$0 {
-                                                viewModel.errorMessage = nil
-                                            }
-                                        })) {
+                   isPresented: $viewModel.isShowingError) {
                 Button(errorAlertDismissLabel) { viewModel.errorMessage = nil }
             } message: {
                 Text(viewModel.errorMessage ?? "")

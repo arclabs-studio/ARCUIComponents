@@ -270,9 +270,9 @@ import SwiftUI
     private var accessibilityLabel: String {
         guard let clampedRating else { return String(localized: "Not rated") }
 
-        return String(format: "Rating: %.1f out of %.0f",
-                      clampedRating,
-                      configuration.maxRating)
+        let rating = clampedRating.formatted(.number.precision(.fractionLength(1)))
+        let maximum = configuration.maxRating.formatted(.number.precision(.fractionLength(0)))
+        return "Rating: \(rating) out of \(maximum)"
     }
 
     private var ratingColor: Color {
