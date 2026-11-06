@@ -6,6 +6,7 @@
 //
 
 import ARCUIComponents
+import os
 import SwiftUI
 
 /// Demo screen for ARCToast component.
@@ -185,17 +186,17 @@ import SwiftUI
                 actionRow("Undo", description: "Reversible action") {
                     ARCToastManager.shared.show("Item deleted",
                                                 type: .info,
-                                                action: .undo { print("Undo tapped") })
+                                                action: .undo { demoLogger.info("Undo tapped") })
                 }
 
                 actionRow("Retry", description: "Try again on failure") {
                     ARCToastManager.shared.showError("Upload failed",
-                                                     action: .retry { print("Retry tapped") })
+                                                     action: .retry { demoLogger.info("Retry tapped") })
                 }
 
                 actionRow("View", description: "Navigate to content") {
                     ARCToastManager.shared.showSuccess("Photo uploaded",
-                                                       action: .view { print("View tapped") })
+                                                       action: .view { demoLogger.info("View tapped") })
                 }
 
                 actionRow("Dismiss", description: "Manual dismissal") {

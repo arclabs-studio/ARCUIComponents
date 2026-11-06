@@ -6,6 +6,7 @@
 //
 
 import ARCUIComponents
+import os
 import SwiftUI
 
 /// Demo screen for ARCMenu component.
@@ -86,12 +87,12 @@ struct ARCMenuDemoScreen: View {
     private static func makeFlatViewModel() -> ARCMenuViewModel {
         ARCMenuViewModel.withDefaultItems(user: demoUser,
                                           configuration: ARCMenuConfiguration(sheetTitle: "Account"),
-                                          actions: ARCMenuActions(onProfile: { print("Profile") },
-                                                                  onSettings: { print("Settings") },
-                                                                  onFeedback: { print("Feedback") },
-                                                                  onSubscriptions: { print("Subscriptions") },
-                                                                  onAbout: { print("About") },
-                                                                  onLogout: { print("Logout") }))
+                                          actions: ARCMenuActions(onProfile: { demoLogger.info("Profile") },
+                                                                  onSettings: { demoLogger.info("Settings") },
+                                                                  onFeedback: { demoLogger.info("Feedback") },
+                                                                  onSubscriptions: { demoLogger.info("Subscriptions") },
+                                                                  onAbout: { demoLogger.info("About") },
+                                                                  onLogout: { demoLogger.info("Logout") }))
     }
 
     private static func makeSectionedViewModel(accentColor: Color = .arcBrandGold,
@@ -99,17 +100,18 @@ struct ARCMenuDemoScreen: View {
     -> ARCMenuViewModel {
         ARCMenuViewModel(user: demoUser,
                          sections: [ARCMenuSection(title: "Account",
-                                                   items: [.Common.profile { print("Profile") },
-                                                           .Common.settings { print("Settings") }]),
+                                                   items: [.Common.profile { demoLogger.info("Profile") },
+                                                           .Common.settings { demoLogger.info("Settings") }]),
                                     ARCMenuSection(title: "Preferences",
-                                                   items: [.Common.notifications(badge: "3") { print("Notifications") },
-                                                           .Common.privacy { print("Privacy") }]),
+                                                   items: [.Common
+                                                       .notifications(badge: "3") { demoLogger.info("Notifications") },
+                                                       .Common.privacy { demoLogger.info("Privacy") }]),
                                     ARCMenuSection(title: "Support",
                                                    footer: "We'd love to hear from you",
-                                                   items: [.Common.feedback { print("Feedback") },
-                                                           .Common.help { print("Help") },
-                                                           .Common.about { print("About") }]),
-                                    ARCMenuSection(items: [.Common.logout { print("Logout") }])],
+                                                   items: [.Common.feedback { demoLogger.info("Feedback") },
+                                                           .Common.help { demoLogger.info("Help") },
+                                                           .Common.about { demoLogger.info("About") }]),
+                                    ARCMenuSection(items: [.Common.logout { demoLogger.info("Logout") }])],
                          configuration: ARCMenuConfiguration(presentationStyle: presentationStyle,
                                                              accentColor: accentColor,
                                                              showsGrabber: presentationStyle == .bottomSheet,

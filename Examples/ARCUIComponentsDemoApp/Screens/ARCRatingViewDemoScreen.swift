@@ -129,7 +129,7 @@ extension ARCRatingViewDemoScreen {
                 Slider(value: $interactiveRating, in: 1 ... 10, step: 0.5)
                     .tint(.green)
 
-                Text("Rating: \(String(format: "%.1f", interactiveRating))")
+                Text("Rating: \(interactiveRating.formatted(.number.precision(.fractionLength(1))))")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .center)

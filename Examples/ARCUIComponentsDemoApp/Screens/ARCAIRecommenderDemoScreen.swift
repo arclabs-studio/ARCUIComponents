@@ -6,6 +6,7 @@
 //
 
 import ARCUIComponents
+import os
 import SwiftUI
 
 /// Demo screen showing ARCAIRecommender in action with both modes
@@ -35,14 +36,14 @@ struct ARCAIRecommenderDemoScreen: View {
                          configuration: ARCAIRecommenderConfiguration(showDetailHint: showDetailHint),
                          onCategorySelected: { category in
                              hasGenerated = false
-                             print("Selected category: \(category.label)")
+                             demoLogger.info("Selected category: \(category.id)")
                          },
                          onItemSelected: { item in
                              selectedItem = item
                              showingDetail = true
                          },
                          onQuestionnaireSubmit: { answers in
-                             print("Questionnaire submitted: \(answers.toDictionary())")
+                             demoLogger.info("Questionnaire submitted: \(String(describing: answers.toDictionary()))")
                              showingAnswers = true
                          },
                          onGenerateRecommendations: {

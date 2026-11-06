@@ -12,6 +12,8 @@ import SwiftUI
 ///
 /// Shows list cards with various configurations and content types.
 struct ARCListCardDemoScreen: View {
+    private static let remoteImageURL = URL(string: "https://picsum.photos/100")
+
     // MARK: Body
 
     var body: some View {
@@ -70,10 +72,11 @@ extension ARCListCardDemoScreen {
                         title: "System Image",
                         subtitle: "Using SF Symbols")
 
-            ARCListCard(image: .url(URL(string: "https://picsum.photos/100")!,
-                                    size: 60),
-                        title: "Remote Image",
-                        subtitle: "Loaded from URL")
+            if let remoteImageURL = Self.remoteImageURL {
+                ARCListCard(image: .url(remoteImageURL, size: 60),
+                            title: "Remote Image",
+                            subtitle: "Loaded from URL")
+            }
         }
     }
 
