@@ -168,12 +168,7 @@ import SwiftUI
                 FlowLayoutChipDemo(spacing: 8) {
                     ForEach(Array(inputTags).sorted(), id: \.self) { tag in
                         ARCChip(tag,
-                                isSelected: Binding(get: { inputTags.contains(tag) },
-                                                    set: {
-                                                        if !$0 {
-                                                            inputTags.remove(tag)
-                                                        }
-                                                    }),
+                                isSelected: $inputTags[contains: tag],
                                 configuration: .input)
                     }
                 }
@@ -374,4 +369,20 @@ import SwiftUI
         ARCChipDemoScreen()
     }
     .preferredColorScheme(.dark)
+}
+
+// MARK: - Set Membership Binding
+
+extension Set {
+    /// Read-write membership, so a chip can bind to `$set[contains: element]`.
+    fileprivate subscript(contains element: Element) -> Bool {
+        get { contains(element) }
+        set {
+            if newValue {
+                insert(element)
+            } else {
+                remove(element)
+            }
+        }
+    }
 }

@@ -49,8 +49,7 @@ import SwiftUI
             VStack(spacing: .arcSpacingLarge) {
                 cardCarousel
                     .accessibilityElement(children: .contain)
-                    .accessibilityLabel(String(format: configuration.cardAccessibilityLabelFormat, currentIndex + 1,
-                                               items.count))
+                    .accessibilityLabel(configuration.cardAccessibilityLabel(currentIndex + 1, items.count))
                     .accessibilityAction(named: "Next") { navigateForward() }
                     .accessibilityAction(named: "Previous") { navigateBackward() }
 

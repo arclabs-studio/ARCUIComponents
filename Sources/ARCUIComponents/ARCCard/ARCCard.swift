@@ -436,9 +436,7 @@ import SwiftUI
 }
 
 #Preview("Interactive Card") {
-    Button {
-        print("Card tapped")
-    } label: {
+    Button {} label: {
         ARCCard(title: "Tap Me",
                 subtitle: "Interactive card with press effect") {
             Color.blue.opacity(0.2)

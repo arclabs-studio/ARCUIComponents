@@ -107,7 +107,7 @@ import SwiftUI
         } else if answered == total {
             return configuration.questionnaireCompletePrompt
         } else {
-            return String(format: configuration.questionnaireProgressFormat, answered, total)
+            return configuration.questionnaireProgress(answered, total)
         }
     }
 
@@ -249,8 +249,7 @@ private let previewQuestions: [AIRecommenderQuestion] = [AIRecommenderQuestion(i
         AIRecommenderQuestionnaire(questions: previewQuestions,
                                    answers: $answers,
                                    configuration: .default,
-                                   onSubmit: { finalAnswers in
-                                       print("Submitted: \(finalAnswers.toDictionary())")
+                                   onSubmit: { _ in
                                    })
                                    .navigationTitle("Preferencias")
                                    .navigationBarTitleDisplayMode(.inline)

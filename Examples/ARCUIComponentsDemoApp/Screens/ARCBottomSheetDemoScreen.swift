@@ -6,6 +6,7 @@
 //
 
 import ARCUIComponents
+import os
 import SwiftUI
 
 /// Demo screen for ARCBottomSheet component.
@@ -41,10 +42,11 @@ import SwiftUI
                             selectedDetent: $currentDetent,
                             configuration: selectedConfig.configuration,
                             onDismiss: {
-                                print("Sheet dismissed")
-                            }) {
-                modalSheetContent
-            }
+                                demoLogger.info("Sheet dismissed")
+                            },
+                            content: {
+                                modalSheetContent
+                            })
             .fullScreenCover(isPresented: $showPersistentDemo) {
                 persistentDemoView
             }
@@ -249,7 +251,7 @@ import SwiftUI
         case .small: 0.15
         case .medium: 0.5
         case .large: 0.9
-        case let .fraction(f): f
+        case let .fraction(value): value
         case .height: 0.3
         }
 
@@ -476,39 +478,6 @@ import SwiftUI
             Text(subtitle)
                 .font(.caption)
                 .foregroundStyle(.secondary)
-        }
-    }
-}
-
-// MARK: - ConfigPreset
-
-@available(iOS 17.0, *) extension ARCBottomSheetDemoScreen {
-    fileprivate enum ConfigPreset {
-        case `default`
-        case modal
-        case glass
-        case compact
-
-        var title: String {
-            switch self {
-            case .default: "Default"
-            case .modal: "Modal"
-            case .glass: "Glass"
-            case .compact: "Compact"
-            }
-        }
-
-        var configuration: ARCBottomSheetConfiguration {
-            switch self {
-            case .default: .default
-            case .modal: .modal
-            case .glass: .glass
-            case .compact: .compact
-            }
-        }
-
-        var detents: Set<ARCBottomSheetDetent> {
-            [.small, .medium, .large]
         }
     }
 }

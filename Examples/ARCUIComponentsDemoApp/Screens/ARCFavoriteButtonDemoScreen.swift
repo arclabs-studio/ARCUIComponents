@@ -47,7 +47,7 @@ extension ARCFavoriteButtonDemoScreen {
 
             HStack(spacing: 32) {
                 VStack {
-                    ARCFavoriteButton(isFavorite: binding(for: "small"),
+                    ARCFavoriteButton(isFavorite: $favorites[flag: "small"],
                                       size: .small)
                     Text("Small")
                         .font(.caption)
@@ -55,7 +55,7 @@ extension ARCFavoriteButtonDemoScreen {
                 }
 
                 VStack {
-                    ARCFavoriteButton(isFavorite: binding(for: "medium"),
+                    ARCFavoriteButton(isFavorite: $favorites[flag: "medium"],
                                       size: .medium)
                     Text("Medium")
                         .font(.caption)
@@ -63,7 +63,7 @@ extension ARCFavoriteButtonDemoScreen {
                 }
 
                 VStack {
-                    ARCFavoriteButton(isFavorite: binding(for: "large"),
+                    ARCFavoriteButton(isFavorite: $favorites[flag: "large"],
                                       size: .large)
                     Text("Large")
                         .font(.caption)
@@ -83,7 +83,7 @@ extension ARCFavoriteButtonDemoScreen {
                 .font(.headline)
 
             VStack(spacing: 16) {
-                ARCFavoriteButton(isFavorite: binding(for: "custom"),
+                ARCFavoriteButton(isFavorite: $favorites[flag: "custom"],
                                   color: .arcBrandBurgundy,
                                   size: .large)
 
@@ -132,15 +132,6 @@ extension ARCFavoriteButtonDemoScreen {
     }
 }
 
-// MARK: - Private Functions
-
-extension ARCFavoriteButtonDemoScreen {
-    private func binding(for key: String) -> Binding<Bool> {
-        Binding(get: { favorites[key] ?? false },
-                set: { favorites[key] = $0 })
-    }
-}
-
 // MARK: - Previews
 
 #Preview("Light Mode") {
@@ -154,4 +145,14 @@ extension ARCFavoriteButtonDemoScreen {
         ARCFavoriteButtonDemoScreen()
     }
     .preferredColorScheme(.dark)
+}
+
+// MARK: - Flag Binding
+
+extension Dictionary where Value == Bool {
+    /// Read-write flag that treats a missing key as `false`.
+    fileprivate subscript(flag key: Key) -> Bool {
+        get { self[key] ?? false }
+        set { self[key] = newValue }
+    }
 }

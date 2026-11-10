@@ -113,9 +113,7 @@ import SwiftUI
 
 #Preview("Default Style") {
     VStack(spacing: 20) {
-        Button {
-            print("Card tapped")
-        } label: {
+        Button {} label: {
             RoundedRectangle(cornerRadius: 16)
                 .fill(.blue.gradient)
                 .frame(height: 120)

@@ -238,7 +238,7 @@ import SwiftUI
                 Slider(value: $animatedRating, in: 1 ... 10, step: 0.5)
                     .tint(.green)
 
-                Text("Rating: \(String(format: "%.1f", animatedRating))")
+                Text("Rating: \(animatedRating.formatted(.number.precision(.fractionLength(1))))")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

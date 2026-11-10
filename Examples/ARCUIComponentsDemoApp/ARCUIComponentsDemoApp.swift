@@ -6,7 +6,11 @@
 //
 
 import ARCUIComponents
+import os
 import SwiftUI
+
+/// Shared logger for the demo app, so callback output goes through unified logging.
+let demoLogger = Logger(subsystem: "com.arclabs.ARCUIComponentsDemoApp", category: "Demo")
 
 /// Main entry point for the ARCUIComponents demo application.
 ///

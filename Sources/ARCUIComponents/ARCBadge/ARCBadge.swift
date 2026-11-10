@@ -75,6 +75,7 @@ import SwiftUI
     // MARK: - State
 
     @State private var animationScale: CGFloat = 1.0
+    @State private var settleTask: Task<Void, Never>?
 
     // MARK: - Initialization
 
@@ -121,6 +122,9 @@ import SwiftUI
                 .scaleEffect(animationScale)
                 .onChange(of: content) { _, _ in
                     animateIfNeeded()
+                }
+                .onDisappear {
+                    settleTask?.cancel()
                 }
         }
     }
@@ -237,7 +241,10 @@ import SwiftUI
             animationScale = 1.2
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+        settleTask?.cancel()
+        settleTask = Task {
+            try? await Task.sleep(for: .milliseconds(150))
+            guard !Task.isCancelled else { return }
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
                 animationScale = 1.0
             }

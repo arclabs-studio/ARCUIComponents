@@ -152,9 +152,7 @@ import SwiftUI
             sectionHeader("Interactive (ARCCardPressStyle)")
 
             HStack(alignment: .top, spacing: .arcSpacingLarge) {
-                Button {
-                    print("Default tap")
-                } label: {
+                Button {} label: {
                     ARCCard(title: "Default Press",
                             subtitle: "Scale: 0.96") {
                         cardImage(icon: "hand.tap.fill", color: .blue)
@@ -162,9 +160,7 @@ import SwiftUI
                 }
                 .buttonStyle(ARCCardPressStyle.default)
 
-                Button {
-                    print("Subtle tap")
-                } label: {
+                Button {} label: {
                     ARCCard(title: "Subtle Press",
                             subtitle: "Scale: 0.98",
                             configuration: .prominent) {
@@ -173,9 +169,7 @@ import SwiftUI
                 }
                 .buttonStyle(ARCCardPressStyle.subtle)
 
-                Button {
-                    print("Prominent tap")
-                } label: {
+                Button {} label: {
                     ARCCard(title: "Prominent",
                             subtitle: "Scale: 0.92",
                             configuration: .glassmorphic) {

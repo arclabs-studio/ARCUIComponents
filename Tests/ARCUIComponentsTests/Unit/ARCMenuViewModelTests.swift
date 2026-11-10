@@ -138,6 +138,7 @@ struct ARCMenuViewModelTests {
 
     // MARK: - withDefaultItems Factory Tests
 
+    @available(*, deprecated, message: "Covers the deprecated closure-based factory until it is removed")
     @Test("withDefaultItems_createsAllDefaultMenuItems") func withDefaultItems_createsAllDefaultMenuItems() {
         let viewModel = ARCMenuViewModel.withDefaultItems(user: nil,
                                                           onProfile: {},
@@ -150,6 +151,7 @@ struct ARCMenuViewModelTests {
         #expect(viewModel.menuItems.count == 6)
     }
 
+    @available(*, deprecated, message: "Covers the deprecated closure-based factory until it is removed")
     @Test("withDefaultItems_withUser_setsUserCorrectly") func withDefaultItems_withUser_setsUserCorrectly() {
         let user = ARCMenuUser(name: "Test",
                                avatarImage: .initials("T"))
@@ -165,6 +167,7 @@ struct ARCMenuViewModelTests {
         #expect(viewModel.user?.name == "Test")
     }
 
+    @available(*, deprecated, message: "Covers the deprecated closure-based factory until it is removed")
     @Test("withDefaultItems_withConfiguration_setsConfigurationCorrectly")
     func withDefaultItems_withConfiguration_setsConfigurationCorrectly() {
         let config = ARCMenuConfiguration(accentColor: .orange)
@@ -183,6 +186,7 @@ struct ARCMenuViewModelTests {
 
     // MARK: - Default Items Factory Tests
 
+    @available(*, deprecated, message: "Covers the deprecated closure-based factory until it is removed")
     @Test("defaultItems_createsProfileItem") func defaultItems_createsProfileItem() {
         let items = ARCMenuItem.defaultItems(onProfile: {},
                                              onSettings: {},
@@ -194,6 +198,7 @@ struct ARCMenuViewModelTests {
         #expect(items.first?.title == "Profile")
     }
 
+    @available(*, deprecated, message: "Covers the deprecated closure-based factory until it is removed")
     @Test("defaultItems_createsLogoutAsLastItem") func defaultItems_createsLogoutAsLastItem() {
         let items = ARCMenuItem.defaultItems(onProfile: {},
                                              onSettings: {},
@@ -206,6 +211,7 @@ struct ARCMenuViewModelTests {
         #expect(items.last?.isDestructive == true)
     }
 
+    @available(*, deprecated, message: "Covers the deprecated closure-based factory until it is removed")
     @Test("defaultItems_containsFeedbackItem") func defaultItems_containsFeedbackItem() {
         let items = ARCMenuItem.defaultItems(onProfile: {},
                                              onSettings: {},
@@ -218,6 +224,7 @@ struct ARCMenuViewModelTests {
         #expect(feedbackItem != nil)
     }
 
+    @available(*, deprecated, message: "Covers the deprecated closure-based factory until it is removed")
     @Test("defaultItems_containsSubscriptionsItem") func defaultItems_containsSubscriptionsItem() {
         let items = ARCMenuItem.defaultItems(onProfile: {},
                                              onSettings: {},

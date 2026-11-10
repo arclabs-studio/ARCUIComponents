@@ -347,9 +347,9 @@ import AppKit
          avatarImage: .initials("YN")
      ),
      menuItems: [
-         .Common.settings { print("Settings") },
-         .Common.profile { print("Profile") },
-         .Common.logout { print("Logout") }
+         .Common.settings {},
+         .Common.profile {},
+         .Common.logout {}
      ]
  )
  ```

@@ -53,7 +53,7 @@ extension ARCRatingInputDemoScreen {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                     Spacer()
-                    Text(String(format: "%.1f", sliderRating))
+                    Text(sliderRating.formatted(.number.precision(.fractionLength(1))))
                         .font(.title3.bold().monospacedDigit())
                 }
             }
@@ -77,7 +77,7 @@ extension ARCRatingInputDemoScreen {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                     Spacer()
-                    Text(String(format: "%.1f", circularRating))
+                    Text(circularRating.formatted(.number.precision(.fractionLength(1))))
                         .font(.title3.bold().monospacedDigit())
                 }
             }
@@ -194,7 +194,7 @@ private struct RatingCell: View {
                 .scaleEffect(0.6)
                 .frame(width: 50, height: 50)
 
-            Text(String(format: "%.1f", rating))
+            Text(rating.formatted(.number.precision(.fractionLength(1))))
                 .font(.subheadline.monospacedDigit())
                 .foregroundStyle(.secondary)
                 .frame(width: 28, alignment: .trailing)

@@ -115,18 +115,7 @@ import SwiftUI
     // MARK: - Selection Binding
 
     private func binding(for item: Item) -> Binding<Bool> {
-        Binding(get: { selection.contains(item) },
-                set: { isSelected in
-                    if isSelected {
-                        if selectionMode == .single {
-                            selection = [item]
-                        } else {
-                            selection.insert(item)
-                        }
-                    } else {
-                        selection.remove(item)
-                    }
-                })
+        $selection[chip: item, replacesSelection: selectionMode == .single]
     }
 }
 
@@ -231,4 +220,25 @@ import SwiftUI
         }
     }
     return PreviewView()
+}
+
+// MARK: - Chip Selection Subscript
+
+extension Set {
+    /// Selection state of one chip. When `replacesSelection` is `true` (single-selection mode),
+    /// selecting a chip replaces the whole selection.
+    subscript(chip item: Element, replacesSelection replacesSelection: Bool) -> Bool {
+        get { contains(item) }
+        set {
+            if newValue {
+                if replacesSelection {
+                    self = [item]
+                } else {
+                    insert(item)
+                }
+            } else {
+                remove(item)
+            }
+        }
+    }
 }

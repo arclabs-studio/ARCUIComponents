@@ -111,7 +111,7 @@ import SwiftUI
                         description: "Default style for favorites",
                         favoriteIcon: "heart.fill",
                         unfavoriteIcon: "heart",
-                        isFavorite: binding(for: "icon-heart"),
+                        isFavorite: $favoriteStates[flag: "icon-heart"],
                         color: .pink)
 
             Divider()
@@ -122,7 +122,7 @@ import SwiftUI
                         description: "Ideal for saving articles or content",
                         favoriteIcon: "bookmark.fill",
                         unfavoriteIcon: "bookmark",
-                        isFavorite: binding(for: "icon-bookmark"),
+                        isFavorite: $favoriteStates[flag: "icon-bookmark"],
                         color: .blue)
 
             Divider()
@@ -133,7 +133,7 @@ import SwiftUI
                         description: "Perfect for ratings and highlights",
                         favoriteIcon: "star.fill",
                         unfavoriteIcon: "star",
-                        isFavorite: binding(for: "icon-star"),
+                        isFavorite: $favoriteStates[flag: "icon-star"],
                         color: .yellow)
 
             Divider()
@@ -144,7 +144,7 @@ import SwiftUI
                         description: "Great for pinning important items",
                         favoriteIcon: "pin.fill",
                         unfavoriteIcon: "pin",
-                        isFavorite: binding(for: "icon-pin"),
+                        isFavorite: $favoriteStates[flag: "icon-pin"],
                         color: .orange)
 
             Divider()
@@ -155,7 +155,7 @@ import SwiftUI
                         description: "Useful for marking or flagging items",
                         favoriteIcon: "flag.fill",
                         unfavoriteIcon: "flag",
-                        isFavorite: binding(for: "icon-flag"),
+                        isFavorite: $favoriteStates[flag: "icon-flag"],
                         color: .red)
         }
     }
@@ -172,7 +172,7 @@ import SwiftUI
                                 GridItem(.flexible())], spacing: 32) {
                 ForEach(ColorVariation.allCases, id: \.self) { variation in
                     ColorExample(variation: variation,
-                                 isFavorite: binding(for: variation.id))
+                                 isFavorite: $favoriteStates[flag: variation.id])
                 }
             }
             .padding(.horizontal)
@@ -190,7 +190,7 @@ import SwiftUI
             // Card Context
             ContextExample(title: "In Card",
                            description: "Favorite button on a content card") {
-                ContentCard(isFavorite: binding(for: "card"))
+                ContentCard(isFavorite: $favoriteStates[flag: "card"])
             }
 
             // List Context
@@ -200,7 +200,7 @@ import SwiftUI
                     ForEach(1 ... 3, id: \.self) { index in
                         ListRow(title: "Item \(index)",
                                 subtitle: "List item with favorite button",
-                                isFavorite: binding(for: "list-\(index)"))
+                                isFavorite: $favoriteStates[flag: "list-\(index)"])
                         if index < 3 {
                             Divider()
                                 .padding(.leading, 60)
@@ -233,7 +233,7 @@ import SwiftUI
 
                         Spacer()
 
-                        ARCFavoriteButton(isFavorite: binding(for: "toolbar"),
+                        ARCFavoriteButton(isFavorite: $favoriteStates[flag: "toolbar"],
                                           size: .medium,
                                           style: .prominent)
                     }
@@ -265,13 +265,6 @@ import SwiftUI
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
         }
-    }
-
-    // MARK: - Helper Methods
-
-    private func binding(for key: String) -> Binding<Bool> {
-        Binding(get: { favoriteStates[key] ?? false },
-                set: { favoriteStates[key] = $0 })
     }
 }
 

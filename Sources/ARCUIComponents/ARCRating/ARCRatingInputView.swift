@@ -353,7 +353,7 @@ import SwiftUI
             VStack(spacing: 32) {
                 ARCRatingInputView(rating: $rating, style: .slider)
 
-                Text("Selected: \(String(format: "%.1f", rating))")
+                Text("Selected: \(rating.formatted(.number.precision(.fractionLength(1))))")
                     .font(.headline)
             }
             .padding()
@@ -370,7 +370,7 @@ import SwiftUI
             VStack(spacing: 32) {
                 ARCRatingInputView(rating: $rating, style: .circularDrag)
 
-                Text("Selected: \(String(format: "%.1f", rating))")
+                Text("Selected: \(rating.formatted(.number.precision(.fractionLength(1))))")
                     .font(.headline)
             }
             .padding()

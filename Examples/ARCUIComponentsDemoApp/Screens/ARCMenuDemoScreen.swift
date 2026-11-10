@@ -6,6 +6,7 @@
 //
 
 import ARCUIComponents
+import os
 import SwiftUI
 
 /// Demo screen for ARCMenu component.
@@ -86,12 +87,12 @@ struct ARCMenuDemoScreen: View {
     private static func makeFlatViewModel() -> ARCMenuViewModel {
         ARCMenuViewModel.withDefaultItems(user: demoUser,
                                           configuration: ARCMenuConfiguration(sheetTitle: "Account"),
-                                          actions: ARCMenuActions(onProfile: { print("Profile") },
-                                                                  onSettings: { print("Settings") },
-                                                                  onFeedback: { print("Feedback") },
-                                                                  onSubscriptions: { print("Subscriptions") },
-                                                                  onAbout: { print("About") },
-                                                                  onLogout: { print("Logout") }))
+                                          actions: ARCMenuActions(onProfile: { demoLogger.info("Profile") },
+                                                                  onSettings: { demoLogger.info("Settings") },
+                                                                  onFeedback: { demoLogger.info("Feedback") },
+                                                                  onSubscriptions: { demoLogger.info("Subscriptions") },
+                                                                  onAbout: { demoLogger.info("About") },
+                                                                  onLogout: { demoLogger.info("Logout") }))
     }
 
     private static func makeSectionedViewModel(accentColor: Color = .arcBrandGold,
@@ -99,17 +100,18 @@ struct ARCMenuDemoScreen: View {
     -> ARCMenuViewModel {
         ARCMenuViewModel(user: demoUser,
                          sections: [ARCMenuSection(title: "Account",
-                                                   items: [.Common.profile { print("Profile") },
-                                                           .Common.settings { print("Settings") }]),
+                                                   items: [.Common.profile { demoLogger.info("Profile") },
+                                                           .Common.settings { demoLogger.info("Settings") }]),
                                     ARCMenuSection(title: "Preferences",
-                                                   items: [.Common.notifications(badge: "3") { print("Notifications") },
-                                                           .Common.privacy { print("Privacy") }]),
+                                                   items: [.Common
+                                                       .notifications(badge: "3") { demoLogger.info("Notifications") },
+                                                       .Common.privacy { demoLogger.info("Privacy") }]),
                                     ARCMenuSection(title: "Support",
                                                    footer: "We'd love to hear from you",
-                                                   items: [.Common.feedback { print("Feedback") },
-                                                           .Common.help { print("Help") },
-                                                           .Common.about { print("About") }]),
-                                    ARCMenuSection(items: [.Common.logout { print("Logout") }])],
+                                                   items: [.Common.feedback { demoLogger.info("Feedback") },
+                                                           .Common.help { demoLogger.info("Help") },
+                                                           .Common.about { demoLogger.info("About") }]),
+                                    ARCMenuSection(items: [.Common.logout { demoLogger.info("Logout") }])],
                          configuration: ARCMenuConfiguration(presentationStyle: presentationStyle,
                                                              accentColor: accentColor,
                                                              showsGrabber: presentationStyle == .bottomSheet,
@@ -375,198 +377,6 @@ extension ARCMenuDemoScreen {
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .padding(.horizontal)
-    }
-}
-
-// MARK: - Code Snippet Row
-
-private struct CodeSnippetRow: View {
-    let label: String
-    let code: String
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 8) {
-            Text(label)
-                .font(.caption)
-                .fontWeight(.medium)
-                .foregroundStyle(.secondary)
-                .frame(width: 60, alignment: .trailing)
-
-            Text(code)
-                .font(.system(size: 11, design: .monospaced))
-                .foregroundStyle(.primary)
-        }
-    }
-}
-
-private struct FeatureRowView: View {
-    let icon: String
-    let text: String
-    var accentColor: Color = .arcBrandGold
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: icon)
-                .frame(width: 24)
-                .foregroundStyle(accentColor)
-
-            Text(text)
-                .foregroundStyle(.primary.opacity(0.9))
-        }
-    }
-}
-
-// MARK: - Menu Layout Option
-
-private enum MenuLayoutOption: String, CaseIterable, Identifiable {
-    case flat = "Flat"
-    case sectioned = "Sectioned"
-
-    var id: String {
-        rawValue
-    }
-
-    var name: String {
-        rawValue
-    }
-
-    var icon: String {
-        switch self {
-        case .flat: "list.bullet"
-        case .sectioned: "list.bullet.indent"
-        }
-    }
-
-    var cardTitle: String {
-        switch self {
-        case .flat: "Flat Layout (Default)"
-        case .sectioned: "Sectioned Layout (New)"
-        }
-    }
-
-    var cardDescription: String {
-        switch self {
-        case .flat: "VStack with dividers — use ARCMenuViewModel(menuItems:)"
-        case .sectioned: "Native Form with sections — use ARCMenuViewModel(sections:)"
-        }
-    }
-
-    var codeSnippets: [(label: String, code: String)] {
-        switch self {
-        case .flat:
-            [("Init", "ARCMenuViewModel(menuItems: [...])"),
-             ("Config", ".default"),
-             ("Layout", ".flat (VStack + dividers)")]
-        case .sectioned:
-            [("Init", "ARCMenuViewModel(sections: [...])"),
-             ("Config", ".sectioned"),
-             ("Layout", ".grouped (Form + sections)")]
-        }
-    }
-
-    var featureIcon: String {
-        switch self {
-        case .flat: "rectangle.bottomhalf.inset.filled"
-        case .sectioned: "list.bullet.rectangle"
-        }
-    }
-
-    var featureTitle: String {
-        switch self {
-        case .flat: "Flat Menu"
-        case .sectioned: "Sectioned Menu"
-        }
-    }
-
-    var featureDescription: String {
-        switch self {
-        case .flat:
-            "Simple list of items with dividers. Best for short, uniform menus."
-        case .sectioned:
-            "Items grouped into titled sections using native Form. Best for menus with distinct categories."
-        }
-    }
-
-    var features: [(icon: String, text: String)] {
-        switch self {
-        case .flat:
-            [("list.bullet", "VStack with dividers"),
-             ("arrow.up.doc", "Native .sheet() presentation"),
-             ("hand.draw", "Swipe down to dismiss"),
-             ("person.circle", "User profile header"),
-             ("sparkles", "iOS 26+ Liquid Glass ready")]
-        case .sectioned:
-            [("list.bullet.indent", "Sections with title & footer"),
-             ("rectangle.on.rectangle", "Native Form + .grouped style"),
-             ("scroll", "Scrollable within medium detent"),
-             ("tag", "Badge and destructive support"),
-             ("accessibility", "Full VoiceOver support")]
-        }
-    }
-}
-
-// MARK: - Presentation Style Option
-
-private enum PresentationStyleOption: String, CaseIterable, Identifiable {
-    case bottomSheet
-    case trailingPanel
-
-    var id: String {
-        rawValue
-    }
-
-    var name: String {
-        switch self {
-        case .bottomSheet: "Bottom Sheet"
-        case .trailingPanel: "Trailing Panel"
-        }
-    }
-
-    var style: ARCMenuPresentationStyle {
-        switch self {
-        case .bottomSheet: .bottomSheet
-        case .trailingPanel: .trailingPanel
-        }
-    }
-}
-
-// MARK: - Menu Theme Option
-
-private enum MenuThemeOption: String, CaseIterable, Identifiable {
-    case arcBrand
-    case fitness
-    case premium
-    case dark
-
-    var id: String {
-        rawValue
-    }
-
-    var name: String {
-        switch self {
-        case .arcBrand: "ARC"
-        case .fitness: "Fitness"
-        case .premium: "Premium"
-        case .dark: "Dark"
-        }
-    }
-
-    var accentColor: Color {
-        switch self {
-        case .arcBrand: .arcBrandGold
-        case .fitness: .green
-        case .premium: .orange
-        case .dark: .purple
-        }
-    }
-
-    var gradientColors: [Color] {
-        switch self {
-        case .arcBrand: [.arcBrandBurgundy, .arcBrandBurgundy.opacity(0.7)]
-        case .fitness: [.green, .mint]
-        case .premium: [Color.arcBrandGold, Color.arcBrandBurgundy]
-        case .dark: [.gray, Color.arcBrandBlack]
-        }
     }
 }
 

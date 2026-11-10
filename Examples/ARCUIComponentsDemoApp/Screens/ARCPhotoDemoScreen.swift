@@ -116,7 +116,9 @@ extension ARCPhotoDemoScreen {
                           subtitle: "Photo picker button with ARCPhotoCarousel integration")
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Standalone pickers").font(.subheadline).foregroundStyle(.secondary)
+                Text("Standalone pickers")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
                     .padding(.horizontal)
 
                 HStack(spacing: 12) {
@@ -135,7 +137,9 @@ extension ARCPhotoDemoScreen {
             }
 
             VStack(alignment: .leading, spacing: 8) {
-                Text("Carousel with picker add-button").font(.subheadline).foregroundStyle(.secondary)
+                Text("Carousel with picker add-button")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
                     .padding(.horizontal)
 
                 ARCPhotoCarousel(items: carouselItems,

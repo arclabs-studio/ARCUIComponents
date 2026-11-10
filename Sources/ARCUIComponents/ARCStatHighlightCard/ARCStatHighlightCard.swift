@@ -145,7 +145,7 @@ import SwiftUI
 
     private var accessibilityText: String {
         if let rating {
-            return "\(title): \(headline), \(String(format: "%.1f", rating))"
+            return "\(title): \(headline), \(rating.formatted(.number.precision(.fractionLength(1))))"
         }
         return "\(title): \(headline)\(subtitle.map { ", \($0)" } ?? "")"
     }

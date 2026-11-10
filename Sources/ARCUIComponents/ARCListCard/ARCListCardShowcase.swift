@@ -23,7 +23,7 @@ import SwiftUI
 
     @State private var selectedTab: ShowcaseTab = .styles
     @State private var favorites: Set<String> = []
-    @State private var selectedItem: String?
+    @State private var selectedItem: ItemWrapper?
 
     // MARK: - Body
 
@@ -62,8 +62,7 @@ import SwiftUI
             #if os(iOS)
                 .navigationBarTitleDisplayMode(.large)
             #endif
-                .sheet(item: Binding(get: { selectedItem.map { ItemWrapper(id: $0) } },
-                                     set: { selectedItem = $0?.id })) { item in
+                .sheet(item: $selectedItem) { item in
                     DetailSheet(item: item.id)
                 }
         }
@@ -161,7 +160,7 @@ import SwiftUI
                             subtitle: "Artist Name",
                             accessories: {
                                 HStack(spacing: 8) {
-                                    ARCFavoriteButton(isFavorite: binding(for: "accessory-demo"),
+                                    ARCFavoriteButton(isFavorite: $favorites[contains: "accessory-demo"],
                                                       size: .medium)
 
                                     Image(systemName: "chevron.right")
@@ -190,11 +189,11 @@ import SwiftUI
                                     title: item.title,
                                     subtitle: item.subtitle,
                                     accessories: {
-                                        ARCFavoriteButton(isFavorite: binding(for: item.id),
+                                        ARCFavoriteButton(isFavorite: $favorites[contains: item.id],
                                                           size: .medium)
                                     },
                                     action: {
-                                        selectedItem = item.id
+                                        selectedItem = ItemWrapper(id: item.id)
                                     })
                     }
                 }
@@ -214,7 +213,7 @@ import SwiftUI
                                             .foregroundStyle(.tertiary)
                                     },
                                     action: {
-                                        selectedItem = item.id
+                                        selectedItem = ItemWrapper(id: item.id)
                                     })
                     }
                 }
@@ -228,25 +227,12 @@ import SwiftUI
                                     image: .system("mic.fill", color: .purple),
                                     title: item.title,
                                     subtitle: item.subtitle) {
-                            selectedItem = item.id
+                            selectedItem = ItemWrapper(id: item.id)
                         }
                     }
                 }
             }
         }
-    }
-
-    // MARK: - Helper Methods
-
-    private func binding(for key: String) -> Binding<Bool> {
-        Binding(get: { favorites.contains(key) },
-                set: { isFav in
-                    if isFav {
-                        favorites.insert(key)
-                    } else {
-                        favorites.remove(key)
-                    }
-                })
     }
 }
 

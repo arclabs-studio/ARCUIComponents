@@ -266,9 +266,7 @@ import UIKit
                         subtitle: "Just title and subtitle")
 
             ARCListCard(title: "Card with Action",
-                        subtitle: "Tap to trigger action") {
-                print("Card tapped")
-            }
+                        subtitle: "Tap to trigger action") {}
         }
         .padding()
     }
@@ -313,19 +311,10 @@ import UIKit
                             title: song,
                             subtitle: "Artist Name",
                             accessories: {
-                                ARCFavoriteButton(isFavorite: Binding(get: { favorites.contains(song) },
-                                                                      set: { isFav in
-                                                                          if isFav {
-                                                                              favorites.insert(song)
-                                                                          } else {
-                                                                              favorites.remove(song)
-                                                                          }
-                                                                      }),
+                                ARCFavoriteButton(isFavorite: $favorites[contains: song],
                                                   size: .medium)
                             },
-                            action: {
-                                print("Tapped \(song)")
-                            })
+                            action: {})
             }
         }
         .padding()

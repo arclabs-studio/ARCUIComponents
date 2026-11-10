@@ -30,7 +30,7 @@ swiftlint lint
 swiftlint --strict
 
 # Build demo app
-xcodebuild -project Example/ARCUIComponentsDemoApp/ARCUIComponentsDemoApp.xcodeproj \
+xcodebuild -project Examples/ARCUIComponentsDemoApp/ARCUIComponentsDemoApp.xcodeproj \
   -scheme ARCUIComponentsDemoApp \
   -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
   build
@@ -74,7 +74,7 @@ Sources/ARCUIComponents/ARC[ComponentName]/
 
 ### Demo App
 
-Located at `Example/ARCUIComponentsDemoApp/`. Open the `.xcodeproj` file in Xcode. Each component has a corresponding `ARC[ComponentName]DemoScreen.swift` in `Screens/`.
+Located at `Examples/ARCUIComponentsDemoApp/`. Open the `.xcodeproj` file in Xcode. Each component has a corresponding `ARC[ComponentName]DemoScreen.swift` in `Screens/`.
 
 ---
 

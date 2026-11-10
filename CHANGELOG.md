@@ -5,7 +5,54 @@ All notable changes to ARCUIComponents will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.5.0] - 2026-11-06
+
+### Added
+
+- **`cardAccessibilityLabel` and `questionnaireProgress` on `ARCAIRecommenderConfiguration`.**
+  Two `@Sendable (Int, Int) -> String` closures build the card stack VoiceOver label (position,
+  total) and the mid-questionnaire progress text (answered, total), e.g.
+  `cardAccessibilityLabel: { "Recommendations, card \($0) of \($1)" }`. They let the app build
+  these strings from its own String Catalog without printf format strings. A closure takes
+  precedence over the matching format string; with neither set, the English defaults are
+  unchanged ([#116](https://github.com/arclabs-studio/ARCUIComponents/pull/116)).
+
+### Changed
+
+- **Rating values follow the user's locale.** The rating shown on `AIRecommenderItemCard` and the
+  VoiceOver labels of `AIRecommenderItemCard`, `ARCRatingView`, `ARCStatCard` and
+  `ARCStatHighlightCard` now use `FormatStyle` instead of `String(format:)`, so the decimal
+  separator matches the locale (for example `8,5` in Spanish instead of `8.5`). The public
+  `ARCRatingColorMapper.formatted(_:)` is pinned to `en_US_POSIX` and keeps its documented `"8.5"`
+  output ([#116](https://github.com/arclabs-studio/ARCUIComponents/pull/116)).
+- **`ARCAIRecommenderConfiguration.init`'s `cardAccessibilityLabelFormat` and
+  `questionnaireProgressFormat` parameters are now `String?`, defaulting to `nil`.** Call sites that
+  pass a string still compile and behave as before
+  ([#116](https://github.com/arclabs-studio/ARCUIComponents/pull/116)).
+
+### Deprecated
+
+- **`ARCAIRecommenderConfiguration.cardAccessibilityLabelFormat`** — use `cardAccessibilityLabel`.
+- **`ARCAIRecommenderConfiguration.questionnaireProgressFormat`** — use `questionnaireProgress`.
+  Format strings passed to the initializer are still honoured, so existing configurations keep
+  working; only reading the properties warns
+  ([#116](https://github.com/arclabs-studio/ARCUIComponents/pull/116)).
+
+### Fixed
+
+- **`ARCBadge` and the skeleton shimmer no longer fire after the view goes away.** Their delayed
+  settle and start animations ran on `DispatchQueue.main.asyncAfter` and could not be cancelled.
+  They now use a `Task` that is cancelled on disappear and when a new animation restarts it
+  ([#116](https://github.com/arclabs-studio/ARCUIComponents/pull/116)).
+- **Previews and showcases no longer `print`** from their sample actions
+  ([#116](https://github.com/arclabs-studio/ARCUIComponents/pull/116)).
+
+### Examples
+
+- The demo app moves from `Example/` to `Examples/ARCUIComponentsDemoApp/`, and uses `os.Logger`,
+  `FormatStyle`, `Task.sleep` and key-path bindings instead of `print`, `String(format:)`, GCD and
+  hand-built bindings ([#115](https://github.com/arclabs-studio/ARCUIComponents/pull/115),
+  [#116](https://github.com/arclabs-studio/ARCUIComponents/pull/116)).
 
 ## [1.4.0] - 2026-10-27
 
