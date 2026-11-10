@@ -37,10 +37,6 @@ import UIKit
 public final class ARCMenuViewModel { // swiftlint:disable:this observable_viewmodel
     // MARK: - State
 
-    /// Whether the menu is currently presented (for backward compatibility)
-    @available(*, deprecated, message: "Use external @State binding with arcMenu(isPresented:viewModel:)")
-    public private(set) var isPresented = false
-
     /// Current drag offset for trailing panel dismissal gesture
     public var dragOffset: CGFloat = 0
 
@@ -89,30 +85,6 @@ public final class ARCMenuViewModel { // swiftlint:disable:this observable_viewm
         self.sections = sections
         self.configuration = configuration
     }
-
-    // MARK: - Deprecated Methods (Backward Compatibility)
-
-    /// Presents the menu with animation
-    @available(*, deprecated, message: "Use external @State binding instead") public func present() {
-        configuration.hapticFeedback.perform()
-        isPresented = true
-    }
-
-    /// Dismisses the menu with animation
-    @available(*, deprecated, message: "Use external @State binding instead") public func dismiss() {
-        configuration.hapticFeedback.perform()
-        isPresented = false
-        dragOffset = 0
-    }
-
-    /// Toggles the menu presentation state
-    @available(*, deprecated, message: "Use external @State binding instead") public func toggle() {
-        if isPresented {
-            dismiss()
-        } else {
-            present()
-        }
-    }
 }
 
 // MARK: - Convenience Initializers
@@ -149,81 +121,5 @@ extension ARCMenuViewModel {
         ARCMenuViewModel(user: user,
                          menuItems: ARCMenuItem.defaultItems(actions: actions),
                          configuration: configuration)
-    }
-
-    /// Creates a view model with default menu items (legacy)
-    ///
-    /// - Note: Deprecated in favor of `withDefaultItems(user:configuration:actions:)`
-    @available(*, deprecated, message: "Use withDefaultItems(user:configuration:actions:) with ARCMenuActions")
-    // swiftlint:disable:next function_parameter_count
-    public static func withDefaultItems(user: ARCMenuUser?,
-                                        configuration: ARCMenuConfiguration = .default,
-                                        onProfile: @escaping @Sendable () -> Void,
-                                        onSettings: @escaping @Sendable () -> Void,
-                                        onFeedback: @escaping @Sendable () -> Void,
-                                        onSubscriptions: @escaping @Sendable () -> Void,
-                                        onAbout: @escaping @Sendable () -> Void,
-                                        onLogout: @escaping @Sendable () -> Void) -> ARCMenuViewModel {
-        withDefaultItems(user: user,
-                         configuration: configuration,
-                         actions: ARCMenuActions(onProfile: onProfile,
-                                                 onSettings: onSettings,
-                                                 onFeedback: onFeedback,
-                                                 onSubscriptions: onSubscriptions,
-                                                 onAbout: onAbout,
-                                                 onLogout: onLogout))
-    }
-
-    // swiftlint:disable line_length superfluous_disable_command
-    /// Creates a view model with common menu items (legacy)
-    ///
-    /// - Note: Deprecated in favor of `withDefaultItems`
-    @available(*, deprecated, renamed: "withDefaultItems") public static func standard(user: ARCMenuUser?,
-                                                                                       configuration: ARCMenuConfiguration =
-                                                                                           .default,
-                                                                                       onSettings: (@Sendable ()
-                                                                                           -> Void)? = nil,
-                                                                                       onProfile: (@Sendable ()
-                                                                                           -> Void)? = nil,
-                                                                                       onPlan: (@Sendable () -> Void)? =
-                                                                                           nil,
-                                                                                       onContact: (@Sendable ()
-                                                                                           -> Void)? = nil,
-                                                                                       onAbout: (@Sendable ()
-                                                                                           -> Void)? =
-                                                                                           nil,
-                                                                                       onLogout: (@Sendable ()
-                                                                                           -> Void)? = nil)
-    -> ARCMenuViewModel {
-        // swiftlint:enable line_length superfluous_disable_command
-        var items: [ARCMenuItem] = []
-
-        if let onProfile {
-            items.append(.Common.profile(action: onProfile))
-        }
-
-        if let onSettings {
-            items.append(.Common.settings(action: onSettings))
-        }
-
-        if let onPlan {
-            items.append(.Common.subscriptions(action: onPlan))
-        }
-
-        if let onContact {
-            items.append(.Common.contact(action: onContact))
-        }
-
-        if let onAbout {
-            items.append(.Common.about(action: onAbout))
-        }
-
-        if let onLogout {
-            items.append(.Common.logout(action: onLogout))
-        }
-
-        return ARCMenuViewModel(user: user,
-                                menuItems: items,
-                                configuration: configuration)
     }
 }

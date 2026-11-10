@@ -171,7 +171,7 @@ struct ARCMenuViewModelTests {
     func init_withDefaultValues_setsCorrectInitialState() {
         let viewModel = ARCMenuViewModel()
 
-        #expect(viewModel.isPresented == false)
+        #expect(viewModel.dragOffset == 0)
         #expect(viewModel.menuItems.isEmpty)
     }
 }
@@ -183,7 +183,7 @@ struct ARCMenuViewModelTests {
 
 Examples:
 - `init_withDefaultValues_setsCorrectInitialState`
-- `present_whenCalled_setsIsPresentedToTrue`
+- `withDefaultItems_withUser_setsUserCorrectly`
 - `endDrag_aboveThreshold_dismissesMenu`
 
 ### Test Structure

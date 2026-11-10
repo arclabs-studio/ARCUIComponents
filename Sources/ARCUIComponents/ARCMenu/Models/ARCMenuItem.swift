@@ -204,14 +204,6 @@ extension ARCMenuItem {
                         isDestructive: true,
                         action: action)
         }
-
-        // MARK: - Legacy (Deprecated)
-
-        /// Creates a Plan/Subscription menu item
-        @available(*, deprecated, renamed: "subscriptions")
-        public static func plan(badge: String? = nil, action: @escaping @Sendable () -> Void) -> ARCMenuItem {
-            subscriptions(badge: badge, action: action)
-        }
     }
 
     // MARK: - Default Items
@@ -244,24 +236,5 @@ extension ARCMenuItem {
          .Common.subscriptions(action: actions.onSubscriptions),
          .Common.about(action: actions.onAbout),
          .Common.logout(action: actions.onLogout)]
-    }
-
-    /// Default menu items shown in all apps implementing ARCMenu (legacy)
-    ///
-    /// - Note: Deprecated in favor of `defaultItems(actions:)`
-    @available(*, deprecated, message: "Use defaultItems(actions:) with ARCMenuActions struct")
-    // swiftlint:disable:next function_parameter_count
-    public static func defaultItems(onProfile: @escaping @Sendable () -> Void,
-                                    onSettings: @escaping @Sendable () -> Void,
-                                    onFeedback: @escaping @Sendable () -> Void,
-                                    onSubscriptions: @escaping @Sendable () -> Void,
-                                    onAbout: @escaping @Sendable () -> Void,
-                                    onLogout: @escaping @Sendable () -> Void) -> [ARCMenuItem] {
-        defaultItems(actions: ARCMenuActions(onProfile: onProfile,
-                                             onSettings: onSettings,
-                                             onFeedback: onFeedback,
-                                             onSubscriptions: onSubscriptions,
-                                             onAbout: onAbout,
-                                             onLogout: onLogout))
     }
 }

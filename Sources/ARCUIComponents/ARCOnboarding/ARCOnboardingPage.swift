@@ -59,7 +59,7 @@ import SwiftUI
 ///     subtitle: "Start exploring now"
 /// )
 /// ```
-@available(iOS 17.0, macOS 14.0, *) public struct ARCOnboardingPage: Identifiable, Sendable {
+@available(iOS 17.0, macOS 14.0, *) public struct ARCOnboardingPage: Identifiable {
     // MARK: - Properties
 
     /// Unique identifier for the page
@@ -120,7 +120,10 @@ import SwiftUI
     /// - Asset images for custom illustrations
     /// - Remote URLs for dynamically loaded images
     /// - Custom views for animations or complex content
-    public enum ImageType: @unchecked Sendable {
+    ///
+    /// - Note: Not `Sendable`, because `.custom` wraps an `AnyView`. Build and consume
+    ///   pages on the main actor, as SwiftUI views do.
+    public enum ImageType {
         /// An SF Symbol image
         ///
         /// - Parameter name: The SF Symbol name (e.g., "star.fill")

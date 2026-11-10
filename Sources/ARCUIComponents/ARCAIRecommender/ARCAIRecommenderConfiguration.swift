@@ -168,14 +168,6 @@ import SwiftUI
     /// Example: `{ "Recommendations, card \($0) of \($1)" }` → `"Recommendations, card 2 of 5"`
     public let cardAccessibilityLabel: @Sendable (_ position: Int, _ total: Int) -> String
 
-    private let legacyCardAccessibilityLabelFormat: String?
-
-    /// Format string for the card stack VoiceOver accessibility label.
-    @available(*, deprecated, message: "Use cardAccessibilityLabel, which builds the label without String(format:)")
-    public var cardAccessibilityLabelFormat: String {
-        legacyCardAccessibilityLabelFormat ?? "Recommendations, card %lld of %lld"
-    }
-
     /// SF Symbol for the bookmark button (inactive state)
     public let bookmarkIcon: String
 
@@ -212,14 +204,6 @@ import SwiftUI
     ///
     /// Example: `{ "\($0) of \($1) answered" }` → `"2 of 5 answered"`
     public let questionnaireProgress: @Sendable (_ answered: Int, _ total: Int) -> String
-
-    private let legacyQuestionnaireProgressFormat: String?
-
-    /// Format string for mid-questionnaire progress (args: answered count, total count).
-    @available(*, deprecated, message: "Use questionnaireProgress, which builds the text without String(format:)")
-    public var questionnaireProgressFormat: String {
-        legacyQuestionnaireProgressFormat ?? "%lld of %lld answered"
-    }
 
     /// Whether to show progress dots in questionnaire mode
     public let showQuestionnaireProgress: Bool
@@ -323,7 +307,6 @@ import SwiftUI
                 cardSpacing: CGFloat = 12,
                 cardAspectRatio: CGFloat = 0.75,
                 showCardIndicator: Bool = true,
-                cardAccessibilityLabelFormat: String? = nil,
                 cardAccessibilityLabel: (@Sendable (_ position: Int, _ total: Int) -> String)? = nil,
                 bookmarkIcon: String = "bookmark",
                 bookmarkActiveIcon: String = "bookmark.fill",
@@ -335,7 +318,6 @@ import SwiftUI
                 questionnaireMinAnswerPrompt: String = "Answer at least one question",
                 questionnaireStartPrompt: String = "Tell me what you're looking for",
                 questionnaireCompletePrompt: String = "All done! Ready to recommend",
-                questionnaireProgressFormat: String? = nil,
                 questionnaireProgress: (@Sendable (_ answered: Int, _ total: Int) -> String)? = nil,
                 showQuestionnaireProgress: Bool = true,
                 headerToModeSwitcherSpacing: CGFloat = .arcSpacingLarge,
@@ -389,10 +371,7 @@ import SwiftUI
         self.cardSpacing = cardSpacing
         self.cardAspectRatio = cardAspectRatio
         self.showCardIndicator = showCardIndicator
-        legacyCardAccessibilityLabelFormat = cardAccessibilityLabelFormat
-        self.cardAccessibilityLabel = cardAccessibilityLabel
-            ?? Self.legacyFormatter(cardAccessibilityLabelFormat)
-            ?? { "Recommendations, card \($0) of \($1)" }
+        self.cardAccessibilityLabel = cardAccessibilityLabel ?? { "Recommendations, card \($0) of \($1)" }
         self.bookmarkIcon = bookmarkIcon
         self.bookmarkActiveIcon = bookmarkActiveIcon
         self.allViewedText = allViewedText
@@ -403,10 +382,7 @@ import SwiftUI
         self.questionnaireMinAnswerPrompt = questionnaireMinAnswerPrompt
         self.questionnaireStartPrompt = questionnaireStartPrompt
         self.questionnaireCompletePrompt = questionnaireCompletePrompt
-        legacyQuestionnaireProgressFormat = questionnaireProgressFormat
-        self.questionnaireProgress = questionnaireProgress
-            ?? Self.legacyFormatter(questionnaireProgressFormat)
-            ?? { "\($0) of \($1) answered" }
+        self.questionnaireProgress = questionnaireProgress ?? { "\($0) of \($1) answered" }
         self.showQuestionnaireProgress = showQuestionnaireProgress
         self.headerToModeSwitcherSpacing = headerToModeSwitcherSpacing
         self.modeSwitcherToContentSpacing = modeSwitcherToContentSpacing
@@ -427,16 +403,6 @@ import SwiftUI
     }
 
     // swiftlint:enable function_body_length
-
-    // MARK: - Legacy Format Bridge
-
-    /// Bridges a deprecated `%lld … %lld` format string to the closure API.
-    ///
-    /// `String(format:)` stays only on this deprecated path; it goes away with the format-string API.
-    private static func legacyFormatter(_ format: String?) -> (@Sendable (Int, Int) -> String)? {
-        guard let format else { return nil }
-        return { String(format: format, $0, $1) }
-    }
 
     // MARK: - Presets
 
